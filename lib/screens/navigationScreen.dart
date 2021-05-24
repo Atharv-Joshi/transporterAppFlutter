@@ -1,48 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/theme..dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
-import 'package:liveasy/variables/getxVariables.dart';
+import 'package:provider/provider.dart';
 
 class NavigationScreen extends StatefulWidget {
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  List<Widget> screens = [HomeScreen(), FindLoadScreen(), Text("abc")];
-  GetxVariables getxVariables = GetxVariables();
+  List<Widget> screens = [
+    HomeScreen(),
+    FindLoadScreen(),
+    Text("abc"),
+    Text("abc")
+  ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light(),
+      theme: lightTheme,
       home: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
           bottomNavigationBar: BottomNavigationBar(
             onTap: (int pressedIndex) {
               setState(() {
-                getxVariables.pageIndex.value = pressedIndex;
+                Provider.of<ProviderData>(context, listen: false).updateIndex(pressedIndex);
               });
             },
-            items: [
+            type: BottomNavigationBarType.shifting,
+            showUnselectedLabels: true,
+            unselectedItemColor: grey,
+            selectedItemColor: grey,
+            unselectedLabelStyle: TextStyle(color: black, fontSize: smallMediumSize),
+            selectedLabelStyle: TextStyle(color: lightBlue, fontSize: largeSize),
+
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: ("Home"),
+                icon: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset("assets/icons/homeIcon.png"),
+                ),
+                label: ("HOME"),
               ),
               BottomNavigationBarItem(
-                icon: Image.asset("assets/icons/TruckIcon.png"),
-                label: ("My Trucks"),
+                icon: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset("assets/icons/TruckIcon.png"),
+                ),
+                label: ("MY TRUCKS"),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                label: ("Account"),
+                icon: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset("assets/icons/ordersIcon.png"),
+                ),
+                label: ("ORDERS"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outline,
+                  color: unselectedGrey,
+                ),
+                label: ("ACCOUNT"),
               ),
             ],
-            currentIndex: getxVariables.pageIndex.value,
+            currentIndex: Provider.of<ProviderData>(context).index,
+            // GetBuilder<PageIndexController>(builder: (_) {return pageIndexController.pageIndex.value; },)
           ),
-          body: Center(child: screens.elementAt(getxVariables.pageIndex.value)),
+          body:
+              Center(child: screens.elementAt(Provider.of<ProviderData>(context, listen: false).index)),
         ),
       ),
     );

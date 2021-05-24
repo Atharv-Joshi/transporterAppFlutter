@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/screens/findLoadScreen.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -13,7 +14,6 @@ class HomeScreen extends StatelessWidget {
   String searchedLoad = "";
 
   void onChanged(String value) {
-    print(value);
     searchedLoad = value;
   }
 
@@ -25,34 +25,39 @@ class HomeScreen extends StatelessWidget {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             SizedBox(
-              height: 14,
+              height: smallSpace,
             ),
             LiveasyTitleTextWidget(),
             SizedBox(
-              height: 18,
+              height: smallMediumSpace - 2,
+              // Want To Ask IF doing this contradicts the logic of using a seperate file of spaces
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              padding: EdgeInsets.symmetric(
+                horizontal: smallSpace,
+              ),
               child: SearchLoadWidget("Search Load"),
             ),
             SizedBox(
-              height: 26,
+              height: mediumSpace,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 28),
+              padding: EdgeInsets.symmetric(horizontal: mediumLargeSpace), //28
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Suggested Loads",
                     style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w500, color: grey),
+                        fontSize: mediumLargeSize,
+                        fontWeight: normalWeight,
+                        color: grey),
                   ),
                   Text(
                     "see more",
                     style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                      fontSize: mediumSize,
+                      fontWeight: regularWeight,
                       color: grey,
                     ),
                   ),

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/spaces.dart';
 
 class LiveasyTitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 24,
+      height: mediumLargeSpace,
       child: Center(
         child: Text(
           "Liveasy",
           style: TextStyle(
-              fontSize: 24,
-              color: Color(0xFF000066),
-              fontWeight: FontWeight.w700),
+              fontSize: xxxxlSize,
+              color: blueTitleColor,
+              fontWeight: boldWeight),
         ),
       ),
     );

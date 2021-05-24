@@ -1,5 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.liveasy.liveasy">
+    package="com.liveasy.liveasy"
+    android:installLocation="auto"
+    android:versionCode="100"
+    android:versionName="1.0.0">
+<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+    <!-- io.flutter.app.FlutterApplication is an android.app.Application that
+         calls FlutterMain.startInitialization(this); in its onCreate method.
+         In most cases you can leave this as-is, but you if you want to provide
+         additional functionality it is fine to subclass or reimplement
+         FlutterApplication and put your custom class here. -->
    <application
         android:label="liveasy"
         android:icon="@mipmap/ic_launcher">
@@ -27,6 +36,10 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+<!--            <meta-data-->
+<!--                android:name="com.google.android.geo.API_KEY"-->
+<!--                android:value="AIzaSyCI8bvNwE05B7Cp03Rvc-QsMX9QjY-EsS4"-->
+<!--                />-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -37,5 +50,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+<!--       <meta-data android:name="com.google.android.geo.API_KEY"-->
+<!--           android:value="AIzaSyCTVVijIWofDrI6LpSzhUqJIF90X-iyZmE"/>-->
     </application>
 </manifest>
