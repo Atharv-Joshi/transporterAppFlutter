@@ -12,26 +12,27 @@ class SearchLoadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: xlSpace,
-      child: Material(
-        elevation: 5,
-        child: TextField(
-          onTap: (){
-            FocusScope.of(context).requestFocus(FocusNode());
-            Get.to(FindLoadScreen());
-          },
-          textAlignVertical: TextAlignVertical.top,
-          textAlign: TextAlign.start,
-          decoration: InputDecoration(
-            hintText: "$hintText",
-            icon: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Icon(Icons.search),
-            ),
-            hintStyle: TextStyle(
-              fontSize: xlSize,
-              color: grey,
-            ),
+      height: space_7,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(width: 0.8, color: borderBlueColor,),
+      ),
+      child: TextField(
+        onTap: (){
+          FocusScope.of(context).requestFocus(FocusNode());
+          Get.to(FindLoadScreen());
+        },
+        textAlignVertical: TextAlignVertical.center,
+        textAlign: TextAlign.start,
+        decoration: InputDecoration(
+          hintText: "$hintText",
+          icon: Padding(
+            padding: EdgeInsets.only(left: space_2),
+            child: Icon(Icons.search, color: grey,),
+          ),
+          hintStyle: TextStyle(
+            fontSize: size_8,
+            color: grey,
           ),
         ),
       ),

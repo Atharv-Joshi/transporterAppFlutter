@@ -6,6 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -21,49 +22,30 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: backgroundColor,
         body: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             SizedBox(
-              height: smallSpace,
+              height: space_6,
             ),
             LiveasyTitleTextWidget(),
             SizedBox(
-              height: smallMediumSpace - 2,
-              // Want To Ask IF doing this contradicts the logic of using a seperate file of spaces
+              height: space_4,
             ),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: smallSpace,
+                horizontal: space_4,
               ),
-              child: SearchLoadWidget("Search Load"),
+              child: SearchLoadWidget("Search"),
             ),
             SizedBox(
-              height: mediumSpace,
+              height: space_5,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: mediumLargeSpace), //28
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Suggested Loads",
-                    style: TextStyle(
-                        fontSize: mediumLargeSize,
-                        fontWeight: normalWeight,
-                        color: grey),
-                  ),
-                  Text(
-                    "see more",
-                    style: TextStyle(
-                      fontSize: mediumSize,
-                      fontWeight: regularWeight,
-                      color: grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                padding: EdgeInsets.symmetric(horizontal: space_4),
+                child: SuggestedLoadsWidget()),
+
           ],
         ),
       ),

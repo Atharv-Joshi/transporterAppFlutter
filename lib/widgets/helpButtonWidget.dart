@@ -15,7 +15,7 @@ class HelpButtonWidget extends StatelessWidget {
             children: [
               Text(
                 "HELP",
-                style: TextStyle(fontSize: mediumLargeSize, color: lightBlue),
+                style: TextStyle(fontSize: size_6, color: lightBlue),
               ),
               SizedBox(
                 width: 2,

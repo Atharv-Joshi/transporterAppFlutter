@@ -2,14 +2,11 @@ import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-//TODO: has to be in environment file
-String clientIdMapMyIndia =
-    "33OkryzDZsJmp0siGnK04TeuQrg3DWRxswnTg_VBiHew-2D1tA3oa3fthrGnx4vwbwlbF_xT2T4P9dykuS1GUNmbRb8e5CUgz-RgWDyQspeDCXkXK5Nagw==";
-String clientSecretMapMyIndia =
-    "lrFxI-iSEg9xHXNZXiqUoprc9ZvWP_PDWBDw94qhrze0sUkn7LBDwRNFscpDTVFH7aQT4tu6ycN0492wqPs-ewpjObJ6xuR7iRufmSVcnt9fys5dp0F5jlHLxBEj7oqq";
+import 'package:flutter_config/flutter_config.dart';
 
 Future<String> getMapMyIndiaToken() async {
+  String clientIdMapMyIndia = FlutterConfig.get("clientIdMapMyIndia").toString();
+  String clientSecretMapMyIndia = FlutterConfig.get("clientSecretMapMyIndia").toString();
   TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
   Uri tokenUrl = Uri(
       scheme: "https",
@@ -23,6 +20,7 @@ Future<String> getMapMyIndiaToken() async {
   http.Response tokenGet = await http.post(tokenUrl);
   var body = jsonDecode(tokenGet.body);
   var token = body["access_token"];
+  print("token = $token");
   tokenMMIController.updateTokenMMI(token);
   return token;
 }

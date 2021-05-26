@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
-import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 
 class FindLoadScreen extends StatefulWidget {
   @override
@@ -16,62 +17,77 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   TextEditingController controller2 = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    if (Get.arguments != null) {
-      if (Get.arguments["loading point"] != null) {
-        controller1 = TextEditingController(
-            text: (Get.arguments["loading point"].toString()));
-      }
-      if (Get.arguments["unloading point"] != null) {
-        controller2 = TextEditingController(
-            text: (Get.arguments["unloading point"].toString()));
-      }
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+      controller1 = TextEditingController(
+          text: ("${Provider.of<ProviderData>(context, listen: false).loadingPointCity} (${Provider.of<ProviderData>(context, listen: false).loadingPointState})"));
+    }
+    if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
+      controller2 = TextEditingController(
+          text: ("${Provider.of<ProviderData>(context, listen: false).unloadingPointCity} (${Provider.of<ProviderData>(context, listen: false).unloadingPointState})"));
+    }
     return SafeArea(
       child: Scaffold(
-        body: Column(children: [
-          SizedBox(
-            height: smallSpace,
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: smallSpace),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BackButtonWidget(),
-                LiveasyTitleTextWidget(),
-                HelpButtonWidget(),
-              ],
+        backgroundColor: backgroundColor,
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: space_4),
+          child: Column(children: [
+            SizedBox(
+              height: space_8,
             ),
-          ),
-          SizedBox(
-            height: smallMediumSpace - 2,
-          ),
-          AddressInputWidget(
-              "Loading Point",
-              Padding(
-                padding: EdgeInsets.only(top: 3, left: 13),
-                child: Image.asset("assets/icons/circleIcon.png"),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  BackButtonWidget(),
+                  SizedBox(
+                    width: space_3,
+                  ),
+                  HeadingTextWidget("Find Load"),
+                  // HelpButtonWidget(),
+                ],
               ),
-              controller1,
-              "loading point"),
-          SizedBox(
-            height: minutelySmallSpace,
-          ),
-          AddressInputWidget(
-              "Unloading Point",
-              Padding(
-                padding: EdgeInsets.only(top: 3, left: 13),
-                child: Image.asset("assets/icons/rectangleIcon.png"),
+            ),
+            SizedBox(
+              height: space_5,
+            ),
+            AddressInputWidget(
+              hintText: "Loading Point",
+              icon: Padding(
+                padding: EdgeInsets.only(
+                    top: space_1, left: space_1),
+                child: Image.asset("assets/icons/greenFilledCircleIcon.png"),
               ),
-              controller2,
-              "unloading point"),
-        ]),
+              controller: controller1,
+              clearIcon: IconButton(
+                onPressed: () {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .clearLoadingPoint();
+                },
+                icon: Icon(Icons.clear),
+              ),
+            ),
+            SizedBox(
+              height: space_4,
+            ),
+            AddressInputWidget(
+              hintText: "Unloading Point",
+              icon: Padding(
+                padding: EdgeInsets.only(
+                    top: space_1, left: space_1),
+                child: Image.asset("assets/icons/redSemiFilledCircleIcon.png"),
+              ),
+              controller: controller2,
+              clearIcon: IconButton(
+                onPressed: () {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .clearUnloadingPoint();
+                },
+                icon: Icon(Icons.clear),
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }

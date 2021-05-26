@@ -6,7 +6,5 @@ class TokenMMIController extends GetxController{
   RxString tokenMMI = "".obs;
   void updateTokenMMI(String newValue){
     tokenMMI.value = newValue;
-    print("tokenUpdated");
-    print(tokenMMI);
   }
 }

@@ -38,8 +38,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
             showUnselectedLabels: true,
             unselectedItemColor: grey,
             selectedItemColor: grey,
-            unselectedLabelStyle: TextStyle(color: black, fontSize: smallMediumSize),
-            selectedLabelStyle: TextStyle(color: lightBlue, fontSize: largeSize),
+            unselectedLabelStyle: TextStyle(color: black, fontSize: size_4),
+            selectedLabelStyle: TextStyle(color: lightBlue, fontSize: size_7),
 
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(

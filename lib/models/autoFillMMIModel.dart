@@ -1,7 +1,7 @@
 
 class AutoFillMMIModel {
-  String placeName;
-  String placeAddress;
+  String placeCityName;
+  String placeStateName;
 
-  AutoFillMMIModel(this.placeName, this.placeAddress);
+  AutoFillMMIModel({required this.placeCityName, required this.placeStateName});
 }

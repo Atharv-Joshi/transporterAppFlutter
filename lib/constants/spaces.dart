@@ -1,11 +1,14 @@
 //List of spaces
-double minutelySmallSpace = 5;
-double verySmallSpace = 10;
-double smallSpace = 15;
-double smallMediumSpace = 20;
-double mediumSpace = 25;
-double mediumLargeSpace = 30;
-double largeSpace = 35;
-double xlSpace = 40;
-double xxlSpace = 45;
-double xxxlSpace = 50;
+double space_1 = 5;
+double space_2 = 10;
+double space_3 = 15;
+double space_4 = 20;
+double space_5 = 25;
+double space_6 = 30;
+double space_7 = 35;
+double space_8 = 40;
+double space_9 = 45;
+double space_10 = 50;
+double space_11 = 55;
+double space_12 = 60;
+

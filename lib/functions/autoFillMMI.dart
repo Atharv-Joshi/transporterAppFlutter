@@ -16,7 +16,6 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
     } else {
       token = tokenMMIController.tokenMMI.value;
     }
-    print(token);
     Uri url = Uri(
         scheme: 'http',
         host: "atlas.mapmyindia.com",
@@ -31,12 +30,12 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
     List<AutoFillMMIModel> card = [];
     for (var json in adress) {
       AutoFillMMIModel locationCardsModal =
-      new AutoFillMMIModel(json["placeName"], json["placeAddress"]);
+      new AutoFillMMIModel(placeCityName: json["placeName"],placeStateName: json["placeAddress"]);
       card.add(locationCardsModal);
     }
-    card = card
-      ..sort(
-              (a, b) => a.placeName.toString().compareTo(b.placeName.toString()));
+    // card = card
+    //   ..sort(
+    //           (a, b) => a.placeCityName.toString().compareTo(b.placeStateName.toString()));
     return card;
   } else {
     List<AutoFillMMIModel> card = [];
