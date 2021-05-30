@@ -32,16 +32,16 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
 
 //objects
   AuthService authService = AuthService();
-  
+
   //keys
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   //variables
   String _verificationCode = '';
-  late int _forceResendingToken;
+  late int _forceResendingToken = 0;
 
   //controllers
-  
+
   TimerController timerController = Get.put(TimerController());
   HudController hudController = Get.put(HudController());
 
@@ -52,11 +52,11 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
         key: _scaffoldkey,
-        body: Obx(() =>
-          ModalProgressHUD(
+        body: Obx(
+          () => ModalProgressHUD(
             progressIndicator: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
-              ),
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
+            ),
             inAsyncCall: hudController.showHud.value,
             child: SingleChildScrollView(
               child: Center(
@@ -85,9 +85,9 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                             ),
                             Container(
                                 margin: EdgeInsets.only(left: space_2),
-                                child:
-                                    Text('OTP send to +91${widget.phoneNumber}')),
-                            OTPInputField(),        
+                                child: Text(
+                                    'OTP send to +91${widget.phoneNumber}')),
+                            OTPInputField(),
                             Row(
                               children: [
                                 Container(
@@ -98,6 +98,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                               : () {
                                                   timerController.startTimer();
                                                   hudController.updateHud(true);
+                                                  _verifyPhoneNumber();
                                                 },
                                       child: Text(
                                         'Resend OTP',
@@ -128,15 +129,18 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.70,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.70,
                                   height: space_9,
                                   margin: EdgeInsets.fromLTRB(
                                       space_8, space_4, space_8, space_0),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(space_10),
+                                    borderRadius:
+                                        BorderRadius.circular(space_10),
                                     child: ElevatedButton(
                                         style: ButtonStyle(
-                                          backgroundColor: providerData.buttonColor,
+                                          backgroundColor:
+                                              providerData.buttonColor,
                                         ),
                                         child: Text(
                                           'Confirm',
@@ -150,7 +154,8 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                 hudController.updateHud(true);
                                                 timerController.cancelTimer();
                                                 authService.manualVerification(
-                                                    smsCode: providerData.smsCode,
+                                                    smsCode:
+                                                        providerData.smsCode,
                                                     verificationId:
                                                         _verificationCode);
                                                 providerData.clearall();
@@ -195,45 +200,51 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   }
 
   void _verifyPhoneNumber() async {
-    try {
-      print('in verify phone');
-      await FirebaseAuth.instance.verifyPhoneNumber(
-          //this value changes runtime
-          forceResendingToken: _forceResendingToken,
-          phoneNumber: '+91${widget.phoneNumber}',
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            UserCredential result =
-                await FirebaseAuth.instance.signInWithCredential(credential);
-            User user = result.user!;
-            timerController.cancelTimer();
-            hudController.updateHud(false);
+    // try {
+    print('in verify phone');
+    print(widget.phoneNumber);
+    print(widget.phoneNumber.runtimeType);
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        //this value changes runtime
+        forceResendingToken: _forceResendingToken,
+        phoneNumber: '+91${widget.phoneNumber}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          print('in verification completed');
+          UserCredential result =
+              await FirebaseAuth.instance.signInWithCredential(credential);
+          User user = result.user!;
+          timerController.cancelTimer();
+          hudController.updateHud(false);
 
-            Get.offAll(() => NavigationScreen());
-          },
-          verificationFailed: (FirebaseAuthException e) {
+          Get.offAll(() => NavigationScreen());
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print('in verification failed');
+          hudController.updateHud(false);
+          print(e.message);
+        },
+        codeSent: (String? verificationId, int? resendToken) {
+          setState(() {
+            print('in codesent');
+            _forceResendingToken = resendToken!;
+            print(_forceResendingToken);
+            _verificationCode = verificationId!;
+            print(_verificationCode);
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          print('in auto retrieval timeout');
+          if (mounted) {
             hudController.updateHud(false);
-            print(e.message);
-          },
-          codeSent: (String? verificationId, int? resendToken) {
+            timerController.cancelTimer();
             setState(() {
-              _forceResendingToken = resendToken!;
-              print(_forceResendingToken);
-              _verificationCode = verificationId!;
-              print(_verificationCode);
+              _verificationCode = verificationId;
             });
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            if (mounted) {
-              hudController.updateHud(false);
-              timerController.cancelTimer();
-              setState(() {
-                _verificationCode = verificationId;
-              });
-            }
-          },
-          timeout: Duration(seconds: 60));
-    } catch (e) {
-      hudController.updateHud(false);
-    }
+          }
+        },
+        timeout: Duration(seconds: 60));
+    // } catch (e) {
+    //   hudController.updateHud(false);
+    // }
   }
 } // class end
