@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/widgets/cancelIconWidget.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final dynamic onChanged;
   final String hintText;
-  final Widget icon;
 
-  TextFieldWidget(
-      {required this.controller,
-      required this.onChanged,
-      required this.hintText,
-      required this.icon});
+  TextFieldWidget({
+    required this.controller,
+    required this.onChanged,
+    required this.hintText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,19 @@ class TextFieldWidget extends StatelessWidget {
         color: widgetBackGroundColor,
       ),
       child: TextFormField(
+        textAlign: TextAlign.center,
         autofocus: true,
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
-          icon: icon,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
           hintText: hintText,
+          suffixIcon: IconButton(
+              onPressed: () {
+                controller.clear();
+              },
+              icon: CancelIconWidget()),
         ),
       ),
     );

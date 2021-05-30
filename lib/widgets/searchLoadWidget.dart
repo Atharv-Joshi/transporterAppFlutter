@@ -14,6 +14,7 @@ class SearchLoadWidget extends StatelessWidget {
     return Container(
       height: space_7,
       decoration: BoxDecoration(
+        color: widgetBackGroundColor,
         borderRadius: BorderRadius.circular(30),
         border: Border.all(width: 0.8, color: borderBlueColor,),
       ),
@@ -25,6 +26,7 @@ class SearchLoadWidget extends StatelessWidget {
         textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.start,
         decoration: InputDecoration(
+          border: InputBorder.none,
           hintText: "$hintText",
           icon: Padding(
             padding: EdgeInsets.only(left: space_2),

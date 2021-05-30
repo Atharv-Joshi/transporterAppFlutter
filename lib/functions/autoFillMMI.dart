@@ -16,6 +16,8 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
     } else {
       token = tokenMMIController.tokenMMI.value;
     }
+
+    await http.get(Uri.parse('http://52.53.40.46:8080/load'));
     Uri url = Uri(
         scheme: 'http',
         host: "atlas.mapmyindia.com",

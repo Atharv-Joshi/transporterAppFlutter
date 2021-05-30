@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/loadingPointImageIcon.dart';
+import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
@@ -13,18 +17,20 @@ class FindLoadScreen extends StatefulWidget {
 }
 
 class _FindLoadScreenState extends State<FindLoadScreen> {
+
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     if (Provider.of<ProviderData>(context).loadingPointCity != "") {
       controller1 = TextEditingController(
-          text: ("${Provider.of<ProviderData>(context, listen: false).loadingPointCity} (${Provider.of<ProviderData>(context, listen: false).loadingPointState})"));
+          text:
+              ("${Provider.of<ProviderData>(context, listen: false).loadingPointCity} (${Provider.of<ProviderData>(context, listen: false).loadingPointState})"));
     }
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
-          text: ("${Provider.of<ProviderData>(context, listen: false).unloadingPointCity} (${Provider.of<ProviderData>(context, listen: false).unloadingPointState})"));
+          text:
+              ("${Provider.of<ProviderData>(context, listen: false).unloadingPointCity} (${Provider.of<ProviderData>(context, listen: false).unloadingPointState})"));
     }
     return SafeArea(
       child: Scaffold(
@@ -37,14 +43,20 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
             ),
             Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BackButtonWidget(),
-                  SizedBox(
-                    width: space_3,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      BackButtonWidget(),
+                      SizedBox(
+                        width: space_3,
+                      ),
+                      HeadingTextWidget("Find Load"),
+                      // HelpButtonWidget(),
+                    ],
                   ),
-                  HeadingTextWidget("Find Load"),
-                  // HelpButtonWidget(),
+                  HelpButtonWidget(),
                 ],
               ),
             ),
@@ -53,10 +65,9 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
             ),
             AddressInputWidget(
               hintText: "Loading Point",
-              icon: Padding(
-                padding: EdgeInsets.only(
-                    top: space_1, left: space_1),
-                child: Image.asset("assets/icons/greenFilledCircleIcon.png"),
+              icon: LoadingPointImageIcon(
+                height: 12,
+                width: 12,
               ),
               controller: controller1,
               clearIcon: IconButton(
@@ -64,7 +75,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   Provider.of<ProviderData>(context, listen: false)
                       .clearLoadingPoint();
                 },
-                icon: Icon(Icons.clear),
+                icon: CancelIconWidget(),
               ),
             ),
             SizedBox(
@@ -72,10 +83,9 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
             ),
             AddressInputWidget(
               hintText: "Unloading Point",
-              icon: Padding(
-                padding: EdgeInsets.only(
-                    top: space_1, left: space_1),
-                child: Image.asset("assets/icons/redSemiFilledCircleIcon.png"),
+              icon: UnloadingPointImageIcon(
+                height: 12,
+                width: 12,
               ),
               controller: controller2,
               clearIcon: IconButton(
@@ -83,7 +93,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   Provider.of<ProviderData>(context, listen: false)
                       .clearUnloadingPoint();
                 },
-                icon: Icon(Icons.clear),
+                icon: CancelIconWidget(),
               ),
             ),
           ]),
