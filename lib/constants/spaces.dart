@@ -1,4 +1,5 @@
 //List of spaces
+double space_0 = 0;
 double space_1 = 5;
 double space_2 = 10;
 double space_3 = 15;
@@ -15,4 +16,3 @@ double space_13 = 65;
 double space_14 = 70;
 double space_15 = 75;
 double space_16 = 80;
-
