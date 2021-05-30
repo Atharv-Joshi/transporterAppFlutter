@@ -15,7 +15,9 @@ import 'package:provider/provider.dart';
 
 class CityNameInputScreen extends StatefulWidget {
   final String valueType;
+
   CityNameInputScreen(this.valueType);
+
   @override
   _CityNameInputScreenState createState() => _CityNameInputScreenState();
 }
@@ -27,6 +29,8 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double keyboardLength = MediaQuery.of(context).viewInsets.bottom;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -39,30 +43,21 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
               ),
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BackButtonWidget(),
-                    LiveasyTitleTextWidget(),
-                    HelpButtonWidget(),
+                    SizedBox(width: space_2,),
+                    Expanded(
+                      child: TextFieldWidget(
+                        onChanged: (String value) {
+                          setState(() {
+                            locationCard = fillCityName(value);
+                          });
+                        },
+                        controller: controller,
+                        hintText: "Enter City Name",
+                      ),
+                    ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: space_4,
-              ),
-              Container(
-                child: TextFieldWidget(
-                  onChanged: (String value) {
-                    setState(() {
-                      locationCard = fillCityName(value);
-                    });
-                  },
-                  controller: controller,
-                  hintText: "Enter City Name",
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: space_2),
-                    child: Icon(Icons.search),
-                  ),
                 ),
               ),
               locationCard == null
@@ -76,7 +71,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      height: 400, //TODO: to be modified
+                      height: keyboardLength != 0 ? screenHeight-keyboardLength -130: screenHeight -130, //TODO: to be modified
                       child: FutureBuilder(
                           future: locationCard,
                           builder:

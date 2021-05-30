@@ -49,7 +49,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
                   width: 309,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data.length,
+                      itemCount: snapshot.data.length >= 10? 10 : snapshot.data.length,
                       itemBuilder: (context, index) =>
                           SuggestedLoadDataDisplayCard(
                               loadingPointCity: snapshot.data[index]

@@ -11,4 +11,8 @@ double space_9 = 45;
 double space_10 = 50;
 double space_11 = 55;
 double space_12 = 60;
+double space_13 = 65;
+double space_14 = 70;
+double space_15 = 75;
+double space_16 = 80;
 

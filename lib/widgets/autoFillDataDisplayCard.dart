@@ -20,22 +20,23 @@ class AutoFillDataDisplayCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: space_8,
+        height: space_12,
         decoration: BoxDecoration(
-            color: widgetBackGroundColor,
+            color: backgroundColor,
             border: Border.symmetric(
                 horizontal: BorderSide(width: 0.5, color: greyBorderColor,),),),
-        padding: EdgeInsets.all(space_1),
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: space_1),
+              padding: EdgeInsets.symmetric(horizontal: space_2),
               child: Icon(
                 Icons.location_on_outlined,
                 color: borderBlueColor,
               ),
             ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   child: Text(
@@ -46,9 +47,9 @@ class AutoFillDataDisplayCard extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    ' ($placeAddress)',
+                    '($placeAddress)',
                     style:
-                    TextStyle(fontSize: size_6, color: liveasyBlackColor),
+                    TextStyle(fontSize: size_6, color: darkGreyColor),
                   ),
                 ),
               ],

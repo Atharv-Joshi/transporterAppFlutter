@@ -8,12 +8,12 @@ class LiveasyTitleTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Container(
-        height: space_6,
+        height: space_8,
         child: Center(
         child: Text(
         "Liveasy",
         style: TextStyle(
-        fontSize:  size_13,
+        fontSize:  size_15,
               color: blueTitleColor,
               fontWeight: normalWeight),
         ),
