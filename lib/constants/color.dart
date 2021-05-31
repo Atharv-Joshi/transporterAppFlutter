@@ -21,7 +21,7 @@ const Color shadowGrey = Color(0xffBDBDBD);
 const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
-const Color black_87 = Colors.black87;
+const Color black_87 = Colors.black87; 
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff33364D));
 dynamic deactiveButtonColor = MaterialStateProperty.all<Color>(Colors.grey);

@@ -40,6 +40,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   String _verificationCode = '';
   late int _forceResendingToken = 0;
 
+
   //controllers
 
   TimerController timerController = Get.put(TimerController());
@@ -104,7 +105,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                         'Resend OTP',
                                         style: TextStyle(
                                           letterSpacing: 0.5,
-                                          color: unselectedGrey,
+                                          color: timerController.resendButton.value ? navygreen : unselectedGrey,
                                           decoration: TextDecoration.underline,
                                         ),
                                       )),
@@ -195,7 +196,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   void initState() {
     super.initState();
     timerController.startTimer();
-    hudController.updateHud(true);
+    // hudController.updateHud(true);
     _verifyPhoneNumber();
   }
 

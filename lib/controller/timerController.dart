@@ -3,23 +3,24 @@ import 'package:get/get.dart';
 
 class TimerController extends GetxController {
   RxInt timeOnTimer = 60.obs;
-  // late Timer timer = Timer(Duration(seconds: 0));
+  RxBool resendButton = false.obs;
+
   Timer? timer;
 
   void startTimer() async {
     timeOnTimer = 60.obs;
 
-    if(timer != null){
+    if (timer != null) {
       cancelTimer();
     }
-    
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (timeOnTimer > 0) {
         timeOnTimer--;
       } else {
+        resendButton = true.obs;
         cancelTimer();
-        // resendButtonColor = const Color(0xff109E92);
+
       }
     });
   }

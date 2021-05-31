@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
 
 class ProviderData extends ChangeNotifier {
   int index = 0;
@@ -15,7 +16,8 @@ class ProviderData extends ChangeNotifier {
   String smsCode = '';
   String phoneController = '';
 
-  //------------------------  
+
+  //------------------------
 
   void clearLoadingPoint() {
     loadingPointCity = "";
@@ -47,7 +49,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   //for login screen
-  
+
   void updatePhoneController(String value) {
     phoneController = value;
     print(phoneController);
@@ -64,6 +66,9 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  
+
   void updateSmsCode(value) {
     smsCode = value;
     notifyListeners();
@@ -72,11 +77,10 @@ class ProviderData extends ChangeNotifier {
   void clearall() {
     inputControllerLengthCheck = false;
     buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
+    
     smsCode = '';
     notifyListeners();
   }
-  //-------------------------------------  
+  //-------------------------------------
 
 }
-
-
