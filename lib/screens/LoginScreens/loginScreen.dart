@@ -1,4 +1,4 @@
-import 'package:liveasy/screens/otpVerificationScreen.dart';
+import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/widgets/curves.dart';
 import 'package:get/get.dart';

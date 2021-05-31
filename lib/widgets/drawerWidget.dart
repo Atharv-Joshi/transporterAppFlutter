@@ -1,6 +1,13 @@
 //TODO:to be refactored
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/functions/authFunctions.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 class DrawerWidget extends StatelessWidget {
+
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +39,13 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                authService.signOut();
+                // if(FirebaseAuth.instance.currentUser == null){
+                //   Get.to(() => LoginScreen());
+                },
+
+  
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: ListTile(

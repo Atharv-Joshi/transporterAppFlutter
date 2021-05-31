@@ -153,7 +153,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                 .inputControllerLengthCheck
                                             ? () {
                                                 hudController.updateHud(true);
-                                                timerController.cancelTimer();
+                                                // timerController.cancelTimer();
                                                 authService.manualVerification(
                                                     smsCode:
                                                         providerData.smsCode,
