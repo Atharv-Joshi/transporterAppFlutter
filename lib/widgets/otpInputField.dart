@@ -6,6 +6,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:liveasy/constants/decoration.dart';
+import 'package:flutter/services.dart';
 
 class OTPInputField extends StatefulWidget {
   @override
@@ -22,6 +23,11 @@ class _OTPInputFieldState extends State<OTPInputField> {
     return Padding(
       padding: EdgeInsets.all(space_2),
       child: PinPut(
+        inputFormatters: <TextInputFormatter>[
+          LengthLimitingTextInputFormatter(10),
+          FilteringTextInputFormatter.allow(
+              RegExp(r'[0-9]')),
+        ],
         fieldsCount: 6,
         textStyle: const TextStyle(fontSize: size_12, color: black),
         eachFieldWidth: space_8,

@@ -1,11 +1,11 @@
-import 'package:liveasy/screens/otp_verification_screen.dart';
+import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/widgets/curves.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/widgets/card_template.dart';
+import 'package:liveasy/widgets/cardTemplate.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'package:liveasy/widgets/phone_number_text_field.dart';
+import 'package:liveasy/widgets/phoneNumberTextField.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/color.dart';
