@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/widgets/bidButtonWidget.dart';
 import 'package:liveasy/widgets/contactWidget.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
+import 'package:liveasy/widgets/priceButtonWidget.dart';
 import 'package:liveasy/widgets/truckImageWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 
@@ -60,6 +62,7 @@ class DetailCard extends StatelessWidget {
                                   "$loadingPoint",
                                   style: TextStyle(
                                       fontSize: size_9,
+                                      color: unloadingPointTextColor,
                                       fontWeight: mediumBoldWeight),
                                 ),
                               ),
@@ -79,7 +82,7 @@ class DetailCard extends StatelessWidget {
                                   "$unloadingPoint",
                                   style: TextStyle(
                                       fontSize: size_9,
-                                      color: Color.fromRGBO(51, 51, 51, 1),
+                                      color: unloadingPointTextColor,
                                       fontWeight: mediumBoldWeight),
                                 ),
                               ),
@@ -183,40 +186,8 @@ class DetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  margin: EdgeInsets.only(left: 15),
-                  decoration: BoxDecoration(
-                      color: priceBackground,
-                      borderRadius: BorderRadius.circular(5)),
-                  height: 35,
-                  width: 110,
-                  child: Center(
-                    child: Text(
-                      "रु6000/tonne",
-                      style: TextStyle(
-                          color: priceTextColor,
-                          fontWeight: mediumBoldWeight,
-                          fontSize: size_7),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 15),
-                  height: 31,
-                  width: 80,
-                  decoration: BoxDecoration(
-                      color: bidBackground,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Center(
-                    child: Text(
-                      "Bid",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: normalWeight,
-                          fontSize: size_6 + 2),
-                    ),
-                  ),
-                ),
+                PriceButtonWidget(),
+                BidButtonWidget(),
               ],
             ),
             SizedBox(

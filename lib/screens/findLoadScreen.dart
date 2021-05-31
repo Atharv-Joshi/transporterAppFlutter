@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -27,14 +26,14 @@ class FindLoadScreen extends StatefulWidget {
 
 class _FindLoadScreenState extends State<FindLoadScreen> {
   var jsonData;
-  List<CardsModal> card = [];
+  List<LoadScreenCardsModal> card = [];
 
-  Future<List<CardsModal>> getCardsData() async {
+  Future<List<LoadScreenCardsModal>> getCardsData() async {
     http.Response response = await http.get(Uri.parse("http://52.53.40.46:8080/load"));
     jsonData = json.decode(response.body);
 
     for (var json in jsonData) {
-      CardsModal cardsModal = CardsModal();
+      LoadScreenCardsModal cardsModal = LoadScreenCardsModal();
       cardsModal.loadingPoint = json["loadingPoint"];
       cardsModal.unloadingPoint = json["unloadingPoint"];
       cardsModal.productType = json["productType"];
@@ -144,55 +143,53 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: space_4),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AvailableLoadsTextWidget(),
-                      FilterButtonWidget()
-                    ],
-                  ),
-                  SizedBox(
-                    height: space_4-1,
-                  ),
-                  Container(
-                    child: FutureBuilder(
-                        future: getCardsData(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.data == null) {
-                            return LoadingWidget();
-                          }
-                          return Container(
-                            height: 500, //TODO to be modified
-                            //alternative-(MediaQuery.of(context).size.height-(previous height))
-                            child: ListView.builder(
-                              reverse: false,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(
-                              ),
-                              itemCount: (snapshot.data.length),
-                              itemBuilder: (BuildContext context, index) => DetailCard(
-                                loadingPoint: snapshot.data[index].loadingPoint,
-                                unloadingPoint: snapshot.data[index].unloadingPoint,
-                                productType: snapshot.data[index].productType,
-                                truckPreference: snapshot.data[index].truckType,
-                                noOfTrucks: snapshot.data[index].noOfTrucks,
-                                weight: snapshot.data[index].weight,
-                                isPending: snapshot.data[index].status == 'pending'
-                                    ? true
-                                    : false,
-                                comments: snapshot.data[index].comment,
-                                isCommentsEmpty:
-                                snapshot.data[index].comment == '' ? true : false,
+              child: FutureBuilder(
+                      future: getCardsData(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
+                          return LoadingWidget();
+                        }
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AvailableLoadsTextWidget(),
+                                /*FilterButtonWidget()*/
+                              ],
+                            ),
+                            SizedBox(
+                              height: space_4-1,
+                            ),
+                            Container(
+                              height: 500, //TODO to be modified
+                              //alternative-(MediaQuery.of(context).size.height-(previous height))
+                              child: ListView.builder(
+                                reverse: false,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(
+                                ),
+                                itemCount: (snapshot.data.length),
+                                itemBuilder: (BuildContext context, index) => DetailCard(
+                                  loadingPoint: snapshot.data[index].loadingPoint,
+                                  unloadingPoint: snapshot.data[index].unloadingPoint,
+                                  productType: snapshot.data[index].productType,
+                                  truckPreference: snapshot.data[index].truckType,
+                                  noOfTrucks: snapshot.data[index].noOfTrucks,
+                                  weight: snapshot.data[index].weight,
+                                  isPending: snapshot.data[index].status == 'pending'
+                                      ? true
+                                      : false,
+                                  comments: snapshot.data[index].comment,
+                                  isCommentsEmpty:
+                                  snapshot.data[index].comment == '' ? true : false,
+                                ),
                               ),
                             ),
-                          );
-                        }),
-                  ),
-                ],
+                          ],
+                        );
+                      }),
               ),
-            ),
           ],
         ),
       ),

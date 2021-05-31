@@ -1,4 +1,5 @@
-class CardsModal {
+class LoadScreenCardsModal {
+
   String? id;
   dynamic ownerId;
   String? loadingPoint;
@@ -10,7 +11,7 @@ class CardsModal {
   String? comment;
   String? status;
 
-  CardsModal({
+  LoadScreenCardsModal({
     this.id,
     this.ownerId,
     this.loadingPoint,
