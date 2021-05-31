@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:liveasy/functions/curve_generator.dart';
+import 'package:liveasy/functions/curveGenerator.dart';
 import 'package:liveasy/constants/color.dart';
 
 class OrangeCurve extends StatelessWidget {

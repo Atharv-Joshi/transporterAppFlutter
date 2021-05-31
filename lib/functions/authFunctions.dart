@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/controller/hud_controller.dart';
+import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/constants/color.dart';
 
