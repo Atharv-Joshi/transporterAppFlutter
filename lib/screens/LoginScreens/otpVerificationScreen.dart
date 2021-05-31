@@ -1,18 +1,18 @@
 import 'dart:ui';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/hud_controller.dart';
-import 'package:liveasy/controller/timer_controller.dart';
+import 'package:liveasy/controller/hudController.dart';
+import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/otp_input_field.dart';
+import 'package:liveasy/widgets/otpInputField.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:liveasy/widgets/curves.dart';
-import 'package:liveasy/widgets/card_template.dart';
-import 'package:liveasy/functions/auth_functions.dart';
+import 'package:liveasy/widgets/cardTemplate.dart';
+import 'package:liveasy/functions/authFunctions.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -39,6 +39,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   //variables
   String _verificationCode = '';
   late int _forceResendingToken = 0;
+
 
   //controllers
 
@@ -104,7 +105,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                         'Resend OTP',
                                         style: TextStyle(
                                           letterSpacing: 0.5,
-                                          color: unselectedGrey,
+                                          color: timerController.resendButton.value ? navygreen : unselectedGrey,
                                           decoration: TextDecoration.underline,
                                         ),
                                       )),
@@ -152,7 +153,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                 .inputControllerLengthCheck
                                             ? () {
                                                 hudController.updateHud(true);
-                                                timerController.cancelTimer();
+                                                // timerController.cancelTimer();
                                                 authService.manualVerification(
                                                     smsCode:
                                                         providerData.smsCode,
@@ -195,7 +196,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   void initState() {
     super.initState();
     timerController.startTimer();
-    hudController.updateHud(true);
+    // hudController.updateHud(true);
     _verifyPhoneNumber();
   }
 

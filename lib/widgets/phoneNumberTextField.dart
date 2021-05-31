@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class PhoneNumberTextField extends StatefulWidget {
 
@@ -31,6 +32,11 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
         providerData.updatePhoneController(_controller);
       },
       maxLength: 10,
+      inputFormatters: <TextInputFormatter>[
+        LengthLimitingTextInputFormatter(10),
+        FilteringTextInputFormatter.allow(
+            RegExp(r'[0-9]')),
+      ],
       controller: _controller,
       validator: (value) =>
           value!.length == 10 ? null : 'Enter a Correct Phone Number',
