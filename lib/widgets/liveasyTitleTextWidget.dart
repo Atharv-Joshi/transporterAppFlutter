@@ -14,7 +14,7 @@ class LiveasyTitleTextWidget extends StatelessWidget {
         "Liveasy",
         style: TextStyle(
         fontSize:  size_15,
-              color: blueTitleColor,
+              color: darkBlueColor,
               fontWeight: normalWeight),
         ),
       ),

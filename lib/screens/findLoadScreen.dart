@@ -16,7 +16,7 @@ import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
 import 'package:http/http.dart' as http;
 
-import '../cardsModal.dart';
+import '../models/cardsModal.dart';
 import '../detailCard.dart';
 
 class FindLoadScreen extends StatefulWidget {
