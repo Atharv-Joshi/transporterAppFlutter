@@ -162,7 +162,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               height: space_4-1,
                             ),
                             Container(
-                              height: 500, //TODO to be modified
+                              height: 450, //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
                                 reverse: false,
