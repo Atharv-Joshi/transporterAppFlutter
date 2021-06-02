@@ -3,14 +3,39 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/widgets/callButtonReal.dart';
+import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
 
 class MyTruckCard extends StatelessWidget {
-  const MyTruckCard({Key? key}) : super(key: key);
 
+  // TruckModel truckModel = TruckModel() ;
+
+  String? truckId;
+  String? transporterId;
+  String? truckNo;
+  bool? truckApproved;
+  String? imei;
+  int? passingWeight;
+  String? driverId;
+  String? truckType;
+  String?   tyres;
+
+  MyTruckCard(
+      {this.truckId,
+        this.transporterId,
+        this.truckNo,
+        this.truckApproved,
+        this.imei,
+        this.passingWeight,
+        this.driverId,
+        this.truckType,
+        this.tyres});
+
+  // MyTruckCard(truckModel);
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(
@@ -61,7 +86,7 @@ class MyTruckCard extends StatelessWidget {
                               fontSize: size_8),
                         ),
                         Text(
-                            'AO 28 DB 5270',
+                            '$truckNo',
                           style: TextStyle(
                             fontWeight: boldWeight,
                               fontSize: size_9),
@@ -74,7 +99,7 @@ class MyTruckCard extends StatelessWidget {
                               fontSize: size_8),),
                         ),
                         Text(
-                            'FlatBed',
+                            '$truckType',
                           style: TextStyle(
                               fontWeight: boldWeight,
                               fontSize: size_9),)
@@ -92,7 +117,7 @@ class MyTruckCard extends StatelessWidget {
                                 fontSize: size_8),
                           ),
                           Text(
-                            '20',
+                            '$tyres',
                             style: TextStyle(
                                 fontWeight: boldWeight,
                                 fontSize: size_9),
@@ -124,7 +149,7 @@ class MyTruckCard extends StatelessWidget {
                     margin: EdgeInsets.only(right: space_2),
                       child: TrackButton()
                   ),
-                  CallButtonReal(),
+                  CallButton(),
                 ],
               )
             ],
