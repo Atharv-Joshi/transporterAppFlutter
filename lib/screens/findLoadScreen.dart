@@ -1,11 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/loadApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
-import 'package:liveasy/widgets/filterButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
@@ -14,10 +14,7 @@ import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
-import 'package:http/http.dart' as http;
-
-import '../cardsModal.dart';
-import '../detailCard.dart';
+import '../widgets/loadApiDataDisplayCard.dart';
 
 class FindLoadScreen extends StatefulWidget {
   @override
@@ -25,27 +22,8 @@ class FindLoadScreen extends StatefulWidget {
 }
 
 class _FindLoadScreenState extends State<FindLoadScreen> {
-  var jsonData;
-  List<LoadScreenCardsModal> card = [];
 
-  Future<List<LoadScreenCardsModal>> getCardsData() async {
-    http.Response response = await http.get(Uri.parse("http://52.53.40.46:8080/load"));
-    jsonData = json.decode(response.body);
 
-    for (var json in jsonData) {
-      LoadScreenCardsModal cardsModal = LoadScreenCardsModal();
-      cardsModal.loadingPoint = json["loadingPoint"];
-      cardsModal.unloadingPoint = json["unloadingPoint"];
-      cardsModal.productType = json["productType"];
-      cardsModal.truckType = json["truckType"];
-      cardsModal.noOfTrucks = json["noOfTrucks"];
-      cardsModal.weight = json["weight"];
-      cardsModal.comment = json["comment"];
-      cardsModal.status = json["status"];
-      card.add(cardsModal);
-    }
-    return card;
-  }
 
 
   TextEditingController controller1 = TextEditingController();
@@ -144,7 +122,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: space_4),
               child: FutureBuilder(
-                      future: getCardsData(),
+                      future: getLoadApiData(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (snapshot.data == null) {
                           return LoadingWidget();
@@ -170,7 +148,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                 padding: EdgeInsets.symmetric(
                                 ),
                                 itemCount: (snapshot.data.length),
-                                itemBuilder: (BuildContext context, index) => DetailCard(
+                                itemBuilder: (BuildContext context, index) => LoadApiDataDisplayCard(
                                   loadingPoint: snapshot.data[index].loadingPoint,
                                   unloadingPoint: snapshot.data[index].unloadingPoint,
                                   productType: snapshot.data[index].productType,
