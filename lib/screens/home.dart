@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/bonusWidget.dart';
 import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
@@ -23,8 +25,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
-    print(MediaQuery.of(context).size.height);
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -60,20 +60,38 @@ class HomeScreen extends StatelessWidget {
               Container(
                 padding:
                     EdgeInsets.fromLTRB(space_0, space_4, space_0, space_5),
-                child: SearchLoadWidget("Search"),
+                child: SearchLoadWidget(
+                  hintText: "Search",
+                  onPressed: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Get.to(FindLoadScreen());
+                  },
+                ),
               ),
               SuggestedLoadsWidget(),
-              SizedBox(height: space_4,),
+              SizedBox(
+                height: space_4,
+              ),
               Container(
                 height: 100,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
                     ReferAndEarnWidget(height: 100, width: 180),
-                    SizedBox(width: space_4,),
-                    BuyGpsWidget(height: 100, width: 180,),
-                    SizedBox(width: space_4,),
-                    BonusWidget(height: 100, width: 180,),
+                    SizedBox(
+                      width: space_4,
+                    ),
+                    BuyGpsWidget(
+                      height: 100,
+                      width: 180,
+                    ),
+                    SizedBox(
+                      width: space_4,
+                    ),
+                    BonusWidget(
+                      height: 100,
+                      width: 180,
+                    ),
                   ],
                 ),
               ),
