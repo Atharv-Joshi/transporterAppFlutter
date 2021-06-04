@@ -62,16 +62,7 @@ class MyTruckCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.only(top: space_2),
-                child: Text(
-                    '(Varanasi)',
-                      style: TextStyle(
-                        color: grey,
-                        fontSize: size_8,
-                      ),
-                ),
-              ),
+
               Container(
                 margin: EdgeInsets.symmetric(vertical: space_3 ),
                 child: Row(

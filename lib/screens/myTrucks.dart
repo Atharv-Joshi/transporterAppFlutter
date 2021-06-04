@@ -39,7 +39,6 @@ class _MyTrucksState extends State<MyTrucks> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    BackButtonWidget(),
                     SizedBox(
                       width: space_3,
                     ),
