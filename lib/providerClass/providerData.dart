@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:liveasy/constants/color.dart';
 
 class ProviderData extends ChangeNotifier {
   int index = 0;

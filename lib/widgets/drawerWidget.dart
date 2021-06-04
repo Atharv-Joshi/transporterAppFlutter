@@ -2,12 +2,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/functions/authFunctions.dart';
-import 'package:get/get.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 class DrawerWidget extends StatelessWidget {
-
-  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,49 +13,43 @@ class DrawerWidget extends StatelessWidget {
       child: Drawer(
         child: ListView(
           children: [
-            Container(
-              height: 150,
-              child: DrawerHeader(
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      child: Icon(Icons.home),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      // widget.user == null ?
-                      '+911234567891'
-                      // : widget.user.phoneNumber
-                      ,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
+            DrawerHeader(
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: space_6,
+                    child: Icon(Icons.home),
+                  ),
+                  SizedBox(
+                    width: space_3,
+                  ),
+                  Text(
+                    // widget.user == null ?
+                    '+911234567891'
+                    // : widget.user.phoneNumber
+                    ,
+                    style: TextStyle(fontSize: size_9),
+                  ),
+                ],
               ),
             ),
             GestureDetector(
               onTap: () {
-                authService.signOut();
-                // if(FirebaseAuth.instance.currentUser == null){
-                //   Get.to(() => LoginScreen());
-                },
-
-
+                FirebaseAuth.instance.signOut();
+                Get.offAll(LoginScreen());
+              },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: space_3),
                 child: ListTile(
                   title: Text(
                     'Sign Out',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: size_9,
                     ),
                   ),
                   trailing: Icon(
                     Icons.exit_to_app,
-                    size: 30,
+                    size: space_6,
                   ),
                 ),
               ),

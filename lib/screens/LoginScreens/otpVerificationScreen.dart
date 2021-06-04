@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/timerController.dart';
+import 'package:liveasy/functions/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
@@ -34,7 +35,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   AuthService authService = AuthService();
 
   //keys
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   //variables
   String _verificationCode = '';
@@ -52,7 +53,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
-        key: _scaffoldkey,
+        key: _scaffoldKey,
         body: Obx(
           () => ModalProgressHUD(
             progressIndicator: CircularProgressIndicator(
@@ -211,12 +212,10 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           print('in verification completed');
-          UserCredential result =
               await FirebaseAuth.instance.signInWithCredential(credential);
-          User user = result.user!;
           timerController.cancelTimer();
           hudController.updateHud(false);
-
+          runTransporterApiPost(mobileNum: widget.phoneNumber);
           Get.offAll(() => NavigationScreen());
         },
         verificationFailed: (FirebaseAuthException e) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/bidButtonWidget.dart';
 import 'package:liveasy/widgets/contactWidget.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
@@ -10,7 +11,8 @@ import 'package:liveasy/widgets/priceButtonWidget.dart';
 import 'package:liveasy/widgets/truckImageWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 
-class DetailCard extends StatelessWidget {
+// ignore: must_be_immutable
+class LoadApiDataDisplayCard extends StatelessWidget {
   String? productType;
   String? loadingPoint;
   String? unloadingPoint;
@@ -21,7 +23,7 @@ class DetailCard extends StatelessWidget {
   String? comments;
   bool? isCommentsEmpty;
 
-  DetailCard(
+  LoadApiDataDisplayCard(
       {this.loadingPoint,
       this.unloadingPoint,
       this.productType,
@@ -44,7 +46,7 @@ class DetailCard extends StatelessWidget {
                 Expanded(
                     flex: 2,
                     child: Container(
-                      padding: EdgeInsets.only(left: 15, top: 14),
+                      padding: EdgeInsets.only(left: space_3, top: space_3),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
