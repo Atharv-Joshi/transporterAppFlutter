@@ -54,7 +54,7 @@ class _MyTrucksState extends State<MyTrucks> {
                 vertical: space_3
               ),
                 //TODO: make search widget dynamic
-                child: SearchLoadWidget('Search')),
+                child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )),
             // Container(
             //   height: MediaQuery.of(context).size.height * 0.6,
             //   child: SingleChildScrollView(

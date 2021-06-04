@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/findLoadScreen.dart';
+import 'package:liveasy/widgets/bonusWidget.dart';
+import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
 import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
+import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
@@ -25,48 +30,73 @@ class HomeScreen extends StatelessWidget {
         key: _scaffoldKey,
         drawer: DrawerWidget(),
         backgroundColor: backgroundColor,
-        body: ListView(
-          children: [
-
-            Container(
-              padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_3),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Container(
+          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      GestureDetector(
-                        onTap: () {
+                      IconButton(
+                        onPressed: () {
                           _scaffoldKey.currentState?.openDrawer();
                         },
-                        child: Icon(
+                        icon: Icon(
                           Icons.list,
-                          size: 30,
+                          size: space_6,
                         ),
                       ),
-                      SizedBox(width: space_2,),
+                      SizedBox(
+                        width: space_2,
+                      ),
                       LiveasyTitleTextWidget(),
                     ],
                   ),
                   HelpButtonWidget()
                 ],
               ),
-            ),
-            SizedBox(
-              height: space_4,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: space_4,
+              Container(
+                padding:
+                    EdgeInsets.fromLTRB(space_0, space_4, space_0, space_5),
+                child: SearchLoadWidget(
+                  hintText: "Search",
+                  onPressed: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Get.to(FindLoadScreen());
+                  },
+                ),
               ),
-              child: SearchLoadWidget("Search"),
-            ),
-            SizedBox(
-              height: space_5,
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: space_4),
-                child: SuggestedLoadsWidget()),
-          ],
+              SuggestedLoadsWidget(),
+              SizedBox(
+                height: space_4,
+              ),
+              Container(
+                height: 100,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    ReferAndEarnWidget(height: 100, width: 180),
+                    SizedBox(
+                      width: space_4,
+                    ),
+                    BuyGpsWidget(
+                      height: 100,
+                      width: 180,
+                    ),
+                    SizedBox(
+                      width: space_4,
+                    ),
+                    BonusWidget(
+                      height: 100,
+                      width: 180,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
