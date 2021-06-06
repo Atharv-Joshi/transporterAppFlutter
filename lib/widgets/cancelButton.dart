@@ -4,35 +4,24 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/bidButtonAlertDialog.dart';
-import 'package:liveasy/widgets/bidButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
-
-class BidButtonWidget extends StatefulWidget {
-
-  @override
-  _BidButtonWidgetState createState() => _BidButtonWidgetState();
-}
-
-class _BidButtonWidgetState extends State<BidButtonWidget> {
+class CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        await showInformationDialog(context);
+      onTap: () {
+        Get.back();
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6+1,
         width: space_16,
-        decoration: BoxDecoration(
-            color: bidBackground, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),border: Border.all(color: whiteButtonOutlineColor)),
         child: Center(
           child: Text(
-            "Bid",
+            "Cancel",
             style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: normalWeight,
                 fontSize: size_6 + 2),
           ),
@@ -41,4 +30,3 @@ class _BidButtonWidgetState extends State<BidButtonWidget> {
     );
   }
 }
-
