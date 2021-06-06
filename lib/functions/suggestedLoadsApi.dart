@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:liveasy/models/loadDataModel.dart';
+import 'package:liveasy/models/suggestedLoadApiModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-Future<List<LoadDataModel>> runSuggestedLoadApi() async {
+Future<List<SuggestLoadApiDataModel>> runSuggestedLoadApi() async {
   String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   var jsonData;
   Uri url = Uri.parse("$loadApiUrl");
   http.Response response = await http.get(url);
   jsonData = await jsonDecode(response.body);
-  List<LoadDataModel> data = [];
+  List<SuggestLoadApiDataModel> data = [];
   for (var json in jsonData) {
-    LoadDataModel loadData = new LoadDataModel(
+    SuggestLoadApiDataModel loadData = new SuggestLoadApiDataModel(
         ownerId: "",
         id: "",
-        loadingPointCity: json["loadingPoint"],
+        loadingPointCity: json["loadingPointCity"],
         loadingPointState: "",
-        unloadingPointCity: json["unloadingPoint"],
+        unloadingPointCity: json["unloadingPointCity"],
         truckType: "",
         noOfTrucks: "",
         status: "",

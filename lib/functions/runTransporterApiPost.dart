@@ -23,6 +23,10 @@ void runTransporterApiPost({required String mobileNum, String? userLocation}) as
   if (response.statusCode == 200) {
     print(response.body);
     String transporterId = json.decode(response.body)["transporterId"];
+    bool transporterApproved = json.decode(response.body)["transporterApproved"].toString() == "true";
+    bool companyApproved = json.decode(response.body)["companyApproved"].toString() == "true";
     transporterIdController.updateTransporterId(transporterId);
+    transporterIdController.updateTransporterApproved(transporterApproved);
+    transporterIdController.updateCompanyApproved(companyApproved);
   }
 }

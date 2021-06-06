@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+
 import 'package:liveasy/functions/loadApi.dart';
+
+import 'package:liveasy/functions/getsCardDataFunction.dart';
+
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
@@ -14,6 +18,7 @@ import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
+
 import '../widgets/loadApiDataDisplayCard.dart';
 
 
@@ -23,7 +28,6 @@ class FindLoadScreen extends StatefulWidget {
 }
 
 class _FindLoadScreenState extends State<FindLoadScreen> {
-
 
 
 
@@ -153,13 +157,13 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                   loadingPoint: snapshot.data[index].loadingPoint,
                                   unloadingPoint: snapshot.data[index].unloadingPoint,
                                   productType: snapshot.data[index].productType,
-                                  truckPreference: snapshot.data[index].truckType,
+                                  truckType: snapshot.data[index].truckType,
                                   noOfTrucks: snapshot.data[index].noOfTrucks,
                                   weight: snapshot.data[index].weight,
                                   isPending: snapshot.data[index].status == 'pending'
                                       ? true
                                       : false,
-                                  comments: snapshot.data[index].comment,
+                                  comment: snapshot.data[index].comment,
                                   isCommentsEmpty:
                                   snapshot.data[index].comment == '' ? true : false,
                                 ),

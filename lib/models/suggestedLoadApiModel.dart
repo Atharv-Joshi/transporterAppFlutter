@@ -1,4 +1,4 @@
-class LoadDataModel {
+class SuggestLoadApiDataModel {
   String id;
   dynamic ownerId;
   String loadingPointCity;
@@ -12,7 +12,7 @@ class LoadDataModel {
   String comment;
   String status;
 
-  LoadDataModel({
+  SuggestLoadApiDataModel({
     required this.id,
     required this.ownerId,
     required this.loadingPointCity,
