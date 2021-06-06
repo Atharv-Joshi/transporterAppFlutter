@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-<<<<<<< HEAD:lib/widgets/loadApiDataDisplayCard.dart
-import 'package:liveasy/constants/spaces.dart';
-=======
 import 'package:liveasy/screens/loadDetailsScreen.dart';
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93:lib/detailCard.dart
 import 'package:liveasy/widgets/bidButtonWidget.dart';
 import 'package:liveasy/widgets/contactWidget.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
@@ -29,81 +25,35 @@ class LoadApiDataDisplayCard extends StatelessWidget {
   String? status;
   bool? isCommentsEmpty;
 
-<<<<<<< HEAD:lib/widgets/loadApiDataDisplayCard.dart
-  LoadApiDataDisplayCard(
-      {this.loadingPoint,
-      this.unloadingPoint,
-      this.productType,
-      this.truckPreference,
-      this.noOfTrucks,
-      this.weight,
-      this.isPending,
-      this.comments,
-      this.isCommentsEmpty});
-=======
-  DetailCard({
-    this.productType,
-    this.loadingPoint,
+  LoadApiDataDisplayCard({this.loadingPoint,
     this.unloadingPoint,
+    this.productType,
     this.truckType,
     this.noOfTrucks,
     this.weight,
     this.isPending,
     this.comment,
-    this.status,
     this.isCommentsEmpty});
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93:lib/detailCard.dart
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-<<<<<<< HEAD:lib/widgets/loadApiDataDisplayCard.dart
-      Card(
-        elevation: 10,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      padding: EdgeInsets.only(left: space_3, top: space_3),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              LoadingPointImageIcon(
-                                height: 12,
-                                width: 12,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "$loadingPoint",
-                                  style: TextStyle(
-                                      fontSize: size_9,
-                                      color: unloadingPointTextColor,
-                                      fontWeight: mediumBoldWeight),
-=======
       GestureDetector(onTap: (){
-       Get.to(()=>LoadDetailsScreen(
-         loadingPoint: "$loadingPoint",
-         unloadingPoint: "$unloadingPoint",
-         productType: "$productType",
-         truckType: "$truckType",
-         noOfTrucks: "$noOfTrucks",
-         weight: "$weight",
-         isPending: "$status" == 'pending'
-             ? true
-             : false,
-         comment: "$comment",
-         status: "$status",
-         isCommentsEmpty:
-         "$comment" == '' ? true : false,
-       ));
+        Get.to(()=>LoadDetailsScreen(
+          loadingPoint: "$loadingPoint",
+          unloadingPoint: "$unloadingPoint",
+          productType: "$productType",
+          truckType: "$truckType",
+          noOfTrucks: "$noOfTrucks",
+          weight: "$weight",
+          isPending: "$status" == 'pending'
+              ? true
+              : false,
+          comment: "$comment",
+          status: "$status",
+          isCommentsEmpty:
+          "$comment" == '' ? true : false,
+        ));
 
       },
         child: Card(
@@ -147,7 +97,6 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                                 UnloadingPointImageIcon(width: 12, height: 12),
                                 SizedBox(
                                   width: 8,
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93:lib/detailCard.dart
                                 ),
                                 Expanded(
                                   child: Text(
