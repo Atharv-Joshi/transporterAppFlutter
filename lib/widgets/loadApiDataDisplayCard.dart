@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/bidButtonWidget.dart';
 import 'package:liveasy/widgets/contactWidget.dart';
@@ -25,37 +26,36 @@ class LoadApiDataDisplayCard extends StatelessWidget {
   String? status;
   bool? isCommentsEmpty;
 
-  LoadApiDataDisplayCard({this.loadingPoint,
-    this.unloadingPoint,
-    this.productType,
-    this.truckType,
-    this.noOfTrucks,
-    this.weight,
-    this.isPending,
-    this.comment,
-    this.isCommentsEmpty});
+  LoadApiDataDisplayCard(
+      {this.loadingPoint,
+      this.unloadingPoint,
+      this.productType,
+      this.truckType,
+      this.noOfTrucks,
+      this.weight,
+      this.isPending,
+      this.comment,
+      this.isCommentsEmpty,
+      this.status});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      GestureDetector(onTap: (){
-        Get.to(()=>LoadDetailsScreen(
-          loadingPoint: "$loadingPoint",
-          unloadingPoint: "$unloadingPoint",
-          productType: "$productType",
-          truckType: "$truckType",
-          noOfTrucks: "$noOfTrucks",
-          weight: "$weight",
-          isPending: "$status" == 'pending'
-              ? true
-              : false,
-          comment: "$comment",
-          status: "$status",
-          isCommentsEmpty:
-          "$comment" == '' ? true : false,
-        ));
-
-      },
+      GestureDetector(
+        onTap: () {
+          Get.to(() => LoadDetailsScreen(
+                loadingPoint: "$loadingPoint",
+                unloadingPoint: "$unloadingPoint",
+                productType: "$productType",
+                truckType: "$truckType",
+                noOfTrucks: "$noOfTrucks",
+                weight: "$weight",
+                isPending: isPending,
+                comment: "$comment",
+                status: "$status",
+                isCommentsEmpty: "$comment" == '' ? true : false,
+              ));
+        },
         child: Card(
           elevation: 10,
           child: Column(
@@ -65,9 +65,8 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                   Expanded(
                       flex: 2,
                       child: Container(
-                        padding: EdgeInsets.only(left: 15, top: 14),
+                        padding: EdgeInsets.only(left: space_3, top: space_3),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -90,13 +89,13 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 8.39,
+                              height: space_2,
                             ),
                             Row(
                               children: [
                                 UnloadingPointImageIcon(width: 12, height: 12),
                                 SizedBox(
-                                  width: 8,
+                                  width: space_2,
                                 ),
                                 Expanded(
                                   child: Text(
@@ -110,88 +109,83 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: 5,
+                              height: space_1,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Text("Truck Type",
-                                                  style: TextStyle(
-                                                      fontSize: size_6 - 1,
-                                                      fontWeight: regularWeight)),
-                                              Text("$truckType",
-                                                  style: TextStyle(
-                                                    fontWeight: mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  ))
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 13,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text("Weight",
-                                                  style: TextStyle(
-                                                      fontSize: size_6 - 1,
-                                                      fontWeight: regularWeight)),
-                                              Text("$weight",
-                                                  style: TextStyle(
-                                                    fontWeight: mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  ))
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
+                                Column(
+                                  children: [
+                                    Column(
                                       children: [
-                                        Column(
-                                          children: [
-                                            Text("Tyre",
-                                                style: TextStyle(
-                                                    fontSize: size_6 - 1,
-                                                    fontWeight: regularWeight)),
-                                            Text("NA",
-                                                style: TextStyle(
-                                                  fontWeight: mediumBoldWeight,
-                                                  fontSize: size_7,
-                                                ))
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 13,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text("Product Type",
-                                                style: TextStyle(
-                                                    fontSize: size_6 - 1,
-                                                    fontWeight: regularWeight)),
-                                            Container(
-                                              child: Text("$productType",
-                                                  style: TextStyle(
-                                                    fontWeight: mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  )),
-                                            )
-                                          ],
-                                        )
+                                        Text("Truck Type",
+                                            style: TextStyle(
+                                                fontSize: size_6,
+                                                fontWeight:
+                                                    regularWeight)),
+                                        Text("$truckType",
+                                            style: TextStyle(
+                                              fontWeight:
+                                                  mediumBoldWeight,
+                                              fontSize: size_7,
+                                            ))
                                       ],
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 13,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text("Weight",
+                                            style: TextStyle(
+                                                fontSize: size_6 ,
+                                                fontWeight:
+                                                    regularWeight)),
+                                        Text("$weight",
+                                            style: TextStyle(
+                                              fontWeight:
+                                                  mediumBoldWeight,
+                                              fontSize: size_7,
+                                            ))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text("Tyre",
+                                            style: TextStyle(
+                                                fontSize: size_6 ,
+                                                fontWeight: regularWeight)),
+                                        Text("NA",
+                                            style: TextStyle(
+                                              fontWeight: mediumBoldWeight,
+                                              fontSize: size_7,
+                                            ),)
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 13,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text("Product Type",
+                                            style: TextStyle(
+                                                fontSize: size_6 ,
+                                                fontWeight: regularWeight)),
+                                        Container(
+                                          child: Text("$productType",
+                                              style: TextStyle(
+                                                fontWeight:
+                                                    mediumBoldWeight,
+                                                fontSize: size_7,
+                                              )),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
@@ -202,7 +196,7 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 14,
+                height: space_3,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,7 +206,7 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: space_2,
               ),
               ContactWidget()
             ],
