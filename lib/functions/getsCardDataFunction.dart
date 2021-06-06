@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../loadScreenCardsModal.dart';
+import 'package:liveasy/models/loadApiModel.dart';
 var jsonData;
 List<LoadScreenCardsModal> card = [];
 Future<List<LoadScreenCardsModal>> getCardsData() async {
