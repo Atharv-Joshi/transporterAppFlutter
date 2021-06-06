@@ -21,13 +21,13 @@ const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
-Color loadingWidgetColor = Colors.lightBlueAccent;
-Color solidLineColor = Color(0xFFC4C9D9);
-Color priceBackground = Color(0xFFC4C9D9);
-Color bidBackground = Color(0xFF152968);
-Color priceTextColor = Color(0xFF152968);
-Color loadingPointTextColor = Color(0xFF2A2E3B);
-Color unloadingPointTextColor = Color(0xFF2A2E3B);
+ Color loadingWidgetColor = Colors.lightBlueAccent;
+ Color priceBackground = Color(0xFFC4C9D9);
+ Color priceTextColor = Color(0xFF152968);
+ Color loadingPointTextColor = Color(0xFF2A2E3B);
+ Color unloadingPointTextColor = Color(0xFF2A2E3B);
+const Color lockGreen = Color(0xff84DBBB);
+const Color truckGreen = Color(0xff09B778);
 
 //dont make these const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff33364D));

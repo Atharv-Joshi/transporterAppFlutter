@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
 class AddTruckButton extends StatelessWidget {
   const AddTruckButton({Key? key}) : super(key: key);
@@ -20,7 +22,9 @@ class AddTruckButton extends StatelessWidget {
           ),
           backgroundColor:MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: (){},
+        onPressed: (){
+          Get.to(() => AddNewTruck());
+        },
         child: Text(
             'Add Truck',
               style: TextStyle(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 class TrackButton extends StatelessWidget {
 
+  bool truckApproved = false;
+
+  TrackButton({ required this.truckApproved});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +21,30 @@ class TrackButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: (){print('Track Button Pressed');},
-        child: Text(
-          'Track',
-          style: TextStyle(
-            letterSpacing: 0.7,
-            fontWeight: FontWeight.w400,
-            color: white,
-            fontSize: space_3,
-          ),
+        child: Row(
+          children: [
+            // if(truckApproved == false){
+            //
+            // },
+            Container(
+              child: truckApproved ? Container() : Icon(
+                Icons.lock,
+                size: 18 ,
+                color: lockGreen,
+              ),
+            ),
+
+
+            Text(
+              'Track',
+              style: TextStyle(
+                letterSpacing: 0.7,
+                fontWeight: FontWeight.w400,
+                color: white,
+                fontSize: space_3,
+              ),
+            ),
+          ],
         ),
       ),
     );

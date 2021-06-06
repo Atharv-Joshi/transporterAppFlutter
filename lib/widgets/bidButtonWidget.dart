@@ -11,7 +11,7 @@ class BidButtonWidget extends StatelessWidget {
       height: 31,
       width: 80,
       decoration: BoxDecoration(
-          color: bidBackground,
+          color: darkBlueColor,
           borderRadius: BorderRadius.circular(20)),
       child: Center(
         child: Text(

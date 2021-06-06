@@ -14,7 +14,7 @@ class MyTruckCard extends StatelessWidget {
   String? truckId;
   String? transporterId;
   String? truckNo;
-  bool? truckApproved;
+  bool truckApproved;
   String? imei;
   int? passingWeight;
   String? driverId;
@@ -25,7 +25,7 @@ class MyTruckCard extends StatelessWidget {
       {this.truckId,
         this.transporterId,
         this.truckNo,
-        this.truckApproved,
+        required this.truckApproved,
         this.imei,
         this.passingWeight,
         this.driverId,
@@ -138,7 +138,7 @@ class MyTruckCard extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton()
+                      child: TrackButton(truckApproved:truckApproved)
                   ),
                   CallButton(),
                 ],

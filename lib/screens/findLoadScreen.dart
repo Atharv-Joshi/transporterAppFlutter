@@ -114,7 +114,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
               ]),
             ),
             Container(
-              color: solidLineColor,
+              color: darkBlueColor,
               height: 1,
             ),
             SizedBox(
