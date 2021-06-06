@@ -4,23 +4,13 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/bidButtonAlertDialog.dart';
-import 'package:liveasy/widgets/bidButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
-
-class BidButtonWidget extends StatefulWidget {
-
-  @override
-  _BidButtonWidgetState createState() => _BidButtonWidgetState();
-}
-
-class _BidButtonWidgetState extends State<BidButtonWidget> {
+class BidButtonSendRequest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        await showInformationDialog(context);
+      onTap: () {
+        Get.back();
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),
@@ -41,4 +31,3 @@ class _BidButtonWidgetState extends State<BidButtonWidget> {
     );
   }
 }
-
