@@ -8,8 +8,6 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
-import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/textFieldWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -98,7 +96,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(FindLoadScreen());
+                                  Get.offAll(FindLoadScreen());
                                 } else if (widget.valueType ==
                                     "Unloading Point") {
                                   Provider.of<ProviderData>(context,
@@ -108,7 +106,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(FindLoadScreen());
+                                  Get.offAll(FindLoadScreen());
                                 }
                               }),
                             );

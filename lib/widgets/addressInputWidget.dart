@@ -10,7 +10,11 @@ class AddressInputWidget extends StatelessWidget {
   final TextEditingController controller;
   final Widget clearIcon;
 
-  AddressInputWidget({required this.hintText,required this.icon,required this.controller,required this.clearIcon});
+  AddressInputWidget(
+      {required this.hintText,
+      required this.icon,
+      required this.controller,
+      required this.clearIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class AddressInputWidget extends StatelessWidget {
       child: TextFormField(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
-          Get.off(CityNameInputScreen(hintText));
+          Get.to(CityNameInputScreen(hintText));
         },
         controller: controller,
         decoration: InputDecoration(

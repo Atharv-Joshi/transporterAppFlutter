@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/theme..dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
@@ -23,7 +22,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: lightTheme,
+      theme: ThemeData(fontFamily: "montserrat"),
       home: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
@@ -32,10 +31,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
               Provider.of<ProviderData>(context, listen: false)
                   .updateIndex(pressedIndex);
             },
-            type: BottomNavigationBarType.shifting,
+            type: BottomNavigationBarType.fixed,
             showUnselectedLabels: true,
             unselectedItemColor: grey,
             selectedItemColor: grey,
+            selectedLabelStyle: TextStyle(color: Color(0xFF09B778)),
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: BottomNavigationIconWidget(
