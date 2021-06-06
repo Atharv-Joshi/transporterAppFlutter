@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-<<<<<<< HEAD
+
 import 'package:liveasy/functions/loadApi.dart';
-=======
+
 import 'package:liveasy/functions/getsCardDataFunction.dart';
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93
+
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
@@ -18,13 +18,9 @@ import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
-<<<<<<< HEAD
-import '../widgets/loadApiDataDisplayCard.dart';
-=======
 
-import '../loadScreenCardsModal.dart';
-import '../detailCard.dart';
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93
+import '../widgets/loadApiDataDisplayCard.dart';
+
 
 class FindLoadScreen extends StatefulWidget {
   @override
@@ -32,12 +28,8 @@ class FindLoadScreen extends StatefulWidget {
 }
 
 class _FindLoadScreenState extends State<FindLoadScreen> {
-<<<<<<< HEAD
 
 
-
-=======
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93
 
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
@@ -153,11 +145,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               height: space_4-1,
                             ),
                             Container(
-<<<<<<< HEAD
                               height: 450, //TODO to be modified
-=======
-                              height: 430, //TODO to be modified
->>>>>>> 8190f28bf3339760d05f8c1d70b2f07279ea7c93
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
                                 reverse: false,

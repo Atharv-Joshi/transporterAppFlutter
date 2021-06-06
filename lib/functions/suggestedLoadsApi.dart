@@ -14,9 +14,9 @@ Future<List<LoadDataModel>> runSuggestedLoadApi() async {
     LoadDataModel loadData = new LoadDataModel(
         ownerId: "",
         id: "",
-        loadingPointCity: json["loadingPoint"],
+        loadingPointCity: json["loadingPointCity"],
         loadingPointState: "",
-        unloadingPointCity: json["unloadingPoint"],
+        unloadingPointCity: json["unloadingPointCity"],
         truckType: "",
         noOfTrucks: "",
         status: "",

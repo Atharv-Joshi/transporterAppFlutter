@@ -53,13 +53,9 @@ class SuggestedLoadsWidget extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           SuggestedLoadDataDisplayCard(
                               loadingPointCity: snapshot.data[index]
-                                  .loadingPointCity
-                                  .toString()
-                                  .substring(0, 8),
+                                  .loadingPointCity,
                               unloadingPointCity: snapshot
-                                  .data[index].unloadingPointCity
-                                  .toString()
-                                  .substring(0, 8),
+                                  .data[index].unloadingPointCity,
                               onTap: () {})),
                 );
               },
