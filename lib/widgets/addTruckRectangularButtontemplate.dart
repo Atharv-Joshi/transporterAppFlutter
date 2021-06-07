@@ -5,19 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 
-class TruckTypeButtonTemplate extends StatefulWidget {
-  final String text ;
-  final String value ;
-  // final id;
+class AddTruckRectangularButtonTemplate extends StatelessWidget {
 
-  TruckTypeButtonTemplate({required this.value , required this.text});
-
-  @override
-  _TruckTypeButtonTemplateState createState() => _TruckTypeButtonTemplateState();
-}
-
-class _TruckTypeButtonTemplateState extends State<TruckTypeButtonTemplate> {
+  final String text;
+  final String value;
   bool selected = false;
+
+  AddTruckRectangularButtonTemplate({required this.value, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +20,9 @@ class _TruckTypeButtonTemplateState extends State<TruckTypeButtonTemplate> {
       child: OutlinedButton(
         style: ButtonStyle(
             backgroundColor:
-              providerData.truckTypeButtonId == widget.value
-                  ? MaterialStateProperty.all(darkBlueColor) : MaterialStateProperty.all(whiteBackgroundColor),
-
-
+            providerData.truckTypeButtonId == value
+                ? MaterialStateProperty.all(darkBlueColor)
+                : MaterialStateProperty.all(whiteBackgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
@@ -37,14 +30,13 @@ class _TruckTypeButtonTemplateState extends State<TruckTypeButtonTemplate> {
             )
         ),
         child: Text(
-            '${widget.text}',
-              style: TextStyle(
-                fontSize: size_7,
-                color:  providerData.truckTypeButtonId == widget.value ? white : black
-              ),),
-        onPressed: (){
-
-          providerData.updateTruckTypeButtonId(widget.value);
+          '$text',
+          style: TextStyle(
+              fontSize: size_7,
+              color: providerData.truckTypeButtonId == value ? white : black
+          ),),
+        onPressed: () {
+          providerData.updateTruckTypeButtonId(value);
           // setState(() {
           //   selected = true;
           //   truckTypeButtonController.updateButtonState(false);

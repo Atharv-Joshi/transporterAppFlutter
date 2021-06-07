@@ -16,9 +16,12 @@ class ProviderData extends ChangeNotifier {
   String smsCode = '';
   String phoneController = '';
 
-  // variables for truck pages
+  // variables for add truck pages
 
   String truckTypeButtonId = '';
+  int passingWeightButtonId = 0;
+  int truckLengthButtonId = 0;
+  int totalTyresButtonId = 0;
 
   //------------------------
 
@@ -87,5 +90,20 @@ void updateTruckTypeButtonId(value){
     truckTypeButtonId = value;
     notifyListeners();
 }
+
+  void updatePassingWeightButtonId(value){
+    passingWeightButtonId = value;
+    notifyListeners();
+  }
+
+  void updateTruckLengthButtonId(value){
+    truckLengthButtonId = value;
+    notifyListeners();
+  }
+
+  void updateTotalTyresButtonId(value){
+    totalTyresButtonId = value;
+    notifyListeners();
+  }
 
 }
