@@ -21,7 +21,7 @@ class AddressInputWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(space_6),
-        border: Border.all(color: borderBlueColor, width: 0.8),
+        border: Border.all(color: darkBlueColor, width: 0.8),
         color: widgetBackGroundColor,
       ),
       padding: EdgeInsets.symmetric(horizontal: space_3),

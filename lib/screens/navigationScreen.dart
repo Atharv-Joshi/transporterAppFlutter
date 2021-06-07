@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/screens/home.dart';
+import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +15,8 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   List<Widget> screens = [
     HomeScreen(),
-    Text(""),
-    Text(""),
+    MyTrucks(),
+    FindLoadScreen(),
     Text(""),
     Text("")
   ];

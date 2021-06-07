@@ -12,7 +12,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
     return Container(
       height: 148,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(space_2), color: borderBlueColor),
+          borderRadius: BorderRadius.circular(space_2), color: darkBlueColor),
       child: Column(
         children: [
           Container(
