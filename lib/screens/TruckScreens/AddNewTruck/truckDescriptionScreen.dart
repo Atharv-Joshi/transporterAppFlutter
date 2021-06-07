@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
 import 'package:liveasy/widgets/truckTypeButtontemplate.dart';
 
@@ -30,15 +31,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AddTrucksHeader(),
-                  Text(
-                      'Truck Type',
-                      style: TextStyle(
-                        color: truckGreen,
-                        fontSize: size_9,
-                      ),
-                  ),
-
-
+                  AddTruckSubtitleText(text: 'Truck Type'),
                   GridView.count(
                     shrinkWrap: true,
                     childAspectRatio: 4,
@@ -48,6 +41,10 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     padding: EdgeInsets.all(10.0),
                       crossAxisCount: 2,
                       children: truckTypeList.map((e) => TruckTypeButtonTemplate(value: e, text: e)).toList(),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: space_2),
+                      child: AddTruckSubtitleText(text: 'Passing Weight (in tons.)')
                   ),
                 ],
               ),

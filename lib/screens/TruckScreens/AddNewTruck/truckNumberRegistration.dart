@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
+import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
 import 'package:liveasy/widgets/applyButton.dart';
 
@@ -28,13 +29,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AddTrucksHeader(),
-              Text(
-                'Enter Truck Number',
-                style: TextStyle(
-                  fontSize: size_9,
-                  color: truckGreen,
-                ),
-              ),
+              AddTruckSubtitleText(text: 'Add Truck Number'),
 
               //TODO: center the hintext and apply shadows to textformfield
               Container(

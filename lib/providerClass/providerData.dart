@@ -16,6 +16,10 @@ class ProviderData extends ChangeNotifier {
   String smsCode = '';
   String phoneController = '';
 
+  // variables for truck pages
+
+  String truckTypeButtonId = '';
+
   //------------------------
 
   void clearLoadingPoint() {
@@ -78,5 +82,10 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 //-------------------------------------
+
+void updateTruckTypeButtonId(value){
+    truckTypeButtonId = value;
+    notifyListeners();
+}
 
 }

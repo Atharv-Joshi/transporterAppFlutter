@@ -1,14 +1,16 @@
 import 'package:http/http.dart' as http;
 import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
+import 'package:flutter_config/flutter_config.dart';
 
 class GetDataFromApi{
 
   var jsonData;
   List<TruckModel> truckDataList = [];
+  final String truckApiUrl = FlutterConfig.get('truckApiUrl').toString();
 
   Future<List<TruckModel>> getTruckData() async {
-    http.Response response = await http.get(Uri.parse("http://ec2-65-2-131-164.ap-south-1.compute.amazonaws.com:9090/truck"));
+    http.Response response = await http.get(Uri.parse(truckApiUrl));
     jsonData = json.decode(response.body);
 
     for (var json in jsonData) {

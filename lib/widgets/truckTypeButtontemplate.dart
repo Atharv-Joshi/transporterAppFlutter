@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/controller/buttonBackgroundColorController.dart';
+import 'package:provider/provider.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 
 
 class TruckTypeButtonTemplate extends StatefulWidget {
   final String text ;
   final String value ;
+  // final id;
 
   TruckTypeButtonTemplate({required this.value , required this.text});
 
@@ -19,11 +21,15 @@ class _TruckTypeButtonTemplateState extends State<TruckTypeButtonTemplate> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       child: OutlinedButton(
         style: ButtonStyle(
             backgroundColor:
-            selected ? MaterialStateProperty.all(darkBlueColor) : MaterialStateProperty.all(whiteBackgroundColor),
+              providerData.truckTypeButtonId == widget.value
+                  ? MaterialStateProperty.all(darkBlueColor) : MaterialStateProperty.all(whiteBackgroundColor),
+
+
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
@@ -34,15 +40,15 @@ class _TruckTypeButtonTemplateState extends State<TruckTypeButtonTemplate> {
             '${widget.text}',
               style: TextStyle(
                 fontSize: size_7,
-                color: selected ? white : black
+                color:  providerData.truckTypeButtonId == widget.value ? white : black
               ),),
         onPressed: (){
-          setState(() {
-            selected = true;
-          });
-          print('truck Type button placed with value : ${widget.value} ');
 
-
+          providerData.updateTruckTypeButtonId(widget.value);
+          // setState(() {
+          //   selected = true;
+          //   truckTypeButtonController.updateButtonState(false);
+          // });
         },
       ),
     );
