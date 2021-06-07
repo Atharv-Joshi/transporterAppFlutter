@@ -22,7 +22,7 @@ class AddTrucksHeader extends StatelessWidget {
             Text(
                 'Add Truck',
                 style : TextStyle(
-                  fontSize: size_12,
+                  fontSize: size_10,
                   fontWeight: mediumBoldWeight,
                 )),
           ],
@@ -35,7 +35,7 @@ class AddTrucksHeader extends StatelessWidget {
                 'Reset',
                 style : TextStyle(
                   color: truckGreen,
-                  fontSize: size_12,
+                  fontSize: size_10,
                   fontWeight: regularWeight,
                 )
             ))

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 const Color darkBlueColor = Color(0xFF152968);
 const Color grey = Color(0xFF828282);
 const Color backgroundColor = Color(0xFFF5F5F5);
+const Color whiteBackgroundColor = Color(0xffF9F9F9);
 const Color lightBlue = Color(0xFF1A73E9);
 const Color black = Colors.black;
 const Color unselectedGrey = Color(0xFF9B9B9B);
@@ -33,6 +34,7 @@ Color shareButtonColor = Color(0xFF09B778);
 Color whiteButtonOutlineColor = Color(0xFF152968);
 Color truckGreen = Color(0xFF09B778);
 Color lockGreen = Color(0xFF84DBBB);
+
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff33364D));
 dynamic deactiveButtonColor = MaterialStateProperty.all<Color>(Colors.grey);
