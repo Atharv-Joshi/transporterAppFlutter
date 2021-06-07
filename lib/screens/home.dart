@@ -31,35 +31,38 @@ class HomeScreen extends StatelessWidget {
         drawer: DrawerWidget(),
         backgroundColor: backgroundColor,
         body: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+          padding: EdgeInsets.fromLTRB(0, space_4, 0, space_2),
           child: ListView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          _scaffoldKey.currentState?.openDrawer();
-                        },
-                        icon: Icon(
-                          Icons.list,
-                          size: space_6,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: space_4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            _scaffoldKey.currentState?.openDrawer();
+                          },
+                          icon: Icon(
+                            Icons.list,
+                            size: space_6,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: space_2,
-                      ),
-                      LiveasyTitleTextWidget(),
-                    ],
-                  ),
-                  HelpButtonWidget()
-                ],
+                        SizedBox(
+                          width: space_2,
+                        ),
+                        LiveasyTitleTextWidget(),
+                      ],
+                    ),
+                    HelpButtonWidget()
+                  ],
+                ),
               ),
               Container(
                 padding:
-                    EdgeInsets.fromLTRB(space_0, space_4, space_0, space_5),
+                    EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
                 child: SearchLoadWidget(
                   hintText: "Search",
                   onPressed: () {
@@ -68,7 +71,9 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
               ),
-              SuggestedLoadsWidget(),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: space_4),
+                  child: SuggestedLoadsWidget()),
               SizedBox(
                 height: space_4,
               ),
@@ -76,6 +81,7 @@ class HomeScreen extends StatelessWidget {
                 height: 100,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
+                  controller: ScrollController(initialScrollOffset: 110),
                   children: [
                     ReferAndEarnWidget(height: 100, width: 180),
                     SizedBox(

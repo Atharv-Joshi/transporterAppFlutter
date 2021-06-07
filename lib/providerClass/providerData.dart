@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
   int index = 0;
+
   String loadingPointCity = "";
   String loadingPointState = "";
 
@@ -14,7 +15,6 @@ class ProviderData extends ChangeNotifier {
   dynamic buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
   String smsCode = '';
   String phoneController = '';
-
 
   //------------------------
 
@@ -65,9 +65,6 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  
-
   void updateSmsCode(value) {
     smsCode = value;
     notifyListeners();
@@ -76,10 +73,10 @@ class ProviderData extends ChangeNotifier {
   void clearall() {
     inputControllerLengthCheck = false;
     buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
-    
+
     smsCode = '';
     notifyListeners();
   }
-  //-------------------------------------
+//-------------------------------------
 
 }
