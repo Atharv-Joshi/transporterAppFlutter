@@ -147,6 +147,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
+
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(),
                                 itemCount: (snapshot.data.length),

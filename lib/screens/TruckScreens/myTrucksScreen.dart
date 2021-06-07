@@ -30,7 +30,7 @@ class _MyTrucksState extends State<MyTrucks> {
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_8, space_4, space_4),
+          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
           child: Column(
             children: [
               Row(
