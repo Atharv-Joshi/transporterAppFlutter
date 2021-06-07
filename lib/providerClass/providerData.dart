@@ -16,6 +16,8 @@ class ProviderData extends ChangeNotifier {
   String smsCode = '';
   String phoneController = '';
 
+  //-------------------------------------
+
   // variables for add truck pages
 
   String truckTypeButtonId = '';
@@ -54,7 +56,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //for login screen
+  //functions for login screen
 
   void updatePhoneController(String value) {
     phoneController = value;
@@ -77,6 +79,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  //TODO: name change
   void clearall() {
     inputControllerLengthCheck = false;
     buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
@@ -85,6 +88,8 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 //-------------------------------------
+
+  // functions for add truck pages
 
 void updateTruckTypeButtonId(value){
     truckTypeButtonId = value;
@@ -105,5 +110,6 @@ void updateTruckTypeButtonId(value){
     totalTyresButtonId = value;
     notifyListeners();
   }
+//----------------------------------
 
 }

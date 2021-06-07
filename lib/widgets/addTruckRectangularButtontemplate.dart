@@ -19,6 +19,7 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
     return Container(
       child: OutlinedButton(
         style: ButtonStyle(
+            elevation: MaterialStateProperty.all<double>(2) ,
             backgroundColor:
             providerData.truckTypeButtonId == value
                 ? MaterialStateProperty.all(darkBlueColor)

@@ -41,6 +41,7 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
       // height: 30,
       child: OutlinedButton(
         style: ButtonStyle(
+            elevation: MaterialStateProperty.all<double>(2) ,
             backgroundColor:
             // providerData.passingWeightButtonId == value
             providerVariable == value
