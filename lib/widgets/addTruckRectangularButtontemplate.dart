@@ -38,10 +38,7 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
           ),),
         onPressed: () {
           providerData.updateTruckTypeButtonId(value);
-          // setState(() {
-          //   selected = true;
-          //   truckTypeButtonController.updateButtonState(false);
-          // });
+          providerData.updateTruckTypeValue(value);
         },
       ),
     );

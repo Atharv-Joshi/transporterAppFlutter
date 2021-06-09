@@ -30,7 +30,7 @@ class _MyTrucksState extends State<MyTrucks> {
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
+          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
               Row(
@@ -53,36 +53,19 @@ class _MyTrucksState extends State<MyTrucks> {
                 margin: EdgeInsets.symmetric(
                   vertical: space_3
                 ),
-                  //TODO: make search widget dynamic
+
                   child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.6,
-              //   child: SingleChildScrollView(
-              //     child: Column(
-              //       children: [
-              //         MyTruckCard(),
-              //         MyTruckCard(),
-              //         MyTruckCard()
-              //       ],
-              //     ),
-              //   ),
-              // ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
                   future: getDataFromApi.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
-                      // return CircularProgressIndicator(
-                      //   valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
-                      // );
                     }
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
-                            // print('in item builder');
-                            // print(snapshot.data[index].truckNo);
                             return MyTruckCard(
                               truckId: snapshot.data[index].truckId,
                               transporterId:  snapshot.data[index].transporterId,
@@ -99,7 +82,9 @@ class _MyTrucksState extends State<MyTrucks> {
                 ),
               ),
               //TODO: placement of add truck button and determine optimum length of listview container
-              AddTruckButton(),
+              Container(
+
+                  child: AddTruckButton()),
             ],
           ),
         ),

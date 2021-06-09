@@ -12,7 +12,7 @@ class TrackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 31,
-      width: 80,
+      width: 90,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -27,6 +27,7 @@ class TrackButton extends StatelessWidget {
             //
             // },
             Container(
+              margin: EdgeInsets.only(right: space_1),
               child: truckApproved ? Container() : Icon(
                 Icons.lock,
                 size: 18 ,

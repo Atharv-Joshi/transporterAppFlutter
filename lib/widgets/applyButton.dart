@@ -5,8 +5,9 @@ import 'package:liveasy/constants/spaces.dart';
 class ApplyButton extends StatelessWidget {
 
   dynamic onPressedFunction;
+  String text;
 
-  ApplyButton({required this.onPressedFunction});
+  ApplyButton({required this.onPressedFunction , required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ApplyButton extends StatelessWidget {
         ),
         onPressed:onPressedFunction,
         child: Text(
-          'Apply',
+          '$text',
           style: TextStyle(
             letterSpacing: 0.7,
             fontWeight: FontWeight.w400,

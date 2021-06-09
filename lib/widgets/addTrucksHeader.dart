@@ -6,8 +6,10 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
 
 class AddTrucksHeader extends StatelessWidget {
-  const AddTrucksHeader({Key? key}) : super(key: key);
 
+  dynamic resetFunction ;
+
+  AddTrucksHeader({required this.resetFunction});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -28,9 +30,7 @@ class AddTrucksHeader extends StatelessWidget {
           ],
         ),
         TextButton(
-            onPressed: (){
-              print('reset button page');
-            },
+            onPressed: resetFunction,
             child: Text(
                 'Reset',
                 style : TextStyle(

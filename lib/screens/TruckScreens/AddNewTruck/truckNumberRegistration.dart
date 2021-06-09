@@ -9,6 +9,8 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
 import 'package:liveasy/widgets/applyButton.dart';
+import 'package:provider/provider.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 
 class AddNewTruck extends StatefulWidget {
   const AddNewTruck({Key? key}) : super(key: key);
@@ -18,8 +20,12 @@ class AddNewTruck extends StatefulWidget {
 }
 
 class _AddNewTruckState extends State<AddNewTruck> {
+  final GlobalKey _formKey = GlobalKey<FormState>();
+
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
@@ -28,7 +34,11 @@ class _AddNewTruckState extends State<AddNewTruck> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AddTrucksHeader(),
+              AddTrucksHeader(
+                resetFunction: (){
+                  _controller.text = '';
+                  providerData.resetTruckNumber();
+                },),
               AddTruckSubtitleText(text: 'Add Truck Number'),
 
               //TODO: center the hintext and apply shadows to textformfield
@@ -37,6 +47,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 width: 179,
                 height: 38,
                 child: TextFormField(
+                  // key: _formKey,
+                  controller: _controller,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     filled: true,
@@ -61,13 +73,20 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 ),
               ),
 
+              //this button should only be active if validator check passes
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ApplyButton(
-                    onPressedFunction: () {
+                    text: 'Apply',
+                    onPressedFunction:
+                         () {
+                      providerData.updateTruckNumberValue(_controller.text);
                       Get.to(() => TruckDescriptionScreen());
-                    },
+                      print(_controller.text);
+                    }
+
+
                   ),
                 ),
               ),

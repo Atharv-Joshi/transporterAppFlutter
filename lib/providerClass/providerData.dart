@@ -25,7 +25,13 @@ class ProviderData extends ChangeNotifier {
   int truckLengthButtonId = 0;
   int totalTyresButtonId = 0;
 
-  //------------------------
+  String truckTypeValue = '';
+  int passingWeightValue = 0;
+  int totalTyresValue = 0;
+  int truckLengthValue = 0;
+  String driverDetailsValue = '';
+  String truckNumberValue = '';
+  //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
     loadingPointCity = "";
@@ -108,6 +114,50 @@ void updateTruckTypeButtonId(value){
 
   void updateTotalTyresButtonId(value){
     totalTyresButtonId = value;
+    notifyListeners();
+  }
+
+  void updateTruckTypeValue(value){
+    truckTypeValue = value;
+    notifyListeners();
+  }
+
+  void updatePassingWeightValue(value){
+    passingWeightValue = value;
+    notifyListeners();
+  }
+
+  void updateTotalTyresValue(value){
+    totalTyresValue = value;
+    notifyListeners();
+  }
+
+  void updateTruckLengthValue(value){
+    truckLengthValue = value;
+    notifyListeners();
+  }
+
+  void updateDriverDetailsValue(value){
+    driverDetailsValue = value;
+    notifyListeners();
+  }
+
+  void updateTruckNumberValue(value){
+    truckNumberValue = value;
+    notifyListeners();
+  }
+
+  void resetTruckFilters(){
+    truckTypeValue = '';
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckLengthValue = 0;
+    driverDetailsValue = '';
+    notifyListeners();
+  }
+
+  void resetTruckNumber(){
+    truckNumberValue = '';
     notifyListeners();
   }
 //----------------------------------
