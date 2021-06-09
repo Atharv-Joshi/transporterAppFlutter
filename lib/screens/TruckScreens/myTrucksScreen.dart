@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';

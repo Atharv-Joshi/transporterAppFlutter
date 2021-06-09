@@ -14,7 +14,7 @@ class FilterButtonWidget extends StatelessWidget {
         width: space_16,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: borderWidth_10, color: darkBlueColor)),
+            border: Border.all(width: borderWidth_10, color: borderBlueColor)),
         padding: EdgeInsets.only(left: space_3),
         child: Center(
           child: Row(
@@ -32,7 +32,7 @@ class FilterButtonWidget extends StatelessWidget {
               ),
               Text(
                 "Filter",
-                style: TextStyle(fontSize: size_7, color: darkBlueColor),
+                style: TextStyle(fontSize: size_7, color: borderBlueColor),
               ),
             ],
           ),

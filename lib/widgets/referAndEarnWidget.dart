@@ -15,11 +15,12 @@ class ReferAndEarnWidget extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
+      padding: EdgeInsets.fromLTRB(space_2, space_2,0,0),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/referAndEarnBackgroundImage.png"),
         ),
+
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,18 +28,19 @@ class ReferAndEarnWidget extends StatelessWidget {
           Text(
             "Refer And earn",
             style: TextStyle(
-                fontSize: size_10, fontWeight: mediumBoldWeight, color: white),
+                fontSize: size_10,
+                fontWeight: normalWeight,
+                color: white),
           ),
           Row(
             children: [
               Text(
                 "Refer Liveasy to earn\npremium account",
-                style: TextStyle(
-                    fontSize: size_6, color: white, fontWeight: regularWeight),
+                style: TextStyle(fontSize: size_6, color: white),
               ),
               Container(
-                height: space_13,
-                width: space_9,
+                height: space_10,
+                width: space_10,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/icons/referAndEarnIcon.png"),

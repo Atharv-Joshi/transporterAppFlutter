@@ -143,7 +143,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               height: space_4,
                             ),
                             Container(
-                              height: 470,
+                              height: 450,
                               //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
@@ -153,24 +153,21 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
                                     LoadApiDataDisplayCard(
+                                      loadId: snapshot.data[index].loadId,
                                   loadingPoint:
                                       snapshot.data[index].loadingPoint,
+                                  loadingPointCity: snapshot.data[index].loadingPointCity,
+                                  loadingPointState: snapshot.data[index].loadingPointState,
                                   unloadingPoint:
                                       snapshot.data[index].unloadingPoint,
+                                  unloadingPointCity: snapshot.data[index].unloadingPointCity,
+                                  unloadingPointState: snapshot.data[index].unloadingPointState,
                                   productType: snapshot.data[index].productType,
                                   truckType: snapshot.data[index].truckType,
                                   noOfTrucks: snapshot.data[index].noOfTrucks,
                                   weight: snapshot.data[index].weight,
                                   status: snapshot.data[index].status,
-                                  isPending:
-                                      snapshot.data[index].status == 'pending'
-                                          ? true
-                                          : false,
-                                  comment: snapshot.data[index].comment,
-                                  isCommentsEmpty:
-                                      snapshot.data[index].comment == ''
-                                          ? true
-                                          : false,
+
                                 ),
                               ),
                             ),

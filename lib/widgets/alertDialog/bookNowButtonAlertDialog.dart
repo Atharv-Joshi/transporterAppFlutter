@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/confirmButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
+import 'package:liveasy/widgets/buttons/cancelButton.dart';
 
 String _dropdownvalue1 = "Truck-1";
 String _dropdownvalue2 = "Mukul-8886551";
@@ -33,8 +34,8 @@ Future<void> showInformationDialog(BuildContext context) async {
                       height: space_7+2,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(22),
-                          border: Border.all(color: Color(0xFF878787))),
+                          borderRadius: BorderRadius.circular(radius_4+2),
+                          border: Border.all(color: borderLightColor)),
                       child: Padding(
                         padding:  EdgeInsets.only(
                           left: space_2-2,
@@ -78,10 +79,10 @@ Future<void> showInformationDialog(BuildContext context) async {
                       height: space_2,
                     ),
                     Container(
-                      height: 37,
+                      height: space_7+2,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(22),
+                          borderRadius: BorderRadius.circular(radius_4+2),
                           border: Border.all(color: Color(0xFF878787))),
                       child: Padding(
                         padding:  EdgeInsets.only(
@@ -126,7 +127,7 @@ Future<void> showInformationDialog(BuildContext context) async {
                   )
                 ],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(radius_2-2)),
                 ),
                 insetPadding:
                 EdgeInsets.symmetric(vertical: space_16*3, horizontal: space_4),

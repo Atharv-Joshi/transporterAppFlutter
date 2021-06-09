@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/findLoadScreen.dart';
 
 // ignore: must_be_immutable
 class SearchLoadWidget extends StatelessWidget {
@@ -19,12 +17,10 @@ class SearchLoadWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: widgetBackGroundColor,
         borderRadius: BorderRadius.circular(30),
-
         border: Border.all(
           width: 0.8,
-          // color: borderBlueColor,
+          color: borderBlueColor,
         ),
-
       ),
       child: TextField(
         onTap: onPressed,

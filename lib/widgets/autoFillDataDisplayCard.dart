@@ -31,7 +31,7 @@ class AutoFillDataDisplayCard extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: space_2),
               child: Icon(
                 Icons.location_on_outlined,
-                color: darkBlueColor,
+                color: borderBlueColor,
               ),
             ),
             Column(

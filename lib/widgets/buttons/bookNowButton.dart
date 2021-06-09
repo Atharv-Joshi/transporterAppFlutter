@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/bookNowButtonAlertDialog.dart';
-import 'package:liveasy/widgets/confirmButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
+import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 
 class BookNowButton extends StatefulWidget {
   const BookNowButton({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class _BookNowButtonState extends State<BookNowButton> {
           width: (space_16 * 2) + 3,
           decoration: BoxDecoration(
               color: darkBlueColor,
-              borderRadius: BorderRadius.circular(space_6)),
+              borderRadius: BorderRadius.circular(radius_6)),
           child: Center(
             child: Text(
               "Book Now",
