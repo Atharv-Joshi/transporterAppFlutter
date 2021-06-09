@@ -79,7 +79,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                   AddTrucksHeader(
                   resetFunction: (){
                     providerData.resetTruckFilters();
-                    providerData.updateTruckTypeButtonId('');
                                     },
               ),
                   AddTruckSubtitleText(text: 'Truck Type'),
@@ -109,9 +108,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     mainAxisSpacing: space_2,
                     crossAxisCount: 6,
                     children: passingWeightList[providerData.truckTypeValue]!.map((e) => AddTruckCircularButtonTemplate(value: e, text: e , category: 'weight',)).toList() ,
-                    // passingWeightList[providerData.truckTypeValue] == null
-                    // ?[]
-                    // :
                   ),
 
                   providerData.truckTypeValue == ''
@@ -207,11 +203,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: ApplyButton(
                           onPressedFunction: (){
-                              print(providerData.truckTypeValue);
-                              print(providerData.passingWeightValue);
-                              print(providerData.totalTyresValue);
-                              print(providerData.truckLengthValue);
-                              print(providerData.driverDetailsValue);
                               Get.to(()=> ReviewTruckDetails());
                           },
                           text: 'Save',),

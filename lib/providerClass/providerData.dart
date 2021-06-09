@@ -20,11 +20,6 @@ class ProviderData extends ChangeNotifier {
 
   // variables for add truck pages
 
-  String truckTypeButtonId = '';
-  int passingWeightButtonId = 0;
-  int truckLengthButtonId = 0;
-  int totalTyresButtonId = 0;
-
   String truckTypeValue = '';
   int passingWeightValue = 0;
   int totalTyresValue = 0;
@@ -96,26 +91,6 @@ class ProviderData extends ChangeNotifier {
 //-------------------------------------
 
   // functions for add truck pages
-
-void updateTruckTypeButtonId(value){
-    truckTypeButtonId = value;
-    notifyListeners();
-}
-
-  void updatePassingWeightButtonId(value){
-    passingWeightButtonId = value;
-    notifyListeners();
-  }
-
-  void updateTruckLengthButtonId(value){
-    truckLengthButtonId = value;
-    notifyListeners();
-  }
-
-  void updateTotalTyresButtonId(value){
-    totalTyresButtonId = value;
-    notifyListeners();
-  }
 
   void updateTruckTypeValue(value){
     truckTypeValue = value;

@@ -26,55 +26,18 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     if(category == 'weight'){
-      providerVariable =  providerData.passingWeightButtonId;
-      providerFunction =  providerData.updatePassingWeightButtonId;
-      valueVariableFunction = providerData.updatePassingWeightValue;
+      providerVariable =  providerData.passingWeightValue;
+      providerFunction =  providerData.updatePassingWeightValue;
 
     }
     else if(category == 'tyres'){
-      providerVariable =  providerData.totalTyresButtonId;
-      providerFunction =  providerData.updateTotalTyresButtonId;
-      valueVariableFunction = providerData.updateTotalTyresValue;
+      providerVariable =  providerData.totalTyresValue;
+      providerFunction =  providerData.updateTotalTyresValue;
     }
     else if(category == 'length'){
-      providerVariable =  providerData.truckLengthButtonId;
-      providerFunction =  providerData.updateTruckLengthButtonId;
-      valueVariableFunction = providerData.updateTruckLengthValue;
+      providerVariable =  providerData.truckLengthValue;
+      providerFunction =  providerData.updateTruckLengthValue;
     }
-
-    // return Container(
-    //   // width: 30,
-    //   // height: 30,
-    //   child: OutlinedButton(
-    //     style: ButtonStyle(
-    //         elevation: MaterialStateProperty.all<double>(2) ,
-    //         backgroundColor:
-    //         // providerData.passingWeightButtonId == value
-    //         providerVariable == value
-    //             ? MaterialStateProperty.all(darkBlueColor)
-    //             : MaterialStateProperty.all(whiteBackgroundColor),
-    //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-    //             RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(100),
-    //             )
-    //         )
-    //     ),
-    //     child: Text(
-    //       '$text',
-    //       style: TextStyle(
-    //           fontSize: size_7,
-    //           color: providerVariable == value ? white : black
-    //       ),),
-    //     onPressed: () {
-    //       // providerData.updatePassingWeightButtonId(value);
-    //       providerFunction(value);
-    //       // setState(() {
-    //       //   selected = true;
-    //       //   truckTypeButtonController.updateButtonState(false);
-    //       // });
-    //     },
-    //   ),
-    // );
 
     return GestureDetector(
       child: Container(
@@ -104,7 +67,6 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
       ),
       onTap: () {
         providerFunction(value);
-        valueVariableFunction(value);
       },
     );
 

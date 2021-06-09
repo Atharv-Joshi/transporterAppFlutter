@@ -21,7 +21,7 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
         style: ButtonStyle(
             elevation: MaterialStateProperty.all<double>(2) ,
             backgroundColor:
-            providerData.truckTypeButtonId == value
+            providerData.truckTypeValue == value
                 ? MaterialStateProperty.all(darkBlueColor)
                 : MaterialStateProperty.all(whiteBackgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -34,10 +34,9 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
           '$text',
           style: TextStyle(
               fontSize: size_7,
-              color: providerData.truckTypeButtonId == value ? white : black
+              color: providerData.truckTypeValue == value ? white : black
           ),),
         onPressed: () {
-          providerData.updateTruckTypeButtonId(value);
           providerData.updateTruckTypeValue(value);
         },
       ),
