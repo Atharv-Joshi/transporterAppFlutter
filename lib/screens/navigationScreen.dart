@@ -25,9 +25,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(fontFamily: "montserrat"),
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: statusBarColor, // color of status bar which displays time on a phone
         bottomNavigationBar: BottomNavigationBar(
           onTap: (int pressedIndex) {
@@ -93,7 +91,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
               child: screens.elementAt(
                   Provider.of<ProviderData>(context).index)),
         ),
-      ),
     );
   }
 }
