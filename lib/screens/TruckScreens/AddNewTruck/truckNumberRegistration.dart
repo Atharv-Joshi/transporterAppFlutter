@@ -4,10 +4,9 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
-import 'package:liveasy/widgets/applyButton.dart';
-
+import 'package:liveasy/widgets/buttons/applyButton.dart';
 
 class AddNewTruck extends StatefulWidget {
   const AddNewTruck({Key? key}) : super(key: key);
@@ -22,30 +21,33 @@ class _AddNewTruckState extends State<AddNewTruck> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
+        color: backgroundColor,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AddTrucksHeader(),
               Text(
-                  'Enter Truck Number',
-                  style:  TextStyle(
-                      fontSize: size_11,
-                    color: truckGreen,
-                  ),
+                'Enter Truck Number',
+                style: TextStyle(
+                  fontSize: size_9,
+                  color: truckGreen,
+                ),
               ),
 
               //TODO: center the hintext and apply shadows to textformfield
               Container(
-                margin: EdgeInsets.symmetric(vertical : space_4),
+                margin: EdgeInsets.symmetric(vertical: space_4),
                 width: 179,
                 height: 38,
                 child: TextFormField(
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: whiteBackgroundColor,
                     hintText: 'Eg: UP 22 GK 2222',
                     hintStyle: TextStyle(
-                        fontWeight: boldWeight,
+                      fontWeight: boldWeight,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -63,49 +65,20 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 ),
               ),
 
-              Container(
-                child: ApplyButton(onPressedFunction: (){
-                  Get.to(()=> UploadRCScreen());
-                },),
-                  // child: Container(
-                  //   height: MediaQuery.of(context).size.height * 0.053,
-                  //   width : MediaQuery.of(context).size.width * 0.3,
-                  //   child: TextButton(
-                  //     style: ButtonStyle(
-                  //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(50),
-                  //       )),
-                  //       backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
-                  //     ),
-                  //     onPressed:(){
-                  //       Get.to(()=> UploadRCScreen());
-                  //     },
-                  //     child: Text(
-                  //       'Apply',
-                  //       style: TextStyle(
-                  //         letterSpacing: 0.7,
-                  //         fontWeight: FontWeight.w400,
-                  //         color: white,
-                  //         fontSize: space_3,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.3,
-                      MediaQuery.of(context).size.height * 0.62,
-                      MediaQuery.of(context).size.width * 0.3,
-                      0
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ApplyButton(
+                    onPressedFunction: () {
+                      Get.to(() => TruckDescriptionScreen());
+                    },
                   ),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void applyButtonFunction(){
-    Get.to(()=> UploadRCScreen() );
   }
 }

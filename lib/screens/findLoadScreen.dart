@@ -6,7 +6,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/runFindLoadApiGet.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
-import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/loadApiDataDisplayCard.dart';
@@ -77,19 +76,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-                hintText: "Loading Point",
-                icon: LoadingPointImageIcon(
-                  height: 12,
-                  width: 12,
-                ),
-                controller: controller1,
-                clearIcon: IconButton(
-                  onPressed: () {
-                    Provider.of<ProviderData>(context, listen: false)
-                        .clearLoadingPoint();
-                  },
-                  icon: CancelIconWidget(),
-                ),
+                  hintText: "Loading Point",
+                  icon: LoadingPointImageIcon(
+                    height: 12,
+                    width: 12,
+                  ),
+                  controller: controller1,
+                  onTap: () {
+                    providerData.clearLoadingPoint();
+                  }
               ),
               SizedBox(
                 height: space_4,
@@ -101,12 +96,9 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   width: 12,
                 ),
                 controller: controller2,
-                clearIcon: IconButton(
-                  onPressed: () {
-                    providerData.clearUnloadingPoint();
-                  },
-                  icon: CancelIconWidget(),
-                ),
+                onTap: () {
+                  providerData.clearUnloadingPoint();
+                },
               ),
               SizedBox(
                 height: space_3,
@@ -143,7 +135,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               height: space_4,
                             ),
                             Container(
-                              height: 470,
+                              height: 450,
                               //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
@@ -153,24 +145,21 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
                                     LoadApiDataDisplayCard(
+                                      loadId: snapshot.data[index].loadId,
                                   loadingPoint:
                                       snapshot.data[index].loadingPoint,
+                                  loadingPointCity: snapshot.data[index].loadingPointCity,
+                                  loadingPointState: snapshot.data[index].loadingPointState,
                                   unloadingPoint:
                                       snapshot.data[index].unloadingPoint,
+                                  unloadingPointCity: snapshot.data[index].unloadingPointCity,
+                                  unloadingPointState: snapshot.data[index].unloadingPointState,
                                   productType: snapshot.data[index].productType,
                                   truckType: snapshot.data[index].truckType,
                                   noOfTrucks: snapshot.data[index].noOfTrucks,
                                   weight: snapshot.data[index].weight,
                                   status: snapshot.data[index].status,
-                                  isPending:
-                                      snapshot.data[index].status == 'pending'
-                                          ? true
-                                          : false,
-                                  comment: snapshot.data[index].comment,
-                                  isCommentsEmpty:
-                                      snapshot.data[index].comment == ''
-                                          ? true
-                                          : false,
+
                                 ),
                               ),
                             ),

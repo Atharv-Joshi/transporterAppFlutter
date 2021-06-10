@@ -6,11 +6,19 @@ import 'package:liveasy/constants/spaces.dart';
 
 class LocationDetailsLoadDetails extends StatelessWidget {
   String? loadingPoint;
+  String? loadingPointCity;
+  String? loadingPointState;
   String? unloadingPoint;
+  String? unloadingPointCity;
+  String? unloadingPointState;
 
   LocationDetailsLoadDetails(
   {this.loadingPoint,
-  this.unloadingPoint,});
+    this.loadingPointCity,
+    this.loadingPointState,
+    this.unloadingPoint,
+    this.unloadingPointCity,
+    this.unloadingPointState,});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +51,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                     width: space_1,
                   ),
                   Text(
-                    "$loadingPoint",
+                    "$loadingPoint,$loadingPointCity,$loadingPointState",
                     style: TextStyle(
                         fontWeight: normalWeight,
                         fontSize: size_6),
@@ -70,7 +78,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                     width: space_1,
                   ),
                   Text(
-                    "$unloadingPoint",
+                    "$unloadingPoint,$unloadingPointCity,$unloadingPointState",
                     style: TextStyle(
                         fontWeight: normalWeight,
                         fontSize: size_6),

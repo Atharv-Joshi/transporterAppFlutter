@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/findLoadScreen.dart';
 
 // ignore: must_be_immutable
 class SearchLoadWidget extends StatelessWidget {

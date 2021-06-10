@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/widgets/callButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
 
 class ContactWidget extends StatelessWidget {
   @override

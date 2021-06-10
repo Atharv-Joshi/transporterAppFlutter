@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/callButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
 
 class MyTruckCard extends StatelessWidget {
@@ -37,8 +35,10 @@ class MyTruckCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
+      color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(
+        elevation: 5,
         child: Container(
           padding: EdgeInsets.all(space_3),
           child: Column(
@@ -58,14 +58,18 @@ class MyTruckCard extends StatelessWidget {
                   Text(
                       'Available',
                       style: TextStyle(
-                        fontSize: size_11),
+                        fontWeight: mediumBoldWeight,
+                        fontSize: size_8),
                   ),
                 ],
               ),
 
               Container(
                 margin: EdgeInsets.symmetric(vertical: space_3 ),
+                padding: EdgeInsets.only(right: space_8),
+
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //number and type column
                     Column(
@@ -74,57 +78,57 @@ class MyTruckCard extends StatelessWidget {
                         Text(
                             'Vehicle Number',
                           style: TextStyle(
-                              fontSize: size_8),
+                              fontSize: size_6),
                         ),
                         Text(
                             '$truckNo',
                           style: TextStyle(
                             fontWeight: boldWeight,
-                              fontSize: size_9),
+                              fontSize: size_7),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: space_3),
                           child: Text(
                               'Truck Type',
                               style: TextStyle(
-                              fontSize: size_8),),
+                              fontSize: size_6),),
                         ),
                         Text(
                             '$truckType',
                           style: TextStyle(
                               fontWeight: boldWeight,
-                              fontSize: size_9),)
+                              fontSize: size_7),)
                       ],
                     ),
                     //tyre and driver column
                     Container(
-                      padding: EdgeInsets.only(left: space_10),
+                      // padding: EdgeInsets.only(left: space_14),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Tyre',
                             style: TextStyle(
-                                fontSize: size_8),
+                                fontSize: size_6),
                           ),
                           Text(
                             '$tyres',
                             style: TextStyle(
                                 fontWeight: boldWeight,
-                                fontSize: size_9),
+                                fontSize: size_7),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: space_3),
                             child: Text(
                               'Driver',
                               style: TextStyle(
-                                  fontSize: size_8),),
+                                  fontSize: size_6),),
                           ),
                           Text(
                             'Ravi Shah',
                             style: TextStyle(
                                 fontWeight: boldWeight,
-                                fontSize: size_9),)
+                                fontSize: size_7),)
                         ],
                       ),
                     )
