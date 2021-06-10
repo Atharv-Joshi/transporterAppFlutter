@@ -11,7 +11,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 //functions
-import 'package:liveasy/functions/getDataFromApi.dart';
+import 'package:liveasy/functions/truckApiCalls.dart';
 
 class MyTrucks extends StatefulWidget {
 
@@ -21,7 +21,7 @@ class MyTrucks extends StatefulWidget {
 
 class _MyTrucksState extends State<MyTrucks> {
 
-  GetDataFromApi getDataFromApi = GetDataFromApi();
+  TruckApiCalls truckApiCalls = TruckApiCalls();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _MyTrucksState extends State<MyTrucks> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
-                  future: getDataFromApi.getTruckData(),
+                  future: truckApiCalls.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
