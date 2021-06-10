@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               if (FirebaseAuth.instance.currentUser == null) {
                 return GetMaterialApp(
+                  theme: ThemeData(fontFamily: "montserrat"),
                   home: LoginScreen(),
                 );
               } else {
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
                     mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
                         .toString()
                         .substring(3, 13));
-                return MaterialApp(
+                return GetMaterialApp(
+                  theme: ThemeData(fontFamily: "montserrat"),
                   home: NavigationScreen(),
                   // home: TruckDescriptionScreen(),
                 );
