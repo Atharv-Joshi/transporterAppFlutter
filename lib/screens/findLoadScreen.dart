@@ -6,7 +6,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/runFindLoadApiGet.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
-import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/loadApiDataDisplayCard.dart';
@@ -77,19 +76,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-                hintText: "Loading Point",
-                icon: LoadingPointImageIcon(
-                  height: 12,
-                  width: 12,
-                ),
-                controller: controller1,
-                clearIcon: IconButton(
-                  onPressed: () {
-                    Provider.of<ProviderData>(context, listen: false)
-                        .clearLoadingPoint();
-                  },
-                  icon: CancelIconWidget(),
-                ),
+                  hintText: "Loading Point",
+                  icon: LoadingPointImageIcon(
+                    height: 12,
+                    width: 12,
+                  ),
+                  controller: controller1,
+                  onTap: () {
+                    providerData.clearLoadingPoint();
+                  }
               ),
               SizedBox(
                 height: space_4,
@@ -101,12 +96,9 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   width: 12,
                 ),
                 controller: controller2,
-                clearIcon: IconButton(
-                  onPressed: () {
-                    providerData.clearUnloadingPoint();
-                  },
-                  icon: CancelIconWidget(),
-                ),
+                onTap: () {
+                  providerData.clearUnloadingPoint();
+                },
               ),
               SizedBox(
                 height: space_3,

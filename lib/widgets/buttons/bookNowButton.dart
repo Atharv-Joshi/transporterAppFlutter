@@ -4,6 +4,8 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
+import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 
 class BookNowButton extends StatefulWidget {
@@ -14,13 +16,18 @@ class BookNowButton extends StatefulWidget {
 }
 
 class _BookNowButtonState extends State<BookNowButton> {
-
-
+@override
+  void initState() {
+    super.initState();
+    getTruckNoFromTruckApi();
+    getDriverDetailsFromDriverApi();
+  }
   @override
+
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-          await showInformationDialog(context);
+         await showInformationDialog(context,truckNoList,driverDetailsList);
         },
         child: Container(
           height: space_8,

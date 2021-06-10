@@ -59,7 +59,7 @@ class LoadApiDataDisplayCard extends StatelessWidget {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == true) {
+          if (tIdController.transporterApproved == false) {
             Get.to(() => LoadDetailsScreen(
                 loadId: "$loadId",
                 loadingPoint: "$loadingPoint",

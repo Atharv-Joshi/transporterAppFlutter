@@ -12,7 +12,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
     return Container(
       height: 148,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(space_2), color: borderBlueColor),
+          borderRadius: BorderRadius.circular(space_2), color: darkBlueColor),
       child: Column(
         children: [
           Container(
@@ -31,7 +31,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BodyTextWidget(
-                      text: "Suggested Loads", color: greyishWhiteColor),
+                      text: "Suggested Loads", color:greyishWhiteColor),
                   BodyTextWidget(text: "See All", color: liveasyGreenColor),
                 ],
               ),
@@ -42,20 +42,26 @@ class SuggestedLoadsWidget extends StatelessWidget {
               future: runSuggestedLoadApi(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
-                  return Container();
+                  return Container(
+                      padding: EdgeInsets.only(top: 30),
+                      child: CircularProgressIndicator(
+                        color: white,
+                      ));
                 }
                 return Container(
                   height: 106,
                   width: 309,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data.length >= 10? 10 : snapshot.data.length,
+                      itemCount: snapshot.data.length >= 10
+                          ? 10
+                          : snapshot.data.length,
                       itemBuilder: (context, index) =>
                           SuggestedLoadDataDisplayCard(
-                              loadingPointCity: snapshot.data[index]
-                                  .loadingPointCity,
-                              unloadingPointCity: snapshot
-                                  .data[index].unloadingPointCity,
+                              loadingPointCity:
+                              snapshot.data[index].loadingPointCity,
+                              unloadingPointCity:
+                              snapshot.data[index].unloadingPointCity,
                               onTap: () {})),
                 );
               },
