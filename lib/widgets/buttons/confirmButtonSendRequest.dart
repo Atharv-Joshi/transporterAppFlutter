@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
 class ConfirmButtonSendRequest extends StatelessWidget {
 
@@ -17,12 +18,12 @@ class ConfirmButtonSendRequest extends StatelessWidget {
         height: space_6+1,
         width: space_16,
         decoration: BoxDecoration(
-            color: bidBackground, borderRadius: BorderRadius.circular(20)),
+            color: bidBackground, borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
             "Confirm",
             style: TextStyle(
-                color: Colors.white,
+                color: white,
                 fontWeight: normalWeight,
                 fontSize: size_6 + 2),
           ),

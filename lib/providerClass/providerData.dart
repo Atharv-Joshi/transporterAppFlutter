@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
@@ -8,6 +10,38 @@ class ProviderData extends ChangeNotifier {
 
   String unloadingPointCity = "";
   String unloadingPointState = "";
+
+  // variables for accountVerification
+  File? profilePhotoFile;
+  File? panFrontPhotoFile;
+  File? panBackPhotoFile;
+  File? addressProofPhotoFile;
+  File? companyIdProofPhotoFile;
+
+  updateProfilePhoto(File newFile) {
+    profilePhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updatePanFrontPhoto(File newFile) {
+    panFrontPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updatePanBackPhoto(File newFile) {
+    panBackPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updateAddressProofPhoto(File newFile) {
+    addressProofPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updateCompanyIdProofPhoto(File newFile) {
+    companyIdProofPhotoFile = newFile;
+    notifyListeners();
+  }
 
   // variables for login pages
 

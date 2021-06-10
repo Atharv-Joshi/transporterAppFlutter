@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
@@ -23,6 +24,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
   final GlobalKey _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller = TextEditingController();
+  TruckApiCalls truckApiCalls = TruckApiCalls();
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -80,20 +82,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   child: ApplyButton(
                     text: 'Apply',
                     onPressedFunction:
-                         () {
+                        () {
                       providerData.updateTruckNumberValue(_controller.text);
+                      truckApiCalls.postTruckData(truckNo : _controller.text);
                       Get.to(() => TruckDescriptionScreen());
-                      print(_controller.text);
-                    }
-
-
-                  ),
-                ),
-              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
 }

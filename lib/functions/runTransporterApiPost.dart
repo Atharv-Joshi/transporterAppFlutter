@@ -28,5 +28,6 @@ void runTransporterApiPost({required String mobileNum, String? userLocation}) as
     transporterIdController.updateTransporterId(transporterId);
     transporterIdController.updateTransporterApproved(transporterApproved);
     transporterIdController.updateCompanyApproved(companyApproved);
+    transporterIdController.updateMobileNum(mobileNum);
   }
 }

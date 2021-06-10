@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/callButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
 
+// ignore: must_be_immutable
 class MyTruckCard extends StatelessWidget {
 
   // TruckModel truckModel = TruckModel() ;

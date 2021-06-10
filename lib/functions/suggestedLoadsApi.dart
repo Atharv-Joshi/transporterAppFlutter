@@ -12,8 +12,7 @@ Future<List<SuggestLoadApiDataModel>> runSuggestedLoadApi() async {
   List<SuggestLoadApiDataModel> data = [];
   for (var json in jsonData) {
     SuggestLoadApiDataModel loadData = new SuggestLoadApiDataModel(
-        ownerId: "",
-        id: "",
+        loadId: "",
         loadingPointCity: json["loadingPointCity"],
         loadingPointState: "",
         unloadingPointCity: json["unloadingPointCity"],

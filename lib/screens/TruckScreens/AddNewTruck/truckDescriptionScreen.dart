@@ -76,11 +76,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AddTrucksHeader(
-                  resetFunction: (){
-                    providerData.resetTruckFilters();
-                                    },
-              ),
+              //     resetFunction: (){
+              // ),
                   AddTruckSubtitleText(text: 'Truck Type'),
                   GridView.count(
                     shrinkWrap: true,
@@ -97,7 +94,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                   : Container(
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: AddTruckSubtitleText(text: 'Passing Weight (in tons.)')
-
                   ),
 
                   providerData.truckTypeValue == ''
@@ -207,11 +203,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                           },
                           text: 'Save',),
                     ),
-                  ),
                 ],
               ),
             ),
           ),
-        ));
-  }
-}

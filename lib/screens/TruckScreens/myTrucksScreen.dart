@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -12,7 +11,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 //functions
-import 'package:liveasy/functions/getDataFromApi.dart';
+import 'package:liveasy/functions/truckApiCalls.dart';
 
 class MyTrucks extends StatefulWidget {
 
@@ -22,7 +21,7 @@ class MyTrucks extends StatefulWidget {
 
 class _MyTrucksState extends State<MyTrucks> {
 
-  GetDataFromApi getDataFromApi = GetDataFromApi();
+  TruckApiCalls truckApiCalls = TruckApiCalls();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,7 @@ class _MyTrucksState extends State<MyTrucks> {
           child: Column(
             children: [
               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -58,7 +57,7 @@ class _MyTrucksState extends State<MyTrucks> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
-                  future: getDataFromApi.getTruckData(),
+                  future: truckApiCalls.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
@@ -75,7 +74,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres,
+                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
                             );
                         });
                   },
