@@ -7,7 +7,7 @@ import 'package:liveasy/functions/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
-import 'package:liveasy/widgets/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/textFieldWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -61,10 +61,11 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
               locationCard == null
                   ? Container()
                   : SizedBox(
-                      height: space_4,
-                    ),
+                height: space_4,
+              ),
               locationCard != null
                   ? Container(
+<<<<<<< HEAD
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(4),
@@ -112,6 +113,55 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                             );
                           }),
                     )
+=======
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                height: keyboardLength != 0 ? screenHeight-keyboardLength -130: screenHeight -130, //TODO: to be modified
+                child: FutureBuilder(
+                    future: locationCard,
+                    builder:
+                        (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null) {
+                        return Container();
+                      }
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        reverse: false,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: space_2,
+                        ),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) =>
+                            AutoFillDataDisplayCard(
+                                snapshot.data[index].placeCityName,
+                                snapshot.data[index].placeStateName, () {
+                              if (widget.valueType == "Loading Point") {
+                                Provider.of<ProviderData>(context,
+                                    listen: false)
+                                    .updateLoadingPoint(
+                                    city: snapshot
+                                        .data[index].placeCityName,
+                                    state: snapshot
+                                        .data[index].placeStateName);
+                                Get.off(FindLoadScreen());
+                              } else if (widget.valueType ==
+                                  "Unloading Point") {
+                                Provider.of<ProviderData>(context,
+                                    listen: false)
+                                    .updateUnloadingPoint(
+                                    city: snapshot
+                                        .data[index].placeCityName,
+                                    state: snapshot
+                                        .data[index].placeStateName);
+                                Get.off(FindLoadScreen());
+                              }
+                            }),
+                      );
+                    }),
+              )
+>>>>>>> 1014f83834ddb23a1614e43c554884bf03599944
                   : Container(),
             ],
           ),

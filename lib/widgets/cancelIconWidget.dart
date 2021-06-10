@@ -11,7 +11,7 @@ class CancelIconWidget extends StatelessWidget {
       child: Center(
         child: Icon(
           Icons.cancel_rounded,
-          color: darkBlueColor,
+          color: borderBlueColor,
         ),
       ),
     );
