@@ -24,7 +24,6 @@ const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
-const Color whiteBackgroundColor = Color(0xFFF9F9F9);
 Color loadingWidgetColor = Colors.lightBlueAccent;
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);

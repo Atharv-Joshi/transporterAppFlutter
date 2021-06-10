@@ -6,7 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
-import 'package:liveasy/widgets/applyButton.dart';
+import 'package:liveasy/widgets/buttons/applyButton.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
