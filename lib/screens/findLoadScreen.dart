@@ -77,7 +77,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-<<<<<<< HEAD
                 hintText: "Loading Point",
                 icon: LoadingPointImageIcon(
                   height: 12,
@@ -87,17 +86,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 onTap: () {
                   providerData.clearLoadingPoint();
                 }
-=======
-                  hintText: "Loading Point",
-                  icon: LoadingPointImageIcon(
-                    height: 12,
-                    width: 12,
-                  ),
-                  controller: controller1,
-                  onTap: () {
-                    providerData.clearLoadingPoint();
-                  }
->>>>>>> 1014f83834ddb23a1614e43c554884bf03599944
               ),
               SizedBox(
                 height: space_4,
@@ -110,11 +98,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 ),
                 controller: controller2,
                 onTap: () {
-<<<<<<< HEAD
                    providerData.clearUnloadingPoint();
-=======
-                  providerData.clearUnloadingPoint();
->>>>>>> 1014f83834ddb23a1614e43c554884bf03599944
                 },
               ),
               SizedBox(

@@ -4,14 +4,9 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-<<<<<<< HEAD:lib/widgets/bookNowButton.dart
-import 'package:liveasy/widgets/bookNowButtonAlertDialog.dart';
-=======
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
->>>>>>> 1014f83834ddb23a1614e43c554884bf03599944:lib/widgets/buttons/bookNowButton.dart
-
 class BookNowButton extends StatefulWidget {
   const BookNowButton({Key? key}) : super(key: key);
 

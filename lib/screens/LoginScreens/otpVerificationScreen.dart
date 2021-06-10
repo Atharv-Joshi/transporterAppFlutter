@@ -57,7 +57,6 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         body: Obx(
           () => ModalProgressHUD(
             progressIndicator: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
             ),
             inAsyncCall: hudController.showHud.value,
             child: SingleChildScrollView(

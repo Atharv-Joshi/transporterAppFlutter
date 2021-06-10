@@ -7,7 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/accountVerification/companyIdInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/elevatedButtonWidget.dart';
-import 'package:liveasy/widgets/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:provider/provider.dart';

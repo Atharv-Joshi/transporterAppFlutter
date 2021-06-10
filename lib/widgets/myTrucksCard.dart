@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-<<<<<<< HEAD
-import 'package:liveasy/widgets/callButton.dart';
-=======
 import 'package:liveasy/widgets/buttons/callButton.dart';
->>>>>>> 1014f83834ddb23a1614e43c554884bf03599944
 import 'package:liveasy/widgets/trackButton.dart';
 
 // ignore: must_be_immutable
