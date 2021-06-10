@@ -7,7 +7,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
-
 class BookNowButton extends StatefulWidget {
   const BookNowButton({Key? key}) : super(key: key);
 

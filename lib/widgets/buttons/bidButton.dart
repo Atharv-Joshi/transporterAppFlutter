@@ -6,6 +6,7 @@ import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 
+// ignore: must_be_immutable
 class BidButton extends StatefulWidget {
    String? loadId;
 

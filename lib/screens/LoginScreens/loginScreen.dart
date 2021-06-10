@@ -1,4 +1,3 @@
-
 import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
@@ -31,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   getLocationPermission() async {
     await LocationPermissions().requestPermissions();
     permission1 = await LocationPermissions().checkPermissionStatus();
-    userPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // userPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     // final coordinates = new Coordinates(userPosition!.latitude, userPosition!.longitude);
     // var addresses =
     //     await Geocoder.local.findAddressesFromCoordinates(coordinates);

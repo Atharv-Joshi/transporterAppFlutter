@@ -8,17 +8,20 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/postBidApi.dart';
 
+// ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
-  String loadId, rate,unit;
+  String loadId, rate, unit;
 
   BidButtonSendRequest(this.loadId, this.rate, this.unit);
+
   TransporterIdController tIdController = Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-          postBidAPi(loadId, rate,tIdController.transporterId.value,unit);
-          Get.back();
+        postBidAPi(loadId, rate, tIdController.transporterId.value, unit);
+        Get.back();
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

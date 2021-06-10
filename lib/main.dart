@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:liveasy/functions/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-
+import 'package:get/get.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
@@ -33,13 +31,16 @@ class MyApp extends StatelessWidget {
                   home: LoginScreen(),
                 );
               } else {
-                runTransporterApiPost(mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber.toString().substring(3,13));
-                return GetMaterialApp(
+                runTransporterApiPost(
+                    mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
+                        .toString()
+                        .substring(3, 13));
+                return MaterialApp(
                   home: NavigationScreen(),
                 );
               }
-            }
-            else return ErrorScreen();
+            } else
+              return ErrorScreen();
           }),
     );
   }
