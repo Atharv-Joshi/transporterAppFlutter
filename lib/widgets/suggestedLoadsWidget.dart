@@ -31,7 +31,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BodyTextWidget(
-                      text: "Suggested Loads", color: greyishWhiteColor),
+                      text: "Suggested Loads", color:greyishWhiteColor),
                   BodyTextWidget(text: "See All", color: liveasyGreenColor),
                 ],
               ),

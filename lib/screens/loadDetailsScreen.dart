@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/additionalDescription_LoadDetails.dart';
 import 'package:liveasy/widgets/backButtonWidget.dart';
@@ -15,6 +13,7 @@ import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/shareButton.dart';
 
+// ignore: must_be_immutable
 class LoadDetailsScreen extends StatefulWidget {
   String? productType;
   String? loadingPoint;

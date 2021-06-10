@@ -4,8 +4,6 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/bookNowButtonAlertDialog.dart';
-import 'package:liveasy/widgets/confirmButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
 
 class BookNowButton extends StatefulWidget {
   const BookNowButton({Key? key}) : super(key: key);

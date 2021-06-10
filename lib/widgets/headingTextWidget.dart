@@ -10,7 +10,7 @@ class HeadingTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Text(headingText, style: TextStyle(fontSize: size_10, fontWeight: mediumBoldWeight,
-      color: liveasyBlackColor, ),),
+      color: liveasyBlackColor, letterSpacing: -0.408 ),),
     );
   }
 }

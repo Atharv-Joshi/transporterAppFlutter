@@ -3,6 +3,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
+// ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {
   String? truckType, tyre, weight, productType;
   RequirementsLoadDetails(this.truckType,this.tyre,this.weight,this.productType);

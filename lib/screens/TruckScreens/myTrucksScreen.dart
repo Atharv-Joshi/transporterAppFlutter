@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -30,7 +29,7 @@ class _MyTrucksState extends State<MyTrucks> {
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
+          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
           child: Column(
             children: [
               Row(
@@ -53,22 +52,9 @@ class _MyTrucksState extends State<MyTrucks> {
                 margin: EdgeInsets.symmetric(
                   vertical: space_3
                 ),
-                  //TODO: make search widget dynamic
                   child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.6,
-              //   child: SingleChildScrollView(
-              //     child: Column(
-              //       children: [
-              //         MyTruckCard(),
-              //         MyTruckCard(),
-              //         MyTruckCard()
-              //       ],
-              //     ),
-              //   ),
-              // ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.65,
                 child: FutureBuilder(
                   future: getDataFromApi.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
@@ -92,7 +78,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres,
+                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
                             );
                         });
                   },

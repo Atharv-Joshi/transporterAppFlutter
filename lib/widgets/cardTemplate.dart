@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/color.dart';
 
+// ignore: must_be_immutable
 class CardTemplate extends StatefulWidget {
   Widget? child = Container();
 

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/bidButtonAlertDialog.dart';
-import 'package:liveasy/widgets/bidButtonSendRequest.dart';
-import 'package:liveasy/widgets/cancelButton.dart';
 
 class BidButtonWidget extends StatefulWidget {
 
