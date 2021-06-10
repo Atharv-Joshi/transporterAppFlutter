@@ -1,54 +1,61 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/additionalDescription_LoadDetails.dart';
-import 'package:liveasy/widgets/backButtonWidget.dart';
-import 'package:liveasy/widgets/bidButtonWidget.dart';
-import 'package:liveasy/widgets/bookNowButton.dart';
-import 'package:liveasy/widgets/callButton.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/bidButton.dart';
+import 'package:liveasy/widgets/buttons/bookNowButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/driverDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
-import 'package:liveasy/widgets/shareButton.dart';
+import 'package:liveasy/widgets/buttons/shareButton.dart';
 
+// ignore: must_be_immutable
 class LoadDetailsScreen extends StatefulWidget {
-  String? productType;
+  String? loadId;
   String? loadingPoint;
+  String? loadingPointCity;
+  String? loadingPointState;
+  String? id;
   String? unloadingPoint;
+  String? unloadingPointCity;
+  String? unloadingPointState;
+  String? productType;
   String? truckType;
   String? noOfTrucks;
   String? weight;
-  bool? isPending;
   String? comment;
   String? status;
-  bool? isCommentsEmpty;
+  String? date;
 
   LoadDetailsScreen(
-      {this.productType,
+      {this.loadId,
       this.loadingPoint,
+      this.loadingPointCity,
+      this.loadingPointState,
+      this.id,
       this.unloadingPoint,
+      this.unloadingPointCity,
+      this.unloadingPointState,
+      this.productType,
       this.truckType,
       this.noOfTrucks,
       this.weight,
-      this.isPending,
       this.comment,
       this.status,
-      this.isCommentsEmpty});
+      this.date});
 
   @override
   _LoadDetailsScreenState createState() => _LoadDetailsScreenState();
 }
 
 class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
         child: Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
@@ -86,7 +93,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         color: white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [BidButtonWidget(), CallButton()],
+                          children: [BidButton(widget.loadId), CallButton()],
                         )),
                   ),
                 )
@@ -104,7 +111,11 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                     children: [
                       LocationDetailsLoadDetails(
                         loadingPoint: widget.loadingPoint,
+                        loadingPointCity: widget.loadingPointCity,
+                        loadingPointState: widget.loadingPointState,
                         unloadingPoint: widget.unloadingPoint,
+                        unloadingPointCity: widget.unloadingPointCity,
+                        unloadingPointState: widget.unloadingPointState,
                       ),
                       SizedBox(
                         height: space_3,
@@ -116,7 +127,8 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                       SizedBox(
                         height: space_2,
                       ),
-                      RequirementsLoadDetails(widget.truckType,"NA",widget.weight,widget.productType),
+                      RequirementsLoadDetails(widget.truckType, "NA",
+                          widget.weight, widget.productType),
                       SizedBox(
                         height: space_3,
                       ),

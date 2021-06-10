@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -34,7 +33,7 @@ class _MyTrucksState extends State<MyTrucks> {
           child: Column(
             children: [
               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +74,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres,
+                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
                             );
                         });
                   },

@@ -79,21 +79,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   alignment: Alignment.bottomCenter,
                   child: ApplyButton(
                     text: 'Apply',
-                    onPressedFunction:
-                         () {
-                      providerData.updateTruckNumberValue(_controller.text);
+                    onPressedFunction: () {
                       Get.to(() => TruckDescriptionScreen());
-                      print(_controller.text);
-                    }
-
-
-                  ),
-                ),
-              ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
 }
