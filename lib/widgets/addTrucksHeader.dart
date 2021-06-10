@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 
 class AddTrucksHeader extends StatelessWidget {
   const AddTrucksHeader({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class AddTrucksHeader extends StatelessWidget {
             Text(
                 'Add Truck',
                 style : TextStyle(
-                  fontSize: size_12,
+                  fontSize: size_10,
                   fontWeight: mediumBoldWeight,
                 )),
           ],
@@ -35,7 +35,7 @@ class AddTrucksHeader extends StatelessWidget {
                 'Reset',
                 style : TextStyle(
                   color: truckGreen,
-                  fontSize: size_12,
+                  fontSize: size_10,
                   fontWeight: regularWeight,
                 )
             ))

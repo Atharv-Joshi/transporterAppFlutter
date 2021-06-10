@@ -31,7 +31,7 @@ class TrackButton extends StatelessWidget {
               child: truckApproved ? Container() : Icon(
                 Icons.lock,
                 size: 18 ,
-                color: lockGreen,
+                color: truckGreen,
               ),
             ),
 

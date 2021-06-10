@@ -15,9 +15,15 @@ class AddressInputWidget extends StatelessWidget {
 
   AddressInputWidget(
       {required this.hintText,
+<<<<<<< HEAD
       required this.icon,
       required this.controller,
       required this.onTap});
+=======
+        required this.icon,
+        required this.controller,
+        required this.onTap});
+>>>>>>> 1014f83834ddb23a1614e43c554884bf03599944
 
   @override
   Widget build(BuildContext context) {

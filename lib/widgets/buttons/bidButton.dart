@@ -2,40 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/bidButtonAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 
-class BidButtonWidget extends StatefulWidget {
+class BidButton extends StatefulWidget {
+   String? loadId;
+
+  BidButton(this.loadId);
 
   @override
-  _BidButtonWidgetState createState() => _BidButtonWidgetState();
+  _BidButtonState createState() => _BidButtonState();
 }
 
-class _BidButtonWidgetState extends State<BidButtonWidget> {
-
+class _BidButtonState extends State<BidButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await showInformationDialog(context);
+        await showInformationDialog(context,widget.loadId);
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),
-        height: space_6+1,
+        height: space_6 + 1,
         width: space_16,
         decoration: BoxDecoration(
-            color: bidBackground, borderRadius: BorderRadius.circular(20)),
+            color: bidBackground,
+            borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
             "Bid",
             style: TextStyle(
-                color: Colors.white,
-                fontWeight: normalWeight,
-                fontSize: size_6 + 2),
+                color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),
         ),
       ),
     );
   }
 }
-
