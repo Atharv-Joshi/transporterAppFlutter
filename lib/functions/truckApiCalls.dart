@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 
 class TruckApiCalls{
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl').toString();
+  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   TransporterIdController transporterIdController = Get.find<TransporterIdController>();
 
@@ -57,6 +57,13 @@ class TruckApiCalls{
           },
           body: body
       );
+      try{
+        if(response.statusCode == 200){
+          print('successful');
+        }
+      }catch(e){
+        print(e);
+      }
     }//post truck data
 
   //PUT-------------------------------------------------------------------------

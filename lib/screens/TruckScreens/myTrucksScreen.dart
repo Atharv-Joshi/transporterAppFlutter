@@ -49,11 +49,11 @@ class _MyTrucksState extends State<MyTrucks> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.symmetric(
-                  vertical: space_3
-                ),
-
-                  child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )),
+                  margin: EdgeInsets.symmetric(
+                    vertical: space_3
+                      ),
+                  child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )
+              ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
@@ -62,6 +62,7 @@ class _MyTrucksState extends State<MyTrucks> {
                     if(snapshot.data == null){
                       return LoadingWidget();
                     }
+                    print('snapshot length :' + '${snapshot.data.length}');
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
@@ -74,7 +75,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
+                              tyres:  snapshot.data[index].tyres
                             );
                         });
                   },
@@ -82,7 +83,6 @@ class _MyTrucksState extends State<MyTrucks> {
               ),
               //TODO: placement of add truck button and determine optimum length of listview container
               Container(
-
                   child: AddTruckButton()),
             ],
           ),
