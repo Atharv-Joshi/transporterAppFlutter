@@ -4,6 +4,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
+// ignore: must_be_immutable
 class AdditionalDescriptionLoadDetails extends StatelessWidget {
   String? comment;
 

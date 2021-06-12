@@ -13,6 +13,7 @@ import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
 
+// ignore: must_be_immutable
 class LoadDetailsScreen extends StatefulWidget {
   String? loadId;
   String? loadingPoint;

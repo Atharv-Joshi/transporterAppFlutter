@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
+import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
 import 'package:liveasy/widgets/bonusWidget.dart';
 import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
@@ -15,20 +17,18 @@ import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String searchedLoad = "";
-
-  void onChanged(String value) {
-    searchedLoad = value;
-  }
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: DrawerWidget(),
+        drawer: DrawerWidget(
+          mobileNum: transporterIdController.mobileNum.value,
+        ),
         backgroundColor: backgroundColor,
         body: Container(
           padding: EdgeInsets.fromLTRB(0, space_4, 0, space_2),
@@ -101,6 +101,9 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              transporterIdController.transporterApproved.value == false
+                  ? AccountNotVerifiedWidget()
+                  : Container(),
             ],
           ),
         ),

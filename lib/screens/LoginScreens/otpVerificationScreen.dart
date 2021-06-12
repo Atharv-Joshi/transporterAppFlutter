@@ -113,12 +113,12 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.fromLTRB(
-                                      space_5, space_0, space_0, space_0),
+                                      space_4, space_0, space_0, space_0),
                                   child: Row(
                                     children: [
                                       Obx(
                                         () => Text(
-                                          'Remaining time :  ${timerController.timeOnTimer}',
+                                          'Remaining time: ${timerController.timeOnTimer}',
                                           style: TextStyle(color: navygreen),
                                         ),
                                       )

@@ -17,7 +17,7 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: borderBlueColor, width: 0.8),
+        border: Border.all(color: liveasyBlackColor, width: 0.8),
         borderRadius: BorderRadius.circular(30),
         color: widgetBackGroundColor,
       ),

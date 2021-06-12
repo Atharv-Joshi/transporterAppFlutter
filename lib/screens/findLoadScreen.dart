@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/runFindLoadApiGet.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
@@ -14,7 +15,6 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
-
 class FindLoadScreen extends StatefulWidget {
   @override
   _FindLoadScreenState createState() => _FindLoadScreenState();
@@ -24,11 +24,12 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   var findLoadApiData;
-
+  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context);
+    var providerData = Provider.of<ProviderData>(context,listen: false);
     if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+      print(transporterIdController.transporterId);
       controller1 = TextEditingController(
           text:
               ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
@@ -76,15 +77,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-                  hintText: "Loading Point",
-                  icon: LoadingPointImageIcon(
-                    height: 12,
-                    width: 12,
-                  ),
-                  controller: controller1,
-                  onTap: () {
-                    providerData.clearLoadingPoint();
-                  }
+                hintText: "Loading Point",
+                icon: LoadingPointImageIcon(
+                  height: 12,
+                  width: 12,
+                ),
+                controller: controller1,
+                onTap: () {
+                  providerData.clearLoadingPoint();
+                }
               ),
               SizedBox(
                 height: space_4,
@@ -97,7 +98,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 ),
                 controller: controller2,
                 onTap: () {
-                  providerData.clearUnloadingPoint();
+                   providerData.clearUnloadingPoint();
                 },
               ),
               SizedBox(

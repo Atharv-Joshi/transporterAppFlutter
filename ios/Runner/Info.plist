@@ -43,5 +43,11 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Liveasy needs your location permission when in use.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Liveasy needs your photo library permission</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Liveasy needs your camera permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Liveasy needs your microphone permission</string>
 </dict>
 </plist>
