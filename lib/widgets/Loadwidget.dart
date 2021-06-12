@@ -110,7 +110,7 @@ class Loadwidget extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: size_7,
                                     fontWeight: mediumBoldWeight,
-                                    color: cardgrey,
+                                    color: veryDarkGrey,
                                   ),
                                 ),
                               ],
@@ -132,7 +132,7 @@ class Loadwidget extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: size_7,
                                       fontWeight: mediumBoldWeight,
-                                      color: cardgrey,
+                                      color: veryDarkGrey,
                                     ),
                                   ),
                                 ],
@@ -160,7 +160,7 @@ class Loadwidget extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: size_7,
                                     fontWeight: mediumBoldWeight,
-                                    color: cardgrey,
+                                    color: veryDarkGrey,
                                   ),
                                 ),
                               ],
@@ -182,7 +182,7 @@ class Loadwidget extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: size_7,
                                       fontWeight: mediumBoldWeight,
-                                      color: cardgrey,
+                                      color: veryDarkGrey,
                                     ),
                                   ),
                                 ],

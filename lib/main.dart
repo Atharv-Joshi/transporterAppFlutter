@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/screens/orderScreens/biddings.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';

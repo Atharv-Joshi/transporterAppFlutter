@@ -25,6 +25,7 @@ const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
 const Color whiteBackgroundColor = Color(0xFFF9F9F9);
 Color loadingWidgetColor = Colors.lightBlueAccent;
+Color lightblack = Color(0xff333333);
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);
 Color bidBackground = Color(0xFF152968);
@@ -40,11 +41,13 @@ Color lockGreen = Color(0xFF84DBBB);
 Color lightYellow = Color(0xFFFFF6E7);
 Color darkYellow = Color(0xFFE5A744);
 Color veryDarkGrey = Color(0xFF555454);
+Color liveasyred = Colors.red;
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
     MaterialStateProperty.all<Color>(Color(0xFFC4C9D9));
-Color borderBlueColor = Color(0xFFF7F8FA); //TODO: change this name Color(0xFFF7F8FA) is not even close to blue
+Color borderBlueColor = Color(
+    0xFFF7F8FA); //TODO: change this name Color(0xFFF7F8FA) is not even close to blue
 Color blueTitleColor = Color(0xFF152968);
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);

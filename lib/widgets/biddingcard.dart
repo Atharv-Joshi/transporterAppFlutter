@@ -125,7 +125,7 @@ class biddingcard extends StatelessWidget {
                                                     fontWeight:
                                                         mediumBoldWeight,
                                                     fontSize: 14,
-                                                    color: cardgrey,
+                                                    color: veryDarkGrey,
                                                     fontFamily: "Montserrat"),
                                               ),
                                             ],
@@ -160,7 +160,7 @@ class biddingcard extends StatelessWidget {
                                                     fontWeight:
                                                         mediumBoldWeight,
                                                     fontSize: 14,
-                                                    color: cardgrey,
+                                                    color: veryDarkGrey,
                                                     fontFamily: "Montserrat"),
                                               ),
                                             ],
@@ -219,7 +219,7 @@ class biddingcard extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: mediumBoldWeight,
                                   fontSize: 14,
-                                  color: cardgrey,
+                                  color: veryDarkGrey,
                                   fontFamily: "Montserrat"),
                             ),
                           ],
