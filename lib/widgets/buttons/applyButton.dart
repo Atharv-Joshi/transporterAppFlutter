@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 
+// ignore: must_be_immutable
 class ApplyButton extends StatelessWidget {
 
   dynamic onPressedFunction;

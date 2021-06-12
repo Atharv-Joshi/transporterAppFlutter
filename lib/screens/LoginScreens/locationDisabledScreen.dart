@@ -24,8 +24,7 @@ class _LocationDisabledScreenState extends State<LocationDisabledScreen> {
   @override
   Widget build(BuildContext context) {
     checkIfLocationPermissionGiven();
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +53,6 @@ class _LocationDisabledScreenState extends State<LocationDisabledScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 }
