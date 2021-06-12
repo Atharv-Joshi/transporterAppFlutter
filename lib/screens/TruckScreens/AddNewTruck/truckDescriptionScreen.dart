@@ -64,7 +64,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
     return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
