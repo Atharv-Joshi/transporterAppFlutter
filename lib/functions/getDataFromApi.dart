@@ -6,9 +6,8 @@ class GetDataFromApi{
 
   var jsonData;
   List<TruckModel> truckDataList = [];
-
-  Future<List<TruckModel>> getTruckData() async {
-    http.Response response = await http.get(Uri.parse("http://ec2-65-2-131-164.ap-south-1.compute.amazonaws.com:9090/truck"));
+  Future<List<TruckModel>> getTruckData(int pageNo ) async {
+    http.Response response = await http.get(Uri.parse("http://3.7.133.111:9090/truck?transporterId=transporter:3a965fb0-9a33-427d-a0e8-8fd3723839a8&pageNo=$pageNo"));
     jsonData = json.decode(response.body);
 
     for (var json in jsonData) {

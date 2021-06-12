@@ -1,49 +1,55 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
-class BonusWidget extends StatelessWidget {
+class BuyGpsLongWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 180,
-      padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
+
+      height: 102,
+      width: double.maxFinite,
+      padding: EdgeInsets.fromLTRB(space_4, space_3, space_6,0),
       decoration: BoxDecoration(
+        color: white,
         image: DecorationImage(
-          image: AssetImage("assets/images/bonusBackgroundImage.png"),
+            image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
+            fit: BoxFit.fill
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Bonus",
+                "Buy GPS",
                 style: TextStyle(
                     fontSize: size_10,
                     fontWeight: mediumBoldWeight,
                     color: white),
               ),
-              SizedBox(
-                height: space_2,
-              ),
               Text(
-                "Keep booking\nusing Liveasy to\nearn more",
+                "Liveasy GPS system allows you\nto track your vehicles from the\napp.",
                 style: TextStyle(fontSize: size_6, color: white),
               ),
             ],
           ),
-          Container(
-            height: space_13,
-            width: space_13,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/icons/bonusIcon.png"),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              margin: EdgeInsets.only(top: space_1),
+              height: space_11,
+              width: space_9,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/icons/buyGpsIcon.png"),
+                ),
               ),
             ),
           )

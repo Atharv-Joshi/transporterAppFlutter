@@ -37,9 +37,8 @@ class MyApp extends StatelessWidget {
                         .toString()
                         .substring(3, 13));
                 return GetMaterialApp(
-                  theme: ThemeData(fontFamily: "montserrat"),
-                  home: NavigationScreen(),
-                );
+                    theme: ThemeData(fontFamily: "montserrat"),
+                    home: NavigationScreen());
               }
             } else
               return ErrorScreen();

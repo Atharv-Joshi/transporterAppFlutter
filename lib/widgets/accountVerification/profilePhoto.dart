@@ -28,7 +28,7 @@ class ProfilePhotoWidget extends StatelessWidget {
                   image: Image.file(providerData.profilePhotoFile).image,
                   fit: BoxFit.fill),
             )
-          : BoxDecoration(
+          :BoxDecoration(
               color: white,
               shape: BoxShape.circle,
               boxShadow: [

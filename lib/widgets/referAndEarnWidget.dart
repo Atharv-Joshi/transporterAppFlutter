@@ -5,16 +5,11 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 class ReferAndEarnWidget extends StatelessWidget {
-  final double height;
-  final double width;
-
-  ReferAndEarnWidget({required this.height, required this.width});
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
+      height: 100,
+      width: 180,
       padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
       decoration: BoxDecoration(
         image: DecorationImage(

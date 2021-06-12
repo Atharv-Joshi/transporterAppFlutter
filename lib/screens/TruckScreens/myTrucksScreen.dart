@@ -56,7 +56,7 @@ class _MyTrucksState extends State<MyTrucks> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.65,
                 child: FutureBuilder(
-                  future: getDataFromApi.getTruckData(),
+                  future: getDataFromApi.getTruckData(0),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
@@ -78,7 +78,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
+                              tyres:  snapshot.data[index].tyres,
                             );
                         });
                   },

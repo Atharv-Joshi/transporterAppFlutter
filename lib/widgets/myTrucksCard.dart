@@ -18,7 +18,7 @@ class MyTruckCard extends StatelessWidget {
   int? passingWeight;
   String? driverId;
   String? truckType;
-  String?   tyres;
+  int?   tyres;
 
   MyTruckCard(
       {this.truckId,

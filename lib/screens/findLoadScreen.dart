@@ -28,6 +28,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context,listen: false);
+    findLoadApiData = runFindLoadApiGet(
+        "Alwar", "");
     if (Provider.of<ProviderData>(context).loadingPointCity != "") {
       print(transporterIdController.transporterId);
       controller1 = TextEditingController(
