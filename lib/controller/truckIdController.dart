@@ -6,7 +6,7 @@ class TruckIdController extends GetxController{
 
   RxString truckId = ''.obs;
 
-  void updatetruckId( String value){
+  void updateTruckId( String value){
     truckId.value = value;
   }
 

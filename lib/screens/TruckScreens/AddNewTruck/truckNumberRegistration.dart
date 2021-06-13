@@ -26,6 +26,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
   TextEditingController _controller = TextEditingController();
   TruckApiCalls truckApiCalls = TruckApiCalls();
 
+  String truckId = '';
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -51,6 +53,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                       height: 38,
                       child: TextFormField(
                         // key: _formKey,
+                        textCapitalization: TextCapitalization.characters,
                         controller: _controller,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -83,12 +86,15 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         child: ApplyButton(
                             text: 'Apply',
                             onPressedFunction:
-                                () {
+                                () async {
+
                               providerData.updateTruckNumberValue(
                                   _controller.text);
-                              truckApiCalls.postTruckData(
-                                  truckNo: _controller.text);
-                              Get.to(() => TruckDescriptionScreen());
+
+                              truckId = await truckApiCalls.postTruckData(
+                                  truckNo: _controller.text) ;
+
+                              Get.to(() => TruckDescriptionScreen(truckId));
                             }
                         ),
                       ),

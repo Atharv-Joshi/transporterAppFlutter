@@ -10,11 +10,17 @@ import 'package:liveasy/widgets/buttons/applyButton.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/controller/truckIdController.dart';
 
 class ReviewTruckDetails extends StatelessWidget {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
 
+  TruckIdController truckIdController = TruckIdController();
+
+  String truckId;
+
+  ReviewTruckDetails(this.truckId);
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -42,9 +48,9 @@ class ReviewTruckDetails extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.fromLTRB(
                         space_2,
-                        MediaQuery.of(context).size.height * 0.35,
+                        MediaQuery.of(context).size.height * 0.25,
                         space_2,
-                        0
+                        0,
                         ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +62,14 @@ class ReviewTruckDetails extends StatelessWidget {
                             text: 'Edit'),
                         ApplyButton(
                             onPressedFunction: (){
-                              truckApiCalls.putTruckData();
+                              truckApiCalls.putTruckData(
+                                  truckType: providerData.truckTypeValue ,
+                                  totalTyres: providerData.totalTyresValue ,
+                                  truckLength: providerData.truckLengthValue,
+                                  passingWeight: providerData.passingWeightValue ,
+                                  driverDetails: providerData.driverDetailsValue ,
+                                  truckID : truckId,
+                                        );
                             },
                             text: 'Submit')
                       ],

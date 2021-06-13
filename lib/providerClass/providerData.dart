@@ -60,6 +60,15 @@ class ProviderData extends ChangeNotifier {
   int truckLengthValue = 0;
   String driverDetailsValue = '';
   String truckNumberValue = '';
+
+  String truckId = '';
+
+  // dynamic truckTypeValue;
+  // dynamic passingWeightValue;
+  // dynamic totalTyresValue;
+  // dynamic truckLengthValue;
+  // dynamic driverDetailsValue;
+  // dynamic truckNumberValue;
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
@@ -114,8 +123,8 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: name change
-  void clearall() {
+  //TODO: name change to something more relevant
+  void clearAll() {
     inputControllerLengthCheck = false;
     buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
 
@@ -156,17 +165,29 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateTruckId(value){
+    truckId = value;
+    notifyListeners();
+  }
+
   void resetTruckFilters(){
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
     driverDetailsValue = '';
+
+    // truckTypeValue = null;
+    // passingWeightValue= null;
+    // totalTyresValue = null;
+    // truckLengthValue = null;
+    // driverDetailsValue = null;
     notifyListeners();
   }
 
   void resetTruckNumber(){
     truckNumberValue = '';
+    // truckNumberValue = null;
     notifyListeners();
   }
 //----------------------------------

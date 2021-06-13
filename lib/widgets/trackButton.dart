@@ -29,7 +29,7 @@ class TrackButton extends StatelessWidget {
             // },
             Container(
               margin: EdgeInsets.only(right: space_1),
-              child: truckApproved ? Container() : Icon(
+              child: true ? Container() : Icon(
                 Icons.lock,
                 size: 18 ,
                 color: truckGreen,

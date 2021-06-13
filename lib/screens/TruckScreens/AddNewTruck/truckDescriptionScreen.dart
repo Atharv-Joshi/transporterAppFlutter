@@ -14,7 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
-  const TruckDescriptionScreen({Key? key}) : super(key: key);
+  String truckId;
+
+  TruckDescriptionScreen(this.truckId);
 
   @override
   _TruckDescriptionScreenState createState() => _TruckDescriptionScreenState();
@@ -22,44 +24,47 @@ class TruckDescriptionScreen extends StatefulWidget {
 
 class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
 
-  List truckTypeList = ['Open Half Body', 'Flatbed', 'Open Full Body',
+  List truckTypeTextList = ['Open Half Body', 'Flatbed', 'Open Full Body',
     'Full Body Trailer', 'Half Body Trailer', 'Standard Container',
-    'High-Cube Container', 'Tanker'];
+    'High-Cube Container'];
+
+  List truckTypeValueList = ['OPEN_HALF_BODY' , 'FLATBED' , 'OPEN_FULL_BODY' , 'FULL_BODY_TRAILER' , 'HALF_BODY_TRAILER' , 'STANDARD_CONTAINER' , 'HIGH_CUBE_CONTAINER'];
 
   Map<String, List<int>> passingWeightList = {
-    'Open Half Body': [6, 8, 12],
-    'Flatbed': [12, 16, 30],
-    'Open Full Body': [26, 28, 6, 24, 8],
-    'Full Body Trailer': [8, 12],
-    'Half Body Trailer': [16, 8, 28],
-    'Standard Container': [28, 30, 8, 16],
-    'High-Cube Container': [6, 8, 12, 26, 28],
-    'Tanker': [6, 8, 12, 16, 18, 24, 26, 28, 30],
+    'OPEN_HALF_BODY': [6, 8, 12],
+    'FLATBED': [12, 16, 30],
+    'OPEN_FULL_BODY': [26, 28, 6, 24, 8],
+    'FULL_BODY_TRAILER': [8, 12],
+    'HALF_BODY_TRAILER': [16, 8, 28],
+    'STANDARD_CONTAINER': [28, 30, 8, 16],
+    'HIGH_CUBE_CONTAINER': [6, 8, 12, 26, 28],
+
   };
 
   Map<String, List<int>> totalTyresList = {
-    'Open Half Body': [26, 28, 12],
-    'Flatbed': [6, 30, 10],
-    'Open Full Body': [10, 24, 16],
-    'Full Body Trailer': [18],
-    'Half Body Trailer': [16, 8, 6, 28, 30],
-    'Standard Container': [8, 10],
-    'High-Cube Container': [28, 30, 8, 16],
-    'Tanker': [6, 8, 12],
+    'OPEN_HALF_BODY': [26, 28, 12],
+    'FLATBED': [6, 30, 10],
+    'OPEN_FULL_BODY': [10, 24, 16],
+    'FULL_BODY_TRAILER': [18],
+    'HALF_BODY_TRAILER': [16, 8, 6, 28, 30],
+    'STANDARD_CONTAINER': [8, 10],
+    'HIGH_CUBE_CONTAINER': [28, 30, 8, 16],
+
   };
 
   Map<String, List<int>> truckLengthList = {
-    'Open Half Body': [40, 10],
-    'Flatbed': [10, 20, 50],
-    'Open Full Body': [60],
-    'Full Body Trailer': [20, 40],
-    'Half Body Trailer': [20, 40, 50],
-    'Standard Container': [10, 60],
-    'High-Cube Container': [40, 50, 60],
-    'Tanker': [10, 20, 40, 50, 60]
+    'OPEN_HALF_BODY': [40, 10],
+    'FLATBED': [10, 20, 50],
+    'OPEN_FULL_BODY': [60],
+    'FULL_BODY_TRAILER': [20, 40],
+    'HALF_BODY_TRAILER': [20, 40, 50],
+    'STANDARD_CONTAINER': [10, 60],
+    'HIGH_CUBE_CONTAINER': [40, 50, 60],
   };
 
   dynamic dropDownValue;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +95,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     mainAxisSpacing: 10,
                     padding: EdgeInsets.all(10.0),
                     crossAxisCount: 2,
-                    children: truckTypeList.map((e) =>
-                        AddTruckRectangularButtonTemplate(value: e, text: e))
+                    children: truckTypeValueList.map((e) =>
+                        AddTruckRectangularButtonTemplate(value: e, text: truckTypeTextList[truckTypeValueList.indexOf(e)]))
                         .toList(),
                   ),
 
@@ -204,7 +209,11 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                             DropdownMenuItem<String>>((e) {
                           return DropdownMenuItem<String>(
                               value: e,
-                              child: Text('$e')
+                              child: Row(
+                                  children: [
+                                    Text('$e'),
+                                    Icon(Icons.add),
+                                  ])
                           );
                         }).toList(),
                       ),
@@ -217,7 +226,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: ApplyButton(
                         onPressedFunction: () {
-                          Get.to(() => ReviewTruckDetails());
+                          Get.to(() => ReviewTruckDetails(widget.truckId));
                         },
                         text: 'Save',
                       ),
