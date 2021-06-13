@@ -45,38 +45,38 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 }
 
 class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
-  @override
-  void initState() {
-    super.initState();
-  }
-  @override
+
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getLoadPosterDetailsFromApi(widget.loadId),
+        future: getLoadPosterDetailsFromApi(loadPosterId: widget.id.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(snapshot.connectionState);
-          print(snapshot.hasData);
-          print(snapshot);
           if (snapshot.data == null) {
             return Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.2),
                 child: LoadingWidget());
           }
-          return ListView.builder(
-              itemCount: (snapshot.data.length),
-              itemBuilder: (BuildContext context, index) => DisplayLoadsCard(
-                    loadPosterId: snapshot.data[index].loadPosterId,
-                    loadPosterPhoneNo: snapshot.data[index].loadPosterPhoneNo,
-                    loadPosterLocation: snapshot.data[index].loadPosterLocation,
-                    loadPosterName: snapshot.data[index].loadPosterName,
-                    loadPosterCompanyName:
-                        snapshot.data[index].loadPosterCompanyName,
-                    loadPosterKyc: snapshot.data[index].loadPosterKyc,
-                    loadPosterCompanyApproved:
-                        snapshot.data[index].loadPosterCompanyApproved,
-                    loadPosterApproved: snapshot.data[index].loadPosterApproved,
-                  ));
+          return DisplayLoadsCard(
+            loadId: widget.loadId,
+            loadingPoint: widget.loadingPoint,
+            loadingPointCity: widget.loadingPointCity,
+            loadingPointState: widget.loadingPointState,
+            unloadingPoint: widget.unloadingPoint,
+            unloadingPointCity: widget.unloadingPointCity,
+            truckType: widget.truckType,
+            weight: widget.weight,
+            noOfTrucks: widget.noOfTrucks,
+            loadPosterId: snapshot.data.loadPosterId,
+            loadPosterPhoneNo: snapshot.data.loadPosterPhoneNo,
+            loadPosterLocation: snapshot.data.loadPosterLocation,
+            loadPosterName: snapshot.data.loadPosterName,
+            loadPosterCompanyName:
+            snapshot.data.loadPosterCompanyName,
+            loadPosterKyc: snapshot.data.loadPosterKyc,
+            loadPosterCompanyApproved:
+            snapshot.data.loadPosterCompanyApproved,
+            loadPosterApproved: snapshot.data.loadPosterApproved,
+          );
         });
   }
 }

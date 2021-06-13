@@ -117,7 +117,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                       MediaQuery.of(context).size.height * 0.2),
                               child: LoadingWidget());
                         }
-
                         return Column(
                           children: [
                             Row(

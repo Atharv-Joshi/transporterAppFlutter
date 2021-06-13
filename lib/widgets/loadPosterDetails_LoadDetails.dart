@@ -127,6 +127,7 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
               SizedBox(
                 height: space_1 + 1,
               ),
+              loadPosterCompanyApproved=="true"?
               Container(
                 height: space_3,
                 width: space_10 - 1,
@@ -144,6 +145,23 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
                     ),
                     Text(
                       "verified",
+                      style: TextStyle(
+                          fontWeight: normalWeight, fontSize: size_3 + 1),
+                    ),
+                  ],
+                ),
+              ):Container(
+                height: space_3,
+                width: space_10 - 1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3.81),
+                  color: unverifiedButtonColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "unverified",
                       style: TextStyle(
                           fontWeight: normalWeight, fontSize: size_3 + 1),
                     ),

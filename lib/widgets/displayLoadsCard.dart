@@ -47,29 +47,28 @@ class DisplayLoadsCard extends StatefulWidget {
 
   DisplayLoadsCard(
       {this.loadId,
-        this.loadingPoint,
-        this.loadingPointCity,
-        this.loadingPointState,
-        this.id,
-        this.unloadingPoint,
-        this.unloadingPointCity,
-        this.unloadingPointState,
-        this.productType,
-        this.truckType,
-        this.noOfTrucks,
-        this.weight,
-        this.comment,
-        this.status,
-        this.date,
-        this.loadPosterId,
-        this.loadPosterPhoneNo,
-        this.loadPosterLocation,
-        this.loadPosterName,
-        this.loadPosterCompanyName,
-        this.loadPosterKyc,
-        this.loadPosterCompanyApproved,
-        this.loadPosterApproved});
-
+      this.loadingPoint,
+      this.loadingPointCity,
+      this.loadingPointState,
+      this.id,
+      this.unloadingPoint,
+      this.unloadingPointCity,
+      this.unloadingPointState,
+      this.productType,
+      this.truckType,
+      this.noOfTrucks,
+      this.weight,
+      this.comment,
+      this.status,
+      this.date,
+      this.loadPosterId,
+      this.loadPosterPhoneNo,
+      this.loadPosterLocation,
+      this.loadPosterName,
+      this.loadPosterCompanyName,
+      this.loadPosterKyc,
+      this.loadPosterCompanyApproved,
+      this.loadPosterApproved});
 
   @override
   _DisplayLoadsCardState createState() => _DisplayLoadsCardState();
@@ -77,19 +76,16 @@ class DisplayLoadsCard extends StatefulWidget {
 
 class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
   TransporterIdController tIdController = Get.find<TransporterIdController>();
-  @override
-  void initState() {
-    super.initState();
-    print("okok");
-  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == false) //TODO: to be changed to true
-              {
+          if (tIdController.transporterApproved ==
+              false) //TODO: to be changed to true
+          {
             Get.to(() => LoadDetailsScreen(
                 loadId: widget.loadId,
                 loadingPoint: widget.loadingPoint,
@@ -105,7 +101,15 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                 weight: widget.weight,
                 comment: widget.comment,
                 status: widget.status,
-                date: widget.date));
+                date: widget.date,
+                loadPosterId: widget.loadPosterId,
+                loadPosterPhoneNo: widget.loadPosterPhoneNo,
+                loadPosterLocation: widget.loadPosterLocation,
+                loadPosterName: widget.loadPosterName,
+                loadPosterCompanyName: widget.loadPosterCompanyName,
+                loadPosterKyc: widget.loadPosterKyc,
+                loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
+                loadPosterApproved: widget.loadPosterApproved));
           } else {
             VerifyAccountNotifyAlertDialog(context);
           }
@@ -181,11 +185,11 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                                                   style: TextStyle(
                                                       fontSize: size_6 - 1,
                                                       fontWeight:
-                                                      regularWeight)),
+                                                          regularWeight)),
                                               Text(widget.truckType.toString(),
                                                   style: TextStyle(
                                                     fontWeight:
-                                                    mediumBoldWeight,
+                                                        mediumBoldWeight,
                                                     fontSize: size_7,
                                                   ))
                                             ],
@@ -199,11 +203,11 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                                                   style: TextStyle(
                                                       fontSize: size_6 - 1,
                                                       fontWeight:
-                                                      regularWeight)),
+                                                          regularWeight)),
                                               Text(widget.weight.toString(),
                                                   style: TextStyle(
                                                     fontWeight:
-                                                    mediumBoldWeight,
+                                                        mediumBoldWeight,
                                                     fontSize: size_7,
                                                   ))
                                             ],
@@ -240,10 +244,11 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                                                     fontSize: size_6 - 1,
                                                     fontWeight: regularWeight)),
                                             Container(
-                                              child: Text(widget.productType.toString(),
+                                              child: Text(
+                                                  widget.productType.toString(),
                                                   style: TextStyle(
                                                     fontWeight:
-                                                    mediumBoldWeight,
+                                                        mediumBoldWeight,
                                                     fontSize: size_7,
                                                   )),
                                             )
@@ -274,13 +279,13 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
               SizedBox(
                 height: space_2,
               ),
-              ContactWidget(loadPosterPhoneNo: widget.loadPosterPhoneNo)
+              ContactWidget(
+                  loadPosterCompanyname: widget.loadPosterCompanyName,
+                  loadPosterPhoneNo: widget.loadPosterPhoneNo)
             ],
           ),
         ),
       )
     ]);
-
   }
 }
-

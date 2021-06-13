@@ -5,15 +5,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class CallButton extends StatelessWidget {
-  String? loadPosterPhoneNo;
+  String? loadPosterPhoneNo1;
 
-  CallButton({this.loadPosterPhoneNo});
+  CallButton(String? loadPosterPhoneNo, {this.loadPosterPhoneNo1});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _launchCaller("$loadPosterPhoneNo");
+        _launchCaller("$loadPosterPhoneNo1");
       },
       child: Container(
         height: 31,

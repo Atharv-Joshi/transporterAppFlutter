@@ -30,7 +30,14 @@ class LoadDetailsScreen extends StatefulWidget {
   String? comment;
   String? status;
   String? date;
-
+  String? loadPosterId;
+  String? loadPosterPhoneNo;
+  String? loadPosterLocation;
+  String? loadPosterName;
+  String? loadPosterCompanyName;
+  String? loadPosterKyc;
+  String? loadPosterCompanyApproved;
+  String? loadPosterApproved;
 
   LoadDetailsScreen(
       {this.loadId,
@@ -47,18 +54,21 @@ class LoadDetailsScreen extends StatefulWidget {
       this.weight,
       this.comment,
       this.status,
-      this.date});
+      this.date,
+      this.loadPosterId,
+      this.loadPosterPhoneNo,
+      this.loadPosterLocation,
+      this.loadPosterName,
+      this.loadPosterCompanyName,
+      this.loadPosterKyc,
+      this.loadPosterCompanyApproved,
+      this.loadPosterApproved});
 
   @override
   _LoadDetailsScreenState createState() => _LoadDetailsScreenState();
 }
 
 class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
- @override
-
-  void initState() {
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -87,7 +97,14 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
             ),
             Stack(
               children: [
-                LoadPosterDetailsLoadDetails(),
+                LoadPosterDetailsLoadDetails(loadPosterId: widget.loadPosterId,
+                loadPosterPhoneNo: widget.loadPosterPhoneNo,
+                loadPosterLocation: widget.loadPosterLocation,
+                loadPosterName: widget.loadPosterName,
+                loadPosterCompanyName: widget.loadPosterCompanyName,
+                loadPosterKyc: widget.loadPosterKyc,
+                loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
+                loadPosterApproved: widget.loadPosterApproved),
                 Padding(
                   padding: EdgeInsets.only(
                       left: space_6, top: (space_14 * 2) + 3, right: space_6),
@@ -99,7 +116,10 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         color: white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [BidButton(widget.loadId), CallButton()],
+                          children: [
+                            BidButton(widget.loadId),
+                            CallButton(widget.loadPosterPhoneNo)
+                          ],
                         )),
                   ),
                 )

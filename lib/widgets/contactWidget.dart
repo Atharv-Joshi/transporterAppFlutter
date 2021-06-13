@@ -6,8 +6,9 @@ import 'package:liveasy/widgets/buttons/callButton.dart';
 
 // ignore: must_be_immutable
 class ContactWidget extends StatelessWidget {
+  String? loadPosterCompanyname;
   String? loadPosterPhoneNo;
-  ContactWidget({this.loadPosterPhoneNo});
+  ContactWidget({this.loadPosterCompanyname,this.loadPosterPhoneNo});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,13 +25,13 @@ class ContactWidget extends StatelessWidget {
                 color: Color.fromRGBO(42, 46, 59, 1),
               ),
               Text(
-                "Asian Paints",
+                "$loadPosterCompanyname",
                 style:
                     TextStyle(fontSize: size_7, fontWeight: mediumBoldWeight),
               )
             ],
           ),
-          CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo",),
+          CallButton("$loadPosterPhoneNo"),
         ],
       ),
     );

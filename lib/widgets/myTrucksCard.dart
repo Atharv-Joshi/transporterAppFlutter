@@ -145,7 +145,7 @@ class MyTruckCard extends StatelessWidget {
                     margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(truckApproved:truckApproved)
                   ),
-                  CallButton(),
+                  //CallButton(), TODO: Check this Atharav
                 ],
               )
             ],

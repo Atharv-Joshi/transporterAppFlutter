@@ -32,6 +32,7 @@ Color priceTextColor = Color(0xFF152968);
 Color loadingPointTextColor = Color(0xFF2A2E3B);
 Color unloadingPointTextColor = Color(0xFF2A2E3B);
 Color verifiedButtonColor = Color(0xFF84DBBB);
+Color unverifiedButtonColor = Color(0xFFFF7600);
 Color locationLineColor = Color(0xFFAFAFAF);
 Color shareButtonColor = Color(0xFF09B778);
 Color whiteButtonOutlineColor = Color(0xFF152968);

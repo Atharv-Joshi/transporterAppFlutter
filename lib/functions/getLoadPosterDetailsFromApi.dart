@@ -3,23 +3,24 @@ import 'dart:convert';
 
 import 'package:liveasy/models/loadPosterModel.dart';
 
-List loadPosterDetails = [];
-var data;
 
-String transporterApiUrl =
-    "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:9090/transporter";
-String shipperApiUrl =
-    "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:8080/shipper";
+getLoadPosterDetailsFromApi({required String loadPosterId}) async {
+  print(loadPosterId);
+  var loadPosterDetails;
+  var jsonData;
 
-getLoadPosterDetailsFromApi(loadPosterId) async {
+  String transporterApiUrl =
+      "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:9090/transporter";
+  String shipperApiUrl =
+      "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:8080/shipper";
+
   loadPosterId = loadPosterId.toString();
+  try{
+    if (loadPosterId.contains("transporter")) {
+      http.Response response =
+      await http.get(Uri.parse(transporterApiUrl + "/$loadPosterId"));
+      jsonData = json.decode(response.body);
 
-  if (loadPosterId.contains("transporter")) {
-    http.Response response =
-        await http.get(Uri.parse(transporterApiUrl + "/" "$loadPosterId"));
-    data = json.decode(response.body);
-
-    for (var jsonData in data) {
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["id"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
@@ -33,15 +34,13 @@ getLoadPosterDetailsFromApi(loadPosterId) async {
           jsonData["companyApproved"].toString();
       loadPosterModel.loadPosterApproved =
           jsonData["transporterApproved"].toString();
-      loadPosterDetails.add(loadPosterModel);
+      return loadPosterModel;
     }
-  }
-  if (loadPosterId.toString().contains("shipper")) {
-    http.Response response =
-        await http.get(Uri.parse(shipperApiUrl + "/" "$loadPosterId"));
-    data = json.decode(response.body);
+    if (loadPosterId.contains("shipper")) {
+      http.Response response =
+      await http.get(Uri.parse(shipperApiUrl + "/$loadPosterId"));
+      jsonData = json.decode(response.body);
 
-    for (var jsonData in data) {
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["id"].toString();
       loadPosterModel.loadPosterName = jsonData["name"].toString();
@@ -50,6 +49,9 @@ getLoadPosterDetailsFromApi(loadPosterId) async {
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
       loadPosterModel.loadPosterApproved = jsonData["approved"].toString();
       loadPosterDetails.add(loadPosterModel);
+      return loadPosterModel;
     }
   }
+  catch(e){print(e);}
+
 }

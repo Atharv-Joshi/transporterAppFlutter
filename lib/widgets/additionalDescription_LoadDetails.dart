@@ -9,9 +9,11 @@ class AdditionalDescriptionLoadDetails extends StatelessWidget {
   String? comment;
 
   AdditionalDescriptionLoadDetails(this.comment);
+
   @override
   Widget build(BuildContext context) {
-    if(comment!.length==0||comment!.isEmpty)comment="No Comments";
+    String message = comment.toString();
+    if(message.length==0||message.isEmpty|| message.contains("null"))message="No Comments";
     return Column(crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -29,7 +31,7 @@ class AdditionalDescriptionLoadDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(space_1+3),
               border: Border.all(color: solidLineColor)),
           child: Text(
-            "$comment",
+            message,
             style: TextStyle(
                 fontWeight: normalWeight, fontSize: size_6),
           ),
