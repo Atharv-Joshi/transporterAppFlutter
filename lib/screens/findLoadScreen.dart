@@ -28,14 +28,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context,listen: false);
-    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-      print(transporterIdController.transporterId);
-      controller1 = TextEditingController(
-          text:
-              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
-    }
+    findLoadApiData = runFindLoadApiGet(
+        "Alwar", "");
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -123,6 +117,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                       MediaQuery.of(context).size.height * 0.2),
                               child: LoadingWidget());
                         }
+
                         return Column(
                           children: [
                             Row(
@@ -145,12 +140,14 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                 padding: EdgeInsets.symmetric(),
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
+
                                     LoadApiDataDisplayCard(
                                       loadId: snapshot.data[index].loadId,
                                   loadingPoint:
                                       snapshot.data[index].loadingPoint,
                                   loadingPointCity: snapshot.data[index].loadingPointCity,
                                   loadingPointState: snapshot.data[index].loadingPointState,
+                                  id: snapshot.data[index].id,
                                   unloadingPoint:
                                       snapshot.data[index].unloadingPoint,
                                   unloadingPointCity: snapshot.data[index].unloadingPointCity,

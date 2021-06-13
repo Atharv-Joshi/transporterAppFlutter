@@ -25,7 +25,7 @@ Future<List> getDriverDetailsFromDriverApi() async {
     driverModel.truckId = json["truckId"];
     driverDetailsList.add(driverModel);
   }
-
-  print(driverDetailsList);
+  driverDetailsList.add("Add New Driver");
+  //print(driverDetailsList);
   return driverDetailsList;
 }

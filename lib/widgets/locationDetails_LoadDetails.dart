@@ -63,7 +63,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                 height: space_4+3,
                 color: locationLineColor,
                 width: 1,
-                padding: EdgeInsets.only(left: space_7 + 4),
+                padding: EdgeInsets.only(left: space_7 + 6),
               ),
               Row(
                 children: [

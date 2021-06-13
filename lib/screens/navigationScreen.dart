@@ -5,8 +5,6 @@ import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
-
 import 'TruckScreens/myTrucksScreen.dart';
 
 class NavigationScreen extends StatefulWidget {

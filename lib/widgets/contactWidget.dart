@@ -4,7 +4,10 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 
+// ignore: must_be_immutable
 class ContactWidget extends StatelessWidget {
+  String? loadPosterPhoneNo;
+  ContactWidget({this.loadPosterPhoneNo});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +30,7 @@ class ContactWidget extends StatelessWidget {
               )
             ],
           ),
-          CallButton(),
+          CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo",),
         ],
       ),
     );

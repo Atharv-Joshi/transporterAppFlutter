@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postBidApi.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 
 // ignore: must_be_immutable
-class BidButtonSendRequest extends StatelessWidget {
-  String loadId, rate, unit;
+class AddButton extends StatelessWidget {
+  String? displayContact;
 
-  BidButtonSendRequest(this.loadId, this.rate, this.unit);
-
-  TransporterIdController tIdController = Get.find<TransporterIdController>();
+  AddButton({this.displayContact});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        postBidAPi(loadId, rate, tIdController.transporterId.value, unit);
-        Navigator.of(context).pop();
-      },
+        for (int i=0;i<driverDetailsList.length;i++)
+        {
+
+          if (driverDetailsList[i] == displayContact)
+          {print("has already added");
+          break;}
+          else if(i==driverDetailsList.length-1)
+          driverDetailsList.add(displayContact);
+        }
+          Navigator.of(context).pop();
+        },
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
@@ -32,9 +36,9 @@ class BidButtonSendRequest extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            "Bid",
+            "Add",
             style: TextStyle(
-                color: Colors.white,
+                color: white,
                 fontWeight: normalWeight,
                 fontSize: size_6 + 2),
           ),

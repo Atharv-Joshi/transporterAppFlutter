@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
-import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
+import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 
-String _dropdownvalue1 = truckNoList[0].toString();
-String _dropdownvalue2 = driverDetailsList[0].toString();
+String? _dropdownvalue1 = null;
+String? _dropdownvalue2 =null;
 
 Future<void> showInformationDialog(
     BuildContext context, truckNoList, driverDetailsList) async {
@@ -55,10 +56,13 @@ Future<void> showInformationDialog(
                                 color: Colors.black),
                             onChanged: (String? newValue) {
                               setState(() {
-                                _dropdownvalue1 = newValue!;
+                                newValue == "Add Truck"
+                                    ? Get.to(() => AddNewTruck())
+                                    : _dropdownvalue1 = newValue!;
                               });
                             },
-                            items: truckNoList.map<DropdownMenuItem<String>>((dynamic value) {
+                            items: truckNoList
+                                .map<DropdownMenuItem<String>>((dynamic value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -79,7 +83,7 @@ Future<void> showInformationDialog(
                     SizedBox(
                       height: space_2,
                     ),
-                   Container(
+                    Container(
                       height: space_7 + 2,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
@@ -101,10 +105,13 @@ Future<void> showInformationDialog(
                                 color: Colors.black),
                             onChanged: (String? newValue) {
                               setState(() {
-                                _dropdownvalue2 = newValue!;
+                                newValue == "Add New Driver"
+                                    ? showInformationDialogAddDriver(context)
+                                    : _dropdownvalue2 = newValue!;
                               });
                             },
-                            items: driverDetailsList.map<DropdownMenuItem<String>>((dynamic value) {
+                            items: driverDetailsList
+                                .map<DropdownMenuItem<String>>((dynamic value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -137,6 +144,3 @@ Future<void> showInformationDialog(
         });
       });
 }
-
-
-

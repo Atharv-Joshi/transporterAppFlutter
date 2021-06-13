@@ -7,7 +7,7 @@ import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
 import 'package:liveasy/widgets/buttons/bookNowButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/driverDetails_LoadDetails.dart';
+import 'package:liveasy/widgets/loadPosterDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
@@ -31,6 +31,7 @@ class LoadDetailsScreen extends StatefulWidget {
   String? status;
   String? date;
 
+
   LoadDetailsScreen(
       {this.loadId,
       this.loadingPoint,
@@ -53,6 +54,11 @@ class LoadDetailsScreen extends StatefulWidget {
 }
 
 class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
+ @override
+
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,7 +87,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
             ),
             Stack(
               children: [
-                DriverDetailsLoadDetails(),
+                LoadPosterDetailsLoadDetails(),
                 Padding(
                   padding: EdgeInsets.only(
                       left: space_6, top: (space_14 * 2) + 3, right: space_6),

@@ -31,6 +31,7 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
     cardsModal.loadingPoint = json["loadingPoint"];
     cardsModal.loadingPointCity = json["loadingPointCity"];
     cardsModal.loadingPointState = json["loadingPointState"];
+    cardsModal.id = json["id"];
     cardsModal.unloadingPoint = json["unloadingPoint"];
     cardsModal.unloadingPointCity = json["unloadingPointCity"];
     cardsModal.unloadingPointState = json["unloadingPointState"];
@@ -42,6 +43,7 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
     cardsModal.status = json["status"];
     cardsModal.date = json["date"];
     card.add(cardsModal);
+
   }
   return card;
 }
