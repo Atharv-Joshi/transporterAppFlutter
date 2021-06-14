@@ -148,24 +148,21 @@ class LoadCard extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: space_3),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: space_7,
-                    ),
-                    child: TruckView(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: space_7,
                   ),
-                  ViewBidButton(
-                    loadFrom: loadFrom,
-                    loadTo: loadTo,
-                    load: load,
-                  ),
-                ],
-              ),
+                  child: TruckView(),
+                ),
+                ViewBidButton(
+                  loadFrom: loadFrom,
+                  loadTo: loadTo,
+                  load: load,
+                ),
+              ],
             )
           ],
         ),
