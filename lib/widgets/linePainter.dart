@@ -6,7 +6,7 @@ class LinePainter extends CustomPainter {
     final paint = Paint()
       ..color = Color(0xFFAFAFAF)
       ..strokeWidth = 2;
-    canvas.drawLine(Offset(3, 1), Offset(3, 34), paint);
+    canvas.drawLine(Offset(3, 1), Offset(3, 31), paint);
   }
 
   @override

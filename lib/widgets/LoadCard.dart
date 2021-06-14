@@ -65,7 +65,7 @@ class LoadCard extends StatelessWidget {
                     padding: EdgeInsets.only(left: size_1),
                     child: Container(
                       child: CustomPaint(
-                        size: Size(space_0, space_6),
+                        size: Size(space_0, size_13),
                         foregroundPainter: LinePainter(),
                       ),
                     ),
@@ -148,22 +148,24 @@ class LoadCard extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: space_7,
-                    right: space_4,
+            Padding(
+              padding: EdgeInsets.only(right: space_3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: space_7,
+                    ),
+                    child: TruckView(),
                   ),
-                  child: TruckView(),
-                ),
-                ViewBidButton(
-                  loadFrom: loadFrom,
-                  loadTo: loadTo,
-                  load: load,
-                ),
-              ],
+                  ViewBidButton(
+                    loadFrom: loadFrom,
+                    loadTo: loadTo,
+                    load: load,
+                  ),
+                ],
+              ),
             )
           ],
         ),

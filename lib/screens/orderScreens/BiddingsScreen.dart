@@ -22,8 +22,7 @@ class BiddingsScreen extends StatefulWidget {
 class _BiddingsScreenState extends State<BiddingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: backgroundColor,
         body: Padding(
           padding: EdgeInsets.only(top: space_10),
@@ -98,8 +97,6 @@ class _BiddingsScreenState extends State<BiddingsScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

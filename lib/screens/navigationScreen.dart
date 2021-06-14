@@ -20,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   List<Widget> screens = [
     HomeScreen(),
     MyTrucks(),
-    BiddingsScreen(),
+    Text(""),
     order(),
     AccountVerificationPage1(),
   ];

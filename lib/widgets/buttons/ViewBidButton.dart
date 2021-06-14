@@ -15,7 +15,7 @@ class ViewBidButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: space_2, left: space_4),
+      padding: EdgeInsets.only(top: space_2, right: space_3),
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -30,7 +30,7 @@ class ViewBidButton extends StatelessWidget {
           );
         },
         child: Container(
-          width: 86,
+          width: 127,
           height: 31,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(size_10),
@@ -38,7 +38,7 @@ class ViewBidButton extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              "View bids",
+              "View Biddings",
               style: TextStyle(
                   fontWeight: mediumBoldWeight,
                   fontSize: size_6,
