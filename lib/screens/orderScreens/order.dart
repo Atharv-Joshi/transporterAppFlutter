@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/Loadwidget.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
-import 'package:liveasy/widgets/myTrucksCard.dart';
-import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
+import 'package:liveasy/widgets/LoadCard.dart';
 
+// ignore: camel_case_types
 class order extends StatefulWidget {
   @override
   _orderState createState() => _orderState();
@@ -30,12 +30,12 @@ class _orderState extends State<order> {
                       Icons.arrow_back_ios,
                       color: liveasyBlackColor,
                     ),
-                    SizedBox(width: 15),
+                    SizedBox(width: size_7),
                     Text(
                       "Orders",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                          fontSize: size_10,
                           color: liveasyBlackColor,
                           fontFamily: "Montserrat"),
                     )
@@ -50,16 +50,16 @@ class _orderState extends State<order> {
                     Text(
                       "My Loads",
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontWeight: normalWeight,
+                          fontSize: size_7,
                           color: liveasyBlackColor,
                           fontFamily: "Montserrat"),
                     ),
                     Text(
                       "On-going",
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontWeight: normalWeight,
+                          fontSize: size_7,
                           color: liveasyBlackColor,
                           fontFamily: "Montserrat"),
                     ),
@@ -68,8 +68,8 @@ class _orderState extends State<order> {
                       child: Text(
                         "Delivered",
                         style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                            fontWeight: normalWeight,
+                            fontSize: size_7,
                             color: liveasyBlackColor,
                             fontFamily: "Montserrat"),
                       ),
@@ -79,38 +79,38 @@ class _orderState extends State<order> {
               ),
               Divider(
                 thickness: 1,
-                height: 10,
+                height: size_5,
                 color: Color(0xff979797),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 15.0,
-                  left: 20,
-                  right: 20,
+                padding: EdgeInsets.only(
+                  top: size_7,
+                  left: size_10,
+                  right: size_10,
                 ),
-                child: Loadwidget(
+                child: LoadCard(
                   loadFrom: "Jabalpur",
                   loadTo: "Jalandhar",
-                  trucktype: "Flatbed",
+                  truckType: "Flatbed",
                   tyres: 20,
-                  Weight: 20,
-                  producttype: "paint",
+                  weight: 20,
+                  productType: "paint",
                   load: 6000,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 15.0,
-                  left: 20,
-                  right: 20,
+                padding: EdgeInsets.only(
+                  top: size_7,
+                  left: size_10,
+                  right: size_10,
                 ),
-                child: Loadwidget(
+                child: LoadCard(
                   loadFrom: "Alwar",
                   loadTo: "Jalandhar",
-                  trucktype: "Flatbed",
+                  truckType: "Flatbed",
                   tyres: 16,
-                  Weight: 15,
-                  producttype: "paint",
+                  weight: 15,
+                  productType: "paint",
                   load: 8000,
                 ),
               ),

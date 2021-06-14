@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
 import 'TruckScreens/myTrucksScreen.dart';
-import 'orderScreens/biddings.dart';
+import 'orderScreens/BiddingsScreen.dart';
 import 'orderScreens/order.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   List<Widget> screens = [
     HomeScreen(),
     MyTrucks(),
-    biddings(),
+    BiddingsScreen(),
     order(),
     AccountVerificationPage1(),
   ];

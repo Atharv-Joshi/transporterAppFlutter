@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class LinePainter extends CustomPainter {
+class LinePainterBiddingsScreen extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Color(0xFFAFAFAF)
       ..strokeWidth = 2;
-    canvas.drawLine(Offset(3, 1), Offset(3, 34), paint);
+    canvas.drawLine(Offset(3, 1), Offset(3, 15), paint);
   }
 
   @override
