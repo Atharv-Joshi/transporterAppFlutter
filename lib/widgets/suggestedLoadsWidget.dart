@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/functions/suggestedLoadsApi.dart';
 import 'package:liveasy/widgets/bodyTextWidget.dart';
 import 'package:liveasy/widgets/suggestedLoadDataDisplayCard.dart';
+import 'package:liveasy/screens/suggestedLoadsScreen.dart';
 
+// ignore: must_be_immutable
 class SuggestedLoadsWidget extends StatelessWidget {
+  static var suggestedLoadData;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,8 +35,14 @@ class SuggestedLoadsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BodyTextWidget(
-                      text: "Suggested Loads", color:greyishWhiteColor),
-                  BodyTextWidget(text: "See All", color: liveasyGreenColor),
+                      text: "Suggested Loads", color: greyishWhiteColor),
+                  GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        Get.to(() => SuggestedLoadScreen());
+                      },
+                      child: Text("See All",
+                          style: TextStyle(color: liveasyGreenColor)))
                 ],
               ),
             ),
@@ -48,6 +58,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
                         color: white,
                       ));
                 }
+                suggestedLoadData = snapshot.data;
                 return Container(
                   height: 106,
                   width: 309,
@@ -59,9 +70,9 @@ class SuggestedLoadsWidget extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           SuggestedLoadDataDisplayCard(
                               loadingPointCity:
-                              snapshot.data[index].loadingPointCity,
+                                  snapshot.data[index].loadingPointCity,
                               unloadingPointCity:
-                              snapshot.data[index].unloadingPointCity,
+                                  snapshot.data[index].unloadingPointCity,
                               onTap: () {})),
                 );
               },

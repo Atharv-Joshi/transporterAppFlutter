@@ -31,13 +31,13 @@ class AddressInputWidget extends StatelessWidget {
       child: TextFormField(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
-          Get.to(CityNameInputScreen(hintText));
+          Get.to(() => CityNameInputScreen(hintText));
         },
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
           icon: icon,
-          suffixIcon: GestureDetector(onTap: onTap,child: CancelIconWidget()),
+          suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
         ),
       ),
     );
