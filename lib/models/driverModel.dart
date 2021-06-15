@@ -11,5 +11,5 @@ class DriverModel {
     this.phoneNum,
     this.driverName,
     this.truckId,
-});
+  });
 }

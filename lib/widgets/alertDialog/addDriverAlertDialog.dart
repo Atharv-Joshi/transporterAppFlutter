@@ -7,6 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 import 'package:permission_handler/permission_handler.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
 
 final ContactPicker _contactPicker = new ContactPicker();
@@ -116,7 +117,7 @@ Future<void> showInformationDialogAddDriver(context) async {
                               onTap: () async {
                                 if (await Permission.contacts
                                     .request()
-                                    .isGranted);
+                                    .isGranted){
                                 Contact contact =
                                     await _contactPicker.selectContact();
                                 setState(() {
@@ -125,7 +126,7 @@ Future<void> showInformationDialogAddDriver(context) async {
                                   contactNumber =
                                       _contact!.phoneNumber.number.toString();
                                   displayContact = contactName! + " - " + contactNumber!;
-                                });
+                                });}
                               },
                               child: Icon(
                                 Icons.add,

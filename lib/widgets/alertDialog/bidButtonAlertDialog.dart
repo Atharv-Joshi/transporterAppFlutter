@@ -8,10 +8,10 @@ import 'package:liveasy/widgets/buttons/bidButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 
 final TextEditingController rate = TextEditingController();
-enum RadioButtonOptions { tonne, truck }
+enum RadioButtonOptions { PER_TON, PER_TRUCK }
 
 Future<void> showInformationDialog(BuildContext context, loadId) async {
-  RadioButtonOptions unit = RadioButtonOptions.tonne;
+  RadioButtonOptions unit = RadioButtonOptions.PER_TON;
   return await showDialog(
       context: context,
       builder: (context) {
@@ -30,7 +30,7 @@ Future<void> showInformationDialog(BuildContext context, loadId) async {
                     Row(
                       children: [
                         Radio<RadioButtonOptions>(
-                            value: RadioButtonOptions.tonne,
+                            value: RadioButtonOptions.PER_TON,
                             activeColor: darkBlueColor,
                             groupValue: unit,
                             onChanged: (value) {
@@ -49,7 +49,7 @@ Future<void> showInformationDialog(BuildContext context, loadId) async {
                           width: space_8,
                         ),
                         Radio<RadioButtonOptions>(
-                            value: RadioButtonOptions.truck,
+                            value: RadioButtonOptions.PER_TRUCK,
                             activeColor: darkBlueColor,
                             groupValue: unit,
                             onChanged: (value) {

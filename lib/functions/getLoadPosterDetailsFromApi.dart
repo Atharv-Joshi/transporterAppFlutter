@@ -5,7 +5,6 @@ import 'package:liveasy/models/loadPosterModel.dart';
 
 
 getLoadPosterDetailsFromApi({required String loadPosterId}) async {
-  print(loadPosterId);
   var loadPosterDetails;
   var jsonData;
 

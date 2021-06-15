@@ -43,7 +43,6 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
     cardsModal.status = json["status"];
     cardsModal.date = json["date"];
     card.add(cardsModal);
-
   }
   return card;
 }

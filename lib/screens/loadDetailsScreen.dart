@@ -165,7 +165,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BookNowButton(),
+                          BookNowButton(loadId: widget.loadId,),
                           SizedBox(
                             width: space_2,
                           ),

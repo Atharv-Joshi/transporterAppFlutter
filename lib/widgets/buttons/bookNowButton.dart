@@ -7,26 +7,34 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+
 class BookNowButton extends StatefulWidget {
-  const BookNowButton({Key? key}) : super(key: key);
+  String? loadId;
+
+  BookNowButton({required this.loadId});
 
   @override
   _BookNowButtonState createState() => _BookNowButtonState();
 }
 
 class _BookNowButtonState extends State<BookNowButton> {
-@override
+  @override
   void initState() {
     super.initState();
-    getTruckNoFromTruckApi();
-    getDriverDetailsFromDriverApi();
+    getTruckDetailsFromTruckApi();
   }
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-         await showInformationDialog(context,truckNoList,driverDetailsList);
+          showDialog(
+              context: context,
+              builder: (context) => BookNowButtonAlertDialog(
+                    truckDetailsList: truckDetailsList,
+                    driverDetailsList: driverDetailsList,
+                    loadId: widget.loadId,
+                  ));
         },
         child: Container(
           height: space_8,

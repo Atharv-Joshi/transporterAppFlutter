@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-postBidAPi(loadId, rate, transporterIdController,unit) async {
-  if(unit=="RadioButtonOptions.PER_TON"){unit="PER_TON";}
-  if(unit=="RadioButtonOptions.PER_TRUCK"){unit="PER_TRUCK";}
+postBookingApi(loadId, rate, transporterId, unit, truckId) async {
   Map data = {
-    "transporterId": transporterIdController,
     "loadId": loadId,
     "rate": rate,
-    "unitValue":unit
+    "transporterId": transporterId,
+    "unit": unit,
+    "truckId": truckId
   };
   String body = json.encode(data);
-
+  print(body);
   final response = await http.post(
       Uri.parse(
-          "http://ec2-15-207-113-71.ap-south-1.compute.amazonaws.com:8080/bid"),
+          "http://ec2-3-7-133-111.ap-south-1.compute.amazonaws.com:8090/booking"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body);
+  print(response.body);
 }

@@ -51,16 +51,18 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   SizedBox(
                     width: space_1,
                   ),
-                  Text(
-                    "$loadingPoint,$loadingPointCity,$loadingPointState",
-                    style: TextStyle(
-                        fontWeight: normalWeight,
-                        fontSize: size_6),
+                  Expanded(
+                    child: Text(
+                      "$loadingPoint,$loadingPointCity,$loadingPointState",
+                      style: TextStyle(
+                          fontWeight: normalWeight,
+                          fontSize: size_6),
+                    ),
                   )
                 ],
               ),
               Container(
-                height: space_4+3,
+                height: space_5+3,
                 color: locationLineColor,
                 width: 1,
                 padding: EdgeInsets.only(left: space_7 + 6),
@@ -78,11 +80,13 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   SizedBox(
                     width: space_1,
                   ),
-                  Text(
-                    "$unloadingPoint,$unloadingPointCity,$unloadingPointState",
-                    style: TextStyle(
-                        fontWeight: normalWeight,
-                        fontSize: size_6),
+                  Expanded(
+                    child: Text(
+                      "$unloadingPoint,$unloadingPointCity,$unloadingPointState",
+                      style: TextStyle(
+                          fontWeight: normalWeight,
+                          fontSize: size_6),
+                    ),
                   )
                 ],
               ),

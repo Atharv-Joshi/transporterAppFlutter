@@ -16,14 +16,14 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        for (int i=0;i<driverDetailsList.length;i++)
+        for (int i=0;i<driverNameList.length;i++)
         {
 
-          if (driverDetailsList[i] == displayContact)
+          if (driverNameList[i] == displayContact)
           {print("has already added");
           break;}
-          else if(i==driverDetailsList.length-1)
-          driverDetailsList.add(displayContact);
+          else if(i==driverNameList.length-1)
+          driverNameList.add(displayContact);
         }
           Navigator.of(context).pop();
         },
