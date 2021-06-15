@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -61,6 +62,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                           key: _formKey,
                           child: TextFormField(
                             onChanged: (value){
+                              if (_controller.text != value.toUpperCase())
+                                _controller.value = _controller.value.copyWith(text: value.toUpperCase());
                               value.isEmpty ? providerData.updateResetActive(false) : providerData.updateResetActive(true);
                             },
                             // key: _formKey,
@@ -72,6 +75,10 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                 Get.snackbar('Incorrect Truck Number', 'Enter correct truck number');
                               }
                             },
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]")),
+                              // FilteringTextInputFormatter.allow(RegExp(r"[A-Z]"))
+                            ],
                             textCapitalization: TextCapitalization.characters,
                             controller: _controller,
                             // textAlign: TextAlign.center,
@@ -106,7 +113,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         alignment: Alignment.bottomCenter,
                         child: MediumSizedButton(
                             text: 'Next',
-                            onPressedFunction:
+                            onPressedFunction: providerData.resetActive ?
                                 () async {
 
                               providerData.updateTruckNumberValue(
@@ -118,6 +125,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                               providerData.updateResetActive(false);
 
                               Get.to(() => TruckDescriptionScreen(truckId));
+                            }
+                            : (){
+                              Get.snackbar('Enter Truck Number', '');
                             }
                         ),
                       ),

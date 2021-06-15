@@ -30,7 +30,7 @@ class ReviewTruckDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
-    if(providerData.truckNumberValue == ''){
+    if(providerData.truckTypeValue == ''){
       truckTypeText = '---';
     }
     else{
@@ -108,6 +108,7 @@ class ReviewTruckDetails extends StatelessWidget {
                               text: 'Edit'),
                           MediumSizedButton(
                               onPressedFunction: (){
+
                                 truckApiCalls.putTruckData(
                                     truckType: providerData.truckTypeValue ,
                                     totalTyres: providerData.totalTyresValue ,
@@ -116,6 +117,7 @@ class ReviewTruckDetails extends StatelessWidget {
                                     driverDetails: providerData.driverDetailsValue ,
                                     truckID : truckId,
                                           );
+                                providerData.resetTruckFilters();
                               },
                               text: 'Submit')
                         ],

@@ -37,8 +37,13 @@ class MyTruckCard extends StatelessWidget {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
   @override
   Widget build(BuildContext context) {
-    
-    truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)];
+
+    truckType = truckType != null
+                          ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)]
+                          : 'null' ;
+
+
+    // truckType = truckType == null ? 'null' : truckType;
 
     return Container(
       color: Color(0xffF7F8FA),
