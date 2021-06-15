@@ -4,14 +4,26 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:provider/provider.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 
-class AddTrucksHeader extends StatelessWidget {
+class AddTrucksHeader extends StatefulWidget {
 
   dynamic resetFunction ;
+  bool reset = true;
 
-  AddTrucksHeader({required this.resetFunction});
+  AddTrucksHeader({this.resetFunction , required this.reset});
+
+  @override
+  _AddTrucksHeaderState createState() => _AddTrucksHeaderState();
+}
+
+class _AddTrucksHeaderState extends State<AddTrucksHeader> {
   @override
   Widget build(BuildContext context) {
+
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -29,16 +41,17 @@ class AddTrucksHeader extends StatelessWidget {
                 )),
           ],
         ),
-        TextButton(
-            onPressed: resetFunction,
+        widget.reset ? TextButton(
+            onPressed: providerData.resetActive ?  widget.resetFunction : null,
             child: Text(
                 'Reset',
                 style : TextStyle(
-                  color: truckGreen,
+                  color: providerData.resetActive ? truckGreen : unactiveReset ,
                   fontSize: size_10,
                   fontWeight: regularWeight,
                 )
             ))
+            : SizedBox()
       ],
     );
   }

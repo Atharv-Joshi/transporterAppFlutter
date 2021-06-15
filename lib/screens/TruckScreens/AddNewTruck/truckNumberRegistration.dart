@@ -9,7 +9,7 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
-import 'package:liveasy/widgets/buttons/applyButton.dart';
+import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
@@ -21,7 +21,7 @@ class AddNewTruck extends StatefulWidget {
 }
 
 class _AddNewTruckState extends State<AddNewTruck> {
-  final GlobalKey _formKey = GlobalKey<FormState>();
+  final  _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller = TextEditingController();
   TruckApiCalls truckApiCalls = TruckApiCalls();
@@ -30,7 +30,10 @@ class _AddNewTruckState extends State<AddNewTruck> {
 
   @override
   Widget build(BuildContext context) {
+
     ProviderData providerData = Provider.of<ProviderData>(context);
+
+
     return Scaffold(
         body: Container(
             padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
@@ -40,39 +43,57 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AddTrucksHeader(
+                      reset: true,
                       resetFunction: () {
                         _controller.text = '';
                         providerData.resetTruckNumber();
+                        providerData.updateResetActive(false);
                       },),
-                    AddTruckSubtitleText(text: 'Add Truck Number'),
+                    AddTruckSubtitleText(text: 'Truck Number'),
 
                     //TODO: center the hintext and apply shadows to textformfield
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: space_4),
-                      width: 179,
-                      height: 38,
-                      child: TextFormField(
-                        // key: _formKey,
-                        textCapitalization: TextCapitalization.characters,
-                        controller: _controller,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: whiteBackgroundColor,
-                          hintText: 'Eg: UP 22 GK 2222',
-                          hintStyle: TextStyle(
-                            fontWeight: boldWeight,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                            borderSide: BorderSide(
-                              color: unselectedGrey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                            borderSide: BorderSide(
-                              color: unselectedGrey,
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: space_4),
+                        width: 289,
+                        height: 38,
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            onChanged: (value){
+                              value.isEmpty ? providerData.updateResetActive(false) : providerData.updateResetActive(true);
+                            },
+                            // key: _formKey,
+                            validator: (value){
+                              if(value!.replaceAll(' ', '').length == 10){
+                                return null;
+                              }
+                              else{
+                                Get.snackbar('Incorrect Truck Number', 'Enter correct truck number');
+                              }
+                            },
+                            textCapitalization: TextCapitalization.characters,
+                            controller: _controller,
+                            // textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: whiteBackgroundColor,
+                              hintText: 'Eg: UP 22 GK 2222',
+                              hintStyle: TextStyle(
+                                fontWeight: boldWeight,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                  color: unselectedGrey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                  color: unselectedGrey,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -83,8 +104,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: ApplyButton(
-                            text: 'Apply',
+                        child: MediumSizedButton(
+                            text: 'Next',
                             onPressedFunction:
                                 () async {
 
@@ -93,6 +114,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
 
                               truckId = await truckApiCalls.postTruckData(
                                   truckNo: _controller.text) ;
+
+                              providerData.updateResetActive(false);
 
                               Get.to(() => TruckDescriptionScreen(truckId));
                             }
@@ -104,5 +127,14 @@ class _AddNewTruckState extends State<AddNewTruck> {
             )
         )
     );
+  }
+
+  void validatorFunction(value){
+    if(value!.replaceAll(' ', '').length == 10){
+      return null;
+    }
+    else{
+      Get.snackbar('Incorrect Truck Number', 'Enter correct truck number');
+    }
   }
 }

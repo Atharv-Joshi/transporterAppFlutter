@@ -3,12 +3,12 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 // ignore: must_be_immutable
-class ApplyButton extends StatelessWidget {
+class MediumSizedButton extends StatelessWidget {
 
   dynamic onPressedFunction;
   String text;
 
-  ApplyButton({required this.onPressedFunction , required this.text});
+  MediumSizedButton({required this.onPressedFunction , required this.text});
 
   @override
   Widget build(BuildContext context) {

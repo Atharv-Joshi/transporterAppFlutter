@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 
 class AddTruckSubtitleText extends StatelessWidget {
 
@@ -14,7 +15,8 @@ class AddTruckSubtitleText extends StatelessWidget {
       '$text',
       style: TextStyle(
         color: truckGreen,
-        fontSize: size_9,
+        fontWeight: mediumBoldWeight,
+        fontSize: size_8,
       ),
     );
   }

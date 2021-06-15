@@ -63,12 +63,9 @@ class ProviderData extends ChangeNotifier {
 
   String truckId = '';
 
-  // dynamic truckTypeValue;
-  // dynamic passingWeightValue;
-  // dynamic totalTyresValue;
-  // dynamic truckLengthValue;
-  // dynamic driverDetailsValue;
-  // dynamic truckNumberValue;
+  //variables related to rest button
+  bool resetActive = false;
+
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
@@ -170,26 +167,34 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateResetActive(bool value){
+    resetActive = value;
+    notifyListeners();
+  }
+
   void resetTruckFilters(){
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
     driverDetailsValue = '';
+    notifyListeners();
+  }
 
-    // truckTypeValue = null;
-    // passingWeightValue= null;
-    // totalTyresValue = null;
-    // truckLengthValue = null;
-    // driverDetailsValue = null;
+  void resetOnNewType(){
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckLengthValue = 0;
+    driverDetailsValue = '';
     notifyListeners();
   }
 
   void resetTruckNumber(){
     truckNumberValue = '';
-    // truckNumberValue = null;
     notifyListeners();
   }
+
+
 //----------------------------------
 
 }

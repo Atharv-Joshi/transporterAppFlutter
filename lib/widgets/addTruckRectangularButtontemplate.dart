@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
@@ -33,11 +34,14 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
         child: Text(
           '$text',
           style: TextStyle(
-              fontSize: size_7,
+            fontWeight: normalWeight,
+              fontSize: text == 'High-Cube Container' || text == 'Standard Container' ? size_6 :  size_7,
               color: providerData.truckTypeValue == value ? white : black
           ),),
         onPressed: () {
           providerData.updateTruckTypeValue(value);
+          providerData.resetOnNewType();
+          providerData.updateResetActive(true);
         },
       ),
     );

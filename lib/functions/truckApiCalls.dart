@@ -25,8 +25,39 @@ class TruckApiCalls{
   String _truckId = '';
 
 //GET---------------------------------------------------------------------------
-  Future<List<TruckModel>> getTruckData() async {
+//   Future<List<TruckModel>> getTruckData() async {
+//
+//     //TODO: implement pagination(remove pseudo)
+//     for(int i = 0 ; ; i++ ){
+//       // http.Response response = await http.get(Uri.parse(truckApiUrl + '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
+//       http.Response response = await http.get(Uri.parse('$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
+//       print(i);
+//       print(response.body);
+//       jsonData = json.decode(response.body);
+//       if(jsonData.isEmpty){
+//         print('in break');
+//         break;
+//       }
+//       for (var json in jsonData) {
+//         print('in for');
+//         TruckModel truckModel = TruckModel( truckApproved: false);
+//         truckModel.truckId = json["truckId"];
+//         truckModel.transporterId = json["transporterId"];
+//         truckModel.truckNo = json["truckNo"];
+//         truckModel.truckApproved = json["truckApproved"];
+//         truckModel.imei = json["imei"];
+//         truckModel.passingWeight = json["passingWeight"];
+//         truckModel.truckType = json["truckType"];
+//         truckModel.driverId = json["driverId"];
+//         truckModel.tyres = json["tyres"];
+//         truckDataList.add(truckModel);
+//       }
+//     }
+//     return truckDataList;
+//   }
 
+  Future<List<TruckModel>> getTruckData() async {
+    print('in function this is the first line');
     //TODO: implement pagination(remove pseudo)
     for(int i = 0 ; ; i++ ){
       http.Response response = await http.get(Uri.parse(truckApiUrl + '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
@@ -34,7 +65,7 @@ class TruckApiCalls{
       if(jsonData.isEmpty){
         break;
       }
-      for (var json in jsonData) {
+      for(var json in jsonData) {
         TruckModel truckModel = TruckModel( truckApproved: false);
         truckModel.truckId = json["truckId"];
         truckModel.transporterId = json["transporterId"];
@@ -54,6 +85,7 @@ class TruckApiCalls{
   //POST------------------------------------------------------------------------
    Future<String> postTruckData({required String truckNo}) async {
 
+    // json map
     Map<String,dynamic> data = {
       "transporterId" : transporterIdController.transporterId.value,
       "truckNo" : truckNo,
@@ -61,6 +93,7 @@ class TruckApiCalls{
 
     String body = json.encode(data);
 
+    //post request
     http.Response response = await http.post(
           Uri.parse(truckApiUrl),
           headers: <String, String>{
@@ -68,14 +101,12 @@ class TruckApiCalls{
           },
           body: body
       );
+
+    //try catch block to see if posting is successful
       try{
         if(response.statusCode == 200){
-          print('in post');
           var returnData = json.decode(response.body);
           _truckId = returnData['truckId'];
-          print('truckId : $_truckId');
-          truckIdController.updateTruckId(returnData['truckId']);
-          print('truckIDController : ${truckIdController.truckId.value}');
           Get.snackbar(returnData['status'], '');
 
         }
@@ -89,11 +120,8 @@ class TruckApiCalls{
   //PUT-------------------------------------------------------------------------
 
 void putTruckData({required String truckID , required String truckType , required int totalTyres , required int passingWeight , required int truckLength , required String driverDetails}) async {
-    print('in post');
-    print('truckId : $truckID');
-
-
-  Map<String,dynamic> data = {
+    //json map
+    Map<String,dynamic> data = {
     "driverId" : null,
     "imei" : null,
     "passingWeight" : passingWeight == 0 ? null : passingWeight,
@@ -104,7 +132,6 @@ void putTruckData({required String truckID , required String truckType , require
   };
 
   String body = json.encode(data);
-    print('url : $truckApiUrl/$truckID');
 
     http.Response response = await http.put(
         Uri.parse('$truckApiUrl/$truckID'),
@@ -113,7 +140,6 @@ void putTruckData({required String truckID , required String truckType , require
         },
         body: body
     );
-    print(json.decode(response.body));
-}
 
+}
   } //class end
