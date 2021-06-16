@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 
@@ -40,10 +41,13 @@ class MyTruckCard extends StatelessWidget {
 
     truckType = truckType != null
                           ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)]
-                          : 'null' ;
+                          : 'NA' ;
 
-
-    // truckType = truckType == null ? 'null' : truckType;
+    Map<String , Color> statusColor = {
+      'Available' : truckGreen,
+      'Busy' : Colors.red,
+      'Offline' : unselectedGrey,
+    };
 
     return Container(
       color: Color(0xffF7F8FA),
@@ -62,7 +66,7 @@ class MyTruckCard extends StatelessWidget {
                     height: space_2,
                     width: space_2,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: statusColor['Offline'],
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
@@ -123,7 +127,8 @@ class MyTruckCard extends StatelessWidget {
                                 fontSize: size_6),
                           ),
                           Text(
-                            '$tyres',
+
+                            tyres != null ?  '$tyres' : 'NA',
                             style: TextStyle(
                                 fontWeight: boldWeight,
                                 fontSize: size_7),

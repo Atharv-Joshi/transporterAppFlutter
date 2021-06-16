@@ -18,6 +18,32 @@ class ProviderData extends ChangeNotifier {
   File? addressProofPhotoFile;
   File? companyIdProofPhotoFile;
 
+  // variables for login pages
+
+  bool inputControllerLengthCheck = false;
+  dynamic buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
+  String smsCode = '';
+  String phoneController = '';
+
+  //-------------------------------------
+
+  // variables for add truck pages
+
+  String truckTypeValue = '';
+  int passingWeightValue = 0;
+  int totalTyresValue = 0;
+  int truckLengthValue = 0;
+  String driverIdValue = '';
+  String truckNumberValue = '';
+
+  String truckId = '';
+
+  //variables related to rest button
+  bool resetActive = false;
+
+  //variables related to driverApi
+  List driverList = [];
+
   updateProfilePhoto(File newFile) {
     profilePhotoFile = newFile;
     notifyListeners();
@@ -43,28 +69,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  // variables for login pages
 
-  bool inputControllerLengthCheck = false;
-  dynamic buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
-  String smsCode = '';
-  String phoneController = '';
-
-  //-------------------------------------
-
-  // variables for add truck pages
-
-  String truckTypeValue = '';
-  int passingWeightValue = 0;
-  int totalTyresValue = 0;
-  int truckLengthValue = 0;
-  String driverDetailsValue = '';
-  String truckNumberValue = '';
-
-  String truckId = '';
-
-  //variables related to rest button
-  bool resetActive = false;
 
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
@@ -153,7 +158,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updateDriverDetailsValue(value){
-    driverDetailsValue = value;
+    driverIdValue = value;
     notifyListeners();
   }
 
@@ -177,7 +182,7 @@ class ProviderData extends ChangeNotifier {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
-    driverDetailsValue = '';
+    driverIdValue = '';
     notifyListeners();
   }
 
@@ -185,12 +190,17 @@ class ProviderData extends ChangeNotifier {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
-    driverDetailsValue = '';
+    driverIdValue = '';
     notifyListeners();
   }
 
   void resetTruckNumber(){
     truckNumberValue = '';
+    notifyListeners();
+  }
+
+  void updateDriverList(value){
+    driverList = value;
     notifyListeners();
   }
 

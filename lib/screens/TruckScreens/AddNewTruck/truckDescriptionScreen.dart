@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/reviewTruckDetailsScreen.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
@@ -28,6 +30,27 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   dynamic dropDownValue;
 
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
+
+  DriverApiCalls driverApiCalls = DriverApiCalls();
+
+  late List driverList = [];
+
+  @override
+  void initState()  {
+    // TODO: implement initState
+    super.initState();
+    getDriverList();
+  }
+
+  void getDriverList() async {
+
+    List temp ;
+    temp = await driverApiCalls.getDriversByTransporterId();
+    setState(() {
+      driverList = temp;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,14 +203,25 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                             dropDownValue = newValue!;
                           });
                         },
-                        items: <String>['Ramesh-6666666', 'Suresh-789456'].map<
-                            DropdownMenuItem<String>>((e) {
+                        // items: <String>['Ramesh-6666666', 'Suresh-789456'].map<
+                        //     DropdownMenuItem<String>>((e) {
+                        //   return DropdownMenuItem<String>(
+                        //       value: e,
+                        //       child: Row(
+                        //           children: [
+                        //             Text('$e'),
+                        //             Icon(Icons.add),
+                        //           ])
+                        //   );
+                        // }).toList(),
+
+                        items: driverList.map<
+                            DropdownMenuItem<String>>((instance) {
                           return DropdownMenuItem<String>(
-                              value: e,
+                              value: instance.driverId ,
                               child: Row(
                                   children: [
-                                    Text('$e'),
-                                    Icon(Icons.add),
+                                    Text('${instance.driverName}-${instance.phoneNum}'),
                                   ])
                           );
                         }).toList(),
@@ -201,8 +235,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: MediumSizedButton(
                         onPressedFunction: () {
-                          providerData.updateResetActive(false);
-                          Get.to(() => ReviewTruckDetails(widget.truckId));
+                          providerData.updateResetActive(true);
+                          Get.to(() => ReviewTruckDetails(widget.truckId , providerData.driverIdValue));
                         },
                         text: 'Save',
                       ),

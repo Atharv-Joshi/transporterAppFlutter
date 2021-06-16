@@ -20,13 +20,13 @@ class TruckFilterVariables{
   };
 
   Map<String, List<int>> totalTyresList = {
-    'OPEN_HALF_BODY': [26, 28, 12],
-    'FLATBED': [6, 30, 10],
+    'OPEN_HALF_BODY': [26,  12],
+    'FLATBED': [6,  10],
     'OPEN_FULL_BODY': [10, 24, 16],
     'FULL_BODY_TRAILER': [18],
-    'HALF_BODY_TRAILER': [16, 8, 6, 28, 30],
+    'HALF_BODY_TRAILER': [16, 8, 6,],
     'STANDARD_CONTAINER': [8, 10],
-    'HIGH_CUBE_CONTAINER': [28, 30, 8, 16],
+    'HIGH_CUBE_CONTAINER': [ 8, 16],
 
   };
 

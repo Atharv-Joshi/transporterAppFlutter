@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 const Color statusBarColor = Color(0xFFFFFFFF);
-
 const Color darkBlueColor = Color(0xFF152968);
 const Color grey = Color(0xFF828282);
 const Color backgroundColor = Color(0xFFF5F5F5);
@@ -25,6 +24,8 @@ const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
 Color loadingWidgetColor = Colors.lightBlueAccent;
+//TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
+// keep deactiveButton color though othervise code will break
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);
 Color bidBackground = Color(0xFF152968);

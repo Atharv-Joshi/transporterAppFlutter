@@ -13,7 +13,9 @@ import 'package:liveasy/widgets/addTrucksHeader.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
 
+//TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
   const AddNewTruck({Key? key}) : super(key: key);
 
@@ -26,8 +28,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
 
   TextEditingController _controller = TextEditingController();
   TruckApiCalls truckApiCalls = TruckApiCalls();
+  DriverApiCalls driverApiCalls = DriverApiCalls();
 
-  String truckId = '';
+  String? truckId ;
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +69,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                 _controller.value = _controller.value.copyWith(text: value.toUpperCase());
                               value.isEmpty ? providerData.updateResetActive(false) : providerData.updateResetActive(true);
                             },
-                            // key: _formKey,
-                            validator: (value){
-                              if(value!.replaceAll(' ', '').length == 10){
-                                return null;
-                              }
-                              else{
-                                Get.snackbar('Incorrect Truck Number', 'Enter correct truck number');
-                              }
-                            },
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(10),FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]")),
-                              // FilteringTextInputFormatter.allow(RegExp(r"[A-Z]"))
+                              LengthLimitingTextInputFormatter(10),FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9]")),
                             ],
                             textCapitalization: TextCapitalization.characters,
                             controller: _controller,
@@ -96,7 +89,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(50),
                                 borderSide: BorderSide(
                                   color: unselectedGrey,
                                 ),
@@ -107,7 +100,6 @@ class _AddNewTruckState extends State<AddNewTruck> {
                       ),
                     ),
 
-                    //this button should only be active if validator check passes
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,
@@ -122,12 +114,18 @@ class _AddNewTruckState extends State<AddNewTruck> {
                               truckId = await truckApiCalls.postTruckData(
                                   truckNo: _controller.text) ;
 
-                              providerData.updateResetActive(false);
+                              if(truckId != null){
+                                  // driverApiCalls.getDriversByTransporterId();
+                                  providerData.updateResetActive(false);
+                                  Get.to(() => TruckDescriptionScreen(truckId!));
 
-                              Get.to(() => TruckDescriptionScreen(truckId));
+                                  }
+                              else{
+                                  Get.snackbar('Enter Correct truck Number', '');
+                                  }
                             }
                             : (){
-                              Get.snackbar('Enter Truck Number', '');
+                              // Get.snackbar('Enter Truck Number', '');
                             }
                         ),
                       ),
@@ -137,14 +135,5 @@ class _AddNewTruckState extends State<AddNewTruck> {
             )
         )
     );
-  }
-
-  void validatorFunction(value){
-    if(value!.replaceAll(' ', '').length == 10){
-      return null;
-    }
-    else{
-      Get.snackbar('Incorrect Truck Number', 'Enter correct truck number');
-    }
   }
 }

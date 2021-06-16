@@ -22,40 +22,10 @@ class TruckApiCalls{
   // Truck Model List used to  create cards
   List<TruckModel> truckDataList = [];
 
-  String _truckId = '';
+  String? _truckId ;
 
 //GET---------------------------------------------------------------------------
-//   Future<List<TruckModel>> getTruckData() async {
-//
-//     //TODO: implement pagination(remove pseudo)
-//     for(int i = 0 ; ; i++ ){
-//       // http.Response response = await http.get(Uri.parse(truckApiUrl + '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
-//       http.Response response = await http.get(Uri.parse('$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
-//       print(i);
-//       print(response.body);
-//       jsonData = json.decode(response.body);
-//       if(jsonData.isEmpty){
-//         print('in break');
-//         break;
-//       }
-//       for (var json in jsonData) {
-//         print('in for');
-//         TruckModel truckModel = TruckModel( truckApproved: false);
-//         truckModel.truckId = json["truckId"];
-//         truckModel.transporterId = json["transporterId"];
-//         truckModel.truckNo = json["truckNo"];
-//         truckModel.truckApproved = json["truckApproved"];
-//         truckModel.imei = json["imei"];
-//         truckModel.passingWeight = json["passingWeight"];
-//         truckModel.truckType = json["truckType"];
-//         truckModel.driverId = json["driverId"];
-//         truckModel.tyres = json["tyres"];
-//         truckDataList.add(truckModel);
-//       }
-//     }
-//     return truckDataList;
-//   }
-
+    //TODO: implement pagination(remove pseudo)
   Future<List<TruckModel>> getTruckData() async {
     print('in function this is the first line');
     //TODO: implement pagination(remove pseudo)
@@ -83,7 +53,7 @@ class TruckApiCalls{
   }
 
   //POST------------------------------------------------------------------------
-   Future<String> postTruckData({required String truckNo}) async {
+   Future<String?> postTruckData({required String truckNo}) async {
 
     // json map
     Map<String,dynamic> data = {
@@ -103,32 +73,36 @@ class TruckApiCalls{
       );
 
     //try catch block to see if posting is successful
-      try{
-        if(response.statusCode == 200){
+    //   try{
+    //     if(response.statusCode == 200){
+    //       var returnData = json.decode(response.body);
+    //       _truckId = returnData['truckId'];
+    //       // Get.snackbar(returnData['status'], '');
+    //
+    //     }
+    //   }catch(e){
+    //     print(e);
+    //   }
+
           var returnData = json.decode(response.body);
           _truckId = returnData['truckId'];
-          Get.snackbar(returnData['status'], '');
-
-        }
-      }catch(e){
-        print(e);
-      }
-
         return _truckId;
     }//post truck data
 
   //PUT-------------------------------------------------------------------------
 
-void putTruckData({required String truckID , required String truckType , required int totalTyres , required int passingWeight , required int truckLength , required String driverDetails}) async {
+Future<String?> putTruckData({required String truckID , required String truckType , required int totalTyres ,
+  required int passingWeight , required int truckLength , required String driverID}) async {
     //json map
     Map<String,dynamic> data = {
-    "driverId" : null,
-    "imei" : null,
-    "passingWeight" : passingWeight == 0 ? null : passingWeight,
-    "transporterId" : transporterIdController.transporterId.value,
-    "truckApproved" : false,
-    "truckType" : truckType == '' ? null : truckType,
-    "tyres" : totalTyres == 0 ? null : totalTyres
+      "driverId": driverID == '' ? null : driverID,
+      "imei": null,
+      "passingWeight": passingWeight == 0 ? null : passingWeight,
+      "transporterId": transporterIdController.transporterId.value,
+      "truckApproved": false,
+      "truckType": truckType == '' ? null : truckType,
+      "truckLength" : truckLength == 0 ? null : truckLength,
+      "tyres" : totalTyres == 0 ? null : totalTyres
   };
 
   String body = json.encode(data);
@@ -140,6 +114,10 @@ void putTruckData({required String truckID , required String truckType , require
         },
         body: body
     );
+
+    var returnData = json.decode(response.body);
+    _truckId = returnData['truckId'];
+    return _truckId;
 
 }
   } //class end
