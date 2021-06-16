@@ -26,7 +26,7 @@ class ProfilePhotoWidget extends StatelessWidget {
               ],
               image: DecorationImage(
                   image: Image.file(providerData.profilePhotoFile).image,
-                  fit: BoxFit.fill),
+                  fit: BoxFit.fitWidth),
             )
           :BoxDecoration(
               color: white,

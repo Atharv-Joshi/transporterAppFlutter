@@ -12,9 +12,6 @@ import 'package:get/get.dart';
 import 'TruckScreens/myTrucksScreen.dart';
 
 class NavigationScreen extends StatefulWidget {
-  final bool? isAccountVerificationInProgress;
-
-  NavigationScreen({this.isAccountVerificationInProgress});
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
@@ -23,14 +20,11 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-  bool isAccountVerificationInProgress = false;
   var screens;
 
   @override
   Widget build(BuildContext context) {
-    isAccountVerificationInProgress =
-        widget.isAccountVerificationInProgress != null
-            ? widget.isAccountVerificationInProgress! : false;
+    bool accountVerificationInProgress = transporterIdController.accountVerificationInProgress.value;
     screens = [
       HomeScreen(),
       MyTrucks(),
@@ -40,7 +34,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ? AccountVerificationStatusScreen(
               mobileNum: transporterIdController.mobileNum.value,
               accountVerificationInProgress: false)
-          : (isAccountVerificationInProgress
+          : (accountVerificationInProgress
               ? AccountVerificationStatusScreen(
                   mobileNum: transporterIdController.mobileNum.value,
                   accountVerificationInProgress: true)
