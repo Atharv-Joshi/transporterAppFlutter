@@ -10,13 +10,15 @@ import 'package:liveasy/functions/getDriverNameFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:provider/provider.dart';
 
-String? _dropdownvalue1 = null;
-String? _dropdownvalue2 = null;
+// String? _dropdownvalue1 = null;
+// String? _dropdownvalue2 = null;
 
 class BookNowButtonAlertDialog extends StatefulWidget {
   var truckDetailsList;
@@ -65,6 +67,7 @@ class BookNowButtonAlertDialog extends StatefulWidget {
 class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context);
     return AlertDialog(
       contentPadding: EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
       insetPadding: EdgeInsets.only(
@@ -94,7 +97,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
-                  value: _dropdownvalue1,
+                  value: providerData.dropdownvalue1,
                   icon: Icon(Icons.arrow_drop_down_circle_sharp),
                   iconEnabledColor: darkBlueColor,
                   style: TextStyle(
@@ -105,8 +108,9 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                     setState(() {
                       newValue == "Add Truck"
                           ? Get.to(() => AddNewTruck())
-                          : _dropdownvalue1 = newValue!;
+                          : providerData.updateDropDownValue1(newValue: newValue!);
                       searchingDetailsFromTruckNo();
+                      providerData.updateDropDownValue2(newValue: temp_dropdownvalue2!);
                     });
                   },
                   items: truckNoList
@@ -143,7 +147,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
-                  value: _dropdownvalue2,
+                  value: providerData.dropdownvalue2,
                   icon: Icon(Icons.arrow_drop_down_circle_sharp),
                   iconEnabledColor: darkBlueColor,
                   style: TextStyle(
@@ -154,7 +158,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                     setState(() {
                       newValue == "Add New Driver"
                           ? showInformationDialogAddDriver(context)
-                          : _dropdownvalue2 = newValue!;
+                          : providerData.updateDropDownValue2(newValue: newValue!);
                       searchingDetailsFromDriverId();
                     });
                   },
@@ -198,7 +202,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   void searchingDetailsFromTruckNo() {
     final truckList = widget.truckDetailsList;
     for (TruckModel item in truckList) {
-      if (_dropdownvalue1!.compareTo(item.truckNo.toString()) == 0) {
+      if (Provider.of<ProviderData>(context).dropdownvalue1!.compareTo(item.truckNo.toString()) == 0) {
         widget.selectedTruckId = item.truckId.toString();
         widget.selectedTransporterId = item.transporterId.toString();
         widget.selectedTruckNo = item.truckNo.toString();
@@ -219,7 +223,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   void searchingDetailsFromDriverId() {
     final driverList = widget.driverDetailsList;
     for (DriverModel item in driverList) {
-      if (_dropdownvalue2.toString().contains(item.phoneNum.toString())) {
+      if (Provider.of<ProviderData>(context).dropdownvalue2.toString().contains(item.phoneNum.toString())) {
         widget.selected_Driver_DriverId = item.driverId.toString();
         widget.selected_Driver_TransporterId = item.transporterId.toString();
         widget.selected_Driver_PhoneNum = item.phoneNum.toString();

@@ -4,6 +4,17 @@ import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
   int index = 0;
+  String? dropdownvalue1 = null;
+  String? dropdownvalue2 = null;
+  void updateDropDownValue1({required String newValue}) {
+    dropdownvalue1 = newValue;
+    notifyListeners();
+  }
+
+  void updateDropDownValue2({required String newValue}) {
+    dropdownvalue2 = newValue;
+    notifyListeners();
+  }
 
   String loadingPointCity = "";
   String loadingPointState = "";
