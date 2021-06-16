@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -22,6 +24,8 @@ class MyTrucks extends StatefulWidget {
 class _MyTrucksState extends State<MyTrucks> {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
+  
+  DriverApiCalls driverApiCalls = DriverApiCalls();
 
   @override
   Widget build(BuildContext context) {
@@ -66,17 +70,37 @@ class _MyTrucksState extends State<MyTrucks> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
-                            return MyTruckCard(
-                              truckId: snapshot.data[index].truckId,
-                              transporterId:  snapshot.data[index].transporterId,
-                              truckNo:  snapshot.data[index].truckNo,
-                              truckApproved:  snapshot.data[index].truckApproved,
-                              imei:  snapshot.data[index].imei,
-                              passingWeight:  snapshot.data[index].passingWeight,
-                              driverId:  snapshot.data[index].driverId,
-                              truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres
-                            );
+
+                            TruckModel truckModel = TruckModel(truckApproved: false);
+
+                            truckModel.truckId =  snapshot.data[index].truckId;
+                            truckModel.transporterId =   snapshot.data[index].transporterId;
+                            truckModel.truckNo =  snapshot.data[index].truckNo;
+                            truckModel.truckApproved =  snapshot.data[index].truckApproved;
+                            truckModel.imei =  snapshot.data[index].imei;
+                            truckModel.passingWeight =  snapshot.data[index].passingWeight;
+                            truckModel.driverId =  snapshot.data[index].driverId;
+                            truckModel.truckType =  snapshot.data[index].truckType;
+                            truckModel.tyres =  snapshot.data[index].tyres;
+
+                              return FutureBuilder(
+                                future: driverApiCalls.getDriverByDriverId(truckModel : truckModel),
+                                  builder: (BuildContext context , AsyncSnapshot snapshot){
+                                    if(snapshot.data == null){
+                                      return LoadingWidget();
+                                    }
+                                    return MyTruckCard(
+                                        truckApproved: snapshot.data.truckApproved,
+                                        truckNo : snapshot. data.truckNo,
+                                        truckType: snapshot.data.truckType,
+                                        tyres: snapshot.data.tyres,
+                                        driverName : snapshot.data.driverName,
+                                        phoneNum:  snapshot.data.driverNum,
+                                         );
+
+                                  }
+
+                                  );
                         });
                   },
                 ),

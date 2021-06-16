@@ -9,6 +9,8 @@ class TruckModel{
    String? driverId;
    String? truckType;
    int? tyres;
+   String? driverName;
+   String? driverNum;
 
   TruckModel(
   {

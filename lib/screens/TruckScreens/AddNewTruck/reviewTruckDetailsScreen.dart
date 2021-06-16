@@ -52,9 +52,8 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   }
 
   void getDriverDetails() async {
-    print('driverid: ${widget.driverId}');
     if(widget.driverId != ''){
-      var temp = await  driverApiCalls.getDriverByDriverId(widget.driverId);
+      var temp = await  driverApiCalls.getDriverByDriverId(driverId :  widget.driverId);
       setState(() {
         driverModel = temp;
       });
