@@ -160,7 +160,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                         providerData.smsCode,
                                                     verificationId:
                                                         _verificationCode);
-                                                providerData.clearall();
+                                                providerData.clearAll();
                                               }
                                             : null),
                                   ),

@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       //   Get.to(() => NewOTPVerificationScreen(
                                       //       providerData.phoneController));    
                                       
-                                        providerData.clearall();
+                                        providerData.clearAll();
                                       } // if
                                     
                                   : () {}),
