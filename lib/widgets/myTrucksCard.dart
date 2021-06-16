@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
+import 'package:liveasy/variables/truckFilterVariables.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatelessWidget {
@@ -18,7 +20,7 @@ class MyTruckCard extends StatelessWidget {
   int? passingWeight;
   String? driverId;
   String? truckType;
-  String?   tyres;
+  int?   tyres;
 
   MyTruckCard(
       {this.truckId,
@@ -32,8 +34,20 @@ class MyTruckCard extends StatelessWidget {
         this.tyres});
 
   // MyTruckCard(truckModel);
+
+  TruckFilterVariables truckFilterVariables = TruckFilterVariables();
   @override
   Widget build(BuildContext context) {
+
+    truckType = truckType != null
+                          ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)]
+                          : 'NA' ;
+
+    Map<String , Color> statusColor = {
+      'Available' : truckGreen,
+      'Busy' : Colors.red,
+      'Offline' : unselectedGrey,
+    };
 
     return Container(
       color: Color(0xffF7F8FA),
@@ -52,12 +66,12 @@ class MyTruckCard extends StatelessWidget {
                     height: space_2,
                     width: space_2,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: statusColor['Offline'],
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                   Text(
-                      'Available',
+                      'Offline',
                       style: TextStyle(
                         fontWeight: mediumBoldWeight,
                         fontSize: size_8),
@@ -113,7 +127,8 @@ class MyTruckCard extends StatelessWidget {
                                 fontSize: size_6),
                           ),
                           Text(
-                            '$tyres',
+
+                            tyres != null ?  '$tyres' : 'NA',
                             style: TextStyle(
                                 fontWeight: boldWeight,
                                 fontSize: size_7),

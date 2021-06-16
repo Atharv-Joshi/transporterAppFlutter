@@ -4,11 +4,13 @@ import 'package:liveasy/functions/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
                 return GetMaterialApp(
                   theme: ThemeData(fontFamily: "montserrat"),
                   home: NavigationScreen(),
+                  // home: TruckDescriptionScreen(),
                 );
               }
             } else

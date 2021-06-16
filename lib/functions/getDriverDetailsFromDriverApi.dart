@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'dart:convert';
-
+import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
 
 var jsonData;
@@ -29,3 +29,5 @@ Future<List> getDriverDetailsFromDriverApi() async {
   print(driverDetailsList);
   return driverDetailsList;
 }
+
+

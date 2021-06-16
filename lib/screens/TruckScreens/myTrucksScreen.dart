@@ -11,7 +11,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 //functions
-import 'package:liveasy/functions/getDataFromApi.dart';
+import 'package:liveasy/functions/truckApiCalls.dart';
 
 class MyTrucks extends StatefulWidget {
 
@@ -21,7 +21,7 @@ class MyTrucks extends StatefulWidget {
 
 class _MyTrucksState extends State<MyTrucks> {
 
-  GetDataFromApi getDataFromApi = GetDataFromApi();
+  TruckApiCalls truckApiCalls = TruckApiCalls();
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +29,11 @@ class _MyTrucksState extends State<MyTrucks> {
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
+          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -49,26 +49,23 @@ class _MyTrucksState extends State<MyTrucks> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.symmetric(
-                  vertical: space_3
-                ),
-                  child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )),
+                  margin: EdgeInsets.symmetric(
+                    vertical: space_3
+                      ),
+                  child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )
+              ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
-                  future: getDataFromApi.getTruckData(),
+                  future: truckApiCalls.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
-                      // return CircularProgressIndicator(
-                      //   valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
-                      // );
                     }
+                    print('snapshot length :' + '${snapshot.data.length}');
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
-                            // print('in item builder');
-                            // print(snapshot.data[index].truckNo);
                             return MyTruckCard(
                               truckId: snapshot.data[index].truckId,
                               transporterId:  snapshot.data[index].transporterId,
@@ -78,14 +75,15 @@ class _MyTrucksState extends State<MyTrucks> {
                               passingWeight:  snapshot.data[index].passingWeight,
                               driverId:  snapshot.data[index].driverId,
                               truckType:  snapshot.data[index].truckType,
-                              tyres:  snapshot.data[index].tyres.toString().substring(0,5),
+                              tyres:  snapshot.data[index].tyres
                             );
                         });
                   },
                 ),
               ),
               //TODO: placement of add truck button and determine optimum length of listview container
-              AddTruckButton(),
+              Container(
+                  child: AddTruckButton()),
             ],
           ),
         ),

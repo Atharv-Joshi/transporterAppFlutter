@@ -8,7 +8,7 @@ class TruckModel{
    int? passingWeight;
    String? driverId;
    String? truckType;
-   String? tyres;
+   int? tyres;
 
   TruckModel(
   {
