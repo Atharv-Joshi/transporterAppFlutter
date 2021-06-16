@@ -11,7 +11,6 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-
   // TruckModel truckModel = TruckModel() ;
 
   String? truckId;
@@ -22,53 +21,44 @@ class MyTruckCard extends StatefulWidget {
   int? passingWeight;
   String? driverId;
   String? truckType;
-  int?   tyres;
+  int? tyres;
   String? driverName;
   String? phoneNum;
 
   MyTruckCard(
       {this.truckId,
-        this.transporterId,
-        this.truckNo,
-        required this.truckApproved,
-        this.imei,
-        this.passingWeight,
-        this.driverId,
-        this.truckType,
-        this.driverName,
-        this.phoneNum,
-        this.tyres});
+      this.transporterId,
+      this.truckNo,
+      required this.truckApproved,
+      this.imei,
+      this.passingWeight,
+      this.driverId,
+      this.truckType,
+      this.driverName,
+      this.phoneNum,
+      this.tyres});
 
   @override
   _MyTruckCardState createState() => _MyTruckCardState();
 }
 
 class _MyTruckCardState extends State<MyTruckCard> {
-
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
 
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   DriverModel driverModel = DriverModel();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-
   @override
   Widget build(BuildContext context) {
-
     widget.truckType = widget.truckType != null
-                          ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
-                          : 'NA' ;
+        ? truckFilterVariables.truckTypeTextList[
+            truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+        : 'NA';
 
-    Map<String , Color> statusColor = {
-      'Available' : truckGreen,
-      'Busy' : Colors.red,
-      'Offline' : unselectedGrey,
+    Map<String, Color> statusColor = {
+      'Available': truckGreen,
+      'Busy': Colors.red,
+      'Offline': unselectedGrey,
     };
 
     return Container(
@@ -93,18 +83,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     ),
                   ),
                   Text(
-                      'Offline',
-                      style: TextStyle(
-                        fontWeight: mediumBoldWeight,
-                        fontSize: size_8),
+                    'Offline',
+                    style: TextStyle(
+                        fontWeight: mediumBoldWeight, fontSize: size_8),
                   ),
                 ],
               ),
 
               Container(
-                margin: EdgeInsets.symmetric(vertical: space_3 ),
+                margin: EdgeInsets.symmetric(vertical: space_3),
                 padding: EdgeInsets.only(right: space_8),
-
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,28 +101,26 @@ class _MyTruckCardState extends State<MyTruckCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            'Vehicle Number',
-                          style: TextStyle(
-                              fontSize: size_6),
+                          'Vehicle Number',
+                          style: TextStyle(fontSize: size_6),
                         ),
                         Text(
-                            '${widget.truckNo}',
+                          '${widget.truckNo}',
                           style: TextStyle(
-                            fontWeight: boldWeight,
-                              fontSize: size_7),
+                              fontWeight: boldWeight, fontSize: size_7),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: space_3),
                           child: Text(
-                              'Truck Type',
-                              style: TextStyle(
-                              fontSize: size_6),),
+                            'Truck Type',
+                            style: TextStyle(fontSize: size_6),
+                          ),
                         ),
                         Text(
-                            '${widget.truckType}',
+                          '${widget.truckType}',
                           style: TextStyle(
-                              fontWeight: boldWeight,
-                              fontSize: size_7),)
+                              fontWeight: boldWeight, fontSize: size_7),
+                        )
                       ],
                     ),
                     //tyre and driver column
@@ -145,29 +131,26 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         children: [
                           Text(
                             'Tyre',
-                            style: TextStyle(
-                                fontSize: size_6),
+                            style: TextStyle(fontSize: size_6),
                           ),
                           Text(
-
-                            widget.tyres != null ?  '${widget.tyres}' : 'NA',
+                            widget.tyres != null ? '${widget.tyres}' : 'NA',
                             style: TextStyle(
-                                fontWeight: boldWeight,
-                                fontSize: size_7),
+                                fontWeight: boldWeight, fontSize: size_7),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: space_3),
                             child: Text(
                               'Driver',
-                              style: TextStyle(
-                                  fontSize: size_6),),
+                              style: TextStyle(fontSize: size_6),
+                            ),
                           ),
                           Text(
-                             '${widget.driverName}' ,
+                            '${widget.driverName}',
                             // 'Ravi Shah',
                             style: TextStyle(
-                                fontWeight: boldWeight,
-                                fontSize: size_7),)
+                                fontWeight: boldWeight, fontSize: size_7),
+                          )
                         ],
                       ),
                     )
@@ -180,9 +163,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved:widget.truckApproved)
-                  ),
+                      margin: EdgeInsets.only(right: space_2),
+                      child: TrackButton(truckApproved: widget.truckApproved)),
                   CallButton(),
                 ],
               )

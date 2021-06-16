@@ -25,7 +25,7 @@ class TruckApiCalls{
   String? _truckId ;
 
 //GET---------------------------------------------------------------------------
-    //TODO: implement pagination(remove pseudo)
+  //TODO: implement pagination(remove pseudo)
   Future<List<TruckModel>> getTruckData() async {
     print('in function this is the first line');
     //TODO: implement pagination(remove pseudo)
@@ -35,6 +35,7 @@ class TruckApiCalls{
       if(jsonData.isEmpty){
         break;
       }
+      print(response.body);
       for(var json in jsonData) {
         TruckModel truckModel = TruckModel( truckApproved: false);
         truckModel.truckId = json["truckId"];
@@ -53,7 +54,7 @@ class TruckApiCalls{
   }
 
   //POST------------------------------------------------------------------------
-   Future<String?> postTruckData({required String truckNo}) async {
+  Future<String?> postTruckData({required String truckNo}) async {
 
     // json map
     Map<String,dynamic> data = {
@@ -65,12 +66,12 @@ class TruckApiCalls{
 
     //post request
     http.Response response = await http.post(
-          Uri.parse(truckApiUrl),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: body
-      );
+        Uri.parse(truckApiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body
+    );
 
     //try catch block to see if posting is successful
     //   try{
@@ -84,15 +85,15 @@ class TruckApiCalls{
     //     print(e);
     //   }
 
-          var returnData = json.decode(response.body);
-          _truckId = returnData['truckId'];
-        return _truckId;
-    }//post truck data
+    var returnData = json.decode(response.body);
+    _truckId = returnData['truckId'];
+    return _truckId;
+  }//post truck data
 
   //PUT-------------------------------------------------------------------------
 
-Future<String?> putTruckData({required String truckID , required String truckType , required int totalTyres ,
-  required int passingWeight , required int truckLength , required String driverID}) async {
+  Future<String?> putTruckData({required String truckID , required String truckType , required int totalTyres ,
+    required int passingWeight , required int truckLength , required String driverID}) async {
     //json map
     Map<String,dynamic> data = {
       "driverId": driverID == '' ? null : driverID,
@@ -103,9 +104,9 @@ Future<String?> putTruckData({required String truckID , required String truckTyp
       "truckType": truckType == '' ? null : truckType,
       "truckLength" : truckLength == 0 ? null : truckLength,
       "tyres" : totalTyres == 0 ? null : totalTyres
-  };
+    };
 
-  String body = json.encode(data);
+    String body = json.encode(data);
 
     http.Response response = await http.put(
         Uri.parse('$truckApiUrl/$truckID'),
@@ -119,5 +120,5 @@ Future<String?> putTruckData({required String truckID , required String truckTyp
     _truckId = returnData['truckId'];
     return _truckId;
 
-}
-  } //class end
+  }
+} //class end
