@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 // ignore: must_be_immutable
@@ -13,7 +15,7 @@ class TrackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 31,
-      width: 80,
+      width: 90,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -22,30 +24,41 @@ class TrackButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: (){print('Track Button Pressed');},
-        child: Row(
-          children: [
-            // if(truckApproved == false){
-            //
-            // },
-            Container(
-              child: truckApproved ? Container() : Icon(
-                Icons.lock,
-                size: 18 ,
-                color: truckGreen,
+        child: Container(
+          margin: EdgeInsets.only(left: space_2),
+          child: Row(
+            children: [
+              // if(truckApproved == false){
+              //
+              // },
+              Container(
+                margin: EdgeInsets.only(right: space_1),
+                // child: truckApproved ? Container() : Icon(
+                //   Icons.lock,
+                //   size: 18 ,
+                //   color: verifiedButtonColor,
+                // ),
+                child: truckApproved ? Container() : Image(
+                    height: 16,
+                    width: 11,
+                    image: AssetImage(
+                      'assets/icons/lockIcon.png'
+                    )
+                ),
               ),
-            ),
 
 
-            Text(
-              'Track',
-              style: TextStyle(
-                letterSpacing: 0.7,
-                fontWeight: FontWeight.w400,
-                color: white,
-                fontSize: space_3,
+              Text(
+                'Track',
+                style: TextStyle(
+                  letterSpacing: 0.7,
+                  fontWeight: normalWeight,
+                  color: white,
+                  fontSize: size_7,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
