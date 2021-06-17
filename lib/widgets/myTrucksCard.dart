@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
+import 'package:liveasy/variables/truckFilterVariables.dart';
 
 // ignore: must_be_immutable
-class MyTruckCard extends StatelessWidget {
+class MyTruckCard extends StatefulWidget {
 
   // TruckModel truckModel = TruckModel() ;
 
@@ -18,7 +22,9 @@ class MyTruckCard extends StatelessWidget {
   int? passingWeight;
   String? driverId;
   String? truckType;
-  String?   tyres;
+  int?   tyres;
+  String? driverName;
+  String? phoneNum;
 
   MyTruckCard(
       {this.truckId,
@@ -29,11 +35,41 @@ class MyTruckCard extends StatelessWidget {
         this.passingWeight,
         this.driverId,
         this.truckType,
+        this.driverName,
+        this.phoneNum,
         this.tyres});
 
-  // MyTruckCard(truckModel);
+  @override
+  _MyTruckCardState createState() => _MyTruckCardState();
+}
+
+class _MyTruckCardState extends State<MyTruckCard> {
+
+  TruckFilterVariables truckFilterVariables = TruckFilterVariables();
+
+  DriverApiCalls driverApiCalls = DriverApiCalls();
+
+  DriverModel driverModel = DriverModel();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    widget.truckType = widget.truckType != null
+                          ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+                          : 'NA' ;
+
+    Map<String , Color> statusColor = {
+      'Available' : truckGreen,
+      'Busy' : Colors.red,
+      'Offline' : unselectedGrey,
+    };
 
     return Container(
       color: Color(0xffF7F8FA),
@@ -52,12 +88,12 @@ class MyTruckCard extends StatelessWidget {
                     height: space_2,
                     width: space_2,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: statusColor['Offline'],
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                   Text(
-                      'Available',
+                      'Offline',
                       style: TextStyle(
                         fontWeight: mediumBoldWeight,
                         fontSize: size_8),
@@ -82,7 +118,7 @@ class MyTruckCard extends StatelessWidget {
                               fontSize: size_6),
                         ),
                         Text(
-                            '$truckNo',
+                            '${widget.truckNo}',
                           style: TextStyle(
                             fontWeight: boldWeight,
                               fontSize: size_7),
@@ -95,7 +131,7 @@ class MyTruckCard extends StatelessWidget {
                               fontSize: size_6),),
                         ),
                         Text(
-                            '$truckType',
+                            '${widget.truckType}',
                           style: TextStyle(
                               fontWeight: boldWeight,
                               fontSize: size_7),)
@@ -113,7 +149,8 @@ class MyTruckCard extends StatelessWidget {
                                 fontSize: size_6),
                           ),
                           Text(
-                            '$tyres',
+
+                            widget.tyres != null ?  '${widget.tyres}' : 'NA',
                             style: TextStyle(
                                 fontWeight: boldWeight,
                                 fontSize: size_7),
@@ -126,7 +163,8 @@ class MyTruckCard extends StatelessWidget {
                                   fontSize: size_6),),
                           ),
                           Text(
-                            'Ravi Shah',
+                             '${widget.driverName}' ,
+                            // 'Ravi Shah',
                             style: TextStyle(
                                 fontWeight: boldWeight,
                                 fontSize: size_7),)
@@ -143,7 +181,7 @@ class MyTruckCard extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved:truckApproved)
+                      child: TrackButton(truckApproved:widget.truckApproved)
                   ),
                   CallButton(),
                 ],

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class ApplyButton extends StatelessWidget {
+class MediumSizedButton extends StatelessWidget {
 
   dynamic onPressedFunction;
+  String text;
 
-  ApplyButton({required this.onPressedFunction});
+  MediumSizedButton({required this.onPressedFunction , required this.text});
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.053,
       width : MediaQuery.of(context).size.width * 0.3,
@@ -19,16 +24,20 @@ class ApplyButton extends StatelessWidget {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           )),
-          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+          backgroundColor: MaterialStateProperty.all<Color>(
+            providerData.resetActive
+                ? darkBlueColor
+                : unactiveReset
+          ),
         ),
         onPressed:onPressedFunction,
         child: Text(
-          'Apply',
+          '$text',
           style: TextStyle(
             letterSpacing: 0.7,
             fontWeight: FontWeight.w400,
             color: white,
-            fontSize: space_3,
+            fontSize: size_8,
           ),
         ),
       ),
