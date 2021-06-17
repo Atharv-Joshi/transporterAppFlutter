@@ -1,45 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:get/state_manager.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
-import 'package:liveasy/screens/accountScreens/accountVerificationStatusScreen.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 import 'TruckScreens/myTrucksScreen.dart';
 
 class NavigationScreen extends StatefulWidget {
-
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
-  var screens;
+  var screens = [
+    HomeScreen(),
+    MyTrucks(),
+    Text(""),
+    Text(""),
+    AccountPageUtil(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    bool accountVerificationInProgress = transporterIdController.accountVerificationInProgress.value;
-    screens = [
-      HomeScreen(),
-      MyTrucks(),
-      Text(""),
-      Text(""),
-      transporterIdController.transporterApproved.value
-          ? AccountVerificationStatusScreen(
-              mobileNum: transporterIdController.mobileNum.value,
-              accountVerificationInProgress: false)
-          : (accountVerificationInProgress
-              ? AccountVerificationStatusScreen(
-                  mobileNum: transporterIdController.mobileNum.value,
-                  accountVerificationInProgress: true)
-              : AccountVerificationPage1()),
-    ];
     return Scaffold(
       backgroundColor: statusBarColor,
       // color of status bar which displays time on a phone
