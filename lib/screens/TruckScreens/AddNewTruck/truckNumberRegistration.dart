@@ -105,6 +105,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         alignment: Alignment.bottomCenter,
                         child: MediumSizedButton(
                             text: 'Next',
+                            optional: false,
                             onPressedFunction: providerData.resetActive ?
                                 () async {
 

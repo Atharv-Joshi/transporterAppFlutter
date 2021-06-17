@@ -143,10 +143,11 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               onPressedFunction: (){
                                 Get.back();
                               },
+                              optional: true,
                               text: 'Edit'),
                           MediumSizedButton(
                               onPressedFunction: () async {
-                                print('driverid in review page : ${widget.driverId}');
+                                print('driverId in review page : ${widget.driverId}');
                                 truckIdForCrossVerification = await truckApiCalls.putTruckData(
                                     truckType: providerData.truckTypeValue ,
                                     totalTyres: providerData.totalTyresValue ,
@@ -166,6 +167,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 }
 
                               },
+                              optional: true,
                               text: 'Submit')
                         ],
                       ),

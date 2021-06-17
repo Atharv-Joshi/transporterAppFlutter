@@ -234,6 +234,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: MediumSizedButton(
+                        optional: true,
                         onPressedFunction: () {
                           providerData.updateResetActive(true);
                           Get.to(() => ReviewTruckDetails(widget.truckId , providerData.driverIdValue));

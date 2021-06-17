@@ -79,7 +79,9 @@ Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) 
     http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
 
     jsonData = json.decode(response.body);
+    print(jsonData);
   }
+
   // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
   //
   // Map jsonData = json.decode(response.body);

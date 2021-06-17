@@ -10,8 +10,8 @@ class MediumSizedButton extends StatelessWidget {
 
   dynamic onPressedFunction;
   String text;
-
-  MediumSizedButton({required this.onPressedFunction , required this.text});
+  bool optional;
+  MediumSizedButton({required this.optional , required this.onPressedFunction , required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,11 @@ class MediumSizedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(
-            providerData.resetActive
-                ? darkBlueColor
-                : unactiveReset
+            optional ? darkBlueColor
+                      :
+                      providerData.resetActive
+                          ? darkBlueColor
+                          : unactiveReset
           ),
         ),
         onPressed:onPressedFunction,

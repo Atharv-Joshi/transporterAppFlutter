@@ -23,8 +23,10 @@ class MyTrucks extends StatefulWidget {
 
 class _MyTrucksState extends State<MyTrucks> {
 
+  // truckApiCall instance
   TruckApiCalls truckApiCalls = TruckApiCalls();
-  
+
+  // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   @override
@@ -58,15 +60,18 @@ class _MyTrucksState extends State<MyTrucks> {
                       ),
                   child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )
               ),
+
+              //LIST OF TRUCK CARDS---------------------------------------------
               Container(
                 height: MediaQuery.of(context).size.height * 0.67,
                 child: FutureBuilder(
+                  //getTruckData returns list of truck Model
                   future: truckApiCalls.getTruckData(),
                   builder: (BuildContext context , AsyncSnapshot snapshot){
                     if(snapshot.data == null){
                       return LoadingWidget();
                     }
-                    print('snapshot length :' + '${snapshot.data.length}');
+                    print('snapshot length :' + '${snapshot.data.length}'); //number of cards
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
@@ -104,6 +109,7 @@ class _MyTrucksState extends State<MyTrucks> {
                         });
                   },
                 ),
+                //--------------------------------------------------------------
               ),
               //TODO: placement of add truck button and determine optimum length of listview container
               Container(
