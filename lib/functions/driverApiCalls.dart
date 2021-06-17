@@ -56,46 +56,46 @@ class DriverApiCalls{
 //   }
 // }
 
-  Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
+Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
 
-    Map? jsonData ;
+  Map? jsonData ;
 
-    if(driverId != null){
-      http.Response response = await  http.get(Uri.parse('$driverApiUrl/$driverId'));
+  if(driverId != null){
+    http.Response response = await  http.get(Uri.parse('$driverApiUrl/$driverId'));
 
-      Map jsonData = json.decode(response.body);
+    Map jsonData = json.decode(response.body);
 
-      DriverModel driverModel = DriverModel();
-      driverModel.driverId = jsonData["driverId"];
-      driverModel.transporterId = jsonData["transporterId"];
-      driverModel.phoneNum = jsonData["phoneNum"];
-      driverModel.driverName = jsonData["driverName"];
-      driverModel.truckId = jsonData["truckId"];
+    DriverModel driverModel = DriverModel();
+    driverModel.driverId = jsonData["driverId"];
+    driverModel.transporterId = jsonData["transporterId"];
+    driverModel.phoneNum = jsonData["phoneNum"];
+    driverModel.driverName = jsonData["driverName"];
+    driverModel.truckId = jsonData["truckId"];
 
-      return driverModel;
-    }
-
-    if(truckModel!.driverId != null){
-      http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
-
-      jsonData = json.decode(response.body);
-      print(response.body);
-    }
-    // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
-    //
-    // Map jsonData = json.decode(response.body);
-
-    TruckModel truckModelFinal = TruckModel(truckApproved: false);
-    truckModelFinal.driverName = truckModel.driverId != null ? jsonData!['driverName'] : 'NA' ;
-    truckModelFinal.truckApproved = truckModel.truckApproved;
-    truckModelFinal.truckNo = truckModel.truckNo;
-    truckModelFinal.truckType = truckModel.truckType;
-    truckModelFinal.tyres = truckModel.tyres;
-    truckModelFinal.driverNum = truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
-
-
-    return truckModelFinal;
-
-
+    return driverModel;
   }
+
+  if(truckModel!.driverId != null){
+    http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
+
+    jsonData = json.decode(response.body);
+    print(response.body);
+  }
+  // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
+  //
+  // Map jsonData = json.decode(response.body);
+
+  TruckModel truckModelFinal = TruckModel(truckApproved: false);
+  truckModelFinal.driverName = truckModel.driverId != null ? jsonData!['driverName'] : 'NA' ;
+  truckModelFinal.truckApproved = truckModel.truckApproved;
+  truckModelFinal.truckNo = truckModel.truckNo;
+  truckModelFinal.truckType = truckModel.truckType;
+  truckModelFinal.tyres = truckModel.tyres;
+  truckModelFinal.driverNum = truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+
+
+  return truckModelFinal;
+
+
+}
 }
