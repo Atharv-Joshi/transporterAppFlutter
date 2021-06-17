@@ -24,7 +24,7 @@ class MyTrucks extends StatefulWidget {
 class _MyTrucksState extends State<MyTrucks> {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
-  
+
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   @override
@@ -54,8 +54,8 @@ class _MyTrucksState extends State<MyTrucks> {
               ),
               Container(
                   margin: EdgeInsets.symmetric(
-                    vertical: space_3
-                      ),
+                      vertical: space_3
+                  ),
                   child: SearchLoadWidget(hintText: 'Search' , onPressed: () {} , )
               ),
               Container(
@@ -68,39 +68,39 @@ class _MyTrucksState extends State<MyTrucks> {
                     }
                     print('snapshot length :' + '${snapshot.data.length}');
                     return ListView.builder(
-                      itemCount: snapshot.data.length,
+                        itemCount: snapshot.data.length,
                         itemBuilder: (context , index){
 
-                            TruckModel truckModel = TruckModel(truckApproved: false);
+                          TruckModel truckModel = TruckModel(truckApproved: false);
 
-                            truckModel.truckId =  snapshot.data[index].truckId;
-                            truckModel.transporterId =   snapshot.data[index].transporterId;
-                            truckModel.truckNo =  snapshot.data[index].truckNo;
-                            truckModel.truckApproved =  snapshot.data[index].truckApproved;
-                            truckModel.imei =  snapshot.data[index].imei;
-                            truckModel.passingWeight =  snapshot.data[index].passingWeight;
-                            truckModel.driverId =  snapshot.data[index].driverId;
-                            truckModel.truckType =  snapshot.data[index].truckType;
-                            truckModel.tyres =  snapshot.data[index].tyres;
+                          truckModel.truckId =  snapshot.data[index].truckId;
+                          truckModel.transporterId =   snapshot.data[index].transporterId;
+                          truckModel.truckNo =  snapshot.data[index].truckNo;
+                          truckModel.truckApproved =  snapshot.data[index].truckApproved;
+                          truckModel.imei =  snapshot.data[index].imei;
+                          truckModel.passingWeight =  snapshot.data[index].passingWeight;
+                          truckModel.driverId =  snapshot.data[index].driverId;
+                          truckModel.truckType =  snapshot.data[index].truckType;
+                          truckModel.tyres =  snapshot.data[index].tyres;
 
-                              return FutureBuilder(
-                                future: driverApiCalls.getDriverByDriverId(truckModel : truckModel),
-                                  builder: (BuildContext context , AsyncSnapshot snapshot){
-                                    if(snapshot.data == null){
-                                      return LoadingWidget();
-                                    }
-                                    return MyTruckCard(
-                                        truckApproved: snapshot.data.truckApproved,
-                                        truckNo : snapshot. data.truckNo,
-                                        truckType: snapshot.data.truckType,
-                                        tyres: snapshot.data.tyres,
-                                        driverName : snapshot.data.driverName,
-                                        phoneNum:  snapshot.data.driverNum,
-                                         );
+                          return FutureBuilder(
+                              future: driverApiCalls.getDriverByDriverId(truckModel : truckModel),
+                              builder: (BuildContext context , AsyncSnapshot snapshot){
+                                if(snapshot.data == null){
+                                  return LoadingWidget();
+                                }
+                                return MyTruckCard(
+                                  truckApproved: snapshot.data.truckApproved,
+                                  truckNo : snapshot. data.truckNo,
+                                  truckType: snapshot.data.truckType,
+                                  tyres: snapshot.data.tyres,
+                                  driverName : snapshot.data.driverName,
+                                  phoneNum:  snapshot.data.driverNum,
+                                );
 
-                                  }
+                              }
 
-                                  );
+                          );
                         });
                   },
                 ),
