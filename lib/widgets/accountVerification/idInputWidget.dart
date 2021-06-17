@@ -25,16 +25,17 @@ class IdInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add ID Proof",
-                style: TextStyle(
-                    fontSize: size_8,
-                    color: veryDarkGrey,
-                    fontWeight: mediumBoldWeight),
+              "Add Address Proof",
+              style: TextStyle(
+                fontWeight: mediumBoldWeight,
+                fontSize: size_8,
               ),
+            ),
               Text(
-                "(Upload Front and back of PAN Card)",
+                "(Aadhar Card/Driving License/Ration Card\n/Voter ID/Electricity/GST)",
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
+
               SizedBox(
                 height: space_2,
               ),
@@ -42,14 +43,14 @@ class IdInputWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RoundedImageDisplay(
-                    text: "Pan Front",
+                    text: "Id Front",
                     onPressed: () {
-                      getImageFromCamera(providerData.updatePanFrontPhoto);
+                      getImageFromCamera(providerData.updatePanFrontPhoto);//TODO:Change Name in provider accordingly
                     },
                     imageFile: providerData.panFrontPhotoFile,
                   ),
                   RoundedImageDisplay(
-                    text: "Pan Back",
+                    text: "Id Back",
                     onPressed: () {
                       getImageFromCamera(providerData.updatePanBackPhoto);
                     },
@@ -61,14 +62,14 @@ class IdInputWidget extends StatelessWidget {
                 height: space_3,
               ),
               Text(
-                "Add Address Proof",
+                "Add ID Proof",
                 style: TextStyle(
-                  fontWeight: mediumBoldWeight,
-                  fontSize: size_8,
-                ),
+                    fontSize: size_8,
+                    color: veryDarkGrey,
+                    fontWeight: mediumBoldWeight),
               ),
               Text(
-                "(Aadhar Card/Driving License/Ration Card\n/Voter ID/Electricity/GST)",
+                "(Upload Front of PAN Card)",
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
               SizedBox(
@@ -76,7 +77,7 @@ class IdInputWidget extends StatelessWidget {
               ),
               Center(
                 child: RoundedImageDisplay(
-                  text: "",
+                  text: "Pan Front",
                   onPressed: () {
                     getImageFromCamera(providerData.updateAddressProofPhoto);
                   },

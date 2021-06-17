@@ -82,21 +82,15 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   controller: ScrollController(initialScrollOffset: 110),
                   children: [
-                    ReferAndEarnWidget(height: 100, width: 180),
+                    ReferAndEarnWidget(),
                     SizedBox(
                       width: space_4,
                     ),
-                    BuyGpsWidget(
-                      height: 100,
-                      width: 180,
-                    ),
+                    BuyGpsWidget(),
                     SizedBox(
                       width: space_4,
                     ),
-                    BonusWidget(
-                      height: 100,
-                      width: 180,
-                    ),
+                    BonusWidget(),
                   ],
                 ),
               ),
