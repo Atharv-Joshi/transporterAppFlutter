@@ -160,7 +160,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                         providerData.smsCode,
                                                     verificationId:
                                                         _verificationCode);
-                                                providerData.clearall();
+                                                providerData.clearAll();
                                               }
                                             : null),
                                   ),
@@ -215,8 +215,8 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
               await FirebaseAuth.instance.signInWithCredential(credential);
           timerController.cancelTimer();
           hudController.updateHud(false);
-          runTransporterApiPost(mobileNum: widget.phoneNumber);
           Get.offAll(() => NavigationScreen());
+          runTransporterApiPost(mobileNum: widget.phoneNumber);
         },
         verificationFailed: (FirebaseAuthException e) {
           print('in verification failed');
