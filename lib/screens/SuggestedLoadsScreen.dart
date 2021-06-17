@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
-import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 import 'package:liveasy/widgets/loadDisplayCard.dart';
 
+// ignore: must_be_immutable
 class SuggestedLoadScreen extends StatefulWidget {
-  const SuggestedLoadScreen({Key? key}) : super(key: key);
+  var suggestedLoadData;
+  SuggestedLoadScreen({Key? key, required this.suggestedLoadData})
+      : super(key: key);
+
   @override
   _SuggestedLoadScreenState createState() => _SuggestedLoadScreenState();
 }
 
 class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
-  var suggestedLoadData = SuggestedLoadsWidget.suggestedLoadData;
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //     statusBarBrightness: Brightness.dark, statusBarColor: backgroundColor));
     return SafeArea(
         child: Scaffold(
             backgroundColor: backgroundColor,
@@ -38,33 +37,35 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                   height: space_4 - 1,
                 ),
                 Container(
-                  height: suggestedLoadData.length > 3
+                  height: widget.suggestedLoadData.length > 3
+                      // ignore: todo
                       ? 655 //TODO: Height to be modified
-                      : suggestedLoadData.length * 269,
+                      : widget.suggestedLoadData.length * 269,
                   color: backgroundColor,
                   padding: EdgeInsets.only(bottom: space_3 + 2),
                   child: ListView.builder(
                       padding: EdgeInsets.symmetric(horizontal: space_4),
-                      itemCount: suggestedLoadData.length > 3
-                          ? 3
-                          : suggestedLoadData.length,
+                      itemCount: widget.suggestedLoadData.length,
                       itemBuilder: (BuildContext context, index) =>
                           LoadApiDataDisplayCard(
-                            loadId: suggestedLoadData[index].loadId,
-                            loadingPointState:
-                                suggestedLoadData[index].loadingPointState,
-                            loadingPointCity:
-                                suggestedLoadData[index].loadingPointCity,
-                            unloadingPointState:
-                                suggestedLoadData[index].unloadingPointState,
-                            unloadingPointCity:
-                                suggestedLoadData[index].unloadingPointCity,
-                            productType: suggestedLoadData[index].productType,
-                            truckType: suggestedLoadData[index].truckType,
-                            noOfTrucks: suggestedLoadData[index].noOfTrucks,
-                            weight: suggestedLoadData[index].weight,
-                            status: suggestedLoadData[index].status,
-                            comment: suggestedLoadData[index].comment,
+                            loadId: widget.suggestedLoadData[index].loadId,
+                            loadingPointState: widget
+                                .suggestedLoadData[index].loadingPointState,
+                            loadingPointCity: widget
+                                .suggestedLoadData[index].loadingPointCity,
+                            unloadingPointState: widget
+                                .suggestedLoadData[index].unloadingPointState,
+                            unloadingPointCity: widget
+                                .suggestedLoadData[index].unloadingPointCity,
+                            productType:
+                                widget.suggestedLoadData[index].productType,
+                            truckType:
+                                widget.suggestedLoadData[index].truckType,
+                            noOfTrucks:
+                                widget.suggestedLoadData[index].noOfTrucks,
+                            weight: widget.suggestedLoadData[index].weight,
+                            status: widget.suggestedLoadData[index].status,
+                            comment: widget.suggestedLoadData[index].comment,
                             ordered: false,
                           )),
                 ),
