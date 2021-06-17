@@ -8,7 +8,7 @@ import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BidButton extends StatefulWidget {
-   String? loadId;
+  String? loadId;
 
   BidButton(this.loadId);
 
@@ -21,7 +21,11 @@ class _BidButtonState extends State<BidButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await showInformationDialog(context,widget.loadId);
+     await   showDialog(
+            context: context,
+            builder: (context) => BidButtonAlertDialog(
+              loadId: widget.loadId,
+            ));
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

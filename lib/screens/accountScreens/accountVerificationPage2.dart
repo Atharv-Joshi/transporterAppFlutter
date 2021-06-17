@@ -9,7 +9,7 @@ import 'package:liveasy/widgets/accountVerification/companyIdInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/elevatedButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:provider/provider.dart';
 
 class AccountVerificationPage2 extends StatelessWidget {

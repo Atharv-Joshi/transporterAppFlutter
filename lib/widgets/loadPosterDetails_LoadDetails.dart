@@ -3,27 +3,22 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/unverifiedWidget.dart';
+import 'package:liveasy/widgets/verifiedWidget.dart';
 
 // ignore: must_be_immutable
 class LoadPosterDetailsLoadDetails extends StatelessWidget {
-  String? loadPosterId;
-  String? loadPosterPhoneNo;
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
-  String? loadPosterKyc;
   String? loadPosterCompanyApproved;
-  String? loadPosterApproved;
 
-  LoadPosterDetailsLoadDetails(
-      {this.loadPosterId,
-      this.loadPosterPhoneNo,
-      this.loadPosterLocation,
-      this.loadPosterName,
-      this.loadPosterCompanyName,
-      this.loadPosterKyc,
-      this.loadPosterCompanyApproved,
-      this.loadPosterApproved});
+  LoadPosterDetailsLoadDetails({
+    this.loadPosterLocation,
+    this.loadPosterName,
+    this.loadPosterCompanyName,
+    this.loadPosterCompanyApproved,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,29 +56,10 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                        height: space_3 + 1,
-                        width: space_3,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: AssetImage(
-                            "assets/icons/buildingInnerIcon.png",
-                          ),
-                        )),
-                      ),
-                      Container(
-                        height: space_3 + 1,
-                        width: space_3,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: AssetImage(
-                            "assets/icons/buildingOuterIcon.png",
-                          ),
-                        )),
-                      ),
-                    ],
+                  Image(
+                    image: AssetImage("assets/icons/buildingIcon.png"),
+                    height: space_3 + 1,
+                    width: space_3,
                   ),
                   SizedBox(
                     width: space_1 - 2,
@@ -127,47 +103,9 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
               SizedBox(
                 height: space_1 + 1,
               ),
-              loadPosterCompanyApproved=="true"?
-              Container(
-                height: space_3,
-                width: space_10 - 1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.81),
-                  color: verifiedButtonColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                      height: space_1 + 3,
-                      width: space_1 + 3,
-                      image: AssetImage("assets/icons/verifiedButtonIcon.png"),
-                    ),
-                    Text(
-                      "verified",
-                      style: TextStyle(
-                          fontWeight: normalWeight, fontSize: size_3 + 1),
-                    ),
-                  ],
-                ),
-              ):Container(
-                height: space_3,
-                width: space_10 - 1,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.81),
-                  color: unverifiedButtonColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "unverified",
-                      style: TextStyle(
-                          fontWeight: normalWeight, fontSize: size_3 + 1),
-                    ),
-                  ],
-                ),
-              )
+              loadPosterCompanyApproved == "true"
+                  ? VerifiedWidget()
+                  : UnverifiedWidget()
             ],
           ),
         ],

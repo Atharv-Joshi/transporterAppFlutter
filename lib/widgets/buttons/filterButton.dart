@@ -14,7 +14,8 @@ class FilterButtonWidget extends StatelessWidget {
         width: space_16,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: borderWidth_10, color: borderBlueColor)),
+            border:
+                Border.all(width: borderWidth_10, color: borderBlueColor)),
         padding: EdgeInsets.only(left: space_3),
         child: Center(
           child: Row(
@@ -24,15 +25,14 @@ class FilterButtonWidget extends StatelessWidget {
                 width: space_3,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage(
-                            "assets/icons/helpIcon.png"))), //TODO: to be modified
+                        image: AssetImage("assets/icons/filterIcon.png"))),
               ),
               SizedBox(
                 width: space_1,
               ),
               Text(
                 "Filter",
-                style: TextStyle(fontSize: size_7, color: borderBlueColor),
+                style: TextStyle(fontSize: size_7, color: blueTextColor),
               ),
             ],
           ),

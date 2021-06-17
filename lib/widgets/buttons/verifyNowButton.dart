@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 class VerifyNowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context);
+        Get.to(()=> AccountVerificationPage1());
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

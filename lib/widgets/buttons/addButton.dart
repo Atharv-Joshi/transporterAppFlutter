@@ -4,29 +4,23 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddButton extends StatelessWidget {
-  String? displayContact;
+  String displayContact;
 
-  AddButton({this.displayContact});
+  AddButton({required this.displayContact});
 
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context);
     return GestureDetector(
       onTap: () {
-        for (int i=0;i<driverNameList.length;i++)
-        {
-
-          if (driverNameList[i] == displayContact)
-          {print("has already added");
-          break;}
-          else if(i==driverNameList.length-1)
-          driverNameList.add(displayContact);
-        }
-          Navigator.of(context).pop();
-        },
+        providerData.updateDriverNameList(newValue: displayContact);
+        Navigator.of(context).pop();
+      },
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
@@ -38,9 +32,7 @@ class AddButton extends StatelessWidget {
           child: Text(
             "Add",
             style: TextStyle(
-                color: white,
-                fontWeight: normalWeight,
-                fontSize: size_6 + 2),
+                color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),
         ),
       ),

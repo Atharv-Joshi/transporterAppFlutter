@@ -45,7 +45,8 @@ Color veryDarkGrey = Color(0xFF555454);
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
     MaterialStateProperty.all<Color>(Color(0xFFC4C9D9));
-Color borderBlueColor = Color(0xFFF7F8FA); //TODO: change this name Color(0xFFF7F8FA) is not even close to blue
+Color borderBlueColor = Color(0xFF152968);
+Color blueTextColor = Color(0xFF152968);
 Color blueTitleColor = Color(0xFF152968);
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);

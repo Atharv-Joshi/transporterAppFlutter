@@ -1,8 +1,36 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProviderData extends ChangeNotifier {
+
+  List driverNameList = ["Add New Driver",];
+  void updateDriverNameList({required String newValue}) {
+
+    for (int i=0;i<driverNameList.length;i++)
+    {
+      if (driverNameList[i] == newValue)
+      {Get.snackbar("Error", "Already added", snackPosition: SnackPosition.BOTTOM);}
+      else if(i==driverNameList.length-1)
+        driverNameList.add(newValue);
+    }
+    notifyListeners();
+  }
+
+  List truckNoList = ["Add Truck",];
+  void updateTruckNoList({required String newValue}) {
+
+    for (int i=0;i<truckNoList.length;i++)
+    {
+      if (truckNoList[i].toString() == newValue.toString())
+      {Get.snackbar("Error", "Already added", snackPosition: SnackPosition.BOTTOM);}
+      else if(i==truckNoList.length-1)
+        truckNoList.add(newValue);
+    }
+    notifyListeners();
+  }
+
   int index = 0;
   String? dropdownvalue1 = null;
   String? dropdownvalue2 = null;

@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:liveasy/models/loadPosterModel.dart';
 
-
 getLoadPosterDetailsFromApi({required String loadPosterId}) async {
   var loadPosterDetails;
   var jsonData;
@@ -14,10 +13,10 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:8080/shipper";
 
   loadPosterId = loadPosterId.toString();
-  try{
+  try {
     if (loadPosterId.contains("transporter")) {
       http.Response response =
-      await http.get(Uri.parse(transporterApiUrl + "/$loadPosterId"));
+          await http.get(Uri.parse(transporterApiUrl + "/$loadPosterId"));
       jsonData = json.decode(response.body);
 
       LoadPosterModel loadPosterModel = LoadPosterModel();
@@ -37,20 +36,21 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
     }
     if (loadPosterId.contains("shipper")) {
       http.Response response =
-      await http.get(Uri.parse(shipperApiUrl + "/$loadPosterId"));
+          await http.get(Uri.parse(shipperApiUrl + "/$loadPosterId"));
       jsonData = json.decode(response.body);
 
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["id"].toString();
       loadPosterModel.loadPosterName = jsonData["name"].toString();
-      loadPosterModel.loadPosterCompanyName = jsonData["companyName"].toString();
+      loadPosterModel.loadPosterCompanyName =
+          jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
       loadPosterModel.loadPosterApproved = jsonData["approved"].toString();
       loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
+  } catch (e) {
+    print(e);
   }
-  catch(e){print(e);}
-
 }

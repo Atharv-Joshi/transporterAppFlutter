@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-postBidAPi(loadId, rate, transporterIdController,unit) async {
-  if(unit=="RadioButtonOptions.PER_TON"){unit="PER_TON";}
-  if(unit=="RadioButtonOptions.PER_TRUCK"){unit="PER_TRUCK";}
+postBidAPi(loadId, rate, transporterIdController, unit) async {
+  if (unit == "RadioButtonOptions.PER_TON") {
+    unit = "PER_TON";
+  }
+  if (unit == "RadioButtonOptions.PER_TRUCK") {
+    unit = "PER_TRUCK";
+  }
   Map data = {
     "transporterId": transporterIdController,
     "loadId": loadId,
     "rate": rate,
-    "unitValue":unit
+    "unitValue": unit
   };
   String body = json.encode(data);
 

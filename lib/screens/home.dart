@@ -8,7 +8,7 @@ import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
 import 'package:liveasy/widgets/bonusWidget.dart';
 import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';

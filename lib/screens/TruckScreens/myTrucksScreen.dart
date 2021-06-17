@@ -6,7 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';

@@ -24,7 +24,7 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl$additionalQuery"));
   jsonData = json.decode(response.body);
-
+print(additionalQuery);
   for (var json in jsonData) {
     LoadScreenCardsModal cardsModal = LoadScreenCardsModal();
     cardsModal.loadId = json["loadId"];

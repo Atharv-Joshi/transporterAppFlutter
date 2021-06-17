@@ -4,15 +4,15 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/postBidApi.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
 
+// ignore: must_be_immutable
 class ConfirmButtonSendRequest extends StatefulWidget {
   String? loadId;
   String? rate;
   String? transporterId;
   String? unit;
- List truckId;
+  List truckId;
 
   ConfirmButtonSendRequest(
       {required this.loadId,

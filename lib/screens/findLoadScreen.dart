@@ -7,8 +7,8 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/runFindLoadApiGet.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
+import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/loadApiDataDisplayCard.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
@@ -64,7 +64,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                       // HelpButtonWidget(),
                     ],
                   ),
-                  HelpButtonWidget(),
+                  FilterButtonWidget(),
                 ],
               ),
               SizedBox(
@@ -137,6 +137,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
 
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(),
+
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
 

@@ -1,14 +1,15 @@
-//container below card
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 
 // ignore: must_be_immutable
-class ContactWidget extends StatelessWidget {
-  String? loadPosterCompanyname;
+class CardLowerWidget extends StatelessWidget {
+  String? loadPosterCompanyName;
   String? loadPosterPhoneNo;
-  ContactWidget({this.loadPosterCompanyname,this.loadPosterPhoneNo});
+
+  CardLowerWidget({this.loadPosterCompanyName, this.loadPosterPhoneNo});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,18 +21,19 @@ class ContactWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.apartment_outlined, //TODO: to be modified
-                color: Color.fromRGBO(42, 46, 59, 1),
+              Image(
+                image: AssetImage("assets/icons/buildingIconBlack.png"),
+                height: size_8,
+                width: size_8 - 1,
               ),
               Text(
-                "$loadPosterCompanyname",
+                "$loadPosterCompanyName",
                 style:
                     TextStyle(fontSize: size_7, fontWeight: mediumBoldWeight),
               )
             ],
           ),
-          CallButton("$loadPosterPhoneNo"),
+          CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo"),
         ],
       ),
     );

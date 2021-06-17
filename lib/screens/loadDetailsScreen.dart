@@ -97,14 +97,12 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
             ),
             Stack(
               children: [
-                LoadPosterDetailsLoadDetails(loadPosterId: widget.loadPosterId,
-                loadPosterPhoneNo: widget.loadPosterPhoneNo,
-                loadPosterLocation: widget.loadPosterLocation,
-                loadPosterName: widget.loadPosterName,
-                loadPosterCompanyName: widget.loadPosterCompanyName,
-                loadPosterKyc: widget.loadPosterKyc,
-                loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
-                loadPosterApproved: widget.loadPosterApproved),
+                LoadPosterDetailsLoadDetails(
+                  loadPosterLocation: widget.loadPosterLocation,
+                  loadPosterName: widget.loadPosterName,
+                  loadPosterCompanyName: widget.loadPosterCompanyName,
+                  loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
+                ),
                 Padding(
                   padding: EdgeInsets.only(
                       left: space_6, top: (space_14 * 2) + 3, right: space_6),
@@ -118,7 +116,8 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             BidButton(widget.loadId),
-                            CallButton(widget.loadPosterPhoneNo)
+                            CallButton(
+                                loadPosterPhoneNo: widget.loadPosterPhoneNo)
                           ],
                         )),
                   ),
@@ -165,7 +164,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BookNowButton(loadId: widget.loadId,),
+                          BookNowButton(
+                            loadId: widget.loadId,
+                          ),
                           SizedBox(
                             width: space_2,
                           ),

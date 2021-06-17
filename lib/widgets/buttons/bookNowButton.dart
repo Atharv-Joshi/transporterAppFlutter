@@ -4,10 +4,12 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/raidus.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
-import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
+import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
   String? loadId;
 
@@ -18,23 +20,33 @@ class BookNowButton extends StatefulWidget {
 }
 
 class _BookNowButtonState extends State<BookNowButton> {
-  @override
-  void initState() {
-    super.initState();
-    getTruckDetailsFromTruckApi();
-  }
+  // List truckNoList = [];
+  List truckDetailsList = [];
+  //List driverNameList = [];
+  List driverDetailsList = [];
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-          showDialog(
+
+          await getTruckDetailsFromTruckApi(context).then((truckAndDriverList) {
+            // truckNoList = truckAndDriverList[0];
+            truckDetailsList = truckAndDriverList[0];
+            // driverNameList = truckAndDriverList[1][0];
+            driverDetailsList = truckAndDriverList[1];
+          });
+
+         await showDialog(
               context: context,
               builder: (context) => BookNowButtonAlertDialog(
-                    truckDetailsList: truckDetailsList,
-                    driverDetailsList: driverDetailsList,
-                    loadId: widget.loadId,
-                  ));
+                truckDetailsList: truckDetailsList,
+                // truckNoList: truckNoList,
+                driverDetailsList: driverDetailsList,
+                loadId: widget.loadId,
+              ));
+
         },
         child: Container(
           height: space_8,
