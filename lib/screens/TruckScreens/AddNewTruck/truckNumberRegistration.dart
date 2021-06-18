@@ -116,16 +116,16 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                   truckNo: _controller.text) ;
 
                               if(truckId != null){
-                                  // driverApiCalls.getDriversByTransporterId();
-                                  providerData.updateResetActive(false);
-                                  Get.to(() => TruckDescriptionScreen(truckId!));
+                                // driverApiCalls.getDriversByTransporterId();
+                                providerData.updateResetActive(false);
+                                Get.to(() => TruckDescriptionScreen(truckId!));
 
-                                  }
+                              }
                               else{
-                                  Get.snackbar('Enter Correct truck Number', '');
-                                  }
+                                Get.snackbar('Enter Correct truck Number', '');
+                              }
                             }
-                            : (){
+                                : (){
                               // Get.snackbar('Enter Truck Number', '');
                             }
                         ),
