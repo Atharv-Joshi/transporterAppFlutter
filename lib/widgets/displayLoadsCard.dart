@@ -75,9 +75,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved ==
-              false)//TODO: to be changed to true
-          {
+          if (tIdController.transporterApproved == true) {
             Get.to(() => LoadDetailsScreen(
                 loadId: widget.loadId,
                 loadingPoint: widget.loadingPoint,
@@ -103,21 +101,23 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                 loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
                 loadPosterApproved: widget.loadPosterApproved));
           } else {
-              showDialog(
-                  context: context,
-                  builder: (context) => VerifyAccountNotifyAlertDialog());
+            showDialog(
+                context: context,
+                builder: (context) => VerifyAccountNotifyAlertDialog());
           }
         },
         child: Card(
           elevation: elevation_2,
           child: Column(
             children: [
-              CardUpperWidget(loadingPointCity: widget.loadingPointCity,
-              unloadingPointCity: widget.unloadingPointCity,
-              truckType: widget.truckType,
-              weight: widget.weight,
-              productType: widget.productType,
-              loadId: widget.loadId,),
+              CardUpperWidget(
+                loadingPointCity: widget.loadingPointCity,
+                unloadingPointCity: widget.unloadingPointCity,
+                truckType: widget.truckType,
+                weight: widget.weight,
+                productType: widget.productType,
+                loadId: widget.loadId,
+              ),
               SizedBox(
                 height: space_2,
               ),

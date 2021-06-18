@@ -12,19 +12,18 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:contact_picker/contact_picker.dart';
 
 class AddDriverAlertDialog extends StatefulWidget {
-
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
 }
 
 class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
-  final ContactPicker _contactPicker = new ContactPicker();
-  Contact? _contact;
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
+  final ContactPicker _contactPicker = new ContactPicker();
+  Contact? _contact;
   String? contactName;
   String? contactNumber;
-  String? displayContact;
+  String displayContact = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +39,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             height: space_2,
           ),
           Container(
+            height: space_7 + 2,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
@@ -111,6 +111,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               children: [
                 GestureDetector(
                     onTap: () async {
+                      print(name.text);
+                      print(number.text);
                       if (await Permission.contacts.request().isGranted) {
                         Contact contact = await _contactPicker.selectContact();
                         setState(() {
@@ -143,8 +145,9 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AddButton(
-                displayContact: displayContact.toString(),
-              ),
+                  displayContact: displayContact,
+                  name: name.text,
+                  number: number.text),
               CancelButton()
             ],
           ),
@@ -153,8 +156,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(radius_2 - 2)),
       ),
-      insetPadding:
-          EdgeInsets.only(left: space_4,right: space_4),
+      insetPadding: EdgeInsets.only(left: space_4, right: space_4),
     );
   }
 }
