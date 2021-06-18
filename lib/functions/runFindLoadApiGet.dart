@@ -17,14 +17,15 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
   {
     additionalQuery = "?unloadingPointCity=$unloadingPointCity";
   }
+  else if (loadingPointCity==""&& unloadingPointCity==""){additionalQuery="";}
 
   var jsonData;
   List<LoadScreenCardsModal> card = [];
 
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl$additionalQuery"));
+
   jsonData = json.decode(response.body);
-print(additionalQuery);
   for (var json in jsonData) {
     LoadScreenCardsModal cardsModal = LoadScreenCardsModal();
     cardsModal.loadId = json["loadId"];
@@ -44,5 +45,5 @@ print(additionalQuery);
     cardsModal.date = json["date"];
     card.add(cardsModal);
   }
-  return card;
+  return card.reversed.toList();
 }

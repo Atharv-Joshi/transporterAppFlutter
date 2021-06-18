@@ -1,11 +1,15 @@
-import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
-Future<String> getDriverNameFromDriverApi(driverId) async {
+Future<String> getDriverNameFromDriverApi(
+    BuildContext context, driverId) async {
+  var providerData = Provider.of<ProviderData>(context, listen: false);
   var jsonData;
-  String? tempDropdownvalue2;
+  String? tempDropDownValue2;
   String driverApiUrl =
       "http://ec2-15-207-113-71.ap-south-1.compute.amazonaws.com:9080/driver";
   try {
@@ -15,9 +19,10 @@ Future<String> getDriverNameFromDriverApi(driverId) async {
     DriverModel driverModel = DriverModel();
     driverModel.phoneNum = jsonData["phoneNum"];
     driverModel.driverName = jsonData["driverName"];
-    tempDropdownvalue2 = "${driverModel.driverName} - ${driverModel.phoneNum}";
+    tempDropDownValue2 = "${driverModel.driverName} - ${driverModel.phoneNum}";
   } catch (e) {
-    Get.snackbar("Error", "$e", snackPosition: SnackPosition.BOTTOM);
+    print("hi getDriverNameFromDriverApi has some error" + " $e");
   }
-  return tempDropdownvalue2.toString();
+  providerData.updateDropDownValue2(newValue: tempDropDownValue2.toString());
+  return tempDropDownValue2.toString();
 }

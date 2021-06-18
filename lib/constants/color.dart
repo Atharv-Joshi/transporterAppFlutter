@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 const Color statusBarColor = Color(0xFFFFFFFF);
-
 const Color darkBlueColor = Color(0xFF152968);
 const Color grey = Color(0xFF828282);
 const Color backgroundColor = Color(0xFFF5F5F5);

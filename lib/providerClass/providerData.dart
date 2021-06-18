@@ -1,46 +1,53 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ProviderData extends ChangeNotifier {
+  List truckNoList = [
+    "Add Truck",
+  ];
 
-  List driverNameList = ["Add New Driver",];
-  void updateDriverNameList({required String newValue}) {
-
-    for (int i=0;i<driverNameList.length;i++)
-    {
-      if (driverNameList[i] == newValue)
-      {Get.snackbar("Error", "Already added", snackPosition: SnackPosition.BOTTOM);}
-      else if(i==driverNameList.length-1)
-        driverNameList.add(newValue);
+  void updateTruckNoList({required String newValue}) {
+    for (int i = 0; i < truckNoList.length; i++) {
+      if (truckNoList[i].toString() == newValue.toString()) {
+        print("hi truck already added");
+        break;
+      } else if (i == truckNoList.length - 1) {
+        truckNoList.add(newValue);
+        break;
+      }
     }
     notifyListeners();
   }
 
-  List truckNoList = ["Add Truck",];
-  void updateTruckNoList({required String newValue}) {
+  List driverNameList = [
+    "Add New Driver",
+  ];
 
-    for (int i=0;i<truckNoList.length;i++)
-    {
-      if (truckNoList[i].toString() == newValue.toString())
-      {Get.snackbar("Error", "Already added", snackPosition: SnackPosition.BOTTOM);}
-      else if(i==truckNoList.length-1)
-        truckNoList.add(newValue);
+  void updateDriverNameList({required String newValue}) {
+    for (int i = 0; i < driverNameList.length; i++) {
+      if (driverNameList[i].toString() == newValue.toString()) {
+        print("hi driver already added");
+        break;
+      } else if (i == driverNameList.length - 1) {
+        driverNameList.add(newValue);
+        break;
+      }
     }
     notifyListeners();
   }
 
   int index = 0;
-  String? dropdownvalue1 = null;
-  String? dropdownvalue2 = null;
+  var dropDownValue1;
+  var dropDownValue2;
+
   void updateDropDownValue1({required String newValue}) {
-    dropdownvalue1 = newValue;
+    dropDownValue1 = newValue;
     notifyListeners();
   }
 
   void updateDropDownValue2({required String newValue}) {
-    dropdownvalue2 = newValue;
+    dropDownValue2 = newValue;
     notifyListeners();
   }
 

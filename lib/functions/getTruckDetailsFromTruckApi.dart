@@ -9,9 +9,8 @@ import 'package:provider/provider.dart';
 import 'getDriverDetailsFromDriverApi.dart';
 
 Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {
-  var providerData = Provider.of<ProviderData>(context,listen: false);
+  var providerData = Provider.of<ProviderData>(context, listen: false);
   List driverDetailsList = [];
-  // List truckNoList = [];
   List driverIdList = [];
   List<TruckModel> truckDetailsList = [];
   List truckAndDriverList = [];
@@ -35,36 +34,15 @@ Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {
       truckModel.driverId = json["driverId"];
       truckDetailsList.add(truckModel);
       providerData.updateTruckNoList(newValue: truckModel.truckNo.toString());
-      // if (truckNoList.isEmpty) {
-      //   truckNoList.add(truckModel.truckNo);
-      // }
-      // for (int i = 0; i < truckNoList.length; i++) {
-      //   if (truckNoList[i] == truckModel.truckNo) {
-      //     print("has already added");
-      //     break;
-      //   } else if (i == truckNoList.length - 1)
-      //     truckNoList.add(truckModel.truckNo);
-      // }
       driverIdList.add(truckModel.driverId);
     }
   } catch (e) {
-    Get.snackbar("Error", "$e", snackPosition: SnackPosition.BOTTOM);
+    print("hi getTruckDetailsFromApi has some error" + '$e');
   }
-
-  // if (truckNoList.isEmpty) {
-  //   truckNoList.add("Add Truck");
-  // }
-  // for (int i = 0; i < truckNoList.length; i++) {
-  //   if (truckNoList[i] == "Add Truck") {
-  //     print("has already added");
-  //     break;
-  //   } else if (i == truckNoList.length - 1) truckNoList.add("Add Truck");
-  // }
-
-  // truckAndDriverList.add(truckNoList);
   truckAndDriverList.add(truckDetailsList);
 
-  driverDetailsList = await getDriverDetailsFromDriverApi(context,driverIdList);
+  driverDetailsList =
+      await getDriverDetailsFromDriverApi(context, driverIdList);
 
   truckAndDriverList.add(driverDetailsList);
 

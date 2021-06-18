@@ -12,6 +12,7 @@ import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadApiDataDisplayCard.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/noCardDisplay.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
@@ -33,7 +34,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCity} (${providerData.unloadingPointState})"));
+          ("${providerData.unloadingPointCity} (${providerData.unloadingPointState})"));
       findLoadApiData = runFindLoadApiGet(
           providerData.loadingPointCity, providerData.unloadingPointCity);
     }
@@ -117,6 +118,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                       MediaQuery.of(context).size.height * 0.2),
                               child: LoadingWidget());
                         }
+                        else if(snapshot.data.length==0){return NoCardDisplay();}
                         return Column(
                           children: [
                             Row(
@@ -137,7 +139,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
 
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(),
-
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
 
@@ -162,8 +163,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               ),
                             ),
                           ],
-                        );
-                      }),
+                        );}),
+
             ],
           ),
         ),
