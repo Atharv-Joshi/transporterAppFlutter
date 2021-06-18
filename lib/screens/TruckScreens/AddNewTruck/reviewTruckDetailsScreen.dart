@@ -8,7 +8,6 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addTrucksHeader.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
@@ -19,9 +18,9 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
 
-  String truckId;
+  final String truckId;
 
-  String driverId;
+  final String driverId;
 
   ReviewTruckDetails(this.truckId , this.driverId);
 
@@ -109,7 +108,6 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                   ],
                 ),
               ),
-              // AddTruckSubtitleText(text: 'Review Details For ${providerData.truckNumberValue}'),
               SizedBox(height: 20,),
 
               Column(

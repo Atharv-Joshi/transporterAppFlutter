@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/controller/truckIdController.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';

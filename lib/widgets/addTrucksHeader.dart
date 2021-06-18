@@ -7,9 +7,10 @@ import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
+// ignore: must_be_immutable
 class AddTrucksHeader extends StatefulWidget {
 
-  dynamic resetFunction ;
+  final dynamic resetFunction ;
   bool reset = true;
 
   AddTrucksHeader({this.resetFunction , required this.reset});

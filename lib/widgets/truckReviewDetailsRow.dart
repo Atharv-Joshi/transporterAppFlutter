@@ -4,8 +4,8 @@ import 'package:liveasy/constants/spaces.dart';
 
 class TruckReviewDetailsRow extends StatelessWidget {
 
-  String label;
-  dynamic value;
+  final String label;
+  final dynamic value;
 
   TruckReviewDetailsRow({required this.value , required this.label});
 
