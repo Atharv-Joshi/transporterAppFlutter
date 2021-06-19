@@ -2,22 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
-import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/reviewTruckDetailsScreen.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
-  String truckId;
+
+  final String truckId;
 
   TruckDescriptionScreen(this.truckId);
 
@@ -69,7 +68,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  AddTrucksHeader(
+                  Header(
+                    text: 'Add Truck',
                       reset: true,
                       resetFunction: (){
                     providerData.resetTruckFilters();
@@ -203,26 +203,11 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                             dropDownValue = newValue!;
                           });
                         },
-                        // items: <String>['Ramesh-6666666', 'Suresh-789456'].map<
-                        //     DropdownMenuItem<String>>((e) {
-                        //   return DropdownMenuItem<String>(
-                        //       value: e,
-                        //       child: Row(
-                        //           children: [
-                        //             Text('$e'),
-                        //             Icon(Icons.add),
-                        //           ])
-                        //   );
-                        // }).toList(),
-
                         items: driverList.map<
                             DropdownMenuItem<String>>((instance) {
                           return DropdownMenuItem<String>(
                               value: instance.driverId ,
-                              child: Row(
-                                  children: [
-                                    Text('${instance.driverName}-${instance.phoneNum}'),
-                                  ])
+                              child: Text('${instance.driverName}-${instance.phoneNum}'),
                           );
                         }).toList(),
                       ),
@@ -234,6 +219,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: space_2),
                       child: MediumSizedButton(
+                        optional: true,
                         onPressedFunction: () {
                           providerData.updateResetActive(true);
                           Get.to(() => ReviewTruckDetails(widget.truckId , providerData.driverIdValue));
@@ -247,7 +233,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
             ),
           ),
         )
-
     );
   }
 }

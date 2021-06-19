@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/uploadRC.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -46,7 +44,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AddTrucksHeader(
+                    Header(
+                      text: 'Add Truck',
                       reset: true,
                       resetFunction: () {
                         _controller.text = '';
@@ -105,6 +104,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         alignment: Alignment.bottomCenter,
                         child: MediumSizedButton(
                             text: 'Next',
+                            optional: false,
                             onPressedFunction: providerData.resetActive ?
                                 () async {
 

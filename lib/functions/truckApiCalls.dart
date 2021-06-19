@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 
 class TruckApiCalls{
-  // retrieving TRUCKAPI URL  from env file
+  // retrieving TRUCKAPIURL  from env file
   final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   // transporterId controller
@@ -22,12 +22,12 @@ class TruckApiCalls{
   // Truck Model List used to  create cards
   List<TruckModel> truckDataList = [];
 
+  // This variable is used to return truckId to MyTruckScreens
   String? _truckId ;
 
 //GET---------------------------------------------------------------------------
   //TODO: implement pagination(remove pseudo)
   Future<List<TruckModel>> getTruckData() async {
-    print('in function this is the first line');
     //TODO: implement pagination(remove pseudo)
     for(int i = 0 ; ; i++ ){
       http.Response response = await http.get(Uri.parse(truckApiUrl + '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
@@ -50,7 +50,7 @@ class TruckApiCalls{
         truckDataList.add(truckModel);
       }
     }
-    return truckDataList;
+    return truckDataList; // list of truckModels
   }
 
   //POST------------------------------------------------------------------------
@@ -73,22 +73,12 @@ class TruckApiCalls{
         body: body
     );
 
-    //try catch block to see if posting is successful
-    //   try{
-    //     if(response.statusCode == 200){
-    //       var returnData = json.decode(response.body);
-    //       _truckId = returnData['truckId'];
-    //       // Get.snackbar(returnData['status'], '');
-    //
-    //     }
-    //   }catch(e){
-    //     print(e);
-    //   }
-
     var returnData = json.decode(response.body);
+
     _truckId = returnData['truckId'];
+
     return _truckId;
-  }//post truck data
+    }//post truck data
 
   //PUT-------------------------------------------------------------------------
 
