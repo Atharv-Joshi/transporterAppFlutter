@@ -8,7 +8,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
 import 'package:provider/provider.dart';
@@ -80,7 +80,8 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
           margin: EdgeInsets.all(space_5),
           child: Column(
             children: [
-              AddTrucksHeader(
+              Header(
+                text: 'Add Truck',
                 reset: false,
                   resetFunction: (){
                 providerData.resetTruckFilters();

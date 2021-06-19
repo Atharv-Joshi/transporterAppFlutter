@@ -7,7 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -44,7 +44,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AddTrucksHeader(
+                    Header(
+                      text: 'Add Truck',
                       reset: true,
                       resetFunction: () {
                         _controller.text = '';

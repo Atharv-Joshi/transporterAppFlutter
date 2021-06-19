@@ -8,7 +8,7 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/reviewTruckDetailsScree
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +68,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  AddTrucksHeader(
+                  Header(
+                    text: 'Add Truck',
                       reset: true,
                       resetFunction: (){
                     providerData.resetTruckFilters();

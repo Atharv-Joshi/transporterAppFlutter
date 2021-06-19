@@ -8,18 +8,18 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 // ignore: must_be_immutable
-class AddTrucksHeader extends StatefulWidget {
+class Header extends StatefulWidget {
 
   final dynamic resetFunction ;
   bool reset = true;
-
-  AddTrucksHeader({this.resetFunction , required this.reset});
+  final text ;
+  Header({this.resetFunction , required this.reset , required this.text});
 
   @override
-  _AddTrucksHeaderState createState() => _AddTrucksHeaderState();
+  _HeaderState createState() => _HeaderState();
 }
 
-class _AddTrucksHeaderState extends State<AddTrucksHeader> {
+class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
 
@@ -35,7 +35,7 @@ class _AddTrucksHeaderState extends State<AddTrucksHeader> {
               margin: EdgeInsets.only(right: space_2),
                 child: BackButtonWidget()),
             Text(
-                'Add Truck',
+                '${widget.text}',
                 style : TextStyle(
                   fontSize: size_10,
                   fontWeight: mediumBoldWeight,
