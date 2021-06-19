@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/functions/runTransporterApiPost.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
-import 'package:liveasy/functions/tokenMMI.dart';
+import 'package:liveasy/functions/mmiUtils/tokenMMI.dart';
 import 'package:liveasy/models/autoFillMMIModel.dart';
 import 'dart:convert';
 import 'dart:io';

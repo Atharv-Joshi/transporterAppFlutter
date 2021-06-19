@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 //constants
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';

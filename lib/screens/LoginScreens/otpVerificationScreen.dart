@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/timerController.dart';
-import 'package:liveasy/functions/runTransporterApiPost.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
