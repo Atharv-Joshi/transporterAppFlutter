@@ -6,7 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 class AddTruckSubtitleText extends StatelessWidget {
 
 
-  String text;
+  final String text;
 
   AddTruckSubtitleText({required this.text});
   @override

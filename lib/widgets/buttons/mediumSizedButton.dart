@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +9,8 @@ class MediumSizedButton extends StatelessWidget {
 
   dynamic onPressedFunction;
   String text;
-
-  MediumSizedButton({required this.onPressedFunction , required this.text});
+  bool optional;
+  MediumSizedButton({required this.optional , required this.onPressedFunction , required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +24,11 @@ class MediumSizedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(
-            providerData.resetActive
-                ? darkBlueColor
-                : unactiveReset
+            optional ? darkBlueColor
+                      :
+                      providerData.resetActive
+                          ? darkBlueColor
+                          : unactiveReset
           ),
         ),
         onPressed:onPressedFunction,

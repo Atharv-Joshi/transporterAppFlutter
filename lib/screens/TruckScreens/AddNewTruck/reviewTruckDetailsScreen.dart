@@ -8,8 +8,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addTrucksHeader.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +18,9 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
 
-  String truckId;
+  final String truckId;
 
-  String driverId;
+  final String driverId;
 
   ReviewTruckDetails(this.truckId , this.driverId);
 
@@ -81,7 +80,8 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
           margin: EdgeInsets.all(space_5),
           child: Column(
             children: [
-              AddTrucksHeader(
+              Header(
+                text: 'Add Truck',
                 reset: false,
                   resetFunction: (){
                 providerData.resetTruckFilters();
@@ -109,7 +109,6 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                   ],
                 ),
               ),
-              // AddTruckSubtitleText(text: 'Review Details For ${providerData.truckNumberValue}'),
               SizedBox(height: 20,),
 
               Column(
@@ -143,10 +142,11 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               onPressedFunction: (){
                                 Get.back();
                               },
+                              optional: true,
                               text: 'Edit'),
                           MediumSizedButton(
                               onPressedFunction: () async {
-                                print('driverid in review page : ${widget.driverId}');
+                                print('driverId in review page : ${widget.driverId}');
                                 truckIdForCrossVerification = await truckApiCalls.putTruckData(
                                     truckType: providerData.truckTypeValue ,
                                     totalTyres: providerData.totalTyresValue ,
@@ -166,6 +166,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 }
 
                               },
+                              optional: true,
                               text: 'Submit')
                         ],
                       ),

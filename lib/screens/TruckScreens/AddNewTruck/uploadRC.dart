@@ -3,7 +3,7 @@
 // import 'dart:html';
 // import 'package:flutter/material.dart';
 // import 'package:image_picker/image_picker.dart';
-// import 'package:liveasy/widgets/addTrucksHeader.dart';
+// import 'package:liveasy/widgets/Header.dart';
 // import 'package:liveasy/constants/color.dart';
 // import 'package:liveasy/constants/fontSize.dart';
 // import 'package:liveasy/constants/fontWeights.dart';
