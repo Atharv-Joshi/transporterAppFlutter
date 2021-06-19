@@ -17,7 +17,6 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       token = tokenMMIController.tokenMMI.value;
     }
 
-    await http.get(Uri.parse('http://52.53.40.46:8080/load'));
     Uri url = Uri(
         scheme: 'http',
         host: "atlas.mapmyindia.com",
@@ -26,6 +25,7 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       url,
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
     );
+    print(response1.body);
     var adress = (jsonDecode(response1.body));
     adress = adress["suggestedLocations"];
     print(adress);

@@ -64,6 +64,32 @@ class ProviderData extends ChangeNotifier {
   File? addressProofPhotoFile;
   File? companyIdProofPhotoFile;
 
+  // variables for login pages
+
+  bool inputControllerLengthCheck = false;
+  dynamic buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
+  String smsCode = '';
+  String phoneController = '';
+
+  //-------------------------------------
+
+  // variables for add truck pages
+
+  String truckTypeValue = '';
+  int passingWeightValue = 0;
+  int totalTyresValue = 0;
+  int truckLengthValue = 0;
+  String driverIdValue = '';
+  String truckNumberValue = '';
+
+  String truckId = '';
+
+  //variables related to rest button
+  bool resetActive = false;
+
+  //variables related to driverApi
+  List driverList = [];
+
   updateProfilePhoto(File newFile) {
     profilePhotoFile = newFile;
     notifyListeners();
@@ -89,14 +115,9 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  // variables for login pages
 
-  bool inputControllerLengthCheck = false;
-  dynamic buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
-  String smsCode = '';
-  String phoneController = '';
 
-  //------------------------
+  //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
     loadingPointCity = "";
@@ -127,7 +148,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  //for login screen
+  //functions for login screen
 
   void updatePhoneController(String value) {
     phoneController = value;
@@ -150,7 +171,8 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearall() {
+  //TODO: name change to something more relevant
+  void clearAll() {
     inputControllerLengthCheck = false;
     buttonColor = MaterialStateProperty.all<Color>(Colors.grey);
 
@@ -158,5 +180,77 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 //-------------------------------------
+
+  // functions for add truck pages
+
+  void updateTruckTypeValue(value){
+    truckTypeValue = value;
+    notifyListeners();
+  }
+
+  void updatePassingWeightValue(value){
+    passingWeightValue = value;
+    notifyListeners();
+  }
+
+  void updateTotalTyresValue(value){
+    totalTyresValue = value;
+    notifyListeners();
+  }
+
+  void updateTruckLengthValue(value){
+    truckLengthValue = value;
+    notifyListeners();
+  }
+
+  void updateDriverDetailsValue(value){
+    driverIdValue = value;
+    notifyListeners();
+  }
+
+  void updateTruckNumberValue(value){
+    truckNumberValue = value;
+    notifyListeners();
+  }
+
+  void updateTruckId(value){
+    truckId = value;
+    notifyListeners();
+  }
+
+  void updateResetActive(bool value){
+    resetActive = value;
+    notifyListeners();
+  }
+
+  void resetTruckFilters(){
+    truckTypeValue = '';
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckLengthValue = 0;
+    driverIdValue = '';
+    notifyListeners();
+  }
+
+  void resetOnNewType(){
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckLengthValue = 0;
+    driverIdValue = '';
+    notifyListeners();
+  }
+
+  void resetTruckNumber(){
+    truckNumberValue = '';
+    notifyListeners();
+  }
+
+  void updateDriverList(value){
+    driverList = value;
+    notifyListeners();
+  }
+
+
+//----------------------------------
 
 }
