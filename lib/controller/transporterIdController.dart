@@ -13,6 +13,18 @@ class TransporterIdController extends GetxController{
   void updateCompanyApproved(bool newValue){
     companyApproved.value = newValue;
   }
+  RxString name = "".obs;
+  void updateName(String newValue){
+    name.value = newValue;
+  }
+  RxString companyName = "".obs;
+  void updateCompanyName(String newValue){
+    transporterId.value = newValue;
+  }
+  RxBool accountVerificationInProgress = false.obs;
+  void updateAccountVerificationInProgress(bool newValue){
+    accountVerificationInProgress.value = newValue;
+  }
   RxString mobileNum = "".obs;
   void updateMobileNum(String newValue){
     mobileNum.value = newValue;

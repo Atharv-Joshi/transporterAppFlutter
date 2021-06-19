@@ -4,6 +4,7 @@ const Color statusBarColor = Color(0xFFFFFFFF);
 const Color darkBlueColor = Color(0xFF152968);
 const Color grey = Color(0xFF828282);
 const Color backgroundColor = Color(0xFFF5F5F5);
+const Color whiteBackgroundColor = Color(0xffF9F9F9);
 const Color lightBlue = Color(0xFF1A73E9);
 const Color black = Colors.black;
 const Color unselectedGrey = Color(0xFF9B9B9B);
@@ -22,8 +23,9 @@ const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
-const Color whiteBackgroundColor = Color(0xFFF9F9F9);
 Color loadingWidgetColor = Colors.lightBlueAccent;
+//TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
+// keep deactiveButton color though othervise code will break
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);
 Color bidBackground = Color(0xFF152968);
@@ -50,3 +52,4 @@ Color blueTitleColor = Color(0xFF152968);
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);
 Color liveasyOrange = Color(0xFFFF7600);
+Color unactiveReset = Color(0xffC4C9D9);
