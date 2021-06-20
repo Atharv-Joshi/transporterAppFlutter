@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/elevation.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
-import 'package:liveasy/widgets/cardLowerWidget.dart';
-import 'package:liveasy/widgets/cardUpperWidget.dart';
+import 'package:liveasy/widgets/loadCardFooter.dart';
+import 'package:liveasy/widgets/loadCardHeader.dart';
 
 import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
 
@@ -75,7 +76,19 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == true) {
+          if (tIdController.transporterApproved == false) {
+            //   LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
+            //   loadDetailsScreenModel.loadId = widget.loadId;
+            //   loadDetailsScreenModel.loadingPoint = widget.loadingPoint;
+            // loadDetailsScreenModel. = widget.loadingPointCity;
+            // loadDetailsScreenModel. = widget.loadingPointState;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
+            // loadDetailsScreenModel. = widget.;
             Get.to(() => LoadDetailsScreen(
                 loadId: widget.loadId,
                 loadingPoint: widget.loadingPoint,

@@ -43,7 +43,9 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                 child: Row(
                   children: [
                     BackButtonWidget(),
-                    SizedBox(width: space_2,),
+                    SizedBox(
+                      width: space_2,
+                    ),
                     Expanded(
                       child: TextFieldWidget(
                         onChanged: (String value) {
@@ -61,57 +63,59 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
               locationCard == null
                   ? Container()
                   : SizedBox(
-                height: space_4,
-              ),
+                      height: space_4,
+                    ),
               locationCard != null
                   ? Container(
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                height: keyboardLength != 0 ? screenHeight-keyboardLength -130: screenHeight -130, //TODO: to be modified
-                child: FutureBuilder(
-                    future: locationCard,
-                    builder:
-                        (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.data == null) {
-                        return Container();
-                      }
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        reverse: false,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: space_2,
-                        ),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) =>
-                            AutoFillDataDisplayCard(
-                                snapshot.data[index].placeCityName,
-                                snapshot.data[index].placeStateName, () {
-                              if (widget.valueType == "Loading Point") {
-                                Provider.of<ProviderData>(context,
-                                    listen: false)
-                                    .updateLoadingPoint(
-                                    city: snapshot
-                                        .data[index].placeCityName,
-                                    state: snapshot
-                                        .data[index].placeStateName);
-                                Get.off(FindLoadScreen());
-                              } else if (widget.valueType ==
-                                  "Unloading Point") {
-                                Provider.of<ProviderData>(context,
-                                    listen: false)
-                                    .updateUnloadingPoint(
-                                    city: snapshot
-                                        .data[index].placeCityName,
-                                    state: snapshot
-                                        .data[index].placeStateName);
-                                Get.off(FindLoadScreen());
-                              }
-                            }),
-                      );
-                    }),
-              )
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      height: keyboardLength != 0
+                          ? screenHeight - keyboardLength - 130
+                          : screenHeight - 130, //TODO: to be modified
+                      child: FutureBuilder(
+                          future: locationCard,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.data == null) {
+                              return Container();
+                            }
+                            return ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              reverse: false,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: space_2,
+                              ),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) =>
+                                  AutoFillDataDisplayCard(
+                                      snapshot.data[index].placeCityName,
+                                      snapshot.data[index].placeStateName, () {
+                                if (widget.valueType == "Loading Point") {
+                                  Provider.of<ProviderData>(context,
+                                          listen: false)
+                                      .updateLoadingPoint(
+                                          city: snapshot
+                                              .data[index].placeCityName,
+                                          state: snapshot
+                                              .data[index].placeStateName);
+                                  Get.off(FindLoadScreen());
+                                } else if (widget.valueType ==
+                                    "Unloading Point") {
+                                  Provider.of<ProviderData>(context,
+                                          listen: false)
+                                      .updateUnloadingPoint(
+                                          city: snapshot
+                                              .data[index].placeCityName,
+                                          state: snapshot
+                                              .data[index].placeStateName);
+                                  Get.off(FindLoadScreen());
+                                }
+                              }),
+                            );
+                          }),
+                    )
                   : Container(),
             ],
           ),

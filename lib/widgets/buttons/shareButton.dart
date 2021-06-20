@@ -17,7 +17,7 @@ class ShareButton extends StatelessWidget {
         height: space_8,
         width: (space_10 * 2) + 6,
         decoration: BoxDecoration(
-            color: shareButtonColor,
+            color: liveasyGreen,
             borderRadius: BorderRadius.circular(space_6)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

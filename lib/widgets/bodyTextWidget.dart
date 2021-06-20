@@ -5,7 +5,9 @@ import 'package:liveasy/constants/fontWeights.dart';
 class BodyTextWidget extends StatelessWidget {
   final String text;
   final Color color;
+
   BodyTextWidget({required this.text, required this.color});
+
   @override
   Widget build(BuildContext context) {
     return Text(

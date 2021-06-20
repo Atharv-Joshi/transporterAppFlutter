@@ -49,6 +49,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   DriverModel driverModel = DriverModel();
+
   @override
   Widget build(BuildContext context) {
     widget.truckType = widget.truckType != null
@@ -57,7 +58,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
         : 'NA';
 
     Map<String, Color> statusColor = {
-      'Available': truckGreen,
+      'Available': liveasyGreen,
       'Busy': Colors.red,
       'Offline': unselectedGrey,
     };

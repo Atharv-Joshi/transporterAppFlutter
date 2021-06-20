@@ -1,17 +1,14 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
 getLoadPosterDetailsFromApi({required String loadPosterId}) async {
   var loadPosterDetails;
   var jsonData;
-
-  String transporterApiUrl =
-      "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:9090/transporter";
-  String shipperApiUrl =
-      "http://ec2-65-0-138-10.ap-south-1.compute.amazonaws.com:8080/shipper";
-
+  final String transporterApiUrl =
+      FlutterConfig.get('transporterApiUrl').toString();
+  final String shipperApiUrl = FlutterConfig.get('shipperApiUrl').toString();
   loadPosterId = loadPosterId.toString();
   try {
     if (loadPosterId.contains("transporter")) {
@@ -46,7 +43,10 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterApproved = jsonData["approved"].toString();
+      loadPosterModel.loadPosterLocation = jsonData["phoneNo"];
+      loadPosterModel.loadPosterCompanyApproved = jsonData["approved"].toString();
+      loadPosterModel.accountVerificationInProgress = jsonData["approved"].toString();
+
       loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }

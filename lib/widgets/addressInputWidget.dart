@@ -37,7 +37,7 @@ class AddressInputWidget extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           icon: icon,
-          suffixIcon: GestureDetector(onTap: onTap,child: CancelIconWidget()),
+          suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
         ),
       ),
     );

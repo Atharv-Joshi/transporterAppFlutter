@@ -7,6 +7,7 @@ class LoadPosterModel {
   String? loadPosterKyc;
   String? loadPosterCompanyApproved;
   String? loadPosterApproved;
+  String? accountVerificationInProgress;
 
   LoadPosterModel(
       {this.loadPosterId,
@@ -16,5 +17,6 @@ class LoadPosterModel {
       this.loadPosterCompanyName,
       this.loadPosterKyc,
       this.loadPosterCompanyApproved,
-      this.loadPosterApproved});
+      this.loadPosterApproved,
+      this.accountVerificationInProgress});
 }

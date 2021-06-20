@@ -115,8 +115,6 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
@@ -179,51 +177,52 @@ class ProviderData extends ChangeNotifier {
     smsCode = '';
     notifyListeners();
   }
+
 //-------------------------------------
 
   // functions for add truck pages
 
-  void updateTruckTypeValue(value){
+  void updateTruckTypeValue(value) {
     truckTypeValue = value;
     notifyListeners();
   }
 
-  void updatePassingWeightValue(value){
+  void updatePassingWeightValue(value) {
     passingWeightValue = value;
     notifyListeners();
   }
 
-  void updateTotalTyresValue(value){
+  void updateTotalTyresValue(value) {
     totalTyresValue = value;
     notifyListeners();
   }
 
-  void updateTruckLengthValue(value){
+  void updateTruckLengthValue(value) {
     truckLengthValue = value;
     notifyListeners();
   }
 
-  void updateDriverDetailsValue(value){
+  void updateDriverDetailsValue(value) {
     driverIdValue = value;
     notifyListeners();
   }
 
-  void updateTruckNumberValue(value){
+  void updateTruckNumberValue(value) {
     truckNumberValue = value;
     notifyListeners();
   }
 
-  void updateTruckId(value){
+  void updateTruckId(value) {
     truckId = value;
     notifyListeners();
   }
 
-  void updateResetActive(bool value){
+  void updateResetActive(bool value) {
     resetActive = value;
     notifyListeners();
   }
 
-  void resetTruckFilters(){
+  void resetTruckFilters() {
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -232,7 +231,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetOnNewType(){
+  void resetOnNewType() {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
@@ -240,16 +239,15 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetTruckNumber(){
+  void resetTruckNumber() {
     truckNumberValue = '';
     notifyListeners();
   }
 
-  void updateDriverList(value){
+  void updateDriverList(value) {
     driverList = value;
     notifyListeners();
   }
-
 
 //----------------------------------
 

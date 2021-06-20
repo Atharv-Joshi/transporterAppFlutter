@@ -3,27 +3,26 @@ import 'package:http/http.dart' as http;
 import 'package:liveasy/models/loadApiModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, String unloadingPointCity) async{
+Future<List<LoadScreenCardsModal>> runFindLoadApiGet(
+    String loadingPointCity, String unloadingPointCity) async {
   String additionalQuery = "";
   if (loadingPointCity != "" && unloadingPointCity != "") {
     additionalQuery =
-    "?unloadingPointCity=$unloadingPointCity&loadingPointCity=$loadingPointCity";
-  }
-  else if (loadingPointCity != "")
-  {
+        "?unloadingPointCity=$unloadingPointCity&loadingPointCity=$loadingPointCity";
+  } else if (loadingPointCity != "") {
     additionalQuery = "?loadingPointCity=$loadingPointCity";
-  }
-  else if (unloadingPointCity != "")
-  {
+  } else if (unloadingPointCity != "") {
     additionalQuery = "?unloadingPointCity=$unloadingPointCity";
+  } else if (loadingPointCity == "" && unloadingPointCity == "") {
+    additionalQuery = "";
   }
-  else if (loadingPointCity==""&& unloadingPointCity==""){additionalQuery="";}
 
   var jsonData;
   List<LoadScreenCardsModal> card = [];
 
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
-  http.Response response = await http.get(Uri.parse("$loadApiUrl$additionalQuery"));
+  http.Response response =
+      await http.get(Uri.parse("$loadApiUrl$additionalQuery"));
 
   jsonData = json.decode(response.body);
   for (var json in jsonData) {
@@ -45,5 +44,5 @@ Future<List<LoadScreenCardsModal>>  runFindLoadApiGet(String loadingPointCity, S
     cardsModal.date = json["date"];
     card.add(cardsModal);
   }
-  return card.reversed.toList();
+  return card.reversed.toList(); //TODO:remove reverse
 }

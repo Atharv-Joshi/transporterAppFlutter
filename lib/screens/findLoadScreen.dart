@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/noCardDisplay.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
+
 class FindLoadScreen extends StatefulWidget {
   @override
   _FindLoadScreenState createState() => _FindLoadScreenState();
@@ -25,12 +26,20 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   var findLoadApiData;
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context,listen: false);
-    findLoadApiData = runFindLoadApiGet(
-        "Alwar", "");
+    var providerData = Provider.of<ProviderData>(context, listen: false);
+    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+      print(transporterIdController.transporterId);
+      controller1 = TextEditingController(
+          text:
+          ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
+      findLoadApiData = runFindLoadApiGet(
+          providerData.loadingPointCity, providerData.unloadingPointCity);
+    }
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -72,16 +81,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-                hintText: "Loading Point",
-                icon: LoadingPointImageIcon(
-                  height: 12,
-                  width: 12,
-                ),
-                controller: controller1,
-                onTap: () {
-                  providerData.clearLoadingPoint();
-                }
-              ),
+                  hintText: "Loading Point",
+                  icon: LoadingPointImageIcon(
+                    height: 12,
+                    width: 12,
+                  ),
+                  controller: controller1,
+                  onTap: () {
+                    providerData.clearLoadingPoint();
+                  }),
               SizedBox(
                 height: space_4,
               ),
@@ -93,14 +101,14 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 ),
                 controller: controller2,
                 onTap: () {
-                   providerData.clearUnloadingPoint();
+                  providerData.clearUnloadingPoint();
                 },
               ),
               SizedBox(
                 height: space_3,
               ),
               Container(
-                color: solidLineColor,
+                color: LightGrayishBlue,
                 height: borderWidth_12,
               ),
               SizedBox(
@@ -117,8 +125,9 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                   top:
                                       MediaQuery.of(context).size.height * 0.2),
                               child: LoadingWidget());
+                        } else if (snapshot.data.length == 0) {
+                          return NoCardDisplay();
                         }
-                        else if(snapshot.data.length==0){return NoCardDisplay();}
                         return Column(
                           children: [
                             Row(
@@ -136,35 +145,36 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
-
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(),
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
-
                                     LoadApiDataDisplayCard(
-                                      loadId: snapshot.data[index].loadId,
+                                  loadId: snapshot.data[index].loadId,
                                   loadingPoint:
                                       snapshot.data[index].loadingPoint,
-                                  loadingPointCity: snapshot.data[index].loadingPointCity,
-                                  loadingPointState: snapshot.data[index].loadingPointState,
+                                  loadingPointCity:
+                                      snapshot.data[index].loadingPointCity,
+                                  loadingPointState:
+                                      snapshot.data[index].loadingPointState,
                                   id: snapshot.data[index].id,
                                   unloadingPoint:
                                       snapshot.data[index].unloadingPoint,
-                                  unloadingPointCity: snapshot.data[index].unloadingPointCity,
-                                  unloadingPointState: snapshot.data[index].unloadingPointState,
+                                  unloadingPointCity:
+                                      snapshot.data[index].unloadingPointCity,
+                                  unloadingPointState:
+                                      snapshot.data[index].unloadingPointState,
                                   productType: snapshot.data[index].productType,
                                   truckType: snapshot.data[index].truckType,
                                   noOfTrucks: snapshot.data[index].noOfTrucks,
                                   weight: snapshot.data[index].weight,
                                   status: snapshot.data[index].status,
-
                                 ),
                               ),
                             ),
                           ],
-                        );}),
-
+                        );
+                      }),
             ],
           ),
         ),

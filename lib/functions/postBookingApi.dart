@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_config/flutter_config.dart';
 
 postBookingApi(loadId, rate, transporterId, unit, truckId) async {
   Map data = {
@@ -10,13 +11,10 @@ postBookingApi(loadId, rate, transporterId, unit, truckId) async {
     "truckId": truckId
   };
   String body = json.encode(data);
-  print(body);
-  final response = await http.post(
-      Uri.parse(
-          "http://ec2-3-7-133-111.ap-south-1.compute.amazonaws.com:8090/booking"),
+  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl').toString();
+  final response = await http.post(Uri.parse("$bookingApiUrl"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body);
-  print(response.body);
 }

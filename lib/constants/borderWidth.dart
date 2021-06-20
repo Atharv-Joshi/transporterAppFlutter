@@ -1,4 +1,3 @@
-
 double borderWidth_1 = 0.1;
 double borderWidth_2 = 0.2;
 double borderWidth_3 = 0.3;

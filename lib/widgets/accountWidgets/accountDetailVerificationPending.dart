@@ -8,7 +8,9 @@ import 'package:liveasy/constants/fontWeights.dart';
 
 class AccountDetailVerificationPending extends StatelessWidget {
   final String mobileNum;
+
   AccountDetailVerificationPending({required this.mobileNum});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,7 +37,7 @@ class AccountDetailVerificationPending extends StatelessWidget {
               mobileNum,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: solidLineColor,
+                  color: LightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -56,8 +58,7 @@ class AccountDetailVerificationPending extends StatelessWidget {
               Image(
                 height: space_1 + 3,
                 width: space_1 + 3,
-                image: AssetImage(
-                    "assets/icons/pendingIcon.png"),
+                image: AssetImage("assets/icons/pendingIcon.png"),
               ),
               Text(
                 "Pending",

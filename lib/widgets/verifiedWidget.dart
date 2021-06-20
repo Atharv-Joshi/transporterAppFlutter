@@ -13,7 +13,7 @@ class VerifiedWidget extends StatelessWidget {
       width: space_10 - 1,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius_1 - 2),
-        color: verifiedButtonColor,
+        color: lightishGreen,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -45,7 +45,6 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 }
 
 class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
-
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getLoadPosterDetailsFromApi(loadPosterId: widget.id.toString()),
@@ -64,17 +63,16 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             unloadingPoint: widget.unloadingPoint,
             unloadingPointCity: widget.unloadingPointCity,
             truckType: widget.truckType,
+            productType: widget.productType,
             weight: widget.weight,
             noOfTrucks: widget.noOfTrucks,
             loadPosterId: snapshot.data.loadPosterId,
             loadPosterPhoneNo: snapshot.data.loadPosterPhoneNo,
             loadPosterLocation: snapshot.data.loadPosterLocation,
             loadPosterName: snapshot.data.loadPosterName,
-            loadPosterCompanyName:
-            snapshot.data.loadPosterCompanyName,
+            loadPosterCompanyName: snapshot.data.loadPosterCompanyName,
             loadPosterKyc: snapshot.data.loadPosterKyc,
-            loadPosterCompanyApproved:
-            snapshot.data.loadPosterCompanyApproved,
+            loadPosterCompanyApproved: snapshot.data.loadPosterCompanyApproved,
             loadPosterApproved: snapshot.data.loadPosterApproved,
           );
         });

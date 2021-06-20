@@ -35,17 +35,16 @@ class TruckModel {
   String? driverName;
   String? driverNum;
 
-  TruckModel({
-    this.truckId,
-    this.transporterId,
-    this.truckNo,
-    required this.truckApproved,
-    this.imei,
-    this.passingWeight,
-    this.truckType,
-    this.driverId,
-    this.tyres,
-    this.driverName,
-    this.driverNum
-  });
+  TruckModel(
+      {this.truckId,
+      this.transporterId,
+      this.truckNo,
+      required this.truckApproved,
+      this.imei,
+      this.passingWeight,
+      this.truckType,
+      this.driverId,
+      this.tyres,
+      this.driverName,
+      this.driverNum});
 }

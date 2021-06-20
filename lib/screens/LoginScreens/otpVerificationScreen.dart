@@ -41,7 +41,6 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   String _verificationCode = '';
   late int _forceResendingToken = 0;
 
-
   //controllers
 
   TimerController timerController = Get.put(TimerController());
@@ -106,7 +105,10 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                         'Resend OTP',
                                         style: TextStyle(
                                           letterSpacing: 0.5,
-                                          color: timerController.resendButton.value ? navygreen : unselectedGrey,
+                                          color:
+                                              timerController.resendButton.value
+                                                  ? navygreen
+                                                  : unselectedGrey,
                                           decoration: TextDecoration.underline,
                                         ),
                                       )),
@@ -212,7 +214,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           print('in verification completed');
-              await FirebaseAuth.instance.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(credential);
           timerController.cancelTimer();
           hudController.updateHud(false);
           Get.offAll(() => NavigationScreen());

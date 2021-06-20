@@ -54,7 +54,7 @@ class CardUpperWidget extends StatelessWidget {
                               loadingPointCity.toString(),
                               style: TextStyle(
                                   fontSize: size_9,
-                                  color: loadingPointTextColor,
+                                  color: liveasyBlackColor,
                                   fontWeight: mediumBoldWeight),
                             ),
                           ),
@@ -75,7 +75,7 @@ class CardUpperWidget extends StatelessWidget {
                               unloadingPointCity.toString(),
                               style: TextStyle(
                                   fontSize: size_9,
-                                  color: unloadingPointTextColor,
+                                  color: liveasyBlackColor,
                                   fontWeight: mediumBoldWeight),
                             ),
                           ),

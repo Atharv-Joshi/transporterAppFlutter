@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-
 Future getImageFromCamera(var functionToUpdate) async {
   final picker = ImagePicker();
   var pickedFile = await picker.getImage(source: ImageSource.camera);

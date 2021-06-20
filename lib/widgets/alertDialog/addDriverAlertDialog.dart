@@ -43,7 +43,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: borderLightColor)),
+                border: Border.all(color: darkGreyColor)),
             child: Padding(
               padding: EdgeInsets.only(
                 left: space_2 - 2,
@@ -75,7 +75,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: borderLightColor)),
+                border: Border.all(color: darkGreyColor)),
             child: Padding(
               padding: EdgeInsets.only(
                 left: space_2 - 2,
@@ -127,7 +127,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                     },
                     child: Icon(
                       Icons.add,
-                      color: truckGreen,
+                      color: liveasyGreen,
                     )),
                 Text(
                   "Select From Your Contact List  ",

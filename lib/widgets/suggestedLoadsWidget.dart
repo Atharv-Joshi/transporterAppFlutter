@@ -31,7 +31,7 @@ class SuggestedLoadsWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BodyTextWidget(
-                      text: "Suggested Loads", color:greyishWhiteColor),
+                      text: "Suggested Loads", color: greyishWhiteColor),
                   BodyTextWidget(text: "See All", color: liveasyGreenColor),
                 ],
               ),
@@ -59,9 +59,9 @@ class SuggestedLoadsWidget extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           SuggestedLoadDataDisplayCard(
                               loadingPointCity:
-                              snapshot.data[index].loadingPointCity,
+                                  snapshot.data[index].loadingPointCity,
                               unloadingPointCity:
-                              snapshot.data[index].unloadingPointCity,
+                                  snapshot.data[index].unloadingPointCity,
                               onTap: () {})),
                 );
               },

@@ -7,6 +7,7 @@ import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 import 'getDriverDetailsFromDriverApi.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {
   var providerData = Provider.of<ProviderData>(context, listen: false);
@@ -16,9 +17,7 @@ Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {
   List truckAndDriverList = [];
   TransporterIdController tIdController = Get.find<TransporterIdController>();
   var jsonData;
-
-  String truckApiUrl =
-      "http://ec2-3-7-133-111.ap-south-1.compute.amazonaws.com:9090/truck";
+  final String truckApiUrl = FlutterConfig.get('truckApiUrl').toString();
   try {
     http.Response response = await http.get(Uri.parse(
         truckApiUrl + '?transporterId=${tIdController.transporterId}'));

@@ -25,17 +25,16 @@ class IdInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-              "Add Address Proof",
-              style: TextStyle(
-                fontWeight: mediumBoldWeight,
-                fontSize: size_8,
+                "Add Address Proof",
+                style: TextStyle(
+                  fontWeight: mediumBoldWeight,
+                  fontSize: size_8,
+                ),
               ),
-            ),
               Text(
                 "(Aadhar Card/Driving License/Ration Card\n/Voter ID/Electricity/GST)",
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
-
               SizedBox(
                 height: space_2,
               ),
@@ -45,7 +44,8 @@ class IdInputWidget extends StatelessWidget {
                   RoundedImageDisplay(
                     text: "Id Front",
                     onPressed: () {
-                      getImageFromCamera(providerData.updatePanFrontPhoto);//TODO:Change Name in provider accordingly
+                      getImageFromCamera(providerData
+                          .updatePanFrontPhoto); //TODO:Change Name in provider accordingly
                     },
                     imageFile: providerData.panFrontPhotoFile,
                   ),

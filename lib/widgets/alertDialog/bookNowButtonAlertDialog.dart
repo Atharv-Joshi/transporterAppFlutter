@@ -64,7 +64,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(radius_4 + 2),
-                border: Border.all(color: borderLightColor)),
+                border: Border.all(color: darkGreyColor)),
             child: Padding(
               padding: EdgeInsets.only(
                 left: space_2 - 2,

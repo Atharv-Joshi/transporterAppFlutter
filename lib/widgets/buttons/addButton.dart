@@ -52,7 +52,7 @@ class AddButton extends StatelessWidget {
         height: space_6 + 1,
         width: space_16,
         decoration: BoxDecoration(
-            color: bidBackground,
+            color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(

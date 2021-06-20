@@ -7,16 +7,14 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 
 class AuthService {
-
   HudController hudController = Get.put(HudController());
   TimerController timerController = Get.put(TimerController());
 
   Future signOut() async {
-    try{
+    try {
       Get.to(() => LoginScreen());
       return FirebaseAuth.instance.signOut();
-      }
-    catch(e){
+    } catch (e) {
       print(e.toString());
       return null;
     }
@@ -48,7 +46,5 @@ class AuthService {
       Get.snackbar('Invalid Otp', 'Please Enter the correct OTP',
           colorText: white, backgroundColor: black_87);
     }
-
-
   }
 }
