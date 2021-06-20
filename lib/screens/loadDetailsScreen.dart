@@ -85,7 +85,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: space_8,
+              height: space_4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

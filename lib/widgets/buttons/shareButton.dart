@@ -4,7 +4,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:social_share/social_share.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 // ignore: must_be_immutable
