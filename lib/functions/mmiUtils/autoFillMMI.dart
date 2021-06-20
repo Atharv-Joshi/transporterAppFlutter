@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-
 Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
   if (cityName.length > 1) {
     TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
@@ -31,8 +30,9 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
     print(adress);
     List<AutoFillMMIModel> card = [];
     for (var json in adress) {
-      AutoFillMMIModel locationCardsModal =
-      new AutoFillMMIModel(placeCityName: json["placeName"],placeStateName: json["placeAddress"]);
+      AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
+          placeCityName: json["placeName"],
+          placeStateName: json["placeAddress"]);
       card.add(locationCardsModal);
     }
     // card = card

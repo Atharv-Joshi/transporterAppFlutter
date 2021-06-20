@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -13,12 +12,15 @@ class CallButton extends StatelessWidget {
       width: 80,
       child: TextButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
             side: BorderSide(color: darkBlueColor),
           )),
         ),
-        onPressed: (){print('Call Button Pressed');},
+        onPressed: () {
+          print('Call Button Pressed');
+        },
         child: Container(
           margin: EdgeInsets.only(left: space_1),
           child: Row(
@@ -28,7 +30,7 @@ class CallButton extends StatelessWidget {
                 child: Image(
                   height: 16,
                   width: 11,
-                  image:AssetImage(
+                  image: AssetImage(
                     'assets/icons/callButtonIcon.png',
                   ),
                 ),

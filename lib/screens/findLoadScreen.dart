@@ -7,11 +7,12 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadApis/runFindLoadApiGet.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
+import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:liveasy/widgets/loadDisplayCard.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/noCardDisplay.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
@@ -47,101 +48,103 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
     }
     return SafeArea(
       child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.back();
-                              providerData.clearLoadingPoint();
-                              providerData.clearUnloadingPoint();
-                            },
-                            child: Icon(Icons.arrow_back_ios_rounded),
-                          ),
-                          SizedBox(
-                            width: space_3,
-                          ),
-                          HeadingTextWidget("Find Load"),
-                          // HelpButtonWidget(),
-                        ],
-                      ),
-                      HelpButtonWidget(),
-                    ],
-                  ),
-                  SizedBox(
-                    height: space_5,
-                  ),
-                  AddressInputWidget(
-                      hintText: "Loading Point",
-                      icon: LoadingPointImageIcon(
-                        height: 12,
-                        width: 12,
-                      ),
-                      controller: controller1,
-                      onTap: () {
-                        providerData.clearLoadingPoint();
-                      }),
-                  SizedBox(
-                    height: space_4,
-                  ),
-                  AddressInputWidget(
-                    hintText: "Unloading Point",
-                    icon: UnloadingPointImageIcon(
+        backgroundColor: backgroundColor,
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            providerData.clearLoadingPoint();
+                            providerData.clearUnloadingPoint();
+                          },
+                          child: Icon(Icons.arrow_back_ios_rounded),
+                        ),
+                        SizedBox(
+                          width: space_3,
+                        ),
+                        HeadingTextWidget("Find Load"),
+                        // HelpButtonWidget(),
+                      ],
+                    ),
+                    FilterButtonWidget(),
+                  ],
+                ),
+                SizedBox(
+                  height: space_5,
+                ),
+                AddressInputWidget(
+                    hintText: "Loading Point",
+                    icon: LoadingPointImageIcon(
                       height: 12,
                       width: 12,
                     ),
-                    controller: controller2,
+                    controller: controller1,
                     onTap: () {
-                      providerData.clearUnloadingPoint();
-                    },
+                      providerData.clearLoadingPoint();
+                    }),
+                SizedBox(
+                  height: space_4,
+                ),
+                AddressInputWidget(
+                  hintText: "Unloading Point",
+                  icon: UnloadingPointImageIcon(
+                    height: 12,
+                    width: 12,
                   ),
-                  SizedBox(
-                    height: space_3,
-                  ),
-                  Container(
-                    color: solidLineColor,
-                    height: borderWidth_12,
-                  ),
-                  SizedBox(
-                    height: space_4,
-                  ),
-                  findLoadApiData == null
-                      ? Container()
-                      : FutureBuilder(
-                          future: findLoadApiData,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.data == null) {
-                              return Container(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height *
-                                          0.2),
-                                  child: LoadingWidget());
-                            }
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AvailableLoadsTextWidget(),
-                                    /*FilterButtonWidget()*/
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: space_4,
-                                ),
-                                Container(
+                  controller: controller2,
+                  onTap: () {
+                    providerData.clearUnloadingPoint();
+                  },
+                ),
+                SizedBox(
+                  height: space_3,
+                ),
+                Container(
+                  color: lightGrayishBlue,
+                  height: borderWidth_12,
+                ),
+                SizedBox(
+                  height: space_4,
+                ),
+                findLoadApiData == null
+                    ? Container()
+                    : FutureBuilder(
+                        future: findLoadApiData,
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.data == null) {
+                            return Container(
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.2),
+                                child: LoadingWidget());
+                          } else if (snapshot.data.length == 0) {
+                            return NoCardDisplay();
+                          }
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AvailableLoadsTextWidget(),
+                                  /*FilterButtonWidget()*/
+                                ],
+                              ),
+                              SizedBox(
+                                height: space_4,
+                              ),
+                              Container(
                                   height: 450,
-                                  //TODO: to be modified
+                                  //TODO to be modified
                                   //alternative-(MediaQuery.of(context).size.height-(previous height))
                                   child: ListView.builder(
                                     shrinkWrap: true,
@@ -157,6 +160,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                           snapshot.data[index].loadingPointCity,
                                       loadingPointState: snapshot
                                           .data[index].loadingPointState,
+                                      id: snapshot.data[index].id,
                                       unloadingPoint:
                                           snapshot.data[index].unloadingPoint,
                                       unloadingPointCity: snapshot
@@ -170,17 +174,16 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                           snapshot.data[index].noOfTrucks,
                                       weight: snapshot.data[index].weight,
                                       status: snapshot.data[index].status,
-                                      ordered: false,
                                     ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                ],
-              ),
+                                  ))
+                            ],
+                          );
+                        }),
+              ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

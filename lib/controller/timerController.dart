@@ -20,7 +20,6 @@ class TimerController extends GetxController {
       } else {
         resendButton = true.obs;
         cancelTimer();
-
       }
     });
   }

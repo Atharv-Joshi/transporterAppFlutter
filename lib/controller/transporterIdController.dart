@@ -1,32 +1,45 @@
 import 'package:get/get.dart';
 
-class TransporterIdController extends GetxController{
+class TransporterIdController extends GetxController {
   RxString transporterId = "".obs;
-  void updateTransporterId(String newValue){
+
+  void updateTransporterId(String newValue) {
     transporterId.value = newValue;
   }
+
   RxBool transporterApproved = false.obs;
-  void updateTransporterApproved(bool newValue){
+
+  void updateTransporterApproved(bool newValue) {
     transporterApproved.value = newValue;
   }
+
   RxBool companyApproved = false.obs;
-  void updateCompanyApproved(bool newValue){
+
+  void updateCompanyApproved(bool newValue) {
     companyApproved.value = newValue;
   }
+
   RxString name = "".obs;
-  void updateName(String newValue){
+
+  void updateName(String newValue) {
     name.value = newValue;
   }
+
   RxString companyName = "".obs;
-  void updateCompanyName(String newValue){
+
+  void updateCompanyName(String newValue) {
     transporterId.value = newValue;
   }
+
   RxBool accountVerificationInProgress = false.obs;
-  void updateAccountVerificationInProgress(bool newValue){
+
+  void updateAccountVerificationInProgress(bool newValue) {
     accountVerificationInProgress.value = newValue;
   }
+
   RxString mobileNum = "".obs;
-  void updateMobileNum(String newValue){
+
+  void updateMobileNum(String newValue) {
     mobileNum.value = newValue;
   }
 }

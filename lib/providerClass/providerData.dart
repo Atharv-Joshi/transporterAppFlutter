@@ -3,7 +3,53 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+  List truckNoList = [
+    "Add Truck",
+  ];
+
+  void updateTruckNoList({required String newValue}) {
+    for (int i = 0; i < truckNoList.length; i++) {
+      if (truckNoList[i].toString() == newValue.toString()) {
+        print("hi truck already added");
+        break;
+      } else if (i == truckNoList.length - 1) {
+        truckNoList.add(newValue);
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
+  List driverNameList = [
+    "Add New Driver",
+  ];
+
+  void updateDriverNameList({required String newValue}) {
+    for (int i = 0; i < driverNameList.length; i++) {
+      if (driverNameList[i].toString() == newValue.toString()) {
+        print("hi driver already added");
+        break;
+      } else if (i == driverNameList.length - 1) {
+        driverNameList.add(newValue);
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
   int index = 0;
+  var dropDownValue1;
+  var dropDownValue2;
+
+  void updateDropDownValue1({required String newValue}) {
+    dropDownValue1 = newValue;
+    notifyListeners();
+  }
+
+  void updateDropDownValue2({required String newValue}) {
+    dropDownValue2 = newValue;
+    notifyListeners();
+  }
 
   String loadingPointCity = "";
   String loadingPointState = "";
@@ -77,8 +123,6 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPoint() {
@@ -141,51 +185,52 @@ class ProviderData extends ChangeNotifier {
     smsCode = '';
     notifyListeners();
   }
+
 //-------------------------------------
 
   // functions for add truck pages
 
-  void updateTruckTypeValue(value){
+  void updateTruckTypeValue(value) {
     truckTypeValue = value;
     notifyListeners();
   }
 
-  void updatePassingWeightValue(value){
+  void updatePassingWeightValue(value) {
     passingWeightValue = value;
     notifyListeners();
   }
 
-  void updateTotalTyresValue(value){
+  void updateTotalTyresValue(value) {
     totalTyresValue = value;
     notifyListeners();
   }
 
-  void updateTruckLengthValue(value){
+  void updateTruckLengthValue(value) {
     truckLengthValue = value;
     notifyListeners();
   }
 
-  void updateDriverDetailsValue(value){
+  void updateDriverDetailsValue(value) {
     driverIdValue = value;
     notifyListeners();
   }
 
-  void updateTruckNumberValue(value){
+  void updateTruckNumberValue(value) {
     truckNumberValue = value;
     notifyListeners();
   }
 
-  void updateTruckId(value){
+  void updateTruckId(value) {
     truckId = value;
     notifyListeners();
   }
 
-  void updateResetActive(bool value){
+  void updateResetActive(bool value) {
     resetActive = value;
     notifyListeners();
   }
 
-  void resetTruckFilters(){
+  void resetTruckFilters() {
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -194,7 +239,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetOnNewType(){
+  void resetOnNewType() {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
@@ -202,16 +247,15 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetTruckNumber(){
+  void resetTruckNumber() {
     truckNumberValue = '';
     notifyListeners();
   }
 
-  void updateDriverList(value){
+  void updateDriverList(value) {
     driverList = value;
     notifyListeners();
   }
-
 
 //----------------------------------
 

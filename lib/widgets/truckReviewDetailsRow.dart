@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 
+// ignore: must_be_immutable
 class TruckReviewDetailsRow extends StatelessWidget {
-
   final String label;
   final dynamic value;
 
-  TruckReviewDetailsRow({required this.value , required this.label});
-
+  TruckReviewDetailsRow({required this.value, required this.label});
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,15 +19,13 @@ class TruckReviewDetailsRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                  '$label',
+                '$label',
                 style: TextStyle(
                   fontSize: size_7,
                 ),
               ),
               Text(
-                  value == 0 || value == ''
-                      ? '---'
-                      :'$value',
+                value == 0 || value == '' ? '---' : '$value',
                 style: TextStyle(
                   fontSize: size_7,
                 ),
@@ -38,8 +36,7 @@ class TruckReviewDetailsRow extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: space_1),
               child: Divider(
                 thickness: 2,
-              )
-          ),
+              )),
         ],
       ),
     );

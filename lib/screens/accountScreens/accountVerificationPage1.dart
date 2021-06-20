@@ -8,7 +8,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/accountScreens/accountVerificationPage2.dart';
 import 'package:liveasy/widgets/accountVerification/elevatedButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/accountVerification/idInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/profilePhoto.dart';
 import 'package:provider/provider.dart';

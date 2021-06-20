@@ -27,8 +27,8 @@ class _CardTemplateState extends State<CardTemplate> {
         child: Card(
           shadowColor: shadowGrey,
           elevation: space_2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(space_5)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(space_5)),
           child: widget.child,
         ));
   }

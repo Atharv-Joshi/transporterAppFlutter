@@ -6,14 +6,16 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/widgets/accountWidgets/accountDetailVerificationPending.dart';
 import 'package:liveasy/widgets/accountWidgets/accountDetailVerified.dart';
 import 'package:liveasy/widgets/accountWidgets/waitForReviewCard.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/buyGpsLongWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
 
 class AccountVerificationStatusScreen extends StatelessWidget {
   final String mobileNum;
   final bool accountVerificationInProgress;
-  AccountVerificationStatusScreen({required this.mobileNum,required this.accountVerificationInProgress});
+
+  AccountVerificationStatusScreen(
+      {required this.mobileNum, required this.accountVerificationInProgress});
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +62,22 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                       ),
                     ),
                     accountVerificationInProgress
-                        ? AccountDetailVerificationPending(mobileNum: mobileNum,)
+                        ? AccountDetailVerificationPending(
+                            mobileNum: mobileNum,
+                          )
                         : AccountDetailVerified(
-                            mobileNum: mobileNum,name:"Ravi Singh",companyName: "Tata Steels", address: "Venkatanarasimharajuvari",),
+                            mobileNum: mobileNum,
+                            name: "Ravi Singh",
+                            companyName: "Tata Steels",
+                            address: "Venkatanarasimharajuvari",
+                          ),
                   ],
                 ),
               ),
               SizedBox(
                 height: space_3,
               ),
-              accountVerificationInProgress
-                  ? WaitForReviewCard()
-                  : Container(),
+              accountVerificationInProgress ? WaitForReviewCard() : Container(),
               accountVerificationInProgress
                   ? SizedBox(
                       height: space_3,
