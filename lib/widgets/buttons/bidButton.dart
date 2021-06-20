@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BidButton extends StatefulWidget {
@@ -17,15 +20,24 @@ class BidButton extends StatefulWidget {
 }
 
 class _BidButtonState extends State<BidButton> {
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        await showDialog(
-            context: context,
-            builder: (context) => BidButtonAlertDialog(
-                  loadId: widget.loadId,
-                ));
+        if (tIdController.transporterApproved == true ){
+          await showDialog(
+              context: context,
+              builder: (context) => BidButtonAlertDialog(
+                    loadId: widget.loadId,
+                  ));
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) => VerifyAccountNotifyAlertDialog());
+        }
+        ;
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

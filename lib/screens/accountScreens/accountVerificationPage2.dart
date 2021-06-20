@@ -7,7 +7,6 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postAccountVerificationDocuments.dart';
 import 'package:liveasy/functions/trasnporterApis/updateTransporterApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';

@@ -175,7 +175,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           SizedBox(
                             width: space_2,
                           ),
-                          ShareButton()
+                          ShareButton(loadingPointCity: loadingPointCity)
                         ],
                       ),
                     ],

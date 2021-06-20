@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class CallButton extends StatelessWidget {
   String? loadPosterPhoneNo;
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   CallButton({required this.loadPosterPhoneNo});
 
@@ -13,7 +17,13 @@ class CallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _launchCaller("$loadPosterPhoneNo");
+        if (tIdController.transporterApproved == true) {
+          _launchCaller("$loadPosterPhoneNo");
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) => VerifyAccountNotifyAlertDialog());
+        }
       },
       child: Container(
         height: 31,

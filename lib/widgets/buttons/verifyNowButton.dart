@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class VerifyNowButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(NavigationScreen());
-        Provider.of(context, listen: false).updateIndex(4);
+        Provider.of<ProviderData>(context, listen: false).updateIndex(4);
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

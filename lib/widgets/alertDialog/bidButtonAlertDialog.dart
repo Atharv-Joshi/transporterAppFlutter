@@ -35,41 +35,47 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Radio<RadioButtonOptions>(
-                  value: RadioButtonOptions.PER_TON,
-                  activeColor: darkBlueColor,
-                  groupValue: unit,
-                  onChanged: (value) {
-                    setState(() {
-                      unit = value!;
-                    });
-                  }),
-              Text(
-                "Per Tonne",
-                style: TextStyle(
-                    fontWeight: mediumBoldWeight,
-                    fontSize: size_7,
-                    color: darkBlueColor),
+              Row(
+                children: [
+                  Radio<RadioButtonOptions>(
+                      value: RadioButtonOptions.PER_TON,
+                      activeColor: darkBlueColor,
+                      groupValue: unit,
+                      onChanged: (value) {
+                        setState(() {
+                          unit = value!;
+                        });
+                      }),
+                  Text(
+                    "Per Tonne",
+                    style: TextStyle(
+                        fontWeight: mediumBoldWeight,
+                        fontSize: size_7,
+                        color: darkBlueColor),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: space_8,
-              ),
-              Radio<RadioButtonOptions>(
-                  value: RadioButtonOptions.PER_TRUCK,
-                  activeColor: darkBlueColor,
-                  groupValue: unit,
-                  onChanged: (value) {
-                    setState(() {
-                      unit = value!;
-                    });
-                  }),
-              Text(
-                "Per Truck",
-                style: TextStyle(
-                    fontWeight: mediumBoldWeight,
-                    fontSize: size_7,
-                    color: darkBlueColor),
+              Row(
+                children: [
+                  Radio<RadioButtonOptions>(
+                      value: RadioButtonOptions.PER_TRUCK,
+                      activeColor: darkBlueColor,
+                      groupValue: unit,
+                      onChanged: (value) {
+                        setState(() {
+                          unit = value!;
+                        });
+                      }),
+                  Text(
+                    "Per Truck",
+                    style: TextStyle(
+                        fontWeight: mediumBoldWeight,
+                        fontSize: size_7,
+                        color: darkBlueColor),
+                  ),
+                ],
               ),
             ],
           ),
