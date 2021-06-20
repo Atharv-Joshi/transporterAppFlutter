@@ -44,8 +44,10 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
       loadPosterModel.loadPosterLocation = jsonData["phoneNo"];
-      loadPosterModel.loadPosterCompanyApproved = jsonData["approved"].toString();
-      loadPosterModel.accountVerificationInProgress = jsonData["approved"].toString();
+      loadPosterModel.loadPosterCompanyApproved =
+          jsonData["approved"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress =
+          jsonData["accountVerificationInProgress"].toString();
 
       loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;

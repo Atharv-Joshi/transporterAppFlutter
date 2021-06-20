@@ -4,7 +4,6 @@ import 'package:liveasy/constants/spaces.dart';
 
 // ignore: must_be_immutable
 class TruckReviewDetailsRow extends StatelessWidget {
-
   final String label;
   final dynamic value;
 

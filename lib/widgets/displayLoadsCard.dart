@@ -37,6 +37,7 @@ class DisplayLoadsCard extends StatefulWidget {
   String? loadPosterKyc;
   String? loadPosterCompanyApproved;
   String? loadPosterApproved;
+  String? loadPosterAccountVerificationInProgress;
 
   DisplayLoadsCard(
       {this.loadId,
@@ -61,7 +62,8 @@ class DisplayLoadsCard extends StatefulWidget {
       this.loadPosterCompanyName,
       this.loadPosterKyc,
       this.loadPosterCompanyApproved,
-      this.loadPosterApproved});
+      this.loadPosterApproved,
+      this.loadPosterAccountVerificationInProgress});
 
   @override
   _DisplayLoadsCardState createState() => _DisplayLoadsCardState();
@@ -76,43 +78,43 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == false) {
-            //   LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
-            //   loadDetailsScreenModel.loadId = widget.loadId;
-            //   loadDetailsScreenModel.loadingPoint = widget.loadingPoint;
-            // loadDetailsScreenModel. = widget.loadingPointCity;
-            // loadDetailsScreenModel. = widget.loadingPointState;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
-            // loadDetailsScreenModel. = widget.;
+          if (tIdController.transporterApproved == true) {
+            LoadDetailsScreenModel loadDetailsScreenModel =
+                LoadDetailsScreenModel();
+            loadDetailsScreenModel.loadId = widget.loadId;
+            loadDetailsScreenModel.loadingPoint = widget.loadingPoint;
+            loadDetailsScreenModel.loadingPointCity = widget.loadingPointCity;
+            loadDetailsScreenModel.loadingPointState = widget.loadingPointState;
+            loadDetailsScreenModel.id = widget.id;
+            loadDetailsScreenModel.unloadingPoint = widget.unloadingPoint;
+            loadDetailsScreenModel.unloadingPointCity =
+                widget.unloadingPointCity;
+            loadDetailsScreenModel.unloadingPointState =
+                widget.unloadingPointState;
+            loadDetailsScreenModel.productType = widget.productType;
+            loadDetailsScreenModel.truckType = widget.truckType;
+            loadDetailsScreenModel.noOfTrucks = widget.noOfTrucks;
+            loadDetailsScreenModel.weight = widget.weight;
+            loadDetailsScreenModel.comment = widget.comment;
+            loadDetailsScreenModel.status = widget.status;
+            loadDetailsScreenModel.date = widget.date;
+            loadDetailsScreenModel.loadPosterId = widget.loadPosterId;
+            loadDetailsScreenModel.loadPosterPhoneNo = widget.loadPosterPhoneNo;
+            loadDetailsScreenModel.loadPosterLocation =
+                widget.loadPosterLocation;
+            loadDetailsScreenModel.loadPosterName = widget.loadPosterName;
+            loadDetailsScreenModel.loadPosterCompanyName =
+                widget.loadPosterCompanyName;
+            loadDetailsScreenModel.loadPosterKyc = widget.loadPosterKyc;
+            loadDetailsScreenModel.loadPosterCompanyApproved =
+                widget.loadPosterCompanyApproved;
+            loadDetailsScreenModel.loadPosterApproved =
+                widget.loadPosterApproved;
+            loadDetailsScreenModel.loadPosterAccountVerificationInProgress =
+                widget.loadPosterAccountVerificationInProgress;
+
             Get.to(() => LoadDetailsScreen(
-                loadId: widget.loadId,
-                loadingPoint: widget.loadingPoint,
-                loadingPointCity: widget.loadingPointCity,
-                loadingPointState: widget.loadingPointState,
-                id: widget.id,
-                unloadingPoint: widget.unloadingPoint,
-                unloadingPointCity: widget.unloadingPointCity,
-                unloadingPointState: widget.unloadingPointCity,
-                productType: widget.productType,
-                truckType: widget.truckType,
-                noOfTrucks: widget.noOfTrucks,
-                weight: widget.weight,
-                comment: widget.comment,
-                status: widget.status,
-                date: widget.date,
-                loadPosterId: widget.loadPosterId,
-                loadPosterPhoneNo: widget.loadPosterPhoneNo,
-                loadPosterLocation: widget.loadPosterLocation,
-                loadPosterName: widget.loadPosterName,
-                loadPosterCompanyName: widget.loadPosterCompanyName,
-                loadPosterKyc: widget.loadPosterKyc,
-                loadPosterCompanyApproved: widget.loadPosterCompanyApproved,
-                loadPosterApproved: widget.loadPosterApproved));
+                loadDetailsScreenModel: loadDetailsScreenModel));
           } else {
             showDialog(
                 context: context,

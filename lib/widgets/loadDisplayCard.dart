@@ -80,6 +80,8 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             loadPosterKyc: snapshot.data.loadPosterKyc,
             loadPosterCompanyApproved: snapshot.data.loadPosterCompanyApproved,
             loadPosterApproved: snapshot.data.loadPosterApproved,
+            loadPosterAccountVerificationInProgress:
+                snapshot.data.loadPosterAccountVerificationInProgress,
           );
         });
   }

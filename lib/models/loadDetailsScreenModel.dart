@@ -1,4 +1,4 @@
-class LoadDetailsScreenModel{
+class LoadDetailsScreenModel {
   String? loadId;
   String? loadingPoint;
   String? loadingPointCity;
@@ -22,29 +22,31 @@ class LoadDetailsScreenModel{
   String? loadPosterKyc;
   String? loadPosterCompanyApproved;
   String? loadPosterApproved;
+  String? loadPosterAccountVerificationInProgress;
 
-  LoadDetailsScreenModel({this.loadId,
-    this.loadingPoint,
-    this.loadingPointCity,
-    this.loadingPointState,
-    this.id,
-    this.unloadingPoint,
-    this.unloadingPointCity,
-    this.unloadingPointState,
-    this.productType,
-    this.truckType,
-    this.noOfTrucks,
-    this.weight,
-    this.comment,
-    this.status,
-    this.date,
-    this.loadPosterId,
-    this.loadPosterPhoneNo,
-    this.loadPosterLocation,
-    this.loadPosterName,
-    this.loadPosterCompanyName,
-    this.loadPosterKyc,
-    this.loadPosterCompanyApproved,
-    this.loadPosterApproved});
-
+  LoadDetailsScreenModel(
+      {this.loadId,
+      this.loadingPoint,
+      this.loadingPointCity,
+      this.loadingPointState,
+      this.id,
+      this.unloadingPoint,
+      this.unloadingPointCity,
+      this.unloadingPointState,
+      this.productType,
+      this.truckType,
+      this.noOfTrucks,
+      this.weight,
+      this.comment,
+      this.status,
+      this.date,
+      this.loadPosterId,
+      this.loadPosterPhoneNo,
+      this.loadPosterLocation,
+      this.loadPosterName,
+      this.loadPosterCompanyName,
+      this.loadPosterKyc,
+      this.loadPosterCompanyApproved,
+      this.loadPosterApproved,
+      this.loadPosterAccountVerificationInProgress});
 }
