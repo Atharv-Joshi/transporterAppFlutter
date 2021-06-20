@@ -4,40 +4,42 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class FilterButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        await showDialog(
+            context: context, builder: (context) => NextUpdateAlertDialog());
+      },
       child: Container(
         height: space_6,
         width: space_16,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(width: borderWidth_10, color: borderBlueColor)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Filter",
-              style: TextStyle(
-                  fontSize: size_7,
-                  color: borderBlueColor,
-                  fontWeight: normalWeight),
-            ),
-            SizedBox(
-              width: 2,
-            ),
-            Container(
-              height: space_3 + 0.23,
-              width: space_3 + 0.55,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                          "assets/icons/filterIcon.png"))), //TODO: to be modified
-            ),
-          ],
+            border: Border.all(width: borderWidth_10, color: darkBlueColor)),
+        padding: EdgeInsets.only(left: space_3),
+        child: Center(
+          child: Row(
+            children: [
+              Container(
+                height: space_3,
+                width: space_3,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/icons/filterIcon.png"))),
+              ),
+              SizedBox(
+                width: space_1,
+              ),
+              Text(
+                "Filter",
+                style: TextStyle(fontSize: size_7, color: darkBlueColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

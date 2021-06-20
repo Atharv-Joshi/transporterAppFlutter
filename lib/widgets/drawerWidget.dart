@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
+
 class DrawerWidget extends StatelessWidget {
   final String mobileNum;
+
   DrawerWidget({required this.mobileNum});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,10 +29,7 @@ class DrawerWidget extends StatelessWidget {
                     width: space_3,
                   ),
                   Text(
-                    mobileNum == "" ?
-                    '+911234567891'
-                    : "+91$mobileNum"
-                    ,
+                    mobileNum == "" ? '+911234567891' : "+91$mobileNum",
                     style: TextStyle(fontSize: size_9),
                   ),
                 ],

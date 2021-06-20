@@ -38,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
     // print(first.addressLine);
   }
 
-
   final GlobalKey _formKey = GlobalKey<FormState>();
 
   @override
@@ -57,11 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
               GreenCurve(),
               CardTemplate(
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(
-                    space_4, 
-                    space_16, 
-                    space_3, 
-                    space_4),
+                  padding:
+                      EdgeInsets.fromLTRB(space_4, space_16, space_3, space_4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,10 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Container(
                           margin: EdgeInsets.fromLTRB(
-                            space_0, 
-                            space_3, 
-                            space_0, 
-                            space_6),
+                              space_0, space_3, space_0, space_6),
                           child: Text(
                             'Enter your Phone Number',
                             style: TextStyle(
@@ -85,21 +78,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: lightNavyBlue,
                             ),
                           )),
-                          
                       Form(
-                          key: _formKey,
-                          child: PhoneNumberTextField(),
+                        key: _formKey,
+                        child: PhoneNumberTextField(),
                       ),
-                      
                       Container(
                         width: MediaQuery.of(context).size.width * 0.70,
                         height: space_9,
                         margin: EdgeInsets.fromLTRB(
-                          space_8, 
-                          space_11, 
-                          space_8, 
-                          space_0
-                          ),
+                            space_8, space_11, space_8, space_0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(space_10),
                           child: ElevatedButton(
@@ -114,17 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: providerData.inputControllerLengthCheck
                                   ? () {
-                                        Get.to(() => NewOTPVerificationScreen(
-                                            providerData.phoneController));  
+                                      Get.to(() => NewOTPVerificationScreen(
+                                          providerData.phoneController));
 
-                                            //null safety error here , needs to be resolved
+                                      //null safety error here , needs to be resolved
                                       // if (_formKey.currentState!.validate()) {
                                       //   Get.to(() => NewOTPVerificationScreen(
-                                      //       providerData.phoneController));    
-                                      
-                                        providerData.clearAll();
-                                      } // if
-                                    
+                                      //       providerData.phoneController));
+
+                                      providerData.clearAll();
+                                    } // if
+
                                   : () {}),
                         ),
                       )

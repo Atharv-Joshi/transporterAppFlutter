@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class UnloadingPointImageIcon extends StatelessWidget {
   final double height;
   final double width;
+
   UnloadingPointImageIcon({required this.width, required this.height});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,8 +13,7 @@ class UnloadingPointImageIcon extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-              "assets/icons/redSemiFilledCircleIcon.png"),
+          image: AssetImage("assets/icons/redSemiFilledCircleIcon.png"),
         ),
       ),
     );

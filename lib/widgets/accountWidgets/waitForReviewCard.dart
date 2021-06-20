@@ -56,24 +56,27 @@ class WaitForReviewCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: space_10,),
-                  Container(height: space_5,
+                  SizedBox(
+                    height: space_10,
+                  ),
+                  Container(
+                    height: space_5,
                     width: space_5,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: greyBorderColor,
                     ),
-                  child: Center(
-                    child: Container(
-                      height: space_4,
-                      width: space_4,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: backgroundColor,
+                    child: Center(
+                      child: Container(
+                        height: space_4,
+                        width: space_4,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: backgroundColor,
+                        ),
                       ),
                     ),
-                  ),)
+                  )
                 ],
               ),
               SizedBox(
