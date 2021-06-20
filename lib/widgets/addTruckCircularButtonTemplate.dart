@@ -40,7 +40,7 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-                color: LightGrayishBlue,
+                color: lightGrayishBlue,
                 offset: Offset.fromDirection(0.8),
                 spreadRadius: 1)
           ],

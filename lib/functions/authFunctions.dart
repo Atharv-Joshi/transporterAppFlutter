@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/timerController.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
@@ -29,10 +30,11 @@ class AuthService {
           .then((value) async {
         if (value.user != null) {
           print('hud false due to try in manual verification');
-          // hudController.updateHudController(false);
           hudController.updateHud(false);
           timerController.cancelTimer();
           Get.offAll(() => NavigationScreen());
+          runTransporterApiPost(
+              mobileNum: value.user!.phoneNumber!.toString().substring(3, 13));
         }
       });
     } catch (e) {

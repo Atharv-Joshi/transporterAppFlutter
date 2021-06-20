@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +16,7 @@ class CardLowerWidget extends StatelessWidget {
     return Container(
       height: 47,
       padding: EdgeInsets.symmetric(horizontal: 15),
-      color: Colors.blueGrey[100],
+      color: contactPlaneBackground,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

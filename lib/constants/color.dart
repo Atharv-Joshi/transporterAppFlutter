@@ -26,7 +26,16 @@ const Color black_87 = Colors.black87;
 Color loadingWidgetColor = Colors.lightBlueAccent;
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
+
 Color liveasyOrange = Color(0xFFFF7600);
+Color solidLineColor = Color(0xFFC4C9D9);
+Color priceBackground = Color(0xFFC4C9D9);
+Color bidBackground = Color(0xFF152968);
+// Color priceTextColor = Color(0xFF152968);
+Color loadingPointTextColor = Color(0xFF2A2E3B);
+Color loadScreenPrimaryTextColor = Color(0xFF555454);
+Color contactPlaneBackground = Color(0xFFE5E8EE);
+Color verifiedButtonColor = Color(0xFF84DBBB);
 Color locationLineColor = Color(0xFFAFAFAF);
 Color liveasyGreen = Color(0xFF09B778);
 Color lightishGreen = Color(0xFF84DBBB);
@@ -37,5 +46,6 @@ Color veryDarkGrey = Color(0xFF555454);
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
     MaterialStateProperty.all<Color>(Color(0xFFC4C9D9));
+Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);
-Color LightGrayishBlue = Color(0xFFC4C9D9);
+Color lightGrayishBlue = Color(0xFFC4C9D9);

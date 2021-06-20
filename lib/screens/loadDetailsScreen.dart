@@ -146,7 +146,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         height: space_3,
                       ),
                       Container(
-                        color: LightGrayishBlue,
+                        color: lightGrayishBlue,
                         height: 1,
                       ),
                       SizedBox(

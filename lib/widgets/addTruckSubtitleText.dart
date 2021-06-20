@@ -5,7 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 
 // ignore: must_be_immutable
 class AddTruckSubtitleText extends StatelessWidget {
-  String text;
+  final String text;
 
   AddTruckSubtitleText({required this.text});
 

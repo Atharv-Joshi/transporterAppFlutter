@@ -8,18 +8,19 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 // ignore: must_be_immutable
-class AddTrucksHeader extends StatefulWidget {
-  dynamic resetFunction;
+class Header extends StatefulWidget {
+  final dynamic resetFunction;
 
   bool reset = true;
+  final text;
 
-  AddTrucksHeader({this.resetFunction, required this.reset});
+  Header({this.resetFunction, required this.reset, required this.text});
 
   @override
-  _AddTrucksHeaderState createState() => _AddTrucksHeaderState();
+  _HeaderState createState() => _HeaderState();
 }
 
-class _AddTrucksHeaderState extends State<AddTrucksHeader> {
+class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -32,7 +33,7 @@ class _AddTrucksHeaderState extends State<AddTrucksHeader> {
             Container(
                 margin: EdgeInsets.only(right: space_2),
                 child: BackButtonWidget()),
-            Text('Add Truck',
+            Text('${widget.text}',
                 style: TextStyle(
                   fontSize: size_10,
                   fontWeight: mediumBoldWeight,
@@ -45,8 +46,9 @@ class _AddTrucksHeaderState extends State<AddTrucksHeader> {
                     providerData.resetActive ? widget.resetFunction : null,
                 child: Text('Reset',
                     style: TextStyle(
-                      color:
-                          providerData.resetActive ? liveasyGreen : LightGrayishBlue,
+                      color: providerData.resetActive
+                          ? liveasyGreen
+                          : lightGrayishBlue,
                       fontSize: size_10,
                       fontWeight: regularWeight,
                     )))

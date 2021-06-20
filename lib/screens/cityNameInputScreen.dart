@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
-import 'package:liveasy/functions/autoFillMMI.dart';
+import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
@@ -100,7 +100,8 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(FindLoadScreen());
+
+                                  Get.off(() => FindLoadScreen());
                                 } else if (widget.valueType ==
                                     "Unloading Point") {
                                   Provider.of<ProviderData>(context,

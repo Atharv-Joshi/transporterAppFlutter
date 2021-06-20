@@ -51,7 +51,7 @@ class AccountDetailVerified extends StatelessWidget {
               mobileNum,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: LightGrayishBlue,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -94,7 +94,7 @@ class AccountDetailVerified extends StatelessWidget {
                   : companyName,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: LightGrayishBlue,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -121,7 +121,7 @@ class AccountDetailVerified extends StatelessWidget {
               address.length > 15 ? "${address.substring(0, 14)}.." : address,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: LightGrayishBlue,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],

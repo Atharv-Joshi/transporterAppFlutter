@@ -29,7 +29,7 @@ class AdditionalDescriptionLoadDetails extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(space_1, space_1, space_2, space_2),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(space_1 + 3),
-              border: Border.all(color: LightGrayishBlue)),
+              border: Border.all(color: lightGrayishBlue)),
           child: Text(
             message,
             style: TextStyle(fontWeight: normalWeight, fontSize: size_6),

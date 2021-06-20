@@ -90,6 +90,14 @@ class ProviderData extends ChangeNotifier {
   //variables related to driverApi
   List driverList = [];
 
+  //variables related to orders page
+  int upperNavigatorIndex = 0 ;
+
+  void updateUpperNavigatorIndex(int value){
+    upperNavigatorIndex = value;
+    notifyListeners();
+  }
+
   updateProfilePhoto(File newFile) {
     profilePhotoFile = newFile;
     notifyListeners();

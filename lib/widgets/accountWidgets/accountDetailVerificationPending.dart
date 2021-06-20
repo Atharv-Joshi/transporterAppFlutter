@@ -37,7 +37,7 @@ class AccountDetailVerificationPending extends StatelessWidget {
               mobileNum,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: LightGrayishBlue,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
