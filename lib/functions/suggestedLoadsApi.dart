@@ -16,12 +16,12 @@ Future<List<SuggestLoadApiDataModel>> runSuggestedLoadApi() async {
         loadingPointCity: json["loadingPointCity"],
         loadingPointState: "",
         unloadingPointCity: json["unloadingPointCity"],
-        truckType: "",
+        truckType: json["truckType"],
         noOfTrucks: "",
         status: "",
         unloadingPointState: "",
-        weight: "",
-        productType: "",
+        weight: json["weight"],
+        productType: json["productType"],
         comment: "");
     data.add(loadData);
   }
