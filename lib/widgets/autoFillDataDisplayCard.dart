@@ -22,9 +22,14 @@ class AutoFillDataDisplayCard extends StatelessWidget {
       child: Container(
         height: space_12,
         decoration: BoxDecoration(
-            color: backgroundColor,
-            border: Border.symmetric(
-                horizontal: BorderSide(width: 0.5, color: greyBorderColor,),),),
+          color: backgroundColor,
+          border: Border.symmetric(
+            horizontal: BorderSide(
+              width: 0.5,
+              color: greyBorderColor,
+            ),
+          ),
+        ),
         child: Row(
           children: [
             Padding(
@@ -48,8 +53,7 @@ class AutoFillDataDisplayCard extends StatelessWidget {
                 Container(
                   child: Text(
                     '($placeAddress)',
-                    style:
-                    TextStyle(fontSize: size_6, color: darkGreyColor),
+                    style: TextStyle(fontSize: size_6, color: darkGreyColor),
                   ),
                 ),
               ],

@@ -9,16 +9,14 @@ class BuyGpsLongWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       height: 102,
       width: double.maxFinite,
-      padding: EdgeInsets.fromLTRB(space_4, space_3, space_6,0),
+      padding: EdgeInsets.fromLTRB(space_4, space_3, space_6, 0),
       decoration: BoxDecoration(
         color: white,
         image: DecorationImage(
             image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
-            fit: BoxFit.fill
-        ),
+            fit: BoxFit.fill),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

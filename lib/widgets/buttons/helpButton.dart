@@ -12,8 +12,9 @@ class HelpButtonWidget extends StatelessWidget {
       child: Container(
         height: space_6,
         width: space_16,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-        border: Border.all(width: borderWidth_10, color: darkBlueColor)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(width: borderWidth_10, color: darkBlueColor)),
         padding: EdgeInsets.only(left: space_3),
         child: Center(
           child: Row(

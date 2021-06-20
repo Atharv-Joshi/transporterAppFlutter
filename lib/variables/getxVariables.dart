@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
 
-class GetxVariables{
+class GetxVariables {
   RxInt pageIndex = 0.obs;
 }

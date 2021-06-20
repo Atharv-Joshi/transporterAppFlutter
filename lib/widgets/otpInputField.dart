@@ -25,8 +25,7 @@ class _OTPInputFieldState extends State<OTPInputField> {
       child: PinPut(
         inputFormatters: <TextInputFormatter>[
           LengthLimitingTextInputFormatter(10),
-          FilteringTextInputFormatter.allow(
-              RegExp(r'[0-9]')),
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
         ],
         fieldsCount: 6,
         textStyle: const TextStyle(fontSize: size_12, color: black),

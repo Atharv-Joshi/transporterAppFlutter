@@ -17,12 +17,11 @@ class AddTruckButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              )
-          ),
-          backgroundColor:MaterialStateProperty.all<Color>(darkBlueColor),
+            borderRadius: BorderRadius.circular(50),
+          )),
+          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: (){
+        onPressed: () {
           Get.to(() => AddNewTruck());
         },
         child: Text(
@@ -31,7 +30,8 @@ class AddTruckButton extends StatelessWidget {
             letterSpacing: 1,
             fontSize: size_9,
             color: white,
-          ),),
+          ),
+        ),
       ),
     );
   }

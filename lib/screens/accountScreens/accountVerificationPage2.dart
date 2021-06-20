@@ -7,15 +7,14 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postAccountVerificationDocuments.dart';
 import 'package:liveasy/functions/trasnporterApis/updateTransporterApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/accountVerification/companyIdInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/elevatedButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:provider/provider.dart';
 

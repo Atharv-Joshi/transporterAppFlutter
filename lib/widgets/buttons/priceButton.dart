@@ -9,14 +9,14 @@ class PriceButtonWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
-          color: priceBackground, borderRadius: BorderRadius.circular(5)),
+          color: lightGrayishBlue, borderRadius: BorderRadius.circular(5)),
       height: 35,
       width: 110,
       child: Center(
         child: Text(
           "\u20B96000/tonne",
           style: TextStyle(
-              color: priceTextColor,
+              color: darkBlueColor,
               fontWeight: mediumBoldWeight,
               fontSize: size_7),
         ),
