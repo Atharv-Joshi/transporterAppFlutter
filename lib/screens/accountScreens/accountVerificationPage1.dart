@@ -66,7 +66,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
                       providerData.addressProofPhotoFile != null,
                   text: "Next",
                   onPressedConditionTrue: () {
-                    Get.to(AccountVerificationPage2());
+                    Get.to(() => AccountVerificationPage2());
                   }),
             ],
           ),

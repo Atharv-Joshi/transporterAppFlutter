@@ -9,8 +9,10 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
+import 'package:liveasy/widgets/buttons/viewBiddingsButton.dart';
 import 'package:liveasy/widgets/contactWidget.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
+import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/buttons/priceButton.dart';
 import 'package:liveasy/widgets/truckImageWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
@@ -33,6 +35,7 @@ class LoadApiDataDisplayCard extends StatelessWidget {
   String? comment;
   String? status;
   String? date;
+  bool? ordered;
 
   LoadApiDataDisplayCard(
       {this.loadId,
@@ -49,7 +52,8 @@ class LoadApiDataDisplayCard extends StatelessWidget {
       this.weight,
       this.comment,
       this.status,
-      this.date});
+      this.date,
+      this.ordered});
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
@@ -76,7 +80,7 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                 status: "$status",
                 date: "$comment"));
           } else {
-             VerifyAccountNotifyAlertDialog(context);
+            VerifyAccountNotifyAlertDialog(context);
           }
         },
         child: Card(
@@ -88,46 +92,50 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                   Expanded(
                       flex: 2,
                       child: Container(
-                        padding: EdgeInsets.only(left: 15, top: 14),
+                        padding:
+                            EdgeInsets.only(left: space_3, top: space_3 - 1),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
                                 LoadingPointImageIcon(
-                                  height: space_2 + 2,
-                                  width: space_2 + 2,
+                                  height: 8.96,
+                                  width: space_2,
                                 ),
                                 SizedBox(
-                                  width: space_2 - 2,
+                                  width: space_2 - 1,
                                 ),
                                 Expanded(
                                   child: Text(
                                     "$loadingPointCity",
                                     style: TextStyle(
                                         fontSize: size_9,
-                                        color: loadingPointTextColor,
+                                        color: loadScreenPrimaryTextColor,
                                         fontWeight: mediumBoldWeight),
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: space_2 - 2,
-                            ),
+                            Container(
+                                height: 28.08,
+                                padding: EdgeInsets.only(left: space_1 - 3),
+                                child: CustomPaint(
+                                  foregroundPainter: LinePainter(),
+                                )),
                             Row(
                               children: [
                                 UnloadingPointImageIcon(
-                                    width: space_2 + 2, height: space_2 + 2),
+                                    width: space_2, height: 8.96),
                                 SizedBox(
-                                  width: space_2 - 2,
+                                  width: space_2 - 1,
                                 ),
                                 Expanded(
                                   child: Text(
                                     "$unloadingPointCity",
                                     style: TextStyle(
                                         fontSize: size_9,
-                                        color: unloadingPointTextColor,
+                                        color: loadScreenPrimaryTextColor,
                                         fontWeight: mediumBoldWeight),
                                   ),
                                 ),
@@ -149,14 +157,16 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                                               Text("Truck Type",
                                                   style: TextStyle(
                                                       fontSize: size_6 - 1,
-                                                      fontWeight:
-                                                          regularWeight)),
+                                                      fontWeight: regularWeight,
+                                                      color:
+                                                          loadScreenSecondaryTextColor)),
                                               Text("$truckType",
                                                   style: TextStyle(
-                                                    fontWeight:
-                                                        mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  ))
+                                                      fontWeight:
+                                                          mediumBoldWeight,
+                                                      fontSize: size_7,
+                                                      color:
+                                                          loadScreenPrimaryTextColor))
                                             ],
                                           ),
                                           SizedBox(
@@ -167,14 +177,16 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                                               Text("Weight",
                                                   style: TextStyle(
                                                       fontSize: size_6 - 1,
-                                                      fontWeight:
-                                                          regularWeight)),
+                                                      fontWeight: regularWeight,
+                                                      color:
+                                                          loadScreenSecondaryTextColor)),
                                               Text("$weight",
                                                   style: TextStyle(
-                                                    fontWeight:
-                                                        mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  ))
+                                                      fontWeight:
+                                                          mediumBoldWeight,
+                                                      fontSize: size_7,
+                                                      color:
+                                                          loadScreenPrimaryTextColor))
                                             ],
                                           )
                                         ],
@@ -191,7 +203,9 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                                             Text("Tyre",
                                                 style: TextStyle(
                                                     fontSize: size_6 - 1,
-                                                    fontWeight: regularWeight)),
+                                                    fontWeight: regularWeight,
+                                                    color:
+                                                        loadScreenSecondaryTextColor)),
                                             Text("NA",
                                                 style: TextStyle(
                                                   fontWeight: mediumBoldWeight,
@@ -200,21 +214,24 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: space_2 + 3,
+                                          height: space_2,
                                         ),
                                         Column(
                                           children: [
-                                            Text("Product Type",
+                                            Text("Product type",
                                                 style: TextStyle(
                                                     fontSize: size_6 - 1,
-                                                    fontWeight: regularWeight)),
+                                                    fontWeight: regularWeight,
+                                                    color:
+                                                        loadScreenSecondaryTextColor)),
                                             Container(
                                               child: Text("$productType",
                                                   style: TextStyle(
-                                                    fontWeight:
-                                                        mediumBoldWeight,
-                                                    fontSize: size_7,
-                                                  )),
+                                                      fontWeight:
+                                                          mediumBoldWeight,
+                                                      fontSize: size_7,
+                                                      color:
+                                                          loadScreenPrimaryTextColor)),
                                             )
                                           ],
                                         )
@@ -227,27 +244,31 @@ class LoadApiDataDisplayCard extends StatelessWidget {
                           ],
                         ),
                       )),
-                  Expanded(flex: 1, child: TruckImageWidget())
+                  Container(
+                      padding:
+                          EdgeInsets.only(top: space_3 - 1, right: space_2 - 2),
+                      child: TruckImageWidget())
                 ],
               ),
               SizedBox(
-                height: space_2 + 4,
+                height: space_3 - 1,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PriceButtonWidget(),
-                  BidButton("$loadId"),
+                  ordered == true ? ViewBidsButton() : BidButton("$loadId"),
                 ],
               ),
               SizedBox(
                 height: space_2,
               ),
-              ContactWidget()
+              ordered == true ? Container() : ContactWidget()
             ],
           ),
         ),
-      )
+      ),
+      SizedBox(height: space_3)
     ]);
   }
 }
