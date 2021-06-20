@@ -62,6 +62,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                                 widget.suggestedLoadData[index].productType,
                             truckType:
                                 widget.suggestedLoadData[index].truckType,
+                            id: widget.suggestedLoadData[index].id,
                             noOfTrucks:
                                 widget.suggestedLoadData[index].noOfTrucks,
                             weight: widget.suggestedLoadData[index].weight,

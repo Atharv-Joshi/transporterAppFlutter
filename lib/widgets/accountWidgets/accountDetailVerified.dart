@@ -61,29 +61,10 @@ class AccountDetailVerified extends StatelessWidget {
         ),
         Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: space_3 + 1,
-                  width: space_3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage(
-                      "assets/icons/buildingInnerIcon.png",
-                    ),
-                  )),
-                ),
-                Container(
-                  height: space_3 + 1,
-                  width: space_3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage(
-                      "assets/icons/buildingOuterIcon.png",
-                    ),
-                  )),
-                ),
-              ],
+            Image(
+              image: AssetImage("assets/icons/buildingIcon.png"),
+              height: space_3 + 1,
+              width: space_3,
             ),
             SizedBox(
               width: space_1 - 2,

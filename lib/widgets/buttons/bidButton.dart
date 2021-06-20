@@ -26,7 +26,7 @@ class _BidButtonState extends State<BidButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (tIdController.transporterApproved == true ){
+        if (tIdController.transporterApproved.value){
           await showDialog(
               context: context,
               builder: (context) => BidButtonAlertDialog(
@@ -37,7 +37,6 @@ class _BidButtonState extends State<BidButton> {
               context: context,
               builder: (context) => VerifyAccountNotifyAlertDialog());
         }
-        ;
       },
       child: Container(
         margin: EdgeInsets.only(right: space_3),

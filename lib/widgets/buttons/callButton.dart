@@ -17,7 +17,7 @@ class CallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (tIdController.transporterApproved == true) {
+        if (tIdController.transporterApproved.value) {
           _launchCaller("$loadPosterPhoneNo");
         } else {
           showDialog(

@@ -178,7 +178,6 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   }
 
   searchingDetailsFromTruckNo() async {
-    var providerData = Provider.of<ProviderData>(context, listen: false);
     final truckList = widget.truckDetailsList;
     for (TruckModel item in truckList) {
       if (Provider.of<ProviderData>(context, listen: false)
