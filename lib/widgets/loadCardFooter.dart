@@ -5,11 +5,11 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 
 // ignore: must_be_immutable
-class CardLowerWidget extends StatelessWidget {
+class LoadCardFooter extends StatelessWidget {
   String? loadPosterCompanyName;
   String? loadPosterPhoneNo;
 
-  CardLowerWidget({this.loadPosterCompanyName, this.loadPosterPhoneNo});
+  LoadCardFooter({this.loadPosterCompanyName, this.loadPosterPhoneNo});
 
   @override
   Widget build(BuildContext context) {

@@ -78,7 +78,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == true) {
+          if (tIdController.transporterApproved == false) {
             LoadDetailsScreenModel loadDetailsScreenModel =
                 LoadDetailsScreenModel();
             loadDetailsScreenModel.loadId = widget.loadId;
@@ -125,7 +125,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
           elevation: elevation_2,
           child: Column(
             children: [
-              CardUpperWidget(
+              LoadCardHeader(
                 loadingPointCity: widget.loadingPointCity,
                 unloadingPointCity: widget.unloadingPointCity,
                 truckType: widget.truckType,
@@ -136,7 +136,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
               SizedBox(
                 height: space_2,
               ),
-              CardLowerWidget(
+              LoadCardFooter(
                   loadPosterCompanyName: widget.loadPosterCompanyName,
                   loadPosterPhoneNo: widget.loadPosterPhoneNo)
             ],

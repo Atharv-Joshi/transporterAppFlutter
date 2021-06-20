@@ -11,7 +11,7 @@ import 'buttons/priceButton.dart';
 import 'loadingPointImageIcon.dart';
 
 // ignore: must_be_immutable
-class CardUpperWidget extends StatelessWidget {
+class LoadCardHeader extends StatelessWidget {
   String? loadingPointCity;
   String? unloadingPointCity;
   String? truckType;
@@ -19,7 +19,7 @@ class CardUpperWidget extends StatelessWidget {
   String? productType;
   String? loadId;
 
-  CardUpperWidget(
+  LoadCardHeader(
       {this.loadingPointCity,
       this.unloadingPointCity,
       this.truckType,
