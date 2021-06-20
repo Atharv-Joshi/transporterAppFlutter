@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/spaces.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
 
+// ignore: must_be_immutable
 class AddTruckCircularButtonTemplate extends StatelessWidget {
 
   final int text;

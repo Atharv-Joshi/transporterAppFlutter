@@ -22,118 +22,128 @@ class AddNewTruck extends StatefulWidget {
 }
 
 class _AddNewTruckState extends State<AddNewTruck> {
-  final  _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   TextEditingController _controller = TextEditingController();
   TruckApiCalls truckApiCalls = TruckApiCalls();
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
-  String? truckId ;
+  String? truckId;
+  RegExp truckNoRegex = RegExp(
+      r"^[A-Za-z]{2}[ -/]{0,1}[0-9]{1,2}[ -/]{0,1}(?:[A-Za-z]{0,1})[ -/]{0,1}[A-Za-z]{0,2}[ -/]{0,1}[0-9]{4}$");
 
   @override
   Widget build(BuildContext context) {
-
     ProviderData providerData = Provider.of<ProviderData>(context);
 
-
     return Scaffold(
-        body: Container(
-            padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_4),
-            color: backgroundColor,
-            child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Header(
-                      text: 'Add Truck',
-                      reset: true,
-                      resetFunction: () {
-                        _controller.text = '';
-                        providerData.resetTruckNumber();
-                        providerData.updateResetActive(false);
-                      },),
-                    AddTruckSubtitleText(text: 'Truck Number'),
-
-                    //TODO: center the hintext and apply shadows to textformfield
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: space_4),
-                        width: 289,
-                        height: 38,
-                        child: Form(
-                          key: _formKey,
-                          child: TextFormField(
-                            onChanged: (value){
-                              if (_controller.text != value.toUpperCase())
-                                _controller.value = _controller.value.copyWith(text: value.toUpperCase());
-                              value.isEmpty ? providerData.updateResetActive(false) : providerData.updateResetActive(true);
-                            },
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(10),FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9]")),
-                            ],
-                            textCapitalization: TextCapitalization.characters,
-                            controller: _controller,
-                            // textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: whiteBackgroundColor,
-                              hintText: 'Eg: UP 22 GK 2222',
-                              hintStyle: TextStyle(
-                                fontWeight: boldWeight,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: unselectedGrey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide: BorderSide(
-                                  color: unselectedGrey,
-                                ),
-                              ),
-                            ),
+      body: Container(
+        padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),
+        color: backgroundColor,
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.always,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(
+                  text: 'Add Truck',
+                  reset: true,
+                  resetFunction: () {
+                    _controller.text = '';
+                    providerData.resetTruckNumber();
+                    providerData.updateResetActive(false);
+                  },
+                ),
+                SizedBox(
+                  height: space_2,
+                ),
+                AddTruckSubtitleText(text: 'Truck Number'),
+                //TODO: apply shadows to textformfield
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: space_6),
+                    margin: EdgeInsets.symmetric(vertical: space_4),
+                    height: space_8,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        if (_controller.text != value.toUpperCase())
+                          _controller.value = _controller.value
+                              .copyWith(text: value.toUpperCase());
+                        if (truckNoRegex.hasMatch(value)) {
+                          providerData.updateResetActive(true);
+                        } else {
+                          providerData.updateResetActive(false);
+                        }
+                      },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(10),
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r"[a-zA-Z0-9]")),
+                      ],
+                      textCapitalization: TextCapitalization.characters,
+                      controller: _controller,
+                      // textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: space_2),
+                        filled: true,
+                        fillColor: whiteBackgroundColor,
+                        hintText: 'Eg: UP 22 GK 2222',
+                        hintStyle: TextStyle(
+                          fontWeight: boldWeight,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(
+                            color: unselectedGrey,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50),
+                          borderSide: BorderSide(
+                            color: unselectedGrey,
                           ),
                         ),
                       ),
                     ),
+                  ),
+                ),
 
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: MediumSizedButton(
-                            text: 'Next',
-                            optional: false,
-                            onPressedFunction: providerData.resetActive ?
-                                () async {
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MediumSizedButton(
+                        text: 'Next',
+                        optional: false,
+                        onPressedFunction: providerData.resetActive
+                            ? () async {
+                                providerData
+                                    .updateTruckNumberValue(_controller.text);
 
-                              providerData.updateTruckNumberValue(
-                                  _controller.text);
+                                truckId = await truckApiCalls.postTruckData(
+                                    truckNo: _controller.text);
 
-                              truckId = await truckApiCalls.postTruckData(
-                                  truckNo: _controller.text) ;
-
-                              if(truckId != null){
-                                // driverApiCalls.getDriversByTransporterId();
-                                providerData.updateResetActive(false);
-                                Get.to(() => TruckDescriptionScreen(truckId!));
-
+                                if (truckId != null) {
+                                  // driverApiCalls.getDriversByTransporterId();
+                                  providerData.updateResetActive(false);
+                                  Get.to(
+                                      () => TruckDescriptionScreen(truckId!));
+                                } else {
+                                  Get.snackbar(
+                                      'Enter Correct truck Number', '');
+                                }
                               }
-                              else{
+                            : () {
                                 Get.snackbar('Enter Correct truck Number', '');
-                              }
-                            }
-                                : (){
-                              // Get.snackbar('Enter Truck Number', '');
-                            }
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-            )
-        )
+                              }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
