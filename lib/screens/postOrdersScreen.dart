@@ -4,6 +4,8 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/deliveredCard.dart';
+import 'package:liveasy/widgets/onGoingCard.dart';
 import 'package:provider/provider.dart';
 
 class PostOrdersScreen extends StatefulWidget {
@@ -17,8 +19,8 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
 
   List screens = [
     Text('loads'),
-    Text('on going'),
-    Text('delivered')
+    OngoingCard(),
+    DeliveredCard(),
   ];
 
   @override
@@ -43,6 +45,7 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 ],
               ),
               Divider(
+
                 color: textLightColor,
                 thickness: 1,
               ),

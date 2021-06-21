@@ -3,7 +3,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
@@ -11,31 +10,31 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-  // TruckModel truckModel = TruckModel() ;
 
-  String? truckId;
-  String? transporterId;
+  // String? truckId;
+  // String? transporterId;
   String? truckNo;
   bool truckApproved;
-  String? imei;
-  int? passingWeight;
-  String? driverId;
+  // String? imei;
+  // int? passingWeight;
+  // String? driverId;
   String? truckType;
   int? tyres;
   String? driverName;
   String? phoneNum;
 
   MyTruckCard(
-      {this.truckId,
-      this.transporterId,
+      {
+        // this.truckId,
+      // this.transporterId,
       this.truckNo,
       required this.truckApproved,
-      this.imei,
-      this.passingWeight,
-      this.driverId,
+      // this.imei,
+      // this.passingWeight,
+      // this.driverId,
       this.truckType,
       this.driverName,
-      this.phoneNum,
+      this.phoneNum, // will be valid number or 'NA'
       this.tyres});
 
   @override
@@ -45,11 +44,16 @@ class MyTruckCard extends StatefulWidget {
 class _MyTruckCardState extends State<MyTruckCard> {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
 
-  DriverApiCalls driverApiCalls = DriverApiCalls();
+  // DriverApiCalls driverApiCalls = DriverApiCalls();
 
   DriverModel driverModel = DriverModel();
+
+  bool? verified  ;
+
+
   @override
   Widget build(BuildContext context) {
+
     widget.truckType = widget.truckType != null
         ? truckFilterVariables.truckTypeTextList[
             truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
@@ -60,6 +64,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
       'Busy': Colors.red,
       'Offline': unselectedGrey,
     };
+
+    verified = widget.truckType != 'NA' || widget.tyres != null || widget.driverName != 'NA' || widget.phoneNum != "NA" ? true  : false;
 
     return Container(
       color: Color(0xffF7F8FA),
@@ -90,7 +96,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 ],
               ),
 
-              Container(
+              verified!
+                  ? Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 padding: EdgeInsets.only(right: space_8),
                 child: Row(
@@ -156,18 +163,75 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     )
                   ],
                 ),
-              ),
+              )
+              : Container(
+                margin: EdgeInsets.symmetric(vertical: space_3),
+                padding: EdgeInsets.only(right: space_8),
+                child:                     Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Vehicle Number',
+                      style: TextStyle(fontSize: size_6),
+                    ),
+                    Text(
+                      '${widget.truckNo}',
+                      style: TextStyle(
+                          fontWeight: boldWeight, fontSize: size_7),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: space_3),
+                      child: Text(
+                        'Invalid Documents Uploaded !',
+                        style: TextStyle(
+                            fontSize: size_7,
+                            fontWeight: boldWeight,
+                            color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+              ) ,
 
               //track and call button
-              Row(
+              verified! 
+                  ? Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
                       margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(truckApproved: widget.truckApproved)),
-                  CallButton(),
+                  CallButton(phoneNum: widget.phoneNum),
                 ],
               )
+              :
+                Center(
+                child: Container(
+                  height: 32,
+                  width: 201,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      )),
+                      backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+                    ),
+                    onPressed: (){print('Upload Truck Details Button Pressed');},
+                    child: Container(
+                      // margin: EdgeInsets.symmetric(horizontal: space_2 , vertical: space_1),
+                      child: Text(
+                        'Upload Truck Details',
+                        style: TextStyle(
+                          letterSpacing: 0.7,
+                          fontWeight: normalWeight,
+                          color: white,
+                          fontSize: size_7,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
