@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/widgets/callButton.dart';
 import 'package:liveasy/widgets/trackButton.dart';
@@ -60,7 +61,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
         : 'NA';
 
     Map<String, Color> statusColor = {
-      'Available': truckGreen,
+      'Available': liveasyGreen,
       'Busy': Colors.red,
       'Offline': unselectedGrey,
     };
@@ -199,6 +200,12 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
+// <<<<<<< HEAD
+//                     margin: EdgeInsets.only(right: space_2),
+//                       child: TrackButton(truckApproved:truckApproved)
+//                   ),
+//                   //CallButton(), TODO: Check this Atharav
+// =======
                       margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(truckApproved: widget.truckApproved)),
                   CallButton(phoneNum: widget.phoneNum),

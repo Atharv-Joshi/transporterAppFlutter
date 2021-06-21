@@ -10,7 +10,12 @@ class AccountDetailVerified extends StatelessWidget {
   final String name;
   final String companyName;
   final String address;
-  AccountDetailVerified({required this.mobileNum,required this.name, required this.address, required this.companyName});
+
+  AccountDetailVerified(
+      {required this.mobileNum,
+      required this.name,
+      required this.address,
+      required this.companyName});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class AccountDetailVerified extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          name.length>15? "${name.substring(0,14)}.." : name,
+          name.length > 15 ? "${name.substring(0, 14)}.." : name,
           style: TextStyle(
               fontWeight: mediumBoldWeight, color: white, fontSize: size_9),
         ),
@@ -46,7 +51,7 @@ class AccountDetailVerified extends StatelessWidget {
               mobileNum,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: solidLineColor,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -56,38 +61,21 @@ class AccountDetailVerified extends StatelessWidget {
         ),
         Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: space_3 + 1,
-                  width: space_3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage(
-                      "assets/icons/buildingInnerIcon.png",
-                    ),
-                  )),
-                ),
-                Container(
-                  height: space_3 + 1,
-                  width: space_3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage(
-                      "assets/icons/buildingOuterIcon.png",
-                    ),
-                  )),
-                ),
-              ],
+            Image(
+              image: AssetImage("assets/icons/buildingIcon.png"),
+              height: space_3 + 1,
+              width: space_3,
             ),
             SizedBox(
               width: space_1 - 2,
             ),
             Text(
-              companyName.length>15? "${companyName.substring(0,14)}.." : companyName,
+              companyName.length > 15
+                  ? "${companyName.substring(0, 14)}.."
+                  : companyName,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: solidLineColor,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -111,10 +99,10 @@ class AccountDetailVerified extends StatelessWidget {
               width: space_1,
             ),
             Text(
-              address.length>15? "${address.substring(0,14)}.." : address,
+              address.length > 15 ? "${address.substring(0, 14)}.." : address,
               style: TextStyle(
                   fontWeight: normalWeight,
-                  color: solidLineColor,
+                  color: lightGrayishBlue,
                   fontSize: size_6),
             ),
           ],
@@ -127,7 +115,7 @@ class AccountDetailVerified extends StatelessWidget {
           width: space_10 - 1,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3.81),
-            color: verifiedButtonColor,
+            color: lightishGreen,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

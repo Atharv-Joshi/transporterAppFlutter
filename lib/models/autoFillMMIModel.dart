@@ -1,4 +1,3 @@
-
 class AutoFillMMIModel {
   String placeCityName;
   String placeStateName;

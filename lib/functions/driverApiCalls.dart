@@ -6,21 +6,20 @@ import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
 
-
-class DriverApiCalls{
-
+class DriverApiCalls {
   List<DriverModel> driverList = [];
 
   List? jsonData;
 
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
   Future<List> getDriversByTransporterId() async {
-
-    http.Response response = await http.get(Uri.parse('$driverApiUrl?transportId=${transporterIdController.transporterId.value}'));
+    http.Response response = await http.get(Uri.parse(
+        '$driverApiUrl?transportId=${transporterIdController.transporterId.value}'));
 
     jsonData = json.decode(response.body);
 
@@ -37,6 +36,7 @@ class DriverApiCalls{
     print(driverList);
     return driverList;
   }
+
   //----------------------------------------------------------------------------
 
 //   Future<DriverModel> getDriverByDriverId(String? driverId ) async {
@@ -55,46 +55,48 @@ class DriverApiCalls{
 //   }
 // }
 
-Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
+  Future<dynamic> getDriverByDriverId(
+      {String? driverId, TruckModel? truckModel}) async {
+    Map? jsonData;
 
-  Map? jsonData ;
+    if (driverId != null) {
+      http.Response response =
+          await http.get(Uri.parse('$driverApiUrl/$driverId'));
 
-  if(driverId != null){
-    http.Response response = await  http.get(Uri.parse('$driverApiUrl/$driverId'));
+      Map jsonData = json.decode(response.body);
 
-    Map jsonData = json.decode(response.body);
+      DriverModel driverModel = DriverModel();
+      driverModel.driverId = jsonData["driverId"];
+      driverModel.transporterId = jsonData["transporterId"];
+      driverModel.phoneNum = jsonData["phoneNum"];
+      driverModel.driverName = jsonData["driverName"];
+      driverModel.truckId = jsonData["truckId"];
 
-    DriverModel driverModel = DriverModel();
-    driverModel.driverId = jsonData["driverId"];
-    driverModel.transporterId = jsonData["transporterId"];
-    driverModel.phoneNum = jsonData["phoneNum"];
-    driverModel.driverName = jsonData["driverName"];
-    driverModel.truckId = jsonData["truckId"];
+      return driverModel;
+    }
 
-    return driverModel;
+    if (truckModel!.driverId != null) {
+      http.Response response =
+          await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
+
+      jsonData = json.decode(response.body);
+    }
+
+
+    // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
+    //
+    // Map jsonData = json.decode(response.body);
+
+    TruckModel truckModelFinal = TruckModel(truckApproved: false);
+    truckModelFinal.driverName =
+        truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
+    truckModelFinal.truckApproved = truckModel.truckApproved;
+    truckModelFinal.truckNo = truckModel.truckNo;
+    truckModelFinal.truckType = truckModel.truckType;
+    truckModelFinal.tyres = truckModel.tyres;
+    truckModelFinal.driverNum =
+        truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+
+    return truckModelFinal;
   }
-
-  if(truckModel!.driverId != null){
-    http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
-
-    jsonData = json.decode(response.body);
-  }
-
-  // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
-  //
-  // Map jsonData = json.decode(response.body);
-
-  TruckModel truckModelFinal = TruckModel(truckApproved: false);
-  truckModelFinal.driverName = truckModel.driverId != null ? jsonData!['driverName'] : 'NA' ;
-  truckModelFinal.truckApproved = truckModel.truckApproved;
-  truckModelFinal.truckNo = truckModel.truckNo;
-  truckModelFinal.truckType = truckModel.truckType;
-  truckModelFinal.tyres = truckModel.tyres;
-  truckModelFinal.driverNum = truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
-
-
-  return truckModelFinal;
-
-
-}
 }

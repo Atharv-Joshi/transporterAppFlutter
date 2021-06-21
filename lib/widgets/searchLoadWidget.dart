@@ -17,12 +17,10 @@ class SearchLoadWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: widgetBackGroundColor,
         borderRadius: BorderRadius.circular(30),
-
         border: Border.all(
           width: 0.8,
           // color: borderBlueColor,
         ),
-
       ),
       child: TextField(
         onTap: onPressed,

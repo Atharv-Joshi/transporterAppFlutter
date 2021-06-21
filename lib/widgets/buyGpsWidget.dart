@@ -10,13 +10,11 @@ class BuyGpsWidget extends StatelessWidget {
     return Container(
       height: 100,
       width: 180,
-      padding: EdgeInsets.fromLTRB(space_2, space_2, 0,0),
+      padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
-          fit: BoxFit.fill
-        ),
-
+            image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
+            fit: BoxFit.fill),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

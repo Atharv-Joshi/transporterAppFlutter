@@ -28,7 +28,7 @@ class ProfilePhotoWidget extends StatelessWidget {
                   image: Image.file(providerData.profilePhotoFile).image,
                   fit: BoxFit.fitWidth),
             )
-          :BoxDecoration(
+          : BoxDecoration(
               color: white,
               shape: BoxShape.circle,
               boxShadow: [
@@ -46,7 +46,6 @@ class ProfilePhotoWidget extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 margin: EdgeInsets.fromLTRB(75, 0, 0, 5),
-
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(200),
                   child: Container(
@@ -66,7 +65,7 @@ class ProfilePhotoWidget extends StatelessWidget {
           : Center(
               child: Text(
                 "Tap to refresh",
-                style: TextStyle(fontSize: size_7, color: truckGreen),
+                style: TextStyle(fontSize: size_7, color: liveasyGreen),
               ),
             ),
     );

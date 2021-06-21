@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
                 );
               } else {
                 runTransporterApiPost(
-                    mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
+                    mobileNum: FirebaseAuth.instance.currentUser.phoneNumber
                         .toString()
                         .substring(3, 13));
                 return GetMaterialApp(

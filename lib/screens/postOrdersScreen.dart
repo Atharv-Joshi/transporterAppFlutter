@@ -25,7 +25,6 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     return Scaffold(
@@ -35,7 +34,10 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(reset: false , text: 'Orders',),
+              Header(
+                reset: false,
+                text: 'Orders',
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -57,6 +59,5 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
         ),
       ),
     );
-
   }
 }
