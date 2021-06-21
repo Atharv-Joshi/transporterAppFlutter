@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:provider/provider.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+
+// ignore: must_be_immutable
+class Header extends StatefulWidget {
+  final dynamic resetFunction;
+
+  bool reset = true;
+  final text;
+
+  Header({this.resetFunction, required this.reset, required this.text});
+
+  @override
+  _HeaderState createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  @override
+  Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Container(
+                margin: EdgeInsets.only(right: space_2),
+                child: BackButtonWidget()),
+            Text('${widget.text}',
+                style: TextStyle(
+                  fontSize: size_10,
+                  fontWeight: mediumBoldWeight,
+                )),
+          ],
+        ),
+        widget.reset
+            ? TextButton(
+                onPressed:
+                    providerData.resetActive ? widget.resetFunction : null,
+                child: Text('Reset',
+                    style: TextStyle(
+                      color: providerData.resetActive
+                          ? liveasyGreen
+                          : lightGrayishBlue,
+                      fontSize: size_10,
+                      fontWeight: regularWeight,
+                    )))
+            : SizedBox()
+      ],
+    );
+  }
+}
