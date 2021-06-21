@@ -82,6 +82,7 @@ class DriverApiCalls {
       jsonData = json.decode(response.body);
     }
 
+
     // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
     //
     // Map jsonData = json.decode(response.body);

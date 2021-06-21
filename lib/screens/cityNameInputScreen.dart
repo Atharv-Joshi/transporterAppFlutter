@@ -100,7 +100,6 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-
                                   Get.off(() => FindLoadScreen());
                                 } else if (widget.valueType ==
                                     "Unloading Point") {

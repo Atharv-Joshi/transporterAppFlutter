@@ -29,11 +29,18 @@ void runTransporterApiPost(
         decodedResponse["companyApproved"].toString() == "true";
     bool accountVerificationInProgress =
         decodedResponse["accountVerificationInProgress"].toString() == "true";
+    String transporterLocation = decodedResponse["transporterLocation"];
+    String name = decodedResponse["name"];
+    String companyName = decodedResponse["companyName"];
     transporterIdController.updateTransporterId(transporterId);
     transporterIdController.updateTransporterApproved(transporterApproved);
     transporterIdController.updateCompanyApproved(companyApproved);
     transporterIdController.updateMobileNum(mobileNum);
     transporterIdController
         .updateAccountVerificationInProgress(accountVerificationInProgress);
+    transporterIdController.updateTransporterLocation(transporterLocation);
+    transporterIdController.updateName(name);
+    transporterIdController.updateCompanyName(companyName);
+
   }
 }

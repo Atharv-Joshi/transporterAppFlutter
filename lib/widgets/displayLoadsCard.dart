@@ -78,7 +78,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           // ignore: unrelated_type_equality_checks
-          if (tIdController.transporterApproved == true) {
+          if (tIdController.transporterApproved.value) {
             LoadDetailsScreenModel loadDetailsScreenModel =
                 LoadDetailsScreenModel();
             loadDetailsScreenModel.loadId = widget.loadId;

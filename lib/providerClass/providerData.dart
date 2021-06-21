@@ -91,9 +91,9 @@ class ProviderData extends ChangeNotifier {
   List driverList = [];
 
   //variables related to orders page
-  int upperNavigatorIndex = 0;
+  int upperNavigatorIndex = 0 ;
 
-  void updateUpperNavigatorIndex(int value) {
+  void updateUpperNavigatorIndex(int value){
     upperNavigatorIndex = value;
     notifyListeners();
   }

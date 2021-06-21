@@ -29,7 +29,6 @@ class _AddNewTruckState extends State<AddNewTruck> {
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   String? truckId;
-
   RegExp truckNoRegex = RegExp(
       r"^[A-Za-z]{2}[ -/]{0,1}[0-9]{1,2}[ -/]{0,1}(?:[A-Za-z]{0,1})[ -/]{0,1}[A-Za-z]{0,2}[ -/]{0,1}[0-9]{4}$");
 

@@ -10,6 +10,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 // ignore: must_be_immutable
 class ShareButton extends StatefulWidget {

@@ -28,21 +28,21 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 
   LoadApiDataDisplayCard(
       {this.loadId,
-      this.loadingPoint,
-      this.loadingPointCity,
-      this.loadingPointState,
-      this.id,
-      this.unloadingPoint,
-      this.unloadingPointCity,
-      this.unloadingPointState,
-      this.productType,
-      this.truckType,
-      this.noOfTrucks,
-      this.weight,
-      this.comment,
-      this.status,
-      this.date,
-      this.ordered});
+        this.loadingPoint,
+        this.loadingPointCity,
+        this.loadingPointState,
+        this.id,
+        this.unloadingPoint,
+        this.unloadingPointCity,
+        this.unloadingPointState,
+        this.productType,
+        this.truckType,
+        this.noOfTrucks,
+        this.weight,
+        this.comment,
+        this.status,
+        this.date,
+        this.ordered});
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
@@ -81,7 +81,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             loadPosterCompanyApproved: snapshot.data.loadPosterCompanyApproved,
             loadPosterApproved: snapshot.data.loadPosterApproved,
             loadPosterAccountVerificationInProgress:
-                snapshot.data.loadPosterAccountVerificationInProgress,
+            snapshot.data.loadPosterAccountVerificationInProgress,
           );
         });
   }

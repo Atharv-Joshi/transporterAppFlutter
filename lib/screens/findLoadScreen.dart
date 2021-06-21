@@ -28,7 +28,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   var findLoadApiData;
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);

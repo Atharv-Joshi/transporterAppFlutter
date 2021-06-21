@@ -15,7 +15,6 @@ class MediumSizedButton extends StatelessWidget {
       {required this.optional,
       required this.onPressedFunction,
       required this.text});
-
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
