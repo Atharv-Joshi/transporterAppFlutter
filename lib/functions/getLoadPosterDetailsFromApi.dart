@@ -17,11 +17,11 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       jsonData = json.decode(response.body);
 
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["id"].toString();
+      loadPosterModel.loadPosterId = jsonData["transporterId"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
       loadPosterModel.loadPosterLocation =
           jsonData["transporterLocation"].toString();
-      loadPosterModel.loadPosterName = jsonData["name"].toString();
+      loadPosterModel.loadPosterName = jsonData["transporterName"].toString();
       loadPosterModel.loadPosterCompanyName =
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
@@ -37,17 +37,15 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       jsonData = json.decode(response.body);
 
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["id"].toString();
-      loadPosterModel.loadPosterName = jsonData["name"].toString();
+      loadPosterModel.loadPosterId = jsonData["shipperId"].toString();
+      loadPosterModel.loadPosterName = jsonData["shipperName"].toString();
       loadPosterModel.loadPosterCompanyName =
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
       loadPosterModel.loadPosterLocation = jsonData["phoneNo"];
       loadPosterModel.loadPosterCompanyApproved =
-          jsonData["approved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"].toString();
+          jsonData["companyApproved"].toString();
 
       loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
