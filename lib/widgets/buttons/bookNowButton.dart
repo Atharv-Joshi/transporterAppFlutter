@@ -2,31 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/raidus.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
-import 'package:liveasy/functions/getTruckNoFromTruckApi.dart';
+import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+
+// ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
-  const BookNowButton({Key? key}) : super(key: key);
+  String? loadId;
+
+  BookNowButton({required this.loadId});
 
   @override
   _BookNowButtonState createState() => _BookNowButtonState();
 }
 
 class _BookNowButtonState extends State<BookNowButton> {
-@override
-  void initState() {
-    super.initState();
-    getTruckNoFromTruckApi();
-    getDriverDetailsFromDriverApi();
-  }
-  @override
+  List truckDetailsList = [];
+  List driverDetailsList = [];
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-         await showInformationDialog(context,truckNoList,driverDetailsList);
+          await getTruckDetailsFromTruckApi(context).then((truckAndDriverList) {
+            truckDetailsList = truckAndDriverList[0];
+            driverDetailsList = truckAndDriverList[1];
+          });
+
+          await showDialog(
+              context: context,
+              builder: (context) => BookNowButtonAlertDialog(
+                    truckDetailsList: truckDetailsList,
+                    driverDetailsList: driverDetailsList,
+                    loadId: widget.loadId,
+                  ));
         },
         child: Container(
           height: space_8,

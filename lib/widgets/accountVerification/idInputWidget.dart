@@ -25,42 +25,6 @@ class IdInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add ID Proof",
-                style: TextStyle(
-                    fontSize: size_8,
-                    color: veryDarkGrey,
-                    fontWeight: mediumBoldWeight),
-              ),
-              Text(
-                "(Upload Front and back of PAN Card)",
-                style: TextStyle(fontSize: size_6, color: grey),
-              ),
-              SizedBox(
-                height: space_2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RoundedImageDisplay(
-                    text: "Pan Front",
-                    onPressed: () {
-                      getImageFromCamera(providerData.updatePanFrontPhoto);
-                    },
-                    imageFile: providerData.panFrontPhotoFile,
-                  ),
-                  RoundedImageDisplay(
-                    text: "Pan Back",
-                    onPressed: () {
-                      getImageFromCamera(providerData.updatePanBackPhoto);
-                    },
-                    imageFile: providerData.panBackPhotoFile,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: space_3,
-              ),
-              Text(
                 "Add Address Proof",
                 style: TextStyle(
                   fontWeight: mediumBoldWeight,
@@ -72,11 +36,48 @@ class IdInputWidget extends StatelessWidget {
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
               SizedBox(
+                height: space_2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RoundedImageDisplay(
+                    text: "Id Front",
+                    onPressed: () {
+                      getImageFromCamera(providerData
+                          .updatePanFrontPhoto); //TODO:Change Name in provider accordingly
+                    },
+                    imageFile: providerData.panFrontPhotoFile,
+                  ),
+                  RoundedImageDisplay(
+                    text: "Id Back",
+                    onPressed: () {
+                      getImageFromCamera(providerData.updatePanBackPhoto);
+                    },
+                    imageFile: providerData.panBackPhotoFile,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: space_3,
+              ),
+              Text(
+                "Add ID Proof",
+                style: TextStyle(
+                    fontSize: size_8,
+                    color: veryDarkGrey,
+                    fontWeight: mediumBoldWeight),
+              ),
+              Text(
+                "(Upload Front of PAN Card)",
+                style: TextStyle(fontSize: size_6, color: grey),
+              ),
+              SizedBox(
                 height: space_3,
               ),
               Center(
                 child: RoundedImageDisplay(
-                  text: "",
+                  text: "Pan Front",
                   onPressed: () {
                     getImageFromCamera(providerData.updateAddressProofPhoto);
                   },

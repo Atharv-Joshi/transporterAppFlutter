@@ -6,10 +6,9 @@ import 'package:liveasy/constants/spaces.dart';
 
 // ignore: must_be_immutable
 class TrackButton extends StatelessWidget {
-
   bool truckApproved = false;
 
-  TrackButton({ required this.truckApproved});
+  TrackButton({required this.truckApproved});
 
   @override
   Widget build(BuildContext context) {
@@ -18,36 +17,28 @@ class TrackButton extends StatelessWidget {
       width: 90,
       child: TextButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: (){print('Track Button Pressed');},
+        onPressed: () {
+          print('Track Button Pressed');
+        },
         child: Container(
           margin: EdgeInsets.only(left: space_2),
           child: Row(
             children: [
-              // if(truckApproved == false){
-              //
-              // },
               Container(
                 margin: EdgeInsets.only(right: space_1),
-                // child: truckApproved ? Container() : Icon(
-                //   Icons.lock,
-                //   size: 18 ,
-                //   color: verifiedButtonColor,
-                // ),
-                child: truckApproved ? Container() : Image(
-                    height: 16,
-                    width: 11,
-                    image: AssetImage(
-                      'assets/icons/lockIcon.png'
-                    )
-                ),
+                child: truckApproved
+                    ? Container()
+                    : Image(
+                        height: 16,
+                        width: 11,
+                        image: AssetImage('assets/icons/lockIcon.png')),
               ),
-
-
               Text(
                 'Track',
                 style: TextStyle(

@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/timerController.dart';
-import 'package:liveasy/functions/runTransporterApiPost.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
@@ -40,7 +40,6 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
   //variables
   String _verificationCode = '';
   late int _forceResendingToken = 0;
-
 
   //controllers
 
@@ -106,7 +105,10 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                         'Resend OTP',
                                         style: TextStyle(
                                           letterSpacing: 0.5,
-                                          color: timerController.resendButton.value ? navygreen : unselectedGrey,
+                                          color:
+                                              timerController.resendButton.value
+                                                  ? navygreen
+                                                  : unselectedGrey,
                                           decoration: TextDecoration.underline,
                                         ),
                                       )),
@@ -212,11 +214,11 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           print('in verification completed');
-              await FirebaseAuth.instance.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(credential);
           timerController.cancelTimer();
           hudController.updateHud(false);
-          runTransporterApiPost(mobileNum: widget.phoneNumber);
           Get.offAll(() => NavigationScreen());
+          runTransporterApiPost(mobileNum: widget.phoneNumber);
         },
         verificationFailed: (FirebaseAuthException e) {
           print('in verification failed');

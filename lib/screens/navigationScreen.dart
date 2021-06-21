@@ -12,27 +12,25 @@ import 'PostLoadScreens/PostLoadScreenTwo.dart';
 
 import 'TruckScreens/myTrucksScreen.dart';
 
-import 'orderScreens/order.dart';
-
 class NavigationScreen extends StatefulWidget {
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  List<Widget> screens = [
+  var screens = [
     HomeScreen(),
     MyTrucks(),
     PostLoadScreenOne(),
     order(),
-    AccountVerificationPage1(),
+    AccountPageUtil(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          statusBarColor, // color of status bar which displays time on a phone
+      backgroundColor: statusBarColor,
+      // color of status bar which displays time on a phone
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int pressedIndex) {
           Provider.of<ProviderData>(context, listen: false)

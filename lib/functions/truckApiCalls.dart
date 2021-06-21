@@ -6,12 +6,13 @@ import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 
-class TruckApiCalls{
-  // retrieving TRUCKAPI URL  from env file
+class TruckApiCalls {
+  // retrieving TRUCKAPIURL  from env file
   final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   // transporterId controller
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   //truckId controller ..used to store truckId for latest truck
   TruckIdController truckIdController = TruckIdController();
@@ -22,21 +23,23 @@ class TruckApiCalls{
   // Truck Model List used to  create cards
   List<TruckModel> truckDataList = [];
 
-  String? _truckId ;
+  // This variable is used to return truckId to MyTruckScreens
+  String? _truckId;
 
 //GET---------------------------------------------------------------------------
-    //TODO: implement pagination(remove pseudo)
+  //TODO: implement pagination(remove pseudo)
   Future<List<TruckModel>> getTruckData() async {
-    print('in function this is the first line');
     //TODO: implement pagination(remove pseudo)
-    for(int i = 0 ; ; i++ ){
-      http.Response response = await http.get(Uri.parse(truckApiUrl + '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
+    for (int i = 0;; i++) {
+      http.Response response = await http.get(Uri.parse(truckApiUrl +
+          '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
       jsonData = json.decode(response.body);
-      if(jsonData.isEmpty){
+      if (jsonData.isEmpty) {
         break;
       }
-      for(var json in jsonData) {
-        TruckModel truckModel = TruckModel( truckApproved: false);
+      print(response.body);
+      for (var json in jsonData) {
+        TruckModel truckModel = TruckModel(truckApproved: false);
         truckModel.truckId = json["truckId"];
         truckModel.transporterId = json["transporterId"];
         truckModel.truckNo = json["truckNo"];
@@ -49,75 +52,64 @@ class TruckApiCalls{
         truckDataList.add(truckModel);
       }
     }
-    return truckDataList;
+    return truckDataList; // list of truckModels
   }
 
   //POST------------------------------------------------------------------------
-   Future<String?> postTruckData({required String truckNo}) async {
-
+  Future<String?> postTruckData({required String truckNo}) async {
     // json map
-    Map<String,dynamic> data = {
-      "transporterId" : transporterIdController.transporterId.value,
-      "truckNo" : truckNo,
+    Map<String, dynamic> data = {
+      "transporterId": transporterIdController.transporterId.value,
+      "truckNo": truckNo,
     };
 
     String body = json.encode(data);
 
     //post request
-    http.Response response = await http.post(
-          Uri.parse(truckApiUrl),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: body
-      );
+    http.Response response = await http.post(Uri.parse(truckApiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
 
-    //try catch block to see if posting is successful
-    //   try{
-    //     if(response.statusCode == 200){
-    //       var returnData = json.decode(response.body);
-    //       _truckId = returnData['truckId'];
-    //       // Get.snackbar(returnData['status'], '');
-    //
-    //     }
-    //   }catch(e){
-    //     print(e);
-    //   }
+    var returnData = json.decode(response.body);
 
-          var returnData = json.decode(response.body);
-          _truckId = returnData['truckId'];
-        return _truckId;
-    }//post truck data
+    _truckId = returnData['truckId'];
+
+    return _truckId;
+  } //post truck data
 
   //PUT-------------------------------------------------------------------------
 
-Future<String?> putTruckData({required String truckID , required String truckType , required int totalTyres ,
-  required int passingWeight , required int truckLength , required String driverID}) async {
+  Future<String?> putTruckData(
+      {required String truckID,
+      required String truckType,
+      required int totalTyres,
+      required int passingWeight,
+      required int truckLength,
+      required String driverID}) async {
     //json map
-    Map<String,dynamic> data = {
+    Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,
       "imei": null,
       "passingWeight": passingWeight == 0 ? null : passingWeight,
       "transporterId": transporterIdController.transporterId.value,
       "truckApproved": false,
       "truckType": truckType == '' ? null : truckType,
-      "truckLength" : truckLength == 0 ? null : truckLength,
-      "tyres" : totalTyres == 0 ? null : totalTyres
-  };
+      "truckLength": truckLength == 0 ? null : truckLength,
+      "tyres": totalTyres == 0 ? null : totalTyres
+    };
 
-  String body = json.encode(data);
+    String body = json.encode(data);
 
-    http.Response response = await http.put(
-        Uri.parse('$truckApiUrl/$truckID'),
+    http.Response response = await http.put(Uri.parse('$truckApiUrl/$truckID'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: body
-    );
+        body: body);
 
     var returnData = json.decode(response.body);
     _truckId = returnData['truckId'];
     return _truckId;
-
-}
-  } //class end
+  }
+} //class end

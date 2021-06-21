@@ -16,22 +16,22 @@ class AddTruckButton extends StatelessWidget {
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            )
-          ),
-          backgroundColor:MaterialStateProperty.all<Color>(darkBlueColor),
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          )),
+          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: (){
+        onPressed: () {
           Get.to(() => AddNewTruck());
         },
         child: Text(
-            'Add Truck',
-              style: TextStyle(
-                letterSpacing: 1,
-                fontSize: size_9,
-                color: white,
-              ),),
+          'Add Truck',
+          style: TextStyle(
+            letterSpacing: 1,
+            fontSize: size_9,
+            color: white,
+          ),
+        ),
       ),
     );
   }

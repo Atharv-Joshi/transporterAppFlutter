@@ -5,8 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
 Future<String> getMapMyIndiaToken() async {
-  String clientIdMapMyIndia = FlutterConfig.get("clientIdMapMyIndia").toString();
-  String clientSecretMapMyIndia = FlutterConfig.get("clientSecretMapMyIndia").toString();
+  String clientIdMapMyIndia =
+      FlutterConfig.get("clientIdMapMyIndia").toString();
+  String clientSecretMapMyIndia =
+      FlutterConfig.get("clientSecretMapMyIndia").toString();
   TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
   Uri tokenUrl = Uri(
       scheme: "https",

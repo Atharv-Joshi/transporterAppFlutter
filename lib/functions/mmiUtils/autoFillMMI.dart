@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
-import 'package:liveasy/functions/tokenMMI.dart';
+import 'package:liveasy/functions/mmiUtils/tokenMMI.dart';
 import 'package:liveasy/models/autoFillMMIModel.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 
 Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
   if (cityName.length > 1) {
@@ -17,7 +16,6 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       token = tokenMMIController.tokenMMI.value;
     }
 
-    await http.get(Uri.parse('http://52.53.40.46:8080/load'));
     Uri url = Uri(
         scheme: 'http',
         host: "atlas.mapmyindia.com",
@@ -26,13 +24,15 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       url,
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
     );
+    print(response1.body);
     var adress = (jsonDecode(response1.body));
     adress = adress["suggestedLocations"];
     print(adress);
     List<AutoFillMMIModel> card = [];
     for (var json in adress) {
-      AutoFillMMIModel locationCardsModal =
-      new AutoFillMMIModel(placeCityName: json["placeName"],placeStateName: json["placeAddress"]);
+      AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
+          placeCityName: json["placeName"],
+          placeStateName: json["placeAddress"]);
       card.add(locationCardsModal);
     }
     // card = card

@@ -43,6 +43,11 @@ dependencies:
   modal_progress_hud_alt: ^1.0.0
   social_share: ^2.1.1
   image_picker: ^0.8.0+3
+  contacts_service: ^0.6.1
+  permission_handler: ^8.1.0
+  contact_picker: ^0.0.2
+  url_launcher: ^6.0.6
+  wc_flutter_share: ^0.4.0
   jiffy: ^4.1.0
 
 dev_dependencies:

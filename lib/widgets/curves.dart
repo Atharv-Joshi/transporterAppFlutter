@@ -10,8 +10,7 @@ class OrangeCurve extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color:flagOrange,
-        
+        color: flagOrange,
       ),
     );
   }
@@ -21,12 +20,12 @@ class GreenCurve extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-                clipper: GreenClipper(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  color: flagGreen,
-                ),
-              );
+      clipper: GreenClipper(),
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: flagGreen,
+      ),
+    );
   }
 }

@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MediumSizedButton extends StatelessWidget {
-
   dynamic onPressedFunction;
   String text;
 
-  MediumSizedButton({required this.onPressedFunction , required this.text});
+  bool optional;
 
+  MediumSizedButton(
+      {required this.optional,
+      required this.onPressedFunction,
+      required this.text});
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.053,
-      width : MediaQuery.of(context).size.width * 0.3,
+      width: MediaQuery.of(context).size.width * 0.3,
       child: TextButton(
         style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           )),
-          backgroundColor: MaterialStateProperty.all<Color>(
-            providerData.resetActive
-                ? darkBlueColor
-                : unactiveReset
-          ),
+          backgroundColor: MaterialStateProperty.all<Color>(optional
+              ? darkBlueColor
+              : providerData.resetActive
+                  ? darkBlueColor
+                  : lightGrayishBlue),
         ),
-        onPressed:onPressedFunction,
+        onPressed: onPressedFunction,
         child: Text(
           '$text',
           style: TextStyle(

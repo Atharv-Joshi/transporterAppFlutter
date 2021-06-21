@@ -8,7 +8,7 @@ import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
 import 'package:liveasy/widgets/bonusWidget.dart';
 import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
-import 'package:liveasy/widgets/helpButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                   hintText: "Search",
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    Get.to(FindLoadScreen());
+                    Get.to(() => FindLoadScreen());
                   },
                 ),
               ),
@@ -83,21 +82,15 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   controller: ScrollController(initialScrollOffset: 110),
                   children: [
-                    ReferAndEarnWidget(height: 100, width: 180),
+                    ReferAndEarnWidget(),
                     SizedBox(
                       width: space_4,
                     ),
-                    BuyGpsWidget(
-                      height: 100,
-                      width: 180,
-                    ),
+                    BuyGpsWidget(),
                     SizedBox(
                       width: space_4,
                     ),
-                    BonusWidget(
-                      height: 100,
-                      width: 180,
-                    ),
+                    BonusWidget(),
                   ],
                 ),
               ),

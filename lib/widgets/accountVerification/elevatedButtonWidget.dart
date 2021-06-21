@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -30,7 +31,8 @@ class ElevatedButtonWidget extends StatelessWidget {
             child: Container(
               height: space_8,
               child: Center(
-                child: Text( text,
+                child: Text(
+                  text,
                   style: TextStyle(
                       color: white,
                       fontSize: size_8,
@@ -38,7 +40,12 @@ class ElevatedButtonWidget extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed: condition ? onPressedConditionTrue : () {},
+            onPressed: condition
+                ? onPressedConditionTrue
+                : () {
+                    Get.snackbar("Fill All Required Details", "",
+                        snackPosition: SnackPosition.BOTTOM);
+                  },
           )),
     );
   }

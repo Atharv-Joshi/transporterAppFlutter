@@ -6,15 +6,15 @@ import 'package:liveasy/constants/spaces.dart';
 
 class LiveasyTitleTextWidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
-        height: space_8,
-        child: Center(
+      height: space_8,
+      child: Center(
         child: Text(
-        "Liveasy",
-        style: TextStyle(
-        fontSize:  size_15,
-              color: blueTitleColor,
+          "Liveasy",
+          style: TextStyle(
+              fontSize: size_15,
+              color: darkBlueColor,
               fontWeight: normalWeight),
         ),
       ),

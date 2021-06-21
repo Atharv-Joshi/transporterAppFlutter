@@ -3,7 +3,53 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+  List truckNoList = [
+    "Add Truck",
+  ];
+
+  void updateTruckNoList({required String newValue}) {
+    for (int i = 0; i < truckNoList.length; i++) {
+      if (truckNoList[i].toString() == newValue.toString()) {
+        print("hi truck already added");
+        break;
+      } else if (i == truckNoList.length - 1) {
+        truckNoList.add(newValue);
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
+  List driverNameList = [
+    "Add New Driver",
+  ];
+
+  void updateDriverNameList({required String newValue}) {
+    for (int i = 0; i < driverNameList.length; i++) {
+      if (driverNameList[i].toString() == newValue.toString()) {
+        print("hi driver already added");
+        break;
+      } else if (i == driverNameList.length - 1) {
+        driverNameList.add(newValue);
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
   int index = 0;
+  var dropDownValue1;
+  var dropDownValue2;
+
+  void updateDropDownValue1({required String newValue}) {
+    dropDownValue1 = newValue;
+    notifyListeners();
+  }
+
+  void updateDropDownValue2({required String newValue}) {
+    dropDownValue2 = newValue;
+    notifyListeners();
+  }
 
   String loadingPointCityFindLoad = "";
   String loadingPointStateFindLoad = "";
@@ -38,13 +84,11 @@ class ProviderData extends ChangeNotifier {
   // variables for add truck pages
 
   String truckTypeValue = '';
-  String productType = 'Choose Product Type';
   int passingWeightValue = 0;
   int totalTyresValue = 0;
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
-  int truckNumber = 0;
 
   String truckId = '';
 
@@ -53,6 +97,14 @@ class ProviderData extends ChangeNotifier {
 
   //variables related to driverApi
   List driverList = [];
+
+  //variables related to orders page
+  int upperNavigatorIndex = 0 ;
+
+  void updateUpperNavigatorIndex(int value){
+    upperNavigatorIndex = value;
+    notifyListeners();
+  }
 
   updateProfilePhoto(File newFile) {
     profilePhotoFile = newFile;
@@ -79,10 +131,6 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateBookingDate(value) {
-    bookingDate = value;
-    notifyListeners();
-  }
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPointFindLoad() {
@@ -179,6 +227,7 @@ class ProviderData extends ChangeNotifier {
     smsCode = '';
     notifyListeners();
   }
+
 //-------------------------------------
 
   // functions for add truck pages
@@ -219,6 +268,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updateTruckId(value) {
+  void updateTruckId(value) {
     truckId = value;
     notifyListeners();
   }
@@ -246,6 +296,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetOnNewType() {
+  void resetOnNewType() {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
@@ -263,6 +314,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetTruckNumber() {
   void resetTruckNumber() {
     truckNumberValue = '';
     notifyListeners();

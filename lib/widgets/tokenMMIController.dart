@@ -2,9 +2,10 @@
 
 import 'package:get/get.dart';
 
-class TokenMMIController extends GetxController{
+class TokenMMIController extends GetxController {
   RxString tokenMMI = "".obs;
-  void updateTokenMMI(String newValue){
+
+  void updateTokenMMI(String newValue) {
     tokenMMI.value = newValue;
   }
 }

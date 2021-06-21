@@ -5,22 +5,16 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 class BuyGpsWidget extends StatelessWidget {
-  final double height;
-  final double width;
-
-  BuyGpsWidget({required this.height, required this.width});
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
-      padding: EdgeInsets.fromLTRB(space_2, space_2, 0,0),
+      height: 100,
+      width: 180,
+      padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
-        ),
-
+            image: AssetImage("assets/images/buyGpsBackgroundImage.png"),
+            fit: BoxFit.fill),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -35,7 +29,7 @@ class BuyGpsWidget extends StatelessWidget {
                     color: white),
               ),
               Text(
-                "Liveasy GPS system\nallows you to track\nyour vehicles from",
+                "Liveasy GPS system\nallows you to track\nyour vehicles from\nthe app",
                 style: TextStyle(fontSize: size_5, color: white),
               ),
             ],
