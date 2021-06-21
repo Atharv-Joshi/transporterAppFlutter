@@ -3,7 +3,7 @@ class LoadScreenCardsModal {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -13,14 +13,16 @@ class LoadScreenCardsModal {
   String? weight;
   String? comment;
   String? status;
-  String? date;
+  String? loadDate;
+  String? rate;
+  String? unitValue;
 
   LoadScreenCardsModal(
       {this.loadId,
       this.loadingPoint,
       this.loadingPointCity,
       this.loadingPointState,
-      this.id,
+      this.postLoadId,
       this.unloadingPoint,
       this.unloadingPointCity,
       this.unloadingPointState,
@@ -30,5 +32,7 @@ class LoadScreenCardsModal {
       this.weight,
       this.comment,
       this.status,
-      this.date});
+      this.loadDate,
+      this.rate,
+      this.unitValue});
 }

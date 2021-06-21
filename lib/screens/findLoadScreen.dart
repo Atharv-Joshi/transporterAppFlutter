@@ -28,17 +28,19 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   var findLoadApiData;
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
-    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-      print(transporterIdController.transporterId);
-      controller1 = TextEditingController(
-          text:
-              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
-    }
+    // if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+    //   print(transporterIdController.transporterId);
+    //   controller1 = TextEditingController(
+    //       text:
+    //           ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
+    //   findLoadApiData = runFindLoadApiGet(
+    //       providerData.loadingPointCity, providerData.unloadingPointCity);
+    // }
+    findLoadApiData = runFindLoadApiGet("Alwar", "");
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -160,7 +162,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                           snapshot.data[index].loadingPointCity,
                                       loadingPointState: snapshot
                                           .data[index].loadingPointState,
-                                      id: snapshot.data[index].id,
+                                      postLoadId:
+                                          snapshot.data[index].postLoadId,
                                       unloadingPoint:
                                           snapshot.data[index].unloadingPoint,
                                       unloadingPointCity: snapshot
@@ -173,7 +176,11 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                       noOfTrucks:
                                           snapshot.data[index].noOfTrucks,
                                       weight: snapshot.data[index].weight,
+                                      comment: snapshot.data[index].comment,
                                       status: snapshot.data[index].status,
+                                      loadDate: snapshot.data[index].loadDate,
+                                      rate: snapshot.data[index].rate,
+                                      unitValue: snapshot.data[index].unitValue,
                                     ),
                                   ))
                             ],

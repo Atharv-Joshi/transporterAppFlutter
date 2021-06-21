@@ -28,7 +28,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -38,7 +38,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
   String? weight;
   String? comment;
   String? status;
-  String? date;
+  String? loadDate;
+  String? rate;
+  String? unitValue;
   String? loadPosterId;
   String? loadPosterPhoneNo;
   String? loadPosterLocation;
@@ -55,7 +57,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
     loadingPoint = widget.loadDetailsScreenModel.loadingPoint;
     loadingPointCity = widget.loadDetailsScreenModel.loadingPointCity;
     loadingPointState = widget.loadDetailsScreenModel.loadingPointState;
-    id = widget.loadDetailsScreenModel.id;
+    postLoadId = widget.loadDetailsScreenModel.postLoadId;
     unloadingPoint = widget.loadDetailsScreenModel.unloadingPoint;
     unloadingPointCity = widget.loadDetailsScreenModel.unloadingPointCity;
     unloadingPointState = widget.loadDetailsScreenModel.unloadingPointState;
@@ -65,7 +67,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
     weight = widget.loadDetailsScreenModel.weight;
     comment = widget.loadDetailsScreenModel.comment;
     status = widget.loadDetailsScreenModel.status;
-    date = widget.loadDetailsScreenModel.date;
+    loadDate = widget.loadDetailsScreenModel.loadDate;
+    rate = widget.loadDetailsScreenModel.rate;
+    unitValue = widget.loadDetailsScreenModel.unitValue;
     loadPosterId = widget.loadDetailsScreenModel.loadPosterId;
     loadPosterPhoneNo = widget.loadDetailsScreenModel.loadPosterPhoneNo;
     loadPosterLocation = widget.loadDetailsScreenModel.loadPosterLocation;

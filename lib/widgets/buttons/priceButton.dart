@@ -3,7 +3,13 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 
+// ignore: must_be_immutable
 class PriceButtonWidget extends StatelessWidget {
+  String? rate;
+  String? unitValue;
+
+  PriceButtonWidget({this.rate, this.unitValue});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +20,7 @@ class PriceButtonWidget extends StatelessWidget {
       width: 110,
       child: Center(
         child: Text(
-          "\u20B96000/tonne",
+          "\u20B9$rate/$unitValue",
           style: TextStyle(
               color: darkBlueColor,
               fontWeight: mediumBoldWeight,

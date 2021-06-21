@@ -20,6 +20,7 @@ class BidButtonAlertDialog extends StatefulWidget {
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController rate = TextEditingController();
   RadioButtonOptions unit = RadioButtonOptions.PER_TON;
 
@@ -89,13 +90,21 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 left: space_2 - 2,
                 right: space_2 - 2,
               ),
-              child: TextField(
+              child: TextFormField(
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 controller: rate,
                 decoration: InputDecoration(
                   hintText: "Eg 4000",
                   hintStyle: TextStyle(color: textLightColor),
                   border: InputBorder.none,
                 ),
+                validator: (value) => value!.isEmpty
+                    ? 'Enter Rate'
+                    : RegExp(r'^\d+(?:\.\d+)?$').hasMatch(value)
+                        ? 'Enter a Valid Name'
+                        : value.length < 3
+                            ? 'Name must contain more than 3 characters'
+                            : null,
               ),
             ),
           ),

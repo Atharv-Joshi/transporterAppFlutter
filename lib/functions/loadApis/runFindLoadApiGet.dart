@@ -31,7 +31,7 @@ Future<List<LoadScreenCardsModal>> runFindLoadApiGet(
     cardsModal.loadingPoint = json["loadingPoint"];
     cardsModal.loadingPointCity = json["loadingPointCity"];
     cardsModal.loadingPointState = json["loadingPointState"];
-    cardsModal.id = json["id"];
+    cardsModal.postLoadId = json["postLoadId"];
     cardsModal.unloadingPoint = json["unloadingPoint"];
     cardsModal.unloadingPointCity = json["unloadingPointCity"];
     cardsModal.unloadingPointState = json["unloadingPointState"];
@@ -41,8 +41,10 @@ Future<List<LoadScreenCardsModal>> runFindLoadApiGet(
     cardsModal.weight = json["weight"];
     cardsModal.comment = json["comment"];
     cardsModal.status = json["status"];
-    cardsModal.date = json["date"];
+    cardsModal.loadDate = json["loadDate"];
+    cardsModal.rate = json["rate"];
+    cardsModal.unitValue = json["unitValue"];
     card.add(cardsModal);
   }
-  return card.reversed.toList(); //TODO:remove reverse
+  return card;
 }

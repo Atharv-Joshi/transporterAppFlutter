@@ -13,7 +13,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -23,26 +23,30 @@ class LoadApiDataDisplayCard extends StatefulWidget {
   String? weight;
   String? comment;
   String? status;
-  String? date;
+  String? loadDate;
+  String? rate;
+  String? unitValue;
   bool? ordered;
 
   LoadApiDataDisplayCard(
       {this.loadId,
-        this.loadingPoint,
-        this.loadingPointCity,
-        this.loadingPointState,
-        this.id,
-        this.unloadingPoint,
-        this.unloadingPointCity,
-        this.unloadingPointState,
-        this.productType,
-        this.truckType,
-        this.noOfTrucks,
-        this.weight,
-        this.comment,
-        this.status,
-        this.date,
-        this.ordered});
+      this.loadingPoint,
+      this.loadingPointCity,
+      this.loadingPointState,
+      this.postLoadId,
+      this.unloadingPoint,
+      this.unloadingPointCity,
+      this.unloadingPointState,
+      this.productType,
+      this.truckType,
+      this.noOfTrucks,
+      this.weight,
+      this.comment,
+      this.status,
+      this.loadDate,
+      this.rate,
+      this.unitValue,
+      this.ordered});
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
@@ -53,7 +57,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getLoadPosterDetailsFromApi(loadPosterId: widget.id.toString()),
+        future: getLoadPosterDetailsFromApi(loadPosterId: widget.postLoadId.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
@@ -66,11 +70,18 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             loadingPoint: widget.loadingPoint,
             loadingPointCity: widget.loadingPointCity,
             loadingPointState: widget.loadingPointState,
+            postLoadId: widget.postLoadId,
             unloadingPoint: widget.unloadingPoint,
             unloadingPointCity: widget.unloadingPointCity,
+            unloadingPointState: widget.unloadingPointState,
             truckType: widget.truckType,
             productType: widget.productType,
             weight: widget.weight,
+            status: widget.status,
+            loadDate:widget.loadDate,
+            comment: widget.comment,
+            rate: widget.rate,
+            unitValue: widget.unitValue,
             noOfTrucks: widget.noOfTrucks,
             loadPosterId: snapshot.data.loadPosterId,
             loadPosterPhoneNo: snapshot.data.loadPosterPhoneNo,
@@ -81,7 +92,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             loadPosterCompanyApproved: snapshot.data.loadPosterCompanyApproved,
             loadPosterApproved: snapshot.data.loadPosterApproved,
             loadPosterAccountVerificationInProgress:
-            snapshot.data.loadPosterAccountVerificationInProgress,
+                snapshot.data.loadPosterAccountVerificationInProgress,
           );
         });
   }

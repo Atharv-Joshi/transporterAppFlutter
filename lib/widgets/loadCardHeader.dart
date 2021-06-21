@@ -18,6 +18,8 @@ class LoadCardHeader extends StatelessWidget {
   String? weight;
   String? productType;
   String? loadId;
+  String? rate;
+  String? unitValue;
 
   LoadCardHeader(
       {this.loadingPointCity,
@@ -25,7 +27,9 @@ class LoadCardHeader extends StatelessWidget {
       this.truckType,
       this.weight,
       this.productType,
-      this.loadId});
+      this.loadId,
+      this.rate,
+      this.unitValue});
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +183,10 @@ class LoadCardHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            PriceButtonWidget(),
+            PriceButtonWidget(
+              rate: rate,
+              unitValue: unitValue,
+            ),
             BidButton(loadId.toString()),
           ],
         ),

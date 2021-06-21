@@ -17,7 +17,7 @@ class DisplayLoadsCard extends StatefulWidget {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -27,7 +27,9 @@ class DisplayLoadsCard extends StatefulWidget {
   String? weight;
   String? comment;
   String? status;
-  String? date;
+  String? loadDate;
+  String? rate;
+  String? unitValue;
 
   String? loadPosterId;
   String? loadPosterPhoneNo;
@@ -44,7 +46,7 @@ class DisplayLoadsCard extends StatefulWidget {
       this.loadingPoint,
       this.loadingPointCity,
       this.loadingPointState,
-      this.id,
+      this.postLoadId,
       this.unloadingPoint,
       this.unloadingPointCity,
       this.unloadingPointState,
@@ -54,7 +56,9 @@ class DisplayLoadsCard extends StatefulWidget {
       this.weight,
       this.comment,
       this.status,
-      this.date,
+      this.loadDate,
+      this.rate,
+      this.unitValue,
       this.loadPosterId,
       this.loadPosterPhoneNo,
       this.loadPosterLocation,
@@ -85,7 +89,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
             loadDetailsScreenModel.loadingPoint = widget.loadingPoint;
             loadDetailsScreenModel.loadingPointCity = widget.loadingPointCity;
             loadDetailsScreenModel.loadingPointState = widget.loadingPointState;
-            loadDetailsScreenModel.id = widget.id;
+            loadDetailsScreenModel.postLoadId = widget.postLoadId;
             loadDetailsScreenModel.unloadingPoint = widget.unloadingPoint;
             loadDetailsScreenModel.unloadingPointCity =
                 widget.unloadingPointCity;
@@ -97,7 +101,9 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
             loadDetailsScreenModel.weight = widget.weight;
             loadDetailsScreenModel.comment = widget.comment;
             loadDetailsScreenModel.status = widget.status;
-            loadDetailsScreenModel.date = widget.date;
+            loadDetailsScreenModel.loadDate = widget.loadDate;
+            loadDetailsScreenModel.rate = widget.rate;
+            loadDetailsScreenModel.unitValue = widget.unitValue;
             loadDetailsScreenModel.loadPosterId = widget.loadPosterId;
             loadDetailsScreenModel.loadPosterPhoneNo = widget.loadPosterPhoneNo;
             loadDetailsScreenModel.loadPosterLocation =
@@ -132,6 +138,8 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
                 weight: widget.weight,
                 productType: widget.productType,
                 loadId: widget.loadId,
+                rate: widget.rate,
+                unitValue: widget.unitValue,
               ),
               SizedBox(
                 height: space_2,

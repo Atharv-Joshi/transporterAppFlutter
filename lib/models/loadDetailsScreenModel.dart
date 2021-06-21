@@ -3,7 +3,7 @@ class LoadDetailsScreenModel {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -13,7 +13,9 @@ class LoadDetailsScreenModel {
   String? weight;
   String? comment;
   String? status;
-  String? date;
+  String? loadDate;
+  String? rate;
+  String? unitValue;
   String? loadPosterId;
   String? loadPosterPhoneNo;
   String? loadPosterLocation;
@@ -29,7 +31,7 @@ class LoadDetailsScreenModel {
       this.loadingPoint,
       this.loadingPointCity,
       this.loadingPointState,
-      this.id,
+      this.postLoadId,
       this.unloadingPoint,
       this.unloadingPointCity,
       this.unloadingPointState,
@@ -39,7 +41,9 @@ class LoadDetailsScreenModel {
       this.weight,
       this.comment,
       this.status,
-      this.date,
+      this.loadDate,
+      this.rate,
+      this.unitValue,
       this.loadPosterId,
       this.loadPosterPhoneNo,
       this.loadPosterLocation,
