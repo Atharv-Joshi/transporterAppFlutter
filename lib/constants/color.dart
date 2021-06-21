@@ -45,6 +45,7 @@ Color veryDarkGrey = Color(0xFF555454);
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
     MaterialStateProperty.all<Color>(Color(0xFFC4C9D9));
+dynamic calendarColor = MaterialStateProperty.all<Color>(Colors.white);
 Color borderBlueColor = Color(
     0xFFF7F8FA); //TODO: change this name Color(0xFFF7F8FA) is not even close to blue
 Color blueTitleColor = Color(0xFF152968);

@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/orderScreens/BiddingsScreen.dart';
+import 'package:liveasy/functions/PostLoadApi.dart';
 
 class ViewBidButton extends StatelessWidget {
   String? loadFrom;
@@ -14,21 +14,11 @@ class ViewBidButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoadApi loadApi = LoadApi();
     return Padding(
       padding: EdgeInsets.only(top: space_2, right: space_3),
       child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => BiddingsScreen(
-                loadTo: loadTo,
-                loadFrom: loadFrom,
-                load: load,
-              ),
-            ),
-          );
-        },
+        onTap: () {},
         child: Container(
           width: 127,
           height: 31,

@@ -13,7 +13,7 @@ class ToLoadPrefix extends StatelessWidget {
       width: space_2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(space_10),
-        border: Border.all(width: 3, color: liveasyred),
+        border: Border.all(width: 3, color: Colors.red),
       ),
     );
   }

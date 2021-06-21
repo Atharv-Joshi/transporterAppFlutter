@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
-class AddTruckRectangularButtonTemplate extends StatelessWidget {
+class AddCalender extends StatefulWidget {
   final String text;
   final String value;
   bool selected = false;
+  AddCalender({Key? key, required this.text, required this.value})
+      : super(key: key);
 
-  AddTruckRectangularButtonTemplate({required this.value, required this.text});
+  @override
+  _AddCalenderState createState() => _AddCalenderState();
+}
 
+class _AddCalenderState extends State<AddCalender> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -20,7 +24,7 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
             elevation: MaterialStateProperty.all<double>(2),
-            backgroundColor: providerData.truckTypeValue == value
+            backgroundColor: providerData.bookingDate == widget.value
                 ? MaterialStateProperty.all(darkBlueColor)
                 : MaterialStateProperty.all(whiteBackgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -28,19 +32,17 @@ class AddTruckRectangularButtonTemplate extends StatelessWidget {
               borderRadius: BorderRadius.circular(7),
             ))),
         child: Text(
-          '$text',
+          widget.text,
           style: TextStyle(
               fontWeight: normalWeight,
-              fontSize:
-                  text == 'High-Cube Container' || text == 'Standard Container'
-                      ? size_6
-                      : size_7,
-              color: providerData.truckTypeValue == value ? white : black),
+              fontSize: widget.text == 'High-Cube Container' ||
+                      widget.text == 'Standard Container'
+                  ? size_6
+                  : size_7,
+              color: providerData.bookingDate == widget.text ? white : black),
         ),
         onPressed: () {
-          providerData.updateTruckTypeValue(value);
-          providerData.resetOnNewType();
-          providerData.updateResetActive(true);
+          providerData.updateBookingDate(widget.value);
         },
       ),
     );

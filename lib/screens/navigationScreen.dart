@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostOrdersScreen.dart';
 import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
+import 'PostLoadScreens/PostLoadScreenTwo.dart';
+
 import 'TruckScreens/myTrucksScreen.dart';
-import 'orderScreens/BiddingsScreen.dart';
+
 import 'orderScreens/order.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -20,7 +23,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   List<Widget> screens = [
     HomeScreen(),
     MyTrucks(),
-    Text(""),
+    PostLoadScreenOne(),
     order(),
     AccountVerificationPage1(),
   ];

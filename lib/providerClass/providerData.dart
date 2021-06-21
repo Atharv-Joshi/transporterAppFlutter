@@ -5,11 +5,19 @@ import 'package:flutter/material.dart';
 class ProviderData extends ChangeNotifier {
   int index = 0;
 
-  String loadingPointCity = "";
-  String loadingPointState = "";
+  String loadingPointCityFindLoad = "";
+  String loadingPointStateFindLoad = "";
 
-  String unloadingPointCity = "";
-  String unloadingPointState = "";
+  String unloadingPointCityFindLoad = "";
+  String unloadingPointStateFindLoad = "";
+
+  String loadingPointCityPostLoad = "";
+  String loadingPointStatePostLoad = "";
+
+  String unloadingPointCityPostLoad = "";
+  String unloadingPointStatePostLoad = "";
+
+  String bookingDate = "";
 
   // variables for accountVerification
   File? profilePhotoFile;
@@ -30,11 +38,13 @@ class ProviderData extends ChangeNotifier {
   // variables for add truck pages
 
   String truckTypeValue = '';
+  String productType = 'Choose Product Type';
   int passingWeightValue = 0;
   int totalTyresValue = 0;
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
+  int truckNumber = 0;
 
   String truckId = '';
 
@@ -69,31 +79,62 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
+  updateBookingDate(value) {
+    bookingDate = value;
+    notifyListeners();
+  }
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
-  void clearLoadingPoint() {
-    loadingPointCity = "";
-    loadingPointState = "";
+  void clearLoadingPointFindLoad() {
+    loadingPointCityFindLoad = "";
+    loadingPointStateFindLoad = "";
     notifyListeners();
   }
 
-  void clearUnloadingPoint() {
-    unloadingPointCity = "";
-    unloadingPointState = "";
+  void clearUnloadingPointFindLoad() {
+    unloadingPointCityFindLoad = "";
+    unloadingPointStateFindLoad = "";
     notifyListeners();
   }
 
-  void updateLoadingPoint({required String city, required String state}) {
-    loadingPointCity = city;
-    loadingPointState = state;
+  void updateLoadingPointFindLoad(
+      {required String city, required String state}) {
+    loadingPointCityFindLoad = city;
+    loadingPointStateFindLoad = state;
     notifyListeners();
   }
 
-  void updateUnloadingPoint({required String city, required String state}) {
-    unloadingPointCity = city;
-    unloadingPointState = state;
+  void updateUnloadingPointFindLoad(
+      {required String city, required String state}) {
+    unloadingPointCityFindLoad = city;
+    unloadingPointStateFindLoad = state;
+    notifyListeners();
+  }
+  //////////////
+
+  void clearLoadingPointPostLoad() {
+    loadingPointCityPostLoad = "";
+    loadingPointStatePostLoad = "";
+    notifyListeners();
+  }
+
+  void clearUnloadingPointPostLoad() {
+    unloadingPointCityPostLoad = "";
+    unloadingPointStatePostLoad = "";
+    notifyListeners();
+  }
+
+  void updateLoadingPointPostLoad(
+      {required String city, required String state}) {
+    loadingPointCityPostLoad = city;
+    loadingPointStatePostLoad = state;
+    notifyListeners();
+  }
+
+  void updateUnloadingPointPostLoad(
+      {required String city, required String state}) {
+    unloadingPointCityPostLoad = city;
+    unloadingPointStatePostLoad = state;
     notifyListeners();
   }
 
@@ -125,6 +166,11 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateProductType(value) {
+    productType = value;
+    notifyListeners();
+  }
+
   //TODO: name change to something more relevant
   void clearAll() {
     inputControllerLengthCheck = false;
@@ -137,47 +183,52 @@ class ProviderData extends ChangeNotifier {
 
   // functions for add truck pages
 
-  void updateTruckTypeValue(value){
+  void updateTruckTypeValue(value) {
     truckTypeValue = value;
     notifyListeners();
   }
 
-  void updatePassingWeightValue(value){
+  void updatePassingWeightValue(value) {
     passingWeightValue = value;
     notifyListeners();
   }
 
-  void updateTotalTyresValue(value){
+  void updateTotalTyresValue(value) {
     totalTyresValue = value;
     notifyListeners();
   }
 
-  void updateTruckLengthValue(value){
+  void updateTruckLengthValue(value) {
     truckLengthValue = value;
     notifyListeners();
   }
 
-  void updateDriverDetailsValue(value){
+  void updateDriverDetailsValue(value) {
     driverIdValue = value;
     notifyListeners();
   }
 
-  void updateTruckNumberValue(value){
+  void updateTruckNumberValue(value) {
     truckNumberValue = value;
     notifyListeners();
   }
 
-  void updateTruckId(value){
+  void updateTruckNumber(value) {
+    truckNumber = value;
+    notifyListeners();
+  }
+
+  void updateTruckId(value) {
     truckId = value;
     notifyListeners();
   }
 
-  void updateResetActive(bool value){
+  void updateResetActive(bool value) {
     resetActive = value;
     notifyListeners();
   }
 
-  void resetTruckFilters(){
+  void resetTruckFilters() {
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -186,7 +237,15 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetOnNewType(){
+  void resetPostLoadScreenOne() {
+    clearLoadingPointPostLoad();
+    clearUnloadingPointPostLoad();
+    clearBookingDate();
+    updateResetActive(false);
+    notifyListeners();
+  }
+
+  void resetOnNewType() {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
@@ -194,17 +253,51 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetTruckNumber(){
+  void clearProductType() {
+    productType = "";
+    notifyListeners();
+  }
+
+  void clearBookingDate() {
+    bookingDate = "";
+    notifyListeners();
+  }
+
+  void resetTruckNumber() {
     truckNumberValue = '';
     notifyListeners();
   }
 
-  void updateDriverList(value){
+  void resetTruckNum() {
+    truckNumber = 0;
+    notifyListeners();
+  }
+
+  void updateDriverList(value) {
     driverList = value;
     notifyListeners();
   }
 
+  bool postLoadScreenTwoButton() {
+    if (truckNumber != 0 &&
+        passingWeightValue != 0 &&
+        truckTypeValue != '' &&
+        productType != 'Choose Product Type') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  bool postLoadScreenOneButton() {
+    if (loadingPointCityPostLoad != "" &&
+        bookingDate != "" &&
+        unloadingPointCityPostLoad != '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 //----------------------------------
 
 }

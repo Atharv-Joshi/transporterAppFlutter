@@ -15,6 +15,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
+
 class FindLoadScreen extends StatefulWidget {
   @override
   _FindLoadScreenState createState() => _FindLoadScreenState();
@@ -24,24 +25,25 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   var findLoadApiData;
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context,listen: false);
-    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
+    if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
       print(transporterIdController.transporterId);
       controller1 = TextEditingController(
           text:
-              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
+              ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
     }
-    if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
+    if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCity} (${providerData.unloadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
+              ("${providerData.unloadingPointCityFindLoad} (${providerData.unloadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
     }
     return SafeArea(
       child: Scaffold(
@@ -58,8 +60,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                       GestureDetector(
                         onTap: () {
                           Get.back();
-                          providerData.clearLoadingPoint();
-                          providerData.clearUnloadingPoint();
+                          providerData.clearLoadingPointFindLoad();
+                          providerData.clearUnloadingPointFindLoad();
                         },
                         child: Icon(Icons.arrow_back_ios_rounded),
                       ),
@@ -77,16 +79,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 height: space_5,
               ),
               AddressInputWidget(
-                hintText: "Loading Point",
-                icon: LoadingPointImageIcon(
-                  height: 12,
-                  width: 12,
-                ),
-                controller: controller1,
-                onTap: () {
-                  providerData.clearLoadingPoint();
-                }
-              ),
+                  hintText: "Loading Point",
+                  icon: LoadingPointImageIcon(
+                    height: 12,
+                    width: 12,
+                  ),
+                  controller: controller1,
+                  onTap: () {
+                    providerData.clearLoadingPointFindLoad();
+                  }),
               SizedBox(
                 height: space_4,
               ),
@@ -98,7 +99,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 ),
                 controller: controller2,
                 onTap: () {
-                   providerData.clearUnloadingPoint();
+                  providerData.clearUnloadingPointFindLoad();
                 },
               ),
               SizedBox(
@@ -140,27 +141,29 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                               //TODO to be modified
                               //alternative-(MediaQuery.of(context).size.height-(previous height))
                               child: ListView.builder(
-
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(),
                                 itemCount: (snapshot.data.length),
                                 itemBuilder: (BuildContext context, index) =>
                                     LoadApiDataDisplayCard(
-                                      loadId: snapshot.data[index].loadId,
+                                  loadId: snapshot.data[index].loadId,
                                   loadingPoint:
                                       snapshot.data[index].loadingPoint,
-                                  loadingPointCity: snapshot.data[index].loadingPointCity,
-                                  loadingPointState: snapshot.data[index].loadingPointState,
+                                  loadingPointCity: snapshot
+                                      .data[index].loadingPointCityFindLoad,
+                                  loadingPointState: snapshot
+                                      .data[index].loadingPointStateFindLoad,
                                   unloadingPoint:
                                       snapshot.data[index].unloadingPoint,
-                                  unloadingPointCity: snapshot.data[index].unloadingPointCity,
-                                  unloadingPointState: snapshot.data[index].unloadingPointState,
+                                  unloadingPointCity: snapshot
+                                      .data[index].unloadingPointCityFindLoad,
+                                  unloadingPointState: snapshot
+                                      .data[index].unloadingPointStateFindLoad,
                                   productType: snapshot.data[index].productType,
                                   truckType: snapshot.data[index].truckType,
                                   noOfTrucks: snapshot.data[index].noOfTrucks,
                                   weight: snapshot.data[index].weight,
                                   status: snapshot.data[index].status,
-
                                 ),
                               ),
                             ),

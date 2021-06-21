@@ -16,7 +16,7 @@ class DeclineButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(size_10)),
           elevation: size_4,
-          color: liveasyred,
+          color: Colors.red,
           child: Center(
             child: Padding(
               padding: EdgeInsets.fromLTRB(size_7, size_5, size_7, size_5),
