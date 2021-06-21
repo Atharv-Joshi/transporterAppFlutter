@@ -1,42 +1,44 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:social_share/social_share.dart';
-import 'package:wc_flutter_share/wc_flutter_share.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
-class ShareButton extends StatelessWidget {
+class ShareButton extends StatefulWidget {
   String? loadingPointCity;
-  ByteData? bytes;
+
   ShareButton({this.loadingPointCity});
 
   @override
+  _ShareButtonState createState() => _ShareButtonState();
+}
+
+class _ShareButtonState extends State<ShareButton> {
+  final screenshotController = ScreenshotController();
+
+  @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
-    // final ByteData bytes = await rootBundle.load('assets/image1.png');
-    // await Share.file('esys image', 'esys.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
-
       onTap: () async {
-        bytes = await rootBundle.load('assets/images/whatsAppImageBackground.png');
-        await WcFlutterShare.share(
-            sharePopupTitle: 'share',
-            subject: 'This is subject',
-            text: 'This is text',
-            fileName: 'share.png',
-            mimeType: 'image/png',
-            bytesOfFile: bytes!.buffer.asUint8List());
-        // SocialShare.shareWhatsapp(
-        //     "Hello World"); //TODO: value has to be changed
+        print("I'm here");
+        // final image =
+        //     await screenshotController.captureFromWidget(buildImage());
+        // saveAndShare(image);
       },
       child: Container(
         height: space_8,
         width: (space_10 * 2) + 6,
         decoration: BoxDecoration(
-            color: liveasyGreen, borderRadius: BorderRadius.circular(space_6)),
+            color: liveasyGreen,
+            borderRadius: BorderRadius.circular(space_6)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -52,16 +54,31 @@ class ShareButton extends StatelessWidget {
               style: TextStyle(
                   fontSize: size_8, fontWeight: normalWeight, color: white),
             ),
-            // Stack(children:[Container(
-            //   child: Image(
-            //     image: AssetImage(
-            //       "assets/images/whatsAppImageBackground.png",
-            //     ),
-            //   ),
-            // )])
           ],
         ),
       ),
     );
+  }
+
+  Widget buildImage() => Stack(
+        children: [
+          Container(
+            child: Image(
+              image: AssetImage(
+                "assets/images/whatsAppImageBackground.png",
+              ),
+            ),
+          ),
+          Text(widget.loadingPointCity.toString())
+        ],
+      );
+
+  Future saveAndShare(Uint8List bytes) async {
+
+    final directory = await getApplicationDocumentsDirectory();
+    final image = File('${directory.path}/flutter.png');
+    image.writeAsBytesSync(bytes);
+    await Share.shareFiles([image.path]);
+    
   }
 }
