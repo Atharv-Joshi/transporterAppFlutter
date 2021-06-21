@@ -30,7 +30,7 @@
             <data android:mimeType="*/*" />
         </intent>
     </queries>
-   <application
+
     <application
         android:label="liveasy"
         android:icon="@mipmap/ic_launcher">

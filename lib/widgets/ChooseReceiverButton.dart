@@ -3,12 +3,20 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher ;
 
 class ChooseReceiverButton extends StatelessWidget {
   final String label;
-  final dynamic function ;
+  // final dynamic function ;
+  final String phoneNum;
 
-  ChooseReceiverButton({required this.label , required this.function});
+  ChooseReceiverButton({required this.label ,  required this.phoneNum});
+
+  _makingPhoneCall() async {
+    print('in makingPhoneCall');
+    String url = 'tel:$phoneNum';
+    UrlLauncher.launch(url);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +55,10 @@ class ChooseReceiverButton extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: function,
+        onPressed: (){ _makingPhoneCall(); }
       ),
     );
   }
 }
+
+

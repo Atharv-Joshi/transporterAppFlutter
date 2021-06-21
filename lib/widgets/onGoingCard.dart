@@ -85,7 +85,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  // CallButton(),
+                  CallButton(directCall: false,),
                 ],
               ),
             ),
