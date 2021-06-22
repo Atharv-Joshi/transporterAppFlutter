@@ -15,18 +15,6 @@ class LoadApi {
       unloadingPointCity,
       unloadingPointState,
       weight) async {
-    print(loadDate);
-    print(postLoadId);
-    print(loadingPoint);
-    print(loadingPointCity);
-    print(noOfTrucks);
-    print(productType);
-    print(truckType);
-    print(unloadingPoint);
-    print(unloadingPointCity);
-    print(unloadingPointState);
-    print(loadingPointState);
-
     Map data = {
       "loadDate": loadDate,
       "postLoadId": postLoadId,

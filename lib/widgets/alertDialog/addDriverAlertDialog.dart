@@ -6,7 +6,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
@@ -113,17 +113,17 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                     onTap: () async {
                       print(name.text);
                       print(number.text);
-                      if (await Permission.contacts.request().isGranted) {
-                        Contact contact = await _contactPicker.selectContact();
-                        setState(() {
-                          _contact = contact;
-                          contactName = _contact!.fullName.toString();
-                          contactNumber =
-                              _contact!.phoneNumber.number.toString();
-                          displayContact =
-                              contactName! + " - " + contactNumber!;
-                        });
-                      }
+                      // if (await Permission.contacts.request().isGranted) {
+                      //   Contact contact = await _contactPicker.selectContact();
+                      //   setState(() {
+                      //     _contact = contact;
+                      //     contactName = _contact!.fullName.toString();
+                      //     contactNumber =
+                      //         _contact!.phoneNumber.number.toString();
+                      //     displayContact =
+                      //         contactName! + " - " + contactNumber!;
+                      //   });
+                      // }
                     },
                     child: Icon(
                       Icons.add,

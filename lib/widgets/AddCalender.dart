@@ -42,6 +42,7 @@ class _AddCalenderState extends State<AddCalender> {
               color: providerData.bookingDate == widget.text ? white : black),
         ),
         onPressed: () {
+          providerData.updateResetActive(true);
           providerData.updateBookingDate(widget.value);
         },
       ),

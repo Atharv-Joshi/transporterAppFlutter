@@ -89,7 +89,7 @@ class ProviderData extends ChangeNotifier {
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
-  String productType = "";
+  String productType = "Choose Product Type";
   int truckNumber = 0;
 
   String truckId = '';
@@ -280,9 +280,11 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
+    productType = "Choose Product type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
+    truckNumber = 0;
     truckLengthValue = 0;
     driverIdValue = '';
     notifyListeners();
@@ -301,6 +303,8 @@ class ProviderData extends ChangeNotifier {
     totalTyresValue = 0;
     truckLengthValue = 0;
     driverIdValue = '';
+    truckNumber = 0;
+
     notifyListeners();
   }
 

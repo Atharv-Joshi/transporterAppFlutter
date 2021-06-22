@@ -137,21 +137,16 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                     ),
                     SizedBox(height: space_3),
                     AddTruckSubtitleText(text: "Booking Date"),
-                    GestureDetector(
-                      onTap: () {
-                        providerData.updateResetActive(true);
-                      },
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        childAspectRatio: 4,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        padding: EdgeInsets.all(10.0),
-                        crossAxisCount: 2,
-                        children: bookingDateList
-                            .map((e) => AddCalender(value: e, text: e))
-                            .toList(),
-                      ),
+                    GridView.count(
+                      shrinkWrap: true,
+                      childAspectRatio: 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      padding: EdgeInsets.all(10.0),
+                      crossAxisCount: 2,
+                      children: bookingDateList
+                          .map((e) => AddCalender(value: e, text: e))
+                          .toList(),
                     ),
 
                     SizedBox(

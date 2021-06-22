@@ -149,7 +149,7 @@ class LoadCard extends StatelessWidget {
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.only(

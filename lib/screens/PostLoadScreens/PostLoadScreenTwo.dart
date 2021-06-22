@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/PostLoadApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/Deletethisscreen.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
@@ -10,11 +13,8 @@ import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addressInputWidget.dart';
-import 'package:liveasy/widgets/buttons/addRectangularButtonProductType.dart';
-import 'package:liveasy/widgets/loadingPointImageIcon.dart';
-import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class PostLoadScreenTwo extends StatefulWidget {
   const PostLoadScreenTwo({Key? key}) : super(key: key);
@@ -27,6 +27,9 @@ TextEditingController controller1 = TextEditingController();
 TextEditingController controller2 = TextEditingController();
 
 class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
+  LoadApi loadApi = LoadApi();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
   List<int> numberOfTrucksList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30];
 
@@ -46,9 +49,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                 child: AddPostLoadHeader(
                   reset: true,
                   resetFunction: () {
-                    providerData.resetTruckNum();
-                    providerData.clearUnloadingPointPostLoad();
-                    providerData.clearBookingDate();
+                    providerData.resetTruckFilters();
                     providerData.updateResetActive(false);
                   },
                 ),
@@ -156,10 +157,24 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                                   ),
                                   onPressed: () {
                                     providerData.postLoadScreenTwoButton()
-                                        ? Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => D()))
+                                        ? loadApi.postLoadAPi(
+                                            providerData.bookingDate,
+                                            transporterIdController
+                                                .transporterId.value,
+                                            "abc",
+                                            providerData
+                                                .loadingPointCityPostLoad,
+                                            providerData
+                                                .loadingPointStatePostLoad,
+                                            providerData.truckNumber,
+                                            providerData.productType,
+                                            providerData.truckTypeValue,
+                                            "unloadingPoint",
+                                            providerData
+                                                .unloadingPointCityPostLoad,
+                                            providerData
+                                                .unloadingPointStatePostLoad,
+                                            providerData.passingWeightValue)
                                         : null;
                                   }),
                             ),
