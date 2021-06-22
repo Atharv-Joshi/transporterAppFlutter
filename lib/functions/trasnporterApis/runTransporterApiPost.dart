@@ -30,7 +30,7 @@ void runTransporterApiPost({required String mobileNum, String? userLocation}) as
     bool accountVerificationInProgress =
         decodedResponse["accountVerificationInProgress"].toString() == "true";
     String transporterLocation = decodedResponse["transporterLocation"];
-    String name = decodedResponse["name"];
+    String name = decodedResponse["transporterName"];
     String companyName = decodedResponse["companyName"];
     transporterIdController.updateTransporterId(transporterId);
     transporterIdController.updateTransporterApproved(transporterApproved);
