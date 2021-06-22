@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/deliveredScreen.dart';
+import 'package:liveasy/screens/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/deliveredCard.dart';
@@ -19,8 +21,8 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
 
   List screens = [
     Text('loads'),
-    OngoingCard(),
-    DeliveredCard(),
+    OngoingScreen(),
+    DeliveredScreen(),
   ];
 
   @override

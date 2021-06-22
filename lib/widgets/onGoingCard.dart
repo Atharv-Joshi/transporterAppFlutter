@@ -9,6 +9,30 @@ import 'package:liveasy/widgets/trackButton.dart';
 import 'linePainter.dart';
 
 class OngoingCard extends StatelessWidget {
+
+  //variables
+  final String loadingPoint;
+  final String unloadingPoint;
+  final String startedOn;
+  final String endedOn;
+  final String truckNo;
+  final String companyName;
+  final String phoneNum;
+  final String driverName;
+  final String imei;
+
+  OngoingCard({
+    required this.loadingPoint,
+    required this.unloadingPoint,
+    required this.startedOn,
+    required this.endedOn,
+    required this.truckNo,
+    required this.companyName,
+    required this.phoneNum,
+    required this.driverName,
+    required this.imei
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +51,7 @@ class OngoingCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          LoadEndPointTemplate(text: 'Jabalpur', endPointType: 'loading'),
+                          LoadEndPointTemplate(text: loadingPoint, endPointType: 'loading'),
 
                           Container(
                               padding: EdgeInsets.only(left: 2),
@@ -38,7 +62,7 @@ class OngoingCard extends StatelessWidget {
                               )
                           ),
 
-                          LoadEndPointTemplate(text: 'Jalandhar', endPointType: 'unloading'),
+                          LoadEndPointTemplate(text: unloadingPoint, endPointType: 'unloading'),
 
                         ],
                       ),
@@ -54,7 +78,7 @@ class OngoingCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'D.K Transport',
+                            companyName,
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
@@ -68,9 +92,9 @@ class OngoingCard extends StatelessWidget {
                     margin: EdgeInsets.only(top: space_4),
                     child: Column(
                       children: [
-                        LoadLabelValueTemplate(value: 'AD 54 RF 4578', label: 'Truck No.'),
-                        LoadLabelValueTemplate(value: 'Ravi Shah', label: 'Driver Name'),
-                        LoadLabelValueTemplate(value: '20 Apr,2021', label: 'Started on')
+                        LoadLabelValueTemplate(value: truckNo, label: 'Truck No.'),
+                        LoadLabelValueTemplate(value: driverName, label: 'Driver Name'),
+                        LoadLabelValueTemplate(value: startedOn, label: 'Started on')
                       ],
                     ),
                   ),
