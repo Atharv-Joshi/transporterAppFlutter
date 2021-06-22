@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/snackbar/snack.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/bidButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:provider/provider.dart';
 
 enum RadioButtonOptions { PER_TON, PER_TRUCK }
 
@@ -20,12 +24,12 @@ class BidButtonAlertDialog extends StatefulWidget {
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController rate = TextEditingController();
+
   RadioButtonOptions unit = RadioButtonOptions.PER_TON;
 
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
     return AlertDialog(
       insetPadding: EdgeInsets.only(left: space_4, right: space_4),
       title: Text(
@@ -90,21 +94,16 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 left: space_2 - 2,
                 right: space_2 - 2,
               ),
-              child: TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                controller: rate,
+              child: TextField(
+                keyboardType: TextInputType.numberWithOptions(decimal: false),
                 decoration: InputDecoration(
                   hintText: "Eg 4000",
                   hintStyle: TextStyle(color: textLightColor),
                   border: InputBorder.none,
                 ),
-                validator: (value) => value!.isEmpty
-                    ? 'Enter Rate'
-                    : RegExp(r'^\d+(?:\.\d+)?$').hasMatch(value)
-                        ? 'Enter a Valid Name'
-                        : value.length < 3
-                            ? 'Name must contain more than 3 characters'
-                            : null,
+                onChanged: (String? rate) {
+                  providerData.updateRate(newValue: rate.toString());
+                },
               ),
             ),
           ),
@@ -117,7 +116,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
-                  widget.loadId.toString(), rate.text, unit.toString()),
+                  widget.loadId.toString(), unit.toString()),
               CancelButton()
             ],
           ),

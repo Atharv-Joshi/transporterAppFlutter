@@ -29,6 +29,7 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyApproved"].toString();
       loadPosterModel.loadPosterApproved =
           jsonData["transporterApproved"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
       return loadPosterModel;
     }
     if (loadPosterId.contains("shipper")) {
@@ -41,11 +42,12 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       loadPosterModel.loadPosterName = jsonData["shipperName"].toString();
       loadPosterModel.loadPosterCompanyName =
           jsonData["companyName"].toString();
-      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
+      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation = jsonData["phoneNo"];
+      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"].toString();
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
 
       loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;

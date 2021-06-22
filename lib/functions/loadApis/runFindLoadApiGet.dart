@@ -42,8 +42,8 @@ Future<List<LoadScreenCardsModal>> runFindLoadApiGet(
     cardsModal.comment = json["comment"];
     cardsModal.status = json["status"];
     cardsModal.loadDate = json["loadDate"];
-    cardsModal.rate = json["rate"];
-    cardsModal.unitValue = json["unitValue"];
+    cardsModal.rate = json["rate"].toString();
+    cardsModal.unitValue = json["unitValue"].toString();
     card.add(cardsModal);
   }
   return card;

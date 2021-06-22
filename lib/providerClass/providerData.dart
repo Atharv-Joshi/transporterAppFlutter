@@ -3,6 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+
+
+  var rate;
+  void updateRate({required String newValue}) {
+    rate = newValue;
+    notifyListeners();
+  }
+
+
+
   List truckNoList = [
     "Add Truck",
   ];

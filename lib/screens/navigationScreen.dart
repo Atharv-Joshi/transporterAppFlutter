@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postOrdersScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -18,7 +19,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     MyTrucks(),
     PostOrdersScreen(),
-    Text(""),
+    OrdersScreen(),
     AccountPageUtil(),
   ];
 

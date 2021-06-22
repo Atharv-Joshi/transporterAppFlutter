@@ -175,6 +175,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         children: [
                           BookNowButton(
                             loadId: loadId,
+                            rate: rate,
+                            unitValue: unitValue,
+                            postLoadId: postLoadId,
                           ),
                           SizedBox(
                             width: space_2,

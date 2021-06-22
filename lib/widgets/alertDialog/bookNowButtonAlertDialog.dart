@@ -21,12 +21,17 @@ class BookNowButtonAlertDialog extends StatefulWidget {
   var truckDetailsList;
   var driverDetailsList;
   String? loadId;
+  String? rate;
+  String? unitValue;
+  String? postLoadId;
 
-  BookNowButtonAlertDialog({
-    required this.truckDetailsList,
-    required this.driverDetailsList,
-    required this.loadId,
-  });
+  BookNowButtonAlertDialog(
+      {required this.truckDetailsList,
+      required this.driverDetailsList,
+      required this.loadId,
+      this.rate,
+      this.unitValue,
+      this.postLoadId});
 
   @override
   _BookNowButtonAlertDialogState createState() =>
@@ -161,9 +166,10 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
             children: [
               ConfirmButtonSendRequest(
                 loadId: widget.loadId,
-                rate: "6000",
+                rate: widget.rate,
                 transporterId: selectedTransporterId,
-                unit: "perTon",
+                unit: widget.unitValue,
+                postLoadId: widget.postLoadId,
                 truckId: [selectedTruckId],
               ),
               CancelButton()

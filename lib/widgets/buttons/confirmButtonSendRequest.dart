@@ -13,13 +13,15 @@ class ConfirmButtonSendRequest extends StatefulWidget {
   String? transporterId;
   String? unit;
   List truckId;
+  String? postLoadId;
 
   ConfirmButtonSendRequest(
       {required this.loadId,
       required this.rate,
       required this.transporterId,
       required this.unit,
-      required this.truckId});
+      required this.truckId,
+      this.postLoadId});
 
   @override
   _ConfirmButtonSendRequestState createState() =>
@@ -32,7 +34,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
     return GestureDetector(
       onTap: () {
         postBookingApi(widget.loadId, widget.rate, widget.transporterId,
-            widget.unit, widget.truckId);
+            widget.unit, widget.truckId,widget.postLoadId);
         Navigator.of(context).pop();
       },
       child: Container(

@@ -10,8 +10,12 @@ import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
   String? loadId;
+  String? rate;
+  String? unitValue;
+  String? postLoadId;
 
-  BookNowButton({required this.loadId});
+  BookNowButton(
+      {required this.loadId, this.rate, this.unitValue, this.postLoadId});
 
   @override
   _BookNowButtonState createState() => _BookNowButtonState();
@@ -36,6 +40,9 @@ class _BookNowButtonState extends State<BookNowButton> {
                     truckDetailsList: truckDetailsList,
                     driverDetailsList: driverDetailsList,
                     loadId: widget.loadId,
+                    rate: widget.rate,
+                    unitValue: widget.unitValue,
+                    postLoadId: widget.postLoadId,
                   ));
         },
         child: Container(
