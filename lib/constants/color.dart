@@ -42,6 +42,7 @@ Color lightishGreen = Color(0xFF84DBBB);
 Color lightYellow = Color(0xFFFFF6E7);
 Color darkYellow = Color(0xFFE5A744);
 Color veryDarkGrey = Color(0xFF555454);
+Color shareButtonColor = Color(0xFF09B778);
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
@@ -49,3 +50,7 @@ dynamic deactiveButtonColor =
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);
 Color lightGrayishBlue = Color(0xFFC4C9D9);
+dynamic calendarColor = MaterialStateProperty.all<Color>(Colors.white);
+Color truckGreen = Color(0xFF09B778);
+Color blueTitleColor = Color(0xFF152968);
+Color unactiveReset = Color(0xffC4C9D9);

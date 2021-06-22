@@ -4,6 +4,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostOrdersScreen.dart';
 import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 import 'package:liveasy/screens/home.dart';
+import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 import 'PostLoadScreens/PostLoadScreenTwo.dart';
 
 import 'TruckScreens/myTrucksScreen.dart';
+import 'orderScreens/order.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override

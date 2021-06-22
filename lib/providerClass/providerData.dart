@@ -89,6 +89,8 @@ class ProviderData extends ChangeNotifier {
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
+  String productType = "";
+  int truckNumber = 0;
 
   String truckId = '';
 
@@ -99,9 +101,9 @@ class ProviderData extends ChangeNotifier {
   List driverList = [];
 
   //variables related to orders page
-  int upperNavigatorIndex = 0 ;
+  int upperNavigatorIndex = 0;
 
-  void updateUpperNavigatorIndex(int value){
+  void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
   }
@@ -158,8 +160,8 @@ class ProviderData extends ChangeNotifier {
     unloadingPointStateFindLoad = state;
     notifyListeners();
   }
-  //////////////
 
+  //////////////
   void clearLoadingPointPostLoad() {
     loadingPointCityPostLoad = "";
     loadingPointStatePostLoad = "";
@@ -268,7 +270,6 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updateTruckId(value) {
-  void updateTruckId(value) {
     truckId = value;
     notifyListeners();
   }
@@ -296,7 +297,6 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetOnNewType() {
-  void resetOnNewType() {
     passingWeightValue = 0;
     totalTyresValue = 0;
     truckLengthValue = 0;
@@ -314,7 +314,6 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetTruckNumber() {
   void resetTruckNumber() {
     truckNumberValue = '';
     notifyListeners();
@@ -339,6 +338,11 @@ class ProviderData extends ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  void updateBookingDate(value) {
+    bookingDate = value;
+    notifyListeners();
   }
 
   bool postLoadScreenOneButton() {
