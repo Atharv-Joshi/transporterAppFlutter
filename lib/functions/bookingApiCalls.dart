@@ -19,24 +19,35 @@ class BookingApiCalls{
 
   //GET ------------------------------------------------------------------------
   Future<List<BookingModel>> getDataByPostLoadIdOnGoing() async {
+
+    modelList = [];
+
     print('first line of getDataByPostId');
-    http.Response response = await  http.get(Uri.parse('$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}'));
+    http.Response response = await  http.get(Uri.parse('$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=false&cancel=false'));
     print('after get ');
+    print('response body ${response.body}');
     var jsonData = json.decode(response.body);
 
     for( var json in jsonData){
-      if(json['cancel'] == false && json['completed'] == false){
-        BookingModel bookingModel = BookingModel();
-        bookingModel.bookingDate = json['bookingDate'];
-        bookingModel.loadId = json['loadId'];
-        bookingModel.transporterId = json['transporterId'];
-        bookingModel.truckId = json['truckId'];
-        bookingModel.cancel = json['cancel'];
-        bookingModel.completed = json['completed'];
-        bookingModel.completedDate = json['completedDate'];
-        modelList.add(bookingModel);
-      }
+        BookingModel bookingModel = BookingModel(truckId: []);
 
+        bookingModel.bookingDate = json['bookingDate'];
+        print(bookingModel.bookingDate);
+        bookingModel.loadId = json['loadId'];
+        print(bookingModel.loadId);
+        bookingModel.transporterId = json['transporterId'];
+        print(bookingModel.transporterId);
+        bookingModel.truckId = json['truckId'];
+        print(bookingModel.truckId);
+        bookingModel.cancel = json['cancel'];
+        print(bookingModel.cancel);
+        bookingModel.completed = json['completed'];
+        print(bookingModel.completed);
+        bookingModel.completedDate = json['completedDate'];
+        print(bookingModel.completedDate);
+        print('booking Model : $bookingModel');
+        // if(bookingModel.)
+        modelList.add(bookingModel);
     }
     print('length of BookingModel List : ${modelList.length}');
     print(modelList);
@@ -45,14 +56,16 @@ class BookingApiCalls{
 
   //----------------------------------------------------------------------------
   Future<List<BookingModel>> getDataByPostLoadIdDelivered() async {
-    print('first line of getDataByPostId');
-    http.Response response = await  http.get(Uri.parse('$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}'));
-    print('after get ');
-    var jsonData = json.decode(response.body);
 
+    modelList = [];
+    print('first line of getDataByPostId');
+    http.Response response = await  http.get(Uri.parse('$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=true&cancel=false'));
+    print('after get ');
+    print('response body ${response.body}');
+    var jsonData = json.decode(response.body);
+    print(jsonData);
     for( var json in jsonData){
-      if(json['cancel'] == false && json['completed'] == true){
-        BookingModel bookingModel = BookingModel();
+        BookingModel bookingModel = BookingModel(truckId: []);
         bookingModel.bookingDate = json['bookingDate'];
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
@@ -61,7 +74,6 @@ class BookingApiCalls{
         bookingModel.completed = json['completed'];
         bookingModel.completedDate = json['completedDate'];
         modelList.add(bookingModel);
-      }
 
     }
     print('length of BookingModel List : ${modelList.length}');

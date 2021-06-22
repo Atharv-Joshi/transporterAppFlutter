@@ -16,15 +16,16 @@ Future<Map> loadAllData(bookingModel) async {
   String bookingDate = bookingModel.bookingDate;
   String completedDate = bookingModel.completedDate;
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
+  print(endpoints);
   String companyName = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
-  Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId);
+  Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
   DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
 
   Map cardDataModel = {
     'startedOn': bookingDate,
     'endedOn' : completedDate,
-    'loadingPoint' : endpoints['loadingPoints'],
-    'unloadingPoints' : endpoints['unloadingPoints'],
+    'loadingPoint' : endpoints['loadingPointCity'],
+    'unloadingPoint' : endpoints['unloadingPointCity'],
     'companyName' : companyName,
     'truckNo' : truckData['truckNo'],
     'imei' : truckData['imei'],

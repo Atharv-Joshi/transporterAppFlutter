@@ -6,7 +6,7 @@ class BookingModel{
   String? loadId;
   String? transporterId;
   String? postLoadId;
-  String? truckId;
+  List? truckId;
   double? rate;
   String? unitValue;
   bool? cancel;

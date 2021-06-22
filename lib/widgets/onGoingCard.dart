@@ -78,7 +78,7 @@ class OngoingCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            companyName,
+                            companyName != null ? companyName : 'NA',
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
