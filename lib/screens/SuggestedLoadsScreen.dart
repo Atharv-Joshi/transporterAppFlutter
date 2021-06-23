@@ -9,7 +9,7 @@ import 'package:liveasy/widgets/loadDisplayCard.dart';
 // ignore: must_be_immutable
 class SuggestedLoadScreen extends StatefulWidget {
   var suggestedLoadData;
-  
+
   SuggestedLoadScreen({Key? key, required this.suggestedLoadData})
       : super(key: key);
 
@@ -62,7 +62,8 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                                 widget.suggestedLoadData[index].productType,
                             truckType:
                                 widget.suggestedLoadData[index].truckType,
-                            postLoadId: widget.suggestedLoadData[index].postLoadId,
+                            postLoadId:
+                                widget.suggestedLoadData[index].postLoadId,
                             noOfTrucks:
                                 widget.suggestedLoadData[index].noOfTrucks,
                             weight: widget.suggestedLoadData[index].weight,

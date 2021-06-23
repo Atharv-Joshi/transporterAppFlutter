@@ -8,8 +8,6 @@ import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 import 'package:liveasy/widgets/buttons/priceButton.dart';
-
-import 'callButton.dart';
 import 'linePainter.dart';
 
 // ignore: must_be_immutable
@@ -152,7 +150,7 @@ class _BidCardState extends State<BidCard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 CancelButton(),
-                CallButton(),
+                // CallButton(directCall: null,),
               ],
             ),
           ),

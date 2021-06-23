@@ -27,7 +27,8 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyApproved"].toString();
       loadPosterModel.loadPosterApproved =
           jsonData["transporterApproved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress =
+          jsonData["accountVerificationInProgress"].toString();
       return loadPosterModel;
     }
     if (loadPosterId.contains("shipper")) {
@@ -41,10 +42,12 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"].toString();
+      loadPosterModel.loadPosterLocation =
+          jsonData["shipperLocation"].toString();
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress =
+          jsonData["accountVerificationInProgress"].toString();
       return loadPosterModel;
     }
   } catch (e) {

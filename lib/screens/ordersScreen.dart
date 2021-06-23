@@ -7,7 +7,6 @@ import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:provider/provider.dart';
 
 class OrdersScreen extends StatefulWidget {
-
   @override
   _OrdersScreenState createState() => _OrdersScreenState();
 }
@@ -33,7 +32,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(text: 'Waiting room', value: 0),
+                  OrderScreenNavigationBarButton(
+                      text: 'Waiting room', value: 0),
                   OrderScreenNavigationBarButton(text: 'On-going', value: 1),
                   OrderScreenNavigationBarButton(text: 'Delivered', value: 2)
                 ],

@@ -5,7 +5,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadApis/runFindLoadApiGet.dart';
-import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
@@ -34,7 +33,6 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
     if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-
       controller1 = TextEditingController(
           text:
               ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));

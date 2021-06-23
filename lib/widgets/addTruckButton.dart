@@ -6,8 +6,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
 class AddTruckButton extends StatelessWidget {
-  const AddTruckButton({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

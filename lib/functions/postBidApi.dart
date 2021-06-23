@@ -17,10 +17,10 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
     "loadId": loadId.toString(),
     "rate": rate.toString(),
     "unitValue": unit.toString(),
-    "biddingDate":now.toString(),
+    "biddingDate": now.toString(),
     "transporterApproval": true,
     "shipperApproval": false,
-    "truckId" : []
+    "truckId": []
   };
   String body = json.encode(data);
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl').toString();

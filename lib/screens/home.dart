@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

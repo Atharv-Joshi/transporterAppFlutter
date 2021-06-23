@@ -32,3 +32,5 @@ class SuggestLoadApiDataModel {
       this.status,
       this.date});
 }
+
+// TODO: this and loadApiModel have same parameters , so we can delete one

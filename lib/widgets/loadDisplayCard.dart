@@ -56,9 +56,9 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 
 class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
   Widget build(BuildContext context) {
-
     return FutureBuilder(
-        future: getLoadPosterDetailsFromApi(loadPosterId: widget.postLoadId.toString()),
+        future: getLoadPosterDetailsFromApi(
+            loadPosterId: widget.postLoadId.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
@@ -79,7 +79,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             productType: widget.productType,
             weight: widget.weight,
             status: widget.status,
-            loadDate:widget.loadDate,
+            loadDate: widget.loadDate,
             comment: widget.comment,
             rate: widget.rate,
             unitValue: widget.unitValue,

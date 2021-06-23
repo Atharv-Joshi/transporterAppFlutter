@@ -8,8 +8,7 @@ import 'buttons/searchLoadButton.dart';
 
 class NoBidsWidget extends StatefulWidget {
   @override
-  _NoBidsWidgetState createState() =>
-      _NoBidsWidgetState();
+  _NoBidsWidgetState createState() => _NoBidsWidgetState();
 }
 
 class _NoBidsWidgetState extends State<NoBidsWidget> {

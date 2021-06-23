@@ -8,6 +8,7 @@ void runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
   TransporterIdController transporterIdController =
       Get.put(TransporterIdController());
+
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
   Map data = userLocation != null
@@ -41,6 +42,5 @@ void runTransporterApiPost(
     transporterIdController.updateTransporterLocation(transporterLocation);
     transporterIdController.updateName(name);
     transporterIdController.updateCompanyName(companyName);
-
   }
 }

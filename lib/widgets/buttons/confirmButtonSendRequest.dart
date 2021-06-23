@@ -34,7 +34,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
     return GestureDetector(
       onTap: () {
         postBookingApi(widget.loadId, widget.rate, widget.transporterId,
-            widget.unit, widget.truckId,widget.postLoadId);
+            widget.unit, widget.truckId, widget.postLoadId);
         Navigator.of(context).pop();
       },
       child: Container(

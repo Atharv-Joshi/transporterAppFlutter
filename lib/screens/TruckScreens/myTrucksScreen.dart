@@ -1,3 +1,5 @@
+//TODO: functionality for track and call button. truckapproved cond for add truck button asnd redirecting to required pages.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
@@ -30,6 +33,9 @@ class _MyTrucksState extends State<MyTrucks> {
 
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
+
+  //TransporterId controller
+  TransporterIdController transporterIdController = TransporterIdController();
 
   //true if truck list is empty
   bool truckListEmpty = false;

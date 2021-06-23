@@ -5,7 +5,6 @@ import 'package:liveasy/models/loadPosterModel.dart';
 
 getRequestorDetailsFromPostLoadId(postLoadId) async {
   var jsonData;
-  List bidCardLoadPosterDetails = [];
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
   final String shipperApiUrl = FlutterConfig.get('shipperApiUrl').toString();
@@ -56,5 +55,4 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
   } catch (e) {
     print(e);
   }
-  // return bidCardLoadPosterDetails;
 }

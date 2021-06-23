@@ -25,64 +25,6 @@ class _ShareButtonState extends State<ShareButton> {
 
   @override
   Widget build(BuildContext context) {
-    // return GestureDetector(
-    //   onTap: () async {
-    //     final image = await screenshotController.captureFromWidget(Stack(
-    //       children: [
-    //         Container(
-    //           child: AspectRatio(
-    //             aspectRatio: 1,
-    //             child: Image(
-    //               image: AssetImage(
-    //                 "assets/images/whatsAppImageBackground.png",
-    //               ),
-    //               fit: BoxFit.cover,
-    //             ),
-    //           ),
-    //         ),
-    //         Text(widget.loadingPointCity.toString())
-    //       ],
-    //     )
-    //     );
-    //     print(image);
-    //     saveAndShare(image);
-    //   },
-    //   child: Screenshot(
-    //     controller: screenshotController,
-    //     child: Column(
-    //       children: [
-    //         Container(
-    //           height: space_8,
-    //           width: (space_10 * 2) + 6,
-    //           decoration: BoxDecoration(
-    //               color: liveasyGreen,
-    //               borderRadius: BorderRadius.circular(space_6)),
-    //           child: Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Image(
-    //                   image: AssetImage("assets/icons/shareIcon.png"),
-    //                   height: size_9 - 1,
-    //                   width: size_9 - 1),
-    //               SizedBox(
-    //                 width: space_1 - 0.5,
-    //               ),
-    //               Text(
-    //                 "Share",
-    //                 style: TextStyle(
-    //                     fontSize: size_8,
-    //                     fontWeight: normalWeight,
-    //                     color: white),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-    print(MediaQuery.of(context).size / MediaQuery.of(context).devicePixelRatio);
-    print(MediaQuery.of(context).devicePixelRatio);
     return Screenshot(
       controller: screenshotController,
       child: Container(
@@ -114,8 +56,7 @@ class _ShareButtonState extends State<ShareButton> {
                 ),
                 Text(widget.loadingPointCity.toString())
               ],
-            )
-            );
+            ));
             saveAndShare(image);
           },
           child: Column(
@@ -134,7 +75,9 @@ class _ShareButtonState extends State<ShareButton> {
                   Text(
                     "Share",
                     style: TextStyle(
-                        fontSize: size_8, fontWeight: normalWeight, color: white),
+                        fontSize: size_8,
+                        fontWeight: normalWeight,
+                        color: white),
                   ),
                 ],
               ),
@@ -144,22 +87,6 @@ class _ShareButtonState extends State<ShareButton> {
       ),
     );
   }
-
-  // Widget buildImage() => Stack(
-  //       children: [
-  //         Container(
-  //           child: AspectRatio(
-  //             aspectRatio: 1,
-  //             child: Image(
-  //               image: AssetImage(
-  //                 "assets/images/whatsAppImageBackground.png",
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Text(widget.loadingPointCity.toString())
-  //       ],
-  //     );
 
   Future saveAndShare(Uint8List bytes) async {
     final directory = await getApplicationDocumentsDirectory();

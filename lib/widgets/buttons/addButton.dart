@@ -6,7 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postDriverApi.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +15,9 @@ class AddButton extends StatelessWidget {
   String displayContact;
   String name;
   String number;
+
+  //Instance  for DriverApiCalls
+  DriverApiCalls driverApiCalls = DriverApiCalls();
 
   AddButton(
       {required this.displayContact, required this.name, required this.number});
@@ -44,7 +47,8 @@ class AddButton extends StatelessWidget {
       onTap: () {
         print("name--" + "$name");
         providerData.updateDriverNameList(newValue: displayContact);
-        postDriverApi(driverName, phoneNum, transporterId, truckId);
+        driverApiCalls.postDriverApi(
+            driverName, phoneNum, transporterId, truckId);
         Navigator.of(context).pop();
       },
       child: Container(

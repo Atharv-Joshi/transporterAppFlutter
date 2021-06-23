@@ -17,6 +17,7 @@ class DriverApiCalls {
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
+
   Future<List> getDriversByTransporterId() async {
     http.Response response = await http.get(Uri.parse(
         '$driverApiUrl?transportId=${transporterIdController.transporterId.value}'));
@@ -38,22 +39,6 @@ class DriverApiCalls {
   }
 
   //----------------------------------------------------------------------------
-
-//   Future<DriverModel> getDriverByDriverId(String? driverId ) async {
-//     http.Response response = await  http.get(Uri.parse('$driverApiUrl/$driverId'));
-//
-//     Map jsonData = json.decode(response.body);
-//
-//     DriverModel driverModel = DriverModel();
-//     driverModel.driverId = jsonData["driverId"];
-//     driverModel.transporterId = jsonData["transporterId"];
-//     driverModel.phoneNum = jsonData["phoneNum"];
-//     driverModel.driverName = jsonData["driverName"];
-//     driverModel.truckId = jsonData["truckId"];
-//
-//     return driverModel;
-//   }
-// }
 
   Future<dynamic> getDriverByDriverId(
       {String? driverId, TruckModel? truckModel}) async {
@@ -82,11 +67,6 @@ class DriverApiCalls {
       jsonData = json.decode(response.body);
     }
 
-
-    // http.Response response = await  http.get(Uri.parse('$driverApiUrl/${truckModel!.driverId}'));
-    //
-    // Map jsonData = json.decode(response.body);
-
     TruckModel truckModelFinal = TruckModel(truckApproved: false);
     truckModelFinal.driverName =
         truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
@@ -98,5 +78,23 @@ class DriverApiCalls {
         truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
 
     return truckModelFinal;
+  }
+
+  //POST DRIVER-----------------------------------------------------------------
+
+  postDriverApi(driverName, phoneNum, transporterId, truckId) async {
+    Map data = {
+      "driverName": driverName,
+      "phoneNum": phoneNum,
+      "transporterId": transporterId,
+      "truckId": truckId
+    };
+    String body = json.encode(data);
+    // final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
+    final response = await http.post(Uri.parse("$driverApiUrl"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
   }
 }

@@ -104,7 +104,6 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   //   providerData.updateBidButtonSendRequest(newValue: "true");
                   // }});
                   if (rate != null) {
-
                     providerData.updateRate(newValue: rate.toString());
                   }
                 },

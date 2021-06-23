@@ -5,12 +5,11 @@ import 'package:liveasy/models/loadApiModel.dart';
 
 getLoadDetailsFromLoadId(loadId) async {
   var jsonData;
-  List bidCardLoadDetails = [];
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl/$loadId"));
 
   jsonData = json.decode(response.body);
-  // for (var json in jsonData) {
+
   LoadApiModel loadApiModel = LoadApiModel();
   loadApiModel.loadId = jsonData["loadId"].toString();
   loadApiModel.loadingPoint = jsonData["loadingPoint"].toString();
@@ -29,8 +28,6 @@ getLoadDetailsFromLoadId(loadId) async {
   loadApiModel.loadDate = jsonData["loadDate"].toString();
   loadApiModel.rate = jsonData["rate"].toString();
   loadApiModel.unitValue = jsonData["unitValue"].toString();
-  // bidCardLoadDetails.add(loadApiModel);
-  // }
 
   return loadApiModel;
 }
