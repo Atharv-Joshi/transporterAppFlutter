@@ -6,6 +6,7 @@ import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
+import 'package:liveasy/widgets/getBids.dart';
 import 'package:provider/provider.dart';
 import 'TruckScreens/myTrucksScreen.dart';
 
@@ -19,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     MyTrucks(),
     PostOrdersScreen(),
-    OrdersScreen(),
+    GetBids(),
     AccountPageUtil(),
   ];
 

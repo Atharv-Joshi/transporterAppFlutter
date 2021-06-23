@@ -3,15 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+  var bidButtonSendRequestState = "false";
 
+  void updateBidButtonSendRequest({required String newValue}) {
+    bidButtonSendRequestState = newValue;
+    notifyListeners();
+  }
 
   var rate;
+
   void updateRate({required String newValue}) {
     rate = newValue;
     notifyListeners();
   }
-
-
 
   List truckNoList = [
     "Add Truck",
@@ -101,9 +105,9 @@ class ProviderData extends ChangeNotifier {
   List driverList = [];
 
   //variables related to orders page
-  int upperNavigatorIndex = 0 ;
+  int upperNavigatorIndex = 0;
 
-  void updateUpperNavigatorIndex(int value){
+  void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
   }

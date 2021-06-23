@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_navigation/src/snackbar/snack.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -24,7 +22,6 @@ class BidButtonAlertDialog extends StatefulWidget {
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
-
   RadioButtonOptions unit = RadioButtonOptions.PER_TON;
 
   @override
@@ -102,7 +99,14 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
-                  providerData.updateRate(newValue: rate.toString());
+                  // setState(() {
+                  //   while(rate!=null){
+                  //   providerData.updateBidButtonSendRequest(newValue: "true");
+                  // }});
+                  if (rate != null) {
+
+                    providerData.updateRate(newValue: rate.toString());
+                  }
                 },
               ),
             ),
@@ -115,8 +119,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BidButtonSendRequest(
-                  widget.loadId.toString(), unit.toString()),
+              BidButtonSendRequest(widget.loadId.toString(), unit.toString()),
               CancelButton()
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadApis/runFindLoadApiGet.dart';
+import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
@@ -32,15 +33,15 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
-    // if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-    //   print(transporterIdController.transporterId);
-    //   controller1 = TextEditingController(
-    //       text:
-    //           ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-    //   findLoadApiData = runFindLoadApiGet(
-    //       providerData.loadingPointCity, providerData.unloadingPointCity);
-    // }
-    findLoadApiData = runFindLoadApiGet("Alwar", "");
+    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+
+      controller1 = TextEditingController(
+          text:
+              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
+      findLoadApiData = runFindLoadApiGet(
+          providerData.loadingPointCity, providerData.unloadingPointCity);
+    }
+    // findLoadApiData = runFindLoadApiGet("Itarsi", "");
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -138,7 +139,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AvailableLoadsTextWidget(),
-                                  /*FilterButtonWidget()*/
+                                  FilterButtonWidget()
                                 ],
                               ),
                               SizedBox(

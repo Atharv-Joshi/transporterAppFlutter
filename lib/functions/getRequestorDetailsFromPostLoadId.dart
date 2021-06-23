@@ -1,18 +1,19 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
-getLoadPosterDetailsFromApi({required String loadPosterId}) async {
+getRequestorDetailsFromPostLoadId(postLoadId) async {
   var jsonData;
+  List bidCardLoadPosterDetails = [];
   final String transporterApiUrl =
-      FlutterConfig.get('transporterApiUrl').toString();
+      FlutterConfig.get("transporterApiUrl").toString();
   final String shipperApiUrl = FlutterConfig.get('shipperApiUrl').toString();
-  loadPosterId = loadPosterId.toString();
+
   try {
-    if (loadPosterId.contains("transporter")) {
+    if (postLoadId.contains("transporter")) {
       http.Response response =
-          await http.get(Uri.parse(transporterApiUrl + "/$loadPosterId"));
+          await http.get(Uri.parse("$transporterApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["transporterId"].toString();
@@ -27,12 +28,14 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyApproved"].toString();
       loadPosterModel.loadPosterApproved =
           jsonData["transporterApproved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress =
+          jsonData["accountVerificationInProgress"].toString();
+      // bidCardLoadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
-    if (loadPosterId.contains("shipper")) {
+    if (postLoadId.contains("shipper")) {
       http.Response response =
-          await http.get(Uri.parse(shipperApiUrl + "/$loadPosterId"));
+          await http.get(Uri.parse("$shipperApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["shipperId"].toString();
@@ -41,13 +44,17 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"].toString();
+      loadPosterModel.loadPosterLocation =
+          jsonData["shipperLocation"].toString();
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress=jsonData["accountVerificationInProgress"].toString();
+      loadPosterModel.loadPosterAccountVerificationInProgress =
+          jsonData["accountVerificationInProgress"].toString();
+      // bidCardLoadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
   } catch (e) {
     print(e);
   }
+  // return bidCardLoadPosterDetails;
 }

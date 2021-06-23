@@ -1,4 +1,4 @@
-class LoadScreenCardsModal {
+class LoadApiModel {
   String? loadId;
   String? loadingPoint;
   String? loadingPointCity;
@@ -17,7 +17,7 @@ class LoadScreenCardsModal {
   String? rate;
   String? unitValue;
 
-  LoadScreenCardsModal(
+  LoadApiModel(
       {this.loadId,
       this.loadingPoint,
       this.loadingPointCity,
