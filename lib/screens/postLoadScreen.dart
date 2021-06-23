@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/deliveredScreen.dart';
+import 'package:liveasy/screens/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/deliveredCard.dart';
+import 'package:liveasy/widgets/onGoingCard.dart';
 import 'package:provider/provider.dart';
+import 'package:swipe_to/swipe_to.dart';
 
 class PostOrdersScreen extends StatefulWidget {
   const PostOrdersScreen({Key? key}) : super(key: key);
@@ -14,12 +19,19 @@ class PostOrdersScreen extends StatefulWidget {
 }
 
 class _PostOrdersScreenState extends State<PostOrdersScreen> {
-  List screens = [Text('loads'), Text('on going'), Text('delivered')];
+
+  List screens = [
+    Text('loads'),
+    OngoingScreen(),
+    DeliveredScreen(),
+  ];
+
+  int i = 0;
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
+    i = providerData.upperNavigatorIndex;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -40,11 +52,32 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 ],
               ),
               Divider(
+
                 color: textLightColor,
                 thickness: 1,
               ),
-              Container(
-                child: screens[providerData.upperNavigatorIndex],
+              SwipeTo(
+                iconOnRightSwipe: null,
+                iconOnLeftSwipe: null,
+                onLeftSwipe: (){
+                  print('i : $i');
+                  if(i < 2){
+                    i = i + 1;
+                    print('i after swiping : $i ');
+                    providerData.updateUpperNavigatorIndex(i);
+                  }
+                },
+                onRightSwipe: (){
+                  print('i : $i');
+                  if(i > 0){
+                    i = i -1;
+                    print('i after swiping : $i ');
+                    providerData.updateUpperNavigatorIndex(i);
+                  }
+                },
+                child: Container(
+                  child: screens[providerData.upperNavigatorIndex],
+                ),
               ),
             ],
           ),

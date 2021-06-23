@@ -11,8 +11,8 @@ class TruckApiCalls {
   final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   // transporterId controller
-  TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+
 
   //truckId controller ..used to store truckId for latest truck
   TruckIdController truckIdController = TruckIdController();
@@ -55,8 +55,24 @@ class TruckApiCalls {
     return truckDataList; // list of truckModels
   }
 
+  //GET Truck Data by truckId
+  Future<Map> getDataByTruckId(String truckId) async  {
+    http.Response response = await http.get(Uri.parse('$truckApiUrl/$truckId'));
+    var jsonData = json.decode(response.body);
+
+    Map data = {
+      'driverId' : jsonData['driverId'],
+      'truckNo' : jsonData['truckNo'],
+      'imei' : jsonData['imei']
+    };
+
+    return data;
+  }
+
   //POST------------------------------------------------------------------------
   Future<String?> postTruckData({required String truckNo}) async {
+
+    print('transporterId : ${transporterIdController.transporterId.value}');
     // json map
     Map<String, dynamic> data = {
       "transporterId": transporterIdController.transporterId.value,
@@ -73,6 +89,8 @@ class TruckApiCalls {
         body: body);
 
     var returnData = json.decode(response.body);
+
+    print(returnData);
 
     _truckId = returnData['truckId'];
 
