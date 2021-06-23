@@ -5,9 +5,9 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
-class AddTruckButton extends StatelessWidget {
-  const AddTruckButton({Key? key}) : super(key: key);
+import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
 
+class AddTruckButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,9 +21,11 @@ class AddTruckButton extends StatelessWidget {
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: () {
+        onPressed:
+             () {
           Get.to(() => AddNewTruck());
-        },
+        }
+        ,
         child: Text(
           'Add Truck',
           style: TextStyle(

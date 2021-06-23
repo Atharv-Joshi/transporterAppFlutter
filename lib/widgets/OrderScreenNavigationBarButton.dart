@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,9 @@ class OrderScreenNavigationBarButton extends StatelessWidget {
         child: Text(
           '$text',
           style: TextStyle(
-            color: loadingPointTextColor,
+            color: providerData.upperNavigatorIndex == value ? loadingPointTextColor : locationLineColor ,
+            fontWeight: normalWeight,
+
           ),
         ),
       ),
