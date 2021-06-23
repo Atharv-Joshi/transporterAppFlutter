@@ -21,7 +21,7 @@ class OngoingCard extends StatelessWidget {
   final String driverName;
   final String imei;
   final String transporterPhoneNumber;
-  final String transporterName;
+  // final String transporterName;
 
   OngoingCard({
     required this.loadingPoint,
@@ -34,7 +34,7 @@ class OngoingCard extends StatelessWidget {
     required this.driverName,
     required this.imei,
     required this.transporterPhoneNumber,
-    required this.transporterName,
+    // required this.transporterName,
   });
 
   @override
@@ -113,7 +113,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber, driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: transporterName,),
+                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber, driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: companyName,),
                 ],
               ),
             ),

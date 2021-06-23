@@ -27,7 +27,7 @@ Future<Map> loadAllData(bookingModel) async {
     'loadingPoint' : endpoints['loadingPointCity'],
     'unloadingPoint' : endpoints['unloadingPointCity'],
     'companyName' : transporterData['companyName'],
-    'transporterName' : transporterData['transporterName'],
+    // 'transporterName' : transporterData['transporterName'],
     'transporterPhoneNum' : transporterData['transporterPhoneNum'],
     'truckNo' : truckData['truckNo'],
     'imei' : truckData['imei'],
