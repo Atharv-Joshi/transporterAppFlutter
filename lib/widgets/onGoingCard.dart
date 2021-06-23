@@ -17,9 +17,10 @@ class OngoingCard extends StatelessWidget {
   final String endedOn;
   final String truckNo;
   final String companyName;
-  final String phoneNum;
+  final String driverPhoneNum;
   final String driverName;
   final String imei;
+  final String transporterPhoneNumber;
 
   OngoingCard({
     required this.loadingPoint,
@@ -28,9 +29,11 @@ class OngoingCard extends StatelessWidget {
     required this.endedOn,
     required this.truckNo,
     required this.companyName,
-    required this.phoneNum,
+    required this.driverPhoneNum,
     required this.driverName,
-    required this.imei
+    required this.imei,
+    required this.transporterPhoneNumber
+
   });
 
   @override
@@ -51,7 +54,7 @@ class OngoingCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          LoadEndPointTemplate(text: loadingPoint, endPointType: 'loading'),
+                          LoadEndPointTemplate(text: loadingPoint != null ? loadingPoint : 'NA', endPointType: 'loading'),
 
                           Container(
                               padding: EdgeInsets.only(left: 2),
@@ -62,7 +65,7 @@ class OngoingCard extends StatelessWidget {
                               )
                           ),
 
-                          LoadEndPointTemplate(text: unloadingPoint, endPointType: 'unloading'),
+                          LoadEndPointTemplate(text: unloadingPoint != null ? unloadingPoint : 'NA', endPointType: 'unloading'),
 
                         ],
                       ),
@@ -109,7 +112,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  CallButton(directCall: false,),
+                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber, driverPhoneNum: driverPhoneNum, driverName: driverName, companyName: companyName,),
                 ],
               ),
             ),

@@ -67,8 +67,8 @@ class DeliveredScreen extends StatelessWidget {
                             driverName: snapshot.data['driverName'],
                             startedOn: snapshot.data['startedOn'],
                             endedOn: snapshot.data['endedOn'],
-                            imei: snapshot.data['imei'],
-                            phoneNum: snapshot.data['phoneNum'],
+                            // imei: snapshot.data['imei'],
+                            // phoneNum: snapshot.data['phoneNum'],
                           );
                         }
                     );

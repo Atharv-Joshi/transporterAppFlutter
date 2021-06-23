@@ -10,14 +10,17 @@ import 'package:url_launcher/link.dart';
 
 class CallButton extends StatelessWidget {
 
-   final String? phoneNum;
+   final String? transporterPhoneNum;
+   final String? driverPhoneNum;
+   final String? driverName;
+   final String? companyName;
 
    final bool directCall;
-  CallButton({this.phoneNum , required this.directCall});
+  CallButton({this.driverName, this.companyName , this.transporterPhoneNum ,this.driverPhoneNum , required this.directCall});
 
   _makingPhoneCall() async {
     print('in makingPhoneCall');
-    String url = 'tel:$phoneNum';
+    String url = 'tel:$driverPhoneNum';
     UrlLauncher.launch(url);
   }
 
@@ -53,7 +56,7 @@ class CallButton extends StatelessWidget {
             content: Center(
               child: Column(
                 children: [
-                  ChooseReceiverButton(label: 'D.K Transport', phoneNum: '1234567892' ,),
+                  ChooseReceiverButton(label: companyName, phoneNum: transporterPhoneNum ,),
 
                   Container(
                     margin: EdgeInsets.symmetric(vertical: space_2),
@@ -66,7 +69,7 @@ class CallButton extends StatelessWidget {
                         ),),
                   ),
 
-                  ChooseReceiverButton(label: 'Ravi Shah', phoneNum: '6789056432',)
+                  ChooseReceiverButton(label: driverName , phoneNum: driverPhoneNum,)
 
                 ],
               ),

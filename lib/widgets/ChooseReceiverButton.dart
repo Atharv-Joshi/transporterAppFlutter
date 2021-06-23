@@ -6,9 +6,9 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher ;
 
 class ChooseReceiverButton extends StatelessWidget {
-  final String label;
+  final String? label;
   // final dynamic function ;
-  final String phoneNum;
+  final String? phoneNum;
 
   ChooseReceiverButton({required this.label ,  required this.phoneNum});
 
@@ -44,7 +44,7 @@ class ChooseReceiverButton extends StatelessWidget {
               ),
             ),
             Text(
-              '$label',
+               label != null ? '$label' : 'NA',
               textAlign: TextAlign.center,
               style: TextStyle(
                 letterSpacing: 0.7,

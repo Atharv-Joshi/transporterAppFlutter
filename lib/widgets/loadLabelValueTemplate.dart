@@ -22,7 +22,7 @@ class LoadLabelValueTemplate extends StatelessWidget {
             ),
           ),
           Text(
-            '$value',
+            value != null ? '$value' : 'NA',
             style: TextStyle(
                 fontWeight: mediumBoldWeight
             ),

@@ -208,7 +208,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 // =======
                       margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(truckApproved: widget.truckApproved)),
-                  CallButton(phoneNum: widget.phoneNum , directCall: true,),
+                  CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),
                 ],
               )
               :

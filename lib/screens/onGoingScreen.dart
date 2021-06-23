@@ -68,7 +68,8 @@ class OngoingScreen extends StatelessWidget {
                         startedOn: snapshot.data['startedOn'],
                         endedOn: snapshot.data['endedOn'],
                         imei: snapshot.data['imei'],
-                        phoneNum: snapshot.data['phoneNum'],
+                        driverPhoneNum: snapshot.data['driverPhoneNum'],
+                        transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
                     );
                 }
             );

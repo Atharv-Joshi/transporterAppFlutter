@@ -7,12 +7,17 @@ class TransporterApiCalls{
 
   final String transporterApiUrl =  FlutterConfig.get("transporterApiUrl");
 
-  Future<String> getDataByTransporterId(String transporterId) async  {
+  Future<Map> getDataByTransporterId(String transporterId) async  {
     http.Response response = await http.get(Uri.parse('$transporterApiUrl/$transporterId'));
     var jsonData = json.decode(response.body);
 
-    String companyName = jsonData['companyName'];
+    // Map transporterData = jsonData['companyName'];
 
-    return companyName;
+    Map transporterData = {
+      'companyName' : jsonData['companyName'],
+      'transporterPhoneNum' : jsonData['phoneNo'].toString()
+    };
+
+    return transporterData;
   }
 }

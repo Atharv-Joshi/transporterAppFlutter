@@ -14,9 +14,9 @@ class DeliveredCard extends StatelessWidget {
   final String endedOn;
   final String truckNo;
   final String companyName;
-  final String phoneNum;
+  // final String phoneNum;
   final String driverName;
-  final String imei;
+  // final String imei;
 
   DeliveredCard({
     required this.loadingPoint,
@@ -25,9 +25,9 @@ class DeliveredCard extends StatelessWidget {
     required this.endedOn,
     required this.truckNo,
     required this.companyName,
-    required this.phoneNum,
+    // required this.phoneNum,
     required this.driverName,
-    required this.imei
+    // required this.imei
   });
 
   @override
@@ -48,7 +48,7 @@ class DeliveredCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          LoadEndPointTemplate(text: loadingPoint, endPointType: 'loading'),
+                          LoadEndPointTemplate(text: loadingPoint != null ? loadingPoint : "NA", endPointType: 'loading'),
 
                           Container(
                               padding: EdgeInsets.only(left: 2),
@@ -59,7 +59,7 @@ class DeliveredCard extends StatelessWidget {
                               )
                           ),
 
-                          LoadEndPointTemplate(text: unloadingPoint, endPointType: 'unloading'),
+                          LoadEndPointTemplate(text: unloadingPoint !=  null ? unloadingPoint : 'NA', endPointType: 'unloading'),
 
                         ],
                       ),
@@ -95,7 +95,7 @@ class DeliveredCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        companyName,
+                        companyName != null ? companyName : "NA",
                         style: TextStyle(
                           color: liveasyBlackColor,
                           fontWeight: mediumBoldWeight,
