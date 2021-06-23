@@ -15,7 +15,8 @@ class TransporterApiCalls{
 
     Map transporterData = {
       'companyName' : jsonData['companyName'],
-      'transporterPhoneNum' : jsonData['phoneNo'].toString()
+      'transporterPhoneNum' : jsonData['phoneNo'].toString(),
+      'transporterName' : jsonData['transporterName']
     };
 
     return transporterData;

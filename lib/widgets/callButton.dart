@@ -13,10 +13,10 @@ class CallButton extends StatelessWidget {
    final String? transporterPhoneNum;
    final String? driverPhoneNum;
    final String? driverName;
-   final String? companyName;
+   final String? transporterName;
 
    final bool directCall;
-  CallButton({this.driverName, this.companyName , this.transporterPhoneNum ,this.driverPhoneNum , required this.directCall});
+  CallButton({this.driverName, this.transporterName , this.transporterPhoneNum ,this.driverPhoneNum , required this.directCall});
 
   _makingPhoneCall() async {
     print('in makingPhoneCall');
@@ -56,7 +56,7 @@ class CallButton extends StatelessWidget {
             content: Center(
               child: Column(
                 children: [
-                  ChooseReceiverButton(label: companyName, phoneNum: transporterPhoneNum ,),
+                  ChooseReceiverButton(label: transporterName, phoneNum: transporterPhoneNum ,),
 
                   Container(
                     margin: EdgeInsets.symmetric(vertical: space_2),

@@ -70,6 +70,7 @@ class OngoingScreen extends StatelessWidget {
                         imei: snapshot.data['imei'],
                         driverPhoneNum: snapshot.data['driverPhoneNum'],
                         transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
+                        transporterName : snapshot.data['transporterName'],
                     );
                 }
             );
