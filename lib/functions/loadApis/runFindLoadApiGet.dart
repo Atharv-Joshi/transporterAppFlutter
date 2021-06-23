@@ -44,5 +44,5 @@ Future<List<LoadScreenCardsModal>> runFindLoadApiGet(
     cardsModal.date = json["loadDate"];
     card.add(cardsModal);
   }
-  return card.reversed.toList(); //TODO:remove reverse
+  return card;
 }
