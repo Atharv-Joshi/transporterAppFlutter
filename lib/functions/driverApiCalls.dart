@@ -20,7 +20,7 @@ class DriverApiCalls {
 
   Future<List> getDriversByTransporterId() async {
     http.Response response = await http.get(Uri.parse(
-        '$driverApiUrl?transportId=${transporterIdController.transporterId.value}'));
+        '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
 
     jsonData = json.decode(response.body);
 
