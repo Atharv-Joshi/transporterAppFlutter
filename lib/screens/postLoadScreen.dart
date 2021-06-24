@@ -4,6 +4,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/deliveredScreen.dart';
 import 'package:liveasy/screens/onGoingScreen.dart';
+import 'package:liveasy/screens/orderScreens/order.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,7 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                     });
                   },
                   children: [
-                    Text('My Loads'),
+                    order(),
                     OngoingScreen(),
                     DeliveredScreen(),
                   ],
