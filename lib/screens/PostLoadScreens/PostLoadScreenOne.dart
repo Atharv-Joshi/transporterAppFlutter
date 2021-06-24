@@ -161,7 +161,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                     // ignore: deprecated_member_use
                     Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: space_26,
                         height: space_8,
                         child: ElevatedButton(
                           onPressed: () async {
