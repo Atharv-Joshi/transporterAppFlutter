@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenOne.dart';
-import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
-import 'package:liveasy/screens/home.dart';
-import 'package:liveasy/screens/postOrdersScreen.dart';
+import 'package:liveasy/screens/postLoadScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
-
-import 'PostLoadScreens/PostLoadScreenTwo.dart';
-
 import 'TruckScreens/myTrucksScreen.dart';
-import 'orderScreens/order.dart';
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -31,13 +24,18 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
+
     return Scaffold(
       backgroundColor: statusBarColor,
       // color of status bar which displays time on a phone
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int pressedIndex) {
-          Provider.of<ProviderData>(context, listen: false)
-              .updateIndex(pressedIndex);
+          // Provider.of<ProviderData>(context, listen: false)
+          //     .updateIndex(pressedIndex);
+          providerData.updateUpperNavigatorIndex(0);
+          providerData.updateIndex(pressedIndex);
         },
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
