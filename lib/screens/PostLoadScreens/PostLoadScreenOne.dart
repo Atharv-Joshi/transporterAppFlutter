@@ -52,12 +52,11 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     fourthDay.MMMEd
   ];
   bool i = false;
-  var changedDate = fourthDay.MMMEd;
-
+  var recentDate = fourthDay.MMMEd;
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    if (bookingDateList.last != changedDate) {
+    if (bookingDateList.last != recentDate) {
       providerData.updateBookingDate(bookingDateList[3]);
     }
     if (!i) {
