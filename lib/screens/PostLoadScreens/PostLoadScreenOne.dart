@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenTwo.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
@@ -15,7 +13,6 @@ import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:get/get.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
   const PostLoadScreenOne({Key? key}) : super(key: key);
@@ -39,7 +36,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
         initialDate: selectedDate,
         firstDate: DateTime.now(),
         lastDate:
-            DateTime(DateTime.now().year, DateTime.now().month, 30, 0, 0));
+            DateTime(DateTime.now().year, DateTime.now().month, 31, 0, 0));
     Jiffy nextDay = Jiffy(picked);
 
     if (picked != null && picked != selectedDate)
@@ -60,6 +57,9 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+    if (bookingDateList.last != changedDate) {
+      providerData.updateBookingDate(bookingDateList[3]);
+    }
     if (!i) {
       providerData.updateBookingDate(initialDay.MMMEd);
       i = true;
