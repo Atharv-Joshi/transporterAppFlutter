@@ -32,21 +32,27 @@ class _DState extends State<D> {
             Text(providerData.truckTypeValue),
             Text(providerData.productType),
             Text(transporterIdController.transporterId.value),
+            Text(providerData.unitValue),
+            Text(providerData.price.toString()),
             ElevatedButton(
                 onPressed: () {
-                  loadApi.postLoadAPi(
-                      providerData.bookingDate,
-                      transporterIdController.transporterId.value,
-                      "abc",
-                      providerData.loadingPointCityPostLoad,
-                      providerData.loadingPointStatePostLoad,
-                      providerData.truckNumber,
-                      providerData.productType,
-                      providerData.truckTypeValue,
-                      "unloadingPoint",
-                      providerData.unloadingPointCityPostLoad,
-                      providerData.unloadingPointStatePostLoad,
-                      providerData.passingWeightValue);
+                  providerData.postLoadScreenTwoButton()
+                      ? loadApi.postLoadAPi(
+                          providerData.bookingDate,
+                          transporterIdController.transporterId.value,
+                          "abc",
+                          providerData.loadingPointCityPostLoad,
+                          providerData.loadingPointStatePostLoad,
+                          providerData.truckNumber,
+                          providerData.productType,
+                          providerData.truckTypeValue,
+                          "unloadingPoint",
+                          providerData.unloadingPointCityPostLoad,
+                          providerData.unloadingPointStatePostLoad,
+                          providerData.passingWeightValue,
+                          providerData.unitValue,
+                          providerData.price)
+                      : null;
                 },
                 child: Text("Post Load"))
           ],

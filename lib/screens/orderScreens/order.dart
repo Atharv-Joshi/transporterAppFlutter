@@ -10,7 +10,6 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenOne.dart';
 import 'package:liveasy/widgets/LoadCard.dart';
 import 'package:liveasy/widgets/OrderSectionTitleName.dart';
-import 'package:liveasy/widgets/OrderTitleTextWidget.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:get/get.dart';
@@ -76,10 +75,7 @@ class _orderState extends State<order> {
                       onPressed: () {
                         transporterIdController.transporterApproved.value &&
                                 transporterIdController.companyApproved.value
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PostLoadScreenOne()))
+                            ? Get.to(PostLoadScreenOne())
                             : showDialog(
                                 context: context,
                                 builder: (context) =>

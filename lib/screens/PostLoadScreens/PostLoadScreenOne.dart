@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -7,13 +8,14 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenTwo.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
-import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addressInputWidget.dart';
+import 'package:liveasy/widgets/buttons/NextButton.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:get/get.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
   const PostLoadScreenOne({Key? key}) : super(key: key);
@@ -31,7 +33,6 @@ Jiffy fourthDay = Jiffy(DateTime.now()).add(days: 3);
 
 class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   DateTime selectedDate = DateTime.now();
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -53,18 +54,30 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     thirdDay.MMMEd,
     fourthDay.MMMEd
   ];
+  bool i = false;
+  var changedDate = fourthDay.MMMEd;
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+    if (!i) {
+      providerData.updateBookingDate(initialDay.MMMEd);
+      i = true;
+    }
+
     if (providerData.loadingPointCityPostLoad != "") {
       controller1 = TextEditingController(
           text:
               ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
+    } else {
+      controller1 = TextEditingController(text: (""));
     }
     if (providerData.unloadingPointCityPostLoad != "") {
       controller2 = TextEditingController(
           text:
               ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
+    } else {
+      controller2 = TextEditingController(text: (""));
     }
 
     return Scaffold(
@@ -83,8 +96,6 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                 child: AddPostLoadHeader(
                   reset: true,
                   resetFunction: () {
-                    controller1.text = "";
-                    controller2.text = "";
                     providerData.resetPostLoadScreenOne();
                   },
                 ),
@@ -110,8 +121,6 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           controller: controller1,
                           onTap: () {
                             setState(() {
-                              controller1.text =
-                                  providerData.loadingPointCityFindLoad;
                               providerData.updateResetActive(true);
                               print(providerData.resetActive);
                             });
@@ -129,8 +138,6 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                         ),
                         controller: controller2,
                         onTap: () {
-                          controller2.text =
-                              providerData.unloadingPointCityFindLoad;
                           providerData.updateResetActive(true);
                         },
                       ),
@@ -158,7 +165,9 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         height: space_8,
                         child: ElevatedButton(
-                          onPressed: () => _selectDate(context),
+                          onPressed: () async {
+                            _selectDate(context);
+                          },
                           style: ButtonStyle(backgroundColor: calendarColor),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -180,44 +189,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 235.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              height: space_8,
-                              margin: EdgeInsets.fromLTRB(
-                                  space_8, space_4, space_8, space_0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(space_10),
-                                child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          providerData.postLoadScreenOneButton()
-                                              ? activeButtonColor
-                                              : deactiveButtonColor,
-                                    ),
-                                    child: Text(
-                                      'Next',
-                                      style: TextStyle(
-                                        color: white,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      providerData.postLoadScreenOneButton()
-                                          ? Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PostLoadScreenTwo()))
-                                          : null;
-                                    }),
-                              ),
-                            ),
-                          ]),
-                    ),
+                    nextButton(),
                   ],
                 ),
               ),

@@ -1,20 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
+
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/PostLoadApi.dart';
+
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/Deletethisscreen.dart';
+
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/PostLoadScreenTwoSearch.dart';
+import 'package:liveasy/widgets/PriceTextFieldWidget.dart';
+import 'package:liveasy/widgets/UnitValueWidget.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
+import 'package:liveasy/widgets/buttons/ApplyButton.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 
 class PostLoadScreenTwo extends StatefulWidget {
   const PostLoadScreenTwo({Key? key}) : super(key: key);
@@ -23,13 +25,9 @@ class PostLoadScreenTwo extends StatefulWidget {
   _PostLoadScreenTwoState createState() => _PostLoadScreenTwoState();
 }
 
-TextEditingController controller1 = TextEditingController();
-TextEditingController controller2 = TextEditingController();
+TextEditingController controller = TextEditingController();
 
 class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
-  LoadApi loadApi = LoadApi();
-  TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
   List<int> numberOfTrucksList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30];
 
@@ -37,6 +35,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -49,6 +48,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                 child: AddPostLoadHeader(
                   reset: true,
                   resetFunction: () {
+                    controller.text = "";
                     providerData.resetTruckFilters();
                     providerData.updateResetActive(false);
                   },
@@ -132,55 +132,13 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                       AddTruckSubtitleText(text: "Product Type"),
                       SizedBox(height: space_2),
                       PostLoadScreenTwoSearch(hintText: "Choose Product Type"),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: space_20,
-                            height: space_8,
-                            margin: EdgeInsets.fromLTRB(
-                                space_8, space_4, space_8, space_0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(space_10),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        providerData.postLoadScreenTwoButton()
-                                            ? activeButtonColor
-                                            : deactiveButtonColor,
-                                  ),
-                                  child: Text(
-                                    'Apply',
-                                    style: TextStyle(
-                                      color: white,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    providerData.postLoadScreenTwoButton()
-                                        ? loadApi.postLoadAPi(
-                                            providerData.bookingDate,
-                                            transporterIdController
-                                                .transporterId.value,
-                                            "abc",
-                                            providerData
-                                                .loadingPointCityPostLoad,
-                                            providerData
-                                                .loadingPointStatePostLoad,
-                                            providerData.truckNumber,
-                                            providerData.productType,
-                                            providerData.truckTypeValue,
-                                            "unloadingPoint",
-                                            providerData
-                                                .unloadingPointCityPostLoad,
-                                            providerData
-                                                .unloadingPointStatePostLoad,
-                                            providerData.passingWeightValue)
-                                        : null;
-                                  }),
-                            ),
-                          ),
-                        ],
-                      ),
+                      SizedBox(height: space_2),
+                      AddTruckSubtitleText(text: "Price(Optional)"),
+                      SizedBox(height: space_1),
+                      UnitValueWidget(),
+                      SizedBox(height: space_3),
+                      PriceTextFieldWidget(),
+                      ApplyButton(),
                     ],
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_config/flutter_config.dart';
 
 class LoadApi {
   postLoadAPi(
@@ -14,7 +15,9 @@ class LoadApi {
       unloadingPoint,
       unloadingPointCity,
       unloadingPointState,
-      weight) async {
+      weight,
+      unitValue,
+      rate) async {
     Map data = {
       "loadDate": loadDate,
       "postLoadId": postLoadId,
@@ -23,17 +26,18 @@ class LoadApi {
       "loadingPointState": loadingPointState,
       "noOfTrucks": noOfTrucks,
       "productType": productType,
-      "status": "On-going",
       "truckType": truckType,
       "unloadingPoint": unloadingPoint,
       "unloadingPointCity": unloadingPointCity,
       "unloadingPointState": unloadingPointState,
-      "weight": weight
+      "weight": weight,
+      "unitValue": unitValue,
+      "rate": rate
     };
     String body = json.encode(data);
     var jsonData;
-
-    final response = await http.post(Uri.parse("http://65.0.19.187:8080/load"),
+    final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+    final response = await http.post(Uri.parse(loadApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

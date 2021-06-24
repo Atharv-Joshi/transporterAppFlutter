@@ -59,9 +59,11 @@ class ProviderData extends ChangeNotifier {
 
   String loadingPointCityPostLoad = "";
   String loadingPointStatePostLoad = "";
+  String loadingPointPostLoad = "";
 
   String unloadingPointCityPostLoad = "";
   String unloadingPointStatePostLoad = "";
+  String unloadingPointPostLoad = "";
 
   String bookingDate = "";
 
@@ -91,6 +93,13 @@ class ProviderData extends ChangeNotifier {
   String truckNumberValue = '';
   String productType = "Choose Product Type";
   int truckNumber = 0;
+  late int price;
+  String unitValue = "";
+  String controller = "";
+  String controller1 = "";
+  String controller2 = "";
+  bool perTruck = false;
+  bool perTon = false;
 
   String truckId = '';
 
@@ -133,6 +142,20 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updatePrice(value) {
+    price = value;
+    notifyListeners();
+  }
+
+  void updateUnitValue() {
+    if (perTruck) {
+      unitValue = "PER_TRUCK";
+    } else if (perTon) {
+      unitValue = "PER_TON";
+    } else {}
+    notifyListeners();
+  }
+
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPointFindLoad() {
@@ -161,6 +184,16 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateControllerOne(value) {
+    controller1 = value;
+    notifyListeners();
+  }
+
+  updateControllerTwo(value) {
+    controller2 = value;
+    notifyListeners();
+  }
+
   //////////////
   void clearLoadingPointPostLoad() {
     loadingPointCityPostLoad = "";
@@ -178,6 +211,7 @@ class ProviderData extends ChangeNotifier {
       {required String city, required String state}) {
     loadingPointCityPostLoad = city;
     loadingPointStatePostLoad = state;
+
     notifyListeners();
   }
 
@@ -185,6 +219,7 @@ class ProviderData extends ChangeNotifier {
       {required String city, required String state}) {
     unloadingPointCityPostLoad = city;
     unloadingPointStatePostLoad = state;
+
     notifyListeners();
   }
 
@@ -279,6 +314,11 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetUnitValue() {
+    perTon = false;
+    perTruck = false;
+  }
+
   void resetTruckFilters() {
     productType = "Choose Product type";
     truckTypeValue = '';
@@ -286,7 +326,10 @@ class ProviderData extends ChangeNotifier {
     totalTyresValue = 0;
     truckNumber = 0;
     truckLengthValue = 0;
+    price = 0;
     driverIdValue = '';
+    unitValue = "";
+    resetUnitValue();
     notifyListeners();
   }
 
@@ -315,6 +358,11 @@ class ProviderData extends ChangeNotifier {
 
   void clearBookingDate() {
     bookingDate = "";
+    notifyListeners();
+  }
+
+  void clearController() {
+    controller = "";
     notifyListeners();
   }
 
@@ -357,6 +405,19 @@ class ProviderData extends ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  void PerTruckTrue() {
+    perTruck = true;
+    perTon = false;
+
+    notifyListeners();
+  }
+
+  void PerTonTrue() {
+    perTon = true;
+    perTruck = false;
+    notifyListeners();
   }
 //----------------------------------
 

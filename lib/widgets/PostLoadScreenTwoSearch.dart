@@ -43,7 +43,7 @@ class PostLoadScreenTwoSearch extends StatelessWidget {
                   childAspectRatio: size_1,
                   crossAxisSpacing: space_8,
                   mainAxisSpacing: space_2,
-                  crossAxisCount: size_1.toInt(),
+                  crossAxisCount: 2,
                   children: productTypeList
                       .map((e) =>
                           addRectangularButtonProductType(value: e, text: e))

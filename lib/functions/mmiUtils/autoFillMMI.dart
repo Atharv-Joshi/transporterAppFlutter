@@ -25,11 +25,11 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
     );
     print(response1.body);
-    var adress = (jsonDecode(response1.body));
-    adress = adress["suggestedLocations"];
-    print(adress);
+    var address = (jsonDecode(response1.body));
+    address = address["suggestedLocations"];
+    print(address);
     List<AutoFillMMIModel> card = [];
-    for (var json in adress) {
+    for (var json in address) {
       AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
           placeCityName: json["placeName"],
           placeStateName: json["placeAddress"]);
