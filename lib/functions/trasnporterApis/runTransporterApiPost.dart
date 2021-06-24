@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
-void runTransporterApiPost(
-    {required String mobileNum, String? userLocation}) async {
-  TransporterIdController transporterIdController =
-      Get.put(TransporterIdController());
+void runTransporterApiPost({required String mobileNum, String? userLocation}) async {
+
+  TransporterIdController transporterIdController = Get.put(TransporterIdController());
+
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
   Map data = userLocation != null
@@ -30,7 +30,7 @@ void runTransporterApiPost(
     bool accountVerificationInProgress =
         decodedResponse["accountVerificationInProgress"].toString() == "true";
     String transporterLocation = decodedResponse["transporterLocation"];
-    String name = decodedResponse["name"];
+    String name = decodedResponse["transporterName"];
     String companyName = decodedResponse["companyName"];
     transporterIdController.updateTransporterId(transporterId);
     transporterIdController.updateTransporterApproved(transporterApproved);
