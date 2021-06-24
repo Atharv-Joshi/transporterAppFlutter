@@ -47,6 +47,7 @@ Color shareButtonColor = Color(0xFF09B778);
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =
     MaterialStateProperty.all<Color>(Color(0xFFC4C9D9));
+
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);
 Color lightGrayishBlue = Color(0xFFC4C9D9);
@@ -54,3 +55,5 @@ dynamic calendarColor = MaterialStateProperty.all<Color>(Colors.white);
 Color truckGreen = Color(0xFF09B778);
 Color blueTitleColor = Color(0xFF152968);
 Color unactiveReset = Color(0xffC4C9D9);
+dynamic greyishWhiteColorM =
+    MaterialStateProperty.all<Color>(greyishWhiteColor);

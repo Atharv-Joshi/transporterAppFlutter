@@ -26,6 +26,7 @@ class PostLoadScreenTwo extends StatefulWidget {
 }
 
 TextEditingController controller = TextEditingController();
+TextEditingController controllerOthers = TextEditingController();
 
 class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   List<int> numberOfTrucksList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -49,6 +50,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                   reset: true,
                   resetFunction: () {
                     controller.text = "";
+                    controllerOthers.text = "";
+
                     providerData.resetTruckFilters();
                     providerData.updateResetActive(false);
                   },
