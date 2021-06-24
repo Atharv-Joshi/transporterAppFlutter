@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:social_share/social_share.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 // ignore: must_be_immutable
@@ -28,8 +29,8 @@ class ShareButton extends StatelessWidget {
             fileName: 'share.png',
             mimeType: 'image/png',
             bytesOfFile: bytes!.buffer.asUint8List());
-        // SocialShare.shareWhatsapp(
-        //     "Hello World"); //TODO: value has to be changed
+        SocialShare.shareWhatsapp(
+            "Hello World"); //TODO: value has to be changed
       },
       child: Container(
         height: space_8,
