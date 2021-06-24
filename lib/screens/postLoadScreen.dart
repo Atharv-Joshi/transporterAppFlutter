@@ -16,9 +16,8 @@ class PostOrdersScreen extends StatefulWidget {
 }
 
 class _PostOrdersScreenState extends State<PostOrdersScreen> {
-
   //Page Controller
-  PageController pageController = PageController(initialPage:0);
+  PageController pageController = PageController(initialPage: 0);
 
   int currentPage = 0;
 
@@ -39,32 +38,40 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(text: 'My Loads', value: 0 , pageController : pageController),
-                  OrderScreenNavigationBarButton(text: 'On-going', value: 1 , pageController : pageController),
-                  OrderScreenNavigationBarButton(text: 'Delivered', value: 2 , pageController : pageController)
+                  OrderScreenNavigationBarButton(
+                      text: 'My Loads',
+                      value: 0,
+                      pageController: pageController),
+                  OrderScreenNavigationBarButton(
+                      text: 'On-going',
+                      value: 1,
+                      pageController: pageController),
+                  OrderScreenNavigationBarButton(
+                      text: 'Delivered',
+                      value: 2,
+                      pageController: pageController)
                 ],
               ),
               Divider(
-
                 color: textLightColor,
                 thickness: 1,
               ),
-                Container(
-                  height: 600,
-                  child: PageView(
-                    controller: pageController,
-                    onPageChanged: (value){
-                      setState(() {
-                        providerData.updateUpperNavigatorIndex(value);
-                      });
-                    },
-                    children: [
-                      Text('My Loads'),
-                      OngoingScreen(),
-                      DeliveredScreen(),
-                    ],
-                  ),
-                )
+              Container(
+                height: 600,
+                child: PageView(
+                  controller: pageController,
+                  onPageChanged: (value) {
+                    setState(() {
+                      providerData.updateUpperNavigatorIndex(value);
+                    });
+                  },
+                  children: [
+                    Text('My Loads'),
+                    OngoingScreen(),
+                    DeliveredScreen(),
+                  ],
+                ),
+              )
             ],
           ),
         ),

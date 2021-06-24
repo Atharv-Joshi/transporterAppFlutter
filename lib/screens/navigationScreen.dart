@@ -24,8 +24,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    ProviderData providerData = Provider.of<ProviderData>(context, listen: false);
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
 
     return Scaffold(
       backgroundColor: statusBarColor,
