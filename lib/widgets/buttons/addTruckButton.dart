@@ -5,7 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
-import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
+import '../alertDialog/verifyAccountNotifyAlertDialog.dart';
 
 class AddTruckButton extends StatelessWidget {
   @override
