@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/deliveredScreen.dart';
-import 'package:liveasy/screens/onGoingScreen.dart';
-import 'package:liveasy/screens/orderScreens/order.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +14,12 @@ class PostOrdersScreen extends StatefulWidget {
 }
 
 class _PostOrdersScreenState extends State<PostOrdersScreen> {
-  //Page Controller
-  PageController pageController = PageController(initialPage: 0);
-
-  int currentPage = 0;
+  List screens = [Text('loads'), Text('on going'), Text('delivered')];
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -39,18 +34,9 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(
-                      text: 'My Loads',
-                      value: 0,
-                      pageController: pageController),
-                  OrderScreenNavigationBarButton(
-                      text: 'On-going',
-                      value: 1,
-                      pageController: pageController),
-                  OrderScreenNavigationBarButton(
-                      text: 'Delivered',
-                      value: 2,
-                      pageController: pageController)
+                  OrderScreenNavigationBarButton(text: 'My Loads', value: 0),
+                  OrderScreenNavigationBarButton(text: 'On-going', value: 1),
+                  OrderScreenNavigationBarButton(text: 'Delivered', value: 2)
                 ],
               ),
               Divider(
@@ -58,21 +44,8 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 thickness: 1,
               ),
               Container(
-                height: 600,
-                child: PageView(
-                  controller: pageController,
-                  onPageChanged: (value) {
-                    setState(() {
-                      providerData.updateUpperNavigatorIndex(value);
-                    });
-                  },
-                  children: [
-                    order(),
-                    OngoingScreen(),
-                    DeliveredScreen(),
-                  ],
-                ),
-              )
+                child: screens[providerData.upperNavigatorIndex],
+              ),
             ],
           ),
         ),
