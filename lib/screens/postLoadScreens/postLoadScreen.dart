@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/deliveredScreen.dart';
-import 'package:liveasy/screens/onGoingScreen.dart';
+import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
+import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
+import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
 import 'package:provider/provider.dart';
 
 class PostOrdersScreen extends StatefulWidget {
@@ -45,26 +47,25 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 ],
               ),
               Divider(
-
                 color: textLightColor,
                 thickness: 1,
               ),
-                Container(
-                  height: 600,
-                  child: PageView(
-                    controller: pageController,
-                    onPageChanged: (value){
-                      setState(() {
-                        providerData.updateUpperNavigatorIndex(value);
-                      });
-                    },
-                    children: [
-                      Text('My Loads'),
-                      OngoingScreen(),
-                      DeliveredScreen(),
-                    ],
-                  ),
-                )
+              Container(
+                height: 600,
+                child: PageView(
+                  controller: pageController,
+                  onPageChanged: (value){
+                    setState(() {
+                      providerData.updateUpperNavigatorIndex(value);
+                    });
+                  },
+                  children: [
+                    MyLoadsScreen(),
+                    OngoingScreen(),
+                    DeliveredScreen(),
+                  ],
+                ),
+              )
             ],
           ),
         ),

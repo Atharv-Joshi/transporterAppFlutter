@@ -12,7 +12,7 @@ class DriverApiCalls {
   List? jsonData;
 
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
@@ -20,7 +20,7 @@ class DriverApiCalls {
 
   Future<List> getDriversByTransporterId() async {
     http.Response response = await http.get(Uri.parse(
-        '$driverApiUrl?transportId=${transporterIdController.transporterId.value}'));
+        '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
 
     jsonData = json.decode(response.body);
 
@@ -46,7 +46,7 @@ class DriverApiCalls {
 
     if (driverId != null) {
       http.Response response =
-          await http.get(Uri.parse('$driverApiUrl/$driverId'));
+      await http.get(Uri.parse('$driverApiUrl/$driverId'));
 
       Map jsonData = json.decode(response.body);
 
@@ -62,20 +62,20 @@ class DriverApiCalls {
 
     if (truckModel!.driverId != null) {
       http.Response response =
-          await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
+      await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
 
       jsonData = json.decode(response.body);
     }
 
     TruckModel truckModelFinal = TruckModel(truckApproved: false);
     truckModelFinal.driverName =
-        truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
+    truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
     truckModelFinal.truckApproved = truckModel.truckApproved;
     truckModelFinal.truckNo = truckModel.truckNo;
     truckModelFinal.truckType = truckModel.truckType;
     truckModelFinal.tyres = truckModel.tyres;
     truckModelFinal.driverNum =
-        truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+    truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
 
     return truckModelFinal;
   }

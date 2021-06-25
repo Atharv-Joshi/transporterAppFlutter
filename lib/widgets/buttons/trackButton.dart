@@ -19,8 +19,8 @@ class TrackButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
+                borderRadius: BorderRadius.circular(50),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () {
@@ -35,9 +35,9 @@ class TrackButton extends StatelessWidget {
                 child: truckApproved
                     ? Container()
                     : Image(
-                        height: 16,
-                        width: 11,
-                        image: AssetImage('assets/icons/lockIcon.png')),
+                    height: 16,
+                    width: 11,
+                    image: AssetImage('assets/icons/lockIcon.png')),
               ),
               Text(
                 'Track',
