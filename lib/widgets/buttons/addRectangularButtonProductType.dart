@@ -22,7 +22,7 @@ class addRectangularButtonProductType extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Padding(
-      padding: EdgeInsets.all(space_1),
+      padding: EdgeInsets.only(left: space_1, right: space_1),
       child: Container(
         child: OutlinedButton(
           style: ButtonStyle(

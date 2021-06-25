@@ -67,6 +67,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                       AddTruckSubtitleText(text: "Truck Type"),
                       SizedBox(height: space_2),
                       GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         childAspectRatio: 4,
                         crossAxisSpacing: 10,

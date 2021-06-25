@@ -29,14 +29,22 @@ Jiffy thirdDay = Jiffy(DateTime.now()).add(days: 2);
 Jiffy fourthDay = Jiffy(DateTime.now()).add(days: 3);
 
 class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day + 3,
+  );
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate:
-            DateTime(DateTime.now().year, DateTime.now().month, 31, 0, 0));
+        firstDate: DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day + 3,
+        ),
+        lastDate: DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day + 10, 0, 0));
     Jiffy nextDay = Jiffy(picked);
 
     if (picked != null && picked != selectedDate)
@@ -52,12 +60,14 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     fourthDay.MMMEd
   ];
   bool i = false;
+  bool setDate = false;
   var recentDate = fourthDay.MMMEd;
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    if (bookingDateList.last != recentDate) {
+    if (bookingDateList.last != recentDate && !setDate) {
       providerData.updateBookingDate(bookingDateList[3]);
+      setDate = true;
     }
     if (!i) {
       providerData.updateBookingDate(initialDay.MMMEd);
@@ -144,6 +154,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                     SizedBox(height: space_3),
                     AddTruckSubtitleText(text: "Booking Date"),
                     GridView.count(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       childAspectRatio: 4,
                       crossAxisSpacing: 10,
@@ -164,7 +175,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                         width: space_26,
                         height: space_8,
                         child: ElevatedButton(
-                          onPressed: () async {
+                          onPressed: () {
+                            setDate = false;
                             _selectDate(context);
                           },
                           style: ButtonStyle(backgroundColor: calendarColor),
