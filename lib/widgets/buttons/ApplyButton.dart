@@ -58,16 +58,18 @@ class ApplyButton extends StatelessWidget {
                         providerData.passingWeightValue,
                         providerData.unitValue,
                         providerData.price);
-                    providerData.resetTruckFilters();
-                    providerData.resetPostLoadScreenOne();
-                    controller.text = "";
+                    // providerData.resetTruckFilters();
+                    // providerData.resetPostLoadScreenOne();
+                    // controller.text = "";
 
                     ;
                   } else {
                     return null;
                   }
+
                   Get.to(NavigationScreen());
-                  Provider.of<ProviderData>(context).updateIndex(2);
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateIndex(2);
                 }),
           ),
         ),

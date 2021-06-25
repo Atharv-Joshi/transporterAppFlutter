@@ -50,6 +50,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     if (picked != null && picked != selectedDate)
       setState(() {
         bookingDateList[3] = (nextDay.MMMEd);
+        selectedDate = picked;
       });
   }
 
@@ -68,6 +69,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     if (bookingDateList.last != recentDate && !setDate) {
       providerData.updateBookingDate(bookingDateList[3]);
       setDate = true;
+      recentDate = bookingDateList[3];
     }
     if (!i) {
       providerData.updateBookingDate(initialDay.MMMEd);

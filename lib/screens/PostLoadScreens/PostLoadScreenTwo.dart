@@ -35,7 +35,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
   @override
   Widget build(BuildContext context) {
-    ProviderData providerData = Provider.of<ProviderData>(context);
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -92,6 +93,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                         child: Container(
                           child: GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisCount: 6,
                             children: numberOfTrucksList
@@ -117,6 +119,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                         child: Container(
                           child: GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisCount: 6,
                             children: weightList
