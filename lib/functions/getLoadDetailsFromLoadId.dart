@@ -7,7 +7,7 @@ getLoadDetailsFromLoadId(loadId) async {
   var jsonData;
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl/$loadId"));
-
+try {
   jsonData = json.decode(response.body);
 
   LoadApiModel loadApiModel = LoadApiModel();
@@ -28,6 +28,7 @@ getLoadDetailsFromLoadId(loadId) async {
   loadApiModel.loadDate = jsonData["loadDate"].toString();
   loadApiModel.rate = jsonData["rate"].toString();
   loadApiModel.unitValue = jsonData["unitValue"].toString();
-
   return loadApiModel;
+}catch(e){print(e);}
+
 }

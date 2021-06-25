@@ -105,7 +105,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
             loadDetailsScreenModel.rate = widget.rate;
             loadDetailsScreenModel.unitValue = widget.unitValue;
             loadDetailsScreenModel.loadPosterId = widget.loadPosterId;
-            loadDetailsScreenModel.loadPosterPhoneNo = widget.loadPosterPhoneNo;
+            loadDetailsScreenModel.phoneNo = widget.loadPosterPhoneNo;
             loadDetailsScreenModel.loadPosterLocation =
                 widget.loadPosterLocation;
             loadDetailsScreenModel.loadPosterName = widget.loadPosterName;
@@ -146,7 +146,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
               ),
               LoadCardFooter(
                   loadPosterCompanyName: widget.loadPosterCompanyName,
-                  loadPosterPhoneNo: widget.loadPosterPhoneNo)
+                  /*loadPosterPhoneNo: widget.loadPosterPhoneNo*/)
             ],
           ),
         ),

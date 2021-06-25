@@ -32,39 +32,59 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "ADD DRIVER NAME",
+            "DRIVER NAME",
             style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
           ),
           SizedBox(
             height: space_2,
           ),
-          Container(
-            height: space_7 + 2,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: darkGreyColor)),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: space_2 - 2,
-                right: space_2 - 2,
-              ),
-              child: TextField(
-                controller: name,
-                decoration: InputDecoration(
-                  hintText: contactName != "" ? contactName : "",
-                  hintStyle:
-                      TextStyle(color: black, fontWeight: mediumBoldWeight),
-                  border: InputBorder.none,
+          Card(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(22),)),
+            color: darkGreyColor,
+            child: ListTile(
+              title: Container(
+                // height: space_7 + 2,
+                // width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: space_2 - 2,
+                    right: space_2 - 2,
+                  ),
+                  child: TextField(
+                    controller: name,
+                    decoration: InputDecoration(
+                      hintText: contactName != "" ? contactName : "",
+                      hintStyle:
+                          TextStyle(color: black, fontWeight: mediumBoldWeight),
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
               ),
+              trailing: GestureDetector(
+                  onTap: () async {
+                    print(name.text);
+                    print(number.text);
+                    if (await Permission.contacts.request().isGranted) {
+                      Contact contact = await _contactPicker.selectContact();
+                      setState(() {
+                        _contact = contact;
+                        contactName = _contact!.fullName.toString();
+                        contactNumber = _contact!.phoneNumber.number.toString();
+                        displayContact = contactName! + " - " + contactNumber!;
+                      });
+                    }
+                  },
+                  child: Image(
+                    image: AssetImage("assets/icons/addFromPhoneBookIcon.png"),
+                  )),
             ),
           ),
           SizedBox(
             height: space_2 + 2,
           ),
           Text(
-            "ADD CONTACT NO",
+            "DRIVER NUMBER",
             style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
           ),
           SizedBox(
@@ -90,50 +110,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   border: InputBorder.none,
                 ),
               ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: space_4 - 2, bottom: space_1 - 2),
-                child: Text(
-                  "OR",
-                  style: TextStyle(fontSize: size_7, fontWeight: normalWeight),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: space_4 + 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                    onTap: () async {
-                      print(name.text);
-                      print(number.text);
-                      if (await Permission.contacts.request().isGranted) {
-                        Contact contact = await _contactPicker.selectContact();
-                        setState(() {
-                          _contact = contact;
-                          contactName = _contact!.fullName.toString();
-                          contactNumber =
-                              _contact!.phoneNumber.number.toString();
-                          displayContact =
-                              contactName! + " - " + contactNumber!;
-                        });
-                      }
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: liveasyGreen,
-                    )),
-                Text(
-                  "Select From Your Contact List  ",
-                  style: TextStyle(fontSize: size_7, fontWeight: normalWeight),
-                ),
-              ],
             ),
           ),
         ],

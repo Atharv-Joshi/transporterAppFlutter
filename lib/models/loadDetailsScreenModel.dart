@@ -17,7 +17,7 @@ class LoadDetailsScreenModel {
   String? rate;
   String? unitValue;
   String? loadPosterId;
-  String? loadPosterPhoneNo;
+  String? phoneNo;
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
@@ -45,7 +45,7 @@ class LoadDetailsScreenModel {
       this.rate,
       this.unitValue,
       this.loadPosterId,
-      this.loadPosterPhoneNo,
+      this.phoneNo,
       this.loadPosterLocation,
       this.loadPosterName,
       this.loadPosterCompanyName,

@@ -71,7 +71,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
     rate = widget.loadDetailsScreenModel.rate;
     unitValue = widget.loadDetailsScreenModel.unitValue;
     loadPosterId = widget.loadDetailsScreenModel.loadPosterId;
-    loadPosterPhoneNo = widget.loadDetailsScreenModel.loadPosterPhoneNo;
+    loadPosterPhoneNo = widget.loadDetailsScreenModel.phoneNo;
     loadPosterLocation = widget.loadDetailsScreenModel.loadPosterLocation;
     loadPosterName = widget.loadDetailsScreenModel.loadPosterName;
     loadPosterCompanyName = widget.loadDetailsScreenModel.loadPosterCompanyName;
@@ -126,7 +126,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             BidButton(loadId),
-                            CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            CallButton(phoneNo: loadPosterPhoneNo)
                           ],
                         )),
                   ),

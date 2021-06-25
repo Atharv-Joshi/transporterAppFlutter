@@ -99,12 +99,11 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
-                  // setState(() {
-                  //   while(rate!=null){
-                  //   providerData.updateBidButtonSendRequest(newValue: "true");
-                  // }});
-                  if (rate != null) {
+                  if (rate == null || rate == "") {
+                    providerData.updateBidButtonSendRequest(newValue: "false");
+                  } else if (rate != null) {
                     providerData.updateRate(newValue: rate.toString());
+                    providerData.updateBidButtonSendRequest(newValue: "true");
                   }
                 },
               ),

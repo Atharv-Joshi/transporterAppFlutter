@@ -29,7 +29,6 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
           jsonData["transporterApproved"].toString();
       loadPosterModel.loadPosterAccountVerificationInProgress =
           jsonData["accountVerificationInProgress"].toString();
-      // bidCardLoadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
     if (postLoadId.contains("shipper")) {
@@ -49,7 +48,6 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
           jsonData["companyApproved"].toString();
       loadPosterModel.loadPosterAccountVerificationInProgress =
           jsonData["accountVerificationInProgress"].toString();
-      // bidCardLoadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
   } catch (e) {

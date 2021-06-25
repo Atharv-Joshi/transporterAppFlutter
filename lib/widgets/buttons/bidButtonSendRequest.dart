@@ -64,11 +64,16 @@ class BidButtonSendRequest extends StatelessWidget {
                 RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius_4),
             )),
-            backgroundColor: Provider.of<ProviderData>(context, listen: false)
-                        .bidButtonSendRequestState ==
-                    "true"
-                ? activeButtonColor
-                : deactiveButtonColor),
+            overlayColor:
+                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                        "true"
+                    ? null
+                    : MaterialStateProperty.all(Colors.transparent),
+            backgroundColor:
+                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                        "true"
+                    ? activeButtonColor
+                    : deactiveButtonColor),
       ),
     );
   }
