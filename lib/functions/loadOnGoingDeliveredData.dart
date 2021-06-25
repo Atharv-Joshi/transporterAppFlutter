@@ -16,7 +16,6 @@ Future<Map> loadAllData(bookingModel) async {
   String bookingDate = bookingModel.bookingDate;
   String completedDate = bookingModel.completedDate;
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
-  print(endpoints);
   Map transporterData = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
   DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
@@ -24,15 +23,15 @@ Future<Map> loadAllData(bookingModel) async {
   Map cardDataModel = {
     'startedOn': bookingDate,
     'endedOn' : completedDate,
-    'loadingPoint' : endpoints['loadingPointCity'],
-    'unloadingPoint' : endpoints['unloadingPointCity'],
-    'companyName' : transporterData['companyName'],
+    'loadingPoint' : endpoints['loadingPointCity'] != null ? endpoints['loadingPointCity'] : 'NA',
+    'unloadingPoint' :endpoints['unloadingPointCity'] != null ? endpoints['unloadingPointCity'] : 'NA',
+    'companyName' : transporterData['companyName'] != null ? transporterData['companyName'] : 'NA',
     // 'transporterName' : transporterData['transporterName'],
-    'transporterPhoneNum' : transporterData['transporterPhoneNum'],
-    'truckNo' : truckData['truckNo'],
-    'imei' : truckData['imei'],
-    'driverName' : driverModel.driverName,
-    'driverPhoneNum' : driverModel.phoneNum
+    'transporterPhoneNum' : transporterData['transporterPhoneNum'] != null ? transporterData['transporterPhoneNum'] : '',
+    'truckNo' : truckData['truckNo'] != null ? truckData['truckNo'] : 'NA',
+    'imei' : truckData['imei'] != null ?  truckData['imei'] : 'NA' ,
+    'driverName' : driverModel.driverName != null ? driverModel.driverName : 'NA',
+    'driverPhoneNum' : driverModel.phoneNum != null ? driverModel.phoneNum : ''
   };
 
   return cardDataModel;
