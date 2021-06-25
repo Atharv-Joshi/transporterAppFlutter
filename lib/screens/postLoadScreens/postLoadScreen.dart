@@ -50,22 +50,22 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 color: textLightColor,
                 thickness: 1,
               ),
-                Container(
-                  height: 600,
-                  child: PageView(
-                    controller: pageController,
-                    onPageChanged: (value){
-                      setState(() {
-                        providerData.updateUpperNavigatorIndex(value);
-                      });
-                    },
-                    children: [
-                      MyLoadsScreen(),
-                      OngoingScreen(),
-                      DeliveredScreen(),
-                    ],
-                  ),
-                )
+              Container(
+                height: 600,
+                child: PageView(
+                  controller: pageController,
+                  onPageChanged: (value){
+                    setState(() {
+                      providerData.updateUpperNavigatorIndex(value);
+                    });
+                  },
+                  children: [
+                    MyLoadsScreen(),
+                    OngoingScreen(),
+                    DeliveredScreen(),
+                  ],
+                ),
+              )
             ],
           ),
         ),

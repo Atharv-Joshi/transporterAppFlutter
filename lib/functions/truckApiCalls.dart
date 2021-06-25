@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -72,12 +71,13 @@ class TruckApiCalls {
   //PUT-------------------------------------------------------------------------
 
   Future<String?> putTruckData(
-      {required String truckID,
-      required String truckType,
-      required int totalTyres,
-      required int passingWeight,
-      required int truckLength,
-      required String driverID}) async {
+      {
+        required String truckID,
+        required String truckType,
+        required int totalTyres,
+        required int passingWeight,
+        required int truckLength,
+        required String driverID}) async {
     //json map
     Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,
