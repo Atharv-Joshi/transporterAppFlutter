@@ -93,7 +93,7 @@ class ProviderData extends ChangeNotifier {
   String truckNumberValue = '';
   String productType = "Choose Product Type";
   int truckNumber = 0;
-  late int price;
+  late int price = 0;
   String unitValue = "";
   String controller = "";
   String controller1 = "";

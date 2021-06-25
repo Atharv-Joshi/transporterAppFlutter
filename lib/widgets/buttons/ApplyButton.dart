@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -58,11 +60,10 @@ class ApplyButton extends StatelessWidget {
                         providerData.passingWeightValue,
                         providerData.unitValue,
                         providerData.price);
-                    // providerData.resetTruckFilters();
-                    // providerData.resetPostLoadScreenOne();
-                    // controller.text = "";
-
-                    ;
+                    providerData.resetTruckFilters();
+                    providerData.resetPostLoadScreenOne();
+                    controller.text = "";
+                    Get.snackbar("Posted Successfully", "message");
                   } else {
                     return null;
                   }
