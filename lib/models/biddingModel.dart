@@ -10,6 +10,7 @@ class BiddingModel{
   bool? transporterApproval;
   bool? shipperApproval;
 
+
   BiddingModel(
       {
         this.loadId,

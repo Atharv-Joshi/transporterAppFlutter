@@ -48,7 +48,7 @@ class OngoingScreen extends StatelessWidget {
                         );
                     }
                     else {
-
+                        // return Text('debugging');
                         return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index)  {
@@ -60,20 +60,22 @@ class OngoingScreen extends StatelessWidget {
                                             // return LoadingWidget();
                                             return SizedBox();
                                         }
-                                        return OngoingCard(
-                                            loadingPoint: snapshot.data['loadingPoint'],
-                                            unloadingPoint: snapshot.data['unloadingPoint'],
-                                            companyName:  snapshot.data['companyName'],
-                                            truckNo: snapshot.data['truckNo'],
-                                            driverName: snapshot.data['driverName'],
-                                            startedOn: snapshot.data['startedOn'],
-                                            endedOn: snapshot.data['endedOn'],
-                                            imei: snapshot.data['imei'],
-                                            driverPhoneNum: snapshot.data['driverPhoneNum'],
-                                            transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
-                                            // transporterName : snapshot.data['transporterName'],
-                                        );
-                                    }
+
+                                            return OngoingCard(
+                                                loadingPoint: snapshot.data['loadingPoint'],
+                                                unloadingPoint: snapshot.data['unloadingPoint'],
+                                                companyName: snapshot.data['companyName'],
+                                                truckNo: snapshot.data['truckNo'],
+                                                driverName: snapshot.data['driverName'],
+                                                startedOn: snapshot.data['startedOn'],
+                                                endedOn: snapshot.data['endedOn'],
+                                                imei: snapshot.data['imei'],
+                                                driverPhoneNum: snapshot.data['driverPhoneNum'],
+                                                transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
+                                                // transporterName : snapshot.data['transporterName'],
+                                            );
+                                        }
+
                                 );
 
 

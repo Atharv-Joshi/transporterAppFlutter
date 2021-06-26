@@ -166,8 +166,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
   getTruckData(int i) async {
     http.Response response = await http.get(Uri.parse('$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
-
-
     jsonData = json.decode(response.body);
     print(response.body);
     for (var json in jsonData) {

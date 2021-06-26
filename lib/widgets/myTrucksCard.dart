@@ -5,8 +5,8 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
-import 'package:liveasy/widgets/callButton.dart';
-import 'package:liveasy/widgets/trackButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 
 // ignore: must_be_immutable
@@ -67,6 +67,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = widget.truckType != 'NA' || widget.tyres != null || widget.driverName != 'NA' || widget.phoneNum != "NA" ? true  : false;
+
+    if(widget.driverName!.length > 15){
+      widget.driverName = widget.driverName!.substring(0 , 14) + '..';
+    }
 
     return Container(
       color: Color(0xffF7F8FA),

@@ -122,7 +122,8 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             BidButton(loadId),
-                            CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            CallButton(directCall: true , driverPhoneNum: loadPosterPhoneNo ,)
                           ],
                         )),
                   ),

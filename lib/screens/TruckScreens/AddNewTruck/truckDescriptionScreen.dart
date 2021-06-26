@@ -61,10 +61,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Header(
+                backButton: true,
                   text: 'Add Truck',
                   reset: true,
                   resetFunction: () {
                     providerData.resetTruckFilters();
+                    dropDownValue = null;
                     providerData.updateResetActive(false);
                   }),
               AddTruckSubtitleText(text: 'Truck Type'),
@@ -180,7 +182,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     isDense: true,
                     isExpanded: true,
                     focusColor: Colors.blue,
-                    hint: Text('Driver Name -Number'),
+                    hint: Text('Driver Name-Number'),
                     value: dropDownValue,
                     icon: Container(
                         decoration: BoxDecoration(

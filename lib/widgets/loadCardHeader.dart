@@ -5,10 +5,11 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
+import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
 import 'package:liveasy/widgets/truckImageWidget.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 
-import 'buttons/priceButton.dart';
+import 'priceContainer.dart';
 import 'loadingPointImageIcon.dart';
 
 // ignore: must_be_immutable
@@ -18,15 +19,22 @@ class LoadCardHeader extends StatelessWidget {
   String? truckType;
   String? weight;
   String? productType;
+  String? unitValue;
+  int? rate;
   String? loadId;
 
   LoadCardHeader(
-      {this.loadingPointCity,
-      this.unloadingPointCity,
-      this.truckType,
-      this.weight,
-      this.productType,
-      this.loadId});
+      {
+        this.loadingPointCity,
+        this.unloadingPointCity,
+        this.truckType,
+        this.weight,
+        this.productType,
+        this.unitValue,
+        this.loadId,
+        this.rate,
+      }
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +217,7 @@ class LoadCardHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            PriceButtonWidget(),
+            PriceContainer(rate: rate.toString(), unitValue: unitValue,),
             BidButton(loadId.toString()),
           ],
         ),

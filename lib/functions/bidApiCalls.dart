@@ -23,3 +23,22 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
       },
       body: body);
 }
+
+putBidForAccept(String? bidId) async {
+
+  final String bidApiUrl = FlutterConfig.get('bidApiUrl').toString();
+  print('');
+
+  Map data = {
+    'shipperApproval' : true
+  };
+
+  String body = json.encode(data);
+
+  final response = await http.post(Uri.parse("$bidApiUrl"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body);
+
+}

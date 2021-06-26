@@ -6,7 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postBidApi.dart';
+import 'package:liveasy/functions/bidApiCalls.dart';
 
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {

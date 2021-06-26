@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
+import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:provider/provider.dart';
 
 class PostOrdersScreen extends StatefulWidget {
@@ -34,10 +36,7 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(
-                reset: false,
-                text: 'Orders',
-              ),
+              Header(reset: false, text: 'Loads', backButton: false),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
