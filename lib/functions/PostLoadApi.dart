@@ -36,7 +36,7 @@ class LoadApi {
     };
     String body = json.encode(data);
     var jsonData;
-    final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+    final String loadApiUrl = "http://15.207.224.92:8080/load";
     final response = await http.post(Uri.parse(loadApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

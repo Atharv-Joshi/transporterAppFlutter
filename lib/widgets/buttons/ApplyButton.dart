@@ -58,11 +58,13 @@ class ApplyButton extends StatelessWidget {
                         providerData.unloadingPointCityPostLoad,
                         providerData.unloadingPointStatePostLoad,
                         providerData.passingWeightValue,
-                        providerData.unitValue,
-                        providerData.price);
-                    providerData.resetTruckFilters();
-                    providerData.resetPostLoadScreenOne();
-                    controller.text = "";
+                        providerData.unitValue == ""
+                            ? null
+                            : providerData.unitValue,
+                        providerData.price == 0 ? null : providerData.price);
+                    // providerData.resetTruckFilters();
+                    // providerData.resetPostLoadScreenOne();
+                    // controller.text = "";
                     Get.snackbar("Posted Successfully", "message");
                   } else {
                     return null;

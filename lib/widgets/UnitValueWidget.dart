@@ -23,21 +23,27 @@ class UnitValueWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: space_3,
-              height: space_3,
-              decoration: BoxDecoration(
-                  color: providerData.perTruck ? blueTitleColor : white,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(width: 1, color: black)),
+              child: Row(
+                children: [
+                  Container(
+                    width: space_3,
+                    height: space_3,
+                    decoration: BoxDecoration(
+                        color: providerData.perTruck ? blueTitleColor : white,
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(width: 1, color: black)),
+                  ),
+                  SizedBox(width: space_1),
+                  Text(
+                    "Per Truck",
+                    style: TextStyle(
+                        fontSize: size_7,
+                        fontWeight: regularWeight,
+                        color: textLightColor),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(width: space_1),
-          Text(
-            "Per Truck",
-            style: TextStyle(
-                fontSize: size_7,
-                fontWeight: regularWeight,
-                color: textLightColor),
           ),
           SizedBox(width: space_8),
           GestureDetector(
@@ -47,21 +53,27 @@ class UnitValueWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: space_3,
-              height: space_3,
-              decoration: BoxDecoration(
-                  color: providerData.perTon ? blueTitleColor : white,
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(width: 1, color: black)),
+              child: Row(
+                children: [
+                  Container(
+                    width: space_3,
+                    height: space_3,
+                    decoration: BoxDecoration(
+                        color: providerData.perTon ? blueTitleColor : white,
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(width: 1, color: black)),
+                  ),
+                  SizedBox(width: space_1),
+                  Text(
+                    "Per Ton",
+                    style: TextStyle(
+                        fontSize: size_7,
+                        fontWeight: regularWeight,
+                        color: textLightColor),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(width: space_1),
-          Text(
-            "Per Ton",
-            style: TextStyle(
-                fontSize: size_7,
-                fontWeight: regularWeight,
-                color: textLightColor),
           ),
         ],
       ),

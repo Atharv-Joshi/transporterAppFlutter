@@ -13,35 +13,32 @@ class nextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    return Padding(
-      padding: const EdgeInsets.only(top: 235.0),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: space_8,
-          margin: EdgeInsets.fromLTRB(space_8, space_4, space_8, space_0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(space_10),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: providerData.postLoadScreenOneButton()
-                      ? activeButtonColor
-                      : deactiveButtonColor,
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        width: MediaQuery.of(context).size.width * 0.3,
+        height: space_8,
+        margin: EdgeInsets.fromLTRB(space_8, space_9, space_8, space_0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(space_10),
+          child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: providerData.postLoadScreenOneButton()
+                    ? activeButtonColor
+                    : deactiveButtonColor,
+              ),
+              child: Text(
+                'Next',
+                style: TextStyle(
+                  color: white,
                 ),
-                child: Text(
-                  'Next',
-                  style: TextStyle(
-                    color: white,
-                  ),
-                ),
-                onPressed: () {
-                  providerData.postLoadScreenOneButton()
-                      ? Get.to(PostLoadScreenTwo())
-                      : null;
-                }),
-          ),
+              ),
+              onPressed: () {
+                providerData.postLoadScreenOneButton()
+                    ? Get.to(PostLoadScreenTwo())
+                    : null;
+              }),
         ),
-      ]),
-    );
+      ),
+    ]);
   }
 }

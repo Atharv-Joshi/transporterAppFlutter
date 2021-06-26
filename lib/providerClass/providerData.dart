@@ -93,7 +93,7 @@ class ProviderData extends ChangeNotifier {
   String truckNumberValue = '';
   String productType = "Choose Product Type";
   int truckNumber = 0;
-  late int price = 0;
+  int price = 0;
   String unitValue = "";
   String controller = "";
   String controller1 = "";
@@ -143,7 +143,11 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updatePrice(value) {
-    price = value;
+    if (value == 0) {
+      return null;
+    } else {
+      price = value;
+    }
     notifyListeners();
   }
 
@@ -152,7 +156,9 @@ class ProviderData extends ChangeNotifier {
       unitValue = "PER_TRUCK";
     } else if (perTon) {
       unitValue = "PER_TON";
-    } else {}
+    } else if (unitValue == "") {
+      return null;
+    }
     notifyListeners();
   }
 
