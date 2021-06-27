@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
 // ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {
-  String? truckType, tyre, weight, productType;
+  LoadDetailsScreenModel loadDetails;
 
-  RequirementsLoadDetails(
-      this.truckType, this.tyre, this.weight, this.productType);
+  RequirementsLoadDetails({required this.loadDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class RequirementsLoadDetails extends StatelessWidget {
                         TextStyle(fontWeight: regularWeight, fontSize: size_7),
                   ),
                   Text(
-                    "$truckType",
+                    "${loadDetails.truckType}",
                     style:
                         TextStyle(fontWeight: normalWeight, fontSize: size_7),
                   )
@@ -46,12 +46,12 @@ class RequirementsLoadDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Tyre",
+                    "No. Of Trucks",
                     style:
                         TextStyle(fontWeight: regularWeight, fontSize: size_7),
                   ),
                   Text(
-                    "null",
+                    "${loadDetails.noOfTrucks}",
                     style:
                         TextStyle(fontWeight: normalWeight, fontSize: size_7),
                   )
@@ -69,7 +69,7 @@ class RequirementsLoadDetails extends StatelessWidget {
                         TextStyle(fontWeight: regularWeight, fontSize: size_7),
                   ),
                   Text(
-                    "$weight",
+                    "${loadDetails.weight}",
                     style:
                         TextStyle(fontWeight: normalWeight, fontSize: size_7),
                   )
@@ -87,7 +87,7 @@ class RequirementsLoadDetails extends StatelessWidget {
                         TextStyle(fontWeight: regularWeight, fontSize: size_7),
                   ),
                   Text(
-                    "$productType",
+                    "${loadDetails.productType}",
                     style:
                         TextStyle(fontWeight: normalWeight, fontSize: size_7),
                   )

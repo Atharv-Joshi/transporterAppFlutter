@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -8,6 +9,7 @@ import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:location_permissions/location_permissions.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -16,7 +18,7 @@ class MyTruckCard extends StatefulWidget {
   // String? transporterId;
   String? truckNo;
   bool truckApproved;
-  // String? imei;
+  String? imei;
   // int? passingWeight;
   // String? driverId;
   String? truckType;
@@ -30,7 +32,7 @@ class MyTruckCard extends StatefulWidget {
       // this.transporterId,
       this.truckNo,
       required this.truckApproved,
-      // this.imei,
+      this.imei,
       // this.passingWeight,
       // this.driverId,
       this.truckType,
@@ -50,7 +52,19 @@ class _MyTruckCardState extends State<MyTruckCard> {
   DriverModel driverModel = DriverModel();
 
   bool? verified  ;
-
+  Position? userLocation;
+  getUserLocation()async{
+    PermissionStatus permission = await LocationPermissions().checkPermissionStatus();
+    if (permission == PermissionStatus.granted){
+      userLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      print(userLocation);
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +219,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 children: [
                   Container(
                       margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved: widget.truckApproved)),
+                      child: TrackButton(truckApproved: widget.truckApproved, imei: widget.imei, userLocation: userLocation,)),
                   CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),
                 ],
               )

@@ -4,7 +4,6 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
 getLoadPosterDetailsFromApi({required String loadPosterId}) async {
-  var loadPosterDetails;
   var jsonData;
   final String transporterApiUrl =
       FlutterConfig.get('transporterApiUrl').toString();
@@ -43,11 +42,10 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation = jsonData["phoneNo"];
+      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"];
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"].toString();
 
-      loadPosterDetails.add(loadPosterModel);
       return loadPosterModel;
     }
   } catch (e) {
