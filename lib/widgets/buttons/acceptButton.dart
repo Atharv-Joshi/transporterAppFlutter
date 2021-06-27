@@ -9,14 +9,15 @@ import 'package:liveasy/functions/bidApiCalls.dart';
 class AcceptButton extends StatelessWidget {
 
   String? bidId;
+  bool? isBiddingDetails;
 
-  AcceptButton({required this.bidId});
+  AcceptButton({required this.bidId , required this.isBiddingDetails});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 31,
-      // width: 80,
+      height: isBiddingDetails! ? null : 31,
+      width: isBiddingDetails! ? null : 80,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -30,7 +31,7 @@ class AcceptButton extends StatelessWidget {
           putBidForAccept(bidId);
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: space_1 , horizontal: space_3),
+          margin: isBiddingDetails! ? EdgeInsets.symmetric(vertical: space_1 , horizontal: space_3) : null,
           child : Text(
             'Accept',
             style: TextStyle(

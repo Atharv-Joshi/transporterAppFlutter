@@ -42,8 +42,14 @@ class BiddingDecisionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AcceptButton(bidId: bidId),
-                  DeclineButton(bidId: bidId,)
+                  AcceptButton(
+                    isBiddingDetails: true,
+                      bidId: bidId
+                  ),
+                  DeclineButton(
+                    isBiddingDetails: true,
+                    bidId: bidId,
+                  )
                 ],
               ),
 

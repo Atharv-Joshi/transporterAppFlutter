@@ -99,7 +99,10 @@ class BiddingCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AcceptButton(bidId : bidId),
+                      AcceptButton(
+                        isBiddingDetails: false,
+                          bidId : bidId
+                      ),
                       CallButton(directCall: true , driverPhoneNum: transporterPhoneNum,)
                     ],
                   ),
