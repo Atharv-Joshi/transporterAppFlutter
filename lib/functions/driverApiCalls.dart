@@ -51,11 +51,11 @@ class DriverApiCalls {
       Map jsonData = json.decode(response.body);
 
       DriverModel driverModel = DriverModel();
-      driverModel.driverId = jsonData["driverId"];
-      driverModel.transporterId = jsonData["transporterId"];
-      driverModel.phoneNum = jsonData["phoneNum"];
-      driverModel.driverName = jsonData["driverName"];
-      driverModel.truckId = jsonData["truckId"];
+      driverModel.driverId = jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+      driverModel.transporterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+      driverModel.phoneNum = jsonData["phoneNum"] != null ? jsonData["phoneNum"] : '';
+      driverModel.driverName = jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+      driverModel.truckId = jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
 
       return driverModel;
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
@@ -115,7 +116,28 @@ class _MyTrucksState extends State<MyTrucks> {
                     .of(context)
                     .size
                     .height * 0.67,
-                child: ListView.builder(
+                child: truckDataList.isEmpty
+                  ?
+                Container(
+                  margin: EdgeInsets.only(top: 153),
+                  child: Column(
+                    children: [
+                      Image(
+                        image: AssetImage(
+                            'assets/images/TruckListEmptyImage.png'),
+                        height: 127,
+                        width: 127,
+                      ),
+                      Text(
+                        'Looks like you have not added any Trucks!',
+                        style: TextStyle(fontSize: size_8, color: grey),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                )
+                    :
+                ListView.builder(
                     controller: scrollController,
                     itemCount: truckDataList.length,
                     itemBuilder: (context, index) {
@@ -166,8 +188,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
   getTruckData(int i) async {
     http.Response response = await http.get(Uri.parse('$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
-
-
     jsonData = json.decode(response.body);
     print(response.body);
     for (var json in jsonData) {

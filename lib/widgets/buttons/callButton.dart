@@ -1,61 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/ChooseReceiverButton.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher ;
+import 'package:url_launcher/link.dart';
 
-// ignore: must_be_immutable
 class CallButton extends StatelessWidget {
-  String? loadPosterPhoneNo;
-  TransporterIdController tIdController = Get.find<TransporterIdController>();
 
-  CallButton({required this.loadPosterPhoneNo});
+   final String? transporterPhoneNum;
+   final String? driverPhoneNum;
+   final String? driverName;
+   final String? transporterName;
+
+   final bool directCall;
+  CallButton({this.driverName, this.transporterName , this.transporterPhoneNum ,this.driverPhoneNum , required this.directCall});
+
+  _makingPhoneCall() async {
+    print('in makingPhoneCall');
+    String url = 'tel:$driverPhoneNum';
+    UrlLauncher.launch(url);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (tIdController.transporterApproved.value) {
-          _launchCaller("$loadPosterPhoneNo");
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) => VerifyAccountNotifyAlertDialog());
-        }
-      },
-      child: Container(
-        height: 31,
-        width: 80,
-        decoration: BoxDecoration(
-            border: Border.all(color: Color.fromRGBO(21, 41, 104, 1)),
-            borderRadius: BorderRadius.circular(20)),
+    return Container(
+      height: 31,
+      width: 80,
+      child: TextButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: BorderSide(color: darkBlueColor),
+          )),
+        ),
+        onPressed: directCall == true
+            ? (){
+               _makingPhoneCall();
+                }
+
+          :()
+      {
+        Get.defaultDialog(
+            radius: 10,
+            title: 'Who do you want to call?',
+            titleStyle: TextStyle(
+              fontSize: size_8,
+              color: loadingPointTextColor,
+              fontWeight: mediumBoldWeight
+            ),
+            middleText: '',
+            content: Center(
+              child: Column(
+                children: [
+                  ChooseReceiverButton(label: transporterName, phoneNum: transporterPhoneNum ,),
+
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: space_2),
+                    child: Text(
+                        'or',
+                        style: TextStyle(
+                          fontSize: size_8,
+                          fontWeight: mediumBoldWeight,
+                          color: Colors.black
+                        ),),
+                  ),
+
+                  ChooseReceiverButton(label: driverName , phoneNum: driverPhoneNum,)
+
+                ],
+              ),
+            ),
+          );
+        },
         child: Container(
+          margin: EdgeInsets.only(left: space_1),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.call,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: space_1),
+                child: Image(
+                  height: 16,
+                  width: 11,
+                  image: AssetImage(
+                    'assets/icons/callButtonIcon.png',
+                  ),
+                ),
               ),
               Text(
-                "Call",
+                'Call',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: size_6 + 1, fontWeight: mediumBoldWeight),
-              )
+                  letterSpacing: 0.7,
+                  fontWeight: mediumBoldWeight,
+                  color: Colors.black,
+                  fontSize: size_7,
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-_launchCaller(String number) async {
-  var url = "tel:$number";
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

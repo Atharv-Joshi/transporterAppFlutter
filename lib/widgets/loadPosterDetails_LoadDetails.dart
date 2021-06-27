@@ -11,7 +11,7 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
-  String? loadPosterCompanyApproved;
+  bool? loadPosterCompanyApproved;
 
   LoadPosterDetailsLoadDetails({
     this.loadPosterLocation,
@@ -103,7 +103,7 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
               SizedBox(
                 height: space_1 + 1,
               ),
-              loadPosterCompanyApproved == "true"
+              loadPosterCompanyApproved!
                   ? VerifiedWidget()
                   : UnverifiedWidget()
             ],

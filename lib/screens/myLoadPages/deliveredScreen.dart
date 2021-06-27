@@ -39,7 +39,7 @@ class DeliveredScreen extends StatelessWidget {
                       width: 127,
                     ),
                     Text(
-                      'Looks like you have not added any Trucks!',
+                       'Looks like you have not added any Loads!',
                       style: TextStyle(fontSize: size_8, color: grey),
                       textAlign: TextAlign.center,
                     ),

@@ -16,7 +16,6 @@ class OngoingScreen extends StatelessWidget {
         return Container(
             height: MediaQuery.of(context).size.height * 0.67,
             child: FutureBuilder(
-                //getTruckData returns list of truck Model
                 future: bookingApiCalls.getDataByPostLoadIdOnGoing(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
 
@@ -25,7 +24,6 @@ class OngoingScreen extends StatelessWidget {
                     }
                     print('ongoing snapshot length :' +
                         '${snapshot.data.length}'); //number of cards
-                    print(snapshot.data[0]);
 
                     if (snapshot.data.length == 0) {
                         return Container(
@@ -39,7 +37,7 @@ class OngoingScreen extends StatelessWidget {
                                         width: 127,
                                     ),
                                     Text(
-                                        'Looks like you have not added any Trucks!',
+                                        'Looks like you have not added any Loads!',
                                         style: TextStyle(fontSize: size_8, color: grey),
                                         textAlign: TextAlign.center,
                                     ),
@@ -48,7 +46,7 @@ class OngoingScreen extends StatelessWidget {
                         );
                     }
                     else {
-
+                        // return Text('debugging');
                         return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index)  {
@@ -60,20 +58,22 @@ class OngoingScreen extends StatelessWidget {
                                             // return LoadingWidget();
                                             return SizedBox();
                                         }
-                                        return OngoingCard(
-                                            loadingPoint: snapshot.data['loadingPoint'],
-                                            unloadingPoint: snapshot.data['unloadingPoint'],
-                                            companyName:  snapshot.data['companyName'],
-                                            truckNo: snapshot.data['truckNo'],
-                                            driverName: snapshot.data['driverName'],
-                                            startedOn: snapshot.data['startedOn'],
-                                            endedOn: snapshot.data['endedOn'],
-                                            imei: snapshot.data['imei'],
-                                            driverPhoneNum: snapshot.data['driverPhoneNum'],
-                                            transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
-                                            // transporterName : snapshot.data['transporterName'],
-                                        );
-                                    }
+
+                                            return OngoingCard(
+                                                loadingPoint: snapshot.data['loadingPoint'],
+                                                unloadingPoint: snapshot.data['unloadingPoint'],
+                                                companyName: snapshot.data['companyName'],
+                                                truckNo: snapshot.data['truckNo'],
+                                                driverName: snapshot.data['driverName'],
+                                                startedOn: snapshot.data['startedOn'],
+                                                endedOn: snapshot.data['endedOn'],
+                                                imei: snapshot.data['imei'],
+                                                driverPhoneNum: snapshot.data['driverPhoneNum'],
+                                                transporterPhoneNumber: snapshot.data['transporterPhoneNum'],
+                                                // transporterName : snapshot.data['transporterName'],
+                                            );
+                                        }
+
                                 );
 
 

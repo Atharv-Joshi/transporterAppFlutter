@@ -31,6 +31,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
+
     if (Provider.of<ProviderData>(context).loadingPointCity != "") {
       print(transporterIdController.transporterId);
       controller1 = TextEditingController(
@@ -39,6 +40,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
       findLoadApiData = runFindLoadApiGet(
           providerData.loadingPointCity, providerData.unloadingPointCity);
     }
+
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -46,6 +48,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
       findLoadApiData = runFindLoadApiGet(
           providerData.loadingPointCity, providerData.unloadingPointCity);
     }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -160,7 +163,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                           snapshot.data[index].loadingPointCity,
                                       loadingPointState: snapshot
                                           .data[index].loadingPointState,
-                                      id: snapshot.data[index].id,
+                                              postLoadId: snapshot.data[index].postLoadId,
                                       unloadingPoint:
                                           snapshot.data[index].unloadingPoint,
                                       unloadingPointCity: snapshot
