@@ -6,11 +6,11 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 
 // ignore: must_be_immutable
-class AcceptButton extends StatelessWidget {
+class DeclineButton extends StatelessWidget {
 
   String? bidId;
 
-  AcceptButton({required this.bidId});
+  DeclineButton({required this.bidId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +23,16 @@ class AcceptButton extends StatelessWidget {
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               )),
-          backgroundColor: MaterialStateProperty.all<Color>(liveasyGreen),
+          backgroundColor: MaterialStateProperty.all<Color>(declineButtonRed),
         ),
         onPressed: () {
-          print('Accept Button Pressed');
-          putBidForAccept(bidId);
+          print('Decline Button Pressed');
+          // putBidForAccept(bidId);
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: space_1 , horizontal: space_3),
           child : Text(
-            'Accept',
+            'Decline',
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

@@ -2,11 +2,11 @@ class BiddingModel{
   //parameters
   String? bidId;
   String? transporterId;
-  double? rate;
+  int? rate;
   String? unitValue;
   String? loadId;
   String? biddingDate;
-  List<String?>? truckIdList;
+  List? truckIdList;
   bool? transporterApproval;
   bool? shipperApproval;
 

@@ -93,6 +93,13 @@ class ProviderData extends ChangeNotifier {
   //variables related to orders page
   int upperNavigatorIndex = 0 ;
 
+  int rate = 0;
+
+  void updateRate(value){
+    rate = value;
+    notifyListeners();
+  }
+
   void updateUpperNavigatorIndex(int value){
     upperNavigatorIndex = value;
     notifyListeners();

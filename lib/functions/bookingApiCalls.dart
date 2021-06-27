@@ -29,6 +29,7 @@ class BookingApiCalls{
               .value}&completed=false&cancel=false&pageNo=$i'));
 
       var jsonData = json.decode(response.body);
+
       if (jsonData.isEmpty) {
         break;
       }
@@ -36,7 +37,6 @@ class BookingApiCalls{
 
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-
         bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
@@ -59,13 +59,15 @@ class BookingApiCalls{
           '$bookingApiUrl?postLoadId=${transporterIdController.transporterId
               .value}&completed=true&cancel=false&pageNo=$i'));
       var jsonData = json.decode(response.body);
+
       if (jsonData.isEmpty) {
         break;
       }
+
       print('delivered response : $jsonData');
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";;
+        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
         bookingModel.truckId = json['truckId'];

@@ -2,42 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/bidApiCalls.dart';
 
 // ignore: must_be_immutable
-class AcceptButton extends StatelessWidget {
-
-  String? bidId;
-
-  AcceptButton({required this.bidId});
-
+class PostButtonLoad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 31,
-      // width: 80,
+      height: 40,
+      width: 163,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(50),
               )),
           backgroundColor: MaterialStateProperty.all<Color>(liveasyGreen),
         ),
         onPressed: () {
-          print('Accept Button Pressed');
-          putBidForAccept(bidId);
+          print('Post Load Button Pressed');
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: space_1 , horizontal: space_3),
           child : Text(
-            'Accept',
+            'Post Load',
             style: TextStyle(
-              letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,
               color: white,
-              fontSize: size_7,
+              fontSize: size_8,
             ),
           ),
         ),
@@ -45,3 +35,5 @@ class AcceptButton extends StatelessWidget {
     );
   }
 }
+
+

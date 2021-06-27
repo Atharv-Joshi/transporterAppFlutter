@@ -119,10 +119,14 @@ class _BiddingScreensState extends State<BiddingScreens> {
                               unloadingPointCity:  widget.unloadingPointCity,
                               rate: biddingModelList[index].rate.toString(),
                               unitValue: biddingModelList[index].unitValue,
-                              companyName: snapshot.data['companyName'],
+                              companyName: snapshot.data.companyName,
                               biddingDate: biddingModelList[index].biddingDate,
                               bidId: biddingModelList[index].bidId,
-                              transporterPhoneNum: snapshot.data['transporterPhoneNum'] ,
+                              transporterPhoneNum: snapshot.data.transporterPhoneNum ,
+                              transporterLocation: snapshot.data.transporterLocation,
+                              transporterName: snapshot.data.transporterName,
+                              companyApproved: snapshot.data.companyApproved,
+                              transporterApproved: snapshot.data.transporterApproved,
                             );
                           },
                         );

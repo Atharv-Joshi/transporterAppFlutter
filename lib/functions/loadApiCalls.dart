@@ -15,8 +15,8 @@ class LoadApiCalls{
     var jsonData = json.decode(response.body);
 
     Map data = {
-      'loadingPointCity' : jsonData['loadingPointCity'],
-      'unloadingPointCity' : jsonData['unloadingPointCity']
+      'loadingPointCity' : jsonData['loadingPointCity'] !=null ?  jsonData['loadingPointCity'] : 'NA',
+      'unloadingPointCity' : jsonData['unloadingPointCity'] !=null ?  jsonData['unloadingPointCity'] : 'NA',
     };
 
     return data;

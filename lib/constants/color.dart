@@ -48,3 +48,4 @@ dynamic deactiveButtonColor =
 Color borderLightColor = Color(0xFF878787);
 Color textLightColor = Color(0xFF979797);
 Color lightGrayishBlue = Color(0xFFC4C9D9);
+Color declineButtonRed = Color(0xffE02E35);

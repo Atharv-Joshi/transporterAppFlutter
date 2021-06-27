@@ -187,7 +187,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     Container(
                       margin: EdgeInsets.only(top: space_3),
                       child: Text(
-                        'Invalid Documents Uploaded !',
+                        'Truck Details are pending !',
                         style: TextStyle(
                             fontSize: size_7,
                             fontWeight: boldWeight,
@@ -204,12 +204,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-// <<<<<<< HEAD
-//                     margin: EdgeInsets.only(right: space_2),
-//                       child: TrackButton(truckApproved:truckApproved)
-//                   ),
-//                   //CallButton(), TODO: Check this Atharav
-// =======
                       margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(truckApproved: widget.truckApproved)),
                   CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),

@@ -16,7 +16,6 @@ class OngoingScreen extends StatelessWidget {
         return Container(
             height: MediaQuery.of(context).size.height * 0.67,
             child: FutureBuilder(
-                //getTruckData returns list of truck Model
                 future: bookingApiCalls.getDataByPostLoadIdOnGoing(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
 
@@ -25,7 +24,6 @@ class OngoingScreen extends StatelessWidget {
                     }
                     print('ongoing snapshot length :' +
                         '${snapshot.data.length}'); //number of cards
-                    print(snapshot.data[0]);
 
                     if (snapshot.data.length == 0) {
                         return Container(

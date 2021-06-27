@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/buttons/postLoadButton.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:provider/provider.dart';
@@ -49,22 +51,37 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 color: textLightColor,
                 thickness: 1,
               ),
-              Container(
-                height: 600,
-                child: PageView(
-                  controller: pageController,
-                  onPageChanged: (value){
-                    setState(() {
-                      providerData.updateUpperNavigatorIndex(value);
-                    });
-                  },
-                  children: [
-                    MyLoadsScreen(),
-                    OngoingScreen(),
-                    DeliveredScreen(),
-                  ],
-                ),
-              )
+              Stack(
+                children: [
+                  Container(
+                    height: 600,
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (value){
+                        setState(() {
+                          providerData.updateUpperNavigatorIndex(value);
+                        });
+                      },
+                      children: [
+                        MyLoadsScreen(),
+                        OngoingScreen(),
+                        DeliveredScreen(),
+                      ],
+                    ),
+                  ),
+
+
+                  // Positioned(
+                  //   top: 50,
+                  //   child: Align(
+                  //       alignment: Alignment.center,
+                  //       child: PostButtonLoad()
+                  //   ),
+                  // ),
+
+                ],
+              ),
+
             ],
           ),
         ),

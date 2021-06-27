@@ -10,6 +10,7 @@ import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
+import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -32,6 +33,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
 
   late List driverList = [];
 
+  List<DropdownMenuItem<String>> dropDownList = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -45,11 +48,34 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     setState(() {
       driverList = temp;
     });
+    for (var instance in driverList) {
+      dropDownList.add(DropdownMenuItem<String>(
+        value: instance.driverId,
+        child: Text('${instance.driverName}-${instance.phoneNum}'),
+      ));
+    }
+
+    dropDownList.add(DropdownMenuItem(
+      value: '',
+      child: GestureDetector(
+        onTap: (){
+          showDialog(
+              context: context,
+              builder: (context) => AddDriverAlertDialog());
+        },
+        child: Text('Add New Driver'),
+      ),
+    )
+
+    );
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -61,7 +87,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Header(
-                backButton: true,
+                  backButton: true,
                   text: 'Add Truck',
                   reset: true,
                   resetFunction: () {
@@ -199,13 +225,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                         dropDownValue = newValue!;
                       });
                     },
-                    items: driverList.map<DropdownMenuItem<String>>((instance) {
-                      return DropdownMenuItem<String>(
-                        value: instance.driverId,
-                        child:
-                            Text('${instance.driverName}-${instance.phoneNum}'),
-                      );
-                    }).toList(),
+                    items: dropDownList,
                   ),
                 ),
               ),

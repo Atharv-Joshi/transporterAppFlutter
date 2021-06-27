@@ -32,9 +32,9 @@ class TruckApiCalls {
     var jsonData = json.decode(response.body);
 
     Map data = {
-      'driverId' : jsonData['driverId'],
-      'truckNo' : jsonData['truckNo'],
-      'imei' : jsonData['imei']
+      'driverId' : jsonData['driverId'] !=null ?  jsonData['driverId'] : 'NA',
+      'truckNo' : jsonData['truckNo'] !=null ?  jsonData['truckNo'] : 'NA',
+      'imei' :jsonData['imei'] !=null ?  jsonData['imei'] : 'NA',
     };
 
     return data;
