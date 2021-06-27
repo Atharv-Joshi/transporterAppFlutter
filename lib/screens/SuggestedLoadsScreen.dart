@@ -61,7 +61,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                       widget.suggestedLoadData[index].unloadingPointCity,
                   productType: widget.suggestedLoadData[index].productType,
                   truckType: widget.suggestedLoadData[index].truckType,
-                  id: widget.suggestedLoadData[index].id,
+                      postLoadId: widget.suggestedLoadData[index].postLoadId,
                   noOfTrucks: widget.suggestedLoadData[index].noOfTrucks,
                   weight: widget.suggestedLoadData[index].weight,
                   status: widget.suggestedLoadData[index].status,
