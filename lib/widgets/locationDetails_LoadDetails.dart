@@ -3,23 +3,14 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
 // ignore: must_be_immutable
 class LocationDetailsLoadDetails extends StatelessWidget {
-  String? loadingPoint;
-  String? loadingPointCity;
-  String? loadingPointState;
-  String? unloadingPoint;
-  String? unloadingPointCity;
-  String? unloadingPointState;
+  LoadDetailsScreenModel loadDetails;
 
   LocationDetailsLoadDetails({
-    this.loadingPoint,
-    this.loadingPointCity,
-    this.loadingPointState,
-    this.unloadingPoint,
-    this.unloadingPointCity,
-    this.unloadingPointState,
+    required this.loadDetails
   });
 
   @override
@@ -54,7 +45,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "$loadingPoint,$loadingPointCity,$loadingPointState",
+                      "${loadDetails.loadingPoint}",
                       style:
                           TextStyle(fontWeight: normalWeight, fontSize: size_6),
                     ),
@@ -82,7 +73,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "$unloadingPoint,$unloadingPointCity,$unloadingPointState",
+                      "${loadDetails.unloadingPoint}",
                       style:
                           TextStyle(fontWeight: normalWeight, fontSize: size_6),
                     ),

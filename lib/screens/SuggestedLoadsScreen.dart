@@ -46,26 +46,11 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
               color: backgroundColor,
               margin: EdgeInsets.only(bottom: space_3),
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: space_4),
+                padding: EdgeInsets.symmetric(horizontal: space_3),
                 itemCount: widget.suggestedLoadData.length,
                 itemBuilder: (BuildContext context, index) =>
                     LoadApiDataDisplayCard(
-                  loadId: widget.suggestedLoadData[index].loadId,
-                  loadingPointState:
-                      widget.suggestedLoadData[index].loadingPointState,
-                  loadingPointCity:
-                      widget.suggestedLoadData[index].loadingPointCity,
-                  unloadingPointState:
-                      widget.suggestedLoadData[index].unloadingPointState,
-                  unloadingPointCity:
-                      widget.suggestedLoadData[index].unloadingPointCity,
-                  productType: widget.suggestedLoadData[index].productType,
-                  truckType: widget.suggestedLoadData[index].truckType,
-                      postLoadId: widget.suggestedLoadData[index].postLoadId,
-                  noOfTrucks: widget.suggestedLoadData[index].noOfTrucks,
-                  weight: widget.suggestedLoadData[index].weight,
-                  status: widget.suggestedLoadData[index].status,
-                  comment: widget.suggestedLoadData[index].comment,
+                  loadApiData: widget.suggestedLoadData[index],
                 ),
               ),
             ),
