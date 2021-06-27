@@ -13,7 +13,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
-  String? id;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -31,7 +31,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
         this.loadingPoint,
         this.loadingPointCity,
         this.loadingPointState,
-        this.id,
+        this.postLoadId,
         this.unloadingPoint,
         this.unloadingPointCity,
         this.unloadingPointState,
@@ -53,7 +53,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
 class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getLoadPosterDetailsFromApi(loadPosterId: widget.id.toString()),
+        future: getLoadPosterDetailsFromApi(loadPosterId: widget.postLoadId.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(

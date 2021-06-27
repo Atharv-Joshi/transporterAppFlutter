@@ -107,7 +107,8 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                   loadPosterLocation: loadPosterLocation,
                   loadPosterName: loadPosterName,
                   loadPosterCompanyName: loadPosterCompanyName,
-                  loadPosterCompanyApproved: loadPosterCompanyApproved,
+                  //TODO loadPosterCompanyApproved was string but I have changed it to bool for logical reasons shikhar please send boolean value here instead of string
+                  loadPosterCompanyApproved: true,
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -122,7 +123,8 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             BidButton(loadId),
-                            CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            CallButton(directCall: true , driverPhoneNum: loadPosterPhoneNo ,)
                           ],
                         )),
                   ),

@@ -6,21 +6,37 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postBidApi.dart';
+import 'package:liveasy/functions/bidApiCalls.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
-  String loadId, rate, unit;
+  String? loadId, unitValue , bidId;
+  // int? rate;
+  bool? isPost;
 
-  BidButtonSendRequest(this.loadId, this.rate, this.unit);
+
+  BidButtonSendRequest({
+    this.loadId,
+    // this.rate,
+      this.unitValue,
+    this.bidId,
+    required this.isPost,
+}
+     );
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   @override
+
   Widget build(BuildContext context) {
+
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
     return GestureDetector(
       onTap: () {
-        postBidAPi(loadId, rate, tIdController.transporterId.value, unit);
+        isPost! ? postBidAPi(loadId, providerData.rate, tIdController.transporterId.value, unitValue) : putBidForNegotiate(bidId,  providerData.rate, unitValue);
         Navigator.of(context).pop();
       },
       child: Container(

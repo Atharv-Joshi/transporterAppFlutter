@@ -24,7 +24,7 @@ class DeliveredScreen extends StatelessWidget {
             if (snapshot.data == null) {
               return LoadingWidget();
             }
-            print('snapshot length :' +
+            print('delivered snapshot length :' +
                 '${snapshot.data.length}'); //number of cards
 
             if (snapshot.data.length == 0) {
@@ -39,7 +39,7 @@ class DeliveredScreen extends StatelessWidget {
                       width: 127,
                     ),
                     Text(
-                      'Looks like you have not added any Trucks!',
+                       'Looks like you have not added any Loads!',
                       style: TextStyle(fontSize: size_8, color: grey),
                       textAlign: TextAlign.center,
                     ),
@@ -57,7 +57,7 @@ class DeliveredScreen extends StatelessWidget {
                         builder: (BuildContext context,
                             AsyncSnapshot snapshot) {
                           if (snapshot.data == null) {
-                            return LoadingWidget();
+                            return SizedBox();
                           }
                           return DeliveredCard(
                             loadingPoint: snapshot.data['loadingPoint'],
