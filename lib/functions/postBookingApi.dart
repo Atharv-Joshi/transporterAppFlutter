@@ -6,10 +6,9 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
-postBookingApi(loadId, rate, unit, truckId, postLoadId,
-    BuildContext context) async {
-  TransporterIdController tIdController =
-  Get.find<TransporterIdController>();
+postBookingApi(
+    loadId, rate, unit, truckId, postLoadId, BuildContext context) async {
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
 
   Map data = {
@@ -28,16 +27,13 @@ postBookingApi(loadId, rate, unit, truckId, postLoadId,
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body);
-  var jsonData = json.decode(response.body);
+  print(response.body);
 
-  for (var json in jsonData) {
-    print(json["bookingId"]);
-    // ignore: unnecessary_null_comparison
-    if (json["bookingId"].toString() != null ||
-        json["bookingId"].toString() != "") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Booking Successful')),
-      );
-    }
+  // ignore: unnecessary_null_comparison
+  if (response.body.toString().contains("bookingId") &&
+      response.body
+          .toString()
+          .contains('''"cancel":false,"completed":false''')) {
+    Get.snackbar('Booking Successful', '', snackPosition: SnackPosition.TOP);
   }
 }

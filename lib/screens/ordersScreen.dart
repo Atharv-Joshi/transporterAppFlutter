@@ -16,7 +16,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  List screens = [GetBids(), GetBookingConfirmCard(), Text('Delivered')];
+  List screens = [GetBids(), Text('ongoing'), Text('Delivered')];
   int i = 0;
 
   @override
