@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:date_format/date_format.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
 postBidAPi(loadId, rate, transporterIdController, unit) async {
+
   if (unit == "RadioButtonOptions.PER_TON") {
     unit = "PER_TON";
   }
@@ -13,7 +15,9 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
     "transporterId": transporterIdController,
     "loadId": loadId,
     "rate": rate,
-    "unitValue": unit
+    "unitValue": unit,
+    "biddingDate" : formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy])
+
   };
   String body = json.encode(data);
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl').toString();

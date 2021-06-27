@@ -128,6 +128,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             children: [
               BidButtonSendRequest(
                   // rate: rate,
+                loadId: widget.loadId ,
                   bidId: widget.bidId,
                   unitValue : unitValue.toString(),
                 isPost: widget.isPost,
