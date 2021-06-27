@@ -92,6 +92,10 @@ class LoadCardHeader extends StatelessWidget {
                                 Column(
                                   children: [
                                     LoadLabelValueColumnTemplate(
+                                      label:"Truck Type",
+                                      value: loadDetails.truckType.toString(),
+                                    ),
+                                    LoadLabelValueColumnTemplate(
                                       label: "Weight",
                                       value: loadDetails.weight.toString(),
                                     ),
