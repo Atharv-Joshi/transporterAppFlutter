@@ -12,9 +12,9 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
-  String loadId, unit;
+  String loadId, unitValue;
 
-  BidButtonSendRequest(this.loadId, this.unit);
+  BidButtonSendRequest(this.loadId, this.unitValue);
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
@@ -37,7 +37,7 @@ class BidButtonSendRequest extends StatelessWidget {
         ),
         onPressed: () {
           if (Provider.of<ProviderData>(context, listen: false)
-                  .bidButtonSendRequestState ==
+              .bidButtonSendRequestState ==
               "false") {
             return null;
           } else {
@@ -50,10 +50,10 @@ class BidButtonSendRequest extends StatelessWidget {
                   loadId,
                   Provider.of<ProviderData>(context, listen: false).rate,
                   tIdController.transporterId.value,
-                  unit);
+                  unitValue);
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Bidding Request Send')));
-              providerData.updateRate(newValue: "");
+              providerData.updateRate("");
               providerData.updateBidButtonSendRequest(newValue: "false");
               Navigator.of(context).pop();
             }
@@ -62,18 +62,18 @@ class BidButtonSendRequest extends StatelessWidget {
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius_4),
-            )),
+                  borderRadius: BorderRadius.circular(radius_4),
+                )),
             overlayColor:
-                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                        "true"
-                    ? null
-                    : MaterialStateProperty.all(Colors.transparent),
+            Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                "true"
+                ? null
+                : MaterialStateProperty.all(Colors.transparent),
             backgroundColor:
-                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                        "true"
-                    ? activeButtonColor
-                    : deactiveButtonColor),
+            Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                "true"
+                ? activeButtonColor
+                : deactiveButtonColor),
       ),
     );
   }

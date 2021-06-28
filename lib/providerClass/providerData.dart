@@ -12,7 +12,7 @@ class ProviderData extends ChangeNotifier {
 
   var rate;
 
-  void updateRate({required String newValue}) {
+  void updateRate(newValue) {
     rate = newValue;
     notifyListeners();
   }
@@ -107,7 +107,15 @@ class ProviderData extends ChangeNotifier {
   //variables related to orders page
   int upperNavigatorIndex = 0;
 
-  void updateUpperNavigatorIndex(int value) {
+  // void updateUpperNavigatorIndex(int value) {
+  // int rate = 0;
+  //
+  // void updateRate(value){
+  //   rate = value;
+  //   notifyListeners();
+  // }
+
+  void updateUpperNavigatorIndex(int value){
     upperNavigatorIndex = value;
     notifyListeners();
   }

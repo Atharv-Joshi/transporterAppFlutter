@@ -47,6 +47,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
       findLoadApiData = runFindLoadApiGet(
           providerData.loadingPointCity, providerData.unloadingPointCity);
     }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,

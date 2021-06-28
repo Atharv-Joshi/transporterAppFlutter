@@ -24,7 +24,7 @@ class LoadApiDataDisplayCard extends StatefulWidget {
   String? comment;
   String? status;
   String? loadDate;
-  String? rate;
+  int? rate;
   String? unitValue;
   bool? ordered;
 

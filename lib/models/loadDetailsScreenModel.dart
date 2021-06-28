@@ -14,7 +14,7 @@ class LoadDetailsScreenModel {
   String? comment;
   String? status;
   String? loadDate;
-  String? rate;
+  int? rate;
   String? unitValue;
   String? loadPosterId;
   String? phoneNo;

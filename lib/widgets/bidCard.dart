@@ -9,15 +9,15 @@ import 'package:liveasy/widgets/buttons/priceButton.dart';
 import 'LoadEndPointTemplate.dart';
 import 'buttons/callButton.dart';
 import 'linePainter.dart';
-import 'loadLabelValueTemplate.dart';
+import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 
 // ignore: must_be_immutable
 class BidCard extends StatefulWidget {
   BidsModel? bidsModel;
-  LoadApiModel? loadApiModel;
+  LoadScreenCardsModel? loadScreenCardsModel;
   LoadPosterModel? loadPosterModel;
 
-  BidCard({this.bidsModel, this.loadApiModel, this.loadPosterModel});
+  BidCard({this.bidsModel, this.loadScreenCardsModel, this.loadPosterModel});
 
   @override
   _BidCardState createState() => _BidCardState();
@@ -41,8 +41,8 @@ class _BidCardState extends State<BidCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: widget.loadApiModel!.loadingPointCity != null
-                                ? widget.loadApiModel!.loadingPointCity
+                            text: widget.loadScreenCardsModel!.loadingPointCity != null
+                                ? widget.loadScreenCardsModel!.loadingPointCity
                                     .toString()
                                 : 'NA',
                             endPointType: 'loading'),
@@ -55,8 +55,8 @@ class _BidCardState extends State<BidCard> {
                             )),
                         LoadEndPointTemplate(
                             text:
-                                widget.loadApiModel!.unloadingPointCity != null
-                                    ? widget.loadApiModel!.unloadingPointCity
+                                widget.loadScreenCardsModel!.unloadingPointCity != null
+                                    ? widget.loadScreenCardsModel!.unloadingPointCity
                                         .toString()
                                     : 'NA',
                             endPointType: 'unloading'),
@@ -71,11 +71,11 @@ class _BidCardState extends State<BidCard> {
                   margin: EdgeInsets.only(top: space_4),
                   child: Column(
                     children: [
-                      LoadLabelValueTemplate(
+                      LoadLabelValueRowTemplate(
                           value: widget.loadPosterModel!.loadPosterCompanyName
                               .toString(),
                           label: 'Truck No.'),
-                      LoadLabelValueTemplate(
+                      LoadLabelValueRowTemplate(
                           value: widget.bidsModel!.biddingDate.toString(),
                           label: 'Bidding Date'),
                     ],
@@ -93,8 +93,8 @@ class _BidCardState extends State<BidCard> {
               children: [
                 CancelButton(),
                 CallButton(
-                  phoneNo: widget.loadPosterModel!.loadPosterPhoneNo,
-                  color: darkBlueColor,
+                  phoneNum: widget.loadPosterModel!.loadPosterPhoneNo,
+                  color: darkBlueColor, directCall: true,
                 ),
               ],
             ),

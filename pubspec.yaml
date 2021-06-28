@@ -31,10 +31,11 @@ dependencies:
   http: ^0.13.3
   geocoder: ^0.2.1
   geolocator: ^7.0.3
+  geocoding: ^2.0.0
   location_permissions: ^4.0.0
   provider: ^5.0.0
   google_maps_flutter: ^2.0.6
-  flutter_polyline_points: ^0.2.4
+  flutter_polyline_points: ^1.0.0
   flutter_spinkit: ^5.0.0
   get: ^4.1.4
   firebase_core: ^1.2.0
@@ -47,13 +48,8 @@ dependencies:
   permission_handler: ^8.1.0
   contact_picker: ^0.0.2
   url_launcher: ^6.0.6
-  share_files_and_screenshot_widgets: ^1.0.4
   wc_flutter_share: ^0.4.0
-  screenshot: ^1.2.1
-  share_plus: ^2.1.4
-  path_provider: ^2.0.2
-  intl: ^0.17.0
-  swipe_to: ^0.0.1+8
+  date_format: ^2.0.2
 
 dev_dependencies:
   flutter_config: ^2.0.0

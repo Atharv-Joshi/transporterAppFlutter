@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 class OrderScreenNavigationBarButton extends StatelessWidget {
   final String text;
   final int value;
+  final PageController pageController;
 
-  OrderScreenNavigationBarButton({required this.text, required this.value});
+  OrderScreenNavigationBarButton({required this.text, required this.value , required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class OrderScreenNavigationBarButton extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           providerData.updateUpperNavigatorIndex(value);
+          pageController.jumpToPage(value);
         },
         child: Text(
           '$text',

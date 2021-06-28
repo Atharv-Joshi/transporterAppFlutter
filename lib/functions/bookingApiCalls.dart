@@ -17,6 +17,7 @@ class BookingApiCalls {
   //to hold list of dataModels retrieved from Api
   List<BookingModel> modelList = [];
 
+
   //GET ------------------------------------------------------------------------
   Future<List<BookingModel>> getDataByPostLoadIdOnGoing() async {
     modelList = [];
@@ -26,20 +27,21 @@ class BookingApiCalls {
           '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=false&cancel=false&pageNo=$i'));
 
       var jsonData = json.decode(response.body);
+
       if (jsonData.isEmpty) {
         break;
       }
+      print('on going response : $jsonData');
 
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-
-        bookingModel.bookingDate = json['bookingDate'];
+        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
         bookingModel.truckId = json['truckId'];
         bookingModel.cancel = json['cancel'];
         bookingModel.completed = json['completed'];
-        bookingModel.completedDate = json['completedDate'];
+        bookingModel.completedDate =  json['completedDate'] != null ? json['completedDate'] : "NA";
         modelList.add(bookingModel);
       }
     }
@@ -53,19 +55,21 @@ class BookingApiCalls {
       http.Response response = await http.get(Uri.parse(
           '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=true&cancel=false&pageNo=$i'));
       var jsonData = json.decode(response.body);
+
       if (jsonData.isEmpty) {
         break;
       }
-      print(jsonData);
+
+      print('delivered response : $jsonData');
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-        bookingModel.bookingDate = json['bookingDate'];
+        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
         bookingModel.truckId = json['truckId'];
         bookingModel.cancel = json['cancel'];
         bookingModel.completed = json['completed'];
-        bookingModel.completedDate = json['completedDate'];
+        bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : "NA";
         modelList.add(bookingModel);
       }
     }

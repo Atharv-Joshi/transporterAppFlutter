@@ -28,7 +28,7 @@ class DisplayLoadsCard extends StatefulWidget {
   String? comment;
   String? status;
   String? loadDate;
-  String? rate;
+  int? rate;
   String? unitValue;
 
   String? loadPosterId;
@@ -146,7 +146,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
               ),
               LoadCardFooter(
                   loadPosterCompanyName: widget.loadPosterCompanyName,
-                  /*loadPosterPhoneNo: widget.loadPosterPhoneNo*/)
+                  loadPosterPhoneNo: widget.loadPosterPhoneNo)
             ],
           ),
         ),

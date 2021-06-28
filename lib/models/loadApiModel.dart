@@ -1,4 +1,4 @@
-class LoadApiModel {
+class LoadScreenCardsModel {
   String? loadId;
   String? loadingPoint;
   String? loadingPointCity;
@@ -13,26 +13,30 @@ class LoadApiModel {
   String? weight;
   String? comment;
   String? status;
-  String? loadDate;
-  String? rate;
+  int? rate;
   String? unitValue;
+  String? loadDate;
 
-  LoadApiModel(
-      {this.loadId,
-      this.loadingPoint,
-      this.loadingPointCity,
-      this.loadingPointState,
-      this.postLoadId,
-      this.unloadingPoint,
-      this.unloadingPointCity,
-      this.unloadingPointState,
-      this.productType,
-      this.truckType,
-      this.noOfTrucks,
-      this.weight,
-      this.comment,
-      this.status,
-      this.loadDate,
-      this.rate,
-      this.unitValue});
+  // int? tyres;
+
+  LoadScreenCardsModel({
+    this.loadId,
+    this.loadingPoint,
+    this.loadingPointCity,
+    this.loadingPointState,
+    this.postLoadId,
+    this.unloadingPoint,
+    this.unloadingPointCity,
+    this.unloadingPointState,
+    this.productType,
+    this.truckType,
+    this.noOfTrucks,
+    this.weight,
+    this.comment,
+    this.status,
+    // this.tyres,
+    this.loadDate,
+    this.rate,
+    this.unitValue,
+  });
 }

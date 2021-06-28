@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
+import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
+import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
-import 'package:liveasy/widgets/getBids.dart';
 import 'package:provider/provider.dart';
-// ignore: import_of_legacy_library_into_null_safe
 
-class OrdersScreen extends StatefulWidget {
+class PostLoadScreen extends StatefulWidget {
+  const PostLoadScreen({Key? key}) : super(key: key);
+
   @override
-  _OrdersScreenState createState() => _OrdersScreenState();
+  _PostLoadScreenState createState() => _PostLoadScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> {
-  int i = 0;
+class _PostLoadScreenState extends State<PostLoadScreen> {
 
   //Page Controller
-  PageController pageController = PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage:0);
 
   int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    i = providerData.upperNavigatorIndex;
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -33,29 +33,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(
-                reset: false,
-                text: 'Orders',
-                backButton: true,
-              ),
+              Header(reset: false, text: 'Loads', backButton: false),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(
-                    text: 'Bids',
-                    value: 0,
-                    pageController: pageController,
-                  ),
-                  OrderScreenNavigationBarButton(
-                    text: 'On-going',
-                    value: 1,
-                    pageController: pageController,
-                  ),
-                  OrderScreenNavigationBarButton(
-                    text: 'Deliver',
-                    value: 2,
-                    pageController: pageController,
-                  )
+                  OrderScreenNavigationBarButton(text: 'My Loads', value: 0 , pageController : pageController),
+                  OrderScreenNavigationBarButton(text: 'On-going', value: 1 , pageController : pageController),
+                  OrderScreenNavigationBarButton(text: 'Delivered', value: 2 , pageController : pageController)
                 ],
               ),
               Divider(
@@ -68,14 +52,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     height: 600,
                     child: PageView(
                       controller: pageController,
-                      onPageChanged: (value) {
+                      onPageChanged: (value){
                         setState(() {
                           providerData.updateUpperNavigatorIndex(value);
                         });
                       },
-                      children: [GetBids(), Text("ongoing"), Text("delivered")],
+                      children: [
+                        MyLoadsScreen(),
+                        OngoingScreen(),
+                        DeliveredScreen(),
+                      ],
                     ),
                   ),
+
 
                   // Positioned(
                   //   top: 50,
@@ -84,8 +73,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   //       child: PostButtonLoad()
                   //   ),
                   // ),
+
                 ],
               ),
+
             ],
           ),
         ),

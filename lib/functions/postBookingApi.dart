@@ -10,7 +10,7 @@ postBookingApi(
     loadId, rate, unit, truckId, postLoadId, BuildContext context) async {
   TransporterIdController tIdController = Get.find<TransporterIdController>();
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
-
+  var jsonData;
   Map data = {
     "loadId": loadId,
     "rate": rate,
@@ -28,12 +28,10 @@ postBookingApi(
       },
       body: body);
   print(response.body);
+  jsonData = json.decode(response.body);
 
-  // ignore: unnecessary_null_comparison
-  if (response.body.toString().contains("bookingId") &&
-      response.body
-          .toString()
-          .contains('''"cancel":false,"completed":false''')) {
+  if (jsonData["bookingId"] != null) {
     Get.snackbar('Booking Successful', '', snackPosition: SnackPosition.TOP);
-  }
+  } else
+    Get.snackbar('Booking Unsuccessful', '', snackPosition: SnackPosition.TOP);
 }

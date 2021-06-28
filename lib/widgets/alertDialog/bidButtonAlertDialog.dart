@@ -14,19 +14,24 @@ enum RadioButtonOptions { PER_TON, PER_TRUCK }
 // ignore: must_be_immutable
 class BidButtonAlertDialog extends StatefulWidget {
   String? loadId;
+  String? bidId;
+  bool? isPost;
 
-  BidButtonAlertDialog({this.loadId});
+  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost});
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
-  RadioButtonOptions unit = RadioButtonOptions.PER_TON;
+  // TextEditingController rate = TextEditingController();
+  RadioButtonOptions unitValue = RadioButtonOptions.PER_TON;
+  int? rate;
 
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context, listen: false);
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
     return AlertDialog(
       insetPadding: EdgeInsets.only(left: space_4, right: space_4),
       title: Text(
@@ -44,10 +49,10 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   Radio<RadioButtonOptions>(
                       value: RadioButtonOptions.PER_TON,
                       activeColor: darkBlueColor,
-                      groupValue: unit,
+                      groupValue: unitValue,
                       onChanged: (value) {
                         setState(() {
-                          unit = value!;
+                          unitValue = value!;
                         });
                       }),
                   Text(
@@ -64,10 +69,10 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   Radio<RadioButtonOptions>(
                       value: RadioButtonOptions.PER_TRUCK,
                       activeColor: darkBlueColor,
-                      groupValue: unit,
+                      groupValue: unitValue,
                       onChanged: (value) {
                         setState(() {
-                          unit = value!;
+                          unitValue = value!;
                         });
                       }),
                   Text(
@@ -92,17 +97,19 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 right: space_2 - 2,
               ),
               child: TextField(
-                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                keyboardType: TextInputType.number,
+                // controller: rate,
                 decoration: InputDecoration(
                   hintText: "Eg 4000",
                   hintStyle: TextStyle(color: textLightColor),
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
+                  providerData.updateRate(rate);
                   if (rate == null || rate == "") {
                     providerData.updateBidButtonSendRequest(newValue: "false");
                   } else if (rate != null) {
-                    providerData.updateRate(newValue: rate.toString());
+                    providerData.updateRate(rate.toString());
                     providerData.updateBidButtonSendRequest(newValue: "true");
                   }
                 },
@@ -117,7 +124,8 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BidButtonSendRequest(widget.loadId.toString(), unit.toString()),
+              BidButtonSendRequest(
+                  widget.loadId.toString(), unitValue.toString()),
               CancelButton()
             ],
           ),

@@ -10,25 +10,25 @@ getLoadDetailsFromLoadId(loadId) async {
 try {
   jsonData = json.decode(response.body);
 
-  LoadApiModel loadApiModel = LoadApiModel();
-  loadApiModel.loadId = jsonData["loadId"].toString();
-  loadApiModel.loadingPoint = jsonData["loadingPoint"].toString();
-  loadApiModel.loadingPointCity = jsonData["loadingPointCity"].toString();
-  loadApiModel.loadingPointState = jsonData["loadingPointState"].toString();
-  loadApiModel.postLoadId = jsonData["postLoadId"].toString();
-  loadApiModel.unloadingPoint = jsonData["unloadingPoint"].toString();
-  loadApiModel.unloadingPointCity = jsonData["unloadingPointCity"].toString();
-  loadApiModel.unloadingPointState = jsonData["unloadingPointState"].toString();
-  loadApiModel.productType = jsonData["productType"].toString();
-  loadApiModel.truckType = jsonData["truckType"].toString();
-  loadApiModel.noOfTrucks = jsonData["noOfTrucks"].toString();
-  loadApiModel.weight = jsonData["weight"].toString();
-  loadApiModel.comment = jsonData["comment"].toString();
-  loadApiModel.status = jsonData["status"].toString();
-  loadApiModel.loadDate = jsonData["loadDate"].toString();
-  loadApiModel.rate = jsonData["rate"].toString();
-  loadApiModel.unitValue = jsonData["unitValue"].toString();
-  return loadApiModel;
+  LoadScreenCardsModel loadScreenCardsModel = LoadScreenCardsModel();
+  loadScreenCardsModel.loadId = jsonData["loadId"].toString();
+  loadScreenCardsModel.loadingPoint = jsonData["loadingPoint"].toString();
+  loadScreenCardsModel.loadingPointCity = jsonData["loadingPointCity"].toString();
+  loadScreenCardsModel.loadingPointState = jsonData["loadingPointState"].toString();
+  loadScreenCardsModel.postLoadId = jsonData["postLoadId"].toString();
+  loadScreenCardsModel.unloadingPoint = jsonData["unloadingPoint"].toString();
+  loadScreenCardsModel.unloadingPointCity = jsonData["unloadingPointCity"].toString();
+  loadScreenCardsModel.unloadingPointState = jsonData["unloadingPointState"].toString();
+  loadScreenCardsModel.productType = jsonData["productType"].toString();
+  loadScreenCardsModel.truckType = jsonData["truckType"].toString();
+  loadScreenCardsModel.noOfTrucks = jsonData["noOfTrucks"].toString();
+  loadScreenCardsModel.weight = jsonData["weight"].toString();
+  loadScreenCardsModel.comment = jsonData["comment"].toString();
+  loadScreenCardsModel.status = jsonData["status"].toString();
+  loadScreenCardsModel.loadDate = jsonData["loadDate"].toString();
+  loadScreenCardsModel.rate = jsonData["rate"];
+  loadScreenCardsModel.unitValue = jsonData["unitValue"].toString();
+  return loadScreenCardsModel;
 }catch(e){print(e);}
 
 }

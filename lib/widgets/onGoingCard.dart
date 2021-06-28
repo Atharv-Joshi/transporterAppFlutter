@@ -3,9 +3,9 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-import 'package:liveasy/widgets/callButton.dart';
-import 'package:liveasy/widgets/loadLabelValueTemplate.dart';
-import 'package:liveasy/widgets/trackButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'linePainter.dart';
 
 class OngoingCard extends StatelessWidget {
@@ -15,12 +15,11 @@ class OngoingCard extends StatelessWidget {
   final String startedOn;
   final String endedOn;
   final String truckNo;
-  final String companyName;
+   String companyName;
   final String driverPhoneNum;
-  final String driverName;
+  String driverName;
   final String imei;
-  final String transporterPhoneNumber;
-
+  final int transporterPhoneNumber;
   // final String transporterName;
 
   OngoingCard({
@@ -39,6 +38,9 @@ class OngoingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    driverName = driverName.length >= 12 ? driverName.substring(0,10) + '..' : driverName;
+    companyName = companyName.length >= 15 ? companyName.substring(0,13) + '..' : companyName;
+
     return Container(
       child: Card(
         child: Column(
@@ -54,21 +56,20 @@ class OngoingCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          LoadEndPointTemplate(
-                              text: loadingPoint != null ? loadingPoint : 'NA',
-                              endPointType: 'loading'),
+
+                          LoadEndPointTemplate(text: loadingPoint, endPointType: 'loading'),
+
                           Container(
                               padding: EdgeInsets.only(left: 2),
                               height: space_6,
                               width: space_12,
                               child: CustomPaint(
                                 foregroundPainter: LinePainter(),
-                              )),
-                          LoadEndPointTemplate(
-                              text: unloadingPoint != null
-                                  ? unloadingPoint
-                                  : 'NA',
-                              endPointType: 'unloading'),
+                              )
+                          ),
+
+                          LoadEndPointTemplate(text: unloadingPoint, endPointType: 'unloading'),
+
                         ],
                       ),
                       Row(
@@ -83,7 +84,7 @@ class OngoingCard extends StatelessWidget {
                                     AssetImage('assets/icons/TruckIcon.png')),
                           ),
                           Text(
-                            companyName != null ? companyName : 'NA',
+                            companyName,
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
@@ -97,12 +98,9 @@ class OngoingCard extends StatelessWidget {
                     margin: EdgeInsets.only(top: space_4),
                     child: Column(
                       children: [
-                        LoadLabelValueTemplate(
-                            value: truckNo, label: 'Truck No.'),
-                        LoadLabelValueTemplate(
-                            value: driverName, label: 'Driver Name'),
-                        LoadLabelValueTemplate(
-                            value: startedOn, label: 'Started on')
+                        LoadLabelValueRowTemplate(value: truckNo, label: 'Truck No.'),
+                        LoadLabelValueRowTemplate(value: driverName, label: 'Driver Name'),
+                        LoadLabelValueRowTemplate(value: startedOn, label: 'Started on')
                       ],
                     ),
                   ),
@@ -118,13 +116,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  CallButton(
-                    directCall: false,
-                    transporterPhoneNum: transporterPhoneNumber,
-                    driverPhoneNum: driverPhoneNum,
-                    driverName: driverName,
-                    transporterName: companyName,
-                  ),
+                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber.toString(), driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: companyName,),
                 ],
               ),
             ),

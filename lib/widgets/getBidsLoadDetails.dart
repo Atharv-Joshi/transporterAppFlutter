@@ -28,7 +28,7 @@ class _GetBidsLoadDetailsState extends State<GetBidsLoadDetails> {
                 child: LoadingWidget());
           }
           return GetBidRequestorDetails(
-              bidsModel: widget.bidsModel, loadApiModel: snapshot.data);
+              bidsModel: widget.bidsModel, loadScreenCardsModel: snapshot.data);
         });
   }
 }
