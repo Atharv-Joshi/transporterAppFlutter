@@ -3,29 +3,39 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/bookingApiCallsOrders.dart';
+import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 
-// ignore: must_be_immutable
-class TrackButton extends StatelessWidget {
-  bool truckApproved = false;
-
-  TrackButton({required this.truckApproved});
+class CompletedButtonOrders extends StatelessWidget {
+  String bookingId;
+  CompletedButtonOrders({Key? key, required this.bookingId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
+
     return TextButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         )),
-        backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+        backgroundColor: MaterialStateProperty.all<Color>(shareButtonColor),
       ),
       onPressed: () {
-        print('Completed Button Pressed');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ProductTypeEnterAlertDialog(
+              heading: 'Completed Date',
+            );
+          },
+        );
+        print("awefae$bookingId");
+        // bookingApiCallsOrders.updateBookingApi("20-08-2021", bookingId);
       },
       child: Container(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -35,7 +45,7 @@ class TrackButton extends StatelessWidget {
                 size_1,
               ),
               child: Text(
-                'Track',
+                'Completed',
                 style: TextStyle(
                   letterSpacing: 0.7,
                   fontWeight: normalWeight,

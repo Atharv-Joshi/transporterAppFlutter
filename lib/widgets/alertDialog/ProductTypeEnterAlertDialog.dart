@@ -9,9 +9,13 @@ import 'package:liveasy/widgets/buttons/CancelButtonProductType.dart';
 import 'package:liveasy/widgets/buttons/OkButtonProductType.dart';
 
 import '../ProductTypeTextField.dart';
+import '../completedTextField.dart';
 
 class ProductTypeEnterAlertDialog extends StatefulWidget {
-  const ProductTypeEnterAlertDialog({Key? key}) : super(key: key);
+  String heading;
+
+  ProductTypeEnterAlertDialog({Key? key, required this.heading})
+      : super(key: key);
 
   @override
   _ProductTypeEnterAlertDialogState createState() =>
@@ -34,7 +38,7 @@ class _ProductTypeEnterAlertDialogState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Enter The Product Type",
+                      widget.heading,
                       style: TextStyle(
                           fontWeight: normalWeight,
                           fontSize: size_9,
@@ -43,7 +47,7 @@ class _ProductTypeEnterAlertDialogState
                     SizedBox(
                       height: space_3,
                     ),
-                    ProductTypeTextField()
+                    CompletedTextField()
                   ],
                 ),
               ),

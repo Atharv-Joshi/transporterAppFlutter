@@ -115,7 +115,7 @@ class _MyTrucksState extends State<MyTrucks> {
                             truckModel.truckId = snapshot.data[index].truckId;
                             truckModel.transporterId =
                                 snapshot.data[index].transporterId;
-                            truckModel.truckNo = snapshot.data[index].truckNo;
+                            truckModel.truckNo = snapshot.data[index].vehicleNo;
                             truckModel.truckApproved =
                                 snapshot.data[index].truckApproved;
                             truckModel.imei = snapshot.data[index].imei;
@@ -136,7 +136,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                   }
                                   return MyTruckCard(
                                     truckApproved: snapshot.data.truckApproved,
-                                    truckNo: snapshot.data.truckNo,
+                                    truckNo: snapshot.data.vehicleNo,
                                     truckType: snapshot.data.truckType,
                                     tyres: snapshot.data.tyres,
                                     driverName: snapshot.data.driverName,

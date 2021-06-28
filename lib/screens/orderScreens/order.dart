@@ -13,6 +13,7 @@ import 'package:liveasy/widgets/OrderSectionTitleName.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/widgets/onGoingCard.dart';
 
 // ignore: camel_case_types
 class order extends StatefulWidget {
@@ -37,15 +38,6 @@ class _orderState extends State<order> {
               weight: 20,
               productType: "paint",
               load: 6000,
-            ),
-            LoadCard(
-              loadFrom: "Alwar",
-              loadTo: "Jalandhar",
-              truckType: "Flatbed",
-              tyres: 16,
-              weight: 15,
-              productType: "paint",
-              load: 8000,
             ),
             Positioned(
               left: MediaQuery.of(context).size.width * 0.17,

@@ -17,7 +17,7 @@ class nextButton extends StatelessWidget {
       Container(
         width: MediaQuery.of(context).size.width * 0.3,
         height: space_8,
-        margin: EdgeInsets.fromLTRB(space_8, space_9, space_8, space_0),
+        margin: EdgeInsets.fromLTRB(space_8, space_0, space_8, space_20),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(space_10),
           child: ElevatedButton(

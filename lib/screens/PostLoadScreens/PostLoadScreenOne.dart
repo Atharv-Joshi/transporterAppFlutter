@@ -94,128 +94,117 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                  space_2,
-                  space_4,
-                  space_2,
-                  space_0,
-                ),
-                child: AddPostLoadHeader(
-                  reset: true,
-                  resetFunction: () {
-                    providerData.resetPostLoadScreenOne();
-                  },
-                ),
-              ),
-              Container(
-                padding:
-                    EdgeInsets.fromLTRB(space_4, space_2, space_4, space_0),
-                color: backgroundColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AddTruckSubtitleText(text: "Location Details"),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                size_2, size_5, size_10, size_2),
-                            child: AddressInputWidget(
-                                hintText: "Loading point",
-                                icon: LoadingPointImageIcon(
-                                  height: size_6,
-                                  width: size_6,
-                                ),
-                                controller: controller1,
-                                onTap: () {
-                                  setState(() {
-                                    providerData.updateResetActive(true);
-                                    print(providerData.resetActive);
-                                  });
-                                }),
-                          ),
-                          SizedBox(height: size_5),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                size_2, size_5, size_10, size_2),
-                            child: AddressInputWidget(
-                              hintText: "Unloading point",
-                              icon: UnloadingPointImageIcon(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(space_4, space_2, space_4, space_0),
+              color: backgroundColor,
+              child: Column(
+                children: [
+                  AddPostLoadHeader(
+                    reset: true,
+                    resetFunction: () {
+                      providerData.resetPostLoadScreenOne();
+                    },
+                  ),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AddTruckSubtitleText(text: "Location Details"),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              size_2, size_5, size_10, size_2),
+                          child: AddressInputWidget(
+                              hintText: "Loading point",
+                              icon: LoadingPointImageIcon(
                                 height: size_6,
                                 width: size_6,
                               ),
-                              controller: controller2,
+                              controller: controller1,
                               onTap: () {
-                                providerData.updateResetActive(true);
-                              },
+                                setState(() {
+                                  providerData.updateResetActive(true);
+                                  print(providerData.resetActive);
+                                });
+                              }),
+                        ),
+                        SizedBox(height: size_5),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              size_2, size_5, size_10, size_2),
+                          child: AddressInputWidget(
+                            hintText: "Unloading point",
+                            icon: UnloadingPointImageIcon(
+                              height: size_6,
+                              width: size_6,
                             ),
+                            controller: controller2,
+                            onTap: () {
+                              providerData.updateResetActive(true);
+                            },
                           ),
-                          SizedBox(height: space_3),
-                          AddTruckSubtitleText(text: "Booking Date"),
-                          GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            childAspectRatio: 4,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            padding: EdgeInsets.all(10.0),
-                            crossAxisCount: 2,
-                            children: bookingDateList
-                                .map((e) => AddCalender(value: e, text: e))
-                                .toList(),
-                          ),
+                        ),
+                        SizedBox(height: space_3),
+                        AddTruckSubtitleText(text: "Booking Date"),
+                        GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          childAspectRatio: 4,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          padding: EdgeInsets.all(10.0),
+                          crossAxisCount: 2,
+                          children: bookingDateList
+                              .map((e) => AddCalender(value: e, text: e))
+                              .toList(),
+                        ),
 
-                          SizedBox(
-                            height: space_4,
-                          ),
-                          // ignore: deprecated_member_use
-                          Center(
-                            child: Container(
-                              width: space_26,
-                              height: space_8,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setDate = false;
-                                  _selectDate(context);
-                                },
-                                style:
-                                    ButtonStyle(backgroundColor: calendarColor),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      'Set date',
-                                      style: TextStyle(
-                                          color: black,
-                                          fontSize: size_7,
-                                          fontWeight: normalWeight),
-                                    ),
-                                    Icon(
-                                      Icons.calendar_today_outlined,
-                                      color: black,
-                                      size: size_9,
-                                    )
-                                  ],
-                                ),
+                        SizedBox(
+                          height: space_4,
+                        ),
+                        // ignore: deprecated_member_use
+                        Center(
+                          child: Container(
+                            width: space_26,
+                            height: space_8,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setDate = false;
+                                _selectDate(context);
+                              },
+                              style:
+                                  ButtonStyle(backgroundColor: calendarColor),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    'Set date',
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: size_7,
+                                        fontWeight: normalWeight),
+                                  ),
+                                  Icon(
+                                    Icons.calendar_today_outlined,
+                                    color: black,
+                                    size: size_9,
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    nextButton(),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            nextButton(),
+          ],
         ),
       ),
     );

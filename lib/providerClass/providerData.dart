@@ -66,6 +66,7 @@ class ProviderData extends ChangeNotifier {
   String unloadingPointPostLoad = "";
 
   String bookingDate = "";
+  String completedDate = "";
 
   // variables for accountVerification
   File? profilePhotoFile;
@@ -425,6 +426,12 @@ class ProviderData extends ChangeNotifier {
     perTruck = false;
     notifyListeners();
   }
+
+  void updateCompletedDate(value) {
+    completedDate = value;
+    notifyListeners();
+  }
+
 //----------------------------------
 
 }

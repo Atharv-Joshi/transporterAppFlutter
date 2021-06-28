@@ -68,7 +68,7 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                   },
                   children: [
                     order(),
-                    OngoingScreen(),
+                    OngoingScreenOrders(),
                     DeliveredScreen(),
                   ],
                 ),

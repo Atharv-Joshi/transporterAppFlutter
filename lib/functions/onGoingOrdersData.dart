@@ -6,46 +6,33 @@ import 'loadApiCalls.dart';
 
 final LoadApiCalls loadApiCalls = LoadApiCalls();
 
-final PostLoadIdApiCalls postLoadIdApiCalls = PostLoadIdApiCalls();
+final PostLoadIdApiCalls transporterApiCalls = PostLoadIdApiCalls();
 
 final TruckApiCalls truckApiCalls = TruckApiCalls();
 
 final DriverApiCalls driverApiCalls = DriverApiCalls();
 
-Future<Map> loadAllData(bookingModel) async {
+Future<Map> loadDataforOnGoing(bookingModel) async {
   String bookingDate = bookingModel.bookingDate;
-  String bookingId = bookingModel.bookingId;
-  print("load Alll data $bookingId");
-  print(bookingDate);
-  String completedDate =
-      bookingModel.completedDate == null || bookingModel.completedDate == ""
-          ? "NA"
-          : bookingModel.completedDate;
-  print(completedDate);
+  String completedDate = bookingModel.completedDate;
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
   print(endpoints);
-  Map postLoadIdData = bookingModel.postLoadId[0] == "t"
-      ? await postLoadIdApiCalls.getDataByTransporterId(bookingModel.postLoadId)
-      : await postLoadIdApiCalls.getDataByShipperId(bookingModel.postLoadId);
-  /*-------checked-------*/
+  Map transporterData = await transporterApiCalls
+      .getDataByTransporterId(bookingModel.transporterId);
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
-  print(bookingModel.truckId[0]);
-
   DriverModel driverModel =
       await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
-  print(truckData['driverId']);
 
   Map cardDataModel = {
     'startedOn': bookingDate,
     'endedOn': completedDate,
     'loadingPoint': endpoints['loadingPointCity'],
     'unloadingPoint': endpoints['unloadingPointCity'],
-    'companyName': postLoadIdData['companyName'],
-    'bookingId': bookingId,
+    'companyName': transporterData['companyName'],
     // 'transporterName' : transporterData['transporterName'],
-    'transporterPhoneNum': postLoadIdData['transporterPhoneNum'],
+    'transporterPhoneNum': transporterData['transporterPhoneNum'],
     'truckNo': truckData['truckNo'],
-    'imei': "truckData['imei']",
+    'imei': truckData['imei'],
     'driverName': driverModel.driverName,
     'driverPhoneNum': driverModel.phoneNum
   };
