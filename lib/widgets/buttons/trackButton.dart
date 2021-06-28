@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/getLoactionUsingImei.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
+import 'package:liveasy/screens/displayMapUsingImei.dart';
 
 // ignore: must_be_immutable
 class TrackButton extends StatelessWidget {
   bool truckApproved = false;
-
-  TrackButton({required this.truckApproved});
+  String? imei;
+  Position? userLocation;
+  TrackButton({required this.truckApproved, this.imei, this.userLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +29,12 @@ class TrackButton extends StatelessWidget {
               )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: () {
+        onPressed: () async{
           print('Track Button Pressed');
+
+          if(imei != null ){
+            GpsDataModel gpsData = await getLocationByImei(imei: imei);
+            Get.to(ShowMapWithImei(gpsData: gpsData,userLocation: userLocation,),);}
         },
         child: Container(
           margin: EdgeInsets.only(left: space_2),

@@ -6,14 +6,15 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BidButton extends StatefulWidget {
-  String? loadId;
+  LoadDetailsScreenModel loadDetails;
 
-  BidButton(this.loadId);
+  BidButton({required this.loadDetails});
 
   @override
   _BidButtonState createState() => _BidButtonState();
@@ -31,7 +32,7 @@ class _BidButtonState extends State<BidButton> {
               context: context,
               builder: (context) => BidButtonAlertDialog(
                 isPost: true,
-                    loadId: widget.loadId,
+                    loadId: widget.loadDetails.loadId,
                   ));
         } else {
           showDialog(

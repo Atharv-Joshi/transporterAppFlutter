@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -5,13 +6,14 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
-  String? loadId;
+  LoadDetailsScreenModel loadDetails;
 
-  BookNowButton({required this.loadId});
+  BookNowButton({required this.loadDetails});
 
   @override
   _BookNowButtonState createState() => _BookNowButtonState();
@@ -31,12 +33,13 @@ class _BookNowButtonState extends State<BookNowButton> {
           });
 
           await showDialog(
-              context: context,
-              builder: (context) => BookNowButtonAlertDialog(
-                    truckDetailsList: truckDetailsList,
-                    driverDetailsList: driverDetailsList,
-                    loadId: widget.loadId,
-                  ));
+            context: context,
+            builder: (context) => BookNowButtonAlertDialog(
+              truckDetailsList: truckDetailsList,
+              driverDetailsList: driverDetailsList,
+              loadDetails: widget.loadDetails,
+            ),
+          );
         },
         child: Container(
           height: space_8,

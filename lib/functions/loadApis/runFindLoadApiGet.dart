@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:liveasy/models/loadApiModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-Future<List<LoadScreenCardsModel>> runFindLoadApiGet(
+Future<List<LoadApiModel>> runFindLoadApiGet(
     String loadingPointCity, String unloadingPointCity) async {
   String additionalQuery = "";
   if (loadingPointCity != "" && unloadingPointCity != "") {
@@ -18,7 +18,7 @@ Future<List<LoadScreenCardsModel>> runFindLoadApiGet(
   }
 
   var jsonData;
-  List<LoadScreenCardsModel> card = [];
+  List<LoadApiModel> card = [];
 
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response =
@@ -26,7 +26,7 @@ Future<List<LoadScreenCardsModel>> runFindLoadApiGet(
 
   jsonData = json.decode(response.body);
   for (var json in jsonData) {
-    LoadScreenCardsModel cardsModal = LoadScreenCardsModel();
+    LoadApiModel cardsModal = LoadApiModel();
     cardsModal.loadId = json["loadId"];
     cardsModal.loadingPoint = json["loadingPoint"];
     cardsModal.loadingPointCity = json["loadingPointCity"];
@@ -42,6 +42,8 @@ Future<List<LoadScreenCardsModel>> runFindLoadApiGet(
     cardsModal.comment = json["comment"];
     cardsModal.status = json["status"];
     cardsModal.date = json["loadDate"];
+    cardsModal.rate = json["rate"];
+    cardsModal.unitValue = json["unitValue"];
     card.add(cardsModal);
   }
   return card;
