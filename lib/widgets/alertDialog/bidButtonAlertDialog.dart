@@ -4,27 +4,39 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/bidButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:provider/provider.dart';
 
 enum RadioButtonOptions { PER_TON, PER_TRUCK }
 
 // ignore: must_be_immutable
 class BidButtonAlertDialog extends StatefulWidget {
   String? loadId;
+  String? bidId;
+  bool? isPost;
 
-  BidButtonAlertDialog({this.loadId});
+  BidButtonAlertDialog({
+    this.loadId,
+    this.bidId,
+    required this.isPost
+  });
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
-  TextEditingController rate = TextEditingController();
-  RadioButtonOptions unit = RadioButtonOptions.PER_TON;
+  // TextEditingController rate = TextEditingController();
+  RadioButtonOptions unitValue = RadioButtonOptions.PER_TON;
+  int? rate;
 
   @override
   Widget build(BuildContext context) {
+
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
     return AlertDialog(
       insetPadding: EdgeInsets.only(left: space_4, right: space_4),
       title: Text(
@@ -42,10 +54,10 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   Radio<RadioButtonOptions>(
                       value: RadioButtonOptions.PER_TON,
                       activeColor: darkBlueColor,
-                      groupValue: unit,
+                      groupValue: unitValue,
                       onChanged: (value) {
                         setState(() {
-                          unit = value!;
+                          unitValue = value!;
                         });
                       }),
                   Text(
@@ -62,10 +74,10 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   Radio<RadioButtonOptions>(
                       value: RadioButtonOptions.PER_TRUCK,
                       activeColor: darkBlueColor,
-                      groupValue: unit,
+                      groupValue: unitValue,
                       onChanged: (value) {
                         setState(() {
-                          unit = value!;
+                          unitValue = value!;
                         });
                       }),
                   Text(
@@ -90,8 +102,15 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 right: space_2 - 2,
               ),
               child: TextField(
-                controller: rate,
+                onChanged: (value){
+                  providerData.updateRate(int.parse(value));
+                  // rate = int.parse(value);
+                  // print(rate);
+                } ,
+                keyboardType: TextInputType.number,
+                // controller: rate,
                 decoration: InputDecoration(
+
                   hintText: "Eg 4000",
                   hintStyle: TextStyle(color: textLightColor),
                   border: InputBorder.none,
@@ -108,7 +127,12 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
-                  widget.loadId.toString(), rate.text, unit.toString()),
+                  // rate: rate,
+                loadId: widget.loadId ,
+                  bidId: widget.bidId,
+                  unitValue : unitValue.toString(),
+                isPost: widget.isPost,
+              ),
               CancelButton()
             ],
           ),

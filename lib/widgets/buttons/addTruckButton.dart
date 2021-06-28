@@ -5,8 +5,6 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
-import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
-
 class AddTruckButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,12 +15,12 @@ class AddTruckButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
+                borderRadius: BorderRadius.circular(50),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed:
-             () {
+            () {
           Get.to(() => AddNewTruck());
         }
         ,

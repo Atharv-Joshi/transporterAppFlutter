@@ -34,7 +34,8 @@ class LoadCardFooter extends StatelessWidget {
               )
             ],
           ),
-          CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo"),
+          // CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo"),
+          CallButton(directCall: true , driverPhoneNum: loadPosterPhoneNo ,)
         ],
       ),
     );

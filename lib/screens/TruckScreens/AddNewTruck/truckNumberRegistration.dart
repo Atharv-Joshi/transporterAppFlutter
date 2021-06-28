@@ -48,6 +48,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(
+                  backButton: true,
                   text: 'Add Truck',
                   reset: true,
                   resetFunction: () {
