@@ -14,11 +14,17 @@ final TruckApiCalls truckApiCalls = TruckApiCalls();
 final DriverApiCalls driverApiCalls = DriverApiCalls();
 
 Future<Map> loadAllData(bookingModel) async {
+  print('load all data in');
   String bookingDate = bookingModel.bookingDate;
+  print(bookingDate);
   String completedDate = bookingModel.completedDate;
+  print(completedDate);
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
+  print(endpoints);
   TransporterModel transporterModel = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
+
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
+  print(truckData);
   DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
 
   Map cardDataModel = {
@@ -33,6 +39,6 @@ Future<Map> loadAllData(bookingModel) async {
     'driverName' : driverModel.driverName ,
     'driverPhoneNum' : driverModel.phoneNum ,
   };
-
+  print('load all data out');
   return cardDataModel;
 }

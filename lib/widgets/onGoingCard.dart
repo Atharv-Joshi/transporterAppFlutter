@@ -20,7 +20,7 @@ class OngoingCard extends StatelessWidget {
   final String driverPhoneNum;
   String driverName;
   final String imei;
-  final int transporterPhoneNumber;
+  final String transporterPhoneNumber;
   // final String transporterName;
 
   OngoingCard({
@@ -116,7 +116,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber.toString(), driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: companyName,),
+                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber, driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: companyName,),
                 ],
               ),
             ),

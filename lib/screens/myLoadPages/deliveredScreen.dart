@@ -17,7 +17,7 @@ class DeliveredScreen extends StatelessWidget {
 
         height: MediaQuery.of(context).size.height * 0.67,
         child: FutureBuilder(
-          //getTruckData returns list of truck Model
+
           future: bookingApiCalls.getDataByPostLoadIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
 

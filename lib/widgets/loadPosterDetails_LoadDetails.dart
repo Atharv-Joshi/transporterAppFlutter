@@ -44,62 +44,69 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "$loadPosterName",
-                style: TextStyle(
-                    fontWeight: mediumBoldWeight,
-                    color: white,
-                    fontSize: size_9),
+              Container(
+                child: Column(
+                  children: [
+                    Text(
+                      "$loadPosterName",
+                      style: TextStyle(
+                          fontWeight: mediumBoldWeight,
+                          color: white,
+                          fontSize: size_9),
+                    ),
+                    SizedBox(
+                      height: space_1 - 2,
+                    ),
+                    Row(
+                      children: [
+                        Image(
+                          image: AssetImage("assets/icons/buildingIcon.png"),
+                          height: space_3 + 1,
+                          width: space_3,
+                        ),
+                        SizedBox(
+                          width: space_1 - 2,
+                        ),
+                        Text(
+                          "$loadPosterCompanyName",
+                          style: TextStyle(
+                              fontWeight: normalWeight,
+                              color: white,
+                              fontSize: size_6),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: space_1 - 1,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: space_3,
+                          width: space_3 - 2,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  "assets/icons/locationIcon.png",
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          width: space_1,
+                        ),
+                        Text(
+                          "$loadPosterLocation",
+                          style: TextStyle(
+                              fontWeight: normalWeight,
+                              color: white,
+                              fontSize: size_6),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: space_1 - 2,
-              ),
-              Row(
-                children: [
-                  Image(
-                    image: AssetImage("assets/icons/buildingIcon.png"),
-                    height: space_3 + 1,
-                    width: space_3,
-                  ),
-                  SizedBox(
-                    width: space_1 - 2,
-                  ),
-                  Text(
-                    "$loadPosterCompanyName",
-                    style: TextStyle(
-                        fontWeight: normalWeight,
-                        color: white,
-                        fontSize: size_6),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: space_1 - 1,
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: space_3,
-                    width: space_3 - 2,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage(
-                        "assets/icons/locationIcon.png",
-                      ),
-                    )),
-                  ),
-                  SizedBox(
-                    width: space_1,
-                  ),
-                  Text(
-                    "$loadPosterLocation",
-                    style: TextStyle(
-                        fontWeight: normalWeight,
-                        color: white,
-                        fontSize: size_6),
-                  ),
-                ],
-              ),
+
               SizedBox(
                 height: space_1 + 1,
               ),

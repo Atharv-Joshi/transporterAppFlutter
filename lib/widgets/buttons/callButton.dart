@@ -56,7 +56,7 @@ class CallButton extends StatelessWidget {
             content: Center(
               child: Column(
                 children: [
-                  ChooseReceiverButton(label: transporterName, phoneNum: transporterPhoneNum ,),
+                  ChooseReceiverButton(label: transporterName, phoneNum: transporterPhoneNum.toString() ,),
 
                   Container(
                     margin: EdgeInsets.symmetric(vertical: space_2),

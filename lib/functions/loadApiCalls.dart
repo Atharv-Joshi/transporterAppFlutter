@@ -11,14 +11,17 @@ class LoadApiCalls{
   final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
 
   Future<Map> getDataByLoadId(String loadId) async  {
+    print('getDataByLoadId in');
     http.Response response = await http.get(Uri.parse('$loadApiUrl/$loadId'));
+    print(response.body);
     var jsonData = json.decode(response.body);
-
+    print(jsonData);
     Map data = {
       'loadingPointCity' : jsonData['loadingPointCity'] !=null ?  jsonData['loadingPointCity'] : 'NA',
       'unloadingPointCity' : jsonData['unloadingPointCity'] !=null ?  jsonData['unloadingPointCity'] : 'NA',
     };
-
+    print(data);
+    print('getDataByLoadId out');
     return data;
 }
 

@@ -46,7 +46,6 @@ class OngoingScreen extends StatelessWidget {
                         );
                     }
                     else {
-                        // return Text('debugging');
                         return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index)  {
