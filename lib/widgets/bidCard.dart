@@ -14,7 +14,7 @@ import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 // ignore: must_be_immutable
 class BidCard extends StatefulWidget {
   BidsModel? bidsModel;
-  LoadScreenCardsModel? loadScreenCardsModel;
+  LoadApiModel? loadScreenCardsModel;
   LoadPosterModel? loadPosterModel;
 
   BidCard({this.bidsModel, this.loadScreenCardsModel, this.loadPosterModel});
@@ -41,7 +41,9 @@ class _BidCardState extends State<BidCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: widget.loadScreenCardsModel!.loadingPointCity != null
+                            text: widget.loadScreenCardsModel!
+                                        .loadingPointCity !=
+                                    null
                                 ? widget.loadScreenCardsModel!.loadingPointCity
                                     .toString()
                                 : 'NA',
@@ -54,11 +56,13 @@ class _BidCardState extends State<BidCard> {
                               foregroundPainter: LinePainter(),
                             )),
                         LoadEndPointTemplate(
-                            text:
-                                widget.loadScreenCardsModel!.unloadingPointCity != null
-                                    ? widget.loadScreenCardsModel!.unloadingPointCity
-                                        .toString()
-                                    : 'NA',
+                            text: widget.loadScreenCardsModel!
+                                        .unloadingPointCity !=
+                                    null
+                                ? widget
+                                    .loadScreenCardsModel!.unloadingPointCity
+                                    .toString()
+                                : 'NA',
                             endPointType: 'unloading'),
                       ],
                     ),
@@ -94,7 +98,8 @@ class _BidCardState extends State<BidCard> {
                 CancelButton(),
                 CallButton(
                   phoneNum: widget.loadPosterModel!.loadPosterPhoneNo,
-                  color: darkBlueColor, directCall: true,
+                  color: darkBlueColor,
+                  directCall: true,
                 ),
               ],
             ),

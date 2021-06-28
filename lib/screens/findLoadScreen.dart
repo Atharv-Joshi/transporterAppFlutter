@@ -31,15 +31,19 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context, listen: false);
-    // if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-    //   controller1 = TextEditingController(
-    //       text:
-    //           ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-    //   findLoadApiData = runFindLoadApiGet(
-    //       providerData.loadingPointCity, providerData.unloadingPointCity);
-    // }
-    findLoadApiData = runFindLoadApiGet("Alwar", "");
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
+
+    if (Provider.of<ProviderData>(context).loadingPointCity != "") {
+      print(transporterIdController.transporterId);
+      controller1 = TextEditingController(
+          text:
+              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
+      findLoadApiData = runFindLoadApiGet(
+          providerData.loadingPointCity, providerData.unloadingPointCity);
+    }
+    // findLoadApiData = runFindLoadApiGet("Alwar", "");
+
     if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
       controller2 = TextEditingController(
           text:
@@ -85,8 +89,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 AddressInputWidget(
                     hintText: "Loading Point",
                     icon: LoadingPointImageIcon(
-                      height: 12,
-                      width: 12,
+                      height: space_2 + 2,
+                      width: space_2 + 2,
                     ),
                     controller: controller1,
                     onTap: () {
@@ -98,8 +102,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 AddressInputWidget(
                   hintText: "Unloading Point",
                   icon: UnloadingPointImageIcon(
-                    height: 12,
-                    width: 12,
+                    height: space_2 + 2,
+                    width: space_2 + 2,
                   ),
                   controller: controller2,
                   onTap: () {
@@ -145,44 +149,19 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                 height: space_4,
                               ),
                               Container(
-                                  height: 450,
-                                  //TODO to be modified
-                                  //alternative-(MediaQuery.of(context).size.height-(previous height))
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(),
-                                    itemCount: (snapshot.data.length),
-                                    itemBuilder:
-                                        (BuildContext context, index) =>
-                                            LoadApiDataDisplayCard(
-                                      loadId: snapshot.data[index].loadId,
-                                      loadingPoint:
-                                          snapshot.data[index].loadingPoint,
-                                      loadingPointCity:
-                                          snapshot.data[index].loadingPointCity,
-                                      loadingPointState: snapshot
-                                          .data[index].loadingPointState,
-                                      postLoadId:
-                                          snapshot.data[index].postLoadId,
-                                      unloadingPoint:
-                                          snapshot.data[index].unloadingPoint,
-                                      unloadingPointCity: snapshot
-                                          .data[index].unloadingPointCity,
-                                      unloadingPointState: snapshot
-                                          .data[index].unloadingPointState,
-                                      productType:
-                                          snapshot.data[index].productType,
-                                      truckType: snapshot.data[index].truckType,
-                                      noOfTrucks:
-                                          snapshot.data[index].noOfTrucks,
-                                      weight: snapshot.data[index].weight,
-                                      comment: snapshot.data[index].comment,
-                                      status: snapshot.data[index].status,
-                                      loadDate: snapshot.data[index].loadDate,
-                                      rate: snapshot.data[index].rate,
-                                      unitValue: snapshot.data[index].unitValue,
-                                    ),
-                                  ))
+                                height: 450,
+                                //TODO to be modified
+                                //alternative-(MediaQuery.of(context).size.height-(previous height))
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.symmetric(),
+                                  itemCount: (snapshot.data.length),
+                                  itemBuilder: (BuildContext context, index) =>
+                                      LoadApiDataDisplayCard(
+                                    loadApiData: snapshot.data[index],
+                                  ),
+                                ),
+                              ),
                             ],
                           );
                         }),

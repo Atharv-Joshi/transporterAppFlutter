@@ -8,12 +8,14 @@ import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 
 // ignore: must_be_immutable
 class ViewBidsButton extends StatelessWidget {
-
   final String? loadId;
   final String? loadingPointCity;
   final String? unloadingPointCity;
 
-  ViewBidsButton({required this.loadId , required this.loadingPointCity , required this.unloadingPointCity});
+  ViewBidsButton(
+      {required this.loadId,
+      required this.loadingPointCity,
+      required this.unloadingPointCity});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +24,13 @@ class ViewBidsButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(23),
-              )),
+            borderRadius: BorderRadius.circular(23),
+          )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 0 , horizontal: space_5),
-          child:  Text(
+          margin: EdgeInsets.symmetric(vertical: 0, horizontal: space_5),
+          child: Text(
             'View Bids',
             style: TextStyle(
               letterSpacing: 0.7,
@@ -40,7 +42,11 @@ class ViewBidsButton extends StatelessWidget {
         ),
         onPressed: () {
           print(loadId);
-          Get.to(() => BiddingScreens(loadId: loadId,loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,));
+          Get.to(() => BiddingScreens(
+                loadId: loadId,
+                loadingPointCity: loadingPointCity,
+                unloadingPointCity: unloadingPointCity,
+              ));
         },
       ),
     );

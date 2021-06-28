@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/additionalDescription_LoadDetails.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
@@ -14,73 +15,13 @@ import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
 
 // ignore: must_be_immutable
-class LoadDetailsScreen extends StatefulWidget {
-  var loadDetailsScreenModel;
+class LoadDetailsScreen extends StatelessWidget {
+  LoadDetailsScreenModel loadDetails;
 
-  LoadDetailsScreen({this.loadDetailsScreenModel});
-
-  @override
-  _LoadDetailsScreenState createState() => _LoadDetailsScreenState();
-}
-
-class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
-  String? loadId;
-  String? loadingPoint;
-  String? loadingPointCity;
-  String? loadingPointState;
-  String? postLoadId;
-  String? unloadingPoint;
-  String? unloadingPointCity;
-  String? unloadingPointState;
-  String? productType;
-  String? truckType;
-  String? noOfTrucks;
-  String? weight;
-  String? comment;
-  String? status;
-  String? loadDate;
-  String? rate;
-  String? unitValue;
-  String? loadPosterId;
-  String? loadPosterPhoneNo;
-  String? loadPosterLocation;
-  String? loadPosterName;
-  String? loadPosterCompanyName;
-  String? loadPosterKyc;
-  String? loadPosterCompanyApproved;
-  String? loadPosterApproved;
-  String? loadPosterAccountVerificationInProgress;
+  LoadDetailsScreen({required this.loadDetails});
 
   @override
   Widget build(BuildContext context) {
-    loadId = widget.loadDetailsScreenModel.loadId;
-    loadingPoint = widget.loadDetailsScreenModel.loadingPoint;
-    loadingPointCity = widget.loadDetailsScreenModel.loadingPointCity;
-    loadingPointState = widget.loadDetailsScreenModel.loadingPointState;
-    postLoadId = widget.loadDetailsScreenModel.postLoadId;
-    unloadingPoint = widget.loadDetailsScreenModel.unloadingPoint;
-    unloadingPointCity = widget.loadDetailsScreenModel.unloadingPointCity;
-    unloadingPointState = widget.loadDetailsScreenModel.unloadingPointState;
-    productType = widget.loadDetailsScreenModel.productType;
-    truckType = widget.loadDetailsScreenModel.truckType;
-    noOfTrucks = widget.loadDetailsScreenModel.noOfTrucks;
-    weight = widget.loadDetailsScreenModel.weight;
-    comment = widget.loadDetailsScreenModel.comment;
-    status = widget.loadDetailsScreenModel.status;
-    loadDate = widget.loadDetailsScreenModel.loadDate;
-    rate = widget.loadDetailsScreenModel.rate;
-    unitValue = widget.loadDetailsScreenModel.unitValue;
-    loadPosterId = widget.loadDetailsScreenModel.loadPosterId;
-    loadPosterPhoneNo = widget.loadDetailsScreenModel.phoneNo;
-    loadPosterLocation = widget.loadDetailsScreenModel.loadPosterLocation;
-    loadPosterName = widget.loadDetailsScreenModel.loadPosterName;
-    loadPosterCompanyName = widget.loadDetailsScreenModel.loadPosterCompanyName;
-    loadPosterKyc = widget.loadDetailsScreenModel.loadPosterKyc;
-    loadPosterCompanyApproved =
-        widget.loadDetailsScreenModel.loadPosterCompanyApproved;
-    loadPosterApproved = widget.loadDetailsScreenModel.loadPosterApproved;
-    loadPosterAccountVerificationInProgress =
-        widget.loadDetailsScreenModel.loadPosterAccountVerificationInProgress;
     return SafeArea(
         child: Scaffold(
       backgroundColor: backgroundColor,
@@ -108,11 +49,14 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
             Stack(
               children: [
                 LoadPosterDetailsLoadDetails(
-                  loadPosterLocation: loadPosterLocation,
-                  loadPosterName: loadPosterName,
-                  loadPosterCompanyName: loadPosterCompanyName,
+                  loadPosterLocation: loadDetails.loadPosterLocation,
+                  loadPosterName: loadDetails.loadPosterName,
+                  loadPosterCompanyName: loadDetails.loadPosterCompanyName,
                   //TODO loadPosterCompanyApproved was string but I have changed it to bool for logical reasons shikhar please send boolean value here instead of string
-                  loadPosterCompanyApproved: true,
+                  loadPosterCompanyApproved:
+                      loadDetails.loadPosterCompanyApproved == "true"
+                          ? true
+                          : false,
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -126,11 +70,11 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            BidButton(loadId),
+                            BidButton(loadDetails: loadDetails),
                             // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
                             CallButton(
                               directCall: true,
-                              phoneNum: loadPosterPhoneNo,
+                              driverPhoneNum: loadDetails.phoneNo,
                             )
                           ],
                         )),
@@ -149,12 +93,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       LocationDetailsLoadDetails(
-                        loadingPoint: loadingPoint,
-                        loadingPointCity: loadingPointCity,
-                        loadingPointState: loadingPointState,
-                        unloadingPoint: unloadingPoint,
-                        unloadingPointCity: unloadingPointCity,
-                        unloadingPointState: unloadingPointState,
+                        loadDetails: loadDetails,
                       ),
                       SizedBox(
                         height: space_3,
@@ -167,11 +106,12 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         height: space_2,
                       ),
                       RequirementsLoadDetails(
-                          truckType, "NA", weight, productType),
+                        loadDetails: loadDetails,
+                      ),
                       SizedBox(
                         height: space_3,
                       ),
-                      AdditionalDescriptionLoadDetails(comment),
+                      AdditionalDescriptionLoadDetails(loadDetails.comment),
                       SizedBox(
                         height: space_4,
                       ),
@@ -179,15 +119,14 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           BookNowButton(
-                            loadId: loadId,
-                            rate: rate,
-                            unitValue: unitValue,
-                            postLoadId: postLoadId,
+                            loadDetails: loadDetails,
                           ),
                           SizedBox(
                             width: space_2,
                           ),
-                          // ShareButton(loadingPointCity: loadingPointCity)
+                          ShareButton(
+                            loadDetails: loadDetails,
+                          )
                         ],
                       ),
                     ],

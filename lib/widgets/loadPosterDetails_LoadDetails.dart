@@ -103,9 +103,7 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
               SizedBox(
                 height: space_1 + 1,
               ),
-              loadPosterCompanyApproved!
-                  ? VerifiedWidget()
-                  : UnverifiedWidget()
+              loadPosterCompanyApproved! ? VerifiedWidget() : UnverifiedWidget()
             ],
           ),
         ],

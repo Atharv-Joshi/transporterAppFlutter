@@ -1,4 +1,4 @@
-class LoadScreenCardsModel {
+class LoadApiModel {
   String? loadId;
   String? loadingPoint;
   String? loadingPointCity;
@@ -19,7 +19,7 @@ class LoadScreenCardsModel {
 
   // int? tyres;
 
-  LoadScreenCardsModel({
+  LoadApiModel({
     this.loadId,
     this.loadingPoint,
     this.loadingPointCity,

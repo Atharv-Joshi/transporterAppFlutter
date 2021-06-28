@@ -37,7 +37,7 @@ class BidButtonSendRequest extends StatelessWidget {
         ),
         onPressed: () {
           if (Provider.of<ProviderData>(context, listen: false)
-              .bidButtonSendRequestState ==
+                  .bidButtonSendRequestState ==
               "false") {
             return null;
           } else {
@@ -62,18 +62,18 @@ class BidButtonSendRequest extends StatelessWidget {
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(radius_4),
-                )),
+              borderRadius: BorderRadius.circular(radius_4),
+            )),
             overlayColor:
-            Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                "true"
-                ? null
-                : MaterialStateProperty.all(Colors.transparent),
+                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                        "true"
+                    ? null
+                    : MaterialStateProperty.all(Colors.transparent),
             backgroundColor:
-            Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                "true"
-                ? activeButtonColor
-                : deactiveButtonColor),
+                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
+                        "true"
+                    ? activeButtonColor
+                    : deactiveButtonColor),
       ),
     );
   }

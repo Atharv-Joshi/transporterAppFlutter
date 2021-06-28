@@ -15,7 +15,11 @@ class Header extends StatefulWidget {
   bool backButton = true;
   final text;
 
-  Header({this.resetFunction, required this.reset, required this.text , required this.backButton});
+  Header(
+      {this.resetFunction,
+      required this.reset,
+      required this.text,
+      required this.backButton});
 
   @override
   _HeaderState createState() => _HeaderState();

@@ -58,22 +58,17 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     dropDownList.add(DropdownMenuItem(
       value: '',
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           showDialog(
-              context: context,
-              builder: (context) => AddDriverAlertDialog());
+              context: context, builder: (context) => AddDriverAlertDialog());
         },
         child: Text('Add New Driver'),
       ),
-    )
-
-    );
-
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     return Scaffold(

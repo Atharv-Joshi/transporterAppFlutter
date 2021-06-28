@@ -5,13 +5,13 @@ import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 
-
 class TruckApiCalls {
   // retrieving TRUCKAPIURL  from env file
   final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   // transporterId controller
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   //json data list
   late List jsonData;
@@ -22,8 +22,6 @@ class TruckApiCalls {
   // This variable is used to return truckId to MyTruckScreens
   String? _truckId;
 
-
-
 //GET---------------------------------------------------------------------------
 
   //GET Truck Data by truckId
@@ -32,9 +30,9 @@ class TruckApiCalls {
     var jsonData = json.decode(response.body);
 
     Map data = {
-      'driverId' : jsonData['driverId'] !=null ?  jsonData['driverId'] : 'NA',
-      'truckNo' : jsonData['truckNo'] !=null ?  jsonData['truckNo'] : 'NA',
-      'imei' :jsonData['imei'] !=null ?  jsonData['imei'] : 'NA',
+      'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
+      'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
+      'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
     };
 
     return data;
@@ -70,13 +68,12 @@ class TruckApiCalls {
   //PUT-------------------------------------------------------------------------
 
   Future<String?> putTruckData(
-      {
-        required String truckID,
-        required String truckType,
-        required int totalTyres,
-        required int passingWeight,
-        required int truckLength,
-        required String driverID}) async {
+      {required String truckID,
+      required String truckType,
+      required int totalTyres,
+      required int passingWeight,
+      required int truckLength,
+      required String driverID}) async {
     //json map
     Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,

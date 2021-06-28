@@ -7,6 +7,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverNameFromDriverApi.dart';
 import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
@@ -20,18 +21,12 @@ import 'addDriverAlertDialog.dart';
 class BookNowButtonAlertDialog extends StatefulWidget {
   var truckDetailsList;
   var driverDetailsList;
-  String? loadId;
-  String? rate;
-  String? unitValue;
-  String? postLoadId;
+  LoadDetailsScreenModel loadDetails;
 
   BookNowButtonAlertDialog(
       {required this.truckDetailsList,
       required this.driverDetailsList,
-      required this.loadId,
-      this.rate,
-      this.unitValue,
-      this.postLoadId});
+      required this.loadDetails});
 
   @override
   _BookNowButtonAlertDialogState createState() =>
@@ -165,12 +160,12 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ConfirmButtonSendRequest(
-                loadId: widget.loadId,
-                rate: widget.rate,
+                loadId: widget.loadDetails.loadId.toString(),
+                rate: widget.loadDetails.rate.toString(),
                 transporterId: selectedTransporterId,
-                unit: widget.unitValue,
-                postLoadId: widget.postLoadId,
+                unit: widget.loadDetails.unitValue,
                 truckId: [selectedTruckId],
+                postLoadId: widget.loadDetails.loadPosterId.toString(),
               ),
               CancelButton()
             ],

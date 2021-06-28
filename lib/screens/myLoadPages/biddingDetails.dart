@@ -7,9 +7,7 @@ import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails_LoadDetails.dart';
 
-
 class BiddingDetails extends StatelessWidget {
-
   final String? loadId;
   final String? bidId;
   final String? rate;
@@ -23,7 +21,7 @@ class BiddingDetails extends StatelessWidget {
   final bool? transporterApproved;
 
   BiddingDetails({
-    required this.loadId ,
+    required this.loadId,
     required this.biddingDate,
     required this.unitValue,
     required this.rate,
@@ -34,17 +32,15 @@ class BiddingDetails extends StatelessWidget {
     required this.transporterLocation,
     required this.companyApproved,
     required this.transporterApproved,
-
-  }
-  );
+  });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          margin: EdgeInsets.symmetric(vertical: space_4 , horizontal:  space_2),
-          child:Column(
+          margin: EdgeInsets.symmetric(vertical: space_4, horizontal: space_2),
+          child: Column(
             children: [
               Header(reset: false, text: 'Bidding Details', backButton: true),
               Container(
@@ -52,14 +48,16 @@ class BiddingDetails extends StatelessWidget {
                 child: Stack(
                   children: [
                     LoadPosterDetailsLoadDetails(
-                      loadPosterLocation: transporterLocation ,
+                      loadPosterLocation: transporterLocation,
                       loadPosterName: transporterName,
                       loadPosterCompanyName: companyName,
                       loadPosterCompanyApproved: transporterApproved,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: space_6, top: (space_14 * 2) + 3, right: space_6),
+                          left: space_6,
+                          top: (space_14 * 2) + 3,
+                          right: space_6),
                       child: Container(
                         // height: 51,
                         decoration: BoxDecoration(
@@ -69,14 +67,17 @@ class BiddingDetails extends StatelessWidget {
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: space_2),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  NegotiateButton(bidId : bidId),
-                                  CallButton(directCall: true ,phoneNum: transporterPhoneNum ,)
+                                  NegotiateButton(bidId: bidId),
+                                  CallButton(
+                                    directCall: true,
+                                    phoneNum: transporterPhoneNum,
+                                  )
                                 ],
                               ),
-                            )
-                        ),
+                            )),
                       ),
                     )
                   ],

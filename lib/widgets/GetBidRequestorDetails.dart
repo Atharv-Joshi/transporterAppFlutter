@@ -9,7 +9,7 @@ import 'loadingWidget.dart';
 // ignore: must_be_immutable
 class GetBidRequestorDetails extends StatefulWidget {
   BidsModel? bidsModel;
-  LoadScreenCardsModel? loadScreenCardsModel;
+  LoadApiModel? loadScreenCardsModel;
 
   GetBidRequestorDetails({this.bidsModel, this.loadScreenCardsModel});
 
@@ -21,8 +21,8 @@ class _GetBidRequestorDetailsState extends State<GetBidRequestorDetails> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future:
-            getRequestorDetailsFromPostLoadId(widget.loadScreenCardsModel!.postLoadId),
+        future: getRequestorDetailsFromPostLoadId(
+            widget.loadScreenCardsModel!.postLoadId),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(

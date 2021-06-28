@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
 postBidAPi(loadId, rate, transporterIdController, unit) async {
-
   if (unit == "RadioButtonOptions.PER_TON") {
     unit = "PER_TON";
   }
@@ -16,8 +15,7 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
     "loadId": loadId,
     "rate": rate,
     "unitValue": unit,
-    "biddingDate" : formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy])
-
+    "biddingDate": formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy])
   };
   String body = json.encode(data);
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl').toString();
@@ -29,13 +27,10 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
 }
 
 putBidForAccept(String? bidId) async {
-
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
   print('putBidUrl: $bidApiUrl/$bidId');
 
-  Map<String , bool> data = {
-    'shipperApproval' : true
-  };
+  Map<String, bool> data = {'shipperApproval': true};
 
   String body = json.encode(data);
 
@@ -48,7 +43,7 @@ putBidForAccept(String? bidId) async {
   print(response.body);
 }
 
-putBidForNegotiate(String? bidId , int? rate , String? unitValue) async {
+putBidForNegotiate(String? bidId, int? rate, String? unitValue) async {
   print('rate : $rate');
   print(rate.runtimeType);
 
@@ -62,10 +57,10 @@ putBidForNegotiate(String? bidId , int? rate , String? unitValue) async {
 
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
 
-  Map<String , dynamic> data = {
-    "rate" : rate,
-    "unitValue" : unitValue,
-    'shipperApproval' : true
+  Map<String, dynamic> data = {
+    "rate": rate,
+    "unitValue": unitValue,
+    'shipperApproval': true
   };
 
   String body = json.encode(data);

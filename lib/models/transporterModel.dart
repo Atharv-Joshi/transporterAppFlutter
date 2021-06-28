@@ -1,4 +1,4 @@
-class TransporterModel{
+class TransporterModel {
   //parameters
   String? transporterId;
   String? transporterPhoneNum;
@@ -11,15 +11,13 @@ class TransporterModel{
   bool? accountVerificationInProgress;
 
   TransporterModel(
-      {
-        this.transporterPhoneNum,
-        this.companyName,
-        this.transporterId,
-        this.transporterName,
-        this.accountVerificationInProgress,
-        this.companyApproved,this.kyc,
-        this.transporterApproved,
-        this.transporterLocation
-      }
-      );
+      {this.transporterPhoneNum,
+      this.companyName,
+      this.transporterId,
+      this.transporterName,
+      this.accountVerificationInProgress,
+      this.companyApproved,
+      this.kyc,
+      this.transporterApproved,
+      this.transporterLocation});
 }

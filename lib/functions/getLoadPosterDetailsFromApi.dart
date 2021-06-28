@@ -42,12 +42,10 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation =
-          jsonData["shipperLocation"].toString();
+      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"];
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"].toString();
-      loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"].toString();
+
       return loadPosterModel;
     }
   } catch (e) {

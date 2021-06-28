@@ -1,54 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getLoadPosterDetailsFromApi.dart';
-import 'package:get/get.dart';
-
+import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'displayLoadsCard.dart';
 import 'loadingWidget.dart';
 
-// ignore: must_be_immutable
 class LoadApiDataDisplayCard extends StatefulWidget {
-  String? loadId;
-  String? loadingPoint;
-  String? loadingPointCity;
-  String? loadingPointState;
-  String? postLoadId;
-  String? unloadingPoint;
-  String? unloadingPointCity;
-  String? unloadingPointState;
-  String? productType;
-  String? truckType;
-  String? noOfTrucks;
-  String? weight;
-  String? comment;
-  String? status;
-  String? loadDate;
-  int? rate;
-  String? unitValue;
-  bool? ordered;
+  final LoadApiModel loadApiData;
 
-  LoadApiDataDisplayCard(
-      {this.loadId,
-      this.loadingPoint,
-      this.loadingPointCity,
-      this.loadingPointState,
-      this.postLoadId,
-      this.unloadingPoint,
-      this.unloadingPointCity,
-      this.unloadingPointState,
-      this.productType,
-      this.truckType,
-      this.noOfTrucks,
-      this.weight,
-      this.comment,
-      this.status,
-      this.loadDate,
-      this.rate,
-      this.unitValue,
-      this.ordered});
-
-  TransporterIdController tIdController = Get.find<TransporterIdController>();
+  LoadApiDataDisplayCard({required this.loadApiData});
 
   @override
   _LoadApiDataDisplayCardState createState() => _LoadApiDataDisplayCardState();
@@ -58,7 +19,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getLoadPosterDetailsFromApi(
-            loadPosterId: widget.postLoadId.toString()),
+            loadPosterId: widget.loadApiData.postLoadId.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
@@ -66,34 +27,33 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
                     top: MediaQuery.of(context).size.height * 0.2),
                 child: LoadingWidget());
           }
-          return DisplayLoadsCard(
-            loadId: widget.loadId,
-            loadingPoint: widget.loadingPoint,
-            loadingPointCity: widget.loadingPointCity,
-            loadingPointState: widget.loadingPointState,
-            postLoadId: widget.postLoadId,
-            unloadingPoint: widget.unloadingPoint,
-            unloadingPointCity: widget.unloadingPointCity,
-            unloadingPointState: widget.unloadingPointState,
-            truckType: widget.truckType,
-            productType: widget.productType,
-            weight: widget.weight,
-            status: widget.status,
-            loadDate: widget.loadDate,
-            comment: widget.comment,
-            rate: widget.rate,
-            unitValue: widget.unitValue,
-            noOfTrucks: widget.noOfTrucks,
+          LoadDetailsScreenModel loadDetails = LoadDetailsScreenModel(
+            loadId: widget.loadApiData.loadId,
+            loadingPoint: widget.loadApiData.loadingPoint,
+            loadingPointCity: widget.loadApiData.loadingPointCity,
+            loadingPointState: widget.loadApiData.loadingPointState,
+            unloadingPoint: widget.loadApiData.unloadingPoint,
+            unloadingPointCity: widget.loadApiData.unloadingPointCity,
+            unloadingPointState: widget.loadApiData.unloadingPointState,
+            truckType: widget.loadApiData.truckType,
+            productType: widget.loadApiData.productType,
+            weight: widget.loadApiData.weight,
+            loadDate: widget.loadApiData.loadDate,
+            noOfTrucks: widget.loadApiData.noOfTrucks,
+            status: widget.loadApiData.status,
+            rate: widget.loadApiData.rate,
+            unitValue: widget.loadApiData.unitValue,
             loadPosterId: snapshot.data.loadPosterId,
-            loadPosterPhoneNo: snapshot.data.loadPosterPhoneNo,
+            phoneNo: snapshot.data.loadPosterPhoneNo,
             loadPosterLocation: snapshot.data.loadPosterLocation,
             loadPosterName: snapshot.data.loadPosterName,
             loadPosterCompanyName: snapshot.data.loadPosterCompanyName,
             loadPosterKyc: snapshot.data.loadPosterKyc,
             loadPosterCompanyApproved: snapshot.data.loadPosterCompanyApproved,
             loadPosterApproved: snapshot.data.loadPosterApproved,
-            loadPosterAccountVerificationInProgress:
-                snapshot.data.loadPosterAccountVerificationInProgress,
+          );
+          return DisplayLoadsCard(
+            loadDetails: loadDetails,
           );
         });
   }

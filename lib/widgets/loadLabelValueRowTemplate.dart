@@ -7,7 +7,7 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
   final String? label;
   final String? value;
 
-  LoadLabelValueRowTemplate({required this.value , required this.label});
+  LoadLabelValueRowTemplate({required this.value, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,7 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
           ),
           Text(
             value!,
-            style: TextStyle(
-                fontWeight: mediumBoldWeight,
-                color: veryDarkGrey
-            ),
+            style: TextStyle(fontWeight: mediumBoldWeight, color: veryDarkGrey),
           ),
         ],
       ),

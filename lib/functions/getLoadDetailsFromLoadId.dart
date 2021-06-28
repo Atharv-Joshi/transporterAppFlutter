@@ -7,28 +7,33 @@ getLoadDetailsFromLoadId(loadId) async {
   var jsonData;
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl/$loadId"));
-try {
-  jsonData = json.decode(response.body);
+  try {
+    jsonData = json.decode(response.body);
 
-  LoadScreenCardsModel loadScreenCardsModel = LoadScreenCardsModel();
-  loadScreenCardsModel.loadId = jsonData["loadId"].toString();
-  loadScreenCardsModel.loadingPoint = jsonData["loadingPoint"].toString();
-  loadScreenCardsModel.loadingPointCity = jsonData["loadingPointCity"].toString();
-  loadScreenCardsModel.loadingPointState = jsonData["loadingPointState"].toString();
-  loadScreenCardsModel.postLoadId = jsonData["postLoadId"].toString();
-  loadScreenCardsModel.unloadingPoint = jsonData["unloadingPoint"].toString();
-  loadScreenCardsModel.unloadingPointCity = jsonData["unloadingPointCity"].toString();
-  loadScreenCardsModel.unloadingPointState = jsonData["unloadingPointState"].toString();
-  loadScreenCardsModel.productType = jsonData["productType"].toString();
-  loadScreenCardsModel.truckType = jsonData["truckType"].toString();
-  loadScreenCardsModel.noOfTrucks = jsonData["noOfTrucks"].toString();
-  loadScreenCardsModel.weight = jsonData["weight"].toString();
-  loadScreenCardsModel.comment = jsonData["comment"].toString();
-  loadScreenCardsModel.status = jsonData["status"].toString();
-  loadScreenCardsModel.loadDate = jsonData["loadDate"].toString();
-  loadScreenCardsModel.rate = jsonData["rate"];
-  loadScreenCardsModel.unitValue = jsonData["unitValue"].toString();
-  return loadScreenCardsModel;
-}catch(e){print(e);}
-
+    LoadApiModel loadScreenCardsModel = LoadApiModel();
+    loadScreenCardsModel.loadId = jsonData["loadId"].toString();
+    loadScreenCardsModel.loadingPoint = jsonData["loadingPoint"].toString();
+    loadScreenCardsModel.loadingPointCity =
+        jsonData["loadingPointCity"].toString();
+    loadScreenCardsModel.loadingPointState =
+        jsonData["loadingPointState"].toString();
+    loadScreenCardsModel.postLoadId = jsonData["postLoadId"].toString();
+    loadScreenCardsModel.unloadingPoint = jsonData["unloadingPoint"].toString();
+    loadScreenCardsModel.unloadingPointCity =
+        jsonData["unloadingPointCity"].toString();
+    loadScreenCardsModel.unloadingPointState =
+        jsonData["unloadingPointState"].toString();
+    loadScreenCardsModel.productType = jsonData["productType"].toString();
+    loadScreenCardsModel.truckType = jsonData["truckType"].toString();
+    loadScreenCardsModel.noOfTrucks = jsonData["noOfTrucks"].toString();
+    loadScreenCardsModel.weight = jsonData["weight"].toString();
+    loadScreenCardsModel.comment = jsonData["comment"].toString();
+    loadScreenCardsModel.status = jsonData["status"].toString();
+    loadScreenCardsModel.loadDate = jsonData["loadDate"].toString();
+    loadScreenCardsModel.rate = jsonData["rate"];
+    loadScreenCardsModel.unitValue = jsonData["unitValue"].toString();
+    return loadScreenCardsModel;
+  } catch (e) {
+    print(e);
+  }
 }

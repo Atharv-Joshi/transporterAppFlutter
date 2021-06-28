@@ -15,7 +15,7 @@ class PriceButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 15),
-      padding: EdgeInsets.all(space_2-1),
+      padding: EdgeInsets.all(space_2 - 1),
       decoration: BoxDecoration(
           color: lightGrayishBlue, borderRadius: BorderRadius.circular(5)),
       // height: 35,

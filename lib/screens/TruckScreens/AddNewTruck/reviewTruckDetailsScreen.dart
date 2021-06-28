@@ -78,7 +78,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
           child: Column(
             children: [
               Header(
-                backButton: true,
+                  backButton: true,
                   text: 'Add Truck',
                   reset: false,
                   resetFunction: () {
