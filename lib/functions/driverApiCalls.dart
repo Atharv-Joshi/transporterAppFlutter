@@ -76,6 +76,7 @@ class DriverApiCalls {
     truckModelFinal.tyres = truckModel.tyres;
     truckModelFinal.driverNum =
     truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+    truckModelFinal.imei = truckModel.imei;
 
     return truckModelFinal;
   }

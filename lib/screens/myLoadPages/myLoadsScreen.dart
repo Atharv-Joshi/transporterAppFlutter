@@ -16,7 +16,7 @@ class MyLoadsScreen extends StatefulWidget {
 
 class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
-  List<LoadScreenCardsModel> myLoadList = [];
+  List<LoadApiModel> myLoadList = [];
 
   final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
 
@@ -105,7 +105,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
     var jsonData = json.decode(response.body);
 
     for( var json in jsonData){
-      LoadScreenCardsModel loadScreenCardsModel = LoadScreenCardsModel();
+      LoadApiModel loadScreenCardsModel = LoadApiModel();
       loadScreenCardsModel.loadId = json['loadId'];
       loadScreenCardsModel.loadingPointCity = json['loadingPointCity'];
       loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'];

@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
-postBookingApi(loadId, rate, transporterId, unit, truckId) async {
+postBookingApi(loadId, rate, transporterId, unit, truckId, postLoadId) async {
   Map data = {
     "loadId": loadId,
     "rate": rate,
     "transporterId": transporterId,
     "unit": unit,
-    "truckId": truckId
+    "truckId": truckId,
+    "postLoadId": postLoadId
   };
   String body = json.encode(data);
   final String bookingApiUrl = FlutterConfig.get('bookingApiUrl').toString();
@@ -17,4 +18,5 @@ postBookingApi(loadId, rate, transporterId, unit, truckId) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body);
+  print(response.body);
 }

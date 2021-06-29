@@ -6,7 +6,7 @@ import 'package:liveasy/models/loadApiModel.dart';
 
 class LoadApiCalls{
 
-  List<LoadScreenCardsModel> loadList = [];
+  List<LoadApiModel> loadList = [];
 
   final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
 
@@ -25,13 +25,13 @@ class LoadApiCalls{
     return data;
 }
 
-  Future<List<LoadScreenCardsModel>> getDataByPostLoadId(String postLoadId) async {
+  Future<List<LoadApiModel>> getDataByPostLoadId(String postLoadId) async {
 
     http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=$postLoadId'));
     var jsonData = json.decode(response.body);
 
     for( var json in jsonData){
-      LoadScreenCardsModel loadScreenCardsModel = LoadScreenCardsModel();
+      LoadApiModel loadScreenCardsModel = LoadApiModel();
       loadScreenCardsModel.loadId = json['loadId'];
       loadScreenCardsModel.loadingPointCity = json['loadingPointCity'];
       loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'];

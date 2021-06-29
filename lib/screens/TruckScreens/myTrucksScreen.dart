@@ -171,6 +171,7 @@ class _MyTrucksState extends State<MyTrucks> {
                               tyres: snapshot.data.tyres,
                               driverName: snapshot.data.driverName,
                               phoneNum: snapshot.data.driverNum,
+                              imei: snapshot.data.imei,
                             );
                           } //builder
                       );
