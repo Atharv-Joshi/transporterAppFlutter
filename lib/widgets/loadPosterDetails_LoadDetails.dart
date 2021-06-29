@@ -45,14 +45,20 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                width: MediaQuery.of(context).size.width * 0.55,
                 child: Column(
                   children: [
-                    Text(
-                      "$loadPosterName",
-                      style: TextStyle(
-                          fontWeight: mediumBoldWeight,
-                          color: white,
-                          fontSize: size_9),
+                    Row(
+                      children: [
+                        Text(
+                          "$loadPosterName",
+                          // textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontWeight: mediumBoldWeight,
+                              color: white,
+                              fontSize: size_9),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: space_1 - 2,

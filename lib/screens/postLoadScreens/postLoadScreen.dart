@@ -14,14 +14,14 @@ import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:provider/provider.dart';
 
-class PostOrdersScreen extends StatefulWidget {
-  const PostOrdersScreen({Key? key}) : super(key: key);
+class PostLoadScreen extends StatefulWidget {
+  const PostLoadScreen({Key? key}) : super(key: key);
 
   @override
-  _PostOrdersScreenState createState() => _PostOrdersScreenState();
+  _PostLoadScreenState createState() => _PostLoadScreenState();
 }
 
-class _PostOrdersScreenState extends State<PostOrdersScreen> {
+class _PostLoadScreenState extends State<PostLoadScreen> {
 
   //Page Controller
   PageController pageController = PageController(initialPage:0);

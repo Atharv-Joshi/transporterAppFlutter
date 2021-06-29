@@ -17,7 +17,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   var screens = [
     HomeScreen(),
     MyTrucks(),
-    PostOrdersScreen(),
+    PostLoadScreen(),
     Text(""),
     AccountPageUtil(),
   ];

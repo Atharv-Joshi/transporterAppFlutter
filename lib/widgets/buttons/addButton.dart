@@ -42,8 +42,8 @@ class AddButton extends StatelessWidget {
       driverName = listDisplayContact[0];
       phoneNum = displayContact.replaceAll(new RegExp(r"\D"), "");
     }
-    transporterId = '${tIdController.transporterId}';
-    truckId = null;
+    transporterId = '${tIdController.transporterId}'; // can simplify this
+    truckId = null; // can delete this
     return GestureDetector(
       onTap: () {
         print("name--" + "$name");
