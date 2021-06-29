@@ -36,16 +36,16 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
       print(transporterIdController.transporterId);
       controller1 = TextEditingController(
           text:
-              ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
+              ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
     }
     if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCity} (${providerData.unloadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
+              ("${providerData.unloadingPointCityFindLoad} (${providerData.unloadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
     }
 
     return SafeArea(
@@ -90,7 +90,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                     ),
                     controller: controller1,
                     onTap: () {
-                      providerData.clearLoadingPoint();
+                      providerData.clearLoadingPointFindLoad();
                     }),
                 SizedBox(
                   height: space_4,

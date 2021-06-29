@@ -92,6 +92,15 @@ class ProviderData extends ChangeNotifier {
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
+  String productType = "Choose Product Type";
+  int truckNumber = 0;
+  int price = 0;
+  String unitValue = "";
+  String controller = "";
+  String controller1 = "";
+  String controller2 = "";
+  bool perTruck = false;
+  bool perTon = false;
 
   String truckId = '';
 
@@ -102,9 +111,15 @@ class ProviderData extends ChangeNotifier {
   List driverList = [];
 
   //variables related to orders page
-  int upperNavigatorIndex = 0 ;
+  int upperNavigatorIndex = 0;
+  int rate = 0;
 
-  void updateUpperNavigatorIndex(int value){
+  void updateRate(value) {
+    rate = value;
+    notifyListeners();
+  }
+
+  void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
   }

@@ -1,179 +1,96 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/constants/fontWeights.dart';
-import 'BiddingCardParameter.dart';
-import 'BiddingCardParameterName.dart';
-import 'FromLoadPrefix.dart';
-import 'LoadPerTonne.dart';
-import 'ToLoadPrefix.dart';
-import 'TruckCompanyName.dart';
-import 'buttons/AcceptButtton.dart';
-import 'buttons/DeclineButton.dart';
+import 'package:liveasy/widgets/buttons/acceptButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import 'package:liveasy/widgets/priceContainer.dart';
+
+import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
-// ignore: must_be_immutable
 class BiddingCard extends StatelessWidget {
-  String? truckNo;
-  String? bookedOn;
-  String? loadFrom;
-  String? companyName;
-  String? loadTo;
-  int? load;
+  final String? loadId;
+  final String? bidId;
+  final String? loadingPointCity;
+  final String? unloadingPointCity;
+  final String? rate;
+  final String? unitValue;
+  final String? companyName;
+  final String? biddingDate;
+  final String? transporterPhoneNum;
 
   BiddingCard(
-      {this.truckNo,
-      this.bookedOn,
-      this.loadFrom,
-      this.load,
-      this.loadTo,
-      this.companyName});
+      {required this.loadId,
+      required this.loadingPointCity,
+      required this.unloadingPointCity,
+      required this.biddingDate,
+      required this.unitValue,
+      required this.rate,
+      required this.companyName,
+      required this.transporterPhoneNum,
+      required this.bidId});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
-      color: Color(0xffF7F8FA),
-      margin: EdgeInsets.only(bottom: space_2),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-        elevation: size_4,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(
-                            space_3, space_3, space_0, space_0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                FromLoadPrefix(),
-                                Text(
-                                  loadFrom!,
-                                  style: TextStyle(
-                                      fontSize: size_9,
-                                      fontWeight: mediumBoldWeight),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: size_1),
-                              child: Container(
-                                child: CustomPaint(
-                                  size: Size(space_0, space_6),
-                                  foregroundPainter: LinePainter(),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                ToLoadPrefix(),
-                                Text(
-                                  loadTo!,
-                                  style: TextStyle(
-                                      fontSize: size_9,
-                                      fontWeight: mediumBoldWeight),
-                                ),
-                              ],
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.only(top: size_5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: size_3),
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            BiddingCardParameter(
-                                                parameter: 'Truck no.    :'),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(left: size_7),
-                                          child: Column(
-                                            children: [
-                                              BiddingCardParameterName(
-                                                  paraName: truckNo!),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: size_3),
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            BiddingCardParameter(
-                                                parameter: "Booked on :"),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(left: size_7),
-                                          child: Column(
-                                            children: [
-                                              BiddingCardParameterName(
-                                                  paraName: bookedOn!)
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            //track and call button
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: size_7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      LoadPerTonne(
-                        load: load!,
-                      ),
-                      TruckCompanyName(
-                        companyName: companyName!,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: size_7, left: size_7),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        elevation: 3,
+        child: Container(
+          margin: EdgeInsets.all(space_4),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AcceptButton(),
-                  DeclineButton(),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LoadEndPointTemplate(
+                          text: loadingPointCity, endPointType: 'loading'),
+                      Container(
+                          padding: EdgeInsets.only(left: 2),
+                          height: space_6,
+                          width: space_12,
+                          child: CustomPaint(
+                            foregroundPainter: LinePainter(),
+                          )),
+                      LoadEndPointTemplate(
+                          text: unloadingPointCity, endPointType: 'unloading'),
+                    ],
+                  ),
+                  PriceContainer(
+                    rate: rate,
+                    unitValue: unitValue,
+                  ),
                 ],
               ),
-            )
-          ],
+              SizedBox(
+                height: space_2,
+              ),
+              LoadLabelValueRowTemplate(
+                  value: companyName, label: 'Transporter'),
+              LoadLabelValueRowTemplate(
+                  value: biddingDate, label: 'Bidding Date'),
+              Container(
+                margin: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AcceptButton(
+                      bidId: bidId,
+                      isBiddingDetails: null,
+                    ),
+                    CallButton(
+                      directCall: true,
+                      driverPhoneNum: transporterPhoneNum,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

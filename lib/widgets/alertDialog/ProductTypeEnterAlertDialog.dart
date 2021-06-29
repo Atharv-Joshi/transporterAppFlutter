@@ -47,7 +47,7 @@ class _ProductTypeEnterAlertDialogState
                     SizedBox(
                       height: space_3,
                     ),
-                    CompletedTextField()
+                    ProductTypeTextField()
                   ],
                 ),
               ),

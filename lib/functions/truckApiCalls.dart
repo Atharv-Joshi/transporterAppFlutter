@@ -56,14 +56,14 @@ class TruckApiCalls {
   }
 
   //GET Truck Data by truckId
-  Future<Map> getDataByTruckId(String truckId) async  {
+  Future<Map> getDataByTruckId(String truckId) async {
     http.Response response = await http.get(Uri.parse('$truckApiUrl/$truckId'));
     var jsonData = json.decode(response.body);
 
     Map data = {
-      'driverId' : jsonData['driverId'] !=null ?  jsonData['driverId'] : 'NA',
-      'truckNo' : jsonData['truckNo'] !=null ?  jsonData['truckNo'] : 'NA',
-      'imei' :jsonData['imei'] !=null ?  jsonData['imei'] : 'NA',
+      'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
+      'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
+      'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
     };
 
     return data;
@@ -71,7 +71,6 @@ class TruckApiCalls {
 
   //POST------------------------------------------------------------------------
   Future<String?> postTruckData({required String truckNo}) async {
-
     print('transporterId : ${transporterIdController.transporterId.value}');
     // json map
     Map<String, dynamic> data = {
@@ -100,13 +99,12 @@ class TruckApiCalls {
   //PUT-------------------------------------------------------------------------
 
   Future<String?> putTruckData(
-      {
-        required String truckID,
-        required String truckType,
-        required int totalTyres,
-        required int passingWeight,
-        required int truckLength,
-        required String driverID}) async {
+      {required String truckID,
+      required String truckType,
+      required int totalTyres,
+      required int passingWeight,
+      required int truckLength,
+      required String driverID}) async {
     //json map
     Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,

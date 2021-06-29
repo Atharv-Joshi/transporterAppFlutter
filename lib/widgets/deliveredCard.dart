@@ -3,8 +3,8 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-import 'package:liveasy/widgets/loadLabelValueTemplate.dart';
 import 'linePainter.dart';
+import 'loadLabelValueRowTemplate.dart';
 
 class DeliveredCard extends StatelessWidget {
   final String loadingPoint;
@@ -69,13 +69,13 @@ class DeliveredCard extends StatelessWidget {
                     margin: EdgeInsets.only(top: space_4),
                     child: Column(
                       children: [
-                        LoadLabelValueTemplate(
+                        LoadLabelValueRowTemplate(
                             value: truckNo, label: 'Truck No.'),
-                        LoadLabelValueTemplate(
+                        LoadLabelValueRowTemplate(
                             value: driverName, label: 'Driver Name'),
-                        LoadLabelValueTemplate(
+                        LoadLabelValueRowTemplate(
                             value: startedOn, label: 'Started on'),
-                        LoadLabelValueTemplate(
+                        LoadLabelValueRowTemplate(
                             value: endedOn, label: 'Ended on'),
                       ],
                     ),

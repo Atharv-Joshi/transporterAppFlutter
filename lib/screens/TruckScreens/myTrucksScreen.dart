@@ -1,5 +1,7 @@
 //TODO: functionality for track and call button. truckapproved cond for add truck button asnd redirecting to required pages.
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,7 +13,8 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/addTruckButton.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 
 //widgets
@@ -20,6 +23,7 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 //functions
 import 'package:liveasy/functions/truckApiCalls.dart';
@@ -32,13 +36,18 @@ class MyTrucks extends StatefulWidget {
 class _MyTrucksState extends State<MyTrucks> {
   // truckApiCall instance
   TruckApiCalls truckApiCalls = TruckApiCalls();
+  late List jsonData;
+
+  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
 
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   //TransporterId controller
   TransporterIdController transporterIdController = TransporterIdController();
-
+  ScrollController scrollController = ScrollController();
+  List truckDataList = [];
+  int i = 0;
   //true if truck list is empty
   bool truckListEmpty = false;
 

@@ -6,7 +6,7 @@ import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/deliveredCard.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 
-class DeliveredScreen extends StatelessWidget {
+class DeliveredScreenOrders extends StatelessWidget {
   final BookingApiCallsOrders bookingApiCalls = BookingApiCallsOrders();
 
   @override
@@ -35,7 +35,7 @@ class DeliveredScreen extends StatelessWidget {
                       width: 127,
                     ),
                     Text(
-                       'Looks like you have not added any Loads!',
+                      'Looks like you have not added any Loads!',
                       style: TextStyle(fontSize: size_8, color: grey),
                       textAlign: TextAlign.center,
                     ),

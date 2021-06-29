@@ -1,3 +1,4 @@
+import 'package:liveasy/functions/trasnporterApis/postLoadIdApiCalls.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
@@ -6,7 +7,7 @@ import 'loadApiCalls.dart';
 
 final LoadApiCalls loadApiCalls = LoadApiCalls();
 
-final TransporterApiCalls transporterApiCalls = TransporterApiCalls();
+final PostLoadIdApiCalls postLoadIdApiCalls = PostLoadIdApiCalls();
 
 final TruckApiCalls truckApiCalls = TruckApiCalls();
 

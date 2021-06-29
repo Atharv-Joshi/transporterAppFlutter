@@ -9,6 +9,7 @@ import 'buttons/callButton.dart';
 import 'buttons/completedButtonOrders.dart';
 import 'buttons/trackButton.dart';
 import 'linePainter.dart';
+import 'loadLabelValueRowTemplate.dart';
 
 class OngoingCardOrders extends StatelessWidget {
   //variables
@@ -118,11 +119,11 @@ class OngoingCardOrders extends StatelessWidget {
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
                         children: [
-                          LoadLabelValueTemplate(
+                          LoadLabelValueRowTemplate(
                               value: vehicleNo, label: 'Vehicle Number'),
-                          LoadLabelValueTemplate(
+                          LoadLabelValueRowTemplate(
                               value: driverName, label: 'Driver Name'),
-                          LoadLabelValueTemplate(
+                          LoadLabelValueRowTemplate(
                               value: startedOn, label: 'Started on')
                         ],
                       ),

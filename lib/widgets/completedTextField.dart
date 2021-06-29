@@ -13,25 +13,6 @@ class CompletedTextField extends StatefulWidget {
 }
 
 class _CompletedTextFieldState extends State<CompletedTextField> {
-  TextEditingController completedController = TextEditingController();
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime selectedDate = DateTime.now();
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day + 10, 0, 0));
-    Jiffy nextDay = Jiffy(picked);
-
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        _selectDate(context);
-        selectedDate = picked;
-        completedController.text = nextDay.MMMEd;
-      });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,10 +25,8 @@ class _CompletedTextFieldState extends State<CompletedTextField> {
       ),
       child: TextField(
         decoration: InputDecoration(
-            hintText: "Enter Completed Date",
-            suffixIcon: IconButton(
-                onPressed: () {}, icon: Icon(Icons.ac_unit, size: 27))),
-        controller: completedController,
+          hintText: "Others",
+        ),
       ),
     );
   }

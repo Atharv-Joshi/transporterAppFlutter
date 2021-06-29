@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
 
 class CompletedButtonOrders extends StatelessWidget {
   String bookingId;
@@ -26,8 +27,8 @@ class CompletedButtonOrders extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return ProductTypeEnterAlertDialog(
-              heading: 'Completed Date',
+            return CompletedOrdersAlertDialog(
+              bookingId: bookingId,
             );
           },
         );

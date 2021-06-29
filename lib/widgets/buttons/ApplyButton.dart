@@ -62,9 +62,10 @@ class ApplyButton extends StatelessWidget {
                             ? null
                             : providerData.unitValue,
                         providerData.price == 0 ? null : providerData.price);
-                    // providerData.resetTruckFilters();
-                    // providerData.resetPostLoadScreenOne();
-                    // controller.text = "";
+                    providerData.resetTruckFilters();
+                    providerData.resetPostLoadScreenOne();
+                    controller.text = "";
+                    controllerOthers.text = "";
                     Get.snackbar("Posted Successfully", "message");
                   } else {
                     return null;
