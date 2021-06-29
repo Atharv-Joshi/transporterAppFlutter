@@ -7,8 +7,9 @@ import 'package:liveasy/constants/spaces.dart';
 // ignore: must_be_immutable
 class TrackButton extends StatelessWidget {
   bool truckApproved = false;
-
-  TrackButton({required this.truckApproved});
+  String? imei;
+  Position? userLocation;
+  TrackButton({required this.truckApproved, this.imei, this.userLocation});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class TrackButton extends StatelessWidget {
                 space_5,
                 size_1,
               ),
-              child: Text(
+              Text(
                 'Track',
                 style: TextStyle(
                   letterSpacing: 0.7,
@@ -43,8 +44,8 @@ class TrackButton extends StatelessWidget {
                   fontSize: size_7,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

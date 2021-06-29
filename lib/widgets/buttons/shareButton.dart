@@ -4,24 +4,27 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:social_share/social_share.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 // ignore: must_be_immutable
 class ShareButton extends StatelessWidget {
+  LoadDetailsScreenModel loadDetails;
   String? loadingPointCity;
   ByteData? bytes;
-  ShareButton({this.loadingPointCity});
+
+  ShareButton({this.loadingPointCity, required this.loadDetails});
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
-    // final ByteData bytes = await rootBundle.load('assets/image1.png');
-    // await Share.file('esys image', 'esys.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
+      // final ByteData bytes = await rootBundle.load('assets/image1.png');
+      // await Share.file('esys image', 'esys.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
 
       onTap: () async {
-        bytes = await rootBundle.load('assets/images/whatsAppImageBackground.png');
+        bytes =
+            await rootBundle.load('assets/images/whatsAppImageBackground.png');
         await WcFlutterShare.share(
             sharePopupTitle: 'share',
             subject: 'This is subject',
@@ -30,7 +33,7 @@ class ShareButton extends StatelessWidget {
             mimeType: 'image/png',
             bytesOfFile: bytes!.buffer.asUint8List());
         SocialShare.shareWhatsapp(
-            "Hello World"); //TODO: value has to be changed
+            "${loadDetails.loadingPointCity} => ${loadDetails.unloadingPointCity} posted by ${loadDetails.loadPosterName}"); //TODO: value has to be changed
       },
       child: Container(
         height: space_8,

@@ -12,9 +12,10 @@ class Header extends StatefulWidget {
   final dynamic resetFunction;
 
   bool reset = true;
+  bool backButton = true;
   final text;
 
-  Header({this.resetFunction, required this.reset, required this.text});
+  Header({this.resetFunction, required this.reset, required this.text , required this.backButton});
 
   @override
   _HeaderState createState() => _HeaderState();
@@ -32,7 +33,7 @@ class _HeaderState extends State<Header> {
           children: [
             Container(
                 margin: EdgeInsets.only(right: space_2),
-                child: BackButtonWidget()),
+                child: widget.backButton ? BackButtonWidget() : SizedBox()),
             Text('${widget.text}',
                 style: TextStyle(
                   fontSize: size_10,

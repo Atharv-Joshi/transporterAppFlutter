@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/deliveredScreen.dart';
-import 'package:liveasy/screens/onGoingScreen.dart';
-import 'package:liveasy/screens/orderScreens/order.dart';
+import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
+import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
+import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
+import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
+
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/buttons/postLoadButton.dart';
+import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
+import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:provider/provider.dart';
 
 class PostOrdersScreen extends StatefulWidget {
@@ -32,10 +37,7 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(
-                reset: false,
-                text: 'Orders',
-              ),
+              Header(reset: false, text: 'Loads', backButton: false),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -57,22 +59,33 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 color: textLightColor,
                 thickness: 1,
               ),
-              Container(
-                height: 600,
-                child: PageView(
-                  controller: pageController,
-                  onPageChanged: (value) {
-                    setState(() {
-                      providerData.updateUpperNavigatorIndex(value);
-                    });
-                  },
-                  children: [
-                    order(),
-                    OngoingScreenOrders(),
-                    DeliveredScreen(),
-                  ],
-                ),
-              )
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 650,
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: (value) {
+                        setState(() {
+                          providerData.updateUpperNavigatorIndex(value);
+                        });
+                      },
+                      children: [
+                        MyLoadsScreen(),
+                        Text(""),
+                        Text(""),
+                      ],
+                    ),
+                  ),
+                  Positioned(bottom: space_3, child: PostButtonLoad())
+                  // Positioned.fill(
+                  //   top: 550,
+                  //   child: Align(
+                  //       alignment: Alignment.center, child: PostButtonLoad()),
+                  // ),
+                ],
+              ),
             ],
           ),
         ),

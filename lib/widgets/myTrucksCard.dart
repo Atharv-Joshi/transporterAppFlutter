@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
-import 'package:liveasy/widgets/callButton.dart';
-import 'package:liveasy/widgets/trackButton.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:location_permissions/location_permissions.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -16,7 +18,7 @@ class MyTruckCard extends StatefulWidget {
   // String? transporterId;
   String? truckNo;
   bool truckApproved;
-  // String? imei;
+  String? imei;
   // int? passingWeight;
   // String? driverId;
   String? truckType;
@@ -30,7 +32,7 @@ class MyTruckCard extends StatefulWidget {
       // this.transporterId,
       this.truckNo,
       required this.truckApproved,
-      // this.imei,
+      this.imei,
       // this.passingWeight,
       // this.driverId,
       this.truckType,
@@ -50,7 +52,19 @@ class _MyTruckCardState extends State<MyTruckCard> {
   DriverModel driverModel = DriverModel();
 
   bool? verified  ;
-
+  Position? userLocation;
+  getUserLocation()async{
+    PermissionStatus permission = await LocationPermissions().checkPermissionStatus();
+    if (permission == PermissionStatus.granted){
+      userLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      print(userLocation);
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +81,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = widget.truckType != 'NA' || widget.tyres != null || widget.driverName != 'NA' || widget.phoneNum != "NA" ? true  : false;
+
+    if(widget.driverName!.length > 15){
+      widget.driverName = widget.driverName!.substring(0 , 14) + '..';
+    }
 
     return Container(
       color: Color(0xffF7F8FA),
@@ -183,7 +201,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     Container(
                       margin: EdgeInsets.only(top: space_3),
                       child: Text(
-                        'Invalid Documents Uploaded !',
+                        'Truck Details are pending !',
                         style: TextStyle(
                             fontSize: size_7,
                             fontWeight: boldWeight,
@@ -200,14 +218,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-// <<<<<<< HEAD
-//                     margin: EdgeInsets.only(right: space_2),
-//                       child: TrackButton(truckApproved:truckApproved)
-//                   ),
-//                   //CallButton(), TODO: Check this Atharav
-// =======
                       margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved: widget.truckApproved)),
+                      child: TrackButton(truckApproved: widget.truckApproved, imei: widget.imei, userLocation: userLocation,)),
                   CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),
                 ],
               )

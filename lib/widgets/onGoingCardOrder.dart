@@ -4,10 +4,10 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-import 'package:liveasy/widgets/callButton.dart';
-import 'package:liveasy/widgets/loadLabelValueTemplate.dart';
-import 'package:liveasy/widgets/trackButton.dart';
+
+import 'buttons/callButton.dart';
 import 'buttons/completedButtonOrders.dart';
+import 'buttons/trackButton.dart';
 import 'linePainter.dart';
 
 class OngoingCardOrders extends StatelessWidget {

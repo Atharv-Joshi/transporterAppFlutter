@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
-class LoadLabelValueTemplate extends StatelessWidget {
-  final String label;
-  final String value;
+class LoadLabelValueRowTemplate extends StatelessWidget {
+  final String? label;
+  final String? value;
 
-  LoadLabelValueTemplate({required this.value , required this.label});
+  LoadLabelValueRowTemplate({required this.value , required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,10 @@ class LoadLabelValueTemplate extends StatelessWidget {
             ),
           ),
           Text(
-            value != null ? '$value' : 'NA',
+            value!,
             style: TextStyle(
-                fontWeight: mediumBoldWeight
+                fontWeight: mediumBoldWeight,
+                color: veryDarkGrey
             ),
           ),
         ],

@@ -12,6 +12,7 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/addTruckButton.dart';
+import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 
 //widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -76,18 +77,8 @@ class _MyTrucksState extends State<MyTrucks> {
               //LIST OF TRUCK CARDS---------------------------------------------
               Container(
                 height: MediaQuery.of(context).size.height * 0.67,
-                child: FutureBuilder(
-                  //getTruckData returns list of truck Model
-                  future: truckApiCalls.getTruckData(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.data == null) {
-                      return LoadingWidget();
-                    }
-                    print('snapshot length :' +
-                        '${snapshot.data.length}'); //number of cards
-
-                    if (snapshot.data.length == 0) {
-                      return Container(
+                child: truckDataList.isEmpty
+                    ? Container(
                         margin: EdgeInsets.only(top: 153),
                         child: Column(
                           children: [
@@ -104,50 +95,46 @@ class _MyTrucksState extends State<MyTrucks> {
                             ),
                           ],
                         ),
-                      );
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            TruckModel truckModel =
-                                TruckModel(truckApproved: false);
+                      )
+                    : ListView.builder(
+                        controller: scrollController,
+                        itemCount: truckDataList.length,
+                        itemBuilder: (context, index) {
+                          TruckModel truckModel =
+                              TruckModel(truckApproved: false);
+                          truckModel.truckId = truckDataList[index].truckId;
+                          truckModel.transporterId =
+                              truckDataList[index].transporterId;
+                          truckModel.truckNo = truckDataList[index].truckNo;
+                          truckModel.truckApproved =
+                              truckDataList[index].truckApproved;
+                          truckModel.imei = truckDataList[index].imei;
+                          truckModel.passingWeight =
+                              truckDataList[index].passingWeight;
+                          truckModel.driverId = truckDataList[index].driverId;
+                          truckModel.truckType = truckDataList[index].truckType;
+                          truckModel.tyres = truckDataList[index].tyres;
 
-                            truckModel.truckId = snapshot.data[index].truckId;
-                            truckModel.transporterId =
-                                snapshot.data[index].transporterId;
-                            truckModel.truckNo = snapshot.data[index].vehicleNo;
-                            truckModel.truckApproved =
-                                snapshot.data[index].truckApproved;
-                            truckModel.imei = snapshot.data[index].imei;
-                            truckModel.passingWeight =
-                                snapshot.data[index].passingWeight;
-                            truckModel.driverId = snapshot.data[index].driverId;
-                            truckModel.truckType =
-                                snapshot.data[index].truckType;
-                            truckModel.tyres = snapshot.data[index].tyres;
-
-                            return FutureBuilder(
-                                future: driverApiCalls.getDriverByDriverId(
-                                    truckModel: truckModel),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.data == null) {
-                                    return LoadingWidget();
-                                  }
-                                  return MyTruckCard(
-                                    truckApproved: snapshot.data.truckApproved,
-                                    truckNo: snapshot.data.vehicleNo,
-                                    truckType: snapshot.data.truckType,
-                                    tyres: snapshot.data.tyres,
-                                    driverName: snapshot.data.driverName,
-                                    phoneNum: snapshot.data.driverNum,
-                                  );
-                                } //builder
+                          return FutureBuilder(
+                              future: driverApiCalls.getDriverByDriverId(
+                                  truckModel: truckModel),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.data == null) {
+                                  return LoadingWidget();
+                                }
+                                return MyTruckCard(
+                                  truckApproved: snapshot.data.truckApproved,
+                                  truckNo: snapshot.data.truckNo,
+                                  truckType: snapshot.data.truckType,
+                                  tyres: snapshot.data.tyres,
+                                  driverName: snapshot.data.driverName,
+                                  phoneNum: snapshot.data.driverNum,
+                                  imei: snapshot.data.imei,
                                 );
-                          });
-                    } //else
-                  },
-                ),
+                              } //builder
+                              );
+                        }),
                 //--------------------------------------------------------------
               ),
               Container(child: AddTruckButton()),
@@ -156,5 +143,28 @@ class _MyTrucksState extends State<MyTrucks> {
         ),
       ),
     );
-  }
-}
+  } //build
+
+  getTruckData(int i) async {
+    http.Response response = await http.get(Uri.parse(
+        '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
+    jsonData = json.decode(response.body);
+    print(response.body);
+    for (var json in jsonData) {
+      TruckModel truckModel = TruckModel(truckApproved: false);
+      truckModel.truckId = json["truckId"];
+      truckModel.transporterId = json["transporterId"];
+      truckModel.truckNo = json["truckNo"];
+      truckModel.truckApproved = json["truckApproved"];
+      truckModel.imei = json["imei"];
+      truckModel.passingWeight = json["passingWeight"];
+      truckModel.truckType = json["truckType"];
+      truckModel.driverId = json["driverId"];
+      truckModel.tyres = json["tyres"];
+      setState(() {
+        truckDataList.add(truckModel);
+      });
+    }
+  } //getTruckData
+
+} //class
