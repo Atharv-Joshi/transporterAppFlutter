@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenOne.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 
 // ignore: must_be_immutable
 class PostButtonLoad extends StatelessWidget {

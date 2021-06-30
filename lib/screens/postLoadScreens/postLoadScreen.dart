@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
-import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
+import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
+
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
+import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/buttons/postLoadButton.dart';
-import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
+
 import 'package:provider/provider.dart';
 
 class PostOrdersScreen extends StatefulWidget {
@@ -60,10 +60,11 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                 thickness: 1,
               ),
               Stack(
-                alignment: Alignment.center,
+                // alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    height: 650,
+                    height: MediaQuery.of(context).size.height * 0.75,
                     child: PageView(
                       controller: pageController,
                       onPageChanged: (value) {
@@ -73,12 +74,14 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
                       },
                       children: [
                         MyLoadsScreen(),
-                        Text(""),
-                        Text(""),
+                        OngoingScreen(),
+                        DeliveredScreen(),
                       ],
                     ),
                   ),
-                  Positioned(bottom: space_3, child: PostButtonLoad())
+                  Container(
+                      margin: EdgeInsets.only(bottom: 50),
+                      child: PostButtonLoad()),
                   // Positioned.fill(
                   //   top: 550,
                   //   child: Align(
@@ -93,3 +96,18 @@ class _PostOrdersScreenState extends State<PostOrdersScreen> {
     );
   }
 }
+
+// OngoingCardOrders(
+//   loadingPoint: "l",
+//   unloadingPoint: "l",
+//   companyName: "l",
+//   vehicleNo: "l",
+//   driverName: "l",
+//   startedOn: "l",
+//   bookingId: "l",
+//   endedOn: "l",
+//   imei: "l",
+//   driverPhoneNum: "l",
+//   transporterPhoneNumber: "l",
+//   // transporterName : snapshot.data['transporterName'],
+// ),

@@ -5,11 +5,11 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 
-import 'buttons/callButton.dart';
-import 'buttons/completedButtonOrders.dart';
-import 'buttons/trackButton.dart';
-import 'linePainter.dart';
-import 'loadLabelValueRowTemplate.dart';
+import '../../../widgets/buttons/callButton.dart';
+import '../OrderButtons/completedButtonOrders.dart';
+import '../OrderButtons/trackButtonOrder.dart';
+import '../../../widgets/linePainter.dart';
+import '../../../widgets/loadLabelValueRowTemplate.dart';
 
 class OngoingCardOrders extends StatelessWidget {
   //variables
@@ -61,9 +61,7 @@ class OngoingCardOrders extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             LoadEndPointTemplate(
-                                text:
-                                    loadingPoint != null ? loadingPoint : 'NA',
-                                endPointType: 'loading'),
+                                text: loadingPoint, endPointType: 'loading'),
                             Container(
                                 padding: EdgeInsets.only(left: 2),
                                 height: space_6,
@@ -72,9 +70,7 @@ class OngoingCardOrders extends StatelessWidget {
                                   foregroundPainter: LinePainter(),
                                 )),
                             LoadEndPointTemplate(
-                                text: unloadingPoint != null
-                                    ? unloadingPoint
-                                    : 'NA',
+                                text: unloadingPoint,
                                 endPointType: 'unloading'),
                           ],
                         ),
@@ -90,10 +86,10 @@ class OngoingCardOrders extends StatelessWidget {
                                       width: 23,
                                       color: black,
                                       image: AssetImage(
-                                          'assets/icons/TruckIcon.png')),
+                                          'assets/icons/buildingIcon.png')),
                                 ),
                                 Text(
-                                  companyName != null ? companyName : 'NA',
+                                  companyName,
                                   style: TextStyle(
                                     color: liveasyBlackColor,
                                     fontWeight: mediumBoldWeight,

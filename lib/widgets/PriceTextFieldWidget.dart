@@ -3,7 +3,7 @@ import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenTwo.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class PriceTextFieldWidget extends StatelessWidget {
           decoration: InputDecoration(hintText: "Enter Price"),
           keyboardType: TextInputType.number,
           controller: controller,
-          onSubmitted: (value) {
+          onChanged: (value) {
             providerData.updatePrice(int.parse(value));
           },
         ),

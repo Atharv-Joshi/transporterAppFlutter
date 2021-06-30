@@ -2,32 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/TransporterOrders/OrderButtons/trackButtonOrder.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
-
 import 'linePainter.dart';
 
-class DeliveredCard extends StatelessWidget {
+class OngoingCard extends StatelessWidget {
+  //variables
   final String loadingPoint;
   final String unloadingPoint;
   final String startedOn;
   final String endedOn;
   final String truckNo;
   String companyName;
-  // final String phoneNum;
+  final String driverPhoneNum;
   String driverName;
-  // final String imei;
+  final String imei;
+  final int transporterPhoneNumber;
+  // final String transporterName;
 
-  DeliveredCard({
+  OngoingCard({
     required this.loadingPoint,
     required this.unloadingPoint,
     required this.startedOn,
     required this.endedOn,
     required this.truckNo,
     required this.companyName,
-    // required this.phoneNum,
+    required this.driverPhoneNum,
     required this.driverName,
-    // required this.imei
+    required this.imei,
+    required this.transporterPhoneNumber,
+    // required this.transporterName,
   });
 
   @override
@@ -38,6 +44,7 @@ class DeliveredCard extends StatelessWidget {
     companyName = companyName.length >= 15
         ? companyName.substring(0, 13) + '..'
         : companyName;
+
     return Container(
       child: Card(
         child: Column(
@@ -66,6 +73,26 @@ class DeliveredCard extends StatelessWidget {
                               text: unloadingPoint, endPointType: 'unloading'),
                         ],
                       ),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: space_1),
+                            child: Image(
+                                height: 16,
+                                width: 23,
+                                color: black,
+                                image:
+                                    AssetImage('assets/icons/TruckIcon.png')),
+                          ),
+                          Text(
+                            companyName,
+                            style: TextStyle(
+                              color: liveasyBlackColor,
+                              fontWeight: mediumBoldWeight,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                   Container(
@@ -77,9 +104,7 @@ class DeliveredCard extends StatelessWidget {
                         LoadLabelValueRowTemplate(
                             value: driverName, label: 'Driver Name'),
                         LoadLabelValueRowTemplate(
-                            value: startedOn, label: 'Started on'),
-                        LoadLabelValueRowTemplate(
-                            value: endedOn, label: 'Ended on'),
+                            value: startedOn, label: 'Started on')
                       ],
                     ),
                   ),
@@ -88,25 +113,20 @@ class DeliveredCard extends StatelessWidget {
             ),
             Container(
               color: contactPlaneBackground,
-              padding:
-                  EdgeInsets.symmetric(vertical: space_4, horizontal: space_3),
+              padding: EdgeInsets.symmetric(
+                vertical: space_2,
+              ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(right: space_1),
-                    child: Image(
-                        height: 16,
-                        width: 23,
-                        color: black,
-                        image: AssetImage('assets/icons/TruckIcon.png')),
+                  TrackButton(truckApproved: false),
+                  CallButton(
+                    directCall: false,
+                    transporterPhoneNum: transporterPhoneNumber.toString(),
+                    driverPhoneNum: driverPhoneNum,
+                    driverName: driverName,
+                    transporterName: companyName,
                   ),
-                  Text(
-                    companyName,
-                    style: TextStyle(
-                      color: liveasyBlackColor,
-                      fontWeight: mediumBoldWeight,
-                    ),
-                  )
                 ],
               ),
             ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/buttons/OKButtonCompletedDate.dart';
-import 'package:liveasy/widgets/buttons/cancelCompletedDateButton.dart';
-
+import 'package:liveasy/controller/CompletedDateController.dart';
+import 'package:liveasy/screens/TransporterOrders/OrderButtons/OKButtonCompletedDate.dart';
+import 'package:liveasy/screens/TransporterOrders/OrderButtons/cancelCompletedDateButton.dart';
+import 'package:get/get.dart';
 import '../completedTextField.dart';
 
 class CompletedOrdersAlertDialog extends StatefulWidget {
@@ -20,6 +22,24 @@ class CompletedOrdersAlertDialog extends StatefulWidget {
 
 class _CompletedOrdersAlertDialogState
     extends State<CompletedOrdersAlertDialog> {
+  @override
+  void initState() {
+    Get.put(CompletedDateController());
+    Jiffy initialDay = Jiffy(DateTime.now());
+    String idate = initialDay.date < 10
+        ? "0${initialDay.date.toString()}"
+        : initialDay.date.toString();
+    String imonth = initialDay.month < 10
+        ? "0${initialDay.month.toString()}"
+        : initialDay.month.toString();
+    String iyear = initialDay.year.toString();
+    completedDateController
+        .updateCompletedDateController("$idate-$imonth-$iyear");
+    completedController.text = "$idate-$imonth-$iyear";
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

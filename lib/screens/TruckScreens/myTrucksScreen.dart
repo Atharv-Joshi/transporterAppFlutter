@@ -1,32 +1,21 @@
-//TODO: functionality for track and call button. truckapproved cond for add truck button asnd redirecting to required pages.
-
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-
-//constants
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
-
-//widgets
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
-
-//functions
-import 'package:liveasy/functions/truckApiCalls.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -34,22 +23,51 @@ class MyTrucks extends StatefulWidget {
 }
 
 class _MyTrucksState extends State<MyTrucks> {
-  // truckApiCall instance
-  TruckApiCalls truckApiCalls = TruckApiCalls();
-  late List jsonData;
-
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
-
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   //TransporterId controller
-  TransporterIdController transporterIdController = TransporterIdController();
-  ScrollController scrollController = ScrollController();
-  List truckDataList = [];
-  int i = 0;
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
+
   //true if truck list is empty
   bool truckListEmpty = false;
+
+  //Scroll Controller for Pagination
+  ScrollController scrollController = ScrollController();
+
+  // retrieving TRUCKAPIURL  from env file
+  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
+
+  //json data list
+  late List jsonData;
+
+  // Truck Model List used to  create cards
+  List truckDataList = [];
+
+  int i = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getTruckData(i);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        getTruckData(i + 1);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +98,11 @@ class _MyTrucksState extends State<MyTrucks> {
                   margin: EdgeInsets.symmetric(vertical: space_3),
                   child: SearchLoadWidget(
                     hintText: 'Search',
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => NextUpdateAlertDialog());
+                    },
                   )),
 
               //LIST OF TRUCK CARDS---------------------------------------------
@@ -144,8 +166,8 @@ class _MyTrucksState extends State<MyTrucks> {
                               } //builder
                               );
                         }),
-                //--------------------------------------------------------------
               ),
+              //--------------------------------------------------------------
               Container(child: AddTruckButton()),
             ],
           ),

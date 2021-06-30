@@ -5,7 +5,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenOne.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';

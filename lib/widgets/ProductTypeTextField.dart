@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenTwo.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 
 class ProductTypeTextField extends StatelessWidget {
   const ProductTypeTextField({Key? key}) : super(key: key);

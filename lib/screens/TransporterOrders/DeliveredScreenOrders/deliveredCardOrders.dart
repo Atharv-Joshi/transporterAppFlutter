@@ -3,22 +3,21 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import '../../../widgets/linePainter.dart';
+import '../../../widgets/loadLabelValueRowTemplate.dart';
 
-import 'linePainter.dart';
-
-class DeliveredCard extends StatelessWidget {
+class DeliveredCardOrders extends StatelessWidget {
   final String loadingPoint;
   final String unloadingPoint;
   final String startedOn;
   final String endedOn;
   final String truckNo;
-  String companyName;
+  final String companyName;
   // final String phoneNum;
-  String driverName;
+  final String driverName;
   // final String imei;
 
-  DeliveredCard({
+  DeliveredCardOrders({
     required this.loadingPoint,
     required this.unloadingPoint,
     required this.startedOn,
@@ -32,12 +31,6 @@ class DeliveredCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    driverName = driverName.length >= 12
-        ? driverName.substring(0, 10) + '..'
-        : driverName;
-    companyName = companyName.length >= 15
-        ? companyName.substring(0, 13) + '..'
-        : companyName;
     return Container(
       child: Card(
         child: Column(
@@ -98,10 +91,11 @@ class DeliveredCard extends StatelessWidget {
                         height: 16,
                         width: 23,
                         color: black,
-                        image: AssetImage('assets/icons/TruckIcon.png')),
+                        image: AssetImage('assets/icons/buildingIcon.png')),
                   ),
                   Text(
-                    companyName,
+                    // ignore: unnecessary_null_comparison
+                    companyName != null ? companyName : "NA",
                     style: TextStyle(
                       color: liveasyBlackColor,
                       fontWeight: mediumBoldWeight,

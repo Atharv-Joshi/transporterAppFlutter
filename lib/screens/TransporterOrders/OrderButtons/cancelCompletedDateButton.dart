@@ -4,6 +4,8 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:get/get.dart';
 
+import '../completedTextField.dart';
+
 class CancelCompletedDateButton extends StatelessWidget {
   const CancelCompletedDateButton({Key? key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class CancelCompletedDateButton extends StatelessWidget {
         child: ElevatedButton(
           style: ButtonStyle(backgroundColor: greyishWhiteColorM),
           onPressed: () {
+            completedController.text = "";
             Get.back();
           },
           child: Text(

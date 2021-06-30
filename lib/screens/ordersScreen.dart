@@ -4,11 +4,12 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 // import 'package:liveasy/widgets/getBids.dart';
 import 'package:provider/provider.dart';
 
-import 'myLoadPages/deliveredScreen.dart';
-import 'myLoadPages/onGoingScreenOrders.dart';
+import 'TransporterOrders/DeliveredScreenOrders/deliveredScreenOrders.dart';
+import 'TransporterOrders/OnGoingScreenOrders/onGoingScreenOrders.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 class OrdersScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         });
                       },
                       children: [
-                        Text("bids"),
+                        Text(""),
                         OngoingScreenOrders(),
                         DeliveredScreenOrders(),
                       ],

@@ -150,11 +150,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updatePrice(value) {
-    if (value == 0) {
-      return null;
-    } else {
-      price = value;
-    }
+    price = value;
     notifyListeners();
   }
 
