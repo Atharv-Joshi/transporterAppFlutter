@@ -18,7 +18,7 @@ class TrackButton extends StatelessWidget {
             RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         )),
-        backgroundColor: MaterialStateProperty.all<Color>(unactiveReset),
+        backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
       ),
       onPressed: () {
         print('Track button pressed');
