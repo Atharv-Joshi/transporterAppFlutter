@@ -14,8 +14,10 @@ class PriceContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
-    return rate != null || int.parse(rate!) > 0
-    ?Container(
+    print(rate);
+    print(rate.runtimeType);
+    return
+     Container(
       margin: EdgeInsets.only(left: 10),
       padding: EdgeInsets.all(space_2),
       decoration: BoxDecoration(
@@ -32,7 +34,7 @@ class PriceContainer extends StatelessWidget {
               ),
         ),
       ),
-    )
-    : SizedBox();
+    );
+
   }
 }

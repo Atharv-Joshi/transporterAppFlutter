@@ -108,7 +108,7 @@ class MyLoadsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    PriceContainer(rate: rate.toString(), unitValue: unitValue,),
+                    rate != null ? PriceContainer(rate: rate.toString(), unitValue: unitValue,) : SizedBox(),
                     ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
                   ],
                 ),
