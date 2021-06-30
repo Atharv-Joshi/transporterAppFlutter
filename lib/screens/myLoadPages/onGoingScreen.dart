@@ -32,7 +32,7 @@ class OngoingScreen extends StatelessWidget {
                                 children: [
                                     Image(
                                         image: AssetImage(
-                                            'assets/images/TruckListEmptyImage.png'),
+                                            'assets/images/EmptyLoad.png'),
                                         height: 127,
                                         width: 127,
                                     ),

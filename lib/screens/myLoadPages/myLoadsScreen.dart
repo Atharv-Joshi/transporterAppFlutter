@@ -61,7 +61,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
             children: [
               Image(
                 image: AssetImage(
-                    'assets/images/TruckListEmptyImage.png'),
+                    'assets/images/EmptyLoad.png'),
                 height: 127,
                 width: 127,
               ),
