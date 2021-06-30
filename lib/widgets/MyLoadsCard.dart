@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
@@ -18,6 +21,8 @@ class MyLoadsCard extends StatelessWidget {
   String? unitValue;
   int? rate;
   String? loadId;
+  String? loadDate;
+  String? noOfTrucks;
 
   MyLoadsCard(
       {
@@ -29,11 +34,20 @@ class MyLoadsCard extends StatelessWidget {
         this.unitValue,
         this.loadId,
         this.rate,
+        this.loadDate,
+        this.noOfTrucks
       }
       );
 
+  TruckFilterVariables truckFilterVariables = TruckFilterVariables();
+
   @override
   Widget build(BuildContext context) {
+
+    if(truckType != 'Na'){
+      truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)];
+    }
+
     return  Container(
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(
@@ -41,78 +55,80 @@ class MyLoadsCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(space_2),
             child: Column(
+              crossAxisAlignment:  CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        padding: EdgeInsets.only(left: space_3, top: space_3 - 1),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                Text(
+                    'Posted Date : $loadDate',
+                style: TextStyle(
+                  fontSize: size_6,
+                  color: veryDarkGrey
+                ),),
 
-                            LoadEndPointTemplate(text: loadingPointCity.toString(), endPointType: 'loading'),
-
-                            Container(
-                              height: space_4+2,
-                              padding: EdgeInsets.only(left: space_1 - 3),
-                              child: CustomPaint(
-                                foregroundPainter: LinePainter(height: space_4+2, width: 1),
-                              ),
-                            ),
-
-                            LoadEndPointTemplate(text: unloadingPointCity.toString(), endPointType: 'unloading'),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            LoadLabelValueColumnTemplate(value: truckType.toString(), label: 'Truck Type'),
-                                            LoadLabelValueColumnTemplate(value: weight.toString(), label: 'Weight')
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        LoadLabelValueColumnTemplate(value: 'NA', label: 'Tyres'),
-                                        LoadLabelValueColumnTemplate(value: productType.toString(), label: 'Product type'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                        padding: EdgeInsets.only(top: space_3 , right: space_1),
-                        child: TruckImageWidget())
-                  ],
-                ),
                 SizedBox(
-                  height: space_2 + 4,
+                  height: space_1,
                 ),
+
+                LoadEndPointTemplate(text: loadingPointCity.toString(), endPointType: 'loading'),
+
+                Container(
+                  height: space_4+2,
+                  padding: EdgeInsets.only(left: space_1 - 3),
+                  child: CustomPaint(
+                    foregroundPainter: LinePainter(height: space_4+2, width: 1),
+                  ),
+                ),
+
+                LoadEndPointTemplate(text: unloadingPointCity.toString(), endPointType: 'unloading'),
+
+                SizedBox(
+                  height: space_1,
+                ),
+
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    rate != null ? PriceContainer(rate: rate.toString(), unitValue: unitValue,) : SizedBox(),
-                    ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
+                    Image(
+                        image: AssetImage('assets/images/TruckListEmptyImage.png'),
+                    height: 24 ,
+                    width: 24,),
+                    Text(
+                        '$truckType | $noOfTrucks trucks',
+                      style: TextStyle(
+                          fontSize: size_6
+                      ),),
                   ],
                 ),
+
+                SizedBox(
+                  height: space_1,
+                ),
+
+                Row(
+                  children: [
+                    Image(
+                      image: AssetImage('assets/images/loadBox.png'),
+                      height: 24 ,
+                      width: 24,),
+                    Text(
+                        '$productType | $weight tons',
+                    style: TextStyle(
+                      fontSize: size_6
+                    ),),
+                  ],
+                ),
+
+                SizedBox(
+                  height: space_2,
+                ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      rate != null ? PriceContainer(rate: rate.toString(), unitValue: unitValue,) : SizedBox(),
+                      ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
+                    ],
+                  ),
               ],
+
             ),
           ),
         ),

@@ -38,7 +38,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             truckType: widget.loadApiData.truckType,
             productType: widget.loadApiData.productType,
             weight: widget.loadApiData.weight,
-            date: widget.loadApiData.date,
+            date: widget.loadApiData.loadDate,
             noOfTrucks: widget.loadApiData.noOfTrucks,
             status: widget.loadApiData.status,
             rate: widget.loadApiData.rate.toString(),

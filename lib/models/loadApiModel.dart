@@ -15,7 +15,7 @@ class LoadApiModel {
   String? status;
   int? rate;
   String? unitValue;
-  String? date;
+  String? loadDate;
   // int? tyres;
 
   LoadApiModel(
@@ -34,7 +34,7 @@ class LoadApiModel {
         this.comment,
         this.status,
         // this.tyres,
-        this.date,
+        this.loadDate,
         this.rate,
         this.unitValue,
         });

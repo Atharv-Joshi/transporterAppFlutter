@@ -33,6 +33,7 @@ class LoadLabelValueColumnTemplate extends StatelessWidget {
                 color: liveasyBlackColor),
           ),
           Text(
+            //TODO
             value != null ? '$value' : 'NA',
             style: TextStyle(
                 fontWeight: mediumBoldWeight,
