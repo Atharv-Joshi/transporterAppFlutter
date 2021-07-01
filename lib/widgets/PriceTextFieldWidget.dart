@@ -24,7 +24,14 @@ class PriceTextFieldWidget extends StatelessWidget {
           color: widgetBackGroundColor,
         ),
         child: TextField(
-          decoration: InputDecoration(hintText: "Enter Price"),
+          decoration: InputDecoration(
+            hintText: "Enter Price",
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+          ),
           keyboardType: TextInputType.number,
           controller: controller,
           onChanged: (value) {
