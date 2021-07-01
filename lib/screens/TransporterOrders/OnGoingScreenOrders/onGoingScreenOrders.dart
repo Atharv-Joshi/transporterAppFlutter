@@ -15,7 +15,7 @@ class OngoingScreenOrders extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.67,
         child: FutureBuilder(
           //getTruckData returns list of truck Model
-          future: bookingApiCallsOrders.getDataByPostLoadIdOnGoing(),
+          future: bookingApiCallsOrders.getDataByTransporterIdOnGoing(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return LoadingWidget();

@@ -7,7 +7,7 @@ import 'package:liveasy/screens/TransporterOrders/DeliveredScreenOrders/delivere
 import 'package:liveasy/widgets/loadingWidget.dart';
 
 class DeliveredScreenOrders extends StatelessWidget {
-  final BookingApiCallsOrders bookingApiCalls = BookingApiCallsOrders();
+  final BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class DeliveredScreenOrders extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.67,
         child: FutureBuilder(
           //getTruckData returns list of truck Model
-          future: bookingApiCalls.getDataByPostLoadIdDelivered(),
+          future: bookingApiCallsOrders.getDataByTransporterIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return LoadingWidget();

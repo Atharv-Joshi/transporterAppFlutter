@@ -20,7 +20,7 @@ class BookingApiCallsOrders {
   List<BookingModel> modelList = [];
 
   //GET ------------------------------------------------------------------------
-  Future<List<BookingModel>> getDataByPostLoadIdOnGoing() async {
+  Future<List<BookingModel>> getDataByTransporterIdOnGoing() async {
     modelList = [];
 
     for (int i = 0;; i++) {
@@ -53,7 +53,7 @@ class BookingApiCallsOrders {
   }
 
   //----------------------------------------------------------------------------
-  Future<List<BookingModel>> getDataByPostLoadIdDelivered() async {
+  Future<List<BookingModel>> getDataByTransporterIdDelivered() async {
     modelList = [];
     try {
       for (int i = 0;; i++) {
