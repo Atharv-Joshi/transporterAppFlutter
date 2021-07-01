@@ -17,8 +17,9 @@ class PostLoadScreen extends StatefulWidget {
 }
 
 class _PostLoadScreenState extends State<PostLoadScreen> {
+
   //Page Controller
-  PageController pageController = PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage:0);
 
   int currentPage = 0;
 
@@ -36,18 +37,9 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(
-                      text: 'My Loads',
-                      value: 0,
-                      pageController: pageController),
-                  OrderScreenNavigationBarButton(
-                      text: 'On-going',
-                      value: 1,
-                      pageController: pageController),
-                  OrderScreenNavigationBarButton(
-                      text: 'Delivered',
-                      value: 2,
-                      pageController: pageController)
+                  OrderScreenNavigationBarButton(text: 'My Loads', value: 0 , pageController : pageController),
+                  OrderScreenNavigationBarButton(text: 'On-going', value: 1 , pageController : pageController),
+                  OrderScreenNavigationBarButton(text: 'Delivered', value: 2 , pageController : pageController)
                 ],
               ),
               Divider(
@@ -60,7 +52,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                     height: 600,
                     child: PageView(
                       controller: pageController,
-                      onPageChanged: (value) {
+                      onPageChanged: (value){
                         setState(() {
                           providerData.updateUpperNavigatorIndex(value);
                         });
@@ -73,6 +65,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                     ),
                   ),
 
+
                   // Positioned(
                   //   top: 50,
                   //   child: Align(
@@ -80,8 +73,10 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                   //       child: PostButtonLoad()
                   //   ),
                   // ),
+
                 ],
               ),
+
             ],
           ),
         ),

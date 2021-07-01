@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+
   var bidButtonSendRequestState = "false";
 
   void updateBidButtonSendRequest({required String newValue}) {
@@ -55,12 +56,12 @@ class ProviderData extends ChangeNotifier {
   var dropDownValue1;
   var dropDownValue2;
 
-  void updateDropDownValue1({required String newValue}) {
+  void updateDropDownValue1({required String? newValue}) {
     dropDownValue1 = newValue;
     notifyListeners();
   }
 
-  void updateDropDownValue2({required String newValue}) {
+  void updateDropDownValue2({required String? newValue}) {
     dropDownValue2 = newValue;
     notifyListeners();
   }
@@ -115,7 +116,7 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void updateUpperNavigatorIndex(int value) {
+  void updateUpperNavigatorIndex(int value){
     upperNavigatorIndex = value;
     notifyListeners();
   }

@@ -6,6 +6,7 @@ class BidsModel {
   String? loadId;
   String? biddingDate;
   String? truckId;
+  bool? shipperApproval;
 
   BidsModel(
       {this.bidId,
@@ -14,5 +15,6 @@ class BidsModel {
       this.unitValue,
       this.loadId,
       this.biddingDate,
-      this.truckId});
+      this.truckId,
+      this.shipperApproval});
 }

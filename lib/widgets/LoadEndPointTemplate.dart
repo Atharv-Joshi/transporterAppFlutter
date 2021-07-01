@@ -5,15 +5,16 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 class LoadEndPointTemplate extends StatelessWidget {
+
   final String? endPointType;
-  String? text;
+   String? text;
 
   LoadEndPointTemplate({required this.text, required this.endPointType});
 
   @override
   Widget build(BuildContext context) {
-    if (text!.length > 15) {
-      text = text!.substring(0, 14) + '..';
+    if(text!.length > 15){
+      text = text!.substring(0 , 14) + '..';
     }
     return Row(
       children: [

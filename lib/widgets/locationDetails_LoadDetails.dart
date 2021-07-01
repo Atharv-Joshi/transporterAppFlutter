@@ -9,7 +9,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 class LocationDetailsLoadDetails extends StatelessWidget {
   LoadDetailsScreenModel loadDetails;
 
-  LocationDetailsLoadDetails({required this.loadDetails});
+  LocationDetailsLoadDetails({
+    required this.loadDetails
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -24,6 +24,7 @@ Future<List<BidsModel>> getBidsFromBidApi() async {
     bidsModel.loadId = json["loadId"].toString();
     bidsModel.biddingDate = json["biddingDate"].toString();
     bidsModel.truckId = json["truckId"].toString();
+    bidsModel.shipperApproval= json["shipperApproval"];
     bidsCard.add(bidsModel);
   }
 

@@ -1,3 +1,4 @@
+
 class GpsDataModel {
   String? speed;
   double? lat;
@@ -8,9 +9,9 @@ class GpsDataModel {
 
   GpsDataModel(
       {this.speed,
-      this.imei,
-      this.lat,
-      this.deviceName,
-      this.lng,
-      this.powerValue});
+        this.imei,
+        this.lat,
+        this.deviceName,
+        this.lng,
+        this.powerValue});
 }

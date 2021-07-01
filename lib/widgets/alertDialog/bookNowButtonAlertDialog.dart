@@ -6,6 +6,8 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverNameFromDriverApi.dart';
+import 'package:liveasy/functions/updateDriverIdInTruckApi.dart';
+import 'package:liveasy/models/bidsModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
@@ -21,12 +23,16 @@ import 'addDriverAlertDialog.dart';
 class BookNowButtonAlertDialog extends StatefulWidget {
   var truckDetailsList;
   var driverDetailsList;
-  LoadDetailsScreenModel loadDetails;
+  LoadDetailsScreenModel? loadDetailsScreenModel;
+  BidsModel? bidsModel;
+  bool? directBooking;
 
   BookNowButtonAlertDialog(
       {required this.truckDetailsList,
       required this.driverDetailsList,
-      required this.loadDetails});
+      this.loadDetailsScreenModel,
+      this.bidsModel,
+      required this.directBooking});
 
   @override
   _BookNowButtonAlertDialogState createState() =>
@@ -160,12 +166,16 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ConfirmButtonSendRequest(
-                loadId: widget.loadDetails.loadId.toString(),
-                rate: widget.loadDetails.rate.toString(),
+                loadId: widget.loadDetailsScreenModel!.loadId.toString(),
+                rate: widget.loadDetailsScreenModel!.rate.toString(),
                 transporterId: selectedTransporterId,
-                unit: widget.loadDetails.unitValue,
+                unit: widget.loadDetailsScreenModel!.unitValue,
                 truckId: [selectedTruckId],
-                postLoadId: widget.loadDetails.loadPosterId.toString(),
+                postLoadId:
+                    widget.loadDetailsScreenModel!.postLoadId.toString(),
+                directBooking: widget.directBooking,
+                bidsModel: widget.bidsModel,
+                loadDetailsScreenModel: widget.loadDetailsScreenModel,
               ),
               CancelButton()
             ],
@@ -204,6 +214,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
           .toString()
           .contains(item.phoneNum.toString())) {
         selectedDriverDriverId = item.driverId.toString();
+        updateDriverIdInTruckApi(selectedTruckId, selectedDriverDriverId);
         break;
       }
     }

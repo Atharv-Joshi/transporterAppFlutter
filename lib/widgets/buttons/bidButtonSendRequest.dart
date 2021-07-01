@@ -6,21 +6,31 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/postBidApi.dart';
+import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
-  String loadId, unitValue;
+  String? loadId, unitValue, bidId;
 
-  BidButtonSendRequest(this.loadId, this.unitValue);
+  // int? rate;
+  bool? isPost;
+
+  BidButtonSendRequest({
+    this.loadId,
+    // this.rate,
+    this.unitValue,
+    this.bidId,
+    required this.isPost,
+  });
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context, listen: false);
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(right: space_3),
       height: space_6 + 1,
@@ -46,11 +56,16 @@ class BidButtonSendRequest extends StatelessWidget {
                     null) {
               return null;
             } else {
-              postBidAPi(
-                  loadId,
-                  Provider.of<ProviderData>(context, listen: false).rate,
-                  tIdController.transporterId.value,
-                  unitValue);
+              // postBidAPi(
+              //     loadId,
+              //     Provider.of<ProviderData>(context, listen: false).rate,
+              //     tIdController.transporterId.value,
+              //     unitValue);
+              isPost!
+                  ? postBidAPi(loadId, providerData.rate,
+                      tIdController.transporterId.value, unitValue)
+                  : putBidForNegotiate(bidId, providerData.rate, unitValue);
+
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Bidding Request Send')));
               providerData.updateRate("");
@@ -64,16 +79,12 @@ class BidButtonSendRequest extends StatelessWidget {
                 RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius_4),
             )),
-            overlayColor:
-                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                        "true"
-                    ? null
-                    : MaterialStateProperty.all(Colors.transparent),
-            backgroundColor:
-                Provider.of<ProviderData>(context).bidButtonSendRequestState ==
-                        "true"
-                    ? activeButtonColor
-                    : deactiveButtonColor),
+            overlayColor: providerData.bidButtonSendRequestState == "true"
+                ? null
+                : MaterialStateProperty.all(Colors.transparent),
+            backgroundColor: providerData.bidButtonSendRequestState == "true"
+                ? activeButtonColor
+                : deactiveButtonColor),
       ),
     );
   }

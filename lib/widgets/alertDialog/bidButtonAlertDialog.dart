@@ -105,7 +105,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
-                  providerData.updateRate(rate);
+                  // providerData.updateRate(rate);
                   if (rate == null || rate == "") {
                     providerData.updateBidButtonSendRequest(newValue: "false");
                   } else if (rate != null) {
@@ -125,7 +125,12 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
-                  widget.loadId.toString(), unitValue.toString()),
+                // rate: rate,
+                loadId: widget.loadId ,
+                bidId: widget.bidId,
+                unitValue : unitValue.toString(),
+                isPost: widget.isPost,
+              ),
               CancelButton()
             ],
           ),

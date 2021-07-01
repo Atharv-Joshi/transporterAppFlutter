@@ -31,7 +31,7 @@ class _BidButtonState extends State<BidButton> {
           await showDialog(
               context: context,
               builder: (context) => BidButtonAlertDialog(
-                    isPost: true,
+                isPost: true,
                     loadId: widget.loadDetails.loadId,
                   ));
         } else {

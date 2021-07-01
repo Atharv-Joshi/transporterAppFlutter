@@ -92,7 +92,7 @@ class LoadCardHeader extends StatelessWidget {
                                 Column(
                                   children: [
                                     LoadLabelValueColumnTemplate(
-                                      label: "Truck Type",
+                                      label:"Truck Type",
                                       value: loadDetails.truckType.toString(),
                                     ),
                                     LoadLabelValueColumnTemplate(
@@ -145,9 +145,7 @@ class LoadCardHeader extends StatelessWidget {
               rate: loadDetails.rate.toString(),
               unitValue: loadDetails.unitValue.toString(),
             ),
-            BidButton(
-              loadDetails: loadDetails,
-            ),
+            BidButton(loadDetails: loadDetails,),
           ],
         ),
       ],

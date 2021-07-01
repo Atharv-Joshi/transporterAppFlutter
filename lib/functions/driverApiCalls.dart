@@ -12,7 +12,7 @@ class DriverApiCalls {
   List? jsonData;
 
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
@@ -46,41 +46,36 @@ class DriverApiCalls {
 
     if (driverId != null) {
       http.Response response =
-          await http.get(Uri.parse('$driverApiUrl/$driverId'));
+      await http.get(Uri.parse('$driverApiUrl/$driverId'));
 
       Map jsonData = json.decode(response.body);
 
       DriverModel driverModel = DriverModel();
-      driverModel.driverId =
-          jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
-      driverModel.transporterId =
-          jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
-      driverModel.phoneNum =
-          jsonData["phoneNum"] != null ? jsonData["phoneNum"] : '';
-      driverModel.driverName =
-          jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
-      driverModel.truckId =
-          jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+      driverModel.driverId = jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+      driverModel.transporterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+      driverModel.phoneNum = jsonData["phoneNum"] != null ? jsonData["phoneNum"] : '';
+      driverModel.driverName = jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+      driverModel.truckId = jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
 
       return driverModel;
     }
 
     if (truckModel!.driverId != null) {
       http.Response response =
-          await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
+      await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
 
       jsonData = json.decode(response.body);
     }
 
     TruckModel truckModelFinal = TruckModel(truckApproved: false);
     truckModelFinal.driverName =
-        truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
+    truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
     truckModelFinal.truckApproved = truckModel.truckApproved;
     truckModelFinal.truckNo = truckModel.truckNo;
     truckModelFinal.truckType = truckModel.truckType;
     truckModelFinal.tyres = truckModel.tyres;
     truckModelFinal.driverNum =
-        truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+    truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
     truckModelFinal.imei = truckModel.imei;
 
     return truckModelFinal;

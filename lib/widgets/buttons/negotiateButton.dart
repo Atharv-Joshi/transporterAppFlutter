@@ -6,11 +6,14 @@ import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 
 // ignore: must_be_immutable
 class NegotiateButton extends StatelessWidget {
+
   final String? bidId;
 
-  NegotiateButton({
-    required this.bidId,
-  });
+  NegotiateButton(
+      {
+        required this.bidId,
+      }
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +24,24 @@ class NegotiateButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
+                borderRadius: BorderRadius.circular(50),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) => BidButtonAlertDialog(
-                    isPost: false,
-                    bidId: bidId,
-                  ));
+            showDialog(
+                context: context,
+                builder: (context) =>  BidButtonAlertDialog(isPost: false , bidId:  bidId,));
         },
         child: Container(
-          child: Text(
-            'Negotiate',
-            style: TextStyle(
-              fontWeight: normalWeight,
-              color: white,
-              fontSize: size_6,
-            ),
-          ),
+          child : Text(
+                'Negotiate',
+                style: TextStyle(
+                  fontWeight: normalWeight,
+                  color: white,
+                  fontSize: size_6,
+                ),
+              ),
         ),
       ),
     );

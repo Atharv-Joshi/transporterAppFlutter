@@ -26,8 +26,8 @@ class BiddingCard extends StatelessWidget {
   final bool? transporterApproved;
 
   BiddingCard({
-    required this.loadId,
-    required this.loadingPointCity,
+    required this.loadId ,
+    required this.loadingPointCity ,
     required this.unloadingPointCity,
     required this.biddingDate,
     required this.unitValue,
@@ -44,20 +44,20 @@ class BiddingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => BiddingDetails(
-              loadId: loadId,
-              bidId: bidId,
-              rate: rate,
-              unitValue: unitValue,
-              companyName: companyName,
-              biddingDate: biddingDate,
-              transporterPhoneNum: transporterPhoneNum,
-              transporterName: transporterName,
-              transporterLocation: transporterLocation,
-              companyApproved: companyApproved,
-              transporterApproved: transporterApproved,
-            ));
+      onTap: (){
+        Get.to(()=> BiddingDetails(
+          loadId : loadId,
+          bidId: bidId,
+          rate: rate,
+          unitValue: unitValue,
+          companyName: companyName,
+          biddingDate: biddingDate,
+          transporterPhoneNum: transporterPhoneNum,
+          transporterName : transporterName,
+          transporterLocation: transporterLocation,
+          companyApproved: companyApproved,
+          transporterApproved: transporterApproved,
+        ));
       },
       child: Container(
         child: Card(
@@ -74,43 +74,36 @@ class BiddingCard extends StatelessWidget {
                       // mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        LoadEndPointTemplate(
-                            text: loadingPointCity, endPointType: 'loading'),
+                        LoadEndPointTemplate(text: loadingPointCity, endPointType: 'loading'),
+
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_6,
                             width: space_12,
                             child: CustomPaint(
                               foregroundPainter: LinePainter(),
-                            )),
-                        LoadEndPointTemplate(
-                            text: unloadingPointCity,
-                            endPointType: 'unloading'),
+                            )
+                        ),
+
+                        LoadEndPointTemplate(text: unloadingPointCity, endPointType: 'unloading'),
                       ],
                     ),
-                    PriceContainer(
-                      rate: rate,
-                      unitValue: unitValue,
-                    ),
+                    PriceContainer(rate: rate , unitValue: unitValue,),
                   ],
                 ),
-                SizedBox(
-                  height: space_2,
-                ),
-                LoadLabelValueRowTemplate(
-                    value: companyName, label: 'Transporter'),
-                LoadLabelValueRowTemplate(
-                    value: biddingDate, label: 'Bidding Date'),
+                SizedBox(height: space_2,),
+                LoadLabelValueRowTemplate(value: companyName, label: 'Transporter'),
+                LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
                 Container(
-                  margin: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
+                  margin: EdgeInsets.fromLTRB(space_4 , space_4 , space_4 , 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AcceptButton(isBiddingDetails: false, bidId: bidId),
-                      CallButton(
-                        directCall: true,
-                        phoneNum: transporterPhoneNum,
-                      )
+                      AcceptButton(
+                        isBiddingDetails: false,
+                          bidId : bidId
+                      ),
+                      CallButton(directCall: true , phoneNum: transporterPhoneNum,)
                     ],
                   ),
                 ),

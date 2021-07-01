@@ -11,13 +11,17 @@ class BiddingDecisionCard extends StatelessWidget {
   final String? bidId;
 
   BiddingDecisionCard(
-      {required this.biddingDate,
-      required this.unitValue,
-      required this.rate,
-      required this.bidId});
+  {
+    required this.biddingDate,
+    required this.unitValue,
+    required this.rate,
+    required this.bidId
+}
+      );
 
   @override
   Widget build(BuildContext context) {
+
     unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
 
     return Container(
@@ -27,10 +31,8 @@ class BiddingDecisionCard extends StatelessWidget {
           margin: EdgeInsets.all(space_3),
           child: Column(
             children: [
-              LoadLabelValueRowTemplate(
-                  value: 'Rs.$rate/$unitValue', label: 'Bidding'),
-              LoadLabelValueRowTemplate(
-                  value: biddingDate, label: 'Bidding Date'),
+              LoadLabelValueRowTemplate(value: 'Rs.$rate/$unitValue', label: 'Bidding'),
+              LoadLabelValueRowTemplate(value: biddingDate , label: 'Bidding Date'),
               Container(
                 margin: EdgeInsets.symmetric(vertical: space_2),
                 child: Divider(
@@ -40,13 +42,17 @@ class BiddingDecisionCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AcceptButton(isBiddingDetails: true, bidId: bidId),
+                  AcceptButton(
+                    isBiddingDetails: true,
+                      bidId: bidId
+                  ),
                   DeclineButton(
                     isBiddingDetails: true,
                     bidId: bidId,
                   )
                 ],
               ),
+
             ],
           ),
         ),
@@ -54,3 +60,4 @@ class BiddingDecisionCard extends StatelessWidget {
     );
   }
 }
+

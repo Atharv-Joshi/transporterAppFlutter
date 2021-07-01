@@ -15,12 +15,11 @@ class OngoingCard extends StatelessWidget {
   final String startedOn;
   final String endedOn;
   final String truckNo;
-  String companyName;
+   String companyName;
   final String driverPhoneNum;
   String driverName;
   final String imei;
   final int transporterPhoneNumber;
-
   // final String transporterName;
 
   OngoingCard({
@@ -39,12 +38,8 @@ class OngoingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    driverName = driverName.length >= 12
-        ? driverName.substring(0, 10) + '..'
-        : driverName;
-    companyName = companyName.length >= 15
-        ? companyName.substring(0, 13) + '..'
-        : companyName;
+    driverName = driverName.length >= 12 ? driverName.substring(0,10) + '..' : driverName;
+    companyName = companyName.length >= 15 ? companyName.substring(0,13) + '..' : companyName;
 
     return Container(
       child: Card(
@@ -61,17 +56,20 @@ class OngoingCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          LoadEndPointTemplate(
-                              text: loadingPoint, endPointType: 'loading'),
+
+                          LoadEndPointTemplate(text: loadingPoint, endPointType: 'loading'),
+
                           Container(
                               padding: EdgeInsets.only(left: 2),
                               height: space_6,
                               width: space_12,
                               child: CustomPaint(
                                 foregroundPainter: LinePainter(),
-                              )),
-                          LoadEndPointTemplate(
-                              text: unloadingPoint, endPointType: 'unloading'),
+                              )
+                          ),
+
+                          LoadEndPointTemplate(text: unloadingPoint, endPointType: 'unloading'),
+
                         ],
                       ),
                       Row(
@@ -100,12 +98,9 @@ class OngoingCard extends StatelessWidget {
                     margin: EdgeInsets.only(top: space_4),
                     child: Column(
                       children: [
-                        LoadLabelValueRowTemplate(
-                            value: truckNo, label: 'Truck No.'),
-                        LoadLabelValueRowTemplate(
-                            value: driverName, label: 'Driver Name'),
-                        LoadLabelValueRowTemplate(
-                            value: startedOn, label: 'Started on')
+                        LoadLabelValueRowTemplate(value: truckNo, label: 'Truck No.'),
+                        LoadLabelValueRowTemplate(value: driverName, label: 'Driver Name'),
+                        LoadLabelValueRowTemplate(value: startedOn, label: 'Started on')
                       ],
                     ),
                   ),
@@ -121,13 +116,7 @@ class OngoingCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TrackButton(truckApproved: false),
-                  CallButton(
-                    directCall: false,
-                    transporterPhoneNum: transporterPhoneNumber.toString(),
-                    driverPhoneNum: driverPhoneNum,
-                    driverName: driverName,
-                    transporterName: companyName,
-                  ),
+                  CallButton(directCall: false, transporterPhoneNum: transporterPhoneNumber.toString(), driverPhoneNum: driverPhoneNum, driverName: driverName, transporterName: companyName,),
                 ],
               ),
             ),

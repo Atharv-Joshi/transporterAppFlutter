@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
-
 // import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 double speed = 0;
 // Future<GpsDataModel> getGpsDataFromApi(int imei)async{
 //   if(speed >2){
@@ -41,9 +39,7 @@ double speed = 0;
 class ShowMapWithImei extends StatefulWidget {
   final GpsDataModel? gpsData;
   final Position? userLocation;
-
   ShowMapWithImei({this.gpsData, this.userLocation});
-
   @override
   _ShowMapWithImeiState createState() => _ShowMapWithImeiState();
 }
@@ -56,7 +52,6 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     setCustomMapPin("assets/images/truckAsMarker.jpeg");
     speed = double.parse(widget.gpsData!.speed!);
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -64,7 +59,6 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   }
 
   bool shouldRun = true;
-
   // void getGpsDataByImei({String imei}) async {
   //   while(shouldRun){
   //     speed = double.parse(Provider.of<ProviderData>(context, listen: false).gpsData.speed);
@@ -85,41 +79,31 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   String mapMyIndiaToken = "";
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? googleMapController;
-  CameraPosition _initialCameraPosition = CameraPosition(
-    target: LatLng(27, 77),
-    zoom: 14,
-  );
+  CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(27,77), zoom: 14,);
 
-  void updateDeviceMarker(LatLng latLng) async {
+
+
+  void updateDeviceMarker(LatLng latLng ) async{
     setState(() {
-      markers.add(Marker(
-          markerId: MarkerId("DeviceMarker"),
-          rotation: 0,
-          position: latLng,
-          anchor: Offset(0.5, 0.5),
-          icon: pinLocationIcon!));
-      _createPolylines(
-          myLocation!,
-          Position(
-              latitude: latLng.latitude,
-              longitude: latLng.longitude,
-              accuracy: 0,
-              altitude: 0,
-              speedAccuracy: 0,
-              heading: 0,
-              timestamp: DateTime.now(),
-              speed: 0));
+      markers.add(
+          Marker(
+              markerId: MarkerId("DeviceMarker"),
+              rotation: 0,
+              position: latLng,
+              anchor: Offset(0.5,0.5),
+              icon: pinLocationIcon!));
+      _createPolylines(myLocation!, Position(latitude: latLng.latitude, longitude: latLng.longitude, accuracy: 0, altitude: 0, speedAccuracy:0, heading: 0, timestamp: DateTime.now(), speed: 0));
     });
   }
 
   void setCustomMapPin(String imageLocation) async {
     pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5), '$imageLocation');
+        ImageConfiguration(devicePixelRatio: 2.5),
+        '$imageLocation');
   }
 
-  Future<String> getMapMyIndiaToken() async {
-    http.Response tokenGet = await http.post(Uri.parse(
-        'https://outpost.mapmyindia.com/api/security/oauth/token?grant_type=client_credentials&client_id=33OkryzDZsJmp0siGnK04TeuQrg3DWRxswnTg_VBiHew-2D1tA3oa3fthrGnx4vwbwlbF_xT2T4P9dykuS1GUNmbRb8e5CUgz-RgWDyQspeDCXkXK5Nagw==&client_secret=lrFxI-iSEg9xHXNZXiqUoprc9ZvWP_PDWBDw94qhrze0sUkn7LBDwRNFscpDTVFH7aQT4tu6ycN0492wqPs-ewpjObJ6xuR7iRufmSVcnt9fys5dp0F5jlHLxBEj7oqq'));
+  Future<String> getMapMyIndiaToken()async{
+    http.Response tokenGet = await http.post(Uri.parse('https://outpost.mapmyindia.com/api/security/oauth/token?grant_type=client_credentials&client_id=33OkryzDZsJmp0siGnK04TeuQrg3DWRxswnTg_VBiHew-2D1tA3oa3fthrGnx4vwbwlbF_xT2T4P9dykuS1GUNmbRb8e5CUgz-RgWDyQspeDCXkXK5Nagw==&client_secret=lrFxI-iSEg9xHXNZXiqUoprc9ZvWP_PDWBDw94qhrze0sUkn7LBDwRNFscpDTVFH7aQT4tu6ycN0492wqPs-ewpjObJ6xuR7iRufmSVcnt9fys5dp0F5jlHLxBEj7oqq'));
     print(tokenGet.statusCode);
     print(tokenGet.body);
     var body = jsonDecode(tokenGet.body);
@@ -127,33 +111,23 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     return token;
   }
 
-  void getAddress() async {
+  void getAddress()async{
     // var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(widget.gpsData!.lat, widget.gpsData!.lng));
-    List<Placemark> placeMark = await placemarkFromCoordinates(
-        widget.gpsData!.lat!, widget.gpsData!.lat!);
+    List<Placemark> placeMark = await placemarkFromCoordinates(widget.gpsData!.lat!, widget.gpsData!.lat!);
     print(placeMark);
     var first = placeMark.first;
     print(first.name);
-    if (mapMyIndiaToken == "") {
+    if(mapMyIndiaToken == ""){
       mapMyIndiaToken = await getMapMyIndiaToken();
     }
     // used geocoding (instead of directly getting address using lat,lng) bcs rev-geocoding has a limit of 200 and geocoding has 5000 limit per day
-    http.Response response = await http.get(
-      Uri.parse(
-          'https://atlas.mapmyindia.com/api/places/geocode?address=${first.name}'),
-      headers: {HttpHeaders.authorizationHeader: "$mapMyIndiaToken"},
-    );
+    http.Response response = await http.get(Uri.parse('https://atlas.mapmyindia.com/api/places/geocode?address=${first.name}'),
+      headers: {HttpHeaders.authorizationHeader: "$mapMyIndiaToken"},);
     print(response.statusCode);
     var adress = jsonDecode(response.body);
     print(adress);
-    var street = adress["copResults"]["street"] == null ||
-            adress["copResults"]["street"] == ""
-        ? ""
-        : "${adress["copResults"]["street"]}, ";
-    var locality = adress["copResults"]["locality"] == null ||
-            adress["copResults"]["locality"] == ""
-        ? ""
-        : "${adress["copResults"]["locality"]}, ";
+    var street = adress["copResults"]["street"] == null || adress["copResults"]["street"] == ""  ? "": "${adress["copResults"]["street"]}, ";
+    var locality = adress["copResults"]["locality"] == null || adress["copResults"]["locality"] == "" ? "": "${adress["copResults"]["locality"]}, ";
     var cityName = adress["copResults"]["city"];
     var stateName = adress["copResults"]["state"];
     setState(() {
@@ -173,11 +147,9 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     // print(result.status);
     // print(result.errorMessage);
     // print(result.points);
-    http.Response response = await http.get(Uri.parse(
-        'https://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/route_adv/driving/${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}'));
+    http.Response response= await http.get(Uri.parse('https://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/route_adv/driving/${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}'));
     var body = jsonDecode(response.body);
-    List<PointLatLng> polylinePoint =
-        polylinePoints.decodePolyline(body["routes"][0]["geometry"]);
+    List<PointLatLng> polylinePoint = polylinePoints.decodePolyline(body["routes"][0]["geometry"]);
     String distanceBetween = body["routes"][0]["distance"].toString();
     print(distanceBetween);
     print(polylinePoint);
@@ -199,10 +171,9 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     });
   }
 
-  void showMarkerAtPosition(Position position, String markerID,
-      BitmapDescriptor bitmapDescriptor) async {
+  void showMarkerAtPosition(Position position, String markerID, BitmapDescriptor bitmapDescriptor)async{
     Marker newMarker = Marker(
-      icon: bitmapDescriptor,
+      icon:  bitmapDescriptor,
       markerId: MarkerId(markerID),
       position: LatLng(
         position.latitude,
@@ -216,28 +187,18 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
 
   void getCurrentLocation() async {
     PermissionStatus permission1 =
-        await LocationPermissions().checkPermissionStatus();
-    while (permission1 != PermissionStatus.granted) {
+    await LocationPermissions().checkPermissionStatus();
+    while (permission1 != PermissionStatus.granted){
       permission1 = await LocationPermissions().requestPermissions();
     }
     Position position;
     if (widget.userLocation == null) {
       position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);
-    } else {
-      position = widget.userLocation!;
-    }
+          desiredAccuracy: LocationAccuracy.bestForNavigation);}
+    else{position = widget.userLocation!;}
     LatLng coordinates = LatLng(position.latitude, position.longitude);
     print(coordinates);
-    myLocation = Position(
-        latitude: position.latitude,
-        longitude: position.longitude,
-        accuracy: 0,
-        altitude: 0,
-        speedAccuracy: 0,
-        heading: 0,
-        timestamp: DateTime.now(),
-        speed: 0);
+    myLocation =Position(latitude: position.latitude, longitude: position.longitude, accuracy: 0, altitude: 0, speedAccuracy:0, heading: 0, timestamp: DateTime.now(), speed: 0);
 
     // CameraPosition cameraPosition = CameraPosition(target: coordinates, zoom: 19);
     //  googleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition),);//camera moved to user's position
@@ -247,7 +208,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     // print(body["results"][0]);
     LatLng latLng_1 = coordinates;
     LatLng latLng_2 = LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!);
-    if (latLng_1.latitude > latLng_2.latitude) {
+    if (latLng_1.latitude > latLng_2.latitude){
       latLng_1 = LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!);
       latLng_2 = coordinates;
     }
@@ -258,12 +219,12 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     );
 // calculating centre of the bounds
     LatLng centerBounds = LatLng(
-        (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
-        (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
+        (bounds.northeast.latitude + bounds.southwest.latitude)/2,
+        (bounds.northeast.longitude + bounds.southwest.longitude)/2
+    );
 
 // setting map position to centre to start with
-    googleMapController!
-        .moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: centerBounds,
       zoom: 18,
     )));
@@ -274,19 +235,19 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     // CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bound, 50);
     //  googleMapController.animateCamera(cameraUpdate);
 
-    showMarkerAtPosition(
-        myLocation!, "myPosition", BitmapDescriptor.defaultMarker);
+
+    showMarkerAtPosition(myLocation!, "myPosition", BitmapDescriptor.defaultMarker);
     updateDeviceMarker(LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!));
     // getGpsDataByImei(imei: widget.gpsData.imei);
   }
 
-  Future<void> zoomToFit(GoogleMapController controller, LatLngBounds bounds,
-      LatLng centerBounds) async {
+
+  Future<void> zoomToFit(GoogleMapController controller, LatLngBounds bounds, LatLng centerBounds) async {
     bool keepZoomingOut = true;
 
-    while (keepZoomingOut) {
+    while(keepZoomingOut) {
       final LatLngBounds screenBounds = await controller.getVisibleRegion();
-      if (fits(bounds, screenBounds)) {
+      if(fits(bounds, screenBounds)){
         keepZoomingOut = false;
         final double zoomLevel = await controller.getZoomLevel() - 1.5;
         controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -294,7 +255,8 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
           zoom: zoomLevel,
         )));
         break;
-      } else {
+      }
+      else {
         // Zooming out by 0.1 zoom level per iteration
         final double zoomLevel = await controller.getZoomLevel() - 0.1;
         controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -304,37 +266,25 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
       }
     }
   }
-
   bool fits(LatLngBounds fitBounds, LatLngBounds screenBounds) {
-    final bool northEastLatitudeCheck =
-        screenBounds.northeast.latitude >= fitBounds.northeast.latitude;
-    final bool northEastLongitudeCheck =
-        screenBounds.northeast.longitude >= fitBounds.northeast.longitude;
+    final bool northEastLatitudeCheck = screenBounds.northeast.latitude >= fitBounds.northeast.latitude;
+    final bool northEastLongitudeCheck = screenBounds.northeast.longitude >= fitBounds.northeast.longitude;
 
-    final bool southWestLatitudeCheck =
-        screenBounds.southwest.latitude <= fitBounds.southwest.latitude;
-    final bool southWestLongitudeCheck =
-        screenBounds.southwest.longitude <= fitBounds.southwest.longitude;
+    final bool southWestLatitudeCheck = screenBounds.southwest.latitude <= fitBounds.southwest.latitude;
+    final bool southWestLongitudeCheck = screenBounds.southwest.longitude <= fitBounds.southwest.longitude;
 
-    return northEastLatitudeCheck &&
-        northEastLongitudeCheck &&
-        southWestLatitudeCheck &&
-        southWestLongitudeCheck;
+    return northEastLatitudeCheck && northEastLongitudeCheck && southWestLatitudeCheck && southWestLongitudeCheck;
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
       home: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+        onTap: (){FocusScope.of(context).unfocus();},
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFF525252),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            title: Row(mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -349,22 +299,14 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
                     children: [
                       Container(
                         padding: EdgeInsets.all(0),
-                        width: (MediaQuery.of(context).size.width) / 1.5,
-                        child: Text(
-                          address,
-                          style: TextStyle(fontSize: 18),
-                        ),
+                        width : (MediaQuery.of(context).size.width) / 1.5,
+                        child: Text(address, style: TextStyle(fontSize: 18),),
                       ),
-                      Text(
-                        widget.gpsData!.speed!,
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      Text(
-                        "km/hr",
-                        style: TextStyle(fontSize: 10),
-                      )
+                      Text(widget.gpsData!.speed!, style: TextStyle(fontSize: 40),),
+                      Text("km/hr", style: TextStyle(fontSize: 10),)
                     ],
                   ),
+
                 ),
               ],
             ),
@@ -372,8 +314,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
           body: SafeArea(
             child: Container(
               color: Color(0xFFF3F2F1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,18 +337,13 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
                   Expanded(
                     child: GoogleMap(
                       polylines: Set.from(polylines.values),
-                      markers: markers,
+                      markers:  markers,
                       mapType: MapType.normal,
                       initialCameraPosition: _initialCameraPosition,
-                      onMapCreated: (GoogleMapController controller) {
+                      onMapCreated: (GoogleMapController controller){
                         _controllerGoogleMap.complete(controller);
                         googleMapController = controller;
-                        googleMapController!.animateCamera(
-                          CameraUpdate.newCameraPosition(CameraPosition(
-                              target: LatLng(
-                                  widget.gpsData!.lat!, widget.gpsData!.lng!),
-                              zoom: 14.5)),
-                        );
+                        googleMapController!.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!),zoom: 14.5)),);
                         getCurrentLocation();
                       },
                     ),
@@ -421,3 +357,4 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     );
   }
 }
+

@@ -14,7 +14,6 @@ class TrackButton extends StatelessWidget {
   bool truckApproved = false;
   String? imei;
   Position? userLocation;
-
   TrackButton({required this.truckApproved, this.imei, this.userLocation});
 
   @override
@@ -26,22 +25,16 @@ class TrackButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
+                borderRadius: BorderRadius.circular(50),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: () async {
+        onPressed: () async{
           print('Track Button Pressed');
 
-          if (imei != null) {
+          if(imei != null ){
             GpsDataModel gpsData = await getLocationByImei(imei: imei);
-            Get.to(
-              ShowMapWithImei(
-                gpsData: gpsData,
-                userLocation: userLocation,
-              ),
-            );
-          }
+            Get.to(ShowMapWithImei(gpsData: gpsData,userLocation: userLocation,),);}
         },
         child: Container(
           margin: EdgeInsets.only(left: space_2),
@@ -52,9 +45,9 @@ class TrackButton extends StatelessWidget {
                 child: truckApproved
                     ? Container()
                     : Image(
-                        height: 16,
-                        width: 11,
-                        image: AssetImage('assets/icons/lockIcon.png')),
+                    height: 16,
+                    width: 11,
+                    image: AssetImage('assets/icons/lockIcon.png')),
               ),
               Text(
                 'Track',

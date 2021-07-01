@@ -49,7 +49,6 @@ dependencies:
   contact_picker: ^0.0.2
   url_launcher: ^6.0.6
   wc_flutter_share: ^0.4.0
-  date_format: ^2.0.2
 
 dev_dependencies:
   flutter_config: ^2.0.0

@@ -9,8 +9,7 @@ class OrderScreenNavigationBarButton extends StatelessWidget {
   final int value;
   final PageController pageController;
 
-  OrderScreenNavigationBarButton(
-      {required this.text, required this.value, required this.pageController});
+  OrderScreenNavigationBarButton({required this.text, required this.value , required this.pageController});
 
   @override
   Widget build(BuildContext context) {

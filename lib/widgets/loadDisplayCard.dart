@@ -32,6 +32,7 @@ class _LoadApiDataDisplayCardState extends State<LoadApiDataDisplayCard> {
             loadingPoint: widget.loadApiData.loadingPoint,
             loadingPointCity: widget.loadApiData.loadingPointCity,
             loadingPointState: widget.loadApiData.loadingPointState,
+            postLoadId: widget.loadApiData.postLoadId,
             unloadingPoint: widget.loadApiData.unloadingPoint,
             unloadingPointCity: widget.loadApiData.unloadingPointCity,
             unloadingPointState: widget.loadApiData.unloadingPointState,
