@@ -28,13 +28,12 @@ class OngoingScreenOrders extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image:
-                          AssetImage('assets/images/TruckListEmptyImage.png'),
+                      image: AssetImage('assets/images/LoadBox.png'),
                       height: 127,
                       width: 127,
                     ),
                     Text(
-                      'Looks like you have not added any Trucks!',
+                      'Looks like you have no on-going bookings!',
                       style: TextStyle(fontSize: size_8, color: grey),
                       textAlign: TextAlign.center,
                     ),
