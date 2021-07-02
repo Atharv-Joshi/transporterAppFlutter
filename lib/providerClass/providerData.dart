@@ -394,7 +394,7 @@ class ProviderData extends ChangeNotifier {
     if (truckNumber != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
-        productType != 'Choose Product Type') {
+        productType != '') {
       return true;
     } else {
       return false;

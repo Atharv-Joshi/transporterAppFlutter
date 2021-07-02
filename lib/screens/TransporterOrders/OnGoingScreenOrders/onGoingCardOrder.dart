@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 
+import '../../../textOverFlow.dart';
 import '../../../widgets/buttons/callButton.dart';
 import '../OrderButtons/completedButtonOrders.dart';
 import '../OrderButtons/trackButtonOrder.dart';
@@ -43,6 +44,7 @@ class OngoingCardOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextOverFlow textOverFlow = TextOverFlow();
     return Padding(
       padding: EdgeInsets.only(bottom: space_3),
       child: Container(
@@ -89,7 +91,8 @@ class OngoingCardOrders extends StatelessWidget {
                                           'assets/icons/buildingIcon.png')),
                                 ),
                                 Text(
-                                  companyName,
+                                  textOverFlow.textOverflowEllipsis(
+                                      companyName, 11),
                                   style: TextStyle(
                                     color: liveasyBlackColor,
                                     fontWeight: mediumBoldWeight,
