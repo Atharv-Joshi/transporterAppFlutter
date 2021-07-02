@@ -1,5 +1,5 @@
 //List of FontSizes
-
+double size_0 = 0;
 double size_1 = 2;
 double size_2 = 4;
 double size_3 = 6;

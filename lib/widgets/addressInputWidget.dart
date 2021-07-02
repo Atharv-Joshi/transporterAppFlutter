@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/cityNameInputScreen.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddressInputWidget extends StatelessWidget {
@@ -21,6 +23,7 @@ class AddressInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(space_6),
@@ -30,6 +33,8 @@ class AddressInputWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: space_3),
       child: TextFormField(
         onTap: () {
+          providerData.updateResetActive(true);
+
           FocusScope.of(context).requestFocus(FocusNode());
           Get.to(() => CityNameInputScreen(hintText));
         },

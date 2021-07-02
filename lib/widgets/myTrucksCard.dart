@@ -4,16 +4,14 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/buttons/trackButton.dart';
+import 'package:liveasy/screens/TransporterOrders/OrderButtons/trackButtonOrder.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:location_permissions/location_permissions.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-
   // String? truckId;
   // String? transporterId;
   String? truckNo;
@@ -28,7 +26,7 @@ class MyTruckCard extends StatefulWidget {
 
   MyTruckCard(
       {
-        // this.truckId,
+      // this.truckId,
       // this.transporterId,
       this.truckNo,
       required this.truckApproved,
@@ -51,15 +49,18 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   DriverModel driverModel = DriverModel();
 
-  bool? verified  ;
+  bool? verified;
   Position? userLocation;
-  getUserLocation()async{
-    PermissionStatus permission = await LocationPermissions().checkPermissionStatus();
-    if (permission == PermissionStatus.granted){
-      userLocation = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  getUserLocation() async {
+    PermissionStatus permission =
+        await LocationPermissions().checkPermissionStatus();
+    if (permission == PermissionStatus.granted) {
+      userLocation = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
       print(userLocation);
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +69,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   @override
   Widget build(BuildContext context) {
-
     widget.truckType = widget.truckType != null
         ? truckFilterVariables.truckTypeTextList[
             truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
@@ -80,10 +80,15 @@ class _MyTruckCardState extends State<MyTruckCard> {
       'Offline': unselectedGrey,
     };
 
-    verified = widget.truckType != 'NA' || widget.tyres != null || widget.driverName != 'NA' || widget.phoneNum != "NA" ? true  : false;
+    verified = widget.truckType != 'NA' ||
+            widget.tyres != null ||
+            widget.driverName != 'NA' ||
+            widget.phoneNum != "NA"
+        ? true
+        : false;
 
-    if(widget.driverName!.length > 15){
-      widget.driverName = widget.driverName!.substring(0 , 14) + '..';
+    if (widget.driverName!.length > 15) {
+      widget.driverName = widget.driverName!.substring(0, 14) + '..';
     }
 
     return Container(
@@ -117,140 +122,150 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
               verified!
                   ? Container(
-                margin: EdgeInsets.symmetric(vertical: space_3),
-                padding: EdgeInsets.only(right: space_8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //number and type column
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Vehicle Number',
-                          style: TextStyle(fontSize: size_6),
-                        ),
-                        Text(
-                          '${widget.truckNo}',
-                          style: TextStyle(
-                              fontWeight: boldWeight, fontSize: size_7),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: space_3),
-                          child: Text(
-                            'Truck Type',
-                            style: TextStyle(fontSize: size_6),
+                      margin: EdgeInsets.symmetric(vertical: space_3),
+                      padding: EdgeInsets.only(right: space_8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //number and type column
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Vehicle Number',
+                                style: TextStyle(fontSize: size_6),
+                              ),
+                              Text(
+                                '${widget.truckNo}',
+                                style: TextStyle(
+                                    fontWeight: boldWeight, fontSize: size_7),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: space_3),
+                                child: Text(
+                                  'Truck Type',
+                                  style: TextStyle(fontSize: size_6),
+                                ),
+                              ),
+                              Text(
+                                '${widget.truckType}',
+                                style: TextStyle(
+                                    fontWeight: boldWeight, fontSize: size_7),
+                              )
+                            ],
                           ),
-                        ),
-                        Text(
-                          '${widget.truckType}',
-                          style: TextStyle(
-                              fontWeight: boldWeight, fontSize: size_7),
-                        )
-                      ],
-                    ),
-                    //tyre and driver column
-                    Container(
-                      // padding: EdgeInsets.only(left: space_14),
+                          //tyre and driver column
+                          Container(
+                            // padding: EdgeInsets.only(left: space_14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Tyre',
+                                  style: TextStyle(fontSize: size_6),
+                                ),
+                                Text(
+                                  widget.tyres != null
+                                      ? '${widget.tyres}'
+                                      : 'NA',
+                                  style: TextStyle(
+                                      fontWeight: boldWeight, fontSize: size_7),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: space_3),
+                                  child: Text(
+                                    'Driver',
+                                    style: TextStyle(fontSize: size_6),
+                                  ),
+                                ),
+                                Text(
+                                  '${widget.driverName}',
+                                  // 'Ravi Shah',
+                                  style: TextStyle(
+                                      fontWeight: boldWeight, fontSize: size_7),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.symmetric(vertical: space_3),
+                      padding: EdgeInsets.only(right: space_8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Tyre',
+                            'Vehicle Number',
                             style: TextStyle(fontSize: size_6),
                           ),
                           Text(
-                            widget.tyres != null ? '${widget.tyres}' : 'NA',
+                            '${widget.truckNo}',
                             style: TextStyle(
                                 fontWeight: boldWeight, fontSize: size_7),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: space_3),
                             child: Text(
-                              'Driver',
-                              style: TextStyle(fontSize: size_6),
+                              'Truck Details are pending !',
+                              style: TextStyle(
+                                  fontSize: size_7,
+                                  fontWeight: boldWeight,
+                                  color: Colors.red),
                             ),
                           ),
-                          Text(
-                            '${widget.driverName}',
-                            // 'Ravi Shah',
-                            style: TextStyle(
-                                fontWeight: boldWeight, fontSize: size_7),
-                          )
                         ],
                       ),
-                    )
-                  ],
-                ),
-              )
-              : Container(
-                margin: EdgeInsets.symmetric(vertical: space_3),
-                padding: EdgeInsets.only(right: space_8),
-                child:                     Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Vehicle Number',
-                      style: TextStyle(fontSize: size_6),
                     ),
-                    Text(
-                      '${widget.truckNo}',
-                      style: TextStyle(
-                          fontWeight: boldWeight, fontSize: size_7),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: space_3),
-                      child: Text(
-                        'Truck Details are pending !',
-                        style: TextStyle(
-                            fontSize: size_7,
-                            fontWeight: boldWeight,
-                            color: Colors.red),
-                      ),
-                    ),
-                  ],
-                ),
-              ) ,
 
               //track and call button
-              verified! 
+              verified!
                   ? Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved: widget.truckApproved, imei: widget.imei, userLocation: userLocation,)),
-                  CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),
-                ],
-              )
-              :
-                Center(
-                child: Container(
-                  height: 32,
-                  width: 201,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      )),
-                      backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
-                    ),
-                    onPressed: (){print('Upload Truck Details Button Pressed');},
-                    child: Container(
-                      // margin: EdgeInsets.symmetric(horizontal: space_2 , vertical: space_1),
-                      child: Text(
-                        'Upload Truck Details',
-                        style: TextStyle(
-                          letterSpacing: 0.7,
-                          fontWeight: normalWeight,
-                          color: white,
-                          fontSize: size_7,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(right: space_2),
+                            child: TrackButton(
+                              truckApproved: widget.truckApproved,
+                            )),
+                        CallButton(
+                          driverPhoneNum: widget.phoneNum,
+                          directCall: true,
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: Container(
+                        height: 32,
+                        width: 201,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            )),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(darkBlueColor),
+                          ),
+                          onPressed: () {
+                            print('Upload Truck Details Button Pressed');
+                          },
+                          child: Container(
+                            // margin: EdgeInsets.symmetric(horizontal: space_2 , vertical: space_1),
+                            child: Text(
+                              'Upload Truck Details',
+                              style: TextStyle(
+                                letterSpacing: 0.7,
+                                fontWeight: normalWeight,
+                                color: white,
+                                fontSize: size_7,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
