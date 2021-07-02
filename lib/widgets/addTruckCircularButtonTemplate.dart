@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
-// ignore: must_be_immutable
 class AddTruckCircularButtonTemplate extends StatelessWidget {
   final int text;
   final int value;
@@ -33,6 +33,9 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
     } else if (category == 'length') {
       providerVariable = providerData.truckLengthValue;
       providerFunction = providerData.updateTruckLengthValue;
+    } else if (category == 'Number') {
+      providerVariable = providerData.truckNumber;
+      providerFunction = providerData.updateTruckNumber;
     }
 
     return GestureDetector(
@@ -40,7 +43,7 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-                color: lightGrayishBlue,
+                color: priceBackground,
                 offset: Offset.fromDirection(0.8),
                 spreadRadius: 1)
           ],

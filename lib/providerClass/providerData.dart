@@ -51,11 +51,22 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  String loadingPointCity = "";
-  String loadingPointState = "";
+  String loadingPointCityFindLoad = "";
+  String loadingPointStateFindLoad = "";
 
-  String unloadingPointCity = "";
-  String unloadingPointState = "";
+  String unloadingPointCityFindLoad = "";
+  String unloadingPointStateFindLoad = "";
+
+  String loadingPointCityPostLoad = "";
+  String loadingPointStatePostLoad = "";
+  String loadingPointPostLoad = "";
+
+  String unloadingPointCityPostLoad = "";
+  String unloadingPointStatePostLoad = "";
+  String unloadingPointPostLoad = "";
+
+  String bookingDate = "";
+  String completedDate = "";
 
   // variables for accountVerification
   File? profilePhotoFile;
@@ -81,6 +92,15 @@ class ProviderData extends ChangeNotifier {
   int truckLengthValue = 0;
   String driverIdValue = '';
   String truckNumberValue = '';
+  String productType = "Choose Product Type";
+  int truckNumber = 0;
+  int price = 0;
+  String unitValue = "";
+  String controller = "";
+  String controller1 = "";
+  String controller2 = "";
+  bool perTruck = false;
+  bool perTon = false;
 
   String truckId = '';
 
@@ -91,16 +111,15 @@ class ProviderData extends ChangeNotifier {
   List driverList = [];
 
   //variables related to orders page
-  int upperNavigatorIndex = 0 ;
-
+  int upperNavigatorIndex = 0;
   int rate = 0;
 
-  void updateRate(value){
+  void updateRate(value) {
     rate = value;
     notifyListeners();
   }
 
-  void updateUpperNavigatorIndex(int value){
+  void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
   }
@@ -130,29 +149,86 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updatePrice(value) {
+    price = value;
+    notifyListeners();
+  }
+
+  void updateUnitValue() {
+    if (perTruck) {
+      unitValue = "PER_TRUCK";
+    } else if (perTon) {
+      unitValue = "PER_TON";
+    } else if (unitValue == "") {
+      return null;
+    }
+    notifyListeners();
+  }
+
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
-  void clearLoadingPoint() {
-    loadingPointCity = "";
-    loadingPointState = "";
+  void clearLoadingPointFindLoad() {
+    loadingPointCityFindLoad = "";
+    loadingPointStateFindLoad = "";
     notifyListeners();
   }
 
-  void clearUnloadingPoint() {
-    unloadingPointCity = "";
-    unloadingPointState = "";
+  void clearUnloadingPointFindLoad() {
+    unloadingPointCityFindLoad = "";
+    unloadingPointStateFindLoad = "";
     notifyListeners();
   }
 
-  void updateLoadingPoint({required String city, required String state}) {
-    loadingPointCity = city;
-    loadingPointState = state;
+  void updateLoadingPointFindLoad(
+      {required String city, required String state}) {
+    loadingPointCityFindLoad = city;
+    loadingPointStateFindLoad = state;
     notifyListeners();
   }
 
-  void updateUnloadingPoint({required String city, required String state}) {
-    unloadingPointCity = city;
-    unloadingPointState = state;
+  void updateUnloadingPointFindLoad(
+      {required String city, required String state}) {
+    unloadingPointCityFindLoad = city;
+    unloadingPointStateFindLoad = state;
+    notifyListeners();
+  }
+
+  updateControllerOne(value) {
+    controller1 = value;
+    notifyListeners();
+  }
+
+  updateControllerTwo(value) {
+    controller2 = value;
+    notifyListeners();
+  }
+
+  //////////////
+  void clearLoadingPointPostLoad() {
+    loadingPointCityPostLoad = "";
+    loadingPointStatePostLoad = "";
+    notifyListeners();
+  }
+
+  void clearUnloadingPointPostLoad() {
+    unloadingPointCityPostLoad = "";
+    unloadingPointStatePostLoad = "";
+    notifyListeners();
+  }
+
+  void updateLoadingPointPostLoad(
+      {required String city, required String state}) {
+    loadingPointCityPostLoad = city;
+    loadingPointStatePostLoad = state;
+
+    notifyListeners();
+  }
+
+  void updateUnloadingPointPostLoad(
+      {required String city, required String state}) {
+    unloadingPointCityPostLoad = city;
+    unloadingPointStatePostLoad = state;
+
     notifyListeners();
   }
 
@@ -181,6 +257,11 @@ class ProviderData extends ChangeNotifier {
 
   void updateSmsCode(value) {
     smsCode = value;
+    notifyListeners();
+  }
+
+  void updateProductType(value) {
+    productType = value;
     notifyListeners();
   }
 
@@ -227,6 +308,11 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateTruckNumber(value) {
+    truckNumber = value;
+    notifyListeners();
+  }
+
   void updateTruckId(value) {
     truckId = value;
     notifyListeners();
@@ -237,12 +323,30 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetUnitValue() {
+    perTon = false;
+    perTruck = false;
+  }
+
   void resetTruckFilters() {
+    productType = "Choose Product type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
+    truckNumber = 0;
     truckLengthValue = 0;
+    price = 0;
     driverIdValue = '';
+    unitValue = "";
+    resetUnitValue();
+    notifyListeners();
+  }
+
+  void resetPostLoadScreenOne() {
+    clearLoadingPointPostLoad();
+    clearUnloadingPointPostLoad();
+    clearBookingDate();
+    updateResetActive(false);
     notifyListeners();
   }
 
@@ -251,6 +355,23 @@ class ProviderData extends ChangeNotifier {
     totalTyresValue = 0;
     truckLengthValue = 0;
     driverIdValue = '';
+    truckNumber = 0;
+
+    notifyListeners();
+  }
+
+  void clearProductType() {
+    productType = "";
+    notifyListeners();
+  }
+
+  void clearBookingDate() {
+    bookingDate = "";
+    notifyListeners();
+  }
+
+  void clearController() {
+    controller = "";
     notifyListeners();
   }
 
@@ -259,8 +380,57 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetTruckNum() {
+    truckNumber = 0;
+    notifyListeners();
+  }
+
   void updateDriverList(value) {
     driverList = value;
+    notifyListeners();
+  }
+
+  bool postLoadScreenTwoButton() {
+    if (truckNumber != 0 &&
+        passingWeightValue != 0 &&
+        truckTypeValue != '' &&
+        productType != 'Choose Product Type') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void updateBookingDate(value) {
+    bookingDate = value;
+    notifyListeners();
+  }
+
+  bool postLoadScreenOneButton() {
+    if (loadingPointCityPostLoad != "" &&
+        bookingDate != "" &&
+        unloadingPointCityPostLoad != '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void PerTruckTrue() {
+    perTruck = true;
+    perTon = false;
+
+    notifyListeners();
+  }
+
+  void PerTonTrue() {
+    perTon = true;
+    perTruck = false;
+    notifyListeners();
+  }
+
+  void updateCompletedDate(value) {
+    completedDate = value;
     notifyListeners();
   }
 

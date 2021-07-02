@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
-import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
+import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
+
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
+
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/buttons/postLoadButton.dart';
-import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
+
 import 'package:provider/provider.dart';
 
 class PostLoadScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class PostLoadScreen extends StatefulWidget {
 class _PostLoadScreenState extends State<PostLoadScreen> {
 
   //Page Controller
-  PageController pageController = PageController(initialPage:0);
+  PageController pageController = PageController(initialPage: 0);
 
   int currentPage = 0;
 
@@ -42,9 +42,18 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OrderScreenNavigationBarButton(text: 'My Loads', value: 0 , pageController : pageController),
-                  OrderScreenNavigationBarButton(text: 'On-going', value: 1 , pageController : pageController),
-                  OrderScreenNavigationBarButton(text: 'Delivered', value: 2 , pageController : pageController)
+                  OrderScreenNavigationBarButton(
+                      text: 'My Loads',
+                      value: 0,
+                      pageController: pageController),
+                  OrderScreenNavigationBarButton(
+                      text: 'On-going',
+                      value: 1,
+                      pageController: pageController),
+                  OrderScreenNavigationBarButton(
+                      text: 'Delivered',
+                      value: 2,
+                      pageController: pageController)
                 ],
               ),
               Divider(
@@ -52,12 +61,14 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                 thickness: 1,
               ),
               Stack(
+                // alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    height: 600,
+                    height: MediaQuery.of(context).size.height * 0.75,
                     child: PageView(
                       controller: pageController,
-                      onPageChanged: (value){
+                      onPageChanged: (value) {
                         setState(() {
                           providerData.updateUpperNavigatorIndex(value);
                         });
@@ -69,19 +80,16 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                       ],
                     ),
                   ),
-
-
-                  // Positioned(
-                  //   top: 50,
+                  Container(
+                      margin: EdgeInsets.only(bottom: 50),
+                      child: PostButtonLoad()),
+                  // Positioned.fill(
+                  //   top: 550,
                   //   child: Align(
-                  //       alignment: Alignment.center,
-                  //       child: PostButtonLoad()
-                  //   ),
+                  //       alignment: Alignment.center, child: PostButtonLoad()),
                   // ),
-
                 ],
               ),
-
             ],
           ),
         ),
@@ -89,3 +97,18 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
     );
   }
 }
+
+// OngoingCardOrders(
+//   loadingPoint: "l",
+//   unloadingPoint: "l",
+//   companyName: "l",
+//   vehicleNo: "l",
+//   driverName: "l",
+//   startedOn: "l",
+//   bookingId: "l",
+//   endedOn: "l",
+//   imei: "l",
+//   driverPhoneNum: "l",
+//   transporterPhoneNumber: "l",
+//   // transporterName : snapshot.data['transporterName'],
+// ),
