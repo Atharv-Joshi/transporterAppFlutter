@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -18,14 +19,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     MyTrucks(),
     PostLoadScreen(),
-    Text(""),
+    OrdersScreen(),
     AccountPageUtil(),
   ];
 
   @override
   Widget build(BuildContext context) {
-
-    ProviderData providerData = Provider.of<ProviderData>(context, listen: false);
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
 
     return Scaffold(
       backgroundColor: statusBarColor,
