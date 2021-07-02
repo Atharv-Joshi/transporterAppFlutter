@@ -7,6 +7,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/functions/postDriverApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
@@ -15,25 +16,29 @@ class AddButton extends StatelessWidget {
   String displayContact;
   String name;
   String number;
+  String? selectedTruckId;
 
   //Instance  for DriverApiCalls
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   AddButton(
-      {required this.displayContact, required this.name, required this.number});
+      {required this.displayContact,
+      required this.name,
+      required this.number,
+      this.selectedTruckId});
 
   List listDisplayContact = [];
   var driverName;
   var phoneNum;
   var transporterId;
-  var truckId;
+  // var truckId;
   TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context);
 
-    if (displayContact.isEmpty == true) {
+    if (displayContact.isEmpty == true || displayContact == "") {
       driverName = name;
       phoneNum = number;
     } else {
@@ -42,13 +47,15 @@ class AddButton extends StatelessWidget {
       phoneNum = displayContact.replaceAll(new RegExp(r"\D"), "");
     }
     transporterId = '${tIdController.transporterId}';
-    truckId = null;
+    // truckId = null;
     return GestureDetector(
       onTap: () {
         print("name--" + "$name");
-        providerData.updateDriverNameList(newValue: displayContact);
+        // providerData.updateDriverNameList(newValue: displayContact);
+        providerData.updateDropDownValue2(
+            newValue: displayContact);
         driverApiCalls.postDriverApi(
-            driverName, phoneNum, transporterId, truckId);
+            driverName, phoneNum, transporterId, selectedTruckId);
         Navigator.of(context).pop();
       },
       child: Container(

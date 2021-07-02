@@ -139,7 +139,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                     if (newValue == "Add New Driver") {
                       showDialog(
                           context: context,
-                          builder: (context) => AddDriverAlertDialog());
+                          builder: (context) => AddDriverAlertDialog(selectedTruckId: selectedTruckId,));
                     } else {
                       providerData.updateDropDownValue2(
                           newValue: newValue.toString());
