@@ -52,9 +52,8 @@ putBidForAccept(String? bidId) async {
   print(response.body);
 }
 
-putBidForNegotiate(String? bidId , int? rate , String? unitValue) async {
-  print('rate : $rate');
-  print(rate.runtimeType);
+putBidForNegotiate(String? bidId , String? rate , String? unitValue) async {
+
 
   //TODO: This can be done in a better way later on
   if (unitValue == "RadioButtonOptions.PER_TON") {

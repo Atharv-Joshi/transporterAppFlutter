@@ -4,17 +4,21 @@ import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
 
-  var bidButtonSendRequestState = "false";
+  bool bidButtonSendRequestState = false;
 
-  void updateBidButtonSendRequest({required String newValue}) {
+  void updateBidButtonSendRequest(newValue) {
     bidButtonSendRequestState = newValue;
     notifyListeners();
   }
 
-  var rate;
+  String? rate1;
+  String? unitValue1;
 
-  void updateRate(newValue) {
-    rate = newValue;
+  void updateRate(rate , unitValue) {
+    rate1 = rate;
+    print('rate in provider : $rate1');
+    unitValue1 = unitValue;
+    print('unit value in provider $unitValue1');
     notifyListeners();
   }
 
@@ -42,7 +46,7 @@ class ProviderData extends ChangeNotifier {
   void updateDriverNameList({required String newValue}) {
     for (int i = 0; i < driverNameList.length; i++) {
       if (driverNameList[i].toString() == newValue.toString()) {
-        print("hi driver already added");
+        print("driver already added");
         break;
       } else if (i == driverNameList.length - 1) {
         driverNameList.add(newValue);
@@ -110,7 +114,7 @@ class ProviderData extends ChangeNotifier {
   String productType = "Choose Product Type";
   int truckNumber = 0;
   int price = 0;
-  String unitValue = "";
+  String UnitValue = "";
   String controller = "";
   String controller1 = "";
   String controller2 = "";
@@ -171,10 +175,10 @@ class ProviderData extends ChangeNotifier {
 
   void updateUnitValue() {
     if (perTruck) {
-      unitValue = "PER_TRUCK";
+      UnitValue = "PER_TRUCK";
     } else if (perTon) {
-      unitValue = "PER_TON";
-    } else if (unitValue == "") {
+      UnitValue = "PER_TON";
+    } else if (UnitValue == "") {
       return null;
     }
     notifyListeners();
@@ -343,6 +347,7 @@ class ProviderData extends ChangeNotifier {
     perTruck = false;
   }
 
+  String? unitValue;
   void resetTruckFilters() {
     productType = "Choose Product type";
     truckTypeValue = '';

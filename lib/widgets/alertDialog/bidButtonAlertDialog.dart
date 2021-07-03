@@ -24,9 +24,9 @@ class BidButtonAlertDialog extends StatefulWidget {
 }
 
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
-  // TextEditingController rate = TextEditingController();
+
   RadioButtonOptions unitValue = RadioButtonOptions.PER_TON;
-  int? rate;
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,12 +105,12 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
-                  // providerData.updateRate(rate);
                   if (rate == null || rate == "") {
-                    providerData.updateBidButtonSendRequest(newValue: "false");
-                  } else if (rate != null) {
-                    providerData.updateRate(rate.toString());
-                    providerData.updateBidButtonSendRequest(newValue: "true");
+                    providerData.updateBidButtonSendRequest(false);
+                  } else {
+                    //TODO: bug: if we change unt value without changing rate then previous unitValue will be passed
+                    providerData.updateRate(rate , unitValue.toString());
+                    providerData.updateBidButtonSendRequest(true);
                   }
                 },
               ),
@@ -125,10 +125,8 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
-                // rate: rate,
                 loadId: widget.loadId ,
                 bidId: widget.bidId,
-                unitValue : unitValue.toString(),
                 isPost: widget.isPost,
               ),
               CancelButton()
