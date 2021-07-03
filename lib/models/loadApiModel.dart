@@ -16,26 +16,27 @@ class LoadApiModel {
   int? rate;
   String? unitValue;
   String? loadDate;
+
   // int? tyres;
 
-  LoadApiModel(
-        {this.loadId,
-        this.loadingPoint,
-        this.loadingPointCity,
-        this.loadingPointState,
-        this.postLoadId,
-        this.unloadingPoint,
-        this.unloadingPointCity,
-        this.unloadingPointState,
-        this.productType,
-        this.truckType,
-        this.noOfTrucks,
-        this.weight,
-        this.comment,
-        this.status,
-        // this.tyres,
-        this.loadDate,
-        this.rate,
-        this.unitValue,
-        });
+  LoadApiModel({
+    this.loadId,
+    this.loadingPoint,
+    this.loadingPointCity,
+    this.loadingPointState,
+    this.postLoadId,
+    this.unloadingPoint,
+    this.unloadingPointCity,
+    this.unloadingPointState,
+    this.productType,
+    this.truckType,
+    this.noOfTrucks,
+    this.weight,
+    this.comment,
+    this.status,
+    // this.tyres,
+    this.loadDate,
+    this.rate,
+    this.unitValue,
+  });
 }

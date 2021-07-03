@@ -8,7 +8,7 @@ class TruckReviewDetailsRow extends StatelessWidget {
   final dynamic value;
 
   TruckReviewDetailsRow({required this.value, required this.label});
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(

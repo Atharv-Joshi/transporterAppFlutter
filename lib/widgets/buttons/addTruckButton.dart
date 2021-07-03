@@ -22,8 +22,7 @@ class AddTruckButton extends StatelessWidget {
         onPressed:
             () {
           Get.to(() => AddNewTruck());
-        }
-        ,
+        },
         child: Text(
           'Add Truck',
           style: TextStyle(

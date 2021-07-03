@@ -21,25 +21,25 @@ Future<Map> loadAllData(bookingModel) async {
   print(completedDate);
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
   print(endpoints);
-  TransporterModel transporterModel = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
+  TransporterModel transporterModel = await transporterApiCalls
+      .getDataByTransporterId(bookingModel.transporterId);
 
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
-  print(truckData);
-  DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
+  DriverModel driverModel =
+      await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
 
   Map cardDataModel = {
     'startedOn': bookingDate,
-    'endedOn' : completedDate,
-    'loadingPoint' : endpoints['loadingPointCity'] ,
-    'unloadingPoint' :endpoints['unloadingPointCity'],
-    'companyName' : transporterModel.companyName,
-    'transporterPhoneNum' : transporterModel.transporterPhoneNum,
-    'truckNo' : truckData['truckNo'] ,
-    'imei' : truckData['imei'] ,
-    'driverName' : driverModel.driverName ,
-    'driverPhoneNum' : driverModel.phoneNum ,
+    'endedOn': completedDate,
+    'loadingPoint': endpoints['loadingPointCity'],
+    'unloadingPoint': endpoints['unloadingPointCity'],
+    'companyName': transporterModel.companyName,
+    'transporterPhoneNum': transporterModel.transporterPhoneNum,
+    'truckNo': truckData['truckNo'],
+    'imei': truckData['imei'],
+    'driverName': driverModel.driverName,
+    'driverPhoneNum': driverModel.phoneNum,
   };
   print('load all data out');
   return cardDataModel;
 }
-
