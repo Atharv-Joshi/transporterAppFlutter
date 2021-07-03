@@ -61,7 +61,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
             children: [
               Image(
                 image: AssetImage(
-                    'assets/images/TruckListEmptyImage.png'),
+                    'assets/images/EmptyLoad.png'),
                 height: 127,
                 width: 127,
               ),
@@ -89,6 +89,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                         productType: myLoadList[index].productType,
                         rate: myLoadList[index].rate,
                         unitValue: myLoadList[index].unitValue,
+                        loadDate: myLoadList[index].loadDate,
+                        noOfTrucks: myLoadList[index].noOfTrucks,
                       );
 
                   }
@@ -107,13 +109,18 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
     for( var json in jsonData){
       LoadApiModel loadScreenCardsModel = LoadApiModel();
       loadScreenCardsModel.loadId = json['loadId'];
-      loadScreenCardsModel.loadingPointCity = json['loadingPointCity'];
-      loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'];
-      loadScreenCardsModel.truckType = json['truckType'];
-      loadScreenCardsModel.weight = json['weight'];
-      loadScreenCardsModel.productType = json['productType'];
-      loadScreenCardsModel.rate = json['rate'];
-      loadScreenCardsModel.unitValue = json['unitValue'];
+      loadScreenCardsModel.loadingPointCity = json['loadingPointCity'] != null ?  json['loadingPointCity'] : 'NA' ;
+      loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'] != null ?  json['unloadingPointCity'] : 'NA' ;
+      loadScreenCardsModel.truckType = json['truckType'] != null ?  json['truckType'] : 'NA' ;
+      loadScreenCardsModel.weight = json['weight'] != null ?  json['weight'] : 'NA' ;
+      loadScreenCardsModel.productType = json['productType'] != null ?  json['productType'] : 'NA' ;
+      loadScreenCardsModel.rate = json['rate'] ;
+      loadScreenCardsModel.unitValue = json['unitValue'] != null ?  json['unitValue'] : 'NA' ;
+      loadScreenCardsModel.noOfTrucks = json['noOfTrucks'] != null ?  json['noOfTrucks'] : 'NA' ;
+      print(loadScreenCardsModel.noOfTrucks);
+      loadScreenCardsModel.loadDate = json['loadDate'] != null ?  json['loadDate'] : 'NA' ;
+      print('load Date is :  ${loadScreenCardsModel.loadDate}');
+
       setState(() {
         myLoadList.add(loadScreenCardsModel);
       });

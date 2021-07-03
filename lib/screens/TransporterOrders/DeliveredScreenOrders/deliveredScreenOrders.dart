@@ -29,7 +29,8 @@ class DeliveredScreenOrders extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image: AssetImage('assets/images/LoadBox.png'),
+                      image: AssetImage(
+                          'assets/images/EmptyLoad.png'),
                       height: 127,
                       width: 127,
                     ),

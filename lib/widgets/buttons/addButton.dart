@@ -52,8 +52,7 @@ class AddButton extends StatelessWidget {
       onTap: () {
         print("name--" + "$name");
         // providerData.updateDriverNameList(newValue: displayContact);
-        providerData.updateDropDownValue2(
-            newValue: displayContact);
+        providerData.updateDropDownValue2(newValue: displayContact);
         driverApiCalls.postDriverApi(
             driverName, phoneNum, transporterId, selectedTruckId);
         Navigator.of(context).pop();

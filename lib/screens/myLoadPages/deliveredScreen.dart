@@ -14,7 +14,6 @@ class DeliveredScreen extends StatelessWidget {
     return Container(
         height: MediaQuery.of(context).size.height * 0.67,
         child: FutureBuilder(
-          //getTruckData returns list of truck Model
           future: bookingApiCalls.getDataByPostLoadIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
@@ -29,13 +28,13 @@ class DeliveredScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image:
-                          AssetImage('assets/images/TruckListEmptyImage.png'),
+                      image: AssetImage(
+                          'assets/images/EmptyLoad.png'),
                       height: 127,
                       width: 127,
                     ),
                     Text(
-                       'Looks like you have not added any Loads!',
+                      'Looks like you have not added any Loads!',
                       style: TextStyle(fontSize: size_8, color: grey),
                       textAlign: TextAlign.center,
                     ),
