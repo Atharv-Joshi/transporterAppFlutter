@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -44,14 +45,10 @@ class _VerifyAccountNotifyAlertDialogState
             height: 1,
           ),
           Text(
-            "Upload details and get it verified",
+            "Upload details and get it verified to book loads",
             style: TextStyle(
                 fontWeight: normalWeight, fontSize: size_9, color: black),
-          ),
-          Text(
-            "to book loads",
-            style: TextStyle(
-                fontWeight: normalWeight, fontSize: size_9, color: black),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
             height: space_8,

@@ -33,17 +33,17 @@ Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {
       truckModel.driverId = json["driverId"];
       truckDetailsList.add(truckModel);
       providerData.updateTruckNoList(newValue: truckModel.truckNo.toString());
-      driverIdList.add(truckModel.driverId);
+      // driverIdList.add(truckModel.driverId);
     }
   } catch (e) {
     print("hi getTruckDetailsFromApi has some error" + '$e');
   }
-  truckAndDriverList.add(truckDetailsList);
+  // truckAndDriverList.add(truckDetailsList);
 
-  driverDetailsList =
-      await getDriverDetailsFromDriverApi(context, driverIdList);
+  // driverDetailsList =
+  //     await getDriverDetailsFromDriverApi(context, driverIdList);
+  //
+  // truckAndDriverList.add(driverDetailsList);
 
-  truckAndDriverList.add(driverDetailsList);
-
-  return truckAndDriverList;
+  return truckDetailsList;
 }

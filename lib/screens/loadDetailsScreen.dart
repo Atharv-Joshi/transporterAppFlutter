@@ -24,112 +24,119 @@ class LoadDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: Container(
-            padding: EdgeInsets.symmetric(horizontal: space_4),
-            child: Column(
+      backgroundColor: backgroundColor,
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: space_4),
+        child: Column(
+          children: [
+            SizedBox(
+              height: space_4,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                BackButtonWidget(),
                 SizedBox(
-                  height: space_4,
+                  width: space_3,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    BackButtonWidget(),
-                    SizedBox(
-                      width: space_3,
-                    ),
-                    HeadingTextWidget("Load Details"),
-                    // HelpButtonWidget(),
-                  ],
+                HeadingTextWidget("Load Details"),
+                // HelpButtonWidget(),
+              ],
+            ),
+            SizedBox(
+              height: space_3,
+            ),
+            Stack(
+              children: [
+                LoadPosterDetailsLoadDetails(
+                  loadPosterLocation: loadDetails.loadPosterLocation,
+                  loadPosterName: loadDetails.loadPosterName,
+                  loadPosterCompanyName: loadDetails.loadPosterCompanyName,
+                  //TODO loadPosterCompanyApproved was string but I have changed it to bool for logical reasons shikhar please send boolean value here instead of string
+                  loadPosterCompanyApproved:
+                      loadDetails.loadPosterCompanyApproved == "true"
+                          ? true
+                          : false,
                 ),
-                SizedBox(
-                  height: space_3,
-                ),
-                Stack(
-                  children: [
-                    LoadPosterDetailsLoadDetails(
-                      loadPosterLocation: loadDetails.loadPosterLocation,
-                      loadPosterName: loadDetails.loadPosterName,
-                      loadPosterCompanyName: loadDetails.loadPosterCompanyName,
-                      //TODO loadPosterCompanyApproved was string but I have changed it to bool for logical reasons shikhar please send boolean value here instead of string
-                      loadPosterCompanyApproved: loadDetails.loadPosterCompanyApproved == "true" ? true: false,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: space_6,
-                          top: (space_14 * 2) + 3,
-                          right: space_6),
-                      child: Container(
-                        height: 51,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(space_1 + 3)),
-                        child: Card(
-                            color: white,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                BidButton(loadDetails: loadDetails),
-                                // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
-                                CallButton(directCall: true,
-                                  driverPhoneNum: loadDetails.loadPosterPhoneNo,)
-                              ],
-                            )),
-                      ),
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Card(
-                    elevation: 5,
-                    child: Padding(
-                      padding:
-                      EdgeInsets.fromLTRB(space_3, space_2, space_3, space_3),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LocationDetailsLoadDetails(
-                            loadDetails: loadDetails,
-                          ),
-                          SizedBox(
-                            height: space_3,
-                          ),
-                          Container(
-                            color: lightGrayishBlue,
-                            height: 1,
-                          ),
-                          SizedBox(
-                            height: space_2,
-                          ),
-                          RequirementsLoadDetails(loadDetails: loadDetails,),
-                          SizedBox(
-                            height: space_3,
-                          ),
-                          AdditionalDescriptionLoadDetails(loadDetails.comment),
-                          SizedBox(
-                            height: space_4,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BookNowButton(
-                                loadDetails: loadDetails,
-                              ),
-                              SizedBox(
-                                width: space_2,
-                              ),
-                              ShareButton(loadDetails: loadDetails,)
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: space_6, top: (space_14 * 2) + 3, right: space_6),
+                  child: Container(
+                    height: 51,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(space_1 + 3)),
+                    child: Card(
+                        color: white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            BidButton(loadDetails: loadDetails),
+                            // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                            CallButton(
+                              directCall: true,
+                              driverPhoneNum: loadDetails.phoneNo,
+                            )
+                          ],
+                        )),
                   ),
                 )
               ],
             ),
-          ),
-        ));
+            Expanded(
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding:
+                      EdgeInsets.fromLTRB(space_3, space_2, space_3, space_3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LocationDetailsLoadDetails(
+                        loadDetails: loadDetails,
+                      ),
+                      SizedBox(
+                        height: space_3,
+                      ),
+                      Container(
+                        color: lightGrayishBlue,
+                        height: 1,
+                      ),
+                      SizedBox(
+                        height: space_2,
+                      ),
+                      RequirementsLoadDetails(
+                        loadDetails: loadDetails,
+                      ),
+                      SizedBox(
+                        height: space_3,
+                      ),
+                      AdditionalDescriptionLoadDetails(loadDetails.comment),
+                      SizedBox(
+                        height: space_4,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          BookNowButton(
+                            loadDetails: loadDetails,
+                          ),
+                          SizedBox(
+                            width: space_2,
+                          ),
+                          ShareButton(
+                            loadDetails: loadDetails,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }

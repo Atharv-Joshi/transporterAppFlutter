@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
-void runTransporterApiPost({required String mobileNum, String? userLocation}) async {
-
-  TransporterIdController transporterIdController = Get.put(TransporterIdController());
+void runTransporterApiPost(
+    {required String mobileNum, String? userLocation}) async {
+  TransporterIdController transporterIdController =
+      Get.put(TransporterIdController());
 
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
@@ -41,6 +42,5 @@ void runTransporterApiPost({required String mobileNum, String? userLocation}) as
     transporterIdController.updateTransporterLocation(transporterLocation);
     transporterIdController.updateName(name);
     transporterIdController.updateCompanyName(companyName);
-
   }
 }

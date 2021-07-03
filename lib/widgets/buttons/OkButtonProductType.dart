@@ -21,7 +21,9 @@ class OkButtonProductType extends StatelessWidget {
         child: ElevatedButton(
           style: ButtonStyle(backgroundColor: activeButtonColor),
           onPressed: () {
-            providerData.updateProductType(controllerOthers.text);
+            providerData.updateProductType(controllerOthers.text == ""
+                ? 'Choose Product Type'
+                : controllerOthers.text);
             Get.back();
           },
           child: Text(

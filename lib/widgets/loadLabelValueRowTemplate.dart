@@ -18,9 +18,7 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
         children: [
           Text(
             '$label',
-            style: TextStyle(
-                fontWeight: normalWeight
-            ),
+            style: TextStyle(fontWeight: normalWeight),
           ),
           Text(
             value!,

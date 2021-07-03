@@ -50,6 +50,7 @@ dependencies:
   wc_flutter_share: ^0.4.0
   date_format: ^2.0.2
   jiffy: ^4.1.0
+  permission_handler: ^8.1.0
 
 
 dev_dependencies:

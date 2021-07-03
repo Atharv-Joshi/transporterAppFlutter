@@ -5,22 +5,30 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/ChooseReceiverButton.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher ;
-import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class CallButton extends StatelessWidget {
+  final String? transporterPhoneNum;
+  final String? driverPhoneNum;
+  final String? driverName;
+  final String? transporterName;
+  final String? phoneNum;
+  var color;
 
-   final String? transporterPhoneNum;
-   final String? driverPhoneNum;
-   final String? driverName;
-   final String? transporterName;
+  final bool directCall;
 
-   final bool directCall;
-  CallButton({this.driverName, this.transporterName , this.transporterPhoneNum ,this.driverPhoneNum , required this.directCall});
+  CallButton(
+      {this.driverName,
+      this.transporterName,
+      this.transporterPhoneNum,
+      this.driverPhoneNum,
+      required this.directCall,
+      this.color,
+      this.phoneNum});
 
   _makingPhoneCall() async {
     print('in makingPhoneCall');
-    String url = 'tel:$driverPhoneNum';
+    String url = 'tel:$phoneNum';
     UrlLauncher.launch(url);
   }
 
@@ -33,49 +41,54 @@ class CallButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: BorderSide(color: darkBlueColor),
-          )),
+                  borderRadius: BorderRadius.circular(50),
+                  side: BorderSide(
+                      color: color == darkBlueColor
+                          ? darkBlueColor
+                          : darkBlueColor))),
+          backgroundColor: color == darkBlueColor
+              ? MaterialStateProperty.all(darkBlueColor)
+              : MaterialStateProperty.all(white),
         ),
         onPressed: directCall == true
-            ? (){
-               _makingPhoneCall();
-                }
-
-          :()
-      {
-        Get.defaultDialog(
-            radius: 10,
-            title: 'Who do you want to call?',
-            titleStyle: TextStyle(
-              fontSize: size_8,
-              color: loadingPointTextColor,
-              fontWeight: mediumBoldWeight
-            ),
-            middleText: '',
-            content: Center(
-              child: Column(
-                children: [
-                  ChooseReceiverButton(label: transporterName, phoneNum: transporterPhoneNum.toString() ,),
-
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: space_2),
-                    child: Text(
-                        'or',
-                        style: TextStyle(
-                          fontSize: size_8,
-                          fontWeight: mediumBoldWeight,
-                          color: Colors.black
-                        ),),
+            ? () {
+                _makingPhoneCall();
+              }
+            : () {
+                Get.defaultDialog(
+                  radius: 10,
+                  title: 'Who do you want to call?',
+                  titleStyle: TextStyle(
+                      fontSize: size_8,
+                      color: loadingPointTextColor,
+                      fontWeight: mediumBoldWeight),
+                  middleText: '',
+                  content: Center(
+                    child: Column(
+                      children: [
+                        ChooseReceiverButton(
+                          label: transporterName,
+                          phoneNum: transporterPhoneNum,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: space_2),
+                          child: Text(
+                            'or',
+                            style: TextStyle(
+                                fontSize: size_8,
+                                fontWeight: mediumBoldWeight,
+                                color: Colors.black),
+                          ),
+                        ),
+                        ChooseReceiverButton(
+                          label: driverName,
+                          phoneNum: driverPhoneNum,
+                        )
+                      ],
+                    ),
                   ),
-
-                  ChooseReceiverButton(label: driverName , phoneNum: driverPhoneNum,)
-
-                ],
-              ),
-            ),
-          );
-        },
+                );
+              },
         child: Container(
           margin: EdgeInsets.only(left: space_1),
           child: Row(
@@ -88,6 +101,7 @@ class CallButton extends StatelessWidget {
                   image: AssetImage(
                     'assets/icons/callButtonIcon.png',
                   ),
+                  color: color == darkBlueColor ? white : black,
                 ),
               ),
               Text(
@@ -96,7 +110,7 @@ class CallButton extends StatelessWidget {
                 style: TextStyle(
                   letterSpacing: 0.7,
                   fontWeight: mediumBoldWeight,
-                  color: Colors.black,
+                  color: color == darkBlueColor ? white : black,
                   fontSize: size_7,
                 ),
               ),

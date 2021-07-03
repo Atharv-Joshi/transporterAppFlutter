@@ -39,6 +39,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
               ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
       findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
           providerData.unloadingPointCityFindLoad);
+          //findLoadApiData = runFindLoadApiGet("delhi", "");
     }
     if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
@@ -138,7 +139,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AvailableLoadsTextWidget(),
-                                  /*FilterButtonWidget()*/
+                                  FilterButtonWidget()
                                 ],
                               ),
                               SizedBox(

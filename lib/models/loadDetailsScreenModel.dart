@@ -3,6 +3,7 @@ class LoadDetailsScreenModel {
   String? loadingPoint;
   String? loadingPointCity;
   String? loadingPointState;
+  String? postLoadId;
   String? unloadingPoint;
   String? unloadingPointCity;
   String? unloadingPointState;
@@ -12,11 +13,11 @@ class LoadDetailsScreenModel {
   String? weight;
   String? comment;
   String? status;
-  String? date;
-  String? rate;
+  String? loadDate;
+  int? rate;
   String? unitValue;
   String? loadPosterId;
-  String? loadPosterPhoneNo;
+  String? phoneNo;
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
@@ -25,31 +26,31 @@ class LoadDetailsScreenModel {
   String? loadPosterApproved;
   String? loadPosterAccountVerificationInProgress;
 
-  LoadDetailsScreenModel({
-    this.loadId,
-    this.loadingPoint,
-    this.loadingPointCity,
-    this.loadingPointState,
-    this.unloadingPoint,
-    this.unloadingPointCity,
-    this.unloadingPointState,
-    this.productType,
-    this.truckType,
-    this.noOfTrucks,
-    this.weight,
-    this.comment,
-    this.status,
-    this.date,
-    this.rate,
-    this.unitValue,
-    this.loadPosterId,
-    this.loadPosterPhoneNo,
-    this.loadPosterLocation,
-    this.loadPosterName,
-    this.loadPosterCompanyName,
-    this.loadPosterKyc,
-    this.loadPosterCompanyApproved,
-    this.loadPosterApproved,
-    this.loadPosterAccountVerificationInProgress,
-  });
+  LoadDetailsScreenModel(
+      {this.loadId,
+      this.loadingPoint,
+      this.loadingPointCity,
+      this.loadingPointState,
+      this.postLoadId,
+      this.unloadingPoint,
+      this.unloadingPointCity,
+      this.unloadingPointState,
+      this.productType,
+      this.truckType,
+      this.noOfTrucks,
+      this.weight,
+      this.comment,
+      this.status,
+      this.loadDate,
+      this.rate,
+      this.unitValue,
+      this.loadPosterId,
+      this.phoneNo,
+      this.loadPosterLocation,
+      this.loadPosterName,
+      this.loadPosterCompanyName,
+      this.loadPosterKyc,
+      this.loadPosterCompanyApproved,
+      this.loadPosterApproved,
+      this.loadPosterAccountVerificationInProgress});
 }

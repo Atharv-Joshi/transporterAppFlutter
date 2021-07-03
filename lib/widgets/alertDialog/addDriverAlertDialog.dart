@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -6,12 +7,17 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
 
+// ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
+  String? selectedTruckId;
+
+  AddDriverAlertDialog({this.selectedTruckId});
+
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
 }
@@ -32,7 +38,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "ADD DRIVER NAME",
+            "DRIVER NAME",
             style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
           ),
           SizedBox(
@@ -49,22 +55,90 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 left: space_2 - 2,
                 right: space_2 - 2,
               ),
-              child: TextField(
-                controller: name,
-                decoration: InputDecoration(
-                  hintText: contactName != "" ? contactName : "",
-                  hintStyle:
-                      TextStyle(color: black, fontWeight: mediumBoldWeight),
-                  border: InputBorder.none,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: name,
+                      decoration: InputDecoration(
+                        hintText: contactName != "" ? contactName : "Type here",
+                        hintStyle: TextStyle(
+                            color: black, fontWeight: mediumBoldWeight),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () async {
+                        print(name.text);
+                        print(number.text);
+                        if (await Permission.contacts.request().isGranted) {
+                          Contact contact =
+                              await _contactPicker.selectContact();
+                          setState(() {
+                            _contact = contact;
+                            contactName = _contact!.fullName.toString();
+                            contactNumber =
+                                _contact!.phoneNumber.number.toString();
+                            displayContact =
+                                contactName! + " - " + contactNumber!;
+                          });
+                        }
+                      },
+                      child: Image(
+                        image:
+                            AssetImage("assets/icons/addFromPhoneBookIcon.png"),
+                        height: space_5 + 2,
+                        width: space_5 + 2,
+                      )),
+                ],
               ),
             ),
+            //   ],),
+            // child: ListTile(
+            //   title: Padding(
+            //     padding: EdgeInsets.only(
+            //       left: space_2 - 2,
+            //       right: space_2 - 2,
+            //     ),
+            //     child: TextField(
+            //       controller: name,
+            //       decoration: InputDecoration(
+            //         hintText: contactName != "" ? contactName : "",
+            //         hintStyle:
+            //             TextStyle(color: black, fontWeight: mediumBoldWeight),
+            //         border: InputBorder.none,
+            //       ),
+            //     ),
+            //   ),
+            //   trailing: GestureDetector(
+            //       onTap: () async {
+            //         print(name.text);
+            //         print(number.text);
+            //         if (await Permission.contacts.request().isGranted) {
+            //           Contact contact = await _contactPicker.selectContact();
+            //           setState(() {
+            //             _contact = contact;
+            //             contactName = _contact!.fullName.toString();
+            //             contactNumber = _contact!.phoneNumber.number.toString();
+            //             displayContact = contactName! + " - " + contactNumber!;
+            //           });
+            //         }
+            //       },
+            //       child: Image(
+            //         image: AssetImage("assets/icons/addFromPhoneBookIcon.png"),
+            //         height: space_5+2,
+            //         width: space_5+2,
+            //       )),
+            //   isThreeLine: false,
+            // ),
           ),
           SizedBox(
             height: space_2 + 2,
           ),
           Text(
-            "ADD CONTACT NO",
+            "DRIVER NUMBER",
             style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
           ),
           SizedBox(
@@ -84,56 +158,12 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               child: TextField(
                 controller: number,
                 decoration: InputDecoration(
-                  hintText: contactNumber != "" ? contactNumber : "",
+                  hintText: contactNumber != "" ? contactNumber : "Type here",
                   hintStyle:
                       TextStyle(color: black, fontWeight: mediumBoldWeight),
                   border: InputBorder.none,
                 ),
               ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: space_4 - 2, bottom: space_1 - 2),
-                child: Text(
-                  "OR",
-                  style: TextStyle(fontSize: size_7, fontWeight: normalWeight),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: space_4 + 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                    onTap: () async {
-                      print(name.text);
-                      print(number.text);
-                      // if (await Permission.contacts.request().isGranted) {
-                      //   Contact contact = await _contactPicker.selectContact();
-                      //   setState(() {
-                      //     _contact = contact;
-                      //     contactName = _contact!.fullName.toString();
-                      //     contactNumber =
-                      //         _contact!.phoneNumber.number.toString();
-                      //     displayContact =
-                      //         contactName! + " - " + contactNumber!;
-                      //   });
-                      // }
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: liveasyGreen,
-                    )),
-                Text(
-                  "Select From Your Contact List  ",
-                  style: TextStyle(fontSize: size_7, fontWeight: normalWeight),
-                ),
-              ],
             ),
           ),
         ],
@@ -147,7 +177,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               AddButton(
                   displayContact: displayContact,
                   name: name.text,
-                  number: number.text),
+                  number: number.text,
+              selectedTruckId: widget.selectedTruckId,),
               CancelButton()
             ],
           ),
