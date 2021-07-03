@@ -26,17 +26,17 @@ class MyTruckCard extends StatefulWidget {
 
   MyTruckCard(
       {
-      // this.truckId,
-      // this.transporterId,
-      this.truckNo,
-      required this.truckApproved,
-      this.imei,
-      // this.passingWeight,
-      // this.driverId,
-      this.truckType,
-      this.driverName,
-      this.phoneNum, // will be valid number or 'NA'
-      this.tyres});
+        // this.truckId,
+        // this.transporterId,
+        this.truckNo,
+        required this.truckApproved,
+        this.imei,
+        // this.passingWeight,
+        // this.driverId,
+        this.truckType,
+        this.driverName,
+        this.phoneNum, // will be valid number or 'NA'
+        this.tyres});
 
   @override
   _MyTruckCardState createState() => _MyTruckCardState();
@@ -53,7 +53,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   Position? userLocation;
   getUserLocation() async {
     PermissionStatus permission =
-        await LocationPermissions().checkPermissionStatus();
+    await LocationPermissions().checkPermissionStatus();
     if (permission == PermissionStatus.granted) {
       userLocation = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -81,9 +81,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = widget.truckType != 'NA' ||
-            widget.tyres != null ||
-            widget.driverName != 'NA' ||
-            widget.phoneNum != "NA"
+        widget.tyres != null ||
+        widget.driverName != 'NA' ||
+        widget.phoneNum != "NA"
         ? true
         : false;
 
@@ -122,99 +122,68 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
               verified!
                   ? Container(
-                      margin: EdgeInsets.symmetric(vertical: space_3),
-                      padding: EdgeInsets.only(right: space_8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //number and type column
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Vehicle Number',
-                                style: TextStyle(fontSize: size_6),
-                              ),
-                              Text(
-                                '${widget.truckNo}',
-                                style: TextStyle(
-                                    fontWeight: boldWeight, fontSize: size_7),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: space_3),
-                                child: Text(
-                                  'Truck Type',
-                                  style: TextStyle(fontSize: size_6),
-                                ),
-                              ),
-                              Text(
-                                '${widget.truckType}',
-                                style: TextStyle(
-                                    fontWeight: boldWeight, fontSize: size_7),
-                              )
-                            ],
+                margin: EdgeInsets.symmetric(vertical: space_3),
+                padding: EdgeInsets.only(right: space_8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //number and type column
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Vehicle Number',
+                          style: TextStyle(fontSize: size_6),
+                        ),
+                        Text(
+                          '${widget.truckNo}',
+                          style: TextStyle(
+                              fontWeight: boldWeight, fontSize: size_7),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: space_3),
+                          child: Text(
+                            'Truck Type',
+                            style: TextStyle(fontSize: size_6),
                           ),
-                          //tyre and driver column
-                          Container(
-                            // padding: EdgeInsets.only(left: space_14),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Tyre',
-                                  style: TextStyle(fontSize: size_6),
-                                ),
-                                Text(
-                                  widget.tyres != null
-                                      ? '${widget.tyres}'
-                                      : 'NA',
-                                  style: TextStyle(
-                                      fontWeight: boldWeight, fontSize: size_7),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: space_3),
-                                  child: Text(
-                                    'Driver',
-                                    style: TextStyle(fontSize: size_6),
-                                  ),
-                                ),
-                                Text(
-                                  '${widget.driverName}',
-                                  // 'Ravi Shah',
-                                  style: TextStyle(
-                                      fontWeight: boldWeight, fontSize: size_7),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  : Container(
-                      margin: EdgeInsets.symmetric(vertical: space_3),
-                      padding: EdgeInsets.only(right: space_8),
+                        ),
+                        Text(
+                          '${widget.truckType}',
+                          style: TextStyle(
+                              fontWeight: boldWeight, fontSize: size_7),
+                        )
+                      ],
+                    ),
+                    //tyre and driver column
+                    Container(
+                      // padding: EdgeInsets.only(left: space_14),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Vehicle Number',
+                            'Tyre',
                             style: TextStyle(fontSize: size_6),
                           ),
                           Text(
-                            '${widget.truckNo}',
+                            widget.tyres != null
+                                ? '${widget.tyres}'
+                                : 'NA',
                             style: TextStyle(
                                 fontWeight: boldWeight, fontSize: size_7),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: space_3),
                             child: Text(
-                              'Truck Details are pending !',
-                              style: TextStyle(
-                                  fontSize: size_7,
-                                  fontWeight: boldWeight,
-                                  color: Colors.red),
+                              'Driver',
+                              style: TextStyle(fontSize: size_6),
                             ),
                           ),
+                          Text(
+                            '${widget.driverName}',
+                            // 'Ravi Shah',
+                            style: TextStyle(
+                                fontWeight: boldWeight, fontSize: size_7),
+                          )
                         ],
                       ),
                     )
@@ -224,7 +193,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   : Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 padding: EdgeInsets.only(right: space_8),
-                child:                     Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -246,6 +215,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                             color: Colors.red),
                       ),
                     ),
+                  ],
+                ),
+              ),
 
               //track and call button
               verified!
@@ -254,23 +226,31 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 children: [
                   Container(
                       margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(truckApproved: widget.truckApproved, imei: widget.imei, userLocation: userLocation,)),
-                  CallButton(driverPhoneNum: widget.phoneNum , directCall: true,),
+                      child: TrackButton(
+                        truckApproved: widget.truckApproved,
+                      )),
+                  CallButton(
+                    driverPhoneNum: widget.phoneNum,
+                    directCall: true,
+                  ),
                 ],
               )
-                  :
-              Center(
+                  : Center(
                 child: Container(
                   height: 32,
                   width: 201,
                   child: TextButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                      shape: MaterialStateProperty.all<
+                          RoundedRectangleBorder>(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       )),
-                      backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(darkBlueColor),
                     ),
-                    onPressed: (){print('Upload Truck Details Button Pressed');},
+                    onPressed: () {
+                      print('Upload Truck Details Button Pressed');
+                    },
                     child: Container(
                       // margin: EdgeInsets.symmetric(horizontal: space_2 , vertical: space_1),
                       child: Text(
@@ -283,6 +263,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
