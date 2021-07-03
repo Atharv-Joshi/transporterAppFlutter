@@ -18,7 +18,7 @@ class TransporterApiCalls {
             ? jsonData['transporterLocation']
             : 'Na';
     transporterModel.transporterPhoneNum =
-        jsonData['phoneNo'] != null ? jsonData['phoneNo'].toString() : '';
+        jsonData['phoneNo'] != null ? jsonData['phoneNo'] : '';
     transporterModel.transporterId =
         jsonData['transporterId'] != null ? jsonData['transporterId'] : 'Na';
     transporterModel.transporterName = jsonData['transporterName'] != null

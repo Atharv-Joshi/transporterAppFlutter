@@ -31,25 +31,22 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProviderData providerData =
-        Provider.of<ProviderData>(context, listen: false);
-    //
-    // if (Provider.of<ProviderData>(context).loadingPointCity != "") {
-    //   print(transporterIdController.transporterId);
-    //   controller1 = TextEditingController(
-    //       text:
-    //           ("${providerData.loadingPointCity} (${providerData.loadingPointState})"));
-    //   findLoadApiData = runFindLoadApiGet(
-    //       providerData.loadingPointCity, providerData.unloadingPointCity);
-    // }
-    findLoadApiData = runFindLoadApiGet("delhi", "");
-
-    if (Provider.of<ProviderData>(context).unloadingPointCity != "") {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
+    if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
+      print(transporterIdController.transporterId);
+      controller1 = TextEditingController(
+          text:
+              ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
+          //findLoadApiData = runFindLoadApiGet("delhi", "");
+    }
+    if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCity} (${providerData.unloadingPointState})"));
-      findLoadApiData = runFindLoadApiGet(
-          providerData.loadingPointCity, providerData.unloadingPointCity);
+              ("${providerData.unloadingPointCityFindLoad} (${providerData.unloadingPointStateFindLoad})"));
+      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+          providerData.unloadingPointCityFindLoad);
     }
 
     return SafeArea(
@@ -68,8 +65,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                         GestureDetector(
                           onTap: () {
                             Get.back();
-                            providerData.clearLoadingPoint();
-                            providerData.clearUnloadingPoint();
+                            providerData.clearLoadingPointFindLoad();
+                            providerData.clearUnloadingPointFindLoad();
                           },
                           child: Icon(Icons.arrow_back_ios_rounded),
                         ),
@@ -94,7 +91,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                     ),
                     controller: controller1,
                     onTap: () {
-                      providerData.clearLoadingPoint();
+                      providerData.clearLoadingPointFindLoad();
                     }),
                 SizedBox(
                   height: space_4,
@@ -107,7 +104,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   ),
                   controller: controller2,
                   onTap: () {
-                    providerData.clearUnloadingPoint();
+                    providerData.clearUnloadingPointFindLoad();
                   },
                 ),
                 SizedBox(

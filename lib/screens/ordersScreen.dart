@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -6,7 +7,8 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/getBids.dart';
 import 'package:provider/provider.dart';
-// ignore: import_of_legacy_library_into_null_safe
+import 'TransporterOrders/DeliveredScreenOrders/deliveredScreenOrders.dart';
+import 'TransporterOrders/OnGoingScreenOrders/onGoingScreenOrders.dart';
 
 class OrdersScreen extends StatefulWidget {
   @override
@@ -52,7 +54,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     pageController: pageController,
                   ),
                   OrderScreenNavigationBarButton(
-                    text: 'Deliver',
+                    text: 'Completed',
                     value: 2,
                     pageController: pageController,
                   )
@@ -73,7 +75,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           providerData.updateUpperNavigatorIndex(value);
                         });
                       },
-                      children: [GetBids(), Text("ongoing"), Text("delivered")],
+                      children: [
+                        GetBids(),
+                        OngoingScreenOrders(),
+                        DeliveredScreenOrders(),
+                      ],
                     ),
                   ),
 

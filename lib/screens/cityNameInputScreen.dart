@@ -5,6 +5,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
@@ -95,22 +96,42 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                 if (widget.valueType == "Loading Point") {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
-                                      .updateLoadingPoint(
-                                          city: snapshot
-                                              .data[index].placeCityName,
-                                          state: snapshot
-                                              .data[index].placeStateName);
-                                  Get.off(() => FindLoadScreen());
-                                } else if (widget.valueType ==
-                                    "Unloading Point") {
-                                  Provider.of<ProviderData>(context,
-                                          listen: false)
-                                      .updateUnloadingPoint(
+                                      .updateLoadingPointFindLoad(
                                           city: snapshot
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
                                   Get.off(FindLoadScreen());
+                                } else if (widget.valueType ==
+                                    "Unloading Point") {
+                                  Provider.of<ProviderData>(context,
+                                          listen: false)
+                                      .updateUnloadingPointFindLoad(
+                                          city: snapshot
+                                              .data[index].placeCityName,
+                                          state: snapshot
+                                              .data[index].placeStateName);
+                                  Get.off(FindLoadScreen());
+                                } else if (widget.valueType ==
+                                    "Loading point") {
+                                  Provider.of<ProviderData>(context,
+                                          listen: false)
+                                      .updateLoadingPointPostLoad(
+                                          city: snapshot
+                                              .data[index].placeCityName,
+                                          state: snapshot
+                                              .data[index].placeStateName);
+                                  Get.off(PostLoadScreenOne());
+                                } else if (widget.valueType ==
+                                    "Unloading point") {
+                                  Provider.of<ProviderData>(context,
+                                          listen: false)
+                                      .updateUnloadingPointPostLoad(
+                                          city: snapshot
+                                              .data[index].placeCityName,
+                                          state: snapshot
+                                              .data[index].placeStateName);
+                                  Get.off(PostLoadScreenOne());
                                 }
                               }),
                             );
