@@ -5,7 +5,6 @@ import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingsCard.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
-import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';

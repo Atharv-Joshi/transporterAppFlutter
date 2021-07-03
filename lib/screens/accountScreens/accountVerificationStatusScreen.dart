@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/buyGpsLongWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:get/get.dart';
+
 class AccountVerificationStatusScreen extends StatelessWidget {
   final String mobileNum;
   final bool accountVerificationInProgress;
@@ -20,7 +21,8 @@ class AccountVerificationStatusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+    TransporterIdController transporterIdController =
+        Get.find<TransporterIdController>();
     return Scaffold(
       backgroundColor: statusBarColor,
       body: SafeArea(
@@ -70,8 +72,10 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                         : AccountDetailVerified(
                             mobileNum: mobileNum,
                             name: transporterIdController.name.value,
-                            companyName: transporterIdController.companyName.value,
-                            address: transporterIdController.transporterLocation.value,
+                            companyName:
+                                transporterIdController.companyName.value,
+                            address: transporterIdController
+                                .transporterLocation.value,
                           ),
                   ],
                 ),

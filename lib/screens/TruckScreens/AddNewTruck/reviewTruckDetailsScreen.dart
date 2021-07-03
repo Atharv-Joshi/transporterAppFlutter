@@ -167,7 +167,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
 
                               if (truckIdForCrossVerification != null) {
                                 providerData.updateIndex(1);
-                                Get.offAll( () => NavigationScreen());
+                                Get.offAll(() => NavigationScreen());
                                 providerData.resetTruckFilters();
                               } else {
                                 Get.snackbar('Failed to update Details', '');

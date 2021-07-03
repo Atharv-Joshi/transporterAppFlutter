@@ -4,24 +4,36 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/getLoadDetailsFromLoadId.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
+import 'package:liveasy/models/bidsModel.dart';
+import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class ConfirmButtonSendRequest extends StatefulWidget {
+  bool? directBooking;
   String? loadId;
   String? rate;
   String? transporterId;
   String? unit;
-  List truckId;
+  List? truckId;
   String? postLoadId;
+  BidsModel? bidsModel;
+  LoadDetailsScreenModel? loadDetailsScreenModel;
 
   ConfirmButtonSendRequest(
-      {required this.loadId,
-      required this.rate,
-      required this.transporterId,
-      required this.unit,
-      required this.truckId,
-      required this.postLoadId});
+      {required this.directBooking,
+      this.loadId,
+      this.rate,
+      this.transporterId,
+      this.unit,
+      this.truckId,
+      this.postLoadId,
+      this.bidsModel,
+      this.loadDetailsScreenModel});
 
   @override
   _ConfirmButtonSendRequestState createState() =>
@@ -31,10 +43,25 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
     return GestureDetector(
       onTap: () {
-        postBookingApi(widget.loadId, widget.rate, widget.transporterId,
-            widget.unit, widget.truckId, widget.postLoadId);
+        if (widget.directBooking == true) {
+          postBookingApi(widget.loadId, widget.rate, widget.unit,
+              widget.truckId, widget.postLoadId, context);
+          print("directBooking");
+        } else {
+          postBookingApi(
+              widget.bidsModel!.loadId,
+              widget.bidsModel!.rate,
+              widget.bidsModel!.unitValue,
+              widget.truckId,
+              widget.loadDetailsScreenModel!.postLoadId,
+              context);
+          print("Booking by bid");
+        }
+        providerData.updateDropDownValue1(newValue: null);
+        providerData.updateDropDownValue2(newValue: null);
         Navigator.of(context).pop();
       },
       child: Container(

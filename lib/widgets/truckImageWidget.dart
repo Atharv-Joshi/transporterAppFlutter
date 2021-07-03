@@ -6,10 +6,10 @@ class TruckImageWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: 14),
       child: Image(
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
         height: 138.18,
         width: 117,
-        image: AssetImage("assets/images/truckLoadImage.png"),
+        image: AssetImage("assets/images/truckImageWithGreenBackground.png"),
       ),
     );
   }

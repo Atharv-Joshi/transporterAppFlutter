@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
@@ -27,17 +28,24 @@ class _BookNowButtonState extends State<BookNowButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-          await getTruckDetailsFromTruckApi(context).then((truckAndDriverList) {
-            truckDetailsList = truckAndDriverList[0];
-            driverDetailsList = truckAndDriverList[1];
+          await getTruckDetailsFromTruckApi(context)
+              .then((truckDetailsListFromApi) {
+            truckDetailsList = truckDetailsListFromApi;
+            // driverDetailsList = truckAndDriverList[1];
+          });
+          await getDriverDetailsFromDriverApi(context)
+              .then((driverDetailsListFromApi) {
+            driverDetailsList = driverDetailsListFromApi;
           });
 
           await showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => BookNowButtonAlertDialog(
               truckDetailsList: truckDetailsList,
               driverDetailsList: driverDetailsList,
-              loadDetails: widget.loadDetails,
+              loadDetailsScreenModel: widget.loadDetails,
+              directBooking: true,
             ),
           );
         },

@@ -72,7 +72,7 @@ class BiddingDetails extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   NegotiateButton(bidId : bidId),
-                                  CallButton(directCall: true , driverPhoneNum: transporterPhoneNum ,)
+                                  CallButton(directCall: true ,phoneNum: transporterPhoneNum ,)
                                 ],
                               ),
                             )

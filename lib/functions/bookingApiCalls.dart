@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:http/http.dart' as http ;
+import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/BookingModel.dart';
 
-class BookingApiCalls{
-
+class BookingApiCalls {
   //TransporterIdController will be used as postId in Transporter App
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   //BookingApiUrl
   final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
@@ -20,13 +20,11 @@ class BookingApiCalls{
 
   //GET ------------------------------------------------------------------------
   Future<List<BookingModel>> getDataByPostLoadIdOnGoing() async {
-
     modelList = [];
 
     for (int i = 0;; i++) {
       http.Response response = await http.get(Uri.parse(
-          '$bookingApiUrl?postLoadId=${transporterIdController.transporterId
-              .value}&completed=false&cancel=false&pageNo=$i'));
+          '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=false&cancel=false&pageNo=$i'));
 
       var jsonData = json.decode(response.body);
 
@@ -52,12 +50,10 @@ class BookingApiCalls{
 
   //----------------------------------------------------------------------------
   Future<List<BookingModel>> getDataByPostLoadIdDelivered() async {
-
     modelList = [];
     for (int i = 0;; i++) {
       http.Response response = await http.get(Uri.parse(
-          '$bookingApiUrl?postLoadId=${transporterIdController.transporterId
-              .value}&completed=true&cancel=false&pageNo=$i'));
+          '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=true&cancel=false&pageNo=$i'));
       var jsonData = json.decode(response.body);
 
       if (jsonData.isEmpty) {
@@ -80,5 +76,5 @@ class BookingApiCalls{
     return modelList;
   }
 
-  //----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 }

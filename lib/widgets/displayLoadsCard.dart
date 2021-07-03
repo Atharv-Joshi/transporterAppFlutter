@@ -33,8 +33,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
       GestureDetector(
         onTap: () {
           if (tIdController.transporterApproved.value) {
-            Get.to(() =>
-                LoadDetailsScreen(loadDetails: widget.loadDetails));
+            Get.to(() => LoadDetailsScreen(loadDetails: widget.loadDetails));
           } else {
             showDialog(
                 context: context,
@@ -54,7 +53,7 @@ class _DisplayLoadsCardState extends State<DisplayLoadsCard> {
               LoadCardFooter(
                   loadPosterCompanyName:
                       widget.loadDetails.loadPosterCompanyName,
-                  loadPosterPhoneNo: widget.loadDetails.loadPosterPhoneNo)
+                  loadPosterPhoneNo: widget.loadDetails.phoneNo)
             ],
           ),
         ),

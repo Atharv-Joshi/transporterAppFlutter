@@ -3,6 +3,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
+
+  var bidButtonSendRequestState = "false";
+
+  void updateBidButtonSendRequest({required String newValue}) {
+    bidButtonSendRequestState = newValue;
+    notifyListeners();
+  }
+
+  var rate;
+
+  void updateRate(newValue) {
+    rate = newValue;
+    notifyListeners();
+  }
+
   List truckNoList = [
     "Add Truck",
   ];
@@ -41,12 +56,12 @@ class ProviderData extends ChangeNotifier {
   var dropDownValue1;
   var dropDownValue2;
 
-  void updateDropDownValue1({required String newValue}) {
+  void updateDropDownValue1({required String? newValue}) {
     dropDownValue1 = newValue;
     notifyListeners();
   }
 
-  void updateDropDownValue2({required String newValue}) {
+  void updateDropDownValue2({required String? newValue}) {
     dropDownValue2 = newValue;
     notifyListeners();
   }
@@ -112,12 +127,12 @@ class ProviderData extends ChangeNotifier {
 
   //variables related to orders page
   int upperNavigatorIndex = 0;
-  int rate = 0;
-
-  void updateRate(value) {
-    rate = value;
-    notifyListeners();
-  }
+  // int rate = 0;
+  //
+  // void updateRate(value) {
+  //   rate = value;
+  //   notifyListeners();
+  // }
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;

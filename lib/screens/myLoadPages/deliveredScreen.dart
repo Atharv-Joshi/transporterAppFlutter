@@ -7,20 +7,16 @@ import 'package:liveasy/widgets/deliveredCard.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 
 class DeliveredScreen extends StatelessWidget {
-
-
   final BookingApiCalls bookingApiCalls = BookingApiCalls();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
         height: MediaQuery.of(context).size.height * 0.67,
         child: FutureBuilder(
           //getTruckData returns list of truck Model
           future: bookingApiCalls.getDataByPostLoadIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-
             if (snapshot.data == null) {
               return LoadingWidget();
             }
@@ -33,8 +29,8 @@ class DeliveredScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image: AssetImage(
-                          'assets/images/TruckListEmptyImage.png'),
+                      image:
+                          AssetImage('assets/images/TruckListEmptyImage.png'),
                       height: 127,
                       width: 127,
                     ),
@@ -46,23 +42,21 @@ class DeliveredScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }
-            else {
-
+            } else {
               return ListView.builder(
                   itemCount: snapshot.data.length,
-                  itemBuilder: (context, index)  {
+                  itemBuilder: (context, index) {
                     return FutureBuilder(
-                        future: loadAllData(snapshot.data[index]) ,
-                        builder: (BuildContext context,
-                            AsyncSnapshot snapshot) {
+                        future: loadAllData(snapshot.data[index]),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.data == null) {
                             return SizedBox();
                           }
                           return DeliveredCard(
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],
-                            companyName:  snapshot.data['companyName'],
+                            companyName: snapshot.data['companyName'],
                             truckNo: snapshot.data['truckNo'],
                             driverName: snapshot.data['driverName'],
                             startedOn: snapshot.data['startedOn'],
@@ -70,16 +64,12 @@ class DeliveredScreen extends StatelessWidget {
                             // imei: snapshot.data['imei'],
                             // phoneNum: snapshot.data['phoneNum'],
                           );
-                        }
-                    );
-
-
+                        });
                   } //builder
 
-              );
+                  );
             } //else
           },
-        )
-    );
+        ));
   }
-}//class end
+} //class end

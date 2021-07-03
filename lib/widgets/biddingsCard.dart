@@ -103,7 +103,7 @@ class BiddingCard extends StatelessWidget {
                         isBiddingDetails: false,
                           bidId : bidId
                       ),
-                      CallButton(directCall: true , driverPhoneNum: transporterPhoneNum,)
+                      CallButton(directCall: true , phoneNum: transporterPhoneNum,)
                     ],
                   ),
                 ),

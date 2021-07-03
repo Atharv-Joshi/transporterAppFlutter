@@ -9,7 +9,7 @@ class LoadEndPointTemplate extends StatelessWidget {
   final String? endPointType;
    String? text;
 
-  LoadEndPointTemplate({required this.text , required this.endPointType});
+  LoadEndPointTemplate({required this.text, required this.endPointType});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,7 @@ class LoadEndPointTemplate extends StatelessWidget {
               width: 10,
               image: endPointType == 'loading'
                   ? AssetImage('assets/icons/greenFilledCircleIcon.png')
-                  : AssetImage('assets/icons/redSemiFilledCircleIcon.png')
-          ),
+                  : AssetImage('assets/icons/redSemiFilledCircleIcon.png')),
         ),
         Text(
           '$text',

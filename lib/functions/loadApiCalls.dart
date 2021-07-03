@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http ;
+import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadApiModel.dart';
 
@@ -8,15 +8,19 @@ class LoadApiCalls{
 
   List<LoadApiModel> loadList = [];
 
-  final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
+  final String loadApiUrl = FlutterConfig.get("loadApiUrl");
 
-  Future<Map> getDataByLoadId(String loadId) async  {
+  Future<Map> getDataByLoadId(String loadId) async {
     http.Response response = await http.get(Uri.parse('$loadApiUrl/$loadId'));
     var jsonData = json.decode(response.body);
 
     Map data = {
-      'loadingPointCity' : jsonData['loadingPointCity'] !=null ?  jsonData['loadingPointCity'] : 'NA',
-      'unloadingPointCity' : jsonData['unloadingPointCity'] !=null ?  jsonData['unloadingPointCity'] : 'NA',
+      'loadingPointCity': jsonData['loadingPointCity'] != null
+          ? jsonData['loadingPointCity']
+          : 'NA',
+      'unloadingPointCity': jsonData['unloadingPointCity'] != null
+          ? jsonData['unloadingPointCity']
+          : 'NA',
     };
 
     return data;
@@ -24,7 +28,8 @@ class LoadApiCalls{
 
   Future<List<LoadApiModel>> getDataByPostLoadId(String postLoadId) async {
 
-    http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=$postLoadId'));
+    http.Response response =
+        await http.get(Uri.parse('$loadApiUrl?postLoadId=$postLoadId'));
     var jsonData = json.decode(response.body);
 
     for( var json in jsonData){
@@ -37,7 +42,6 @@ class LoadApiCalls{
       loadScreenCardsModel.productType = json['productType'];
       loadList.add(loadScreenCardsModel);
     }
-    return  loadList;
+    return loadList;
   }
-
-}//class end
+} //class end

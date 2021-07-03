@@ -19,7 +19,8 @@ Future<Map> loadAllData(bookingModel) async {
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
   TransporterModel transporterModel = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
-  DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
+  DriverModel driverModel =
+      await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
 
   Map cardDataModel = {
     'startedOn': bookingDate,

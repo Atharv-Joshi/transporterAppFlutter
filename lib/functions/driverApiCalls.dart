@@ -80,6 +80,7 @@ class DriverApiCalls {
 
     return truckModelFinal;
   }
+
   //POST DRIVER-----------------------------------------------------------------
 
   postDriverApi(driverName, phoneNum, transporterId, truckId) async {
@@ -96,5 +97,7 @@ class DriverApiCalls {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
+    print(response.body);
   }
+
 }
