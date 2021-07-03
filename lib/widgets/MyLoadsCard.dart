@@ -105,7 +105,7 @@ class MyLoadsCard extends StatelessWidget {
                 Row(
                   children: [
                     Image(
-                      image: AssetImage('assets/images/loadBox.png'),
+                      image: AssetImage('assets/images/EmptyLoad.png'),
                       height: 24 ,
                       width: 24,),
                     Text(

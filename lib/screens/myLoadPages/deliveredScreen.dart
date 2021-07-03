@@ -28,8 +28,8 @@ class DeliveredScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image:
-                          AssetImage('assets/images/TruckListEmptyImage.png'),
+                      image: AssetImage(
+                          'assets/images/EmptyLoad.png'),
                       height: 127,
                       width: 127,
                     ),

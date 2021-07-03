@@ -1,7 +1,7 @@
 class TransporterModel {
   //parameters
   String? transporterId;
-  int? transporterPhoneNum;
+  String? transporterPhoneNum;
   String? transporterLocation;
   String? transporterName;
   String? companyName;

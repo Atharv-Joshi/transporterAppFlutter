@@ -10,6 +10,7 @@ class LoadApiCalls {
   final String loadApiUrl = FlutterConfig.get("loadApiUrl");
 
   Future<Map> getDataByLoadId(String loadId) async {
+    print('in get data by load id');
     http.Response response = await http.get(Uri.parse('$loadApiUrl/$loadId'));
     print(response.body);
     var jsonData = json.decode(response.body);
