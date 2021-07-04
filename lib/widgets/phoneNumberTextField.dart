@@ -41,7 +41,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
             Padding(
               padding: EdgeInsets.only(left: size_4, top: size_4),
               child: Container(
-                width: 24,
+                width: size_12,
                 height: 24,
                 child: Text(
                   "+91",
@@ -52,12 +52,12 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
             Container(
                 padding: EdgeInsets.only(left: 2),
                 height: space_6,
-                width: size_3,
+                width: size_6,
                 child: CustomPaint(
                   foregroundPainter: LinePainter(),
                 )),
             SizedBox(
-              width: 250,
+              width: 200,
               child: TextFormField(
                 onChanged: (_controller) {
                   if (_controller.length == 10) {
@@ -73,10 +73,12 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                   providerData.updatePhoneController(_controller);
                 },
                 controller: _controller,
+                maxLength: 10,
                 validator: (value) =>
                     value!.length == 10 ? null : 'Enter a valid Phone Number',
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
+                  counterText: "",
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
