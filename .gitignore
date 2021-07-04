@@ -75,6 +75,3 @@ app.*.map.json
 #web/manifest.json
 .env
 .env_production
-
-
-
