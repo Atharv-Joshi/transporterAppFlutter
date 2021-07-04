@@ -57,3 +57,5 @@ Color blueTitleColor = Color(0xFF152968);
 Color unactiveReset = Color(0xffC4C9D9);
 dynamic greyishWhiteColorM =
     MaterialStateProperty.all<Color>(greyishWhiteColor);
+
+Color darkCharcoal = Color(0xff333333);

@@ -114,6 +114,8 @@ class ProviderData extends ChangeNotifier {
   int upperNavigatorIndex = 0;
   int rate = 0;
 
+  String validationText = "Enter Valid Phone Number";
+
   void updateRate(value) {
     rate = value;
     notifyListeners();
@@ -434,6 +436,10 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateValidationText(value) {
+    validationText = value;
+    notifyListeners();
+  }
 //----------------------------------
 
 }
