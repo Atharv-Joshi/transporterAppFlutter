@@ -42,6 +42,7 @@ class TransporterIdController extends GetxController {
   void updateMobileNum(String newValue) {
     mobileNum.value = newValue;
   }
+
   RxString transporterLocation = "".obs;
 
   void updateTransporterLocation(String newValue) {

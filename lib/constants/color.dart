@@ -28,6 +28,7 @@ Color loadingWidgetColor = Colors.lightBlueAccent;
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
+Color textBlur = Color(0xFF929292);
 Color liveasyOrange = Color(0xFFFF7600);
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);

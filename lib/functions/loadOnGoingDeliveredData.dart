@@ -14,25 +14,32 @@ final TruckApiCalls truckApiCalls = TruckApiCalls();
 final DriverApiCalls driverApiCalls = DriverApiCalls();
 
 Future<Map> loadAllData(bookingModel) async {
+  print('load all data in');
   String bookingDate = bookingModel.bookingDate;
+  print(bookingDate);
   String completedDate = bookingModel.completedDate;
+  print(completedDate);
   Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
-  TransporterModel transporterModel = await transporterApiCalls.getDataByTransporterId(bookingModel.transporterId);
+  print(endpoints);
+  TransporterModel transporterModel = await transporterApiCalls
+      .getDataByTransporterId(bookingModel.transporterId);
+
   Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
-  DriverModel driverModel = await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
+  DriverModel driverModel =
+      await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
 
   Map cardDataModel = {
     'startedOn': bookingDate,
-    'endedOn' : completedDate,
-    'loadingPoint' : endpoints['loadingPointCity'] ,
-    'unloadingPoint' :endpoints['unloadingPointCity'],
-    'companyName' : transporterModel.companyName,
-    'transporterPhoneNum' : transporterModel.transporterPhoneNum,
-    'truckNo' : truckData['truckNo'] ,
-    'imei' : truckData['imei'] ,
-    'driverName' : driverModel.driverName ,
-    'driverPhoneNum' : driverModel.phoneNum ,
+    'endedOn': completedDate,
+    'loadingPoint': endpoints['loadingPointCity'],
+    'unloadingPoint': endpoints['unloadingPointCity'],
+    'companyName': transporterModel.companyName,
+    'transporterPhoneNum': transporterModel.transporterPhoneNum,
+    'truckNo': truckData['truckNo'],
+    'imei': truckData['imei'],
+    'driverName': driverModel.driverName,
+    'driverPhoneNum': driverModel.phoneNum,
   };
-
+  print('load all data out');
   return cardDataModel;
 }

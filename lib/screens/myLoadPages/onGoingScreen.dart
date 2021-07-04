@@ -32,7 +32,7 @@ class OngoingScreen extends StatelessWidget {
                                 children: [
                                     Image(
                                         image: AssetImage(
-                                            'assets/images/TruckListEmptyImage.png'),
+                                            'assets/images/EmptyLoad.png'),
                                         height: 127,
                                         width: 127,
                                     ),
@@ -46,7 +46,6 @@ class OngoingScreen extends StatelessWidget {
                         );
                     }
                     else {
-                        // return Text('debugging');
                         return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index)  {
@@ -86,3 +85,5 @@ class OngoingScreen extends StatelessWidget {
         );
     }
 }//class end
+
+

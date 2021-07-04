@@ -19,7 +19,7 @@ class OngoingCard extends StatelessWidget {
   final String driverPhoneNum;
   String driverName;
   final String imei;
-  final int transporterPhoneNumber;
+  final String transporterPhoneNumber;
   // final String transporterName;
 
   OngoingCard({

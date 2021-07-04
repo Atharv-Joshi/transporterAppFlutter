@@ -3,12 +3,17 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:provider/provider.dart';
 
 class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
     return GestureDetector(
       onTap: () {
+        providerData.updateDropDownValue1(newValue: null);
+        providerData.updateDropDownValue2(newValue: null);
         Navigator.of(context).pop();
       },
       child: Container(

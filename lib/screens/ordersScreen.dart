@@ -5,6 +5,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/getBids.dart';
 import 'package:provider/provider.dart';
 import 'TransporterOrders/DeliveredScreenOrders/deliveredScreenOrders.dart';
 import 'TransporterOrders/OnGoingScreenOrders/onGoingScreenOrders.dart';
@@ -75,7 +76,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         });
                       },
                       children: [
-                        Text(""),
+                        GetBids(),
                         OngoingScreenOrders(),
                         DeliveredScreenOrders(),
                       ],

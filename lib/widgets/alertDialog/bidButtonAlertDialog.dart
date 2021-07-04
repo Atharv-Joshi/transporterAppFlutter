@@ -17,11 +17,7 @@ class BidButtonAlertDialog extends StatefulWidget {
   String? bidId;
   bool? isPost;
 
-  BidButtonAlertDialog({
-    this.loadId,
-    this.bidId,
-    required this.isPost
-  });
+  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost});
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
@@ -34,7 +30,6 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
 
   @override
   Widget build(BuildContext context) {
-
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     return AlertDialog(
@@ -102,19 +97,22 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 right: space_2 - 2,
               ),
               child: TextField(
-                onChanged: (value){
-                  providerData.updateRate(int.parse(value));
-                  // rate = int.parse(value);
-                  // print(rate);
-                } ,
                 keyboardType: TextInputType.number,
                 // controller: rate,
                 decoration: InputDecoration(
-
                   hintText: "Eg 4000",
                   hintStyle: TextStyle(color: textLightColor),
                   border: InputBorder.none,
                 ),
+                onChanged: (String? rate) {
+                  // providerData.updateRate(rate);
+                  if (rate == null || rate == "") {
+                    providerData.updateBidButtonSendRequest(newValue: "false");
+                  } else if (rate != null) {
+                    providerData.updateRate(rate.toString());
+                    providerData.updateBidButtonSendRequest(newValue: "true");
+                  }
+                },
               ),
             ),
           ),
@@ -127,10 +125,10 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
-                  // rate: rate,
+                // rate: rate,
                 loadId: widget.loadId ,
-                  bidId: widget.bidId,
-                  unitValue : unitValue.toString(),
+                bidId: widget.bidId,
+                unitValue : unitValue.toString(),
                 isPost: widget.isPost,
               ),
               CancelButton()

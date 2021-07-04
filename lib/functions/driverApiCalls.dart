@@ -42,14 +42,18 @@ class DriverApiCalls {
 
   Future<dynamic> getDriverByDriverId(
       {String? driverId, TruckModel? truckModel}) async {
+    print('in getDriverByDriverId');
+    print(driverId);
     Map? jsonData;
 
     if (driverId != null) {
+      print('driver id not equal to null');
+      print('$driverApiUrl/$driverId');
       http.Response response =
       await http.get(Uri.parse('$driverApiUrl/$driverId'));
-
+      print(response.body);
       Map jsonData = json.decode(response.body);
-
+      print('driver json : $jsonData');
       DriverModel driverModel = DriverModel();
       driverModel.driverId = jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
       driverModel.transporterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
@@ -80,6 +84,7 @@ class DriverApiCalls {
 
     return truckModelFinal;
   }
+
   //POST DRIVER-----------------------------------------------------------------
 
   postDriverApi(driverName, phoneNum, transporterId, truckId) async {
@@ -96,5 +101,7 @@ class DriverApiCalls {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
+    print(response.body);
   }
+
 }

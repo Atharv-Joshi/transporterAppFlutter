@@ -26,7 +26,7 @@ Future<List<LoadApiModel>> runSuggestedLoadApi() async {
     cardsModal.weight = json["weight"];
     cardsModal.comment = json["comment"];
     cardsModal.status = json["status"];
-    cardsModal.date = json["loadDate"];
+    cardsModal.loadDate = json["loadDate"];
     cardsModal.rate = json["rate"];
     cardsModal.unitValue = json["unitValue"];
     data.add(cardsModal);

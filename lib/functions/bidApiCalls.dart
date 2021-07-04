@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:date_format/date_format.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:intl/intl.dart';
 
 postBidAPi(loadId, rate, transporterIdController, unit) async {
+  String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
 
   if (unit == "RadioButtonOptions.PER_TON") {
     unit = "PER_TON";
@@ -12,12 +13,14 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
     unit = "PER_TRUCK";
   }
   Map data = {
-    "transporterId": transporterIdController,
-    "loadId": loadId,
-    "rate": rate,
-    "unitValue": unit,
-    "biddingDate" : formatDate(DateTime.now(), [dd, '-', mm, '-', yyyy])
-
+    "transporterId": transporterIdController.toString(),
+    "loadId": loadId.toString(),
+    "rate": rate.toString(),
+    "unitValue": unit.toString(),
+    "biddingDate": now.toString(),
+    // "transporterApproval": true,
+    // "shipperApproval": false,
+    // "truckId": []
   };
   String body = json.encode(data);
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl').toString();
@@ -26,6 +29,7 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body);
+  print(response.body);
 }
 
 putBidForAccept(String? bidId) async {
