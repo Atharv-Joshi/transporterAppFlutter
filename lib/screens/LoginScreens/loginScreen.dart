@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
@@ -48,39 +49,76 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Stack(
-            children: [
-              OrangeCurve(),
-              GreenCurve(),
-              CardTemplate(
-                child: Container(
-                  padding:
-                      EdgeInsets.fromLTRB(space_4, space_16, space_3, space_4),
+      body: Stack(
+        children: [
+          // OrangeCurve(),
+          // GreenCurve(),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: bidBackground,
+          ),
+
+          Positioned(
+            bottom: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: space_8, bottom: space_12),
+                  child: Container(
+                    width: 170,
+                    height: space_8,
+                    child: Image(
+                      image: AssetImage("assets/icons/Liveasy.png"),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(space_3),
+                          topRight: Radius.circular(space_3))),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2.3,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Welcome',
-                        style: TextStyle(
-                          fontSize: size_12,
-                          color: lightNavyBlue,
+                      Padding(
+                        padding: EdgeInsets.only(top: space_7),
+                        child: Text(
+                          'Welcome To Liveasy',
+                          style: TextStyle(
+                            fontSize: size_10,
+                            fontWeight: boldWeight,
+                            color: black,
+                          ),
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.fromLTRB(
-                              space_0, space_3, space_0, space_6),
+                        margin: EdgeInsets.fromLTRB(
+                            space_0, space_3, space_0, space_6),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(left: space_10, right: space_10),
                           child: Text(
-                            'Enter your Phone Number',
+                            'A 6-digit OTP will be sent via SMS to verify \n your number',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: size_8,
+                              fontWeight: regularWeight,
+                              fontSize: size_6,
                               color: lightNavyBlue,
                             ),
-                          )),
-                      Form(
-                        key: _formKey,
-                        child: PhoneNumberTextField(),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: space_9, right: space_9),
+                        child: Form(
+                          key: _formKey,
+                          child: PhoneNumberTextField(),
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.70,
@@ -117,11 +155,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
