@@ -45,7 +45,7 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.55,
+                width: MediaQuery.of(context).size.width * 0.575,
                 child: Column(
                   children: [
                     Row(
@@ -74,7 +74,10 @@ class LoadPosterDetailsLoadDetails extends StatelessWidget {
                           width: space_1 - 2,
                         ),
                         Text(
-                          "$loadPosterCompanyName",
+                          loadPosterCompanyName!.length > 26
+                          ?
+                          "${loadPosterCompanyName!.substring(0,24)}.."
+                          : '$loadPosterCompanyName',
                           style: TextStyle(
                               fontWeight: normalWeight,
                               color: white,

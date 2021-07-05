@@ -92,7 +92,7 @@ class BiddingCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: space_2,),
-                LoadLabelValueRowTemplate(value: companyName, label: 'Transporter'),
+                LoadLabelValueRowTemplate(value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName, label: 'Transporter'),
                 LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
                 Container(
                   margin: EdgeInsets.fromLTRB(space_4 , space_4 , space_4 , 0),
