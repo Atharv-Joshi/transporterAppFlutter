@@ -9,8 +9,9 @@ class LinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = locationLineColor
-      ..strokeWidth = width != null ? width! :2;
-    canvas.drawLine(Offset(3, 1), Offset(3, height != null ? height! + 1 : 29), paint);
+      ..strokeWidth = width != null ? width! : 2;
+    canvas.drawLine(
+        Offset(3, 1), Offset(3, height != null ? height! + 1 : 29), paint);
   }
 
   @override

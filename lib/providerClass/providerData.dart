@@ -127,12 +127,15 @@ class ProviderData extends ChangeNotifier {
 
   //variables related to orders page
   int upperNavigatorIndex = 0;
+
+   String validationText = "Enter Valid Phone Number";
   // int rate = 0;
   //
   // void updateRate(value) {
   //   rate = value;
   //   notifyListeners();
   // }
+
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
@@ -449,6 +452,10 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateValidationText(value) {
+    validationText = value;
+    notifyListeners();
+  }
 //----------------------------------
 
 }
