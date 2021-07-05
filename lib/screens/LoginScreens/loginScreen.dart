@@ -78,8 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(size_8),
-                          topRight: Radius.circular(size_8))),
+                          topLeft: Radius.circular(space_3),
+                          topRight: Radius.circular(space_3))),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.3,
                   child: Column(
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Welcome To Liveasy',
                           style: TextStyle(
-                            fontSize: space_4,
+                            fontSize: size_10,
                             fontWeight: boldWeight,
                             color: black,
                           ),

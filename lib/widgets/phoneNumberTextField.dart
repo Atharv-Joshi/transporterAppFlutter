@@ -25,13 +25,13 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
       children: [
         Container(
           decoration: BoxDecoration(
-              border: Border.all(width: size_1, color: backgroundGrey)),
+              border: Border.all(width: 2, color: backgroundGrey)),
           child: Row(children: [
             Padding(
-              padding: EdgeInsets.only(left: size_4),
+              padding: EdgeInsets.only(left: space_1),
               child: Container(
-                width: size_8,
-                height: size_8,
+                width: space_3,
+                height: space_3,
                 child: Image(
                   image: AssetImage("assets/images/indianFlag.png"),
                   fit: BoxFit.cover,
@@ -39,10 +39,10 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: size_4, top: size_4),
+              padding: EdgeInsets.only(left: space_1, top: space_2),
               child: Container(
-                width: size_12,
-                height: size_12,
+                width: space_5,
+                height: space_5,
                 child: Text(
                   "+91",
                   style: TextStyle(fontWeight: regularWeight, fontSize: size_6),
@@ -50,9 +50,9 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(left: size_1),
+                padding: EdgeInsets.only(left: 2),
                 height: space_6,
-                width: size_6,
+                width: space_1,
                 child: CustomPaint(
                   foregroundPainter: LinePainter(),
                 )),
