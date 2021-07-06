@@ -9,8 +9,8 @@ class AddTruckButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 163,
-      height: 40,
+      width: space_33,
+      height: space_8,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
