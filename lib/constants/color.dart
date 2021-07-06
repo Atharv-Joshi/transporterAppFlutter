@@ -60,3 +60,4 @@ dynamic greyishWhiteColorM =
     MaterialStateProperty.all<Color>(greyishWhiteColor);
 
 Color darkCharcoal = Color(0xff333333);
+const Color red = Colors.red;

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
-
   bool bidButtonSendRequestState = false;
 
   void updateBidButtonSendRequest(newValue) {
@@ -14,7 +13,7 @@ class ProviderData extends ChangeNotifier {
   String? rate1;
   String? unitValue1;
 
-  void updateRate(rate , unitValue) {
+  void updateRate(rate, unitValue) {
     rate1 = rate;
     print('rate in provider : $rate1');
     unitValue1 = unitValue;
@@ -46,7 +45,7 @@ class ProviderData extends ChangeNotifier {
   void updateDriverNameList({required String newValue}) {
     for (int i = 0; i < driverNameList.length; i++) {
       if (driverNameList[i].toString() == newValue.toString()) {
-        print("driver already added");
+        print("hi driver already added");
         break;
       } else if (i == driverNameList.length - 1) {
         driverNameList.add(newValue);
@@ -114,7 +113,7 @@ class ProviderData extends ChangeNotifier {
   String productType = "Choose Product Type";
   int truckNumber = 0;
   int price = 0;
-  String UnitValue = "";
+  String unitValue = "";
   String controller = "";
   String controller1 = "";
   String controller2 = "";
@@ -132,14 +131,13 @@ class ProviderData extends ChangeNotifier {
   //variables related to orders page
   int upperNavigatorIndex = 0;
 
-   String validationText = "Enter Valid Phone Number";
+  String validationText = "Enter Valid Phone Number";
   // int rate = 0;
   //
   // void updateRate(value) {
   //   rate = value;
   //   notifyListeners();
   // }
-
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
@@ -178,10 +176,10 @@ class ProviderData extends ChangeNotifier {
 
   void updateUnitValue() {
     if (perTruck) {
-      UnitValue = "PER_TRUCK";
+      unitValue = "PER_TRUCK";
     } else if (perTon) {
-      UnitValue = "PER_TON";
-    } else if (UnitValue == "") {
+      unitValue = "PER_TON";
+    } else if (unitValue == "") {
       return null;
     }
     notifyListeners();
@@ -350,7 +348,6 @@ class ProviderData extends ChangeNotifier {
     perTruck = false;
   }
 
-  String? unitValue;
   void resetTruckFilters() {
     productType = "Choose Product type";
     truckTypeValue = '';

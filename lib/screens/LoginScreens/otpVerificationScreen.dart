@@ -1,22 +1,23 @@
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/hudController.dart';
+import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/otpInputField.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:liveasy/widgets/curves.dart';
-import 'package:liveasy/widgets/cardTemplate.dart';
 import 'package:liveasy/functions/authFunctions.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/fontSize.dart';
+
+import '../navigationScreen.dart';
 
 class NewOTPVerificationScreen extends StatefulWidget {
   final String phoneNumber;
@@ -45,62 +46,126 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
 
   TimerController timerController = Get.put(TimerController());
   HudController hudController = Get.put(HudController());
-
+  IsOtpInvalidController isOtpInvalidController =
+      Get.put(IsOtpInvalidController());
   //--------------------------------------------------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
-        key: _scaffoldKey,
-        body: Obx(
-          () => ModalProgressHUD(
-            progressIndicator: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
+      key: _scaffoldKey,
+      body: Center(
+        child: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: bidBackground,
             ),
-            inAsyncCall: hudController.showHud.value,
-            child: SingleChildScrollView(
-              child: Center(
-                child: Stack(
-                  children: [
-                    OrangeCurve(),
-                    GreenCurve(),
-                    CardTemplate(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(
-                            space_4, space_10, space_3, space_0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  space_2, space_0, space_0, space_2),
-                              child: Text(
-                                'Enter OTP',
-                                style: TextStyle(
-                                  letterSpacing: 1,
-                                  fontWeight: boldWeight,
-                                  fontSize: size_12,
-                                ),
+            Positioned(
+              bottom: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: space_8, bottom: space_12),
+                    child: Container(
+                      width: space_34,
+                      height: space_8,
+                      child: Image(
+                        image: AssetImage("assets/icons/Liveasy.png"),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(radius_3),
+                            topRight: Radius.circular(radius_3))),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2.3,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          space_10, size_12, space_10, size_0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(
+                                space_2, space_0, space_0, space_4),
+                            child: Text(
+                              'OTP Verification',
+                              style: TextStyle(
+                                fontSize: size_10,
+                                fontWeight: boldWeight,
+                                color: black,
                               ),
                             ),
-                            Container(
-                                margin: EdgeInsets.only(left: space_2),
-                                child: Text(
-                                    'OTP send to +91${widget.phoneNumber}')),
-                            OTPInputField(),
-                            Row(
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: space_5),
+                            child: Container(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  child: TextButton(
-                                      onPressed:
-                                          timerController.timeOnTimer.value > 0
-                                              ? null
-                                              : () {
-                                                  timerController.startTimer();
-                                                  hudController.updateHud(true);
-                                                  _verifyPhoneNumber();
-                                                },
+                                Text(
+                                  'OTP sent to',
+                                  style: TextStyle(
+                                    fontSize: size_6,
+                                    fontWeight: regularWeight,
+                                    color: darkCharcoal,
+                                  ),
+                                ),
+                                Text(' +91${widget.phoneNumber} ',
+                                    style: TextStyle(
+                                        fontSize: size_7,
+                                        fontWeight: regularWeight,
+                                        color: black,
+                                        fontFamily: "Roboto")),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    ' change',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontSize: size_6,
+                                      fontWeight: regularWeight,
+                                      color: bidBackground,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                          ),
+                          OTPInputField(_verificationCode),
+                          Padding(
+                            padding: EdgeInsets.only(top: space_3),
+                            child: Container(
+                              child: isOtpInvalidController.isOtpInvalid.value
+                                  ? Text(
+                                      'Wrong OTP. Try Again!',
+                                      style: TextStyle(
+                                        letterSpacing: 0.5,
+                                        color: red,
+                                      ),
+                                    )
+                                  : Text(""),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: space_3),
+                            child: Container(
+                              child: timerController.timeOnTimer.value == 0
+                                  ? TextButton(
+                                      onPressed: () {
+                                        timerController.startTimer();
+                                        hudController.updateHud(true);
+                                        // _verifyPhoneNumber(); uncomment this
+                                      },
                                       child: Text(
                                         'Resend OTP',
                                         style: TextStyle(
@@ -111,94 +176,39 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                                                   : unselectedGrey,
                                           decoration: TextDecoration.underline,
                                         ),
-                                      )),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(
-                                      space_4, space_0, space_0, space_0),
-                                  child: Row(
-                                    children: [
-                                      Obx(
-                                        () => Text(
-                                          'Remaining time: ${timerController.timeOnTimer}',
-                                          style: TextStyle(color: navygreen),
+                                      ))
+                                  : Obx(
+                                      () => Text(
+                                        'Resend OTP in ${timerController.timeOnTimer}',
+                                        style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          color: veryDarkGrey,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.70,
-                                  height: space_9,
-                                  margin: EdgeInsets.fromLTRB(
-                                      space_8, space_4, space_8, space_0),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(space_10),
-                                    child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              providerData.buttonColor,
-                                        ),
-                                        child: Text(
-                                          'Confirm',
-                                          style: TextStyle(
-                                            color: white,
-                                          ),
-                                        ),
-                                        onPressed: providerData
-                                                .inputControllerLengthCheck
-                                            ? () {
-                                                hudController.updateHud(true);
-                                                // timerController.cancelTimer();
-                                                authService.manualVerification(
-                                                    smsCode:
-                                                        providerData.smsCode,
-                                                    verificationId:
-                                                        _verificationCode);
-                                                providerData.clearAll();
-                                              }
-                                            : null),
-                                  ),
-                                ),
-                                Container(
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      'Want to change number',
-                                      style: TextStyle(
-                                        color: navygreen,
-                                        decoration: TextDecoration.underline,
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          hudController.showHud.value
+                              ? Text("fasrf")
+                              : Text(""),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
-            ),
-          ),
-        ));
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   void initState() {
     super.initState();
     timerController.startTimer();
+    isOtpInvalidController.updateIsOtpInvalid(false);
     // hudController.updateHud(true);
     _verifyPhoneNumber();
   }
