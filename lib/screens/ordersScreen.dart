@@ -38,7 +38,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               Header(
                 reset: false,
                 text: 'Orders',
-                backButton: true,
+                backButton: false,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
