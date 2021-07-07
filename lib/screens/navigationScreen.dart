@@ -69,7 +69,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activePostLoadIcon.png",
             ),
-            label: ("Post Load"),
+            label: ("My Loads"),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(

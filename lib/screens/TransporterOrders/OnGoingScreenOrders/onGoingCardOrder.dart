@@ -5,7 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 
-import '../../../textOverFlow.dart';
+import '../../../functions/textOverFlow.dart';
 import '../../../widgets/buttons/callButton.dart';
 import '../OrderButtons/completedButtonOrders.dart';
 import '../OrderButtons/trackButtonOrder.dart';

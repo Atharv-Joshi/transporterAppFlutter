@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 
 // ignore: must_be_immutable
@@ -10,8 +11,8 @@ class PostButtonLoad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      width: 163,
+      height: space_8,
+      width: space_33,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
