@@ -41,7 +41,6 @@ class _BidButtonState extends State<BidButton> {
         }
       },
       child: Container(
-        margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
         width: space_16,
         decoration: BoxDecoration(

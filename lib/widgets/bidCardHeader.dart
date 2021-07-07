@@ -94,7 +94,6 @@ class BidCardHeader extends StatelessWidget {
                 CancelButton(),
                 CallButton(
                   phoneNum: loadPosterModel!.loadPosterPhoneNo,
-                  color: darkBlueColor,
                   directCall: true,
                 ),
               ],

@@ -13,7 +13,6 @@ class CallButton extends StatelessWidget {
   final String? driverName;
   final String? transporterName;
   final String? phoneNum;
-  var color;
 
   final bool directCall;
 
@@ -23,7 +22,6 @@ class CallButton extends StatelessWidget {
       this.transporterPhoneNum,
       this.driverPhoneNum,
       required this.directCall,
-      this.color,
       this.phoneNum});
 
   _makingPhoneCall() async {
@@ -43,12 +41,8 @@ class CallButton extends StatelessWidget {
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                   side: BorderSide(
-                      color: color == darkBlueColor
-                          ? darkBlueColor
-                          : darkBlueColor))),
-          backgroundColor: color == darkBlueColor
-              ? MaterialStateProperty.all(darkBlueColor)
-              : MaterialStateProperty.all(white),
+                      color: darkBlueColor))),
+          backgroundColor:                MaterialStateProperty.all(Colors.white.withOpacity(0)),
         ),
         onPressed: directCall == true
             ? () {
@@ -101,7 +95,7 @@ class CallButton extends StatelessWidget {
                   image: AssetImage(
                     'assets/icons/callButtonIcon.png',
                   ),
-                  color: color == darkBlueColor ? white : black,
+                  color: black,
                 ),
               ),
               Text(
@@ -110,7 +104,7 @@ class CallButton extends StatelessWidget {
                 style: TextStyle(
                   letterSpacing: 0.7,
                   fontWeight: mediumBoldWeight,
-                  color: color == darkBlueColor ? white : black,
+                  color: black,
                   fontSize: size_7,
                 ),
               ),
