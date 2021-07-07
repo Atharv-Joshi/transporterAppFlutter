@@ -97,18 +97,3 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
     );
   }
 }
-
-// OngoingCardOrders(
-//   loadingPoint: "l",
-//   unloadingPoint: "l",
-//   companyName: "l",
-//   vehicleNo: "l",
-//   driverName: "l",
-//   startedOn: "l",
-//   bookingId: "l",
-//   endedOn: "l",
-//   imei: "l",
-//   driverPhoneNum: "l",
-//   transporterPhoneNumber: "l",
-//   // transporterName : snapshot.data['transporterName'],
-// ),
