@@ -20,8 +20,6 @@ class OTPInputField extends StatefulWidget {
 }
 
 class _OTPInputFieldState extends State<OTPInputField> {
-  final FocusNode _pinPutFocusNode = FocusNode();
-  final TextEditingController _pinPutController = TextEditingController();
   HudController hudController = Get.put(HudController());
   AuthService authService = AuthService();
   IsOtpInvalidController isOtpInvalidController =
@@ -30,39 +28,38 @@ class _OTPInputFieldState extends State<OTPInputField> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    Color getColor() {
-      if (isOtpInvalidController.isOtpInvalid.value) {
-        return red;
-      } else
-        return blueTitleColor;
-    }
 
     return OTPTextField(
       fieldStyle: FieldStyle.box,
       outlineBorderRadius: radius_1,
       margin: EdgeInsets.only(left: space_2),
       otpFieldStyle: OtpFieldStyle(
-        enabledBorderColor: getColor(),
+        backgroundColor: white,
+        //TODO:change enabledBorderColor dynamically according to figma
+        enabledBorderColor: blueTitleColor,
         focusBorderColor: blueTitleColor,
       ),
       length: 6,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width / 1.2,
       fieldWidth: space_8,
       style: TextStyle(fontSize: 17),
       onCompleted: (pin) {
-        setState(() {
-          print("otp is wrong--${isOtpInvalidController.isOtpInvalid.value}");
-          hudController.updateHud(true);
-          providerData.updateSmsCode(pin);
-          // timerController.cancelTimer();
-          authService.manualVerification(
-              smsCode: providerData.smsCode,
-              verificationId: widget._verificationCode);
+        hudController.updateHud(true);
+        providerData.updateSmsCode(pin);
+        // isOtpInvalidController.updateIsOtpInvalid(false);
+        authService.manualVerification(
+            smsCode: providerData.smsCode,
+            verificationId: widget._verificationCode);
 
-          providerData.updateInputControllerLengthCheck(true);
-
-          providerData.clearAll();
-        });
+        providerData.updateInputControllerLengthCheck(true);
+        providerData.clearAll();
+      },
+      onChanged: (value) {
+        setState(() {});
+        if (value.length == 6) {
+          isOtpInvalidController.updateIsOtpInvalid(false);
+        }
+        print("changed to - ${value.length}");
       },
     );
   }

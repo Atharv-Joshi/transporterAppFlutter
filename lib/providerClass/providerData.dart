@@ -119,6 +119,7 @@ class ProviderData extends ChangeNotifier {
   String controller2 = "";
   bool perTruck = false;
   bool perTon = false;
+  bool otpIsValid = true;
 
   String truckId = '';
 
@@ -456,6 +457,11 @@ class ProviderData extends ChangeNotifier {
 
   void updateValidationText(value) {
     validationText = value;
+    notifyListeners();
+  }
+
+  void updateOtpValid(value) {
+    otpIsValid = value;
     notifyListeners();
   }
 //----------------------------------

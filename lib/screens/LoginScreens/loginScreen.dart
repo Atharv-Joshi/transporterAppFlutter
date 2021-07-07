@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  HudController hudController = Get.put(HudController());
   void initState() {
     super.initState();
+    hudController.updateHud(
+        false); // so that if user press the back button in between verification verifying stop
     getLocationPermission();
   }
 
@@ -100,17 +104,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         margin: EdgeInsets.fromLTRB(
                             space_0, space_3, space_0, space_6),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: space_10, right: space_10),
-                          child: Text(
-                            'A 6-digit OTP will be sent via SMS to verify \n your number',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: regularWeight,
-                              fontSize: size_6,
-                              color: lightNavyBlue,
-                            ),
+                        child: Text(
+                          'A 6-digit OTP will be sent via SMS to verify \n your number',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: regularWeight,
+                            fontSize: size_6,
+                            color: lightNavyBlue,
                           ),
                         ),
                       ),

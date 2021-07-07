@@ -88,7 +88,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                     height: MediaQuery.of(context).size.height / 2.3,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
-                          space_10, size_12, space_10, size_0),
+                          space_0, size_12, space_0, size_0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -143,54 +143,89 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
                           ),
                           OTPInputField(_verificationCode),
                           Padding(
+                              padding: EdgeInsets.only(top: space_3),
+                              child: Obx(
+                                () => Container(
+                                  child:
+                                      isOtpInvalidController.isOtpInvalid.value
+                                          ? Text(
+                                              'Wrong OTP. Try Again!',
+                                              style: TextStyle(
+                                                letterSpacing: 0.5,
+                                                color: red,
+                                              ),
+                                            )
+                                          : Text(""),
+                                ),
+                              )),
+                          Padding(
                             padding: EdgeInsets.only(top: space_3),
-                            child: Container(
-                              child: isOtpInvalidController.isOtpInvalid.value
-                                  ? Text(
-                                      'Wrong OTP. Try Again!',
-                                      style: TextStyle(
-                                        letterSpacing: 0.5,
-                                        color: red,
+                            child: Obx(
+                              () => Container(
+                                child: timerController.timeOnTimer.value == 0
+                                    ? Obx(() => TextButton(
+                                        onPressed: () {
+                                          timerController.startTimer();
+                                          // hudController.updateHud(true);
+                                          _verifyPhoneNumber();
+                                        },
+                                        child: Text(
+                                          'Resend OTP',
+                                          style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: timerController
+                                                    .resendButton.value
+                                                ? navygreen
+                                                : unselectedGrey,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        )))
+                                    : Obx(
+                                        () => Text(
+                                          'Resend OTP in ${timerController.timeOnTimer}',
+                                          style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: veryDarkGrey,
+                                          ),
+                                        ),
                                       ),
-                                    )
-                                  : Text(""),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: space_3),
-                            child: Container(
-                              child: timerController.timeOnTimer.value == 0
-                                  ? TextButton(
-                                      onPressed: () {
-                                        timerController.startTimer();
-                                        hudController.updateHud(true);
-                                        // _verifyPhoneNumber(); uncomment this
-                                      },
-                                      child: Text(
-                                        'Resend OTP',
-                                        style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          color:
-                                              timerController.resendButton.value
-                                                  ? navygreen
-                                                  : unselectedGrey,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ))
-                                  : Obx(
-                                      () => Text(
-                                        'Resend OTP in ${timerController.timeOnTimer}',
-                                        style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          color: veryDarkGrey,
-                                        ),
-                                      ),
-                                    ),
-                            ),
-                          ),
-                          hudController.showHud.value
-                              ? Text("fasrf")
-                              : Text(""),
+                              padding: EdgeInsets.only(top: space_5),
+                              child: Obx(
+                                () => Container(
+                                  child: hudController.showHud.value
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("Verifying OTP"),
+                                            SizedBox(
+                                              width: space_1,
+                                            ),
+                                            Container(
+                                                width: space_3,
+                                                height: space_3,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 1,
+                                                ))
+                                          ],
+                                        )
+                                      : Text(""),
+                                ),
+                              )),
+                          // ElevatedButton(
+                          //     onPressed: () {
+                          //       print(hudController.showHud.value);
+                          //     },
+                          //     child: Container(
+                          //       width: 100,
+                          //       height: 100,
+                          //     ))
                         ],
                       ),
                     ),
@@ -209,7 +244,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
     super.initState();
     timerController.startTimer();
     isOtpInvalidController.updateIsOtpInvalid(false);
-    // hudController.updateHud(true);
+    // hudController.updateHud(false);
     _verifyPhoneNumber();
   }
 

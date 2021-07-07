@@ -77,6 +77,10 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                   providerData.updatePhoneController(_controller);
                 },
                 controller: _controller,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
                 maxLength: 10,
                 validator: (value) =>
                     value!.length == 10 ? null : 'Enter a valid Phone Number',
