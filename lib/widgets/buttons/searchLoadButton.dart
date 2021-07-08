@@ -10,7 +10,7 @@ class SearchLoadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: space_8,
-      width: double.infinity,
+      width: space_33,
       child: TextButton(
         child: Text(
           'Search Load',
@@ -26,7 +26,7 @@ class SearchLoadButton extends StatelessWidget {
               RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius_6),
           )),
-          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+          backgroundColor: MaterialStateProperty.all<Color>(truckGreen),
         ),
       ),
     );
