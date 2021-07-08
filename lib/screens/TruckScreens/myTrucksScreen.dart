@@ -76,6 +76,8 @@ class _MyTrucksState extends State<MyTrucks> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+          //TODO replace with height of bottom navigation bar
+          height:  MediaQuery.of(context).size.height - 100,
           child: Column(
             children: [
               Row(
@@ -106,10 +108,14 @@ class _MyTrucksState extends State<MyTrucks> {
                   )),
 
               //LIST OF TRUCK CARDS---------------------------------------------
-              Container(
-                height: MediaQuery.of(context).size.height * 0.67,
-                child: truckDataList.isEmpty
-                    ? Container(
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+
+                      truckDataList.isEmpty
+                          ? Container(
+                        height: MediaQuery.of(context).size.height * 0.27,
                         margin: EdgeInsets.only(top: 153),
                         child: Column(
                           children: [
@@ -127,48 +133,57 @@ class _MyTrucksState extends State<MyTrucks> {
                           ],
                         ),
                       )
-                    : ListView.builder(
-                        controller: scrollController,
-                        itemCount: truckDataList.length,
-                        itemBuilder: (context, index) {
-                          TruckModel truckModel =
-                              TruckModel(truckApproved: false);
-                          truckModel.truckId = truckDataList[index].truckId;
-                          truckModel.transporterId =
-                              truckDataList[index].transporterId;
-                          truckModel.truckNo = truckDataList[index].truckNo;
-                          truckModel.truckApproved =
-                              truckDataList[index].truckApproved;
-                          truckModel.imei = truckDataList[index].imei;
-                          truckModel.passingWeight =
-                              truckDataList[index].passingWeight;
-                          truckModel.driverId = truckDataList[index].driverId;
-                          truckModel.truckType = truckDataList[index].truckType;
-                          truckModel.tyres = truckDataList[index].tyres;
+                          :
+                      ListView.builder(
+                          controller: scrollController,
+                          itemCount: truckDataList.length,
+                          itemBuilder: (context, index) {
+                            TruckModel truckModel =
+                            TruckModel(truckApproved: false);
+                            truckModel.truckId = truckDataList[index].truckId;
+                            truckModel.transporterId =
+                                truckDataList[index].transporterId;
+                            truckModel.truckNo = truckDataList[index].truckNo;
+                            truckModel.truckApproved =
+                                truckDataList[index].truckApproved;
+                            truckModel.imei = truckDataList[index].imei;
+                            truckModel.passingWeight =
+                                truckDataList[index].passingWeight;
+                            truckModel.driverId = truckDataList[index].driverId;
+                            truckModel.truckType = truckDataList[index].truckType;
+                            truckModel.tyres = truckDataList[index].tyres;
 
-                          return FutureBuilder(
-                              future: driverApiCalls.getDriverByDriverId(
-                                  truckModel: truckModel),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.data == null) {
-                                  return LoadingWidget();
-                                }
-                                return MyTruckCard(
-                                  truckApproved: snapshot.data.truckApproved,
-                                  truckNo: snapshot.data.truckNo,
-                                  truckType: snapshot.data.truckType,
-                                  tyres: snapshot.data.tyres,
-                                  driverName: snapshot.data.driverName,
-                                  phoneNum: snapshot.data.driverNum,
-                                  imei: snapshot.data.imei,
-                                );
-                              } //builder
-                              );
-                        }),
-              ),
+                            return FutureBuilder(
+                                future: driverApiCalls.getDriverByDriverId(
+                                    truckModel: truckModel),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.data == null) {
+                                    return LoadingWidget();
+                                  }
+                                  return MyTruckCard(
+                                    truckApproved: snapshot.data.truckApproved,
+                                    truckNo: snapshot.data.truckNo,
+                                    truckType: snapshot.data.truckType,
+                                    tyres: snapshot.data.tyres,
+                                    driverName: snapshot.data.driverName,
+                                    phoneNum: snapshot.data.driverNum,
+                                    imei: snapshot.data.imei,
+                                  );
+                                } //builder
+                            );
+                          }),
+                      Container(
+                        margin: EdgeInsets.only(bottom: space_1),
+                          child: AddTruckButton()
+                      ),
+                    ],
+                  ),
+                ),
+
+
+
               //--------------------------------------------------------------
-              Container(child: AddTruckButton()),
             ],
           ),
         ),
