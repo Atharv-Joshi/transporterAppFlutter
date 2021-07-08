@@ -71,10 +71,10 @@ class ApplyButton extends StatelessWidget {
                   } else {
                     return null;
                   }
+                  providerData.updateIndex(2);
+                  Get.offAll(() => NavigationScreen());
 
-                  Get.to(NavigationScreen());
-                  Provider.of<ProviderData>(context, listen: false)
-                      .updateIndex(2);
+
                 }),
           ),
         ),

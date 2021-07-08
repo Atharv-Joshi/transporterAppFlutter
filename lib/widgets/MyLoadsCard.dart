@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
@@ -86,14 +87,18 @@ class MyLoadsCard extends StatelessWidget {
 
                 Row(
                   children: [
-                    Image(
-                        image: AssetImage('assets/images/TruckListEmptyImage.png'),
-                    height: 24 ,
-                    width: 24,),
+                    Container(
+                      margin: EdgeInsets.only(right:8),
+                      child: Image(
+                          image: AssetImage('assets/images/TruckListEmptyImage.png'),
+                      height: 24 ,
+                      width: 24,),
+                    ),
                     Text(
                         '$truckType | $noOfTrucks trucks',
                       style: TextStyle(
-                          fontSize: size_6
+                          fontSize: size_6,
+                          fontWeight: mediumBoldWeight
                       ),),
                   ],
                 ),
@@ -104,14 +109,18 @@ class MyLoadsCard extends StatelessWidget {
 
                 Row(
                   children: [
-                    Image(
-                      image: AssetImage('assets/images/EmptyLoad.png'),
-                      height: 24 ,
-                      width: 24,),
+                    Container(
+                      margin: EdgeInsets.only(right:8),
+                      child: Image(
+                        image: AssetImage('assets/images/EmptyLoad.png'),
+                        height: 24 ,
+                        width: 24,),
+                    ),
                     Text(
                         '$productType | $weight tons',
                     style: TextStyle(
-                      fontSize: size_6
+                      fontSize: size_6,
+                        fontWeight: mediumBoldWeight
                     ),),
                   ],
                 ),
