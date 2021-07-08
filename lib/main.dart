@@ -28,16 +28,19 @@ class MyApp extends StatelessWidget {
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if (FirebaseAuth.instance.currentUser == null) {
-                return GetMaterialApp(
-                  theme: ThemeData(fontFamily: "montserrat"),
-                  home: LoginScreen(),
-                );
-              } else {
+              // if (FirebaseAuth.instance.currentUser == null) {
+              //   return GetMaterialApp(
+              //     theme: ThemeData(fontFamily: "montserrat"),
+              //     home: LoginScreen(),
+              //   );
+              // } else
+                {
                 runTransporterApiPost(
-                    mobileNum: FirebaseAuth.instance.currentUser.phoneNumber
-                        .toString()
-                        .substring(3, 13));
+                    mobileNum: "8955375767"
+                    // FirebaseAuth.instance.currentUser.phoneNumber
+                    //     .toString()
+                    //     .substring(3, 13)
+                );
                 return GetMaterialApp(
                     theme: ThemeData(fontFamily: "montserrat"),
                     home: NavigationScreen());

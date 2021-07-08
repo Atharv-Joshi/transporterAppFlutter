@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/additionalDescription_LoadDetails.dart';
@@ -26,7 +27,7 @@ class LoadDetailsScreen extends StatelessWidget {
         child: Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: space_4),
+        padding: EdgeInsets.symmetric(horizontal: space_2),
         child: Column(
           children: [
             SizedBox(
@@ -60,24 +61,28 @@ class LoadDetailsScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: space_6, top: (space_14 * 2) + 3, right: space_6),
+                    left: space_8,
+                    top: MediaQuery.of(context).size.height * 0.192,
+                    right: space_8
+                  ),
                   child: Container(
-                    height: 51,
+                    height: space_10,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(space_1 + 3)),
+                        borderRadius: BorderRadius.circular(radius_2-2)),
                     child: Card(
-                        color: white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            BidButton(loadDetails: loadDetails),
-                            // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
-                            CallButton(
-                              directCall: true,
-                              driverPhoneNum: loadDetails.phoneNo,
-                            )
-                          ],
-                        )),
+                      color: white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          BidButton(loadDetails: loadDetails),
+                          // CallButton(loadPosterPhoneNo: loadPosterPhoneNo)
+                          CallButton(
+                            directCall: true,
+                            driverPhoneNum: loadDetails.phoneNo,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 )
               ],
