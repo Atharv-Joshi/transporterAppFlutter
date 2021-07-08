@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -25,7 +26,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
       children: [
         Container(
           decoration: BoxDecoration(
-              border: Border.all(width: 2, color: backgroundGrey)),
+              border: Border.all(width: borderWidth_20, color: backgroundGrey)),
           child: Row(children: [
             Padding(
               padding: EdgeInsets.only(left: space_1),
@@ -45,7 +46,10 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                 height: space_5,
                 child: Text(
                   "+91",
-                  style: TextStyle(fontWeight: regularWeight, fontSize: size_6),
+                  style: TextStyle(
+                      fontWeight: regularWeight,
+                      fontSize: size_6,
+                      fontFamily: "Roboto"),
                 ),
               ),
             ),
@@ -73,6 +77,10 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                   providerData.updatePhoneController(_controller);
                 },
                 controller: _controller,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
                 maxLength: 10,
                 validator: (value) =>
                     value!.length == 10 ? null : 'Enter a valid Phone Number',

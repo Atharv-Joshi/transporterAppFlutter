@@ -16,6 +16,7 @@ class ApplyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TransporterIdController());
     LoadApi loadApi = LoadApi();
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();
@@ -70,10 +71,10 @@ class ApplyButton extends StatelessWidget {
                   } else {
                     return null;
                   }
+                  providerData.updateIndex(2);
+                  Get.offAll(() => NavigationScreen());
 
-                  Get.to(NavigationScreen());
-                  Provider.of<ProviderData>(context, listen: false)
-                      .updateIndex(2);
+
                 }),
           ),
         ),

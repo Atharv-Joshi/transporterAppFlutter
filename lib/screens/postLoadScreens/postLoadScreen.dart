@@ -51,7 +51,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                       value: 1,
                       pageController: pageController),
                   OrderScreenNavigationBarButton(
-                      text: 'Delivered',
+                      text: 'Completed',
                       value: 2,
                       pageController: pageController)
                 ],
@@ -81,7 +81,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(bottom: 50),
+                      margin: EdgeInsets.only(bottom: 25),
                       child: PostButtonLoad()),
                   // Positioned.fill(
                   //   top: 550,
@@ -97,18 +97,3 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
     );
   }
 }
-
-// OngoingCardOrders(
-//   loadingPoint: "l",
-//   unloadingPoint: "l",
-//   companyName: "l",
-//   vehicleNo: "l",
-//   driverName: "l",
-//   startedOn: "l",
-//   bookingId: "l",
-//   endedOn: "l",
-//   imei: "l",
-//   driverPhoneNum: "l",
-//   transporterPhoneNumber: "l",
-//   // transporterName : snapshot.data['transporterName'],
-// ),

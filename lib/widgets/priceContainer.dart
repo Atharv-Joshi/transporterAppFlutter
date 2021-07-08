@@ -16,24 +16,28 @@ class PriceContainer extends StatelessWidget {
     print(rate);
     print(rate.runtimeType);
     return
-     Container(
-      margin: EdgeInsets.only(left: 10),
-      padding: EdgeInsets.all(space_2),
-      decoration: BoxDecoration(
-          color: lightGrayishBlue,
-          borderRadius: BorderRadius.circular(5)),
-      // height: 35,
-      // width: 110,
-      child: Center(
-        child: Text(
-          "\u20B9$rate/$unitValue",
-          style: TextStyle(
-              color: darkBlueColor,
-              fontWeight: mediumBoldWeight,
+     Center(
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 7),
+              child: Image(
+                height: 18,
+                width: 18,
+                image: AssetImage('assets/icons/creditCard.png'),
               ),
+            ),
+            Text(
+              "\u20B9$rate/$unitValue",
+              style: TextStyle(
+                  color: darkBlueColor,
+                  fontWeight: mediumBoldWeight,
+                  ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+
 
   }
 }
