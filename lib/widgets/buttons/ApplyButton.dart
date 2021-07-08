@@ -16,6 +16,7 @@ class ApplyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TransporterIdController());
     LoadApi loadApi = LoadApi();
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();

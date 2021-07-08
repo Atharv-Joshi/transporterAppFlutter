@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
+
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
               if (FirebaseAuth.instance.currentUser == null) {
                 return GetMaterialApp(
                   theme: ThemeData(fontFamily: "montserrat"),
-                  home: LoginScreen(),
+                  home: SplashScreen(),
                 );
               } else {
                 runTransporterApiPost(

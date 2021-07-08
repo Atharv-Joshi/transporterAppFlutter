@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/hudController.dart';
+import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
@@ -10,6 +11,8 @@ import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 class AuthService {
   HudController hudController = Get.put(HudController());
   TimerController timerController = Get.put(TimerController());
+  IsOtpInvalidController isOtpInvalidController =
+      Get.put(IsOtpInvalidController());
 
   Future signOut() async {
     try {
@@ -44,9 +47,9 @@ class AuthService {
 
       hudController.updateHud(false);
       // Get.to(() => NewLoginScreen());
-
-      Get.snackbar('Invalid Otp', 'Please Enter the correct OTP',
-          colorText: white, backgroundColor: black_87);
+      isOtpInvalidController.updateIsOtpInvalid(true);
+      // Get.snackbar('Invalid Otp', 'Please Enter the correct OTP',
+      //     colorText: white, backgroundColor: black_87);
     }
   }
 }
