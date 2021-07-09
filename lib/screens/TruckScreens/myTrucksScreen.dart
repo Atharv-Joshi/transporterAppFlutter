@@ -49,7 +49,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     getTruckData(i);
@@ -64,7 +64,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }

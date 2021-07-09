@@ -36,12 +36,20 @@ class LoadCardHeader extends StatelessWidget {
     child: Column(
         crossAxisAlignment:  CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
                 'Posted Date : ${loadDetails.loadDate}',
                 style: TextStyle(
                     fontSize: size_6,
                     color: veryDarkGrey
-                ),),
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios_sharp)
+            ],
+          ),
+
 
               SizedBox(
                 height: space_1,
