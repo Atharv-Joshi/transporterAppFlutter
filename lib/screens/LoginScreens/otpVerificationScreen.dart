@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/fontSize.dart';
 
+import '../languageSelectionScreen.dart';
 import '../navigationScreen.dart';
 
 class NewOTPVerificationScreen extends StatefulWidget {
@@ -258,11 +259,10 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         forceResendingToken: _forceResendingToken,
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          print('in verification completed');
+          print(credential.smsCode);
           await FirebaseAuth.instance.signInWithCredential(credential);
           timerController.cancelTimer();
-          hudController.updateHud(false);
-          Get.offAll(() => NavigationScreen());
+          Get.offAll(() => LanguageSelectionScreen());
           runTransporterApiPost(mobileNum: widget.phoneNumber);
         },
         verificationFailed: (FirebaseAuthException e) {
@@ -272,6 +272,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         },
         codeSent: (String? verificationId, int? resendToken) {
           setState(() {
+            hudController.updateHud(true);
             print('in codesent');
             _forceResendingToken = resendToken!;
             print(_forceResendingToken);

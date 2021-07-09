@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/providerClass/providerData.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:provider/provider.dart';
 
-class VerifyNowButton extends StatelessWidget {
+class GetStartedButton extends StatefulWidget {
+  const GetStartedButton({Key? key}) : super(key: key);
+
+  @override
+  _GetStartedButtonState createState() => _GetStartedButtonState();
+}
+
+class _GetStartedButtonState extends State<GetStartedButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.offAll(NavigationScreen());
-        Provider.of<ProviderData>(context, listen: false).updateIndex(4);
       },
       child: Container(
-        margin: EdgeInsets.only(right: space_3),
         height: space_8,
-        width: (space_16 * 2) + 3,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_6)),
         child: Center(
           child: Text(
-            "Verify Now",
+            "Get Started",
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
           ),

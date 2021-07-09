@@ -4,6 +4,7 @@ import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
+import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
@@ -25,7 +26,7 @@ class AuthService {
   }
 
   void manualVerification({String? verificationId, String? smsCode}) async {
-    print('verificationId in manual func: $verificationId');
+    print('verificationId in manual func: $smsCode');
     try {
       await FirebaseAuth.instance
           .signInWithCredential(PhoneAuthProvider.credential(
@@ -35,7 +36,8 @@ class AuthService {
           print('hud false due to try in manual verification');
           hudController.updateHud(false);
           timerController.cancelTimer();
-          Get.offAll(() => NavigationScreen());
+
+          Get.offAll(() => LanguageSelectionScreen());
           runTransporterApiPost(
               mobileNum: value.user!.phoneNumber!.toString().substring(3, 13));
         }
