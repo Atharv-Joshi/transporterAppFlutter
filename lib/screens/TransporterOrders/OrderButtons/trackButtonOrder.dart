@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/gpsDataController.dart';
 import 'package:liveasy/functions/getLoactionUsingImei.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/screens/displayMapUsingImei.dart';
@@ -33,13 +34,17 @@ class TrackButton extends StatelessWidget {
           print('Track Button Pressed');
 
           if (imei != null) {
-            GpsDataModel gpsData = await getLocationByImei(imei: imei);
-            Get.to(
-              ShowMapWithImei(
-                gpsData: gpsData,
-                userLocation: userLocation,
-              ),
-            );
+            var gpsData = await getLocationByImei(imei: imei);
+            if (gpsData != null) {
+              GpsDataController gpsDataController = Get.put(GpsDataController());
+              gpsDataController.updateGpsData(gpsData);
+              Get.to(
+                ShowMapWithImei(
+                  gpsData: gpsData,
+                  userLocation: userLocation,
+                ),
+              );
+            }
           }
         },
         child: Container(

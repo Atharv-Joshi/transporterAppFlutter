@@ -1,5 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +22,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  HudController hudController = Get.put(HudController());
   void initState() {
     super.initState();
+    hudController.updateHud(
+        false); // so that if user press the back button in between verification verifying stop
     getLocationPermission();
   }
 
@@ -67,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: space_8, bottom: space_12),
                   child: Container(
-                    width: 170,
+                    width: space_34,
                     height: space_8,
                     child: Image(
                       image: AssetImage("assets/icons/Liveasy.png"),
@@ -78,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(space_3),
-                          topRight: Radius.circular(space_3))),
+                          topLeft: Radius.circular(radius_3),
+                          topRight: Radius.circular(radius_3))),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.3,
                   child: Column(
@@ -99,17 +104,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         margin: EdgeInsets.fromLTRB(
                             space_0, space_3, space_0, space_6),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: space_10, right: space_10),
-                          child: Text(
-                            'A 6-digit OTP will be sent via SMS to verify \n your number',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: regularWeight,
-                              fontSize: size_6,
-                              color: lightNavyBlue,
-                            ),
+                        child: Text(
+                          'A 6-digit OTP will be sent via SMS to verify \n your number',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: regularWeight,
+                            fontSize: size_6,
+                            color: lightNavyBlue,
                           ),
                         ),
                       ),

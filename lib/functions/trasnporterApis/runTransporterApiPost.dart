@@ -7,7 +7,7 @@ import 'package:liveasy/controller/transporterIdController.dart';
 void runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
   TransporterIdController transporterIdController =
-      Get.put(TransporterIdController());
+      Get.put(TransporterIdController(), permanent: true);
 
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();

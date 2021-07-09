@@ -16,6 +16,7 @@ class ApplyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(TransporterIdController());
     LoadApi loadApi = LoadApi();
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();
@@ -48,13 +49,13 @@ class ApplyButton extends StatelessWidget {
                     loadApi.postLoadAPi(
                         providerData.bookingDate,
                         transporterIdController.transporterId.value,
-                        " ${providerData.loadingPointCityPostLoad},${providerData.loadingPointStatePostLoad}",
+                        "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
                         providerData.loadingPointCityPostLoad,
                         providerData.loadingPointStatePostLoad,
                         providerData.truckNumber,
                         providerData.productType,
                         providerData.truckTypeValue,
-                        " ${providerData.unloadingPointCityPostLoad},${providerData.unloadingPointStatePostLoad}",
+                        "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
                         providerData.unloadingPointCityPostLoad,
                         providerData.unloadingPointStatePostLoad,
                         providerData.passingWeightValue,

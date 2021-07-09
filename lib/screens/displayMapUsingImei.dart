@@ -1,10 +1,17 @@
 import 'package:flutter/foundation.dart';
-
 import 'package:flutter/material.dart';
 // import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/gpsDataController.dart';
+import 'package:liveasy/functions/getLoactionUsingImei.dart';
+import 'package:liveasy/functions/mapUtils/zoomToFitToCenterBound.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
+import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -13,64 +20,61 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-double speed = 0;
-// Future<GpsDataModel> getGpsDataFromApi(int imei)async{
-//   if(speed >2){
-//     sleep(Duration(seconds: 20));
-//     var jsonData;
-//     http.Response response;
-//     response =
-//     await http.get("http://localhost:3000/locationbyimei/${imei.toString()}");
-//     jsonData = await jsonDecode(response.body);
-//     print("API started");
-//     print(response.statusCode);
-//     print(jsonData);
-//     GpsDataModel gpsDataModel = new GpsDataModel();
-//     gpsDataModel.imei = jsonData["imei"];
-//     gpsDataModel.lat = double.parse(jsonData["lat"]);
-//     gpsDataModel.lng = double.parse(jsonData["lng"]);
-//     gpsDataModel.speed = jsonData["speed"];
-//     gpsDataModel.deviceName = jsonData["deviceName"];
-//     gpsDataModel.powerValue = jsonData["powerValue"];
-//     return gpsDataModel;}
-//   else{return null;}
-// }
+import 'package:flutter_config/flutter_config.dart';
+
+double speed = 10;
+getGpsDataFromApi(int imei) async {
+  if (speed > 2) {
+    sleep(Duration(seconds: 2));
+    var gpsData = await getLocationByImei(imei: imei.toString());
+    return gpsData;
+  } else {
+    sleep(Duration(seconds: 5));
+    return null;
+  }
+}
 
 class ShowMapWithImei extends StatefulWidget {
-  final GpsDataModel? gpsData;
+  final GpsDataModel gpsData;
   final Position? userLocation;
-  ShowMapWithImei({this.gpsData, this.userLocation});
+
+  ShowMapWithImei({required this.gpsData, this.userLocation});
+
   @override
   _ShowMapWithImeiState createState() => _ShowMapWithImeiState();
 }
 
 class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   @override
-  void initState() {
-    super.initState();
-    getAddress();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     setCustomMapPin("assets/images/truckAsMarker.jpeg");
-    speed = double.parse(widget.gpsData!.speed!);
+    getAddress();
+    speed = double.parse(widget.gpsData.speed!);
   }
+
   @override
   void dispose() {
     super.dispose();
     shouldRun = false;
   }
-
+  GpsDataController gpsDataController = Get.find<GpsDataController>();
   bool shouldRun = true;
-  // void getGpsDataByImei({String imei}) async {
-  //   while(shouldRun){
-  //     speed = double.parse(Provider.of<ProviderData>(context, listen: false).gpsData.speed);
-  //   final GpsDataModel result = await compute( getGpsDataFromApi, int.parse(widget.gpsData.imei) );
-  //   if (result != null) {
-  //     Provider.of<ProviderData>(context, listen: false).updateGpsData(
-  //         result);
-  //     getAddress();
-  //     updateDeviceMarker(LatLng(Provider.of<ProviderData>(context, listen: false).gpsData.lat, Provider.of<ProviderData>(context, listen: false).gpsData.lng));
-  //   }
-  //   }
-  // }
+
+  void getGpsDataByImei({String? imei}) async {
+    while (shouldRun) {
+      speed = double.parse(gpsDataController.gpsData.value.speed.toString());
+      var result = await compute(getGpsDataFromApi,
+          int.parse(gpsDataController.gpsData.value.imei.toString()));
+      print(result);
+      if (result != null) {
+        gpsDataController.updateGpsData(result);
+        updateGpsMarker(LatLng(gpsDataController.gpsData.value.lat!,
+            gpsDataController.gpsData.value.lng!));
+      }
+    }
+  }
+
   String address = "";
   BitmapDescriptor? pinLocationIcon;
   Map<PolylineId, Polyline> polylines = {};
@@ -79,77 +83,99 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   String mapMyIndiaToken = "";
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? googleMapController;
-  CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(27,77), zoom: 14,);
+  CameraPosition _initialCameraPosition = CameraPosition(
+    target: LatLng(27, 77),
+    zoom: 14,
+  );
 
-
-
-  void updateDeviceMarker(LatLng latLng ) async{
+  void updateGpsMarker(LatLng latLng) async {
     setState(() {
       markers.add(
-          Marker(
-              markerId: MarkerId("DeviceMarker"),
-              rotation: 0,
-              position: latLng,
-              anchor: Offset(0.5,0.5),
-              icon: pinLocationIcon!));
-      _createPolylines(myLocation!, Position(latitude: latLng.latitude, longitude: latLng.longitude, accuracy: 0, altitude: 0, speedAccuracy:0, heading: 0, timestamp: DateTime.now(), speed: 0));
+        Marker(
+            markerId: MarkerId("GpsMarker"),
+            rotation: 0,
+            position: latLng,
+            anchor: Offset(0.5, 0.5),
+            icon: pinLocationIcon!),
+      );
+      // _createPolylines(
+      //   myLocation!,
+      //   Position(
+      //       latitude: latLng.latitude,
+      //       longitude: latLng.longitude),
+      // );
     });
   }
 
-  void setCustomMapPin(String imageLocation) async {
+  void setCustomMapPin(
+      String imageLocation) async {
+    print(MediaQuery.of(context).devicePixelRatio);
     pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5),
+        ImageConfiguration(
+            devicePixelRatio: MediaQuery.of(context).devicePixelRatio),
         '$imageLocation');
   }
 
-  Future<String> getMapMyIndiaToken()async{
-    http.Response tokenGet = await http.post(Uri.parse('https://outpost.mapmyindia.com/api/security/oauth/token?grant_type=client_credentials&client_id=33OkryzDZsJmp0siGnK04TeuQrg3DWRxswnTg_VBiHew-2D1tA3oa3fthrGnx4vwbwlbF_xT2T4P9dykuS1GUNmbRb8e5CUgz-RgWDyQspeDCXkXK5Nagw==&client_secret=lrFxI-iSEg9xHXNZXiqUoprc9ZvWP_PDWBDw94qhrze0sUkn7LBDwRNFscpDTVFH7aQT4tu6ycN0492wqPs-ewpjObJ6xuR7iRufmSVcnt9fys5dp0F5jlHLxBEj7oqq'));
-    print(tokenGet.statusCode);
-    print(tokenGet.body);
-    var body = jsonDecode(tokenGet.body);
-    String token = body["access_token"];
-    return token;
-  }
-
-  void getAddress()async{
-    // var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(widget.gpsData!.lat, widget.gpsData!.lng));
-    List<Placemark> placeMark = await placemarkFromCoordinates(widget.gpsData!.lat!, widget.gpsData!.lat!);
-    print(placeMark);
-    var first = placeMark.first;
-    print(first.name);
-    if(mapMyIndiaToken == ""){
-      mapMyIndiaToken = await getMapMyIndiaToken();
-    }
+  void getAddress() async {
+    // var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(widget.gpsData.lat, widget.gpsData.lng));
+    // List<Placemark> placeMark = await placemarkFromCoordinates(
+    //     widget.gpsData.lat!, widget.gpsData.lat!);
+    // print(placeMark);
+    // var first = placeMark.first;
+    // print(first.name);
+    // if (mapMyIndiaToken == "") {
+    //   mapMyIndiaToken = await getMapMyIndiaToken();
+    // }
     // used geocoding (instead of directly getting address using lat,lng) bcs rev-geocoding has a limit of 200 and geocoding has 5000 limit per day
-    http.Response response = await http.get(Uri.parse('https://atlas.mapmyindia.com/api/places/geocode?address=${first.name}'),
-      headers: {HttpHeaders.authorizationHeader: "$mapMyIndiaToken"},);
-    print(response.statusCode);
+    http.Response response = await http.get(
+      Uri.parse(
+          'https://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/rev_geocode?lat=${widget.gpsData.lat}&lng=${widget.gpsData.lng}'),
+    );
     var adress = jsonDecode(response.body);
     print(adress);
-    var street = adress["copResults"]["street"] == null || adress["copResults"]["street"] == ""  ? "": "${adress["copResults"]["street"]}, ";
-    var locality = adress["copResults"]["locality"] == null || adress["copResults"]["locality"] == "" ? "": "${adress["copResults"]["locality"]}, ";
-    var cityName = adress["copResults"]["city"];
-    var stateName = adress["copResults"]["state"];
+    // var street = adress["copResults"]["street"] == null ||
+    //         adress["copResults"]["street"] == ""
+    //     ? ""
+    //     : "${adress["copResults"]["street"]}, ";
+    // var locality = adress["copResults"]["locality"] == null ||
+    //         adress["copResults"]["locality"] == ""
+    //     ? ""
+    //     : "${adress["copResults"]["locality"]}, ";
+    // var cityName = adress["copResults"]["city"];
+    // var stateName = adress["copResults"]["state"];
+    // var street = adress["results"][0]["street"] == null ||
+    //         adress["results"][0]["street"] == ""
+    //     ? ""
+    //     : "${adress["results"][0]["street"]}, ";
+    var locality = adress["results"][0]["locality"] == null ||
+            adress["results"][0]["locality"] == ""
+        ? ""
+        : "${adress["results"][0]["locality"]}, ";
+    var cityName = adress["results"][0]["city"];
+    var stateName = adress["results"][0]["state"];
     setState(() {
-      address = "$street$locality$cityName, $stateName";
+      address = "$locality$cityName, $stateName";
     });
   }
 
-  _createPolylines(Position start, Position destination) async {
+  _createPolylines(LatLng start, LatLng destination) async {
+    String mapKey = FlutterConfig.get("mapKey");;
     PolylinePoints polylinePoints = PolylinePoints();
     List<LatLng> polylineCoordinates = [];
-    // PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-    //   mapKey, // Google Maps API Key
-    //   PointLatLng(start.latitude, start.longitude),
-    //   PointLatLng(destination.latitude, destination.longitude),
-    //   travelMode: TravelMode.transit,
-    // );
-    // print(result.status);
-    // print(result.errorMessage);
-    // print(result.points);
-    http.Response response= await http.get(Uri.parse('https://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/route_adv/driving/${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}'));
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      mapKey, // Google Maps API Key
+      PointLatLng(start.latitude, start.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+      travelMode: TravelMode.transit,
+    );
+    print(result.status);
+    print(result.errorMessage);
+    print(result.points);
+    http.Response response = await http.get(Uri.parse(
+        'https://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/route_adv/driving/${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}'));
     var body = jsonDecode(response.body);
-    List<PointLatLng> polylinePoint = polylinePoints.decodePolyline(body["routes"][0]["geometry"]);
+    List<PointLatLng> polylinePoint =
+        polylinePoints.decodePolyline(body["routes"][0]["geometry"]);
     String distanceBetween = body["routes"][0]["distance"].toString();
     print(distanceBetween);
     print(polylinePoint);
@@ -171,14 +197,13 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     });
   }
 
-  void showMarkerAtPosition(Position position, String markerID, BitmapDescriptor bitmapDescriptor)async{
+  void showMarkerAtPosition(LatLng position, String markerID,
+      BitmapDescriptor bitmapDescriptor) async {
+
     Marker newMarker = Marker(
-      icon:  bitmapDescriptor,
+      icon: bitmapDescriptor,
       markerId: MarkerId(markerID),
-      position: LatLng(
-        position.latitude,
-        position.longitude,
-      ),
+      position: position
     );
     setState(() {
       markers.add(newMarker);
@@ -186,30 +211,37 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   }
 
   void getCurrentLocation() async {
-    PermissionStatus permission1 =
-    await LocationPermissions().checkPermissionStatus();
-    while (permission1 != PermissionStatus.granted){
-      permission1 = await LocationPermissions().requestPermissions();
-    }
     Position position;
-    if (widget.userLocation == null) {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);}
-    else{position = widget.userLocation!;}
-    LatLng coordinates = LatLng(position.latitude, position.longitude);
-    print(coordinates);
-    myLocation =Position(latitude: position.latitude, longitude: position.longitude, accuracy: 0, altitude: 0, speedAccuracy:0, heading: 0, timestamp: DateTime.now(), speed: 0);
+// setting map position to centre to start with
+    googleMapController!.moveCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(gpsDataController.getGpsData().lat!,
+              gpsDataController.getGpsData().lng!),
+          zoom: 18,
+        ),
+      ),
+    );
 
-    // CameraPosition cameraPosition = CameraPosition(target: coordinates, zoom: 19);
-    //  googleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition),);//camera moved to user's position
-    // http.Response response = await http.get('http://apis.mapmyindia.com/advancedmaps/v1/5ug2mtejb2urr2zwgdg8l8mh3zdtm2i3/rev_geocode?lat=${position.latitude}&lng=${position.longitude}');
-    // var body = jsonDecode(response.body);//gives address
-    // print(body["results"][0]["locality"]);
-    // print(body["results"][0]);
+    if (widget.userLocation == null) {
+      PermissionStatus permission1 =
+          await LocationPermissions().checkPermissionStatus();
+      while (permission1 != PermissionStatus.granted) {
+        permission1 = await LocationPermissions().requestPermissions();
+      }
+      position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
+    } else {
+      position = widget.userLocation!;
+    }
+    myLocation = position;
+    print(myLocation);
+
+    LatLng coordinates = LatLng(position.latitude, position.longitude);
     LatLng latLng_1 = coordinates;
-    LatLng latLng_2 = LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!);
-    if (latLng_1.latitude > latLng_2.latitude){
-      latLng_1 = LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!);
+    LatLng latLng_2 = LatLng(widget.gpsData.lat!, widget.gpsData.lng!);
+    if (latLng_1.latitude > latLng_2.latitude) {
+      latLng_1 = LatLng(widget.gpsData.lat!, widget.gpsData.lng!);
       latLng_2 = coordinates;
     }
 
@@ -219,142 +251,110 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     );
 // calculating centre of the bounds
     LatLng centerBounds = LatLng(
-        (bounds.northeast.latitude + bounds.southwest.latitude)/2,
-        (bounds.northeast.longitude + bounds.southwest.longitude)/2
-    );
+        (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
+        (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
 
-// setting map position to centre to start with
-    googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: centerBounds,
-      zoom: 18,
-    )));
-    zoomToFit(googleMapController!, bounds, centerBounds);
+    //zooms the camera and sets it so that user location and gps location are shown at same time
+    zoomToFitToCenterBound(googleMapController!, bounds, centerBounds);
 
-    // LatLngBounds bound = LatLngBounds(southwest: latLng_1, northeast: latLng_2);
-    // print(bound);
-    // CameraUpdate cameraUpdate = CameraUpdate.newLatLngBounds(bound, 50);
-    //  googleMapController.animateCamera(cameraUpdate);
+    showMarkerAtPosition(
+        LatLng(myLocation!.latitude, myLocation!.longitude), "myPosition", BitmapDescriptor.defaultMarker);
+    print(pinLocationIcon);
+    print(LatLng(gpsDataController.getGpsData().lat!, gpsDataController.getGpsData().lng!));
+    setState(() {
+      markers.add(
+        Marker(
+            markerId: MarkerId("GpsMarker"),
+            rotation: 0,
+            position: LatLng(gpsDataController.getGpsData().lat!, gpsDataController.getGpsData().lng!),
+            anchor: Offset(0.5, 0.5),
+            icon: pinLocationIcon!),
+      );
+      _createPolylines(
+        LatLng(myLocation!.latitude, myLocation!.longitude),
+        LatLng(gpsDataController.getGpsData().lat!,
+            gpsDataController.getGpsData().lng!),
+      );
+    });
 
-
-    showMarkerAtPosition(myLocation!, "myPosition", BitmapDescriptor.defaultMarker);
-    updateDeviceMarker(LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!));
-    // getGpsDataByImei(imei: widget.gpsData.imei);
+    updateGpsMarker(LatLng(widget.gpsData.lat!, widget.gpsData.lng!));
+    getGpsDataByImei(imei: widget.gpsData.imei);
   }
 
-
-  Future<void> zoomToFit(GoogleMapController controller, LatLngBounds bounds, LatLng centerBounds) async {
-    bool keepZoomingOut = true;
-
-    while(keepZoomingOut) {
-      final LatLngBounds screenBounds = await controller.getVisibleRegion();
-      if(fits(bounds, screenBounds)){
-        keepZoomingOut = false;
-        final double zoomLevel = await controller.getZoomLevel() - 1.5;
-        controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: centerBounds,
-          zoom: zoomLevel,
-        )));
-        break;
-      }
-      else {
-        // Zooming out by 0.1 zoom level per iteration
-        final double zoomLevel = await controller.getZoomLevel() - 0.1;
-        controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: centerBounds,
-          zoom: zoomLevel,
-        )));
-      }
-    }
-  }
-  bool fits(LatLngBounds fitBounds, LatLngBounds screenBounds) {
-    final bool northEastLatitudeCheck = screenBounds.northeast.latitude >= fitBounds.northeast.latitude;
-    final bool northEastLongitudeCheck = screenBounds.northeast.longitude >= fitBounds.northeast.longitude;
-
-    final bool southWestLatitudeCheck = screenBounds.southwest.latitude <= fitBounds.southwest.latitude;
-    final bool southWestLongitudeCheck = screenBounds.southwest.longitude <= fitBounds.southwest.longitude;
-
-    return northEastLatitudeCheck && northEastLongitudeCheck && southWestLatitudeCheck && southWestLongitudeCheck;
-  }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: GestureDetector(
-        onTap: (){FocusScope.of(context).unfocus();},
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color(0xFF525252),
-            title: Row(mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.arrow_back_ios, size: 25),
-                ),
-                Container(
-                  padding: EdgeInsets.all(0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width : (MediaQuery.of(context).size.width) / 1.5,
-                        child: Text(address, style: TextStyle(fontSize: 18),),
-                      ),
-                      Text(widget.gpsData!.speed!, style: TextStyle(fontSize: 40),),
-                      Text("km/hr", style: TextStyle(fontSize: 10),)
-                    ],
-                  ),
-
-                ),
-              ],
-            ),
-          ),
-          body: SafeArea(
-            child: Container(
-              color: Color(0xFFF3F2F1),
-              child: Column(mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Container(
-                  //       child: Row(
-                  //         children: [
-                  //           Container(
-                  //             width : 250,
-                  //             child: Text(address, style: TextStyle(fontSize: 18),),
-                  //           ),
-                  //           Text(Provider.of<NewDataByShipper>(context).gpsData.speed, style: TextStyle(fontSize: 50),),
-                  //           Text("km/hr", style: TextStyle(fontSize: 13),)
-                  //         ],
-                  //       ),
-                  //
-                  //     ),
-                  //   ],
-                  // ),
-                  Expanded(
-                    child: GoogleMap(
-                      polylines: Set.from(polylines.values),
-                      markers:  markers,
-                      mapType: MapType.normal,
-                      initialCameraPosition: _initialCameraPosition,
-                      onMapCreated: (GoogleMapController controller){
-                        _controllerGoogleMap.complete(controller);
-                        googleMapController = controller;
-                        googleMapController!.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(widget.gpsData!.lat!, widget.gpsData!.lng!),zoom: 14.5)),);
-                        getCurrentLocation();
-                      },
+    return Scaffold(
+      backgroundColor: statusBarColor,
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF525252),
+      //   title: ,
+      // ),
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: space_4, vertical: space_2),
+                child: Row(
+                  children: [
+                    BackButtonWidget(),
+                    SizedBox(
+                      width: space_3,
                     ),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: (MediaQuery.of(context).size.width) / 1.7,
+                          child: Text(
+                            address,
+                            style: TextStyle(fontSize: size_9),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Obx(
+                              () => Text(
+                                gpsDataController.getGpsData().speed.toString(),
+                                style: TextStyle(fontSize: size_10 * 2),
+                              ),
+                            ),
+                            Text(
+                              "km/hr",
+                              style: TextStyle(fontSize: size_5),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Expanded(
+                child: GoogleMap(
+                  polylines: Set.from(polylines.values),
+                  markers: markers,
+                  mapType: MapType.normal,
+                  initialCameraPosition: _initialCameraPosition,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controllerGoogleMap.complete(controller);
+                    googleMapController = controller;
+                    googleMapController!.animateCamera(
+                      CameraUpdate.newCameraPosition(CameraPosition(
+                          target:
+                              LatLng(widget.gpsData.lat!, widget.gpsData.lng!),
+                          zoom: 14.5)),
+                    );
+                    getCurrentLocation();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-

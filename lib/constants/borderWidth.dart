@@ -10,3 +10,4 @@ double borderWidth_9 = 0.9;
 double borderWidth_10 = 1;
 double borderWidth_12 = 1.2;
 double borderWidth_15 = 1.5;
+double borderWidth_20 = 2;
