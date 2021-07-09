@@ -23,13 +23,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 double speed = 10;
-getGpsDataFromApi(int imei) async {
+Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
+  print("in compute function");
   if (speed > 2) {
-    sleep(Duration(seconds: 2));
-    var gpsData = await getLocationByImei(imei: imei.toString());
+    print("speed>2");
+    var gpsData;
+    Timer(Duration(seconds: 3), () async{
+      gpsData = await getLocationByImei(imei: imei.toString());
+    });
+
     return gpsData;
   } else {
-    sleep(Duration(seconds: 5));
+    print("speed < 2");
+    sleep(Duration(seconds: 50));
+
     return null;
   }
 }
@@ -66,7 +73,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
       speed = double.parse(gpsDataController.gpsData.value.speed.toString());
       var result = await compute(getGpsDataFromApi,
           int.parse(gpsDataController.gpsData.value.imei.toString()));
-      print(result);
+      print("result from compute: $result");
       if (result != null) {
         gpsDataController.updateGpsData(result);
         updateGpsMarker(LatLng(gpsDataController.gpsData.value.lat!,
@@ -307,7 +314,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: (MediaQuery.of(context).size.width) / 1.7,
+                          width: (MediaQuery.of(context).size.width) / 1.8,
                           child: Text(
                             address,
                             style: TextStyle(fontSize: size_9),

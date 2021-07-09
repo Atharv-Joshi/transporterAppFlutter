@@ -5,10 +5,14 @@ import 'package:flutter_config/flutter_config.dart';
 
 getLocationByImei({String? imei}) async {
   try {
-    print("getLocationByImei got called with imei : $imei");
-    var jsonData;
     String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
+    var jsonData;
+    print("getLocationByImei got called with imei : $imei");
+
+
+    print(gpsApiUrl);
     http.Response response = await http.get(Uri.parse("$gpsApiUrl/$imei"));
+    print(response.statusCode);
     print(response.body);
     jsonData = await jsonDecode(response.body);
     if(response.statusCode == 200){

@@ -33,68 +33,91 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     return AlertDialog(
-      insetPadding: EdgeInsets.only(left: space_4, right: space_4),
+      insetPadding: EdgeInsets.symmetric(horizontal: space_4),
       title: Text(
         "Please enter your rate",
-        style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
+        style: TextStyle(fontSize: size_9, fontWeight: normalWeight, color: liveasyBlackColor),
       ),
+      titlePadding: EdgeInsets.only(top: space_3, left: space_3),
+      contentPadding: EdgeInsets.symmetric(horizontal: space_3),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Radio<RadioButtonOptions>(
-                      value: RadioButtonOptions.PER_TON,
-                      activeColor: darkBlueColor,
-                      groupValue: unitValue,
-                      onChanged: (value) {
-                        setState(() {
-                          unitValue = value!;
-                        });
-                      }),
-                  Text(
-                    "Per Tonne",
-                    style: TextStyle(
-                        fontWeight: mediumBoldWeight,
-                        fontSize: size_7,
-                        color: darkBlueColor),
+          Container(
+            padding: EdgeInsets.only(right: space_3),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      unitValue = RadioButtonOptions.PER_TON;
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Radio<RadioButtonOptions>(
+                          value: RadioButtonOptions.PER_TON,
+                          activeColor: darkBlueColor,
+                          groupValue: unitValue,
+                          onChanged: (value) {
+                            setState(() {
+                              unitValue = value!;
+                            });
+                          }),
+                      Text(
+                        "Per Tonne",
+                        style: TextStyle(
+                            fontWeight: mediumBoldWeight,
+                            fontSize: size_7,
+                            color: darkBlueColor),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio<RadioButtonOptions>(
-                      value: RadioButtonOptions.PER_TRUCK,
-                      activeColor: darkBlueColor,
-                      groupValue: unitValue,
-                      onChanged: (value) {
-                        setState(() {
-                          unitValue = value!;
-                        });
-                      }),
-                  Text(
-                    "Per Truck",
-                    style: TextStyle(
-                        fontWeight: mediumBoldWeight,
-                        fontSize: size_7,
-                        color: darkBlueColor),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      unitValue = RadioButtonOptions.PER_TRUCK;
+                      print(unitValue);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Radio<RadioButtonOptions>(
+                          value: RadioButtonOptions.PER_TRUCK,
+                          activeColor: darkBlueColor,
+                          groupValue: unitValue,
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              unitValue = value!;
+                            });
+                          }),
+                      Text(
+                        "Per Truck",
+                        style: TextStyle(
+                            fontWeight: mediumBoldWeight,
+                            fontSize: size_7,
+                            color: darkBlueColor),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
+          SizedBox(height: space_2,),
           Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
+                borderRadius: BorderRadius.circular(radius_4+2),
                 border: Border.all(color: darkGreyColor)),
-            child: Padding(
+            child: Container(
+              height: space_7+2,
               padding: EdgeInsets.only(
-                left: space_2 - 2,
-                right: space_2 - 2,
+                left: space_3,
+                right: space_3,
               ),
               child: TextField(
                 keyboardType: TextInputType.number,
@@ -119,21 +142,20 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
         ],
       ),
       actions: [
-        Padding(
-          padding: EdgeInsets.only(top: space_16 + 6, bottom: space_4 + 2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              BidButtonSendRequest(
-                loadId: widget.loadId ,
-                bidId: widget.bidId,
-                isPost: widget.isPost,
-              ),
-              CancelButton()
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            BidButtonSendRequest(
+              loadId: widget.loadId ,
+              bidId: widget.bidId,
+              isPost: widget.isPost,
+            ),
+            CancelButton()
+          ],
         )
       ],
+      buttonPadding: EdgeInsets.zero,
+      actionsPadding: EdgeInsets.only(top: space_4, bottom: space_3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(radius_2 - 2)),
       ),

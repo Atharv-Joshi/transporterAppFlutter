@@ -87,12 +87,11 @@ class DriverApiCalls {
 
   //POST DRIVER-----------------------------------------------------------------
 
-  postDriverApi(driverName, phoneNum, transporterId, truckId) async {
+  postDriverApi(driverName, phoneNum, transporterId) async {
     Map data = {
       "driverName": driverName,
       "phoneNum": phoneNum,
-      "transporterId": transporterId,
-      "truckId": truckId
+      "transporterId": transporterId
     };
     String body = json.encode(data);
     // final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
