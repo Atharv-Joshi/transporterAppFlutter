@@ -101,7 +101,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(FindLoadScreen());
+                                  Get.back();
                                 } else if (widget.valueType ==
                                     "Unloading Point") {
                                   Provider.of<ProviderData>(context,
@@ -111,7 +111,8 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(FindLoadScreen());
+                                  // Get.off(FindLoadScreen());
+                                  Get.back();
                                 } else if (widget.valueType ==
                                     "Loading point") {
                                   Provider.of<ProviderData>(context,
@@ -121,7 +122,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(PostLoadScreenOne());
+                                  Get.back();
                                 } else if (widget.valueType ==
                                     "Unloading point") {
                                   Provider.of<ProviderData>(context,
@@ -131,7 +132,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                               .data[index].placeCityName,
                                           state: snapshot
                                               .data[index].placeStateName);
-                                  Get.off(PostLoadScreenOne());
+                                  Get.back();
                                 }
                               }),
                             );

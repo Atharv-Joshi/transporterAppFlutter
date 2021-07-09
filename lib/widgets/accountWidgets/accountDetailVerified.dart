@@ -23,10 +23,13 @@ class AccountDetailVerified extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          name.length > 15 ? "${name.substring(0, 14)}.." : name,
-          style: TextStyle(
-              fontWeight: mediumBoldWeight, color: white, fontSize: size_9),
+        Container(
+          width: MediaQuery.of(context).size.width *0.5,
+          child: Text(
+            name,
+            style: TextStyle(
+                fontWeight: mediumBoldWeight, color: white, fontSize: size_9),
+          ),
         ),
         SizedBox(
           height: space_1,
@@ -69,14 +72,15 @@ class AccountDetailVerified extends StatelessWidget {
             SizedBox(
               width: space_1 - 2,
             ),
-            Text(
-              companyName.length > 15
-                  ? "${companyName.substring(0, 14)}.."
-                  : companyName,
-              style: TextStyle(
-                  fontWeight: normalWeight,
-                  color: lightGrayishBlue,
-                  fontSize: size_6),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.45,
+              child: Text(
+                companyName,
+                style: TextStyle(
+                    fontWeight: normalWeight,
+                    color: lightGrayishBlue,
+                    fontSize: size_6),
+              ),
             ),
           ],
         ),
@@ -98,12 +102,15 @@ class AccountDetailVerified extends StatelessWidget {
             SizedBox(
               width: space_1,
             ),
-            Text(
-              address.length > 15 ? "${address.substring(0, 14)}.." : address,
-              style: TextStyle(
-                  fontWeight: normalWeight,
-                  color: lightGrayishBlue,
-                  fontSize: size_6),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.45,
+              child: Text(
+                address,
+                style: TextStyle(
+                    fontWeight: normalWeight,
+                    color: lightGrayishBlue,
+                    fontSize: size_6),
+              ),
             ),
           ],
         ),

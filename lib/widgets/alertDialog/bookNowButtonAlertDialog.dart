@@ -139,7 +139,9 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                     if (newValue == "Add New Driver") {
                       showDialog(
                           context: context,
-                          builder: (context) => AddDriverAlertDialog(selectedTruckId: selectedTruckId,));
+                          builder: (context) => AddDriverAlertDialog(
+                                selectedTruckId: selectedTruckId,
+                              ));
                     } else {
                       providerData.updateDropDownValue2(
                           newValue: newValue.toString());
@@ -199,9 +201,11 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
         selectedTruckId = item.truckId.toString();
         selectedTransporterId = item.transporterId.toString();
         selectedDriverId = item.driverId.toString();
-        tempDropDownValue2 =
-            await getDriverNameFromDriverApi(context, item.driverId.toString());
-        break;
+        if (item.driverId != null) {
+          tempDropDownValue2 = await getDriverNameFromDriverApi(
+              context, item.driverId.toString());
+          break;
+        }
       }
     }
   }

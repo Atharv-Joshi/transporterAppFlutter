@@ -32,6 +32,7 @@ class AddressInputWidget extends StatelessWidget {
       ),
       padding: EdgeInsets.symmetric(horizontal: space_3),
       child: TextFormField(
+        readOnly: true,
         onTap: () {
           providerData.updateResetActive(true);
 

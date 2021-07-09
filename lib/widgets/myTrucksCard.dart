@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/color.dart';
@@ -227,6 +228,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   Container(
                       margin: EdgeInsets.only(right: space_2),
                       child: TrackButton(
+                        imei: widget.imei,
+                        userLocation: userLocation,
                         truckApproved: widget.truckApproved,
                       )),
                   CallButton(
