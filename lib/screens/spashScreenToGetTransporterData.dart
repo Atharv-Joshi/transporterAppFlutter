@@ -34,7 +34,7 @@ class _SplashScreenToGetTransporterDataState extends State<SplashScreenToGetTran
         Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
       }
       else{
-        Timer(Duration(seconds: 5), () => Get.off(() => NavigationScreen()));
+        Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
         //TODO make a screen to show Api not working
       }
     }
