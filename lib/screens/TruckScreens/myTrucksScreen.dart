@@ -30,8 +30,8 @@ class _MyTrucksState extends State<MyTrucks> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  //true if truck list is empty
-  bool truckListEmpty = false;
+  // //true if truck list is empty
+  // bool truckListEmpty = false;
 
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/priceContainer.dart';
 
@@ -15,7 +17,8 @@ class BiddingCard extends StatelessWidget {
   final String? bidId;
   final String? loadingPointCity;
   final String? unloadingPointCity;
-  final String? rate;
+  final String? currentBid;
+  final String? previousBid;
   final String? unitValue;
   final String? companyName;
   final String? biddingDate;
@@ -31,7 +34,8 @@ class BiddingCard extends StatelessWidget {
     required this.unloadingPointCity,
     required this.biddingDate,
     required this.unitValue,
-    required this.rate,
+    required this.currentBid,
+    required this.previousBid,
     required this.companyName,
     required this.transporterPhoneNum,
     required this.bidId,
@@ -48,7 +52,7 @@ class BiddingCard extends StatelessWidget {
         Get.to(()=> BiddingDetails(
           loadId : loadId,
           bidId: bidId,
-          rate: rate,
+          rate: currentBid,
           unitValue: unitValue,
           companyName: companyName,
           biddingDate: biddingDate,
@@ -60,6 +64,7 @@ class BiddingCard extends StatelessWidget {
         ));
       },
       child: Container(
+        width: MediaQuery.of(context).size.width,
         child: Card(
           elevation: 3,
           child: Container(
@@ -88,22 +93,33 @@ class BiddingCard extends StatelessWidget {
                         LoadEndPointTemplate(text: unloadingPointCity, endPointType: 'unloading'),
                       ],
                     ),
-                    PriceContainer(rate: rate , unitValue: unitValue,),
+                    PriceContainer(rate: currentBid , unitValue: unitValue,),
                   ],
                 ),
                 SizedBox(height: space_2,),
                 LoadLabelValueRowTemplate(value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName, label: 'Transporter'),
                 LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Order Confirmed'),
+                    CallButton(directCall: true , phoneNum: transporterPhoneNum,),
+                  ],
+                ),
+
                 Container(
-                  margin: EdgeInsets.fromLTRB(space_4 , space_4 , space_4 , 0),
+                  margin: EdgeInsets.fromLTRB(0 , space_4 , 0 , 0),
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  width: MediaQuery.of(context).size.width,
+                  color: contactPlaneBackground,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      NegotiateButton(bidId: bidId),
                       AcceptButton(
                         isBiddingDetails: false,
                           bidId : bidId
                       ),
-                      CallButton(directCall: true , phoneNum: transporterPhoneNum,)
                     ],
                   ),
                 ),

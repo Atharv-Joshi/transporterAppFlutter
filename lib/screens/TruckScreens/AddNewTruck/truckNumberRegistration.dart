@@ -131,6 +131,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                   Get.to(
                                       () => TruckDescriptionScreen(truckId!));
                                 } else {
+                                  print('failed to post truck');
                                   Get.snackbar(
                                       'Enter Correct truck Number', '');
                                 }

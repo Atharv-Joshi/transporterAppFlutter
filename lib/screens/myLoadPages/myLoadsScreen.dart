@@ -28,7 +28,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     getDataByPostLoadId(i);
@@ -42,7 +42,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }
@@ -75,6 +75,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
         )
             :
              ListView.builder(
+                 controller: scrollController,
                 itemCount: myLoadList.length,
                   itemBuilder: (context , index){
 
@@ -99,7 +100,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
   }
 
 
-  // Future<List<LoadScreenCardsModel>>
+
   getDataByPostLoadId(int i) async {
 
     http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
@@ -117,10 +118,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
       loadScreenCardsModel.rate = json['rate'] ;
       loadScreenCardsModel.unitValue = json['unitValue'] != null ?  json['unitValue'] : 'NA' ;
       loadScreenCardsModel.noOfTrucks = json['noOfTrucks'] != null ?  json['noOfTrucks'] : 'NA' ;
-      print(loadScreenCardsModel.noOfTrucks);
       loadScreenCardsModel.loadDate = json['loadDate'] != null ?  json['loadDate'] : 'NA' ;
-      print('load Date is :  ${loadScreenCardsModel.loadDate}');
-
       setState(() {
         myLoadList.add(loadScreenCardsModel);
       });
