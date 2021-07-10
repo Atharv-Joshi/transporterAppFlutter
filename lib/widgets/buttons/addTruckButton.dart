@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
@@ -26,7 +27,7 @@ class AddTruckButton extends StatelessWidget {
         child: Text(
           'Add Truck',
           style: TextStyle(
-            letterSpacing: 1,
+            fontWeight: mediumBoldWeight,
             fontSize: size_9,
             color: white,
           ),

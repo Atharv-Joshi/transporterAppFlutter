@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
@@ -72,11 +73,20 @@ class BiddingCard extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
+                    Icon(
+                      Icons.arrow_forward_ios_sharp
+                    ),
+                  ],
+                ),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
+
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(text: loadingPointCity, endPointType: 'loading'),
@@ -98,7 +108,7 @@ class BiddingCard extends StatelessWidget {
                 ),
                 SizedBox(height: space_2,),
                 LoadLabelValueRowTemplate(value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName, label: 'Transporter'),
-                LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

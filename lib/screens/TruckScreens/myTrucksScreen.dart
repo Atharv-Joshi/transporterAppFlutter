@@ -115,7 +115,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
                       truckDataList.isEmpty
                           ? Container(
-                        height: MediaQuery.of(context).size.height * 0.27,
+                        // height: MediaQuery.of(context).size.height * 0.27,
                         margin: EdgeInsets.only(top: 153),
                         child: Column(
                           children: [
@@ -162,6 +162,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                     return LoadingWidget();
                                   }
                                   return MyTruckCard(
+                                    truckId : snapshot.data.truckId,
                                     truckApproved: snapshot.data.truckApproved,
                                     truckNo: snapshot.data.truckNo,
                                     truckType: snapshot.data.truckType,
@@ -174,7 +175,7 @@ class _MyTrucksState extends State<MyTrucks> {
                             );
                           }),
                       Container(
-                        margin: EdgeInsets.only(bottom: space_1),
+                        margin: EdgeInsets.only(bottom: space_2),
                           child: AddTruckButton()
                       ),
                     ],
@@ -195,7 +196,6 @@ class _MyTrucksState extends State<MyTrucks> {
     http.Response response = await http.get(Uri.parse(
         '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
     jsonData = json.decode(response.body);
-    print(response.body);
     for (var json in jsonData) {
       TruckModel truckModel = TruckModel(truckApproved: false);
       truckModel.truckId = json["truckId"];

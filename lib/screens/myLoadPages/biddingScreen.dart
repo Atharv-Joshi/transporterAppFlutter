@@ -49,8 +49,8 @@ class _BiddingScreensState extends State<BiddingScreens> {
       BiddingModel biddingModel = BiddingModel();
       biddingModel.bidId = json['bidId'];
       biddingModel.transporterId = json['transporterId'];
-      biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'] ;
-      biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'] ;
+      biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'].toString() ;
+      biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'].toString() ;
       biddingModel.unitValue = json['unitValue'];
       biddingModel.loadId = json['loadId'];
       biddingModel.biddingDate = json['biddingDate'] != null ? json['biddingDate'] : 'NA';
