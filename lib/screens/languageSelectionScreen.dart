@@ -30,10 +30,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 height: MediaQuery.of(context).size.height / 1.5,
                 child: Padding(
                   padding:
-                      EdgeInsets.fromLTRB(space_10, space_8, space_10, space_0),
+                      EdgeInsets.fromLTRB(space_5, space_8, space_5, space_0),
                   child: Column(
                     children: [
-                      Image(image: AssetImage("assets/icons/welcomeIcon.png")),
+                      Padding(
+                        padding: EdgeInsets.only(left: space_5, right: space_5),
+                        child: Image(
+                            image: AssetImage("assets/icons/welcomeIcon.png")),
+                      ),
                       Text(
                         "WELCOME!",
                         style: TextStyle(
@@ -53,53 +57,58 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3.2,
-                            height: space_8,
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: navy),
-                                borderRadius: BorderRadius.circular(radius_1)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "English",
-                                  style: TextStyle(
-                                      color: navy,
-                                      fontSize: size_9,
-                                      fontWeight: normalWeight),
-                                ),
-                                Image(
-                                  image: AssetImage("assets/icons/tick.png"),
-                                  width: space_3,
-                                  height: space_3,
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: space_1,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3.2,
-                            height: space_8,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: darkGreyColor),
-                                borderRadius: BorderRadius.circular(radius_1)),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: space_2),
-                                  child: Text(
-                                    "Hindi",
+                          Expanded(
+                            child: Container(
+                              height: space_8,
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 1, color: navy),
+                                  borderRadius:
+                                      BorderRadius.circular(radius_1)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "English",
                                     style: TextStyle(
-                                        color: darkGreyColor,
+                                        color: navy,
                                         fontSize: size_9,
                                         fontWeight: normalWeight),
                                   ),
-                                ),
-                              ],
+                                  Image(
+                                    image: AssetImage("assets/icons/tick.png"),
+                                    width: space_3,
+                                    height: space_3,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: space_2,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: space_8,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: darkGreyColor),
+                                  borderRadius:
+                                      BorderRadius.circular(radius_1)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: space_2),
+                                    child: Text(
+                                      "Hindi",
+                                      style: TextStyle(
+                                          color: darkGreyColor,
+                                          fontSize: size_9,
+                                          fontWeight: normalWeight),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

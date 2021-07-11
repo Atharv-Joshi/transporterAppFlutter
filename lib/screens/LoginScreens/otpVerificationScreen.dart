@@ -259,6 +259,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         forceResendingToken: _forceResendingToken,
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
+          hudController.updateHud(true);
           print(credential.smsCode);
           await FirebaseAuth.instance.signInWithCredential(credential);
           timerController.cancelTimer();
@@ -272,7 +273,6 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
         },
         codeSent: (String? verificationId, int? resendToken) {
           setState(() {
-            hudController.updateHud(true);
             print('in codesent');
             _forceResendingToken = resendToken!;
             print(_forceResendingToken);
