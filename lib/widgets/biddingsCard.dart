@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
@@ -8,6 +11,7 @@ import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:liveasy/widgets/priceContainer.dart';
 
 import 'LoadEndPointTemplate.dart';
@@ -20,17 +24,22 @@ class BiddingCard extends StatelessWidget {
   final String? unloadingPointCity;
   final String? currentBid;
   final String? previousBid;
-  final String? unitValue;
+   String? unitValue;
   final String? companyName;
   final String? biddingDate;
   final String? transporterPhoneNum;
   final String? transporterName;
   final String? transporterLocation;
-  final bool? companyApproved;
+  final bool? shipperApproved;
   final bool? transporterApproved;
+  final bool? loadPostApproval;
+
+   String orderStatus = '';
+   Color orderStatusColor = Colors.white;
 
   BiddingCard({
     required this.loadId ,
+    required this.loadPostApproval,
     required this.loadingPointCity ,
     required this.unloadingPointCity,
     required this.biddingDate,
@@ -42,14 +51,32 @@ class BiddingCard extends StatelessWidget {
     required this.bidId,
     required this.transporterName,
     required this.transporterLocation,
-    required this.companyApproved,
+    required this.shipperApproved,
     required this.transporterApproved,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
+
+    if(transporterApproved == true && shipperApproved == true){
+      orderStatus = 'Order confirmed!';
+      orderStatusColor = liveasyGreen;
+    }
+    else if(transporterApproved == false && shipperApproved == true){
+      orderStatus = 'Waiting for response';
+      orderStatusColor = liveasyOrange;
+    }
+    else if(transporterApproved == false && shipperApproved == false){
+      orderStatus = 'Order Cancelled';
+      orderStatusColor = red;
+    }
+
     return GestureDetector(
-      onTap: (){
+      onTap: shipperApproved == false && transporterApproved == false
+        ? null
+      : (){
         Get.to(()=> BiddingDetails(
           loadId : loadId,
           bidId: bidId,
@@ -60,79 +87,101 @@ class BiddingCard extends StatelessWidget {
           transporterPhoneNum: transporterPhoneNum,
           transporterName : transporterName,
           transporterLocation: transporterLocation,
-          companyApproved: companyApproved,
+          shipperApproved: loadPostApproval,
           transporterApproved: transporterApproved,
         ));
       },
       child: Container(
-        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.only(bottom: space_2),
         child: Card(
           elevation: 3,
           child: Container(
-            margin: EdgeInsets.all(space_4),
+            color: shipperApproved == false && transporterApproved == false ? cancelledBiddingBackground : Colors.white,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LoadLabelValueRowTemplate(value: biddingDate, label: 'Bidding Date'),
-                    Icon(
-                      Icons.arrow_forward_ios_sharp
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        LoadEndPointTemplate(text: loadingPointCity, endPointType: 'loading'),
-
-                        Container(
-                            padding: EdgeInsets.only(left: 2),
-                            height: space_6,
-                            width: space_12,
-                            child: CustomPaint(
-                              foregroundPainter: LinePainter(),
-                            )
-                        ),
-
-                        LoadEndPointTemplate(text: unloadingPointCity, endPointType: 'unloading'),
-                      ],
-                    ),
-                    PriceContainer(rate: currentBid , unitValue: unitValue,),
-                  ],
-                ),
-                SizedBox(height: space_2,),
-                LoadLabelValueRowTemplate(value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName, label: 'Transporter'),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Order Confirmed'),
-                    CallButton(directCall: true , phoneNum: transporterPhoneNum,),
-                  ],
-                ),
-
                 Container(
-                  margin: EdgeInsets.fromLTRB(0 , space_4 , 0 , 0),
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  width: MediaQuery.of(context).size.width,
-                  color: contactPlaneBackground,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  margin: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
+                  child: Column(
                     children: [
-                      NegotiateButton(bidId: bidId),
-                      AcceptButton(
-                        isBiddingDetails: false,
-                          bidId : bidId
+                      Container(
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Bidding date : $biddingDate',
+                              style: TextStyle(
+                                  fontSize: size_6,
+                                  color: veryDarkGrey
+                              ),
+                            ),
+                            Icon(
+                                Icons.arrow_forward_ios_sharp,
+                              size: 14,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          LoadEndPointTemplate(text: loadingPointCity, endPointType: 'loading'),
+
+                          Container(
+                              padding: EdgeInsets.only(left: 2),
+                              height: space_3,
+                              width: space_12,
+                              child: CustomPaint(
+                                foregroundPainter: LinePainter(height: space_3),
+                              )
+                          ),
+
+                          LoadEndPointTemplate(text: unloadingPointCity, endPointType: 'unloading'),
+                        ],
+                      ),
+
+                      SizedBox(height: space_2,),
+                      NewRowTemplate(label: 'Transporter', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName),
+                      previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.$previousBid/$unitValue') : Container(),
+                      NewRowTemplate(label: 'Current Bidding', value: 'Rs.$currentBid/$unitValue'),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: space_2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                              Text(
+                                  orderStatus,
+                              style: TextStyle(
+                                color: orderStatusColor,
+                                fontWeight:  mediumBoldWeight,
+                                fontSize: size_8,
+                              ),),
+                            CallButton(directCall: true , phoneNum: transporterPhoneNum,),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
+                shipperApproved == false && transporterApproved == false
+
+               ? Container()
+               :  Container(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  color: contactPlaneBackground,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      NegotiateButton(
+                        bidId: bidId,
+                        active: !shipperApproved!,),
+                      AcceptButton(
+                          isBiddingDetails: false,
+                          active: !shipperApproved!,
+                          bidId : bidId
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

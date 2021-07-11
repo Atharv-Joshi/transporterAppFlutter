@@ -15,10 +15,10 @@ postBidAPi(loadId, rate, transporterIdController, unit) async {
   Map data = {
     "transporterId": transporterIdController.toString(),
     "loadId": loadId.toString(),
-    "rate": rate.toString(),
+    "currentBid": rate.toString(),
     "unitValue": unit.toString(),
     "biddingDate": now.toString(),
-    // "transporterApproval": true,
+    "transporterApproval": true,
     // "shipperApproval": false,
     // "truckId": []
   };
@@ -66,7 +66,7 @@ putBidForNegotiate(String? bidId , String? rate , String? unitValue) async {
   final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
 
   Map<String , dynamic> data = {
-    "rate" : rate,
+    "currentBid" : rate,
     "unitValue" : unitValue,
     'shipperApproval' : true
   };

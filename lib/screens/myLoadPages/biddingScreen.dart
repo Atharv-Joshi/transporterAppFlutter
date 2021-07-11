@@ -96,10 +96,11 @@ class _BiddingScreensState extends State<BiddingScreens> {
               children: [
                 Header(reset: false, text: 'Biddings', backButton: true),
                 Container(
+                  margin: EdgeInsets.only(top: space_1),
                   height: MediaQuery
                       .of(context)
                       .size
-                      .height * 0.67,
+                      .height * 0.83,
                   child: biddingModelList.isEmpty ? Text('No bids yet') : ListView.builder(
                       itemCount: biddingModelList.length ,
                       itemBuilder: (context,index){
@@ -126,8 +127,9 @@ class _BiddingScreensState extends State<BiddingScreens> {
                               transporterPhoneNum: snapshot.data.transporterPhoneNum ,
                               transporterLocation: snapshot.data.transporterLocation,
                               transporterName: snapshot.data.transporterName,
-                              companyApproved: snapshot.data.companyApproved,
-                              transporterApproved: snapshot.data.transporterApproved,
+                              shipperApproved: biddingModelList[index].shipperApproval,
+                              transporterApproved: biddingModelList[index].transporterApproval,
+                              loadPostApproval: snapshot.data.companyApproved,
                             );
                           },
                         );

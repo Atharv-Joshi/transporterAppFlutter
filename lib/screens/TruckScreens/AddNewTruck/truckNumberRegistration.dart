@@ -126,14 +126,14 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                     truckNo: _controller.text);
 
                                 if (truckId != null) {
-                                  // driverApiCalls.getDriversByTransporterId();
+
                                   providerData.updateResetActive(false);
                                   Get.to(
                                       () => TruckDescriptionScreen(truckId!));
-                                } else {
-                                  print('failed to post truck');
-                                  Get.snackbar(
-                                      'Enter Correct truck Number', '');
+                                } else{
+                                  Get.defaultDialog(
+                                    title:  'Truck Number Already Added'
+                                  );
                                 }
                               }
                             : () {
