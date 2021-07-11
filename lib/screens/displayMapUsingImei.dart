@@ -8,7 +8,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/gpsDataController.dart';
-import 'package:liveasy/functions/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/mapUtils/zoomToFitToCenterBound.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
@@ -21,18 +20,38 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_config/flutter_config.dart';
-
-double speed = 10;
+double speed = 0;
 Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
-  print("in compute function");
+  print("in compute function with imei: $imei");
   if (speed > 2) {
-    print("speed>2");
-    var gpsData;
-    Timer(Duration(seconds: 3), () async{
-      gpsData = await getLocationByImei(imei: imei.toString());
-    });
+  print("sleep starts");
+  sleep(Duration(seconds: 2));
+  print("speed>2");
+  String gpsApiUrl = "http://3.108.162.7:3000/locationbyimei";
+  try {
+    print("$gpsApiUrl/$imei");
+    http.Response response = await http.get(Uri.parse("$gpsApiUrl/$imei"));
+    print(response.statusCode);
+    print(response.body);
+    var jsonData = await jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      GpsDataModel gpsDataModel = new GpsDataModel();
+      gpsDataModel.imei = jsonData["imei"];
+      gpsDataModel.lat = double.parse(jsonData["lat"]);
+      gpsDataModel.lng = double.parse(jsonData["lng"]);
+      gpsDataModel.speed = jsonData["speed"];
+      gpsDataModel.deviceName = jsonData["deviceName"];
+      gpsDataModel.powerValue = jsonData["powerValue"];
+      return gpsDataModel;
+    }
+    else {
+      return null;
+    }
+  } catch (e) {
+    print(e);
+    return null;
+  }
 
-    return gpsData;
   } else {
     print("speed < 2");
     sleep(Duration(seconds: 50));
@@ -74,7 +93,10 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
       var result = await compute(getGpsDataFromApi,
           int.parse(gpsDataController.gpsData.value.imei.toString()));
       print("result from compute: $result");
+
       if (result != null) {
+        print("result from compute, lat: ${result.lat}");
+        print("result != null ");
         gpsDataController.updateGpsData(result);
         updateGpsMarker(LatLng(gpsDataController.gpsData.value.lat!,
             gpsDataController.gpsData.value.lng!));
@@ -166,7 +188,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   }
 
   _createPolylines(LatLng start, LatLng destination) async {
-    String mapKey = FlutterConfig.get("mapKey");;
+    String mapKey = FlutterConfig.get("mapKey");
     PolylinePoints polylinePoints = PolylinePoints();
     List<LatLng> polylineCoordinates = [];
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(

@@ -7,15 +7,14 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
+import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
-import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -87,12 +86,18 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                             driverNameController = TextEditingController(
                                 text: _contact!.fullName.toString());
                             contactNumber =
-                                _contact!.phoneNumber.number.contains("+91") ? _contact!.phoneNumber.number.replaceRange(0, 3, "").replaceAll(new RegExp(r"\D"), ""):_contact!.phoneNumber.number.toString().replaceAll(new RegExp(r"\D"), "");
+                                _contact!.phoneNumber.number.contains("+91")
+                                    ? _contact!.phoneNumber.number
+                                        .replaceRange(0, 3, "")
+                                        .replaceAll(new RegExp(r"\D"), "")
+                                    : _contact!.phoneNumber.number
+                                        .toString()
+                                        .replaceAll(new RegExp(r"\D"), "");
                             print(contactNumber);
-                            driverNumberController = TextEditingController(
-                                text: contactNumber);
-                            displayContact =
-                                contactName! + " - " + contactNumber!;
+                            driverNumberController =
+                                TextEditingController(text: contactNumber);
+                            // displayContact =
+                            //     contactName! + " - " + contactNumber!;
                           });
                         }
                       },
@@ -105,44 +110,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 ],
               ),
             ),
-            //   ],),
-            // child: ListTile(
-            //   title: Padding(
-            //     padding: EdgeInsets.only(
-            //       left: space_2 - 2,
-            //       right: space_2 - 2,
-            //     ),
-            //     child: TextField(
-            //       controller: name,
-            //       decoration: InputDecoration(
-            //         hintText: contactName != "" ? contactName : "",
-            //         hintStyle:
-            //             TextStyle(color: black, fontWeight: mediumBoldWeight),
-            //         border: InputBorder.none,
-            //       ),
-            //     ),
-            //   ),
-            //   trailing: GestureDetector(
-            //       onTap: () async {
-            //         print(name.text);
-            //         print(number.text);
-            //         if (await Permission.contacts.request().isGranted) {
-            //           Contact contact = await _contactPicker.selectContact();
-            //           setState(() {
-            //             _contact = contact;
-            //             contactName = _contact!.fullName.toString();
-            //             contactNumber = _contact!.phoneNumber.number.toString();
-            //             displayContact = contactName! + " - " + contactNumber!;
-            //           });
-            //         }
-            //       },
-            //       child: Image(
-            //         image: AssetImage("assets/icons/addFromPhoneBookIcon.png"),
-            //         height: space_5+2,
-            //         width: space_5+2,
-            //       )),
-            //   isThreeLine: false,
-            // ),
           ),
           SizedBox(
             height: space_2 + 2,
@@ -187,18 +154,31 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             AddButton(
               name: driverNameController.text,
               number: driverNumberController.text,
-              onTap: () {
+              onTap: () async {
                 // print("name--" + "$name");
                 // providerData.updateDriverNameList(newValue: displayContact);
 
-                if(driverNumberController.text.length == 10){
-                  TransporterIdController tIdController = Get.find<TransporterIdController>();
-                  Provider.of<ProviderData>(context,listen: false).updateDropDownValue2(newValue: "driverNameController.text - driverNumberController.text");
+                if (driverNumberController.text.length == 10) {
+                  TransporterIdController tIdController =
+                      Get.find<TransporterIdController>();
                   String transporterId = '${tIdController.transporterId}';
-                  driverApiCalls.postDriverApi(
-                      driverNameController.text, driverNumberController.text, transporterId);
-                  Navigator.of(context).pop();}
-                else{Get.snackbar("Error", "Enter a valid 10 digit number");}
+                  String? driverId = await driverApiCalls.postDriverApi(
+                      driverNameController.text,
+                      driverNumberController.text,
+                      transporterId);
+                  if (driverId != null) {
+                    Navigator.of(context).pop();
+                    //For Book Now Alert Dialog
+                    await getTruckDetailsFromTruckApi(context);
+                    await getDriverDetailsFromDriverApi(context);
+                  }
+                  else{
+                    Navigator.of(context).pop();
+                    Get.snackbar("Error", "");
+                  }
+                } else {
+                  Get.snackbar("Error", "Enter a valid 10 digit number");
+                }
               },
             ),
             CancelButton()

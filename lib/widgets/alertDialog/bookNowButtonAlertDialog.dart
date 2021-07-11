@@ -16,7 +16,6 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 import 'package:provider/provider.dart';
-
 import 'addDriverAlertDialog.dart';
 
 // ignore: must_be_immutable
@@ -50,7 +49,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
     return AlertDialog(
-      contentPadding: EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
+      contentPadding: EdgeInsets.all(space_1),
       insetPadding: EdgeInsets.only(
         left: space_4,
         right: space_4,
@@ -137,6 +136,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                       color: Colors.black),
                   onChanged: (String? newValue) {
                     if (newValue == "Add New Driver") {
+
                       showDialog(
                           context: context,
                           builder: (context) => AddDriverAlertDialog());
