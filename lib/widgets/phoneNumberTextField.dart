@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class PhoneNumberTextField extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class PhoneNumberTextField extends StatefulWidget {
 }
 
 class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
+  HudController hudController = Get.put(HudController());
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -65,12 +69,9 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
               child: TextFormField(
                 onChanged: (_controller) {
                   if (_controller.length == 10) {
-                    providerData.updateValidationText("");
                     providerData.updateInputControllerLengthCheck(true);
                     providerData.updateButtonColor(activeButtonColor);
                   } else {
-                    providerData
-                        .updateValidationText("Enter Valid Phone Number");
                     providerData.updateInputControllerLengthCheck(false);
                     providerData.updateButtonColor(deactiveButtonColor);
                   }
@@ -114,17 +115,13 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
             ),
           ]),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: space_1),
-          child: Text(
-            providerData.validationText,
-            style: TextStyle(
-                color: declineButtonRed,
-                fontSize: size_6,
-                fontWeight: regularWeight),
-          ),
-        )
       ],
     );
+  }
+
+  @override
+  void initState() {
+    hudController.updateHud(false);
+    super.initState();
   }
 }

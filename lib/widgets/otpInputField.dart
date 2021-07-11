@@ -14,6 +14,8 @@ import 'package:otp_text_field/style.dart';
 
 class OTPInputField extends StatefulWidget {
   String _verificationCode = '';
+  // String autoVerificationCode = '';
+
   OTPInputField(this._verificationCode);
   @override
   _OTPInputFieldState createState() => _OTPInputFieldState();

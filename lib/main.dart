@@ -7,6 +7,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 
 import 'package:liveasy/screens/errorScreen.dart';
+import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
