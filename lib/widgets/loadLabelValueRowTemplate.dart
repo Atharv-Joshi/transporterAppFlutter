@@ -7,7 +7,7 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
   final String? label;
   final String? value;
 
-  LoadLabelValueRowTemplate({required this.value , required this.label});
+  LoadLabelValueRowTemplate({required this.value, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,18 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
             '$label',
             style: TextStyle(fontWeight: normalWeight),
           ),
-          Text(
-            value!,
-            style: TextStyle(
-                fontWeight: mediumBoldWeight,
-                color: veryDarkGrey
-            ),
-          ),
+          Container(
+              width: MediaQuery.of(context).size.width / 2.3,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    label == "Location" ? ":  ${value!}" : ":  ${value!}",
+                    style: TextStyle(
+                        fontWeight: mediumBoldWeight, color: veryDarkGrey),
+                  ),
+                ],
+              )),
         ],
       ),
     );

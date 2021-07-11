@@ -28,8 +28,7 @@ class OngoingScreenOrders extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image: AssetImage(
-                          'assets/images/EmptyLoad.png'),
+                      image: AssetImage('assets/images/EmptyLoad.png'),
                       height: 127,
                       width: 127,
                     ),
@@ -53,6 +52,13 @@ class OngoingScreenOrders extends StatelessWidget {
                             return LoadingWidget();
                           }
                           return OngoingCardOrders(
+                            productType: snapshot.data['productType'],
+                            noOfTrucks: snapshot.data['noOfTrucks'],
+                            truckType: snapshot.data['truckType'],
+                            posterLocation: snapshot.data['posterLocation'],
+                            posterName: snapshot.data['posterName'],
+                            companyApproved: snapshot.data['companyApproved'],
+                            rate: snapshot.data['rate'],
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],
                             companyName: snapshot.data['companyName'],
@@ -64,7 +70,7 @@ class OngoingScreenOrders extends StatelessWidget {
                             imei: snapshot.data['imei'],
                             driverPhoneNum: snapshot.data['driverPhoneNum'],
                             transporterPhoneNumber:
-                                snapshot.data['transporterPhoneNum'],
+                                snapshot.data['posterPhoneNum'],
                             // transporterName : snapshot.data['transporterName'],
                           );
                         });

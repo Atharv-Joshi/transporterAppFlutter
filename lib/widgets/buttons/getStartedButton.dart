@@ -25,7 +25,6 @@ class _GetStartedButtonState extends State<GetStartedButton> {
       },
       child: Container(
         height: space_8,
-        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_6)),

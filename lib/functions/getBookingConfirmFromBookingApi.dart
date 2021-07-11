@@ -20,7 +20,7 @@ Future<List<BookingModel>> getBookingConfirmFromBookingApi() async {
       bookingModel.bookingId = json["bookingId"].toString();
       bookingModel.transporterId = json["transporterId"].toString();
       bookingModel.postLoadId = json["postLoadId"].toString();
-      bookingModel.rate = json["rate"].toString();
+      bookingModel.rate = json["rate"];
       bookingModel.unitValue = json["unitValue"].toString();
       bookingModel.loadId = json["loadId"].toString();
       bookingModel.bookingDate = json["bookingDate"].toString();

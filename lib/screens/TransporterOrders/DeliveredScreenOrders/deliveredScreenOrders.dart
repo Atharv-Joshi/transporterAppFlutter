@@ -29,8 +29,7 @@ class DeliveredScreenOrders extends StatelessWidget {
                 child: Column(
                   children: [
                     Image(
-                      image: AssetImage(
-                          'assets/images/EmptyLoad.png'),
+                      image: AssetImage('assets/images/EmptyLoad.png'),
                       height: 127,
                       width: 127,
                     ),
@@ -54,6 +53,17 @@ class DeliveredScreenOrders extends StatelessWidget {
                             return SizedBox();
                           }
                           return DeliveredCardOrders(
+                            vehicleNo: snapshot.data['truckNo'],
+                            productType: snapshot.data['productType'],
+                            noOfTrucks: snapshot.data['noOfTrucks'],
+                            truckType: snapshot.data['truckType'],
+                            posterLocation: snapshot.data['posterLocation'],
+                            posterName: snapshot.data['posterName'],
+                            companyApproved: snapshot.data['companyApproved'],
+                            driverPhoneNum: snapshot.data['driverPhoneNum'],
+                            transporterPhoneNumber:
+                                snapshot.data['transporterPhoneNum'],
+                            rate: snapshot.data['rate'],
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],
                             companyName: snapshot.data['companyName'],
@@ -61,6 +71,7 @@ class DeliveredScreenOrders extends StatelessWidget {
                             driverName: snapshot.data['driverName'],
                             startedOn: snapshot.data['startedOn'],
                             endedOn: snapshot.data['endedOn'],
+
                             // imei: snapshot.data['imei'],
                             // phoneNum: snapshot.data['phoneNum'],
                           );

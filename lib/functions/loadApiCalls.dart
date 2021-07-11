@@ -22,6 +22,11 @@ class LoadApiCalls {
       'unloadingPointCity': jsonData['unloadingPointCity'] != null
           ? jsonData['unloadingPointCity']
           : 'NA',
+      'truckType': jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
+      'noOfTrucks':
+          jsonData['noOfTrucks'] != null ? jsonData['noOfTrucks'] : 'NA',
+      'productType':
+          jsonData['productType'] != null ? jsonData['productType'] : 'NA',
     };
     print(data);
     print('getDataByLoadId out');

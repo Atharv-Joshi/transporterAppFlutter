@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/TransporterOrders/DeliveredScreenOrders/deliveredScreenOrders.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-
+import 'package:get/get.dart';
 import '../../../functions/textOverFlow.dart';
 import '../../../widgets/buttons/callButton.dart';
+import '../../shipperDetailsScreen.dart';
 import '../OrderButtons/completedButtonOrders.dart';
 import '../OrderButtons/trackButtonOrder.dart';
 import '../../../widgets/linePainter.dart';
@@ -25,6 +27,14 @@ class OngoingCardOrders extends StatelessWidget {
   final String imei;
   final String transporterPhoneNumber;
   final String bookingId;
+  final int rate;
+  final String posterLocation;
+  final bool companyApproved;
+  final String posterName;
+  final String truckType;
+  final String noOfTrucks;
+  final String productType;
+
   // final String transporterName;
 
   OngoingCardOrders({
@@ -39,12 +49,19 @@ class OngoingCardOrders extends StatelessWidget {
     required this.imei,
     required this.bookingId,
     required this.transporterPhoneNumber,
+    required this.rate,
+    required this.companyApproved,
+    required this.posterLocation,
+    required this.posterName,
+    required this.truckType,
+    required this.noOfTrucks,
+    required this.productType,
+
     // required this.transporterName,
   });
 
   @override
   Widget build(BuildContext context) {
-    TextOverFlow textOverFlow = TextOverFlow();
     return Padding(
       padding: EdgeInsets.only(bottom: space_3),
       child: Container(
@@ -76,42 +93,23 @@ class OngoingCardOrders extends StatelessWidget {
                                 endPointType: 'unloading'),
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: space_1),
-                                  child: Image(
-                                      height: 16,
-                                      width: 23,
-                                      color: black,
-                                      image: AssetImage(
-                                          'assets/icons/buildingIcon.png')),
-                                ),
-                                Text(
-                                  textOverFlow.textOverflowEllipsis(
-                                      companyName, 11),
-                                  style: TextStyle(
-                                    color: liveasyBlackColor,
-                                    fontWeight: mediumBoldWeight,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: space_2,
-                            ),
-                            CallButton(
-                              directCall: false,
-                              transporterPhoneNum: transporterPhoneNumber,
-                              driverPhoneNum: driverPhoneNum,
-                              driverName: driverName,
-                              transporterName: companyName,
-                            ),
-                          ],
-                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Get.to(ShipperDetails(
+                                truckType: truckType,
+                                noOfTrucks: noOfTrucks,
+                                productType: productType,
+                                loadingPoint: loadingPoint,
+                                unloadingPoint: unloadingPoint,
+                                rate: rate,
+                                vehicleNo: vehicleNo,
+                                shipperPosterCompanyApproved: companyApproved,
+                                shipperPosterCompanyName: companyName,
+                                shipperPosterLocation: posterLocation,
+                                shipperPosterName: posterName,
+                              ));
+                            },
+                            child: Icon(Icons.arrow_forward_ios))
                       ],
                     ),
                     Container(
@@ -119,13 +117,53 @@ class OngoingCardOrders extends StatelessWidget {
                       child: Column(
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: vehicleNo, label: 'Vehicle Number'),
+                              value: vehicleNo, label: 'Truck no.'),
                           LoadLabelValueRowTemplate(
                               value: driverName, label: 'Driver Name'),
                           LoadLabelValueRowTemplate(
-                              value: startedOn, label: 'Started on')
+                              value: startedOn, label: 'Booking date'),
+                          LoadLabelValueRowTemplate(
+                              value: "Rs.$rate/tonne", label: 'Price'),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: space_5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: space_1),
+                              child: Image(
+                                  height: 16,
+                                  width: 23,
+                                  color: black,
+                                  image: AssetImage(
+                                      'assets/icons/buildingIcon.png')),
+                            ),
+                            Text(
+                              companyName,
+                              style: TextStyle(
+                                color: liveasyBlackColor,
+                                fontWeight: mediumBoldWeight,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: space_2,
+                        ),
+                        CallButton(
+                          directCall: false,
+                          transporterPhoneNum: transporterPhoneNumber,
+                          driverPhoneNum: driverPhoneNum,
+                          driverName: driverName,
+                          transporterName: companyName,
+                        ),
+                      ],
                     ),
                   ],
                 ),

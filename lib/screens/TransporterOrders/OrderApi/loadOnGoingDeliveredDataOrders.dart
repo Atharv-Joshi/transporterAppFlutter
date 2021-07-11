@@ -16,15 +16,16 @@ final DriverApiCalls driverApiCalls = DriverApiCalls();
 Future<Map> loadAllDataOrders(bookingModel) async {
   String bookingDate = bookingModel.bookingDate;
   String bookingId = bookingModel.bookingId;
-  print("load Alll data $bookingId");
+  print("load All data $bookingId");
   print(bookingDate);
-  String completedDate =
-      bookingModel.completedDate == null || bookingModel.completedDate == ""
-          ? "NA"
-          : bookingModel.completedDate;
+  int rate = bookingModel.rate;
+  String completedDate = bookingModel.completedDate;
+  bookingModel.completedDate == null || bookingModel.completedDate == ""
+      ? "NA"
+      : bookingModel.completedDate;
   print(completedDate);
-  Map endpoints = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
-  print(endpoints);
+  Map loadDetails = await loadApiCalls.getDataByLoadId(bookingModel.loadId);
+  print(loadDetails);
   Map postLoadIdData = bookingModel.postLoadId[0] == "t"
       ? await postLoadIdApiCalls.getDataByTransporterId(bookingModel.postLoadId)
       : await postLoadIdApiCalls.getDataByShipperId(bookingModel.postLoadId);
@@ -39,12 +40,19 @@ Future<Map> loadAllDataOrders(bookingModel) async {
   Map cardDataModel = {
     'startedOn': bookingDate,
     'endedOn': completedDate,
-    'loadingPoint': endpoints['loadingPointCity'],
-    'unloadingPoint': endpoints['unloadingPointCity'],
-    'companyName': postLoadIdData['companyName'],
+    'loadingPoint': loadDetails['loadingPointCity'],
+    'unloadingPoint': loadDetails['unloadingPointCity'],
+    'truckType': loadDetails['truckType'],
+    'productType': loadDetails['productType'],
+    'noOfTrucks': loadDetails['noOfTrucks'],
+    'rate': rate,
     'bookingId': bookingId,
     // 'transporterName' : transporterData['transporterName'],
-    'transporterPhoneNum': postLoadIdData['transporterPhoneNum'],
+    'posterPhoneNum': postLoadIdData['posterPhoneNum'],
+    'posterLocation': postLoadIdData['posterLocation'],
+    'companyName': postLoadIdData['companyName'],
+    "companyApproved": postLoadIdData['companyApproved'],
+    'posterName': postLoadIdData['posterName'],
     'truckNo': truckData['truckNo'],
     'imei': "truckData['imei']",
     'driverName': driverModel.driverName,
