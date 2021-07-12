@@ -2,26 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
-class SuggestedLoadDataDisplayCard extends StatelessWidget {
+class HomeScreenLoadsCard extends StatelessWidget {
+
   String? loadingPointCity;
   String? unloadingPointCity;
-  var onTap;
 
-  SuggestedLoadDataDisplayCard({
+  HomeScreenLoadsCard({
     required this.loadingPointCity,
     required this.unloadingPointCity,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () =>{
+        Get.to(
+                () => SuggestedLoadScreen()
+        )
+      },
       child: Container(
         height: 76,
         width: 71,

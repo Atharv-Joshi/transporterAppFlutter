@@ -7,12 +7,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
-import 'package:liveasy/widgets/loadValueColumnTemplate.dart';
-import 'package:liveasy/widgets/truckImageWidget.dart';
-import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'LoadEndPointTemplate.dart';
 import 'priceContainer.dart';
-import 'loadingPointImageIcon.dart';
+
 
 // ignore: must_be_immutable
 class LoadCardHeader extends StatelessWidget {
@@ -122,7 +119,6 @@ class LoadCardHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 loadDetails.rate != null ? PriceContainer(rate: loadDetails.rate.toString(), unitValue: loadDetails.unitValue,) : SizedBox(),
-                // ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
                 BidButton(loadDetails: loadDetails,),
               ],
 

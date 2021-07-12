@@ -5,7 +5,7 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingDesicionCard.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
-import 'package:liveasy/widgets/loadPosterDetails_LoadDetails.dart';
+import 'package:liveasy/widgets/loadPosterDetails.dart';
 
 
 class BiddingDetails extends StatelessWidget {
@@ -51,7 +51,7 @@ class BiddingDetails extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: Stack(
                   children: [
-                    LoadPosterDetailsLoadDetails(
+                    LoadPosterDetails(
                       loadPosterLocation: transporterLocation ,
                       loadPosterName: transporterName,
                       loadPosterCompanyName: companyName,
