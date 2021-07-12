@@ -13,50 +13,41 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddButton extends StatelessWidget {
-  String displayContact;
+  var onTap;
   String name;
   String number;
-  String? selectedTruckId;
 
   //Instance  for DriverApiCalls
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   AddButton(
-      {required this.displayContact,
+      {this.onTap,
       required this.name,
-      required this.number,
-      this.selectedTruckId});
+      required this.number});
 
   List listDisplayContact = [];
   var driverName;
   var phoneNum;
   var transporterId;
   // var truckId;
-  TransporterIdController tIdController = Get.find<TransporterIdController>();
+  // TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context);
 
-    if (displayContact.isEmpty == true || displayContact == "") {
-      driverName = name;
-      phoneNum = number;
-    } else {
-      listDisplayContact = displayContact.split("-");
-      driverName = listDisplayContact[0];
-      phoneNum = displayContact.replaceAll(new RegExp(r"\D"), "");
-    }
-    transporterId = '${tIdController.transporterId}';
+    // if (displayContact.isEmpty == true || displayContact == "") {
+    //   driverName = name;
+    //   phoneNum = number;
+    // } else {
+    //   listDisplayContact = displayContact.split("-");
+    //   driverName = listDisplayContact[0];
+    //   phoneNum = displayContact.replaceAll(new RegExp(r"\D"), "");
+    // }
+    // transporterId = '${tIdController.transporterId}';
     // truckId = null;
     return GestureDetector(
-      onTap: () {
-        print("name--" + "$name");
-        // providerData.updateDriverNameList(newValue: displayContact);
-        providerData.updateDropDownValue2(newValue: displayContact);
-        driverApiCalls.postDriverApi(
-            driverName, phoneNum, transporterId, selectedTruckId);
-        Navigator.of(context).pop();
-      },
+      onTap: onTap,
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,

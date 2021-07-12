@@ -18,6 +18,9 @@ class LocationDetailsLoadDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text("Posted on : ${loadDetails.loadDate}",
+          style: TextStyle(fontWeight: regularWeight, fontSize: size_6, color: veryDarkGrey),),
+        SizedBox(height: space_3,),
         Text(
           "Location Details",
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),

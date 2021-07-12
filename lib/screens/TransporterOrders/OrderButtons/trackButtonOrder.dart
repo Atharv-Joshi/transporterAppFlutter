@@ -19,6 +19,7 @@ class TrackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MapUtil mapUtil = MapUtil();
     return Container(
       height: 31,
       width: 90,
@@ -31,10 +32,8 @@ class TrackButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async {
-          print('Track Button Pressed');
-
           if (imei != null) {
-            var gpsData = await getLocationByImei(imei: imei);
+            var gpsData = await mapUtil.getLocationByImei(imei: imei);
             if (gpsData != null) {
               GpsDataController gpsDataController = Get.put(GpsDataController());
               gpsDataController.updateGpsData(gpsData);
@@ -46,6 +45,7 @@ class TrackButton extends StatelessWidget {
               );
             }
           }
+          else{print("imei is null");}
         },
         child: Container(
           margin: EdgeInsets.only(left: space_2),
