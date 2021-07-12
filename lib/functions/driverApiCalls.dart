@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -15,7 +14,7 @@ class DriverApiCalls {
   List? jsonData;
 
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
@@ -49,7 +48,7 @@ class DriverApiCalls {
 
     if (driverId != null) {
       http.Response response =
-      await http.get(Uri.parse('$driverApiUrl/$driverId'));
+          await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
@@ -111,26 +110,38 @@ class DriverApiCalls {
 
     }
 
-
   }
 
   //POST DRIVER-----------------------------------------------------------------
 
-  postDriverApi(driverName, phoneNum, transporterId, truckId) async {
-    Map data = {
-      "driverName": driverName,
-      "phoneNum": phoneNum,
-      "transporterId": transporterId,
-      "truckId": truckId
-    };
-    String body = json.encode(data);
 
-    final response = await http.post(Uri.parse("$driverApiUrl"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
-
+  postDriverApi(driverName, phoneNum, transporterId) async {
+    try {
+      Map data = {
+        "driverName": driverName,
+        "phoneNum": phoneNum,
+        "transporterId": transporterId
+      };
+      String body = json.encode(data);
+      // final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
+      final response = await http.post(Uri.parse("$driverApiUrl"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      print("driver Api response : ${response.body}");
+      var decodedData = json.decode(response.body);
+      if (decodedData["driverId"] != null) {
+        Get.snackbar("Success!", "${decodedData["status"]}");
+        return decodedData["driverId"];
+      } else{
+        Get.snackbar("Error", "${decodedData["status"]}");
+        return null;}
+    } catch (e) {
+      print(e);
+      Get.snackbar("Error", "$e");
+      return null;
+    }
   }
-
 }
+
