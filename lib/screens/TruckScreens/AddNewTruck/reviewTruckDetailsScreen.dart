@@ -10,6 +10,7 @@ import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
+import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/truckReviewDetailsRow.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -42,6 +43,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
 
   String? truckIdForCrossVerification;
 
+  bool loading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -109,31 +111,38 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
               ),
               Column(
                 children: [
-                  Card(
-                    elevation: 5,
-                    child: Container(
-                      padding: EdgeInsets.all(space_2),
-                      child: Column(
-                        children: [
-                          TruckReviewDetailsRow(
-                              value: truckTypeText, label: 'Truck Type'),
-                          TruckReviewDetailsRow(
-                              value: providerData.totalTyresValue,
-                              label: 'Total Tyres'),
-                          TruckReviewDetailsRow(
-                              value: providerData.passingWeightValue,
-                              label: 'Passing Weight'),
-                          TruckReviewDetailsRow(
-                              value: providerData.truckLengthValue,
-                              label: 'Truck Length'),
-                          TruckReviewDetailsRow(
-                              value: widget.driverId != ''
-                                  ? '${driverModel.driverName}-${driverModel.phoneNum}'
-                                  : '---',
-                              label: 'Driver Details'),
-                        ],
+                  Stack(
+                    children: [
+                      Card(
+                        elevation: 5,
+                        child: Container(
+                          padding: EdgeInsets.all(space_2),
+                          child: Column(
+                            children: [
+                              TruckReviewDetailsRow(
+                                  value: truckTypeText, label: 'Truck Type'),
+                              TruckReviewDetailsRow(
+                                  value: providerData.totalTyresValue,
+                                  label: 'Total Tyres'),
+                              TruckReviewDetailsRow(
+                                  value: providerData.passingWeightValue,
+                                  label: 'Passing Weight'),
+                              TruckReviewDetailsRow(
+                                  value: providerData.truckLengthValue,
+                                  label: 'Truck Length'),
+                              TruckReviewDetailsRow(
+                                  value: widget.driverId != ''
+                                      ? '${driverModel.driverName}-${driverModel.phoneNum}'
+                                      : '---',
+                                  label: 'Driver Details'),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      loading ? Container(
+                        margin: EdgeInsets.fromLTRB(space_3 , space_20 , space_3 ,0),
+                          child: LoadingWidget()) : Container(),
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(
@@ -153,8 +162,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                             text: 'Edit'),
                         MediumSizedButton(
                             onPressedFunction: () async {
-                              print(
-                                  'driverId in review page : ${widget.driverId}');
+                              setState(() {
+                                loading = true;
+                              });
                               truckIdForCrossVerification =
                                   await truckApiCalls.putTruckData(
                                 truckType: providerData.truckTypeValue,
@@ -166,10 +176,16 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               );
 
                               if (truckIdForCrossVerification != null) {
+                                setState(() {
+                                  loading = false;
+                                });
                                 providerData.updateIndex(1);
                                 Get.offAll(() => NavigationScreen());
                                 providerData.resetTruckFilters();
                               } else {
+                                setState(() {
+                                  loading = false;
+                                });
                                 Get.snackbar('Failed to update Details', '');
                               }
                             },

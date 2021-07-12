@@ -47,10 +47,16 @@ class _MyTrucksState extends State<MyTrucks> {
 
   int i = 0;
 
+  bool loading = false;
+
   @override
   void initState() {
 
     super.initState();
+
+    setState(() {
+      loading = true;
+    });
 
     getTruckData(i);
 
@@ -113,6 +119,9 @@ class _MyTrucksState extends State<MyTrucks> {
                     alignment: Alignment.bottomCenter,
                     children: [
 
+                      loading
+                      ? LoadingWidget()
+                      :
                       truckDataList.isEmpty
                           ? Container(
                         // height: MediaQuery.of(context).size.height * 0.27,
@@ -159,7 +168,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot) {
                                   if (snapshot.data == null) {
-                                    return LoadingWidget();
+                                    return Container();
                                   }
                                   return MyTruckCard(
                                     truckId : snapshot.data.truckId,
@@ -210,6 +219,10 @@ class _MyTrucksState extends State<MyTrucks> {
       setState(() {
         truckDataList.add(truckModel);
       });
+      setState(() {
+        loading = false;
+      });
+
     }
   } //getTruckData
 

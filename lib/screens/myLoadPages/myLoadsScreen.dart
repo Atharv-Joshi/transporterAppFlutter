@@ -8,6 +8,7 @@ import 'package:liveasy/widgets/MyLoadsCard.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http ;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/widgets/loadingWidget.dart';
 
 class MyLoadsScreen extends StatefulWidget {
   @override
@@ -26,12 +27,18 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   int i = 0;
 
+  bool loading = false;
+
   @override
   void initState() {
 
     super.initState();
 
     getDataByPostLoadId(i);
+
+    setState(() {
+      loading = true;
+    });
 
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
@@ -53,7 +60,12 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.67,
-        child: myLoadList.length == 0
+        child:
+
+        loading
+        ? LoadingWidget()
+        :
+        myLoadList.length == 0
         ?
         Container(
           margin: EdgeInsets.only(top: 153),
@@ -78,8 +90,6 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                  controller: scrollController,
                 itemCount: myLoadList.length,
                   itemBuilder: (context , index){
-
-
                       return MyLoadsCard(
                         loadId: myLoadList[index].loadId,
                         loadingPointCity: myLoadList[index].loadingPointCity,
@@ -122,7 +132,9 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
       setState(() {
         myLoadList.add(loadScreenCardsModel);
       });
-
+      setState(() {
+        loading = false;
+      });
     }
   }//builder
 }//class end
