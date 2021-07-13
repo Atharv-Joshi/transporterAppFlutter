@@ -27,76 +27,73 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
-    return Container(
-      height: kBottomNavigationBarHeight,
-      child: Scaffold(
-        backgroundColor: statusBarColor,
-        // color of status bar which displays time on a phone
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (int pressedIndex) {
-            // Provider.of<ProviderData>(context, listen: false)
-            //     .updateIndex(pressedIndex);
-            providerData.updateUpperNavigatorIndex(0);
-            providerData.updateIndex(pressedIndex);
-          },
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
-          unselectedItemColor: grey,
-          selectedItemColor: grey,
-          selectedLabelStyle: TextStyle(color: flagGreen),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                iconPath: "homeIcon.png",
-              ),
-              activeIcon: BottomNavigationIconWidget(
-                iconPath: "activeHomeIcon.png",
-              ),
-              label: ("Home"),
+    return Scaffold(
+      backgroundColor: statusBarColor,
+      // color of status bar which displays time on a phone
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (int pressedIndex) {
+          // Provider.of<ProviderData>(context, listen: false)
+          //     .updateIndex(pressedIndex);
+          providerData.updateUpperNavigatorIndex(0);
+          providerData.updateIndex(pressedIndex);
+        },
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        unselectedItemColor: grey,
+        selectedItemColor: grey,
+        selectedLabelStyle: TextStyle(color: flagGreen),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: BottomNavigationIconWidget(
+              iconPath: "homeIcon.png",
             ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                iconPath: "myTrucksIcon.png",
-              ),
-              activeIcon: BottomNavigationIconWidget(
-                iconPath: "activeMyTrucksIcon.png",
-              ),
-              label: ("My Trucks"),
+            activeIcon: BottomNavigationIconWidget(
+              iconPath: "activeHomeIcon.png",
             ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                iconPath: "postLoadIcon.png",
-              ),
-              activeIcon: BottomNavigationIconWidget(
-                iconPath: "activePostLoadIcon.png",
-              ),
-              label: ("My Loads"),
+            label: ("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: BottomNavigationIconWidget(
+              iconPath: "myTrucksIcon.png",
             ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                iconPath: "ordersIcon.png",
-              ),
-              activeIcon: BottomNavigationIconWidget(
-                iconPath: "activeOrdersIcon.png",
-              ),
-              label: ("Orders"),
+            activeIcon: BottomNavigationIconWidget(
+              iconPath: "activeMyTrucksIcon.png",
             ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                iconPath: "accountIcon.png",
-              ),
-              activeIcon: BottomNavigationIconWidget(
-                iconPath: "activeAccountIcon.png",
-              ),
-              label: ("Account"),
+            label: ("My Trucks"),
+          ),
+          BottomNavigationBarItem(
+            icon: BottomNavigationIconWidget(
+              iconPath: "postLoadIcon.png",
             ),
-          ],
-          currentIndex: Provider.of<ProviderData>(context).index,
-        ),
-        body: SafeArea(
-          child: Center(
-              child: screens.elementAt(Provider.of<ProviderData>(context).index)),
-        ),
+            activeIcon: BottomNavigationIconWidget(
+              iconPath: "activePostLoadIcon.png",
+            ),
+            label: ("My Loads"),
+          ),
+          BottomNavigationBarItem(
+            icon: BottomNavigationIconWidget(
+              iconPath: "ordersIcon.png",
+            ),
+            activeIcon: BottomNavigationIconWidget(
+              iconPath: "activeOrdersIcon.png",
+            ),
+            label: ("Orders"),
+          ),
+          BottomNavigationBarItem(
+            icon: BottomNavigationIconWidget(
+              iconPath: "accountIcon.png",
+            ),
+            activeIcon: BottomNavigationIconWidget(
+              iconPath: "activeAccountIcon.png",
+            ),
+            label: ("Account"),
+          ),
+        ],
+        currentIndex: Provider.of<ProviderData>(context).index,
+      ),
+      body: SafeArea(
+        child: Center(
+            child: screens.elementAt(Provider.of<ProviderData>(context).index)),
       ),
     );
   }
