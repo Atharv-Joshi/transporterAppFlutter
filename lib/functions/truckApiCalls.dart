@@ -27,9 +27,9 @@ class TruckApiCalls {
   String? _truckId;
 
 //GET---------------------------------------------------------------------------
-  //TODO: implement pagination(remove pseudo)
+
   Future<List<TruckModel>> getTruckData() async {
-    //TODO: implement pagination(remove pseudo)
+
     for (int i = 0;; i++) {
       http.Response response = await http.get(Uri.parse(truckApiUrl +
           '?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
@@ -37,7 +37,7 @@ class TruckApiCalls {
       if (jsonData.isEmpty) {
         break;
       }
-      print(response.body);
+
       for (var json in jsonData) {
         TruckModel truckModel = TruckModel(truckApproved: false);
         truckModel.truckId = json["truckId"];
@@ -57,7 +57,7 @@ class TruckApiCalls {
 
   //GET Truck Data by truckId
   Future<Map> getDataByTruckId(String truckId) async {
-    print('in getDataByTruckId');
+
     http.Response response = await http.get(Uri.parse('$truckApiUrl/$truckId'));
     var jsonData = json.decode(response.body);
 
@@ -65,14 +65,15 @@ class TruckApiCalls {
       'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
       'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
       'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
+      'truckType' : jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
     };
-    print('truck data : $data');
+
     return data;
   }
 
   //POST------------------------------------------------------------------------
   Future<String?> postTruckData({required String truckNo}) async {
-    print('transporterId : ${transporterIdController.transporterId.value}');
+
     // json map
     Map<String, dynamic> data = {
       "transporterId": transporterIdController.transporterId.value,
@@ -90,7 +91,7 @@ class TruckApiCalls {
 
     var returnData = json.decode(response.body);
 
-    print(returnData);
+
 
     _truckId = returnData['truckId'];
 

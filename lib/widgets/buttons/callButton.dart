@@ -25,7 +25,7 @@ class CallButton extends StatelessWidget {
       this.phoneNum});
 
   _makingPhoneCall() async {
-    print('in makingPhoneCall');
+
     String url = 'tel:$phoneNum';
     UrlLauncher.launch(url);
   }

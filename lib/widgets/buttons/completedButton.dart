@@ -7,9 +7,9 @@ import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders
 import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 import 'package:liveasy/screens/TransporterOrders/ordersAlertDialog/completedOrdersAlertDialog.dart';
 
-class CompletedButtonOrders extends StatelessWidget {
+class CompletedButton extends StatelessWidget {
   final String bookingId;
-  CompletedButtonOrders({Key? key, required this.bookingId}) : super(key: key);
+  CompletedButton({Key? key, required this.bookingId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +30,20 @@ class CompletedButtonOrders extends StatelessWidget {
             );
           },
         );
-        print("awefae$bookingId");
+        print("$bookingId");
         // bookingApiCallsOrders.updateBookingApi("20-08-2021", bookingId);
       },
       child: Container(
-        child: Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                space_5,
-                size_1,
-                space_5,
-                size_1,
-              ),
-              child: Text(
-                'Completed',
-                style: TextStyle(
-                  letterSpacing: 0.7,
-                  fontWeight: normalWeight,
-                  color: white,
-                  fontSize: size_7,
-                ),
-              ),
-            ),
-          ],
+        width: double.infinity,
+        child: Text(
+          'Completed',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            letterSpacing: 0.7,
+            fontWeight: mediumBoldWeight,
+            color: white,
+            fontSize: size_7,
+          ),
         ),
       ),
     );

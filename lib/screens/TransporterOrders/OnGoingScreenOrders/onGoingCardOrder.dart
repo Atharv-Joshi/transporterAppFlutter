@@ -7,8 +7,8 @@ import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 
 import '../../../functions/textOverFlow.dart';
 import '../../../widgets/buttons/callButton.dart';
-import '../OrderButtons/completedButtonOrders.dart';
-import '../OrderButtons/trackButtonOrder.dart';
+import '../../../widgets/buttons/completedButton.dart';
+import '../../../widgets/buttons/trackButton.dart';
 import '../../../widgets/linePainter.dart';
 import '../../../widgets/loadLabelValueRowTemplate.dart';
 
@@ -139,7 +139,7 @@ class OngoingCardOrders extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TrackButton(truckApproved: false),
-                    CompletedButtonOrders(bookingId: bookingId),
+                    CompletedButton(bookingId: bookingId),
                   ],
                 ),
               ),

@@ -63,7 +63,9 @@ class MyLoadsCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: size_6,
                   color: veryDarkGrey
-                ),),
+                ),
+                ),
+
 
                 SizedBox(
                   height: space_1,

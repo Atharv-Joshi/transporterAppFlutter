@@ -5,9 +5,11 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/widgets/onGoingCard.dart';
 
 class OngoingScreen extends StatefulWidget {
 
@@ -39,15 +41,17 @@ class _OngoingScreenState extends State<OngoingScreen> {
         for (var json in jsonData) {
 
             BookingModel bookingModel = BookingModel(truckId: []);
-            bookingModel.bookingDate =
-            json['bookingDate'] != null ? json['bookingDate'] : "NA";
+            bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
+            bookingModel.bookingId = json['bookingId'];
+            bookingModel.postLoadId = json['postLoadId'];
             bookingModel.loadId = json['loadId'];
             bookingModel.transporterId = json['transporterId'];
             bookingModel.truckId = json['truckId'];
             bookingModel.cancel = json['cancel'];
             bookingModel.completed = json['completed'];
-            bookingModel.completedDate =
-            json['completedDate'] != null ? json['completedDate'] : "NA";
+            bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : "NA";
+            bookingModel.rate =  json['rate'] != null ? json['rate'].toString() : 'NA';
+            bookingModel.unitValue = json['unitValue'] ;
 
             setState(() {
                 modelList.add(bookingModel);
@@ -102,32 +106,23 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     ],
                 ),
             )
-                : Container()
-            // : ListView.builder(
-            //     itemCount: snapshot.data.length,
-            //     itemBuilder: (context, index) {
-            //         return FutureBuilder(
-            //             future: loadAllData(snapshot.data[index]),
-            //             builder:
-            //                 (BuildContext context, AsyncSnapshot snapshot) {
-            //                 if (snapshot.data == null) {
-            //                     return SizedBox();
-            //                 }
-            //                 return DeliveredCard(
-            //                     loadingPoint: snapshot.data['loadingPoint'],
-            //                     unloadingPoint: snapshot.data['unloadingPoint'],
-            //                     companyName: snapshot.data['companyName'],
-            //                     truckNo: snapshot.data['truckNo'],
-            //                     driverName: snapshot.data['driverName'],
-            //                     startedOn: snapshot.data['startedOn'],
-            //                     endedOn: snapshot.data['endedOn'],
-            //                     // imei: snapshot.data['imei'],
-            //                     // phoneNum: snapshot.data['phoneNum'],
-            //                 );
-            //             });
-            //     } //builder
-            //
-            // )
+            : ListView.builder(
+                itemCount: modelList.length,
+                itemBuilder: (context, index) {
+                    return FutureBuilder(
+                        future: loadAllData(modelList[index]),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.data == null) {
+                                return SizedBox();
+                            }
+                            return OngoingCard(
+                                model: snapshot.data,
+                            );
+                        });
+                } //builder
+
+            )
         );
     }
 }//class end
