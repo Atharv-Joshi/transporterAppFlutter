@@ -14,7 +14,7 @@ class LoadDetailsScreenModel {
   String? comment;
   String? status;
   String? loadDate;
-  int? rate;
+  String? rate;
   String? unitValue;
   String? loadPosterId;
   String? phoneNo;
@@ -22,9 +22,9 @@ class LoadDetailsScreenModel {
   String? loadPosterName;
   String? loadPosterCompanyName;
   String? loadPosterKyc;
-  String? loadPosterCompanyApproved;
-  String? loadPosterApproved;
-  String? loadPosterAccountVerificationInProgress;
+  bool? loadPosterCompanyApproved;
+  bool? loadPosterApproved;
+  bool? loadPosterAccountVerificationInProgress;
 
   LoadDetailsScreenModel(
       {this.loadId,

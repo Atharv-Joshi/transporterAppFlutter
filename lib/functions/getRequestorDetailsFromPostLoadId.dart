@@ -24,11 +24,11 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
           jsonData["companyName"].toString();
       loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
       loadPosterModel.loadPosterCompanyApproved =
-          jsonData["companyApproved"].toString();
+          jsonData["companyApproved"];
       loadPosterModel.loadPosterApproved =
-          jsonData["transporterApproved"].toString();
+          jsonData["transporterApproved"];
       loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"].toString();
+          jsonData["accountVerificationInProgress"];
       return loadPosterModel;
     }
     if (postLoadId.contains("shipper")) {
@@ -45,9 +45,9 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
       loadPosterModel.loadPosterLocation =
           jsonData["shipperLocation"].toString();
       loadPosterModel.loadPosterCompanyApproved =
-          jsonData["companyApproved"].toString();
+          jsonData["companyApproved"];
       loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"].toString();
+          jsonData["accountVerificationInProgress"];
       return loadPosterModel;
     }
   } catch (e) {

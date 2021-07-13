@@ -6,6 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -16,13 +17,18 @@ import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
+
   @override
   _MyTrucksState createState() => _MyTrucksState();
 }
 
 class _MyTrucksState extends State<MyTrucks> {
+
+
+
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
@@ -30,8 +36,8 @@ class _MyTrucksState extends State<MyTrucks> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  //true if truck list is empty
-  bool truckListEmpty = false;
+  // //true if truck list is empty
+  // bool truckListEmpty = false;
 
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
@@ -47,10 +53,16 @@ class _MyTrucksState extends State<MyTrucks> {
 
   int i = 0;
 
+  bool loading = false;
+
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
+
+    setState(() {
+      loading = true;
+    });
 
     getTruckData(i);
 
@@ -64,7 +76,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }
@@ -74,8 +86,9 @@ class _MyTrucksState extends State<MyTrucks> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
-        child: Container(
+        child:Container(
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+          height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_8,
           child: Column(
             children: [
               Row(
@@ -106,10 +119,17 @@ class _MyTrucksState extends State<MyTrucks> {
                   )),
 
               //LIST OF TRUCK CARDS---------------------------------------------
-              Container(
-                height: MediaQuery.of(context).size.height * 0.67,
-                child: truckDataList.isEmpty
-                    ? Container(
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+
+                      loading
+                      ? LoadingWidget()
+                      :
+                      truckDataList.isEmpty
+                          ? Container(
+                        // height: MediaQuery.of(context).size.height * 0.27,
                         margin: EdgeInsets.only(top: 153),
                         child: Column(
                           children: [
@@ -127,52 +147,63 @@ class _MyTrucksState extends State<MyTrucks> {
                           ],
                         ),
                       )
-                    : ListView.builder(
-                        controller: scrollController,
-                        itemCount: truckDataList.length,
-                        itemBuilder: (context, index) {
-                          TruckModel truckModel =
-                              TruckModel(truckApproved: false);
-                          truckModel.truckId = truckDataList[index].truckId;
-                          truckModel.transporterId =
-                              truckDataList[index].transporterId;
-                          truckModel.truckNo = truckDataList[index].truckNo;
-                          truckModel.truckApproved =
-                              truckDataList[index].truckApproved;
-                          truckModel.imei = truckDataList[index].imei;
-                          truckModel.passingWeight =
-                              truckDataList[index].passingWeight;
-                          truckModel.driverId = truckDataList[index].driverId;
-                          truckModel.truckType = truckDataList[index].truckType;
-                          truckModel.tyres = truckDataList[index].tyres;
+                          :
+                      ListView.builder(
+                          controller: scrollController,
+                          itemCount: truckDataList.length,
+                          itemBuilder: (context, index) {
+                            TruckModel truckModel =
+                            TruckModel(truckApproved: false);
+                            truckModel.truckId = truckDataList[index].truckId;
+                            truckModel.transporterId =
+                                truckDataList[index].transporterId;
+                            truckModel.truckNo = truckDataList[index].truckNo;
+                            truckModel.truckApproved =
+                                truckDataList[index].truckApproved;
+                            truckModel.imei = truckDataList[index].imei;
+                            truckModel.passingWeight =
+                                truckDataList[index].passingWeight;
+                            truckModel.driverId = truckDataList[index].driverId;
+                            truckModel.truckType = truckDataList[index].truckType;
+                            truckModel.tyres = truckDataList[index].tyres;
 
-                          return FutureBuilder(
-                              future: driverApiCalls.getDriverByDriverId(
-                                  truckModel: truckModel),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                if (snapshot.data == null) {
-                                  return LoadingWidget();
-                                }
-                                return MyTruckCard(
-                                  truckApproved: snapshot.data.truckApproved,
-                                  truckNo: snapshot.data.truckNo,
-                                  truckType: snapshot.data.truckType,
-                                  tyres: snapshot.data.tyres,
-                                  driverName: snapshot.data.driverName,
-                                  phoneNum: snapshot.data.driverNum,
-                                  imei: snapshot.data.imei,
-                                );
-                              } //builder
-                              );
-                        }),
-              ),
+                            return FutureBuilder(
+                                future: driverApiCalls.getDriverByDriverId(
+                                    truckModel: truckModel),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.data == null) {
+                                    return Container();
+                                  }
+                                  return MyTruckCard(
+                                    truckId : snapshot.data.truckId,
+                                    truckApproved: snapshot.data.truckApproved,
+                                    truckNo: snapshot.data.truckNo,
+                                    truckType: snapshot.data.truckType,
+                                    tyres: snapshot.data.tyres,
+                                    driverName: snapshot.data.driverName,
+                                    phoneNum: snapshot.data.driverNum,
+                                    imei: snapshot.data.imei,
+                                  );
+                                } //builder
+                            );
+                          }),
+                      Container(
+                        margin: EdgeInsets.only(bottom: space_2),
+                          child: AddTruckButton()
+                      ),
+                    ],
+                  ),
+                ),
+
+
+
               //--------------------------------------------------------------
-              Container(child: AddTruckButton()),
             ],
           ),
-        ),
+        )
       ),
+
     );
   } //build
 
@@ -180,7 +211,6 @@ class _MyTrucksState extends State<MyTrucks> {
     http.Response response = await http.get(Uri.parse(
         '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
     jsonData = json.decode(response.body);
-    print(response.body);
     for (var json in jsonData) {
       TruckModel truckModel = TruckModel(truckApproved: false);
       truckModel.truckId = json["truckId"];
@@ -195,6 +225,10 @@ class _MyTrucksState extends State<MyTrucks> {
       setState(() {
         truckDataList.add(truckModel);
       });
+      setState(() {
+        loading = false;
+      });
+
     }
   } //getTruckData
 

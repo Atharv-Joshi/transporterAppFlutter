@@ -123,9 +123,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       height: 50,
                       child: GridView.count(
                         shrinkWrap: true,
-                        crossAxisSpacing: space_5,
-                        mainAxisSpacing: space_2,
-                        crossAxisCount: 6,
+                        crossAxisSpacing: space_6,
+                        mainAxisSpacing: space_1,
+                        crossAxisCount: 5,
                         children: truckFilterVariables
                             .passingWeightList[providerData.truckTypeValue]!
                             .map((e) => AddTruckCircularButtonTemplate(
@@ -148,9 +148,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       height: 50,
                       child: GridView.count(
                           shrinkWrap: true,
-                          crossAxisSpacing: space_5,
-                          mainAxisSpacing: space_2,
-                          crossAxisCount: 6,
+                          crossAxisSpacing: space_6,
+                          mainAxisSpacing: space_1,
+                          crossAxisCount: 5,
                           children: truckFilterVariables
                               .totalTyresList[providerData.truckTypeValue]!
                               .map((e) => AddTruckCircularButtonTemplate(
@@ -172,9 +172,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       height: 50,
                       child: GridView.count(
                         shrinkWrap: true,
-                        crossAxisSpacing: space_5,
-                        mainAxisSpacing: space_2,
-                        crossAxisCount: 6,
+                        crossAxisSpacing: space_6,
+                        mainAxisSpacing: space_1,
+                        crossAxisCount: 5,
                         children: truckFilterVariables
                             .truckLengthList[providerData.truckTypeValue]!
                             .map((e) => AddTruckCircularButtonTemplate(

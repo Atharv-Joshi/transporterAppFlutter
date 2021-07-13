@@ -8,13 +8,13 @@ import 'package:liveasy/widgets/unverifiedWidget.dart';
 import 'package:liveasy/widgets/verifiedWidget.dart';
 
 // ignore: must_be_immutable
-class LoadPosterDetailsLoadDetails extends StatelessWidget {
+class LoadPosterDetails extends StatelessWidget {
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
   bool? loadPosterCompanyApproved;
 
-  LoadPosterDetailsLoadDetails({
+  LoadPosterDetails({
     this.loadPosterLocation,
     this.loadPosterName,
     this.loadPosterCompanyName,

@@ -9,6 +9,7 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
+import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
@@ -31,6 +32,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
   String? truckId;
   RegExp truckNoRegex = RegExp(
       r"^[A-Za-z]{2}[ -/]{0,1}[0-9]{1,2}[ -/]{0,1}(?:[A-Za-z]{0,1})[ -/]{0,1}[A-Za-z]{0,2}[ -/]{0,1}[0-9]{4}$");
+
+  bool? loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,6 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   height: space_2,
                 ),
                 AddTruckSubtitleText(text: 'Truck Number'),
-                //TODO: apply shadows to textformfield
                 Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: space_6),
@@ -110,7 +112,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                     ),
                   ),
                 ),
-
+                loading! ? Container(
+                  margin: EdgeInsets.fromLTRB(space_3 , space_3 , space_3 ,space_3),
+                    child: LoadingWidget()) : Container(),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -119,6 +123,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         optional: false,
                         onPressedFunction: providerData.resetActive
                             ? () async {
+                          setState(() {
+                            loading = true;
+                          });
                                 providerData
                                     .updateTruckNumberValue(_controller.text);
 
@@ -126,18 +133,23 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                     truckNo: _controller.text);
 
                                 if (truckId != null) {
-                                  // driverApiCalls.getDriversByTransporterId();
+                                  setState(() {
+                                    loading = false;
+                                  });
                                   providerData.updateResetActive(false);
                                   Get.to(
                                       () => TruckDescriptionScreen(truckId!));
-                                } else {
-                                  Get.snackbar(
-                                      'Enter Correct truck Number', '');
+                                } else{
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  Get.defaultDialog(
+                                    title:  'Truck Number Already Added'
+                                  );
                                 }
                               }
-                            : () {
-                                Get.snackbar('Enter Correct truck Number', '');
-                              }),
+                            : null
+                    ),
                   ),
                 ),
               ],

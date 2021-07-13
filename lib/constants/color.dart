@@ -24,7 +24,9 @@ const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
 const Color black_87 = Colors.black87;
-Color loadingWidgetColor = Colors.lightBlueAccent;
+const Color loadingWidgetColor = Colors.lightBlueAccent;
+const Color inactiveBidding = Color(0xffC4C9D9);
+const Color cancelledBiddingBackground = Color(0xffD0D4E1);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
@@ -44,6 +46,7 @@ Color lightYellow = Color(0xFFFFF6E7);
 Color darkYellow = Color(0xFFE5A744);
 Color veryDarkGrey = Color(0xFF555454);
 Color shareButtonColor = Color(0xFF09B778);
+
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
 dynamic deactiveButtonColor =

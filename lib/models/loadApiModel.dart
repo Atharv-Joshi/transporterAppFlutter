@@ -13,11 +13,10 @@ class LoadApiModel {
   String? weight;
   String? comment;
   String? status;
-  int? rate;
+  String? rate;
   String? unitValue;
   String? loadDate;
 
-  // int? tyres;
 
   LoadApiModel({
     this.loadId,
@@ -34,7 +33,6 @@ class LoadApiModel {
     this.weight,
     this.comment,
     this.status,
-    // this.tyres,
     this.loadDate,
     this.rate,
     this.unitValue,

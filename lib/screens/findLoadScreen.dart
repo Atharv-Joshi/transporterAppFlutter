@@ -9,7 +9,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/loadDisplayCard.dart';
+import 'package:liveasy/widgets/suggestedLoadsCard.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/noCardDisplay.dart';
@@ -154,8 +154,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                   padding: EdgeInsets.symmetric(),
                                   itemCount: (snapshot.data.length),
                                   itemBuilder: (BuildContext context, index) =>
-                                      LoadApiDataDisplayCard(
-                                    loadApiData: snapshot.data[index],
+                                      SuggestedLoadsCard(
+                                    model: snapshot.data[index],
                                   ),
                                 ),
                               ),

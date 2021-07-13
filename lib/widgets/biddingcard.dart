@@ -79,6 +79,7 @@ class BiddingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AcceptButton(
+                      active: true,
                       bidId: bidId,
                       isBiddingDetails: null,
                     ),

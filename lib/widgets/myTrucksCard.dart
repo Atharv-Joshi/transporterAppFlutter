@@ -1,19 +1,20 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/screens/TransporterOrders/OrderButtons/trackButtonOrder.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:location_permissions/location_permissions.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-  // String? truckId;
+  String? truckId;
   // String? transporterId;
   String? truckNo;
   bool truckApproved;
@@ -27,7 +28,7 @@ class MyTruckCard extends StatefulWidget {
 
   MyTruckCard(
       {
-        // this.truckId,
+        this.truckId,
         // this.transporterId,
         this.truckNo,
         required this.truckApproved,
@@ -45,10 +46,6 @@ class MyTruckCard extends StatefulWidget {
 
 class _MyTruckCardState extends State<MyTruckCard> {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
-
-  // DriverApiCalls driverApiCalls = DriverApiCalls();
-
-  DriverModel driverModel = DriverModel();
 
   bool? verified;
   Position? userLocation;
@@ -70,6 +67,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   @override
   Widget build(BuildContext context) {
+
     widget.truckType = widget.truckType != null
         ? truckFilterVariables.truckTypeTextList[
     truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
@@ -101,174 +99,123 @@ class _MyTruckCardState extends State<MyTruckCard> {
           padding: EdgeInsets.all(space_3),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, space_2, 0),
-                    height: space_2,
-                    width: space_2,
-                    decoration: BoxDecoration(
-                      color: statusColor['Offline'],
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  Text(
-                    'Offline',
-                    style: TextStyle(
-                        fontWeight: mediumBoldWeight, fontSize: size_8),
-                  ),
-                ],
-              ),
 
+            children: [
               verified!
-                  ? Container(
-                margin: EdgeInsets.symmetric(vertical: space_3),
-                padding: EdgeInsets.only(right: space_8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //number and type column
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ?
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, space_2, 0),
+                        height: space_2,
+                        width: space_2,
+                        decoration: BoxDecoration(
+                          color: statusColor['Offline'],
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      Text(
+                        'Offline',
+                        style: TextStyle(
+                            fontWeight: mediumBoldWeight, fontSize: size_8),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: space_2,),
+                  NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
+                  NewRowTemplate(label: 'Truck Type', value: widget.truckType),
+                  NewRowTemplate(label: 'Tyre', value: widget.tyres != null ? widget.tyres.toString() : 'NA'),
+                  NewRowTemplate(label: 'Driver', value: widget.driverName),
+                  Container(
+                    margin: EdgeInsets.only(top: space_2),
+                    child:Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          'Vehicle Number',
-                          style: TextStyle(fontSize: size_6),
-                        ),
-                        Text(
-                          '${widget.truckNo}',
-                          style: TextStyle(
-                              fontWeight: boldWeight, fontSize: size_7),
-                        ),
                         Container(
-                          margin: EdgeInsets.only(top: space_3),
-                          child: Text(
-                            'Truck Type',
-                            style: TextStyle(fontSize: size_6),
-                          ),
+                            margin: EdgeInsets.only(right: space_2),
+                            child: TrackButton(truckApproved: widget.truckApproved)
                         ),
-                        Text(
-                          '${widget.truckType}',
-                          style: TextStyle(
-                              fontWeight: boldWeight, fontSize: size_7),
-                        )
+                        CallButton(directCall: true , phoneNum: widget.phoneNum,)
                       ],
                     ),
-                    //tyre and driver column
-                    Container(
-                      // padding: EdgeInsets.only(left: space_14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Tyre',
-                            style: TextStyle(fontSize: size_6),
-                          ),
-                          Text(
-                            widget.tyres != null
-                                ? '${widget.tyres}'
-                                : 'NA',
-                            style: TextStyle(
-                                fontWeight: boldWeight, fontSize: size_7),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: space_3),
-                            child: Text(
-                              'Driver',
-                              style: TextStyle(fontSize: size_6),
-                            ),
-                          ),
-                          Text(
-                            '${widget.driverName}',
-                            // 'Ravi Shah',
-                            style: TextStyle(
-                                fontWeight: boldWeight, fontSize: size_7),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-                  : Container(
-                margin: EdgeInsets.symmetric(vertical: space_3),
-                padding: EdgeInsets.only(right: space_8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Vehicle Number',
-                      style: TextStyle(fontSize: size_6),
-                    ),
-                    Text(
-                      '${widget.truckNo}',
-                      style: TextStyle(
-                          fontWeight: boldWeight, fontSize: size_7),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: space_3),
-                      child: Text(
-                        'Truck Details are pending !',
-                        style: TextStyle(
-                            fontSize: size_7,
-                            fontWeight: boldWeight,
-                            color: Colors.red),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              //track and call button
-              verified!
-                  ? Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(right: space_2),
-                      child: TrackButton(
-                        imei: widget.imei,
-                        userLocation: userLocation,
-                        truckApproved: widget.truckApproved,
-                      )),
-                  CallButton(
-                    driverPhoneNum: widget.phoneNum,
-                    directCall: true,
                   ),
+
                 ],
               )
-                  : Center(
-                child: Container(
-                  height: 32,
-                  width: 201,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      )),
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(darkBlueColor),
+
+
+                  :   Column(
+                children: [
+                  Row(
+                    children: [
+                      Image(
+                          height: 16 ,
+                          width: 18,
+                          image: AssetImage('assets/icons/errorIcon.png')
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: space_1),
+                        child: Text(
+                          'Verification Failed',
+                          style: TextStyle(
+                              fontWeight: mediumBoldWeight,
+                              fontSize: size_8),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(vertical: space_3),
+                      child: NewRowTemplate(label: 'Vehcle Number', value: widget.truckNo)
+                  ),
+                  Container(
+                    child: Text(
+                      'Truck Details are pending',
+                      style: TextStyle(
+                          fontWeight: mediumBoldWeight,
+                          color: Colors.red
+                      ),
                     ),
-                    onPressed: () {
-                      print('Upload Truck Details Button Pressed');
-                    },
+                  ),
+
+                  Center(
                     child: Container(
-                      // margin: EdgeInsets.symmetric(horizontal: space_2 , vertical: space_1),
-                      child: Text(
-                        'Upload Truck Details',
-                        style: TextStyle(
-                          letterSpacing: 0.7,
-                          fontWeight: normalWeight,
-                          color: white,
-                          fontSize: size_7,
+                      margin: EdgeInsets.only(top: space_5),
+                      height: 32,
+                      width: 201,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          )),
+                          backgroundColor:
+                          MaterialStateProperty.all<Color>(darkBlueColor),
+                        ),
+                        onPressed: () {
+                          Get.to( () => TruckDescriptionScreen(widget.truckId!));
+                        },
+                        child: Container(
+                          child: Text(
+                            'Upload Truck Details',
+                            style: TextStyle(
+                              letterSpacing: 0.7,
+                              fontWeight: normalWeight,
+                              color: white,
+                              fontSize: size_7,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  )
+
+
+                ],
               ),
+
             ],
           ),
         ),

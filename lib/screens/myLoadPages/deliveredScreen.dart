@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bookingApiCalls.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/deliveredCard.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 
 class DeliveredScreen extends StatelessWidget {
-  final BookingApiCalls bookingApiCalls = BookingApiCalls();
 
+
+  final BookingApiCalls bookingApiCalls = BookingApiCalls();
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.67,
+        height: MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_8,
         child: FutureBuilder(
           future: bookingApiCalls.getDataByPostLoadIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return LoadingWidget();
             }
-            print('delivered snapshot length :' +
-                '${snapshot.data.length}'); //number of cards
-
             if (snapshot.data.length == 0) {
               return Container(
                 margin: EdgeInsets.only(top: 153),

@@ -20,7 +20,7 @@ class MyLoadsCard extends StatelessWidget {
   String? weight;
   String? productType;
   String? unitValue;
-  int? rate;
+  String? rate;
   String? loadId;
   String? loadDate;
   String? noOfTrucks;

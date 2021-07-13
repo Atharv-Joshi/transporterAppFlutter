@@ -9,13 +9,15 @@ class BiddingDecisionCard extends StatelessWidget {
   String? unitValue;
   final String? biddingDate;
   final String? bidId;
+  final bool? shipperApproved;
 
   BiddingDecisionCard(
   {
     required this.biddingDate,
     required this.unitValue,
     required this.rate,
-    required this.bidId
+    required this.bidId,
+    required this.shipperApproved
 }
       );
 
@@ -43,10 +45,12 @@ class BiddingDecisionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AcceptButton(
+                    active: !shipperApproved!,
                     isBiddingDetails: true,
                       bidId: bidId
                   ),
                   DeclineButton(
+                    active: !shipperApproved!,
                     isBiddingDetails: true,
                     bidId: bidId,
                   )

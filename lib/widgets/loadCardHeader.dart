@@ -7,12 +7,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/buttons/bidButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
-import 'package:liveasy/widgets/loadValueColumnTemplate.dart';
-import 'package:liveasy/widgets/truckImageWidget.dart';
-import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'LoadEndPointTemplate.dart';
 import 'priceContainer.dart';
-import 'loadingPointImageIcon.dart';
+
 
 // ignore: must_be_immutable
 class LoadCardHeader extends StatelessWidget {
@@ -27,7 +24,7 @@ class LoadCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(loadDetails.truckType != 'Na'){
+    if(truckFilterVariables.truckTypeValueList.contains(loadDetails.truckType)){
       loadDetails.truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(loadDetails.truckType)];
     }
 
@@ -36,12 +33,20 @@ class LoadCardHeader extends StatelessWidget {
     child: Column(
         crossAxisAlignment:  CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
                 'Posted Date : ${loadDetails.loadDate}',
                 style: TextStyle(
                     fontSize: size_6,
                     color: veryDarkGrey
-                ),),
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios_sharp)
+            ],
+          ),
+
 
               SizedBox(
                 height: space_1,
@@ -114,7 +119,6 @@ class LoadCardHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 loadDetails.rate != null ? PriceContainer(rate: loadDetails.rate.toString(), unitValue: loadDetails.unitValue,) : SizedBox(),
-                // ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
                 BidButton(loadDetails: loadDetails,),
               ],
 

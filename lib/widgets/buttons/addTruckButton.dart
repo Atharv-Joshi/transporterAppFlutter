@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 
@@ -15,9 +16,9 @@ class AddTruckButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(30),
               )),
-          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+          backgroundColor: MaterialStateProperty.all<Color>(truckGreen),
         ),
         onPressed:
             () {
@@ -26,7 +27,7 @@ class AddTruckButton extends StatelessWidget {
         child: Text(
           'Add Truck',
           style: TextStyle(
-            letterSpacing: 1,
+            fontWeight: mediumBoldWeight,
             fontSize: size_9,
             color: white,
           ),
