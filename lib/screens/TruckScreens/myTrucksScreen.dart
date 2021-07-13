@@ -20,9 +20,7 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
-  final navBarHeight;
 
-  MyTrucks({ required this.navBarHeight});
   @override
   _MyTrucksState createState() => _MyTrucksState();
 }
@@ -90,7 +88,7 @@ class _MyTrucksState extends State<MyTrucks> {
       body: SingleChildScrollView(
         child:Container(
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
-          height:  MediaQuery.of(context).size.height - widget.navBarHeight - space_8,
+          height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_8,
           child: Column(
             children: [
               Row(

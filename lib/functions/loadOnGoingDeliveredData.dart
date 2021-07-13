@@ -14,7 +14,6 @@ final TruckApiCalls truckApiCalls = TruckApiCalls();
 final DriverApiCalls driverApiCalls = DriverApiCalls();
 
 Future<Map> loadAllData(bookingModel) async {
-  print('load all data in');
   String bookingDate = bookingModel.bookingDate;
   print(bookingDate);
   String completedDate = bookingModel.completedDate;
@@ -40,6 +39,5 @@ Future<Map> loadAllData(bookingModel) async {
     'driverName': driverModel.driverName,
     'driverPhoneNum': driverModel.phoneNum,
   };
-  print('load all data out');
   return cardDataModel;
 }

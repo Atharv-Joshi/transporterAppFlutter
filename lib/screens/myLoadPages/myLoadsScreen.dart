@@ -13,8 +13,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 
 class MyLoadsScreen extends StatefulWidget {
 
-  final  navBarHeight;
-  MyLoadsScreen({this.navBarHeight});
+
 
   @override
   _MyLoadsScreenState createState() => _MyLoadsScreenState();
@@ -66,7 +65,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
 
     return Container(
-        height:  MediaQuery.of(context).size.height -widget.navBarHeight - space_8,
+        height:  MediaQuery.of(context).size.height - kBottomNavigationBarHeight - space_8,
         child:
         loading
             ? LoadingWidget()

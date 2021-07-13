@@ -9,23 +9,18 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 
 class DeliveredScreen extends StatelessWidget {
 
-  final  navBarHeight;
-  DeliveredScreen({this.navBarHeight});
 
   final BookingApiCalls bookingApiCalls = BookingApiCalls();
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height - navBarHeight - space_8,
+        height: MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_8,
         child: FutureBuilder(
           future: bookingApiCalls.getDataByPostLoadIdDelivered(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return LoadingWidget();
             }
-            print('delivered snapshot length :' +
-                '${snapshot.data.length}'); //number of cards
-
             if (snapshot.data.length == 0) {
               return Container(
                 margin: EdgeInsets.only(top: 153),

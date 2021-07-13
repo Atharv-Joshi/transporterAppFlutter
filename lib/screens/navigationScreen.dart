@@ -17,7 +17,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   var screens = [
     HomeScreen(),
-    MyTrucks(navBarHeight: kBottomNavigationBarHeight ,),
+    MyTrucks(),
     PostLoadScreen(),
     OrdersScreen(),
     AccountPageUtil(),

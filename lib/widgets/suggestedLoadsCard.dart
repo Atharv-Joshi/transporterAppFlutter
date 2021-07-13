@@ -32,9 +32,7 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.2),
-                child: LoadingWidget());
+            );
           }
           //saving load poster data in earlier model
           widget.model.loadPosterId =  snapshot.data.loadPosterId;

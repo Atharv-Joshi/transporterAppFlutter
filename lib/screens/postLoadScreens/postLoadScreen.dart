@@ -14,10 +14,6 @@ import 'package:provider/provider.dart';
 
 class PostLoadScreen extends StatefulWidget {
 
-  final navBarHeight = 56;
-
-  // PostLoadScreen(this.navBarHeight);
-
   @override
   _PostLoadScreenState createState() => _PostLoadScreenState();
 }
@@ -75,9 +71,9 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                         });
                       },
                       children: [
-                        MyLoadsScreen(navBarHeight: widget.navBarHeight,),
-                        OngoingScreen(navBarHeight: widget.navBarHeight,),
-                        DeliveredScreen(navBarHeight: widget.navBarHeight,),
+                        MyLoadsScreen(),
+                        OngoingScreen(),
+                        DeliveredScreen(),
                       ],
                     ),
                   ),
