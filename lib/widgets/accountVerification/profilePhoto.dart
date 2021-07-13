@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 // ignore: must_be_immutable
@@ -11,11 +13,11 @@ class ProfilePhotoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 115,
-      width: 115,
-      decoration: providerData.profilePhotoFile != null
-          ? BoxDecoration(
+    return providerData.profilePhotoFile != null
+        ? Container(
+            height: space_23,
+            width: space_23,
+            decoration: BoxDecoration(
               color: white,
               shape: BoxShape.circle,
               boxShadow: [
@@ -27,8 +29,18 @@ class ProfilePhotoWidget extends StatelessWidget {
               image: DecorationImage(
                   image: Image.file(providerData.profilePhotoFile).image,
                   fit: BoxFit.fitWidth),
-            )
-          : BoxDecoration(
+            ),
+            child: Center(
+              child: Text(
+                "Tap to refresh",
+                style: TextStyle(fontSize: size_7, color: liveasyGreen),
+              ),
+            ),
+          )
+        : Container(
+            height: space_23,
+            width: space_23,
+            decoration: BoxDecoration(
               color: white,
               shape: BoxShape.circle,
               boxShadow: [
@@ -37,37 +49,44 @@ class ProfilePhotoWidget extends StatelessWidget {
                   blurRadius: 5.0,
                 ),
               ],
-              image: DecorationImage(
-                image: AssetImage("assets/icons/accountIconFilled.png"),
-              ),
             ),
-      child: providerData.profilePhotoFile == null
-          ? Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.fromLTRB(75, 0, 0, 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
                   child: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    height: space_4,
-                    width: space_4,
-                    child: Center(
-                      child: Icon(
-                        Icons.add_box_rounded,
-                        color: darkBlueColor,
+                    height: space_6 + 1,
+                    width: space_6 - 2,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                            AssetImage("assets/icons/defaultAccountIcon.png"),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          : Center(
-              child: Text(
-                "Tap to refresh",
-                style: TextStyle(fontSize: size_7, color: liveasyGreen),
-              ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(space_15, 0, 0, space_1),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(radius_11),
+                      child: Container(
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        height: space_4,
+                        width: space_4,
+                        child: Center(
+                          child: Icon(
+                            Icons.add_box_rounded,
+                            color: darkBlueColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-    );
+          );
   }
 }

@@ -1,13 +1,11 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
-
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
-
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/buttons/postLoadButton.dart';
@@ -15,7 +13,6 @@ import 'package:liveasy/widgets/buttons/postLoadButton.dart';
 import 'package:provider/provider.dart';
 
 class PostLoadScreen extends StatefulWidget {
-  const PostLoadScreen({Key? key}) : super(key: key);
 
   @override
   _PostLoadScreenState createState() => _PostLoadScreenState();

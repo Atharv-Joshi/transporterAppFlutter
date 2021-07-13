@@ -24,6 +24,7 @@ class SearchLoadWidget extends StatelessWidget {
       ),
       child: TextField(
         onTap: onPressed,
+        readOnly: true,
         textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.start,
         decoration: InputDecoration(

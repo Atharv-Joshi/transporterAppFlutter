@@ -5,9 +5,12 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
+import 'LoadEndPointTemplate.dart';
+import 'linePainter.dart';
+
 // ignore: must_be_immutable
 class LocationDetailsLoadDetails extends StatelessWidget {
-  LoadDetailsScreenModel loadDetails;
+  Map loadDetails;
 
   LocationDetailsLoadDetails({
     required this.loadDetails
@@ -18,49 +21,62 @@ class LocationDetailsLoadDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          margin: EdgeInsets.only(bottom: space_3),
+          child: Text("Posted on : ${loadDetails['loadDate']}",
+            style: TextStyle(
+                fontWeight: regularWeight,
+                fontSize: size_6,
+                color: veryDarkGrey),
+          ),
+        ),
+
         Text(
           "Location Details",
-          style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
+          style: TextStyle(
+              fontWeight: mediumBoldWeight,
+              fontSize: size_7),
         ),
         Container(
-          padding: EdgeInsets.only(left: space_3),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: space_2,
-              ),
-              Row(
-                children: [
-                  Container(
-                    child: Image(
-                      image:
-                          AssetImage("assets/icons/greenFilledCircleIcon.png"),
-                    ),
-                    width: space_2,
-                    height: space_2,
-                  ),
-                  SizedBox(
-                    width: space_1,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "${loadDetails.loadingPoint}",
-                      style:
-                          TextStyle(fontWeight: normalWeight, fontSize: size_6),
-                    ),
-                  )
-                ],
-              ),
               Container(
-                height: space_5 + 3,
-                color: locationLineColor,
-                width: 1,
-                padding: EdgeInsets.only(left: space_7 + 6),
+                margin: EdgeInsets.only(top: space_3),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: space_1),
+                      child: Image(
+                        image:
+                            AssetImage("assets/icons/greenFilledCircleIcon.png"),
+                      ),
+                      width: space_2,
+                      height: space_2,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "${loadDetails['loadingPoint']}",
+                        style:
+                            TextStyle(fontWeight: normalWeight, fontSize: size_6),
+                      ),
+                    )
+                  ],
+                ),
               ),
+
+              Container(
+                height: space_5,
+                padding: EdgeInsets.only(left: space_1 - 3),
+                child: CustomPaint(
+                  foregroundPainter: LinePainter(height: space_5, width: 1),
+                ),
+              ),
+
               Row(
                 children: [
                   Container(
+                    margin: EdgeInsets.only(right: space_1),
                     child: Image(
                       image: AssetImage(
                           "assets/icons/redSemiFilledCircleIcon.png"),
@@ -68,18 +84,16 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                     width: space_2,
                     height: space_2,
                   ),
-                  SizedBox(
-                    width: space_1,
-                  ),
                   Expanded(
                     child: Text(
-                      "${loadDetails.unloadingPoint}",
+                      "${loadDetails['unloadingPoint']}",
                       style:
                           TextStyle(fontWeight: normalWeight, fontSize: size_6),
                     ),
                   )
                 ],
               ),
+
             ],
           ),
         ),

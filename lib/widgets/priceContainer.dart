@@ -13,8 +13,6 @@ class PriceContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
-    print(rate);
-    print(rate.runtimeType);
     return
      Center(
         child: Row(

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -12,7 +14,7 @@ class DriverApiCalls {
   List? jsonData;
 
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
@@ -40,68 +42,106 @@ class DriverApiCalls {
 
   //----------------------------------------------------------------------------
 
-  Future<dynamic> getDriverByDriverId(
-      {String? driverId, TruckModel? truckModel}) async {
-    print('in getDriverByDriverId');
-    print(driverId);
+  Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
+
     Map? jsonData;
 
     if (driverId != null) {
-      print('driver id not equal to null');
-      print('$driverApiUrl/$driverId');
       http.Response response =
-      await http.get(Uri.parse('$driverApiUrl/$driverId'));
+          await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
       Map jsonData = json.decode(response.body);
-      print('driver json : $jsonData');
       DriverModel driverModel = DriverModel();
       driverModel.driverId = jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
       driverModel.transporterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
-      driverModel.phoneNum = jsonData["phoneNum"] != null ? jsonData["phoneNum"] : '';
+      driverModel.phoneNum = jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
       driverModel.driverName = jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
       driverModel.truckId = jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
-
       return driverModel;
     }
 
     if (truckModel!.driverId != null) {
-      http.Response response =
-      await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'));
+      try {
+        http.Response response =
+        await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'))
+            .timeout(
+            Duration(seconds: 1),
+            onTimeout: () {
+              throw TimeoutException(
+                  'The connection has timed out, Please try again!');
+            });
+        jsonData = json.decode(response.body);
+      }catch(e){
+          jsonData = {
+            'driverName' : 'NA',
+            'phoneNum' : 'NA'
+          };
+      }
+      TruckModel truckModelFinal = TruckModel(truckApproved: false);
+      truckModelFinal.driverName =
+      truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
+      truckModelFinal.truckApproved = truckModel.truckApproved;
+      truckModelFinal.truckId = truckModel.truckId;
+      truckModelFinal.truckNo = truckModel.truckNo;
+      truckModelFinal.truckType = truckModel.truckType;
+      truckModelFinal.tyres = truckModel.tyres;
+      truckModelFinal.driverNum =
+      truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+      truckModelFinal.imei = truckModel.imei;
+      return truckModelFinal;
+      }
+    else{
+      jsonData = {
+        'driverName' : 'NA',
+        'phoneNum' : 'NA'
+      };
+      TruckModel truckModelFinal = TruckModel(truckApproved: false);
+      truckModelFinal.driverName =
+      truckModel.driverId != null ? jsonData['driverName'] : 'NA';
+      truckModelFinal.truckApproved = truckModel.truckApproved;
+      truckModelFinal.truckNo = truckModel.truckNo;
+      truckModelFinal.truckId = truckModel.truckId;
+      truckModelFinal.truckType = truckModel.truckType;
+      truckModelFinal.tyres = truckModel.tyres;
+      truckModelFinal.driverNum =
+      truckModel.driverId != null ? jsonData['phoneNum'] : 'NA';
+      truckModelFinal.imei = truckModel.imei;
+      return truckModelFinal;
 
-      jsonData = json.decode(response.body);
     }
 
-    TruckModel truckModelFinal = TruckModel(truckApproved: false);
-    truckModelFinal.driverName =
-    truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
-    truckModelFinal.truckApproved = truckModel.truckApproved;
-    truckModelFinal.truckNo = truckModel.truckNo;
-    truckModelFinal.truckType = truckModel.truckType;
-    truckModelFinal.tyres = truckModel.tyres;
-    truckModelFinal.driverNum =
-    truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
-    truckModelFinal.imei = truckModel.imei;
-
-    return truckModelFinal;
   }
 
   //POST DRIVER-----------------------------------------------------------------
 
-  postDriverApi(driverName, phoneNum, transporterId, truckId) async {
-    Map data = {
-      "driverName": driverName,
-      "phoneNum": phoneNum,
-      "transporterId": transporterId,
-      "truckId": truckId
-    };
-    String body = json.encode(data);
-    // final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
-    final response = await http.post(Uri.parse("$driverApiUrl"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
-    print(response.body);
-  }
 
+  postDriverApi(driverName, phoneNum, transporterId) async {
+    try {
+      Map data = {
+        "driverName": driverName,
+        "phoneNum": phoneNum,
+        "transporterId": transporterId
+      };
+      String body = json.encode(data);
+      // final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
+      final response = await http.post(Uri.parse("$driverApiUrl"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      print("driver Api response : ${response.body}");
+      var decodedData = json.decode(response.body);
+      if (decodedData["driverId"] != null) {
+        Get.snackbar("Success!", "${decodedData["status"]}");
+        return decodedData["driverId"];
+      } else{
+        Get.snackbar("Error", "${decodedData["status"]}");
+        return null;}
+    } catch (e) {
+      print(e);
+      Get.snackbar("Error", "$e");
+      return null;
+    }
+  }
 }
+

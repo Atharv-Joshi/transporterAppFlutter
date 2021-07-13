@@ -5,9 +5,9 @@ class LoadPosterModel {
   String? loadPosterName;
   String? loadPosterCompanyName;
   String? loadPosterKyc;
-  String? loadPosterCompanyApproved;
-  String? loadPosterApproved;
-  String? loadPosterAccountVerificationInProgress;
+  bool? loadPosterCompanyApproved;
+  bool? loadPosterApproved;
+  bool? loadPosterAccountVerificationInProgress;
 
   LoadPosterModel(
       {this.loadPosterId,

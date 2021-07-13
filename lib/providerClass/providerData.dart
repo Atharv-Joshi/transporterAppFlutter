@@ -139,6 +139,7 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();

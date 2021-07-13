@@ -27,6 +27,7 @@ class AccountVerificationStatusScreen extends StatelessWidget {
       backgroundColor: statusBarColor,
       body: SafeArea(
         child: Container(
+          color: backgroundColor,
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                 height: space_3,
               ),
               Container(
-                height: 148,
+                padding: EdgeInsets.symmetric(vertical: space_4),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(space_1 + 3),
                   color: darkBlueColor,
@@ -61,8 +62,17 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: space_3),
                       child: CircleAvatar(
                         radius: radius_11,
-                        backgroundImage:
-                            AssetImage("assets/images/defaultDriverImage.png"),
+                        backgroundColor: white,
+                        child: Container(
+                          height: space_8,
+                          width: space_8,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image:
+                              AssetImage("assets/icons/defaultAccountIcon.png"),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     accountVerificationInProgress

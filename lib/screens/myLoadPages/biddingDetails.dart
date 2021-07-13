@@ -5,7 +5,7 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingDesicionCard.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
-import 'package:liveasy/widgets/loadPosterDetails_LoadDetails.dart';
+import 'package:liveasy/widgets/loadPosterDetails.dart';
 
 
 class BiddingDetails extends StatelessWidget {
@@ -19,7 +19,7 @@ class BiddingDetails extends StatelessWidget {
   final String? transporterPhoneNum;
   final String? transporterName;
   final String? transporterLocation;
-  final bool? companyApproved;
+  final bool? shipperApproved;
   final bool? transporterApproved;
 
   BiddingDetails({
@@ -32,7 +32,7 @@ class BiddingDetails extends StatelessWidget {
     required this.bidId,
     required this.transporterName,
     required this.transporterLocation,
-    required this.companyApproved,
+    required this.shipperApproved,
     required this.transporterApproved,
 
   }
@@ -51,7 +51,7 @@ class BiddingDetails extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: Stack(
                   children: [
-                    LoadPosterDetailsLoadDetails(
+                    LoadPosterDetails(
                       loadPosterLocation: transporterLocation ,
                       loadPosterName: transporterName,
                       loadPosterCompanyName: companyName,
@@ -71,7 +71,9 @@ class BiddingDetails extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  NegotiateButton(bidId : bidId),
+                                  NegotiateButton(
+                                    active: !shipperApproved!,
+                                      bidId : bidId),
                                   CallButton(directCall: true ,phoneNum: transporterPhoneNum ,)
                                 ],
                               ),
@@ -83,6 +85,7 @@ class BiddingDetails extends StatelessWidget {
                 ),
               ),
               BiddingDecisionCard(
+                shipperApproved : shipperApproved,
                 biddingDate: biddingDate,
                 bidId: bidId,
                 rate: rate,

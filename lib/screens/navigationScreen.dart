@@ -27,7 +27,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
-
     return Scaffold(
       backgroundColor: statusBarColor,
       // color of status bar which displays time on a phone

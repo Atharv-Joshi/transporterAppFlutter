@@ -2,26 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
-class SuggestedLoadDataDisplayCard extends StatelessWidget {
-  String loadingPointCity;
-  String unloadingPointCity;
-  var onTap;
+class HomeScreenLoadsCard extends StatelessWidget {
 
-  SuggestedLoadDataDisplayCard({
+  String? loadingPointCity;
+  String? unloadingPointCity;
+
+  HomeScreenLoadsCard({
     required this.loadingPointCity,
     required this.unloadingPointCity,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () =>{
+        Get.to(
+                () => SuggestedLoadScreen()
+        )
+      },
       child: Container(
         height: 76,
         width: 71,
@@ -42,8 +47,8 @@ class SuggestedLoadDataDisplayCard extends StatelessWidget {
                     width: space_1,
                   ),
                   Text(
-                    loadingPointCity.length >= 7
-                        ? "${loadingPointCity.substring(0, 6)}.."
+                    loadingPointCity!.length >= 7
+                        ? "${loadingPointCity!.substring(0, 6)}.."
                         : '$loadingPointCity',
                     style: TextStyle(fontSize: size_5, color: darkGreyColor),
                   ),
@@ -64,8 +69,8 @@ class SuggestedLoadDataDisplayCard extends StatelessWidget {
                     width: space_1,
                   ),
                   Text(
-                    unloadingPointCity.length >= 7
-                        ? "${unloadingPointCity.substring(0, 6)}.."
+                    unloadingPointCity!.length >= 7
+                        ? "${unloadingPointCity!.substring(0, 6)}.."
                         : '$unloadingPointCity',
                     style: TextStyle(fontSize: size_5, color: darkGreyColor),
                   ),

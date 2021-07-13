@@ -8,8 +8,8 @@ import 'package:liveasy/constants/spaces.dart';
 class DeclineButton extends StatelessWidget {
   String? bidId;
   bool? isBiddingDetails;
-
-  DeclineButton({required this.bidId, required this.isBiddingDetails});
+  final bool? active;
+  DeclineButton({required this.bidId, required this.isBiddingDetails , required this.active});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,15 @@ class DeclineButton extends StatelessWidget {
               RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           )),
-          backgroundColor: MaterialStateProperty.all<Color>(declineButtonRed),
+          backgroundColor: MaterialStateProperty.all<Color>(
+              active! ? declineButtonRed : inactiveBidding),
         ),
-        onPressed: () {
+        onPressed: active!
+          ? () {
           print('Decline Button Pressed');
           // putBidForAccept(bidId);
-        },
+        }
+        : null,
         child: Container(
           margin: isBiddingDetails!
               ? EdgeInsets.symmetric(vertical: space_1, horizontal: space_3)

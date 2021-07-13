@@ -9,9 +9,12 @@ class NegotiateButton extends StatelessWidget {
 
   final String? bidId;
 
+  final bool active;
+
   NegotiateButton(
       {
         required this.bidId,
+        required this.active
       }
       );
 
@@ -26,13 +29,16 @@ class NegotiateButton extends StatelessWidget {
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               )),
-          backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
+          backgroundColor: MaterialStateProperty.all<Color>(
+              active ? darkBlueColor : inactiveBidding),
         ),
-        onPressed: () {
+        onPressed: active
+          ? () {
             showDialog(
                 context: context,
                 builder: (context) =>  BidButtonAlertDialog(isPost: false , bidId:  bidId,));
-        },
+        }
+        : null,
         child: Container(
           child : Text(
                 'Negotiate',

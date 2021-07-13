@@ -24,7 +24,7 @@ class AccountDetailVerified extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: MediaQuery.of(context).size.width *0.5,
+          width: MediaQuery.of(context).size.width * 0.48,
           child: Text(
             name,
             style: TextStyle(
