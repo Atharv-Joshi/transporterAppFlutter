@@ -24,7 +24,7 @@ class LoadCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(loadDetails.truckType != 'Na'){
+    if(truckFilterVariables.truckTypeValueList.contains(loadDetails.truckType)){
       loadDetails.truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(loadDetails.truckType)];
     }
 
