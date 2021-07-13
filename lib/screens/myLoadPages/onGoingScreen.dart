@@ -14,6 +14,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
 class OngoingScreen extends StatefulWidget {
+
+    final  navBarHeight;
+    OngoingScreen({this.navBarHeight});
     @override
     _OngoingScreenState createState() => _OngoingScreenState();
 }

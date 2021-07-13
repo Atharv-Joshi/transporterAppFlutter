@@ -6,6 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -16,13 +17,20 @@ import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
+  final navBarHeight;
+
+  MyTrucks({ required this.navBarHeight});
   @override
   _MyTrucksState createState() => _MyTrucksState();
 }
 
 class _MyTrucksState extends State<MyTrucks> {
+
+
+
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
@@ -80,10 +88,9 @@ class _MyTrucksState extends State<MyTrucks> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
-        child: Container(
+        child:Container(
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
-          //TODO replace with height of bottom navigation bar
-          height:  MediaQuery.of(context).size.height - 100,
+          height:  MediaQuery.of(context).size.height - widget.navBarHeight - space_8,
           child: Column(
             children: [
               Row(
@@ -196,8 +203,9 @@ class _MyTrucksState extends State<MyTrucks> {
               //--------------------------------------------------------------
             ],
           ),
-        ),
+        )
       ),
+
     );
   } //build
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/widgets/MyLoadsCard.dart';
@@ -11,6 +12,10 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 
 class MyLoadsScreen extends StatefulWidget {
+
+  final  navBarHeight;
+  MyLoadsScreen({this.navBarHeight});
+
   @override
   _MyLoadsScreenState createState() => _MyLoadsScreenState();
 }
@@ -58,15 +63,16 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height * 0.67,
-        child:
 
+
+    return Container(
+        height:  MediaQuery.of(context).size.height -widget.navBarHeight - space_8,
+        child:
         loading
-        ? LoadingWidget()
-        :
+            ? LoadingWidget()
+            :
         myLoadList.length == 0
-        ?
+            ?
         Container(
           margin: EdgeInsets.only(top: 153),
           child: Column(
@@ -86,26 +92,25 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
           ),
         )
             :
-             ListView.builder(
-                 controller: scrollController,
-                itemCount: myLoadList.length,
-                  itemBuilder: (context , index){
-                      return MyLoadsCard(
-                        loadId: myLoadList[index].loadId,
-                        loadingPointCity: myLoadList[index].loadingPointCity,
-                        unloadingPointCity: myLoadList[index]
-                            .unloadingPointCity,
-                        truckType: myLoadList[index].truckType,
-                        weight: myLoadList[index].weight,
-                        productType: myLoadList[index].productType,
-                        rate: myLoadList[index].rate,
-                        unitValue: myLoadList[index].unitValue,
-                        loadDate: myLoadList[index].loadDate,
-                        noOfTrucks: myLoadList[index].noOfTrucks,
-                      );
-
-                  }
-              )
+        ListView.builder(
+            controller: scrollController,
+            itemCount: myLoadList.length,
+            itemBuilder: (context , index){
+              return MyLoadsCard(
+                loadId: myLoadList[index].loadId,
+                loadingPointCity: myLoadList[index].loadingPointCity,
+                unloadingPointCity: myLoadList[index]
+                    .unloadingPointCity,
+                truckType: myLoadList[index].truckType,
+                weight: myLoadList[index].weight,
+                productType: myLoadList[index].productType,
+                rate: myLoadList[index].rate,
+                unitValue: myLoadList[index].unitValue,
+                loadDate: myLoadList[index].loadDate,
+                noOfTrucks: myLoadList[index].noOfTrucks,
+              );
+            }
+        )
     );
   }
 
@@ -125,7 +130,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
       loadScreenCardsModel.truckType = json['truckType'] != null ?  json['truckType'] : 'NA' ;
       loadScreenCardsModel.weight = json['weight'] != null ?  json['weight'] : 'NA' ;
       loadScreenCardsModel.productType = json['productType'] != null ?  json['productType'] : 'NA' ;
-      loadScreenCardsModel.rate = json['rate'] ;
+      loadScreenCardsModel.rate = json['rate'].toString() ;
       loadScreenCardsModel.unitValue = json['unitValue'] != null ?  json['unitValue'] : 'NA' ;
       loadScreenCardsModel.noOfTrucks = json['noOfTrucks'] != null ?  json['noOfTrucks'] : 'NA' ;
       loadScreenCardsModel.loadDate = json['loadDate'] != null ?  json['loadDate'] : 'NA' ;
