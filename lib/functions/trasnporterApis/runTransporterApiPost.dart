@@ -21,8 +21,9 @@ Future<String?> runTransporterApiPost(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
-    if (response.statusCode == 200) {
-      print(response.body);
+    print(response.body);
+    if (response.statusCode == 201) {
+      
       var decodedResponse = json.decode(response.body);
       if (decodedResponse["transporterId"] != null) {
         String transporterId = decodedResponse["transporterId"];
