@@ -25,29 +25,22 @@ class DeliveredScreenOrders extends StatelessWidget {
 
             if (snapshot.data.length == 0) {
               return Container(
-                  margin: EdgeInsets.only(top: 153),
-                  child: DeliveredCardOrders(
-                    vehicleNo: "AB 23 45 2344",
-                    productType: "medicine",
-                    noOfTrucks: "3",
-                    truckType: "Flatbed",
-                    posterLocation: "Meerut",
-                    posterName: "Uttkarsh",
-                    companyApproved: true,
-                    driverPhoneNum: "9234523421",
-                    transporterPhoneNumber: "3245352435",
-                    rate: 200,
-                    loadingPoint: "meerut",
-                    unloadingPoint: "delhi",
-                    companyName: "ABC company",
-                    truckNo: "234244",
-                    driverName: "Raju",
-                    startedOn: "23 may,2021",
-                    endedOn: "27 may,2021",
-
-                    // imei: snapshot.data['imei'],
-                    // phoneNum: snapshot.data['phoneNum'],
-                  ));
+                margin: EdgeInsets.only(top: 153),
+                child: Column(
+                  children: [
+                    Image(
+                      image: AssetImage('assets/images/EmptyLoad.png'),
+                      height: 127,
+                      width: 127,
+                    ),
+                    Text(
+                      'Loads will be available once delivered!',
+                      style: TextStyle(fontSize: size_8, color: grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
             } else {
               return ListView.builder(
                   itemCount: snapshot.data.length,
