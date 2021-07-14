@@ -62,29 +62,15 @@ class DeliveredCardOrders extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(space_4),
+              margin: EdgeInsets.all(space_2),
               child: Column(
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          LoadEndPointTemplate(
-                              text: loadingPoint, endPointType: 'loading'),
-                          Container(
-                              padding: EdgeInsets.only(left: 2),
-                              height: space_6,
-                              width: space_12,
-                              child: CustomPaint(
-                                foregroundPainter: LinePainter(),
-                              )),
-                          LoadEndPointTemplate(
-                              text: unloadingPoint, endPointType: 'unloading'),
-                        ],
-                      ),
+                      LoadLabelValueRowTemplate(
+                          value: startedOn, label: 'Booking date'),
                       GestureDetector(
                           onTap: () {
                             Get.to(ShipperDetails(
@@ -104,6 +90,25 @@ class DeliveredCardOrders extends StatelessWidget {
                           child: Icon(Icons.arrow_forward_ios))
                     ],
                   ),
+                  SizedBox(
+                    height: space_2,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LoadEndPointTemplate(
+                          text: loadingPoint, endPointType: 'loading'),
+                      Container(
+                          padding: EdgeInsets.only(left: 2),
+                          height: space_6,
+                          width: space_12,
+                          child: CustomPaint(
+                            foregroundPainter: LinePainter(),
+                          )),
+                      LoadEndPointTemplate(
+                          text: unloadingPoint, endPointType: 'unloading'),
+                    ],
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: space_4),
                     child: Column(
@@ -112,8 +117,6 @@ class DeliveredCardOrders extends StatelessWidget {
                             value: truckNo, label: 'Truck No.'),
                         LoadLabelValueRowTemplate(
                             value: driverName, label: 'Driver Name'),
-                        LoadLabelValueRowTemplate(
-                            value: startedOn, label: 'Booking date'),
                         LoadLabelValueRowTemplate(
                             value: endedOn, label: 'Completed date'),
                         LoadLabelValueRowTemplate(

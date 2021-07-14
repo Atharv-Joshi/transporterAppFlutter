@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/TransporterOrders/DeliveredScreenOrders/deliveredScreenOrders.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:get/get.dart';
-import '../../../functions/textOverFlow.dart';
 import '../../../widgets/buttons/callButton.dart';
 import '../../shipperDetailsScreen.dart';
 import '../OrderButtons/completedButtonOrders.dart';
@@ -69,30 +67,15 @@ class OngoingCardOrders extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(space_4),
+                margin: EdgeInsets.all(space_2),
                 child: Column(
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            LoadEndPointTemplate(
-                                text: loadingPoint, endPointType: 'loading'),
-                            Container(
-                                padding: EdgeInsets.only(left: 2),
-                                height: space_6,
-                                width: space_12,
-                                child: CustomPaint(
-                                  foregroundPainter: LinePainter(),
-                                )),
-                            LoadEndPointTemplate(
-                                text: unloadingPoint,
-                                endPointType: 'unloading'),
-                          ],
-                        ),
+                        LoadLabelValueRowTemplate(
+                            value: startedOn, label: 'Booking date'),
                         GestureDetector(
                             onTap: () {
                               Get.to(ShipperDetails(
@@ -112,6 +95,25 @@ class OngoingCardOrders extends StatelessWidget {
                             child: Icon(Icons.arrow_forward_ios))
                       ],
                     ),
+                    SizedBox(
+                      height: space_2,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LoadEndPointTemplate(
+                            text: loadingPoint, endPointType: 'loading'),
+                        Container(
+                            padding: EdgeInsets.only(left: 2),
+                            height: space_6,
+                            width: space_12,
+                            child: CustomPaint(
+                              foregroundPainter: LinePainter(),
+                            )),
+                        LoadEndPointTemplate(
+                            text: unloadingPoint, endPointType: 'unloading'),
+                      ],
+                    ),
                     Container(
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
@@ -120,8 +122,6 @@ class OngoingCardOrders extends StatelessWidget {
                               value: vehicleNo, label: 'Truck no.'),
                           LoadLabelValueRowTemplate(
                               value: driverName, label: 'Driver Name'),
-                          LoadLabelValueRowTemplate(
-                              value: startedOn, label: 'Booking date'),
                           LoadLabelValueRowTemplate(
                               value: "Rs.$rate/tonne", label: 'Price'),
                         ],

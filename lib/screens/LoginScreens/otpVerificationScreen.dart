@@ -10,7 +10,6 @@ import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/widgets/otpInputField.dart';
-import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/functions/authFunctions.dart';
 import 'package:provider/provider.dart';

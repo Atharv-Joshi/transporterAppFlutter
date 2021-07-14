@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
@@ -18,7 +19,10 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
         children: [
           Text(
             '$label',
-            style: TextStyle(fontWeight: normalWeight),
+            style: TextStyle(
+                fontSize: size_6,
+                fontWeight:
+                    label == "Booking date" ? regularWeight : normalWeight),
           ),
           Container(
               width: MediaQuery.of(context).size.width / 2.3,
@@ -26,9 +30,13 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    label == "Location" ? ":  ${value!}" : ":  ${value!}",
+                    ":  ${value!}",
                     style: TextStyle(
-                        fontWeight: mediumBoldWeight, color: veryDarkGrey),
+                        fontSize: size_6,
+                        fontWeight: label == "Booking date"
+                            ? regularWeight
+                            : mediumBoldWeight,
+                        color: veryDarkGrey),
                   ),
                 ],
               )),
