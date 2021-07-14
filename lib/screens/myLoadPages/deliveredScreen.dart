@@ -109,6 +109,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
           ),
         )
             : ListView.builder(
+          controller: scrollController,
             itemCount: modelList.length,
             itemBuilder: (context, index) {
               return FutureBuilder(
