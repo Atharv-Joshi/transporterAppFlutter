@@ -134,6 +134,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               padding: EdgeInsets.symmetric(horizontal: space_2),
               child: TextField(
                 controller: driverNumberController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   hintText: "Type here",
                   hintStyle: TextStyle(
