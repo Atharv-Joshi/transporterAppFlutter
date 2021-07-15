@@ -33,6 +33,7 @@ class BookingApiCallsOrders {
       }
 
       for (var json in jsonData) {
+        print(bookingApiUrl);
         BookingModel bookingModel = BookingModel(truckId: []);
         bookingModel.bookingDate = json['bookingDate'];
         bookingModel.loadId = json['loadId'];
@@ -43,6 +44,8 @@ class BookingApiCallsOrders {
         bookingModel.completedDate = json['completedDate'];
         bookingModel.postLoadId = json['postLoadId'];
         bookingModel.bookingId = json['bookingId'];
+        bookingModel.rate = json['rate'];
+
         // providerData.updateBookingId(json['postLoadId']);
         // print(bookingModel.bookingId);
 
@@ -75,6 +78,7 @@ class BookingApiCallsOrders {
           bookingModel.completed = json['completed'];
           bookingModel.completedDate = json['completedDate'];
           bookingModel.postLoadId = json['postLoadId'];
+          bookingModel.rate = json['rate'];
 
           modelList.add(bookingModel);
         }

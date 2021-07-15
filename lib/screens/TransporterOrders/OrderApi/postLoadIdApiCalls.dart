@@ -16,8 +16,10 @@ class PostLoadIdApiCalls {
 
     Map transporterData = {
       'companyName': jsonData['companyName'],
-      'transporterPhoneNum': jsonData['phoneNo'].toString(),
-      'transporterName': jsonData['transporterName']
+      'posterPhoneNum': jsonData['phoneNo'].toString(),
+      'posterName': jsonData['transporterName'],
+      "posterLocation": jsonData['transporterLocation'],
+      "companyApproved": jsonData['companyApproved']
     };
     print(transporterData);
 
@@ -33,8 +35,10 @@ class PostLoadIdApiCalls {
 
     Map shipperData = {
       'companyName': jsonData['companyName'],
-      'transporterPhoneNum': jsonData['phoneNo'].toString(),
-      'shipperName': jsonData['shipperName']
+      'posterPhoneNum': jsonData['phoneNo'].toString(),
+      'posterName': jsonData['shipperName'],
+      "posterLocation": jsonData['shipperLocation'],
+      "companyApproved": jsonData['companyApproved']
     };
 
     return shipperData;
