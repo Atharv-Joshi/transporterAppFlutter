@@ -16,6 +16,7 @@ final DriverApiCalls driverApiCalls = DriverApiCalls();
 Future<Map> loadAllDataOrders(bookingModel) async {
   String bookingDate = bookingModel.bookingDate;
   String bookingId = bookingModel.bookingId;
+  String unitValue = bookingModel.unitValue;
   print("load All data $bookingId");
   print(bookingDate);
   int rate = bookingModel.rate;
@@ -38,6 +39,7 @@ Future<Map> loadAllDataOrders(bookingModel) async {
   print(truckData['driverId']);
 
   Map cardDataModel = {
+    'unitValue': unitValue,
     'startedOn': bookingDate,
     'endedOn': completedDate,
     'loadingPoint': loadDetails['loadingPointCity'],

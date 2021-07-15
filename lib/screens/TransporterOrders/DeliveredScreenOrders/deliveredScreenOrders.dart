@@ -50,9 +50,10 @@ class DeliveredScreenOrders extends StatelessWidget {
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.data == null) {
-                            return SizedBox();
+                            return LoadingWidget();
                           }
                           return DeliveredCardOrders(
+                            unitValue: snapshot.data['unitValue'],
                             vehicleNo: snapshot.data['truckNo'],
                             productType: snapshot.data['productType'],
                             noOfTrucks: snapshot.data['noOfTrucks'],
