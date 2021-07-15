@@ -48,7 +48,6 @@ class MyLoadsCard extends StatelessWidget {
     if(truckType != 'Na'){
       truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)];
     }
-
     return  Container(
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(

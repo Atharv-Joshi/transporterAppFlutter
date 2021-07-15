@@ -27,6 +27,7 @@ class LoadApiCalls {
       'productType': jsonData['productType'] != null
           ? jsonData['productType']
           : 'NA',
+      'postLoadId' : jsonData['postLoadId'],
     };
 
 

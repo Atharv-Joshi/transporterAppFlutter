@@ -6,6 +6,8 @@ import 'package:liveasy/models/transporterModel.dart';
 import 'driverApiCalls.dart';
 import 'loadApiCalls.dart';
 
+
+//TODO:later on ,put these variables inside the function
 final LoadApiCalls loadApiCalls = LoadApiCalls();
 
 final TransporterApiCalls transporterApiCalls = TransporterApiCalls();

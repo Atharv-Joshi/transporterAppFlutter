@@ -2,31 +2,31 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/models/bidsModel.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-Future<List<BidsModel>> getBidsFromBidApi() async {
-  TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+Future<List<BiddingModel>> getBidsFromBidApi() async {
+  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
   var jsonData;
-  List<BidsModel> bidsCard = [];
+  List<BiddingModel> biddingModelList = [];
   final String bidApiUrl = FlutterConfig.get("biddingApiUrl").toString();
   http.Response response = await http.get(Uri.parse(
-      "$bidApiUrl?transporterId=${transporterIdController.transporterId}"));
+      "$bidApiUrl?transporterId=${transporterIdController.transporterId.value}"));
 
   jsonData = json.decode(response.body);
   for (var json in jsonData) {
-    BidsModel bidsModel = BidsModel();
-    bidsModel.bidId = json["bidId"].toString();
-    bidsModel.transporterId = json["transporterId"].toString();
-    bidsModel.rate = json["rate"].toString();
-    bidsModel.unitValue = json["unitValue"].toString();
-    bidsModel.loadId = json["loadId"].toString();
-    bidsModel.biddingDate = json["biddingDate"].toString();
-    bidsModel.truckId = json["truckId"].toString();
-    bidsModel.shipperApproval= json["shipperApproval"];
-    bidsCard.add(bidsModel);
+    BiddingModel biddingModel = BiddingModel();
+    biddingModel.bidId = json["bidId"];
+    biddingModel.transporterId = json["transporterId"];
+    biddingModel.loadId = json["loadId"];
+    biddingModel.currentBid = json["currentBid"].toString();
+    biddingModel.previousBid = json['previousBid'].toString();
+    biddingModel.unitValue = json["unitValue"];
+    biddingModel.truckIdList = json["truckId"];
+    biddingModel.shipperApproval= json["shipperApproval"];
+    biddingModel.transporterApproval = json['transporterApproval'];
+    biddingModel.biddingDate = json['biddingDate'];
+    biddingModelList.add(biddingModel);
   }
-
-  return bidsCard;
+  return biddingModelList;
 }

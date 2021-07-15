@@ -65,7 +65,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     getBidDataByLoadId(i);
@@ -81,7 +81,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }
@@ -101,7 +101,9 @@ class _BiddingScreensState extends State<BiddingScreens> {
                       .of(context)
                       .size
                       .height * 0.83,
-                  child: biddingModelList.isEmpty ? Text('No bids yet') : ListView.builder(
+                  child: biddingModelList.isEmpty ? Text('No bids yet')
+                      : ListView.builder(
+                      controller: scrollController,
                       itemCount: biddingModelList.length ,
                       itemBuilder: (context,index){
                         if(biddingModelList.length == 0){
@@ -114,7 +116,8 @@ class _BiddingScreensState extends State<BiddingScreens> {
                             if (snapshot.data == null) {
                               return LoadingWidget();
                             }
-                            return BiddingCard(
+                            return BiddingsCard(
+                              forShipperSide: true,
                               loadId: widget.loadId,
                               loadingPointCity: widget.loadingPointCity,
                               unloadingPointCity:  widget.unloadingPointCity,

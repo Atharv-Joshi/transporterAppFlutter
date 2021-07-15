@@ -6,17 +6,16 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
-import 'package:liveasy/models/bidsModel.dart';
-import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 
 // ignore: must_be_immutable
 class ConfirmOrderButton extends StatelessWidget {
-  BidsModel? bidsModel;
+  BiddingModel biddingModel;
   LoadDetailsScreenModel? loadDetailsScreenModel;
 
-  ConfirmOrderButton({required this.bidsModel, this.loadDetailsScreenModel});
+  ConfirmOrderButton({required this.biddingModel, this.loadDetailsScreenModel});
 
   List truckDetailsList = [];
   List driverDetailsList = [];
@@ -53,7 +52,7 @@ class ConfirmOrderButton extends StatelessWidget {
             builder: (context) => BookNowButtonAlertDialog(
                 truckDetailsList: truckDetailsList,
                 driverDetailsList: driverDetailsList,
-                bidsModel: bidsModel,
+                biddingModel: biddingModel,
                 loadDetailsScreenModel: loadDetailsScreenModel,
                 directBooking: false),
           );
