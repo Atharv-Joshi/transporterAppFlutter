@@ -52,6 +52,7 @@ class OngoingScreenOrders extends StatelessWidget {
                             return LoadingWidget();
                           }
                           return OngoingCardOrders(
+                            unitValue: snapshot.data['unitValue'],
                             productType: snapshot.data['productType'],
                             noOfTrucks: snapshot.data['noOfTrucks'],
                             truckType: snapshot.data['truckType'],

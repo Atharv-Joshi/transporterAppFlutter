@@ -31,6 +31,7 @@ class OngoingCardOrders extends StatelessWidget {
   final String truckType;
   final String noOfTrucks;
   final String productType;
+  final String unitValue;
 
   // final String transporterName;
 
@@ -53,6 +54,7 @@ class OngoingCardOrders extends StatelessWidget {
     required this.truckType,
     required this.noOfTrucks,
     required this.productType,
+    required this.unitValue,
 
     // required this.transporterName,
   });
@@ -122,7 +124,7 @@ class OngoingCardOrders extends StatelessWidget {
                           LoadLabelValueRowTemplate(
                               value: driverName, label: 'Driver Name'),
                           LoadLabelValueRowTemplate(
-                              value: "Rs.$rate/tonne", label: 'Price'),
+                              value: "Rs.$rate/$unitValue", label: 'Price'),
                         ],
                       ),
                     ),

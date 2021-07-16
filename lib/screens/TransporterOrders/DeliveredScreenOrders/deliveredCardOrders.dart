@@ -29,31 +29,32 @@ class DeliveredCardOrders extends StatelessWidget {
   final String noOfTrucks;
   final String productType;
   final String vehicleNo;
+  final String unitValue;
 
   // final String imei;
 
-  DeliveredCardOrders({
-    required this.transporterPhoneNumber,
-    required this.driverPhoneNum,
-    required this.loadingPoint,
-    required this.unloadingPoint,
-    required this.startedOn,
-    required this.endedOn,
-    required this.truckNo,
-    required this.companyName,
-    // required this.phoneNum,
-    required this.driverName,
-    required this.vehicleNo,
+  DeliveredCardOrders(
+      {required this.transporterPhoneNumber,
+      required this.driverPhoneNum,
+      required this.loadingPoint,
+      required this.unloadingPoint,
+      required this.startedOn,
+      required this.endedOn,
+      required this.truckNo,
+      required this.companyName,
+      // required this.phoneNum,
+      required this.driverName,
+      required this.vehicleNo,
 
-    // required this.imei
-    required this.rate,
-    required this.companyApproved,
-    required this.posterLocation,
-    required this.posterName,
-    required this.truckType,
-    required this.noOfTrucks,
-    required this.productType,
-  });
+      // required this.imei
+      required this.rate,
+      required this.companyApproved,
+      required this.posterLocation,
+      required this.posterName,
+      required this.truckType,
+      required this.noOfTrucks,
+      required this.productType,
+      required this.unitValue});
 
   @override
   Widget build(BuildContext context) {
@@ -110,22 +111,18 @@ class DeliveredCardOrders extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: space_4),
+                    margin: EdgeInsets.only(top: space_2),
                     child: Column(
                       children: [
                         LoadLabelValueRowTemplate(
-                            value: truckNo, label: 'Truck No.'),
-                        LoadLabelValueRowTemplate(
-                            value: driverName, label: 'Driver Name'),
-                        LoadLabelValueRowTemplate(
                             value: endedOn, label: 'Completed date'),
                         LoadLabelValueRowTemplate(
-                            value: "Rs.$rate/tonne", label: 'Price'),
+                            value: "Rs.$rate/$unitValue", label: 'Price'),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: space_5,
+                    height: space_2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,13 +149,6 @@ class DeliveredCardOrders extends StatelessWidget {
                       ),
                       SizedBox(
                         height: space_2,
-                      ),
-                      CallButton(
-                        directCall: false,
-                        transporterPhoneNum: transporterPhoneNumber,
-                        driverPhoneNum: driverPhoneNum,
-                        driverName: driverName,
-                        transporterName: companyName,
                       ),
                     ],
                   ),

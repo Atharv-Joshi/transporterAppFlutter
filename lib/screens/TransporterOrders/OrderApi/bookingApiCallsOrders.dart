@@ -45,6 +45,7 @@ class BookingApiCallsOrders {
         bookingModel.postLoadId = json['postLoadId'];
         bookingModel.bookingId = json['bookingId'];
         bookingModel.rate = json['rate'];
+        bookingModel.unitValue = json['unitValue'];
 
         // providerData.updateBookingId(json['postLoadId']);
         // print(bookingModel.bookingId);
@@ -79,6 +80,7 @@ class BookingApiCallsOrders {
           bookingModel.completedDate = json['completedDate'];
           bookingModel.postLoadId = json['postLoadId'];
           bookingModel.rate = json['rate'];
+          bookingModel.unitValue = json['unitValue'];
 
           modelList.add(bookingModel);
         }
