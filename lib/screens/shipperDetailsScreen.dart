@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
+
+import 'TransporterOrders/OrderButtons/completedButtonOrders.dart';
 
 class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
@@ -20,6 +23,7 @@ class ShipperDetails extends StatefulWidget {
   String? truckType;
   String? noOfTrucks;
   String? productType;
+  String? bookingId;
 
   ShipperDetails({
     Key? key,
@@ -35,6 +39,7 @@ class ShipperDetails extends StatefulWidget {
     this.shipperPosterName,
     this.shipperPosterCompanyName,
     this.shipperPosterCompanyApproved,
+    this.bookingId,
   }) : super(key: key);
 
   @override
@@ -61,7 +66,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                   SizedBox(
                     width: space_3,
                   ),
-                  HeadingTextWidget("Shipper Details"),
+                  HeadingTextWidget("Order Details"),
                   // HelpButtonWidget(),
                 ],
               ),
@@ -107,6 +112,13 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: space_2,
+              ),
+              CompletedButtonOrders(
+                bookingId: widget.bookingId!,
+                fontSize: size_9,
               )
             ],
           ),

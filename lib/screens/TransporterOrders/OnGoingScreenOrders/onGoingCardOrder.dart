@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
@@ -65,125 +66,128 @@ class OngoingCardOrders extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: space_3),
       child: Container(
-        child: Card(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(space_2),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        LoadLabelValueRowTemplate(
-                            value: startedOn, label: 'Booking date'),
-                        GestureDetector(
-                            onTap: () {
-                              Get.to(ShipperDetails(
-                                truckType: truckType,
-                                noOfTrucks: noOfTrucks,
-                                productType: productType,
-                                loadingPoint: loadingPoint,
-                                unloadingPoint: unloadingPoint,
-                                rate: rate,
-                                vehicleNo: vehicleNo,
-                                shipperPosterCompanyApproved: companyApproved,
-                                shipperPosterCompanyName: companyName,
-                                shipperPosterLocation: posterLocation,
-                                shipperPosterName: posterName,
-                              ));
-                            },
-                            child: Icon(Icons.arrow_forward_ios))
-                      ],
-                    ),
-                    SizedBox(
-                      height: space_2,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        LoadEndPointTemplate(
-                            text: loadingPoint, endPointType: 'loading'),
-                        Container(
-                            padding: EdgeInsets.only(left: 2),
-                            height: space_6,
-                            width: space_12,
-                            child: CustomPaint(
-                              foregroundPainter: LinePainter(),
-                            )),
-                        LoadEndPointTemplate(
-                            text: unloadingPoint, endPointType: 'unloading'),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: space_4),
-                      child: Column(
+        child: GestureDetector(
+          onTap: () {
+            Get.to(ShipperDetails(
+              bookingId: bookingId,
+              truckType: truckType,
+              noOfTrucks: noOfTrucks,
+              productType: productType,
+              loadingPoint: loadingPoint,
+              unloadingPoint: unloadingPoint,
+              rate: rate,
+              vehicleNo: vehicleNo,
+              shipperPosterCompanyApproved: companyApproved,
+              shipperPosterCompanyName: companyName,
+              shipperPosterLocation: posterLocation,
+              shipperPosterName: posterName,
+            ));
+          },
+          child: Card(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(space_2),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: vehicleNo, label: 'Truck no.'),
-                          LoadLabelValueRowTemplate(
-                              value: driverName, label: 'Driver Name'),
-                          LoadLabelValueRowTemplate(
-                              value: "Rs.$rate/$unitValue", label: 'Price'),
+                              value: startedOn, label: 'Booking date'),
+                          Icon(Icons.arrow_forward_ios)
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: space_5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                      SizedBox(
+                        height: space_2,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          LoadEndPointTemplate(
+                              text: loadingPoint, endPointType: 'loading'),
+                          Container(
+                              padding: EdgeInsets.only(left: 2),
+                              height: space_6,
+                              width: space_12,
+                              child: CustomPaint(
+                                foregroundPainter: LinePainter(),
+                              )),
+                          LoadEndPointTemplate(
+                              text: unloadingPoint, endPointType: 'unloading'),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: space_4),
+                        child: Column(
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(right: space_1),
-                              child: Image(
-                                  height: 16,
-                                  width: 23,
-                                  color: black,
-                                  image: AssetImage(
-                                      'assets/icons/buildingIcon.png')),
-                            ),
-                            Text(
-                              companyName,
-                              style: TextStyle(
-                                color: liveasyBlackColor,
-                                fontWeight: mediumBoldWeight,
-                              ),
-                            )
+                            LoadLabelValueRowTemplate(
+                                value: vehicleNo, label: 'Truck no.'),
+                            LoadLabelValueRowTemplate(
+                                value: driverName, label: 'Driver Name'),
+                            LoadLabelValueRowTemplate(
+                                value: "Rs.$rate/$unitValue", label: 'Price'),
                           ],
                         ),
-                        SizedBox(
-                          height: space_2,
-                        ),
-                        CallButton(
-                          directCall: false,
-                          transporterPhoneNum: transporterPhoneNumber,
-                          driverPhoneNum: driverPhoneNum,
-                          driverName: driverName,
-                          transporterName: companyName,
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      SizedBox(
+                        height: space_5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: space_1),
+                                child: Image(
+                                    height: 16,
+                                    width: 23,
+                                    color: black,
+                                    image: AssetImage(
+                                        'assets/icons/buildingIcon.png')),
+                              ),
+                              Text(
+                                companyName,
+                                style: TextStyle(
+                                  color: liveasyBlackColor,
+                                  fontWeight: mediumBoldWeight,
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: space_2,
+                          ),
+                          CallButton(
+                            directCall: false,
+                            transporterPhoneNum: transporterPhoneNumber,
+                            driverPhoneNum: driverPhoneNum,
+                            driverName: driverName,
+                            transporterName: companyName,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: contactPlaneBackground,
-                padding: EdgeInsets.symmetric(
-                  vertical: space_2,
+                Container(
+                  color: contactPlaneBackground,
+                  padding: EdgeInsets.symmetric(
+                    vertical: space_2,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TrackButton(truckApproved: false),
+                      CompletedButtonOrders(
+                          bookingId: bookingId, fontSize: size_7),
+                    ],
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TrackButton(truckApproved: false),
-                    CompletedButtonOrders(bookingId: bookingId),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

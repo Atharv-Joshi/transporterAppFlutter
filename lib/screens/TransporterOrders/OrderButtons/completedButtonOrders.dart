@@ -9,7 +9,11 @@ import 'package:liveasy/screens/TransporterOrders/ordersAlertDialog/completedOrd
 
 class CompletedButtonOrders extends StatelessWidget {
   final String bookingId;
-  CompletedButtonOrders({Key? key, required this.bookingId}) : super(key: key);
+  final double? fontSize;
+
+  CompletedButtonOrders(
+      {Key? key, required this.bookingId, required this.fontSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class CompletedButtonOrders extends StatelessWidget {
       },
       child: Container(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -49,7 +54,7 @@ class CompletedButtonOrders extends StatelessWidget {
                   letterSpacing: 0.7,
                   fontWeight: normalWeight,
                   color: white,
-                  fontSize: size_7,
+                  fontSize: fontSize,
                 ),
               ),
             ),
