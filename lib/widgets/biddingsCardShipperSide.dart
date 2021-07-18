@@ -17,7 +17,7 @@ import 'package:liveasy/widgets/priceContainer.dart';
 import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
-class BiddingsCard extends StatelessWidget {
+class BiddingsCardShipperSide extends StatelessWidget {
   final String? loadId;
   final String? bidId;
   final String? loadingPointCity;
@@ -33,12 +33,10 @@ class BiddingsCard extends StatelessWidget {
   final bool? shipperApproved;
   final bool? transporterApproved;
   final bool? loadPostApproval;
-  final bool forShipperSide;
    String orderStatus = '';
    Color orderStatusColor = Colors.white;
 
-  BiddingsCard({
-    required this.forShipperSide,
+  BiddingsCardShipperSide({
     required this.loadId ,
     required this.loadPostApproval,
     required this.loadingPointCity ,
@@ -88,7 +86,7 @@ class BiddingsCard extends StatelessWidget {
           transporterPhoneNum: transporterPhoneNum,
           transporterName : transporterName,
           transporterLocation: transporterLocation,
-          shipperApproved: loadPostApproval,
+          shipperApproved: shipperApproved,
           transporterApproved: transporterApproved,
         ));
       },

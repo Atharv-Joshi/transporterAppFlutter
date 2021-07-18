@@ -30,7 +30,6 @@ class AcceptButton extends StatelessWidget {
         ),
         onPressed: active ?
             () {
-          print('Accept Button Pressed');
           putBidForAccept(bidId);
         }
         : null ,

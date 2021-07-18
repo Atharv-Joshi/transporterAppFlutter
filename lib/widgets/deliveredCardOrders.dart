@@ -5,9 +5,9 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/textOverFlow.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import '../../../widgets/linePainter.dart';
-import '../../../widgets/loadLabelValueRowTemplate.dart';
-import '../../shipperDetailsScreen.dart';
+import 'linePainter.dart';
+import 'loadLabelValueRowTemplate.dart';
+import '../screens/shipperDetailsScreen.dart';
 import 'package:get/get.dart';
 
 class DeliveredCardOrders extends StatelessWidget {

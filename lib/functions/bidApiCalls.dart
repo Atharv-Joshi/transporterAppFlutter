@@ -79,5 +79,43 @@ putBidForNegotiate(String? bidId , String? rate , String? unitValue) async {
       },
       body: body);
 
+
+}
+
+declineBidFromShipperSide(String bidId) async {
+
+  final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
+
+  Map<String , bool> data = {
+    'transporterApproval' : false
+  };
+
+  String body = json.encode(data);
+
+  final response = await http.put(Uri.parse("$bidApiUrl/$bidId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body);
+
+  print(response.body);
+}
+
+declineBidFromTransporterSideSide({required String bidId , required approvalVariable }) async {
+
+  final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
+
+  Map<String , bool> data = {
+    '$approvalVariable' : false
+  };
+
+  String body = json.encode(data);
+
+  final response = await http.put(Uri.parse("$bidApiUrl/$bidId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body);
+
   print(response.body);
 }

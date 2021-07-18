@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:liveasy/models/loadApiModel.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
-Future<List<LoadApiModel>> runFindLoadApiGet(
+Future<List<LoadDetailsScreenModel>> runFindLoadApiGet(
+
     String loadingPointCity, String unloadingPointCity) async {
   String additionalQuery = "";
+
   if (loadingPointCity != "" && unloadingPointCity != "") {
     additionalQuery =
         "?unloadingPointCity=$unloadingPointCity&loadingPointCity=$loadingPointCity";
@@ -18,7 +20,7 @@ Future<List<LoadApiModel>> runFindLoadApiGet(
   }
 
   var jsonData;
-  List<LoadApiModel> card = [];
+  List<LoadDetailsScreenModel> modelList = [];
 
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response =
@@ -26,25 +28,27 @@ Future<List<LoadApiModel>> runFindLoadApiGet(
 
   jsonData = json.decode(response.body);
   for (var json in jsonData) {
-    LoadApiModel cardsModal = LoadApiModel();
-    cardsModal.loadId = json["loadId"];
-    cardsModal.loadingPoint = json["loadingPoint"];
-    cardsModal.loadingPointCity = json["loadingPointCity"];
-    cardsModal.loadingPointState = json["loadingPointState"];
-    cardsModal.postLoadId = json["postLoadId"];
-    cardsModal.unloadingPoint = json["unloadingPoint"];
-    cardsModal.unloadingPointCity = json["unloadingPointCity"];
-    cardsModal.unloadingPointState = json["unloadingPointState"];
-    cardsModal.productType = json["productType"];
-    cardsModal.truckType = json["truckType"];
-    cardsModal.noOfTrucks = json["noOfTrucks"];
-    cardsModal.weight = json["weight"];
-    cardsModal.comment = json["comment"];
-    cardsModal.status = json["status"];
-    cardsModal.loadDate = json["loadDate"];
-    cardsModal.rate = json["rate"];
-    cardsModal.unitValue = json["unitValue"];
-    card.add(cardsModal);
+    LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
+    
+    loadDetailsScreenModel.loadId = json["loadId"] != null ? json['loadId'] : 'NA';
+    loadDetailsScreenModel.loadingPoint = json["loadingPoint"] != null ? json['loadingPoint'] : 'NA';
+    loadDetailsScreenModel.loadingPointCity = json["loadingPointCity"] != null ? json['loadingPointCity'] : 'NA';
+    loadDetailsScreenModel.loadingPointState = json["loadingPointState"] != null ? json['loadingPointState'] : 'NA';
+    loadDetailsScreenModel.postLoadId = json["postLoadId"] != null ? json['postLoadId'] : 'NA';
+    loadDetailsScreenModel.unloadingPoint = json["unloadingPoint"] != null ? json['unloadingPoint'] : 'NA';
+    loadDetailsScreenModel.unloadingPointCity = json["unloadingPointCity"] != null ? json['unloadingPointCity'] : 'NA';
+    loadDetailsScreenModel.unloadingPointState = json["unloadingPointState"] != null ? json['unloadingPointState'] : 'NA';
+    loadDetailsScreenModel.productType = json["productType"] != null ? json['productType'] : 'NA';
+    loadDetailsScreenModel.truckType = json["truckType"] != null ? json['truckType'] : 'NA';
+    loadDetailsScreenModel.noOfTrucks = json["noOfTrucks"] != null ? json['noOfTrucks'] : 'NA';
+    loadDetailsScreenModel.weight = json["weight"] != null ? json['weight'] : 'NA';
+    loadDetailsScreenModel.comment = json["comment"] != null ? json['comment'] : 'NA';
+    loadDetailsScreenModel.status = json["status"] != null ? json['status'] : 'NA';
+    loadDetailsScreenModel.loadDate = json["loadDate"] != null ? json['loadDate'] : 'NA';
+    loadDetailsScreenModel.rate = json["rate"] != null ? json['rate'].toString() : 'NA';
+    loadDetailsScreenModel.unitValue = json["unitValue"] != null ? json['unitValue'] : 'NA';
+
+    modelList.add(loadDetailsScreenModel);
   }
-  return card;
+  return modelList;
 }

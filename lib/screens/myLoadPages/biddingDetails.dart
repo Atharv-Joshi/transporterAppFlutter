@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingDesicionCard.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 
-
+//TODO:instead of destructuring bidding model we can pass it entirely
 class BiddingDetails extends StatelessWidget {
 
+  BiddingModel? biddingModel;
   final String? loadId;
   final String? bidId;
   final String? rate;
@@ -23,6 +25,7 @@ class BiddingDetails extends StatelessWidget {
   final bool? transporterApproved;
 
   BiddingDetails({
+     this.biddingModel,
     required this.loadId ,
     required this.biddingDate,
     required this.unitValue,

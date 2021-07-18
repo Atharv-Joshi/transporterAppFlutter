@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/middleDataforOrderSideBids.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
-import 'package:liveasy/widgets/biddingsCard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
-import '../widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/biddingsCardTransporterSide.dart';
+import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:get/get.dart';
 
-class GetBids extends StatefulWidget {
+class OrdersScreensBids extends StatefulWidget {
   @override
-  _GetBidsState createState() => _GetBidsState();
+  _OrdersScreensBidsState createState() => _OrdersScreensBidsState();
 }
 
-class _GetBidsState extends State<GetBids> {
+class _OrdersScreensBidsState extends State<OrdersScreensBids> {
 
   final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
 
@@ -32,6 +33,8 @@ class _GetBidsState extends State<GetBids> {
 
   List<BiddingModel> biddingModelList = [];
 
+  bool loading = false;
+
     getBidsFromBidApi(int i) async {
     http.Response response = await http.get(Uri.parse("$biddingApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i"));
     jsonData = json.decode(response.body);
@@ -40,18 +43,21 @@ class _GetBidsState extends State<GetBids> {
       biddingModel.bidId = json["bidId"];
       biddingModel.transporterId = json["transporterId"];
       biddingModel.loadId = json["loadId"];
-      biddingModel.currentBid = json["currentBid"].toString();
-      biddingModel.previousBid = json['previousBid'].toString();
+      biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'].toString() ;
+      biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'].toString() ;
       biddingModel.unitValue = json["unitValue"];
       biddingModel.truckIdList = json["truckId"];
       biddingModel.shipperApproval= json["shipperApproval"];
       biddingModel.transporterApproval = json['transporterApproval'];
-      biddingModel.biddingDate = json['biddingDate'];
+      biddingModel.biddingDate = json['biddingDate'] != null ? json['biddingDate'] : 'NA';
       setState(() {
         biddingModelList.add(biddingModel);
       });
 
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -59,6 +65,9 @@ class _GetBidsState extends State<GetBids> {
 
     super.initState();
 
+    setState(() {
+      loading = true;
+    });
     getBidsFromBidApi(i);
 
 
@@ -81,39 +90,35 @@ class _GetBidsState extends State<GetBids> {
   Widget build(BuildContext context) {
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.67,
-      child: ListView.builder(
+      height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight - space_8,
+      child: loading ? LoadingWidget()
+      :
+      ListView.builder(
           controller: scrollController,
           itemCount: biddingModelList.length,
           itemBuilder: (context,index){
             if(biddingModelList.length == 0){
-              return LoadingWidget();
+              //TODO:put empty bids pg
+              return Text('No Bids');
             }
             return FutureBuilder(
               future : MiddleDataForOrderSideBids(loadId: biddingModelList[index].loadId),
               builder: (BuildContext context,
                   AsyncSnapshot snapshot) {
                 if (snapshot.data == null) {
-                  return LoadingWidget();
+                  // return LoadingWidget();
+                  return Text('');
                 }
-                return Text('');
-                // return BiddingsCard(
-                //   loadId: biddingModelList[index].loadId,
-                //   loadingPointCity:snapshot.data['loadingPointCity'],
-                //   unloadingPointCity: snapshot.data['unloadingPointCity'],
-                //   currentBid: biddingModelList[index].currentBid,
-                //   previousBid: biddingModelList[index].previousBid,
-                //   unitValue: biddingModelList[index].unitValue,
-                //   companyName: snapshot.data['loadPosterModel'].loadPosterCompanyName,
-                //   biddingDate: biddingModelList[index].biddingDate,
-                //   bidId: biddingModelList[index].bidId,
-                //   transporterPhoneNum: snapshot.data['loadPosterModel'].loadPosterPhoneNo,
-                //   transporterLocation: snapshot.data['loadPosterModel'].loadPosterLocation,
-                //   transporterName:  snapshot.data['loadPosterModel'].loadPosterName,
-                //   shipperApproved:  biddingModelList[index].shipperApproval,
-                //   transporterApproved: biddingModelList[index].transporterApproval,
-                //   loadPostApproval: snapshot.data['loadPosterModel'].loadPosterCompanyApproved,
-                // );
+                return BiddingsCardTransporterSide(
+                  biddingModel: biddingModelList[index],
+                  loadingPointCity:snapshot.data['loadingPointCity'],
+                  unloadingPointCity: snapshot.data['unloadingPointCity'],
+                  companyName: snapshot.data['loadPosterModel'].loadPosterCompanyName,
+                  transporterPhoneNum: snapshot.data['loadPosterModel'].loadPosterPhoneNo,
+                  transporterLocation: snapshot.data['loadPosterModel'].loadPosterLocation,
+                  transporterName:  snapshot.data['loadPosterModel'].loadPosterName,
+                  loadPostApproval: snapshot.data['loadPosterModel'].loadPosterCompanyApproved,
+                );
               },
             );
           }

@@ -1,9 +1,9 @@
-import 'package:liveasy/screens/TransporterOrders/OrderApi/postLoadIdApiCalls.dart';
+import 'package:liveasy/functions/postLoadIdApiCalls.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
-import '../../../functions/driverApiCalls.dart';
-import '../../../functions/loadApiCalls.dart';
+import 'driverApiCalls.dart';
+import 'loadApiCalls.dart';
 
 final LoadApiCalls loadApiCalls = LoadApiCalls();
 

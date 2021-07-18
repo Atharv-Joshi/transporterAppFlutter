@@ -35,7 +35,6 @@ Color liveasyOrange = Color(0xFFFF7600);
 Color solidLineColor = Color(0xFFC4C9D9);
 Color priceBackground = Color(0xFFC4C9D9);
 Color bidBackground = Color(0xFF152968);
-// Color priceTextColor = Color(0xFF152968);
 Color loadingPointTextColor = Color(0xFF2A2E3B);
 Color contactPlaneBackground = Color(0xFFE5E8EE);
 Color verifiedButtonColor = Color(0xFF84DBBB);

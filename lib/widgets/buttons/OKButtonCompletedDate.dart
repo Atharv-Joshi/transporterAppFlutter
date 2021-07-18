@@ -3,7 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/CompletedDateController.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders.dart';
+import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:get/get.dart';
 
 import '../completedTextField.dart';

@@ -20,8 +20,8 @@ import 'addDriverAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BookNowButtonAlertDialog extends StatefulWidget {
-  var truckDetailsList;
-  var driverDetailsList;
+  List truckDetailsList;
+  List driverDetailsList;
   LoadDetailsScreenModel? loadDetailsScreenModel;
   BiddingModel? biddingModel;
   bool? directBooking;

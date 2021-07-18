@@ -13,9 +13,9 @@ import 'loadingWidget.dart';
 import 'package:get/get.dart';
 
 class SuggestedLoadsCard extends StatefulWidget {
-  final LoadDetailsScreenModel model;
+  final LoadDetailsScreenModel loadDetailsScreenModel;
 
-  SuggestedLoadsCard({required this.model});
+  SuggestedLoadsCard({required this.loadDetailsScreenModel});
 
   @override
   _SuggestedLoadsCardState createState() => _SuggestedLoadsCardState();
@@ -28,21 +28,21 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getLoadPosterDetailsFromApi(
-            loadPosterId: widget.model.postLoadId.toString()),
+            loadPosterId: widget.loadDetailsScreenModel.postLoadId.toString()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
             );
           }
           //saving load poster data in earlier model
-          widget.model.loadPosterId =  snapshot.data.loadPosterId;
-          widget.model.phoneNo = snapshot.data.loadPosterPhoneNo;
-          widget.model.loadPosterLocation = snapshot.data.loadPosterLocation;
-          widget.model.loadPosterName = snapshot.data.loadPosterName;
-          widget.model.loadPosterCompanyName = snapshot.data.loadPosterCompanyName;
-          widget.model.loadPosterKyc = snapshot.data.loadPosterKyc;
-          widget.model.loadPosterCompanyApproved = snapshot.data.loadPosterCompanyApproved;
-          widget.model.loadPosterApproved = snapshot.data.loadPosterApproved;
+          widget.loadDetailsScreenModel.loadPosterId =  snapshot.data.loadPosterId;
+          widget.loadDetailsScreenModel.phoneNo = snapshot.data.loadPosterPhoneNo;
+          widget.loadDetailsScreenModel.loadPosterLocation = snapshot.data.loadPosterLocation;
+          widget.loadDetailsScreenModel.loadPosterName = snapshot.data.loadPosterName;
+          widget.loadDetailsScreenModel.loadPosterCompanyName = snapshot.data.loadPosterCompanyName;
+          widget.loadDetailsScreenModel.loadPosterKyc = snapshot.data.loadPosterKyc;
+          widget.loadDetailsScreenModel.loadPosterCompanyApproved = snapshot.data.loadPosterCompanyApproved;
+          widget.loadDetailsScreenModel.loadPosterApproved = snapshot.data.loadPosterApproved;
 
           return Container(
             margin: EdgeInsets.only(bottom: space_2),
@@ -50,7 +50,7 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
               GestureDetector(
                 onTap: () {
                   if (tIdController.transporterApproved.value) {
-                    Get.to(() => LoadDetailsScreen(loadDetails: widget.model));
+                    Get.to(() => LoadDetailsScreen(loadDetails: widget.loadDetailsScreenModel));
                   } else {
                     showDialog(
                         context: context,
@@ -62,13 +62,13 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
                   child: Column(
                     children: [
                       LoadCardHeader(
-                        loadDetails: widget.model,
+                        loadDetails: widget.loadDetailsScreenModel,
                       ),
 
                       LoadCardFooter(
                           loadPosterCompanyName:
-                          widget.model.loadPosterCompanyName,
-                          loadPosterPhoneNo: widget.model.phoneNo)
+                          widget.loadDetailsScreenModel.loadPosterCompanyName,
+                          loadPosterPhoneNo: widget.loadDetailsScreenModel.phoneNo)
                     ],
                   ),
                 ),

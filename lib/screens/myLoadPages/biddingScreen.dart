@@ -3,7 +3,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/biddingsCard.dart';
+import 'package:liveasy/widgets/biddingsCardShipperSide.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -116,8 +116,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
                             if (snapshot.data == null) {
                               return LoadingWidget();
                             }
-                            return BiddingsCard(
-                              forShipperSide: true,
+                            return BiddingsCardShipperSide(
                               loadId: widget.loadId,
                               loadingPointCity: widget.loadingPointCity,
                               unloadingPointCity:  widget.unloadingPointCity,
