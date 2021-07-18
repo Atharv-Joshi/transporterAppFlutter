@@ -72,23 +72,6 @@ class DeliveredCardOrders extends StatelessWidget {
                     children: [
                       LoadLabelValueRowTemplate(
                           value: startedOn, label: 'Booking date'),
-                      GestureDetector(
-                          onTap: () {
-                            Get.to(ShipperDetails(
-                              truckType: truckType,
-                              noOfTrucks: noOfTrucks,
-                              productType: productType,
-                              loadingPoint: loadingPoint,
-                              unloadingPoint: unloadingPoint,
-                              rate: rate,
-                              vehicleNo: vehicleNo,
-                              shipperPosterCompanyApproved: companyApproved,
-                              shipperPosterCompanyName: companyName,
-                              shipperPosterLocation: posterLocation,
-                              shipperPosterName: posterName,
-                            ));
-                          },
-                          child: Icon(Icons.arrow_forward_ios))
                     ],
                   ),
                   SizedBox(
