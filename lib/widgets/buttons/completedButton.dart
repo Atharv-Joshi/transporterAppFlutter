@@ -9,7 +9,11 @@ import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
 
 class CompletedButton extends StatelessWidget {
   final String bookingId;
-  CompletedButton({Key? key, required this.bookingId}) : super(key: key);
+  final double? fontSize;
+
+  CompletedButtonOrders(
+      {Key? key, required this.bookingId, required this.fontSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +38,29 @@ class CompletedButton extends StatelessWidget {
         // bookingApiCallsOrders.updateBookingApi("20-08-2021", bookingId);
       },
       child: Container(
+
         width: double.infinity,
         child: Text(
           'Completed',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            letterSpacing: 0.7,
-            fontWeight: mediumBoldWeight,
-            color: white,
-            fontSize: size_7,
-          ),
+              padding: EdgeInsets.fromLTRB(
+                space_5,
+                size_1,
+                space_5,
+                size_1,
+              ),
+              child: Text(
+                'Completed',
+                style: TextStyle(
+                  letterSpacing: 0.7,
+                  fontWeight: normalWeight,
+                  color: white,
+                  fontSize: fontSize,
+                ),
+              ),
+            ),
+          ],
+
         ),
       ),
     );
-  }
 }
