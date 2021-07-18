@@ -3,11 +3,9 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/bookingApiCallsOrders.dart';
-import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
 
-class CompletedButton extends StatelessWidget {
+class CompletedButtonOrders extends StatelessWidget {
   final String bookingId;
   final double? fontSize;
 
@@ -40,8 +38,7 @@ class CompletedButton extends StatelessWidget {
       child: Container(
 
         width: double.infinity,
-        child: Text(
-          'Completed',
+        child: Container(
               padding: EdgeInsets.fromLTRB(
                 space_5,
                 size_1,
@@ -58,9 +55,7 @@ class CompletedButton extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-
         ),
-      ),
     );
+  }
 }

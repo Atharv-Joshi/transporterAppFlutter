@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/completedButton.dart';
@@ -81,7 +82,7 @@ class OnGoingLoadDetails extends StatelessWidget {
                     ),
                   ),
                 ),
-                CompletedButton(bookingId: 'bookingId')
+                CompletedButtonOrders(bookingId: 'bookingId' , fontSize: size_7,)
               ],
             ),
           )
