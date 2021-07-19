@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class UnitValueWidget extends StatelessWidget {
   const UnitValueWidget({Key? key}) : super(key: key);
@@ -19,7 +20,17 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTruck) {
-                providerData.PerTruckTrue();
+                providerData.PerTruckTrue(true, false);
+                if (providerData.price == 0) {
+                  Get.snackbar("fill both fields",
+                      "price cant be empty if unitValue is filled");
+                }
+              } else {
+                if (providerData.price != 0) {
+                  Get.snackbar("fill both fields",
+                      "unitValue cant be empty if price is filled");
+                }
+                providerData.PerTruckTrue(false, false);
               }
             },
             child: Container(
@@ -49,7 +60,17 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTon) {
-                providerData.PerTonTrue();
+                providerData.PerTonTrue(true, false);
+                if (providerData.price == 0) {
+                  Get.snackbar("fill both fields",
+                      "price cant be empty if unitValue is filled");
+                }
+              } else {
+                if (providerData.price != 0) {
+                  Get.snackbar("fill both fields",
+                      "unitValue cant be empty if price is filled");
+                }
+                providerData.PerTonTrue(false, false);
               }
             },
             child: Container(

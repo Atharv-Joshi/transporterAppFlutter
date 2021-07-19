@@ -81,6 +81,10 @@ class OngoingCardOrders extends StatelessWidget {
               shipperPosterCompanyName: companyName,
               shipperPosterLocation: posterLocation,
               shipperPosterName: posterName,
+              transporterPhoneNum: transporterPhoneNumber,
+              driverPhoneNum: driverPhoneNum,
+              driverName: driverName,
+              transporterName: companyName,
             ));
           },
           child: Card(

@@ -1,8 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:liveasy/controller/showPriceDialogController.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
+import 'package:get/get.dart';
 
 class ProviderData extends ChangeNotifier {
+  ShowPriceDialogController showPriceDialogController =
+      Get.put(ShowPriceDialogController());
+
   bool bidButtonSendRequestState = false;
 
   void updateBidButtonSendRequest(newValue) {
@@ -139,6 +145,8 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  String postLoadError = "";
+  bool loadWidget = true;
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
@@ -350,7 +358,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
-    productType = "Choose Product type";
+    productType = "Choose Product Type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -415,7 +423,9 @@ class ProviderData extends ChangeNotifier {
     if (truckNumber != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
-        productType != '') {
+        productType != "Choose Product Type" &&
+        ((perTruck != perTon) && price != 0 ||
+            (perTruck == perTon) && price == 0)) {
       return true;
     } else {
       return false;
@@ -437,16 +447,16 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-  void PerTruckTrue() {
-    perTruck = true;
-    perTon = false;
+  void PerTruckTrue(truck, ton) {
+    perTruck = truck;
+    perTon = ton;
 
     notifyListeners();
   }
 
-  void PerTonTrue() {
-    perTon = true;
-    perTruck = false;
+  void PerTonTrue(ton, truck) {
+    perTon = ton;
+    perTruck = truck;
     notifyListeners();
   }
 
@@ -459,6 +469,26 @@ class ProviderData extends ChangeNotifier {
     otpIsValid = value;
     notifyListeners();
   }
+
+  void updatePostLoadError(value) {
+    postLoadError = value;
+    notifyListeners();
+  }
+
+  void updateLoadWidget(value) {
+    loadWidget = value;
+    notifyListeners();
+  }
+
+  bool showDialogPrice() {
+    if (((perTruck != perTon) && price != 0 ||
+        (perTruck == perTon) && price == 0)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 //----------------------------------
 
 }

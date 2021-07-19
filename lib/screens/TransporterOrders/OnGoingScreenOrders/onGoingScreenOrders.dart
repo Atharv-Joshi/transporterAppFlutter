@@ -5,6 +5,7 @@ import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders
 import 'package:liveasy/screens/TransporterOrders/OrderApi/loadOnGoingDeliveredDataOrders.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
+import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
 class OngoingScreenOrders extends StatelessWidget {
   final BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
@@ -18,7 +19,7 @@ class OngoingScreenOrders extends StatelessWidget {
           future: bookingApiCallsOrders.getDataByTransporterIdOnGoing(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
-              return LoadingWidget();
+              return OnGoingLoadingWidgets();
             }
             //number of cards
 
@@ -49,7 +50,7 @@ class OngoingScreenOrders extends StatelessWidget {
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.data == null) {
-                            return LoadingWidget();
+                            return OnGoingLoadingWidgets();
                           }
                           return OngoingCardOrders(
                             unitValue: snapshot.data['unitValue'],
