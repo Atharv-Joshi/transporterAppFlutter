@@ -68,20 +68,19 @@ class BookingApiCalls {
       if (jsonData.isEmpty) {
         break;
       }
-
-      print('delivered response : $jsonData');
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-        bookingModel.bookingDate =
-            json['bookingDate'] != null ? json['bookingDate'] : "NA";
+        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
+        bookingModel.bookingId = json['bookingId'];
+        bookingModel.postLoadId = json['postLoadId'];
         bookingModel.loadId = json['loadId'];
         bookingModel.transporterId = json['transporterId'];
         bookingModel.truckId = json['truckId'];
         bookingModel.cancel = json['cancel'];
         bookingModel.completed = json['completed'];
-        bookingModel.completedDate =
-            json['completedDate'] != null ? json['completedDate'] : "NA";
-        modelList.add(bookingModel);
+        bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : "NA";
+        bookingModel.rate =  json['rate'] != null ? json['rate'].toString() : 'NA';
+        bookingModel.unitValue = json['unitValue'] ;
       }
     }
     return modelList;

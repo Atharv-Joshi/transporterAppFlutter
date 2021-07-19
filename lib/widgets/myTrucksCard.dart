@@ -6,7 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderButtons/trackButtonOrder.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:location_permissions/location_permissions.dart';

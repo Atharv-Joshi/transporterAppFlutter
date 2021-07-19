@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
-getRequestorDetailsFromPostLoadId(postLoadId) async {
+getLoadPosterDetailsFromPostLoadId(postLoadId) async {
   var jsonData;
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
@@ -15,14 +15,14 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
           await http.get(Uri.parse("$transporterApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["transporterId"].toString();
-      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
+      loadPosterModel.loadPosterId = jsonData["transporterId"];
+      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
       loadPosterModel.loadPosterLocation =
-          jsonData["transporterLocation"].toString();
-      loadPosterModel.loadPosterName = jsonData["transporterName"].toString();
+          jsonData["transporterLocation"];
+      loadPosterModel.loadPosterName = jsonData["transporterName"];
       loadPosterModel.loadPosterCompanyName =
-          jsonData["companyName"].toString();
-      loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
+          jsonData["companyName"];
+      loadPosterModel.loadPosterKyc = jsonData["kyc"];
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"];
       loadPosterModel.loadPosterApproved =
@@ -36,14 +36,14 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
           await http.get(Uri.parse("$shipperApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["shipperId"].toString();
-      loadPosterModel.loadPosterName = jsonData["shipperName"].toString();
+      loadPosterModel.loadPosterId = jsonData["shipperId"];
+      loadPosterModel.loadPosterName = jsonData["shipperName"];
       loadPosterModel.loadPosterCompanyName =
-          jsonData["companyName"].toString();
-      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
-      loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
+          jsonData["companyName"];
+      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"];
+      loadPosterModel.loadPosterKyc = jsonData["kyc"];
       loadPosterModel.loadPosterLocation =
-          jsonData["shipperLocation"].toString();
+          jsonData["shipperLocation"];
       loadPosterModel.loadPosterCompanyApproved =
           jsonData["companyApproved"];
       loadPosterModel.loadPosterAccountVerificationInProgress =

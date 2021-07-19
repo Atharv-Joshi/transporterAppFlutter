@@ -3,7 +3,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/biddingsCard.dart';
+import 'package:liveasy/widgets/biddingsCardShipperSide.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -65,7 +65,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     getBidDataByLoadId(i);
@@ -81,7 +81,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }
@@ -101,7 +101,9 @@ class _BiddingScreensState extends State<BiddingScreens> {
                       .of(context)
                       .size
                       .height * 0.83,
-                  child: biddingModelList.isEmpty ? Text('No bids yet') : ListView.builder(
+                  child: biddingModelList.isEmpty ? Text('No bids yet')
+                      : ListView.builder(
+                      controller: scrollController,
                       itemCount: biddingModelList.length ,
                       itemBuilder: (context,index){
                         if(biddingModelList.length == 0){
@@ -114,7 +116,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
                             if (snapshot.data == null) {
                               return LoadingWidget();
                             }
-                            return BiddingCard(
+                            return BiddingsCardShipperSide(
                               loadId: widget.loadId,
                               loadingPointCity: widget.loadingPointCity,
                               unloadingPointCity:  widget.unloadingPointCity,

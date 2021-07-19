@@ -4,10 +4,8 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getLoadDetailsFromLoadId.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
-import 'package:liveasy/models/bidsModel.dart';
-import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +19,7 @@ class ConfirmButtonSendRequest extends StatefulWidget {
   String? unit;
   List? truckId;
   String? postLoadId;
-  BidsModel? bidsModel;
+  BiddingModel? biddingModel;
   LoadDetailsScreenModel? loadDetailsScreenModel;
 
   ConfirmButtonSendRequest(
@@ -32,7 +30,7 @@ class ConfirmButtonSendRequest extends StatefulWidget {
       this.unit,
       this.truckId,
       this.postLoadId,
-      this.bidsModel,
+      this.biddingModel,
       this.loadDetailsScreenModel});
 
   @override
@@ -51,13 +49,13 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
               widget.truckId, widget.postLoadId, context);
           print("directBooking");
         } else {
-          postBookingApi(
-              widget.bidsModel!.loadId,
-              widget.bidsModel!.rate,
-              widget.bidsModel!.unitValue,
-              widget.truckId,
-              widget.loadDetailsScreenModel!.postLoadId,
-              context);
+          // postBookingApi(
+          //     widget.biddingModel!.loadId,
+          //     widget.biddingModel!.rate,
+          //     widget.biddingModel!.unitValue,
+          //     widget.truckId,
+          //     widget.loadDetailsScreenModel!.postLoadId,
+          //     context);
           print("Booking by bid");
         }
         providerData.updateDropDownValue1(newValue: null);

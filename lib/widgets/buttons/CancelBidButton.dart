@@ -4,40 +4,37 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
+import 'package:liveasy/models/biddingModel.dart';
 
 // ignore: must_be_immutable
-class DeclineButton extends StatelessWidget {
-  String? bidId;
-  bool? isBiddingDetails;
+class CancelBidButton extends StatelessWidget {
+  BiddingModel biddingModel;
+
   final bool? active;
-  DeclineButton({required this.bidId, required this.isBiddingDetails , required this.active});
+  CancelBidButton({required this.biddingModel,  required this.active});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: isBiddingDetails! ? null : 31,
-      width: isBiddingDetails! ? null : 80,
+      height:  31,
+      width:  80,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          )),
+                borderRadius: BorderRadius.circular(30),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(
-              active! ? declineButtonRed : inactiveBidding),
+              active! ? bidBackground : inactiveBidding),
         ),
         onPressed: active!
-          ? () {
-            declineBidFromShipperSide(bidId!);
-          // putBidForAccept(bidId);
+            ? () {
+          declineBidFromTransporterSideSide(bidId :  biddingModel.bidId! , approvalVariable: biddingModel.transporterApproval == true ? biddingModel.transporterApproval : biddingModel.shipperApproval);
         }
-        : null,
+            : null,
         child: Container(
-          margin: isBiddingDetails!
-              ? EdgeInsets.symmetric(vertical: space_1, horizontal: space_3)
-              : null,
           child: Text(
-            'Decline',
+            'Cancel',
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

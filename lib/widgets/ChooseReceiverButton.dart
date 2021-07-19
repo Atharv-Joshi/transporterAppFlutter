@@ -6,7 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class ChooseReceiverButton extends StatelessWidget {
-  final String? label;
+   String? label;
 
   // final dynamic function ;
   final String? phoneNum;
@@ -21,6 +21,10 @@ class ChooseReceiverButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    label = label!.length >= 12
+        ? label!.substring(0, 10) + '..'
+        : label;
     return Container(
       width: 163,
       height: 40,

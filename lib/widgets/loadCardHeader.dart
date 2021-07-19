@@ -118,7 +118,7 @@ class LoadCardHeader extends StatelessWidget {
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                loadDetails.rate != null ? PriceContainer(rate: loadDetails.rate.toString(), unitValue: loadDetails.unitValue,) : SizedBox(),
+                loadDetails.rate != 'NA' ? PriceContainer(rate: loadDetails.rate.toString(), unitValue: loadDetails.unitValue,) : SizedBox(),
                 BidButton(loadDetails: loadDetails,),
               ],
 

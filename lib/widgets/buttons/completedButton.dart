@@ -3,9 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders.dart';
-import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
-import 'package:liveasy/screens/TransporterOrders/ordersAlertDialog/completedOrdersAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
 
 class CompletedButtonOrders extends StatelessWidget {
   final String bookingId;
@@ -34,14 +32,13 @@ class CompletedButtonOrders extends StatelessWidget {
             );
           },
         );
-        print("awefae$bookingId");
+        print("$bookingId");
         // bookingApiCallsOrders.updateBookingApi("20-08-2021", bookingId);
       },
       child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
+
+        width: double.infinity,
+        child: Container(
               padding: EdgeInsets.fromLTRB(
                 space_5,
                 size_1,
@@ -58,9 +55,7 @@ class CompletedButtonOrders extends StatelessWidget {
                 ),
               ),
             ),
-          ],
         ),
-      ),
     );
   }
 }
