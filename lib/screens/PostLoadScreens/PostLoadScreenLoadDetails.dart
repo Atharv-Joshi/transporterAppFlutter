@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/showPriceDialogController.dart';
 
 import 'package:liveasy/providerClass/providerData.dart';
 
@@ -40,8 +39,6 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
     bool visible = false;
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
-    ShowPriceDialogController showPriceDialogController =
-        Get.put(ShowPriceDialogController());
 
     return Scaffold(
       backgroundColor: backgroundColor,

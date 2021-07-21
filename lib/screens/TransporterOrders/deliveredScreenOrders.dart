@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/loadOnGoingDeliveredDataOrders.dart';
-import 'package:liveasy/screens/TransporterOrders/DeliveredScreenOrders/deliveredCardOrders.dart';
+import 'package:liveasy/functions/bookingApiCallsOrders.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
+import 'package:liveasy/widgets/deliveredCardOrders.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/completedLoadingWidgets.dart';
 

@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
-
+//duplicate file ig can be deleted later
 getLoadPosterDetailsFromApi({required String loadPosterId}) async {
 
   var jsonData;

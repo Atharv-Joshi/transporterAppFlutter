@@ -1,14 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:liveasy/controller/showPriceDialogController.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
 
 class ProviderData extends ChangeNotifier {
-  ShowPriceDialogController showPriceDialogController =
-      Get.put(ShowPriceDialogController());
-
   bool bidButtonSendRequestState = false;
 
   void updateBidButtonSendRequest(newValue) {

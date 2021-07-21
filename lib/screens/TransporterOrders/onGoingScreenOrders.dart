@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/loadOnGoingDeliveredDataOrders.dart';
+import 'package:liveasy/functions/bookingApiCallsOrders.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
-import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
+import 'package:liveasy/widgets/onGoingCardOrder.dart';
 
 class OngoingScreenOrders extends StatelessWidget {
   final BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();

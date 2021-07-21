@@ -7,7 +7,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverNameFromDriverApi.dart';
 import 'package:liveasy/functions/updateDriverIdInTruckApi.dart';
-import 'package:liveasy/models/bidsModel.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
@@ -20,17 +20,17 @@ import 'addDriverAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BookNowButtonAlertDialog extends StatefulWidget {
-  var truckDetailsList;
-  var driverDetailsList;
+  List truckDetailsList;
+  List driverDetailsList;
   LoadDetailsScreenModel? loadDetailsScreenModel;
-  BidsModel? bidsModel;
+  BiddingModel? biddingModel;
   bool? directBooking;
 
   BookNowButtonAlertDialog(
       {required this.truckDetailsList,
       required this.driverDetailsList,
       this.loadDetailsScreenModel,
-      this.bidsModel,
+       this.biddingModel,
       required this.directBooking});
 
   @override
@@ -174,7 +174,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                 postLoadId:
                     widget.loadDetailsScreenModel!.postLoadId.toString(),
                 directBooking: widget.directBooking,
-                bidsModel: widget.bidsModel,
+                biddingModel: widget.biddingModel,
                 loadDetailsScreenModel: widget.loadDetailsScreenModel,
               ),
               CancelButton()

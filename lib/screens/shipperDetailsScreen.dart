@@ -5,12 +5,12 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/buttons/completedButton.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
 
-import 'TransporterOrders/OrderButtons/completedButtonOrders.dart';
-import 'TransporterOrders/OrderButtons/trackButtonOrder.dart';
 
 class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
@@ -153,10 +153,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
               SizedBox(
                 height: space_2,
               ),
-              CompletedButtonOrders(
-                bookingId: widget.bookingId!,
-                fontSize: size_9,
-              )
+              CompletedButtonOrders(bookingId:  widget.bookingId!, fontSize: size_9,)
             ],
           ),
         ),

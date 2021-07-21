@@ -6,12 +6,12 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:get/get.dart';
-import '../../../widgets/buttons/callButton.dart';
-import '../../shipperDetailsScreen.dart';
-import '../OrderButtons/completedButtonOrders.dart';
-import '../OrderButtons/trackButtonOrder.dart';
-import '../../../widgets/linePainter.dart';
-import '../../../widgets/loadLabelValueRowTemplate.dart';
+import 'buttons/callButton.dart';
+import 'buttons/completedButton.dart';
+import 'buttons/trackButton.dart';
+import 'linePainter.dart';
+import 'loadLabelValueRowTemplate.dart';
+import '../screens/shipperDetailsScreen.dart';
 
 class OngoingCardOrders extends StatelessWidget {
   //variables

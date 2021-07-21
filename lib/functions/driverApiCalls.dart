@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -20,23 +19,28 @@ class DriverApiCalls {
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
 
-  Future<List> getDriversByTransporterId() async {
-    http.Response response = await http.get(Uri.parse(
-        '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
+  Future<List<DriverModel>> getDriversByTransporterId() async {
+    for (int i = 0;; i++) {
+      http.Response response = await http.get(Uri.parse(
+          '$driverApiUrl?transporterId=${transporterIdController.transporterId
+              .value}'));
 
-    jsonData = json.decode(response.body);
+      jsonData = json.decode(response.body);
 
-    for (var json in jsonData!) {
-      DriverModel driverModel = DriverModel();
-      driverModel.driverId = json["driverId"];
-      driverModel.transporterId = json["transporterId"];
-      driverModel.phoneNum = json["phoneNum"];
-      driverModel.driverName = json["driverName"];
-      driverModel.truckId = json["truckId"];
-      driverList.add(driverModel);
+      for (var json in jsonData!) {
+        DriverModel driverModel = DriverModel();
+        driverModel.driverId =
+        json["driverId"] != null ? json["driverId"] : 'NA';
+        driverModel.transporterId =
+        json["transporterId"] != null ? json["transporterId"] : 'NA';
+        driverModel.phoneNum =
+        json["phoneNum"] != null ? json["phoneNum"] : 'NA';
+        driverModel.driverName =
+        json["driverName"] != null ? json["driverName"] : 'NA';
+        driverModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
+        driverList.add(driverModel);
+      }
     }
-
-    print(driverList);
     return driverList;
   }
 
