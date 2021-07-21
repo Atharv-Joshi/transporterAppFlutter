@@ -10,7 +10,15 @@ class DeclineButton extends StatelessWidget {
   String? bidId;
   bool? isBiddingDetails;
   final bool? active;
-  DeclineButton({required this.bidId, required this.isBiddingDetails , required this.active});
+  bool? shipperApproved;
+  bool? transporterApproved;
+  DeclineButton({
+    required this.bidId,
+    required this.isBiddingDetails ,
+    required this.active,
+    this.shipperApproved,
+    this.transporterApproved,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +32,9 @@ class DeclineButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(
-              active! ? declineButtonRed : inactiveBidding),
+              !(transporterApproved == false && shipperApproved == false) ? declineButtonRed : inactiveBidding),
         ),
-        onPressed: active!
+        onPressed: !(transporterApproved == false && shipperApproved == false)
           ? () {
             declineBidFromShipperSide(bidId!);
           // putBidForAccept(bidId);

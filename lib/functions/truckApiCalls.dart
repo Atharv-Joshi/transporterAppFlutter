@@ -131,4 +131,26 @@ class TruckApiCalls {
     _truckId = returnData['truckId'];
     return _truckId;
   }
+
+  updateDriverIdForTruck(
+      {required String truckID,
+        required String driverID}) async {
+    //json map
+    Map<String, dynamic> data = {
+      "driverId": driverID == '' ? null : driverID,
+    };
+
+    String body = json.encode(data);
+
+    http.Response response = await http.put(Uri.parse('$truckApiUrl/$truckID'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
+
+    var returnData = json.decode(response.body);
+    _truckId = returnData['truckId'];
+
+  }
+
 } //class end

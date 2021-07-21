@@ -8,7 +8,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
@@ -41,9 +41,9 @@ class _BookNowButtonState extends State<BookNowButton> {
           await showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => BookNowButtonAlertDialog(
-              truckDetailsList: truckDetailsList,
-              driverDetailsList: driverDetailsList,
+            builder: (context) => BookLoadAlertDialogBox(
+              truckModelList: truckDetailsList,
+              driverModelList: driverDetailsList,
               loadDetailsScreenModel: widget.loadDetails,
               directBooking: true,
             ),

@@ -179,8 +179,15 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 setState(() {
                                   loading = false;
                                 });
-                                providerData.updateIndex(1);
-                                Get.offAll(() => NavigationScreen());
+
+                                if(providerData.isAddTruckSrcDropDown){
+                                  providerData.updateIndex(3);
+                                  Get.offAll(() => NavigationScreen());
+                                }
+                                else{
+                                  providerData.updateIndex(1);
+                                  Get.offAll(() => NavigationScreen());
+                                }
                                 providerData.resetTruckFilters();
                               } else {
                                 setState(() {

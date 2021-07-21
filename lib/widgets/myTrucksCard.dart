@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
@@ -11,6 +12,7 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -90,6 +92,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
       widget.driverName = widget.driverName!.substring(0, 14) + '..';
     }
 
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
@@ -195,6 +198,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           MaterialStateProperty.all<Color>(darkBlueColor),
                         ),
                         onPressed: () {
+                          providerData.updateIsAddTruckSrcDropDown(true);
                           Get.to( () => TruckDescriptionScreen(widget.truckId!));
                         },
                         child: Container(

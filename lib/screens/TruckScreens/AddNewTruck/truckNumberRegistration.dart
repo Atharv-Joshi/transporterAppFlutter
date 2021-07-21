@@ -16,6 +16,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
+
   const AddNewTruck({Key? key}) : super(key: key);
 
   @override
@@ -38,7 +39,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
+    providerData.updateIsAddTruckSrcDropDown(true);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),

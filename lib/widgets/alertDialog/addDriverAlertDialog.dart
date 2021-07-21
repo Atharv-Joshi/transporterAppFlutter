@@ -181,7 +181,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 }
               },
             ),
-            CancelButton()
+            CancelSelectedTruckDriverButton()
           ],
         )
       ],

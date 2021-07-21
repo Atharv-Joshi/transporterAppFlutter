@@ -11,8 +11,15 @@ class AcceptButton extends StatelessWidget {
   String? bidId;
   bool? isBiddingDetails;
   final bool active;
+   bool? shipperApproved;
+   bool? transporterApproved;
 
-  AcceptButton({required this.bidId , required this.isBiddingDetails , required this.active});
+  AcceptButton({
+    required this.bidId ,
+    required this.isBiddingDetails ,
+    required this.active,
+    this.shipperApproved,
+  this.transporterApproved});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +33,9 @@ class AcceptButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               )),
           backgroundColor: MaterialStateProperty.all<Color>(
-              active ?liveasyGreen : inactiveBidding),
+              (transporterApproved == false && shipperApproved == true) ?liveasyGreen : inactiveBidding),
         ),
-        onPressed: active ?
+        onPressed: (transporterApproved == false && shipperApproved == true) ?
             () {
           putBidForAccept(bidId);
         }
