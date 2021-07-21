@@ -19,7 +19,7 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTruck) {
-                providerData.PerTruckTrue();
+                providerData.perTruckTrue();
               }
             },
             child: Container(
@@ -49,7 +49,7 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTon) {
-                providerData.PerTonTrue();
+                providerData.perTonTrue();
               }
             },
             child: Container(

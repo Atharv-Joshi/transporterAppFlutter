@@ -7,10 +7,12 @@ import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
 
+//This class should contain all the api calls related to driver api
+//This is important so that it's easier to search up the required files
 class DriverApiCalls {
   List<DriverModel> driverList = [];
 
-  List? jsonData;
+  late List jsonData;
 
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
@@ -19,15 +21,23 @@ class DriverApiCalls {
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
 
+  //This function gets all the drivers of a particular transporter and returns a list of driver models. The for loop is used to counter pagination implemented in backend.
   Future<List<DriverModel>> getDriversByTransporterId() async {
-    for (int i = 0;; i++) {
+    // for (int i = 0; ; i++) {
+    //   print('i : $i');
+    //   print('$driverApiUrl?transporterId=${transporterIdController.transporterId.value}');
       http.Response response = await http.get(Uri.parse(
-          '$driverApiUrl?transporterId=${transporterIdController.transporterId
-              .value}'));
+          '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
+
 
       jsonData = json.decode(response.body);
 
-      for (var json in jsonData!) {
+      // if(jsonData.isEmpty){
+      //   print('json data empty');
+      //   break;
+      // }
+
+      for (var json in jsonData) {
         DriverModel driverModel = DriverModel();
         driverModel.driverId =
         json["driverId"] != null ? json["driverId"] : 'NA';
@@ -40,12 +50,15 @@ class DriverApiCalls {
         driverModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
         driverList.add(driverModel);
       }
-    }
+    // }
+    // print(driverList);
     return driverList;
   }
 
   //----------------------------------------------------------------------------
 
+  //This function gets the details of a single driver by using the  driverId
+  //IT takes two parameters from which only one needs to be provided during function call.
   Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
 
     Map? jsonData;

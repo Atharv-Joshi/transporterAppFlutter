@@ -10,10 +10,15 @@ class BiddingDecisionCard extends StatelessWidget {
   final String? biddingDate;
   final String? bidId;
   final bool? shipperApproved;
+  final bool? transporterApproved;
+  bool? fromTransporterSide;
+
 
   BiddingDecisionCard(
   {
     required this.biddingDate,
+    required this.transporterApproved,
+    this.fromTransporterSide,
     required this.unitValue,
     required this.rate,
     required this.bidId,
@@ -41,21 +46,34 @@ class BiddingDecisionCard extends StatelessWidget {
                   thickness: 2,
                 ),
               ),
+
+              fromTransporterSide!
+              ?
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   AcceptButton(
                     active: !shipperApproved!,
                     isBiddingDetails: true,
-                      bidId: bidId
+                      bidId: bidId,
+                    shipperApproved: shipperApproved,
+                    transporterApproved: transporterApproved,
                   ),
+
+
+
                   DeclineButton(
                     active: !shipperApproved!,
                     isBiddingDetails: true,
                     bidId: bidId,
+                    shipperApproved: shipperApproved,
+                    transporterApproved: transporterApproved,
                   )
+                      
                 ],
-              ),
+              )
+                  : Text('shipper side logic')
 
             ],
           ),
