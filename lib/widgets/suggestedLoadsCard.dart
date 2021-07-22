@@ -64,7 +64,6 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
                       LoadCardHeader(
                         loadDetails: widget.loadDetailsScreenModel,
                       ),
-
                       LoadCardFooter(
                           loadPosterCompanyName:
                           widget.loadDetailsScreenModel.loadPosterCompanyName,

@@ -75,7 +75,7 @@ class LoadDetailsScreen extends StatelessWidget {
                                 BidButton(loadDetails: loadDetails),
                                 CallButton(
                                   directCall: true,
-                                  driverPhoneNum: loadDetails.phoneNo,
+                                  phoneNum: loadDetails.phoneNo,
                                 )
                               ],
                             ),
