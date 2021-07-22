@@ -150,7 +150,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
               bidId: widget.bidId,
               isPost: widget.isPost,
             ),
-            CancelButton()
+            CancelSelectedTruckDriverButton()
           ],
         )
       ],

@@ -6,17 +6,17 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
-postBookingApi(
-    loadId, rate, unit, truckId, postLoadId, BuildContext context) async {
+postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
+
   TransporterIdController tIdController = Get.find<TransporterIdController>();
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
   var jsonData;
   Map data = {
     "loadId": loadId,
-    "rate": rate,
+    "rate": currentBid,
     "transporterId": tIdController.transporterId.toString(),
     "unitValue": unit,
-    "truckId": truckId,
+    "truckId": [truckId],
     "postLoadId": postLoadId,
     "bookingDate": now
   };

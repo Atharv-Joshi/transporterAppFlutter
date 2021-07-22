@@ -20,6 +20,7 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTruck) {
+
                 providerData.PerTruckTrue(true, false);
                 if (providerData.price == 0) {
                   Get.snackbar("fill both fields",
@@ -31,6 +32,7 @@ class UnitValueWidget extends StatelessWidget {
                       "unitValue cant be empty if price is filled");
                 }
                 providerData.PerTruckTrue(false, false);
+
               }
             },
             child: Container(
@@ -60,6 +62,7 @@ class UnitValueWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!providerData.perTon) {
+
                 providerData.PerTonTrue(true, false);
                 if (providerData.price == 0) {
                   Get.snackbar("fill both fields",
@@ -71,6 +74,7 @@ class UnitValueWidget extends StatelessWidget {
                       "unitValue cant be empty if price is filled");
                 }
                 providerData.PerTonTrue(false, false);
+
               }
             },
             child: Container(

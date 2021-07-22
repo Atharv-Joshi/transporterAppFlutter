@@ -131,7 +131,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
                               transporterName: snapshot.data.transporterName,
                               shipperApproved: biddingModelList[index].shipperApproval,
                               transporterApproved: biddingModelList[index].transporterApproval,
-                              loadPostApproval: snapshot.data.companyApproved,
+                              isLoadPosterVerified: snapshot.data.companyApproved,
                             );
                           },
                         );

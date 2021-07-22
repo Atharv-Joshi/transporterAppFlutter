@@ -32,13 +32,13 @@ class BiddingsCardShipperSide extends StatelessWidget {
   final String? transporterLocation;
   final bool? shipperApproved;
   final bool? transporterApproved;
-  final bool? loadPostApproval;
+  final bool? isLoadPosterVerified;
    String orderStatus = '';
    Color orderStatusColor = Colors.white;
 
   BiddingsCardShipperSide({
     required this.loadId ,
-    required this.loadPostApproval,
+    required this.isLoadPosterVerified,
     required this.loadingPointCity ,
     required this.unloadingPointCity,
     required this.biddingDate,
@@ -88,6 +88,8 @@ class BiddingsCardShipperSide extends StatelessWidget {
           transporterLocation: transporterLocation,
           shipperApproved: shipperApproved,
           transporterApproved: transporterApproved,
+          isLoadPosterVerified: isLoadPosterVerified,
+          fromTransporterSide: false,
         ));
       },
       child: Container(
