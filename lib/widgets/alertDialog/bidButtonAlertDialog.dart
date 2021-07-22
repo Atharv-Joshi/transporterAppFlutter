@@ -17,8 +17,9 @@ class BidButtonAlertDialog extends StatefulWidget {
   String? loadId;
   String? bidId;
   bool? isPost;
+  bool? isNegotiating;
 
-  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost});
+  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost ,  required this.isNegotiating});
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
@@ -149,6 +150,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BidButtonSendRequest(
+                isNegotiating: widget.isNegotiating,
                 loadId: widget.loadId ,
                 bidId: widget.bidId,
                 isPost: widget.isPost,

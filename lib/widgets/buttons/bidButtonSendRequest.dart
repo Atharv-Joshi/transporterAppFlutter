@@ -16,11 +16,13 @@ class BidButtonSendRequest extends StatelessWidget {
   String? loadId ;
   String? bidId;
   bool? isPost;
+  bool? isNegotiating;
 
   BidButtonSendRequest({
     this.loadId,
     this.bidId,
     required this.isPost,
+    required this.isNegotiating,
   });
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
@@ -59,9 +61,15 @@ class BidButtonSendRequest extends StatelessWidget {
               SnackBar(content: Text('Bidding Request Send')));
           // providerData.updateRate("" , 'PER_TON');
           providerData.updateBidButtonSendRequest(false);
-          providerData.updateIndex(3);
+          if(isNegotiating!){
+            providerData.updateIndex(2);
+          }
+          else{
+            providerData.updateIndex(3);
+          }
           Navigator.pop(context);
           Get.offAll(NavigationScreen());
+
         }
         : null,
 

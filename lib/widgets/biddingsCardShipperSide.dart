@@ -174,10 +174,14 @@ class BiddingsCardShipperSide extends StatelessWidget {
                     children: [
                       NegotiateButton(
                         bidId: bidId,
-                        active: !shipperApproved!,),
+                        active: !shipperApproved!,
+                        ),
                       AcceptButton(
                           isBiddingDetails: false,
-                          bidId : bidId
+                          bidId : bidId,
+                        fromTransporterSide: false,
+                        transporterApproved: transporterApproved,
+                        shipperApproved: shipperApproved,
                       ),
                     ],
                   ),

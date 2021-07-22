@@ -37,6 +37,7 @@ class AcceptButton extends StatelessWidget {
       activeButtonCondition = (transporterApproved == true && shipperApproved == false) ;
     }
 
+    print('bid id : $bidId');
     return Container(
       height: isBiddingDetails! ? null : 31,
       width: isBiddingDetails! ? null : 80,
@@ -47,7 +48,7 @@ class AcceptButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               )),
           backgroundColor: MaterialStateProperty.all<Color>(
-              (transporterApproved == false && shipperApproved == true) ?liveasyGreen : inactiveBidding),
+              activeButtonCondition! ?liveasyGreen : inactiveBidding),
         ),
         onPressed: activeButtonCondition!
             ?
