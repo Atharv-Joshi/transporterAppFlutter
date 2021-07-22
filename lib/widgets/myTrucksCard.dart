@@ -71,8 +71,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
   Widget build(BuildContext context) {
 
     widget.truckType = widget.truckType != null
-        ? truckFilterVariables.truckTypeTextList[
-    truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+        ?
+    truckFilterVariables.truckTypeTextList.contains(widget.truckType) ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)] : 'NA'
         : 'NA';
 
     Map<String, Color> statusColor = {
@@ -128,9 +128,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   SizedBox(height: space_2,),
                   NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
-                  NewRowTemplate(label: 'Truck Type', value: widget.truckType),
-                  NewRowTemplate(label: 'Tyre', value: widget.tyres != null ? widget.tyres.toString() : 'NA'),
-                  NewRowTemplate(label: 'Driver', value: widget.driverName),
+                  NewRowTemplate(label: 'Truck Type', value: widget.truckType ,width: 98,),
+                  NewRowTemplate(label: 'Tyre', value: widget.tyres != null ? widget.tyres.toString() : 'NA' , width: 98,),
+                  NewRowTemplate(label: 'Driver', value: widget.driverName , width: 98,),
                   Container(
                     margin: EdgeInsets.only(top: space_2),
                     child:Row(

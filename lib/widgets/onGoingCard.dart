@@ -85,9 +85,9 @@ class OngoingCard extends StatelessWidget {
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
                         children: [
-                          NewRowTemplate(label: 'Truck No', value: model['truckNo']),
+                          NewRowTemplate(label: 'Truck No', value: model['truckNo'] , width: 78,),
                           NewRowTemplate(label: 'Driver Name', value: model['driverName']),
-                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}'),
+                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}' , width: 78,),
                         ],
                       ),
                     ),

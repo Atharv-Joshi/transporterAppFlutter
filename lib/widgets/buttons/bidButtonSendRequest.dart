@@ -8,6 +8,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -45,12 +46,22 @@ class BidButtonSendRequest extends StatelessWidget {
         onPressed: providerData.bidButtonSendRequestState
         ?
         (){
-          isPost! ? postBidAPi(loadId, providerData.rate1,tIdController.transporterId.value, providerData.unitValue1) : putBidForNegotiate(bidId, providerData.rate1, providerData.unitValue1);
+          if(isPost!)
+              {
+                postBidAPi(loadId, providerData.rate1,tIdController.transporterId.value, providerData.unitValue1);
+
+              }
+              else
+                {
+                  putBidForNegotiate(bidId, providerData.rate1, providerData.unitValue1);
+                }
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Bidding Request Send')));
           // providerData.updateRate("" , 'PER_TON');
           providerData.updateBidButtonSendRequest(false);
-          Navigator.of(context).pop();
+          providerData.updateIndex(3);
+          Navigator.pop(context);
+          Get.offAll(NavigationScreen());
         }
         : null,
 

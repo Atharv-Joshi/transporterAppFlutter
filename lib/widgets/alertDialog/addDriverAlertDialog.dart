@@ -11,7 +11,7 @@ import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
-import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 // import 'package:permission_handler/permission_handler.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
@@ -156,8 +156,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               name: driverNameController.text,
               number: driverNumberController.text,
               onTap: () async {
-                // print("name--" + "$name");
-                // providerData.updateDriverNameList(newValue: displayContact);
+
 
                 if (driverNumberController.text.length == 10) {
                   TransporterIdController tIdController =

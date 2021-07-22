@@ -53,9 +53,9 @@ class LoadDetailsScreen extends StatelessWidget {
                   Stack(
                     children: [
                       LoadPosterDetails(
-                        loadPosterLocation: loadDetails.loadPosterLocation,
-                        loadPosterName: loadDetails.loadPosterName,
-                        loadPosterCompanyName: loadDetails.loadPosterCompanyName,
+                        loadPosterLocation: loadDetails.loadPosterLocation!,
+                        loadPosterName: loadDetails.loadPosterName!,
+                        loadPosterCompanyName: loadDetails.loadPosterCompanyName!,
                         loadPosterCompanyApproved : loadDetails.loadPosterCompanyApproved,
                       ),
                       Padding(

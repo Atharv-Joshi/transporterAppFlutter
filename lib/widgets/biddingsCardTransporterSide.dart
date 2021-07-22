@@ -10,7 +10,7 @@ import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/widgets/buttons/CancelBidButton.dart';
 import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 
@@ -136,7 +136,7 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                       ),
 
                       SizedBox(height: space_2,),
-                      NewRowTemplate(label: 'Shipper', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName),
+                      NewRowTemplate(label: 'Shipper', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName , width: 98,),
                       biddingModel.previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.${ biddingModel.previousBid}/${biddingModel.unitValue}') : Container(),
                       NewRowTemplate(label: 'Current Bidding', value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
                       Container(
