@@ -39,8 +39,9 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
   @override
   Widget build(BuildContext context) {
 
-    widget.biddingModel!.unitValue = widget.biddingModel!.unitValue == 'tonne' ? 'PER_TON' : 'PER_TRUCK' ;
-
+    if(widget.biddingModel != null){
+      widget.biddingModel!.unitValue = widget.biddingModel!.unitValue == 'tonne' ? 'PER_TON' : 'PER_TRUCK' ;
+    }
     ProviderData providerData = Provider.of<ProviderData>(context);
     return GestureDetector(
       onTap: widget.truckId != null ?
@@ -50,12 +51,6 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
               widget.truckId, widget.loadDetailsScreenModel!.postLoadId);
           print("directBooking");
         } else {
-          print("indirectBooking");
-          // print(widget.biddingModel!.loadId);
-          // print(widget.biddingModel!.currentBid);
-          // print(widget.biddingModel!.unitValue);
-          // print(widget.truckId);
-          // print(widget.postLoadId);
           postBookingApi(
               widget.biddingModel!.loadId,
               widget.biddingModel!.currentBid,
@@ -63,8 +58,6 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
               widget.truckId,
               widget.postLoadId,
               );
-          print("indirectBooking 2 ");
-
         }
         Navigator.of(context).pop();
         providerData.updateLowerAndUpperNavigationIndex(3, 1);

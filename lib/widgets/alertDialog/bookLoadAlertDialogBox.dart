@@ -22,8 +22,6 @@ import 'addDriverAlertDialog.dart';
 class BookLoadAlertDialogBox extends StatefulWidget {
   List? truckModelList ;
   List? driverModelList;
-
-
   LoadDetailsScreenModel? loadDetailsScreenModel;
   BiddingModel? biddingModel;
   bool? directBooking;
@@ -214,10 +212,8 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-
-
               widget.loadDetailsScreenModel != null
-              ?
+                  ?
               ConfirmButtonSendRequest(
                 loadDetailsScreenModel: widget.loadDetailsScreenModel,
                 truckId: selectedTruck,

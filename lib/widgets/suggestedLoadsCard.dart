@@ -50,7 +50,7 @@ class _SuggestedLoadsCardState extends State<SuggestedLoadsCard> {
               GestureDetector(
                 onTap: () {
                   if (tIdController.transporterApproved.value) {
-                    Get.to(() => LoadDetailsScreen(loadDetails: widget.loadDetailsScreenModel));
+                    Get.to(() => LoadDetailsScreen(loadDetailsScreenModel: widget.loadDetailsScreenModel));
                   } else {
                     showDialog(
                         context: context,
