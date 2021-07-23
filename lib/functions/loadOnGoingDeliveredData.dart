@@ -37,17 +37,18 @@ Future<Map> loadAllData(bookingModel) async {
   }
 
 
-  Map cardDataModel = {
+  Map loadALLDataModel = {
     'bookingDate': bookingModel.bookingDate,
+    'bookingId' : bookingModel.bookingId,
     'completedDate':  bookingModel.completedDate,
     'loadingPoint': loadData['loadingPointCity'],
     'unloadingPoint': loadData['unloadingPointCity'],
     'companyName': transporterModel.companyName,
     'transporterPhoneNum': transporterModel.transporterPhoneNum,
-    'transporterLocation' : transporterModel.transporterLocation, /////////
-    'transporterName' : transporterModel.transporterName, ////////
-    'transporterApproved' : transporterModel.transporterApproved, //
-    'companyApproved' : transporterModel.companyApproved, //
+    'transporterLocation' : transporterModel.transporterLocation,
+    'transporterName' : transporterModel.transporterName,
+    'transporterApproved' : transporterModel.transporterApproved,
+    'companyApproved' : transporterModel.companyApproved,
     'truckNo': truckData['truckNo'],
     'truckType' : truckData['truckType'],
     'imei': truckData['imei'],
@@ -59,6 +60,6 @@ Future<Map> loadAllData(bookingModel) async {
     'productType' : loadData['productType'],
 
   };
-  print(cardDataModel);
-  return cardDataModel;
+
+  return loadALLDataModel;
 }

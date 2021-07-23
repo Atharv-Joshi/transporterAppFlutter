@@ -32,12 +32,12 @@ class TransporterApiCalls {
     transporterModel.companyName =
         jsonData['companyName'] != null ? jsonData['companyName'] : 'Na';
 
-    transporterModel.transporterApproved = jsonData['transporterApproved'];
+    transporterModel.transporterApproved = jsonData['transporterApproved'] != null ? jsonData['transporterApproved'] : false;
 
-    transporterModel.companyApproved = jsonData['companyApproved'];
+    transporterModel.companyApproved = jsonData['companyApproved'] != null ? jsonData['companyApproved'] : false;
 
     transporterModel.accountVerificationInProgress =
-        jsonData['accountVerificationInProgress'];
+        jsonData['accountVerificationInProgress'] != null ? jsonData['accountVerificationInProgress'] : false;
 
 
     return transporterModel;

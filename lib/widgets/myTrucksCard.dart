@@ -72,7 +72,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
     widget.truckType = widget.truckType != null
         ?
-    truckFilterVariables.truckTypeTextList.contains(widget.truckType) ?  truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)] : 'NA'
+   truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
         : 'NA';
 
     Map<String, Color> statusColor = {
