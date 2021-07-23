@@ -15,6 +15,7 @@ import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 // import 'package:permission_handler/permission_handler.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
+import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -180,7 +181,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 }
               },
             ),
-            CancelSelectedTruckDriverButton()
+            CancelButtonForAddNewDriver()
           ],
         )
       ],

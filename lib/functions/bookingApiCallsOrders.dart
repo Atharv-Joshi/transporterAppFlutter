@@ -33,7 +33,6 @@ class BookingApiCallsOrders {
       }
 
       for (var json in jsonData) {
-        print(bookingApiUrl);
         BookingModel bookingModel = BookingModel(truckId: []);
         bookingModel.bookingDate = json['bookingDate'];
         bookingModel.loadId = json['loadId'];
@@ -46,9 +45,6 @@ class BookingApiCallsOrders {
         bookingModel.bookingId = json['bookingId'];
         bookingModel.rate = json['rate'];
         bookingModel.unitValue = json['unitValue'];
-
-        // providerData.updateBookingId(json['postLoadId']);
-        // print(bookingModel.bookingId);
 
         modelList.add(bookingModel);
       }
@@ -68,7 +64,6 @@ class BookingApiCallsOrders {
         if (jsonData.isEmpty) {
           break;
         }
-        print(jsonData);
         for (var json in jsonData) {
           BookingModel bookingModel = BookingModel(truckId: []);
           bookingModel.bookingDate = json['bookingDate'];
@@ -86,7 +81,6 @@ class BookingApiCallsOrders {
         }
       }
     } catch (e) {
-      print(e);
     }
     return modelList;
   }
@@ -99,7 +93,6 @@ class BookingApiCallsOrders {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
-    print(response.body);
   }
 }
 
