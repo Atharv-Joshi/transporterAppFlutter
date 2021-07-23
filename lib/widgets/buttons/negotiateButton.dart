@@ -36,7 +36,12 @@ class NegotiateButton extends StatelessWidget {
           ? () {
             showDialog(
                 context: context,
-                builder: (context) =>  BidButtonAlertDialog(isPost: false , bidId:  bidId,));
+                builder: (context) =>  BidButtonAlertDialog(
+                  isNegotiating: true,
+                  isPost: false ,
+                  bidId:  bidId,
+                )
+            );
         }
         : null,
         child: Container(

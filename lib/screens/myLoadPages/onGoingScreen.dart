@@ -42,16 +42,16 @@ class _OngoingScreenState extends State<OngoingScreen> {
 
             BookingModel bookingModel = BookingModel(truckId: []);
             bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
-            bookingModel.bookingId = json['bookingId'];
-            bookingModel.postLoadId = json['postLoadId'];
-            bookingModel.loadId = json['loadId'];
-            bookingModel.transporterId = json['transporterId'];
-            bookingModel.truckId = json['truckId'];
+            bookingModel.bookingId = json['bookingId']  != null ? json['bookingId'] : "NA";
+            bookingModel.postLoadId = json['postLoadId'] != null ? json['postLoadId'] : "NA";
+            bookingModel.loadId = json['loadId']  != null ? json['loadId'] : "NA";
+            bookingModel.transporterId = json['transporterId']  != null ? json['transporterId'] : "NA";
+            bookingModel.truckId = json['truckId']  != null ? json['truckId'] : [];
             bookingModel.cancel = json['cancel'];
             bookingModel.completed = json['completed'];
             bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : "NA";
             bookingModel.rate =  json['rate'] != null ? json['rate'].toString() : 'NA';
-            bookingModel.unitValue = json['unitValue'] ;
+            bookingModel.unitValue = json['unitValue']  != null ? json['unitValue'] : 'NA';
 
             setState(() {
                 modelList.add(bookingModel);
@@ -117,7 +117,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
                                 return SizedBox();
                             }
                             return OngoingCard(
-                                model: snapshot.data,
+                                loadAllDataModel: snapshot.data,
                             );
                         });
                 } //builder
