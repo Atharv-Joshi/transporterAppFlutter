@@ -4,6 +4,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
@@ -67,6 +68,9 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
         ? null
         :
             () async {
+          if(widget.shipperApproval == true && widget.transporterApproval == false){
+            // putBidForAccept(bidId);
+          }
            showDialog(
             barrierDismissible: false,
             context: context,

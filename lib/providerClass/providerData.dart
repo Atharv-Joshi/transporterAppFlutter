@@ -154,6 +154,12 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateLowerAndUpperNavigationIndex(lowerValue , upperValue){
+    index = lowerValue;
+    upperNavigatorIndex = upperNavigatorIndex;
+    notifyListeners();
+  }
+
   updateProfilePhoto(File newFile) {
     profilePhotoFile = newFile;
     notifyListeners();
