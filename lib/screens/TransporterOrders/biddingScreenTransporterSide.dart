@@ -54,13 +54,13 @@ class _BiddingScreenTransporterSideState extends State<BiddingScreenTransporterS
     jsonData = json.decode(response.body);
     for (var json in jsonData) {
       BiddingModel biddingModel = BiddingModel();
-      biddingModel.bidId = json["bidId"];
-      biddingModel.transporterId = json["transporterId"];
-      biddingModel.loadId = json["loadId"];
+      biddingModel.bidId = json['bidId'] == null ? 'NA' : json['bidId'] ;
+      biddingModel.transporterId =  json['transporterId'] == null ? 'NA' : json['transporterId'] ;
+      biddingModel.loadId = json['loadId'] == null ? 'NA' : json['loadId'] ;
       biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'].toString() ;
       biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'].toString() ;
-      biddingModel.unitValue = json["unitValue"];
-      biddingModel.truckIdList = json["truckId"];
+      biddingModel.unitValue = json['unitValue'] == null ? 'NA' : json['unitValue'] ;
+      biddingModel.truckIdList = json['truckId'] == null ? 'NA' : json['truckId'] ;
       biddingModel.shipperApproval= json["shipperApproval"];
       biddingModel.transporterApproval = json['transporterApproval'];
       biddingModel.biddingDate = json['biddingDate'] != null ? json['biddingDate'] : 'NA';
@@ -126,9 +126,9 @@ class _BiddingScreenTransporterSideState extends State<BiddingScreenTransporterS
                 print('bid id : ${biddingModelList[index].bidId}');
                 return BiddingsCardTransporterSide(
                   biddingModel: biddingModelList[index],
-                  loadingPointCity:snapshot.data['loadingPointCity'],
+                  loadingPointCity:snapshot.data['loadingPointCity'] ,
                   unloadingPointCity: snapshot.data['unloadingPointCity'],
-                  companyName: snapshot.data['loadPosterModel'].loadPosterCompanyName,
+                  companyName: snapshot.data['loadPosterModel'].loadPosterCompanyName ,
                   transporterPhoneNum: snapshot.data['loadPosterModel'].loadPosterPhoneNo,
                   transporterLocation: snapshot.data['loadPosterModel'].loadPosterLocation,
                   transporterName:  snapshot.data['loadPosterModel'].loadPosterName,

@@ -113,7 +113,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
                           return OnGoingLoadingWidgets();
                         }
                         return OngoingCard(
-                          model: snapshot.data,
+                          loadAllDataModel: snapshot.data,
                         );
                       });
                 } //builder

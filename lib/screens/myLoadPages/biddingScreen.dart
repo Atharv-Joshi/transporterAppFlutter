@@ -47,14 +47,14 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
     for(var json in jsonData){
       BiddingModel biddingModel = BiddingModel();
-      biddingModel.bidId = json['bidId'];
-      biddingModel.transporterId = json['transporterId'];
+      biddingModel.bidId = json['bidId'] != null ? json['bidId'] : 'Na' ;
+      biddingModel.transporterId = json['transporterId']  != null ? json['transporterId'] : 'Na' ;
       biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'].toString() ;
       biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'].toString() ;
-      biddingModel.unitValue = json['unitValue'];
-      biddingModel.loadId = json['loadId'];
+      biddingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'Na' ;
+      biddingModel.loadId = json['loadId'] != null ? json['loadId'] : 'Na' ;
       biddingModel.biddingDate = json['biddingDate'] != null ? json['biddingDate'] : 'NA';
-      biddingModel.truckIdList = json['truckId'];
+      biddingModel.truckIdList = json['truckId'] != null ? json['truckId'] : 'Na' ;
       biddingModel.transporterApproval = json['transporterApproval'];
       biddingModel.shipperApproval = json['shipperApproval'];
       setState(() {

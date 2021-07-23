@@ -22,11 +22,13 @@ class BidButtonSendRequest extends StatelessWidget {
   String? loadId;
   String? bidId;
   bool? isPost;
+  bool? isNegotiating;
 
   BidButtonSendRequest({
     this.loadId,
     this.bidId,
     required this.isPost,
+    required this.isNegotiating,
   });
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();

@@ -14,7 +14,7 @@ import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
-import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:provider/provider.dart';
 import 'addDriverAlertDialog.dart';
 
@@ -22,9 +22,6 @@ import 'addDriverAlertDialog.dart';
 class BookLoadAlertDialogBox extends StatefulWidget {
   List? truckModelList ;
   List? driverModelList;
-
-  // int? truckModeListLength;
-  // int? driverModelListLength;
   LoadDetailsScreenModel? loadDetailsScreenModel;
   BiddingModel? biddingModel;
   bool? directBooking;
@@ -32,8 +29,7 @@ class BookLoadAlertDialogBox extends StatefulWidget {
 
   BookLoadAlertDialogBox(
       {
-        // this.truckModeListLength,
-        // this.driverModelListLength,
+
         this.truckModelList,
         this.postLoadId,
        this.driverModelList,
@@ -65,14 +61,12 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
 
     ProviderData providerData = Provider.of<ProviderData>(context);
 
-    // if(widget.truckModelList!.length < widget.truckModeListLength! + 1){
-    //   print('truck model list : ${widget.truckModelList!.length} given length : ${widget.truckModeListLength}');
+
       widget.truckModelList!.add(truckModel);
-    // }
-    // if(widget.driverModelList!.length < widget.driverModelListLength! + 1){
-    //   print('driver model list : ${widget.driverModelList!.length} given length : ${widget.driverModelListLength}');
+
+
       widget.driverModelList!.add(driverModel);
-    // }
+
 
 
     return AlertDialog(
@@ -185,6 +179,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
                       color: Colors.black),
                   onChanged: (String? driverId) {
                     if(driverId == 'Add new Driver'){
+                      providerData.updateIsAddTruckSrcDropDown(true);
                       Navigator.pop(context);
                       showDialog(
                         barrierDismissible: false,
@@ -217,10 +212,8 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-
-
               widget.loadDetailsScreenModel != null
-              ?
+                  ?
               ConfirmButtonSendRequest(
                 loadDetailsScreenModel: widget.loadDetailsScreenModel,
                 truckId: selectedTruck,

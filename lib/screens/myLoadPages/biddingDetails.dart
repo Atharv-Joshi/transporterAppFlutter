@@ -59,10 +59,10 @@ class BiddingDetails extends StatelessWidget {
                 child: Stack(
                   children: [
                     LoadPosterDetails(
-                      loadPosterLocation: transporterLocation ,
-                      loadPosterName: transporterName,
-                      loadPosterCompanyName: companyName,
-                      loadPosterCompanyApproved: isLoadPosterVerified,
+                      loadPosterLocation: transporterLocation != null ? transporterLocation : 'NA' ,
+                      loadPosterName: transporterName != null ? transporterName : 'NA' ,
+                      loadPosterCompanyName:  companyName != null ? companyName : 'NA' ,
+                      loadPosterCompanyApproved:  shipperApproved != null ? shipperApproved : false ,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -78,7 +78,7 @@ class BiddingDetails extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  fromTransporterSide! ? SizedBox() :  NegotiateButton(
+                                   NegotiateButton(
                                     active: !shipperApproved!,
                                       bidId : bidId),
                                   CallButton(directCall: true ,phoneNum: transporterPhoneNum ,)
