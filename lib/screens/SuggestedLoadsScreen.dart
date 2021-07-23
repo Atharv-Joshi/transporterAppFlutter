@@ -6,6 +6,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/suggestedLoadsCard.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -17,9 +18,7 @@ class SuggestedLoadScreen extends StatefulWidget {
   _SuggestedLoadScreenState createState() => _SuggestedLoadScreenState();
 }
 
-
 class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
-
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
@@ -41,14 +40,23 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     for (var json in jsonData) {
       LoadDetailsScreenModel model = LoadDetailsScreenModel();
       model.loadId = json["loadId"] != null ? json['loadId'] : 'NA';
-      model.loadingPoint = json["loadingPoint"] != null ? json['loadingPoint'] : 'NA';
-      model.loadingPointCity = json["loadingPointCity"] != null ? json['loadingPointCity'] : 'NA';
-      model.loadingPointState = json["loadingPointState"] != null ? json['loadingPointState'] : 'NA';
+      model.loadingPoint =
+          json["loadingPoint"] != null ? json['loadingPoint'] : 'NA';
+      model.loadingPointCity =
+          json["loadingPointCity"] != null ? json['loadingPointCity'] : 'NA';
+      model.loadingPointState =
+          json["loadingPointState"] != null ? json['loadingPointState'] : 'NA';
       model.postLoadId = json["postLoadId"] != null ? json['postLoadId'] : 'NA';
-      model.unloadingPoint = json["unloadingPoint"] != null ? json['unloadingPoint'] : 'NA';
-      model.unloadingPointCity = json["unloadingPointCity"] != null ? json['unloadingPointCity'] : 'NA';
-      model.unloadingPointState = json["unloadingPointState"] != null ? json['unloadingPointState'] : 'NA';
-      model.productType = json["productType"] != null ? json['productType'] : 'NA';
+      model.unloadingPoint =
+          json["unloadingPoint"] != null ? json['unloadingPoint'] : 'NA';
+      model.unloadingPointCity = json["unloadingPointCity"] != null
+          ? json['unloadingPointCity']
+          : 'NA';
+      model.unloadingPointState = json["unloadingPointState"] != null
+          ? json['unloadingPointState']
+          : 'NA';
+      model.productType =
+          json["productType"] != null ? json['productType'] : 'NA';
       model.truckType = json["truckType"] != null ? json['truckType'] : 'NA';
       model.noOfTrucks = json["noOfTrucks"] != null ? json['noOfTrucks'] : 'NA';
       model.weight = json["weight"] != null ? json['weight'] : 'NA';
@@ -66,7 +74,6 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     });
   }
   //API CALL--------------------------------------------------------------------
-
 
   @override
   void initState() {
@@ -96,36 +103,36 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
         backgroundColor: backgroundColor,
         body: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.fromLTRB(space_3 , space_4 , space_3 , 0),
-            child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: space_4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Header(reset: false, text: 'Suggested Loads', backButton: true),
-                        FilterButtonWidget()
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: (MediaQuery.of(context).size.height),
-                    color: backgroundColor,
-                    child:
-                    loading == true
-                        ? LoadingWidget()
-                        :
-                    ListView.builder(
-                      controller: scrollController,
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, index) =>
-                          SuggestedLoadsCard(
-                            loadDetailsScreenModel: data[index],
-                          ),
-                    ),
-                  ),
-                ]),
+            margin: EdgeInsets.fromLTRB(space_3, space_4, space_3, 0),
+            child: Column(children: [
+              Container(
+                margin: EdgeInsets.only(bottom: space_4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Header(
+                        reset: false,
+                        text: 'Suggested Loads',
+                        backButton: true),
+                    FilterButtonWidget()
+                  ],
+                ),
+              ),
+              Container(
+                height: (MediaQuery.of(context).size.height),
+                color: backgroundColor,
+                child: loading == true
+                    ? OnGoingLoadingWidgets()
+                    : ListView.builder(
+                        controller: scrollController,
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, index) =>
+                            SuggestedLoadsCard(
+                          loadDetailsScreenModel: data[index],
+                        ),
+                      ),
+              ),
+            ]),
           ),
         ),
       ),

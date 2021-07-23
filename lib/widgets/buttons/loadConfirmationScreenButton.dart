@@ -14,11 +14,9 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
-import 'package:liveasy/widgets/alertDialog/orderCompletedDialog.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 
 class LoadConfirmationScreenButton extends StatelessWidget {
@@ -65,7 +63,10 @@ class LoadConfirmationScreenButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return OrderCompletedDialog();
+            return completedDialog(
+              upperDialogText: "Congratulations!",
+              lowerDialogText: "You have completed your order!",
+            );
           },
         );
         Timer(

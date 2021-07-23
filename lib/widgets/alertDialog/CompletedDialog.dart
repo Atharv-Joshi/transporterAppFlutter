@@ -5,14 +5,19 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 
-class OrderCompletedDialog extends StatefulWidget {
-  const OrderCompletedDialog({Key? key}) : super(key: key);
+class completedDialog extends StatefulWidget {
+  String? upperDialogText;
+  String? lowerDialogText;
+
+  completedDialog(
+      {Key? key, required this.upperDialogText, required this.lowerDialogText})
+      : super(key: key);
 
   @override
-  _OrderCompletedDialogState createState() => _OrderCompletedDialogState();
+  _completedDialogState createState() => _completedDialogState();
 }
 
-class _OrderCompletedDialogState extends State<OrderCompletedDialog> {
+class _completedDialogState extends State<completedDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -28,14 +33,15 @@ class _OrderCompletedDialogState extends State<OrderCompletedDialog> {
                 height: space_22,
               ),
               Text(
-                "Congratulations!",
+                widget.upperDialogText!,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: mediumBoldWeight,
                     fontSize: size_8,
                     color: liveasyBlackColor),
               ),
               Text(
-                "You have completed your order!",
+                widget.lowerDialogText!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: mediumBoldWeight,

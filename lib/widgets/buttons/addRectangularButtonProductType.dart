@@ -10,7 +10,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
-import 'package:liveasy/widgets/alertDialog/orderCompletedDialog.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
@@ -64,8 +64,7 @@ class addRectangularButtonProductType extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return OrderCompletedDialog();
-                  ProductTypeEnterAlertDialog(
+                  return ProductTypeEnterAlertDialog(
                       heading: 'Enter The Product Type');
                 },
               );

@@ -11,7 +11,6 @@ import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
 
-
 class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
   String? unloadingPoint;
@@ -25,7 +24,7 @@ class ShipperDetails extends StatefulWidget {
   String? truckType;
   String? noOfTrucks;
   String? productType;
-  String? bookingId;
+  String bookingId;
   String? transporterPhoneNum;
   String? driverPhoneNum;
   String? driverName;
@@ -45,7 +44,7 @@ class ShipperDetails extends StatefulWidget {
       this.shipperPosterName,
       this.shipperPosterCompanyName,
       this.shipperPosterCompanyApproved,
-      this.bookingId,
+      required this.bookingId,
       this.transporterPhoneNum,
       this.driverPhoneNum,
       this.driverName,
@@ -153,7 +152,10 @@ class _ShipperDetailsState extends State<ShipperDetails> {
               SizedBox(
                 height: space_2,
               ),
-              CompletedButtonOrders(bookingId:  widget.bookingId!, fontSize: size_9,)
+              CompletedButtonOrders(
+                bookingId: widget.bookingId,
+                fontSize: size_9,
+              )
             ],
           ),
         ),
