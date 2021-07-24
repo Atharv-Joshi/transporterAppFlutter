@@ -148,6 +148,11 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  // bool isAddNewDriver = false;
+  // updateIsAddNewDriver(value){
+  //   isAddNewDriver = value;
+  //   notifyListeners();
+  // }
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
