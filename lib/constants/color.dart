@@ -64,3 +64,4 @@ dynamic greyishWhiteColorM =
 Color darkCharcoal = Color(0xff333333);
 const Color red = Colors.red;
 const Color navy = Color(0xff000066);
+const Color lightGrey = Color(0xffDADADA);

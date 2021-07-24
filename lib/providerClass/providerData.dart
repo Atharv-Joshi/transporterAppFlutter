@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
+import 'package:get/get.dart';
 
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
 //Right now variable declaration and function definition are writing without any specific order but later on change this , there are two options
@@ -8,8 +9,6 @@ import 'package:flutter/material.dart';
 // 2 First declare all variables and then declare all functions
 //This is effective way for maintenance of code for long term.
 //P.S Care should be taken that provider should only be used for updating variables and not processing their values.
-
-
 
 class ProviderData extends ChangeNotifier {
   bool bidButtonSendRequestState = false;
@@ -153,13 +152,15 @@ class ProviderData extends ChangeNotifier {
   //   isAddNewDriver = value;
   //   notifyListeners();
   // }
+  String postLoadError = "";
+  bool loadWidget = true;
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
   }
 
-  updateLowerAndUpperNavigationIndex(lowerValue , upperValue){
+  updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
     index = lowerValue;
     upperNavigatorIndex = upperNavigatorIndex;
     notifyListeners();
@@ -370,7 +371,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
-    productType = "Choose Product type";
+    productType = "Choose Product Type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -435,7 +436,9 @@ class ProviderData extends ChangeNotifier {
     if (truckNumber != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
-        productType != '') {
+        productType != "Choose Product Type" &&
+        ((perTruck != perTon) && price != 0 ||
+            (perTruck == perTon) && price == 0)) {
       return true;
     } else {
       return false;
@@ -457,16 +460,17 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-  void perTruckTrue() {
-    perTruck = true;
-    perTon = false;
+  void PerTruckTrue(truck, ton) {
+    perTruck = truck;
+    perTon = ton;
 
     notifyListeners();
   }
 
-  void perTonTrue() {
-    perTon = true;
-    perTruck = false;
+  void PerTonTrue(ton, truck) {
+    perTon = ton;
+    perTruck = truck;
+
     notifyListeners();
   }
 
@@ -478,6 +482,25 @@ class ProviderData extends ChangeNotifier {
   void updateOtpValid(value) {
     otpIsValid = value;
     notifyListeners();
+  }
+
+  void updatePostLoadError(value) {
+    postLoadError = value;
+    notifyListeners();
+  }
+
+  void updateLoadWidget(value) {
+    loadWidget = value;
+    notifyListeners();
+  }
+
+  bool showDialogPrice() {
+    if (((perTruck != perTon) && price != 0 ||
+        (perTruck == perTon) && price == 0)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // List truckModels = [];
@@ -493,10 +516,9 @@ class ProviderData extends ChangeNotifier {
 
   bool isAddTruckSrcDropDown = false;
 
-  updateIsAddTruckSrcDropDown(bool value){
+  updateIsAddTruckSrcDropDown(bool value) {
     isAddTruckSrcDropDown = value;
   }
-
 
 //----------------------------------
 
