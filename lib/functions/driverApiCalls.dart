@@ -6,48 +6,66 @@ import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
-import "package:flutter/material.dart";
+
+//This class should contain all the api calls related to driver api
+//This is important so that it's easier to search up the required files
 class DriverApiCalls {
   List<DriverModel> driverList = [];
 
-  List? jsonData;
+  late List jsonData;
 
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
 
-  Future<List> getDriversByTransporterId() async {
+  //This function gets all the drivers of a particular transporter and returns a list of driver models. The for loop is used to counter pagination implemented in backend.
+  Future<List<DriverModel>> getDriversByTransporterId() async {
+    // for (int i = 0; ; i++) {
+    //   print('i : $i');
+    //   print('$driverApiUrl?transporterId=${transporterIdController.transporterId.value}');
     http.Response response = await http.get(Uri.parse(
         '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
 
+
     jsonData = json.decode(response.body);
 
-    for (var json in jsonData!) {
+    // if(jsonData.isEmpty){
+    //   print('json data empty');
+    //   break;
+    // }
+
+    for (var json in jsonData) {
       DriverModel driverModel = DriverModel();
-      driverModel.driverId = json["driverId"];
-      driverModel.transporterId = json["transporterId"];
-      driverModel.phoneNum = json["phoneNum"];
-      driverModel.driverName = json["driverName"];
-      driverModel.truckId = json["truckId"];
+      driverModel.driverId =
+      json["driverId"] != null ? json["driverId"] : 'NA';
+      driverModel.transporterId =
+      json["transporterId"] != null ? json["transporterId"] : 'NA';
+      driverModel.phoneNum =
+      json["phoneNum"] != null ? json["phoneNum"] : 'NA';
+      driverModel.driverName =
+      json["driverName"] != null ? json["driverName"] : 'NA';
+      driverModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
       driverList.add(driverModel);
     }
-
-    print(driverList);
+    // }
+    // print(driverList);
     return driverList;
   }
 
   //----------------------------------------------------------------------------
 
+  //This function gets the details of a single driver by using the  driverId
+  //IT takes two parameters from which only one needs to be provided during function call.
   Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
 
     Map? jsonData;
 
     if (driverId != null) {
       http.Response response =
-          await http.get(Uri.parse('$driverApiUrl/$driverId'));
+      await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
@@ -71,10 +89,10 @@ class DriverApiCalls {
             });
         jsonData = json.decode(response.body);
       }catch(e){
-          jsonData = {
-            'driverName' : 'NA',
-            'phoneNum' : 'NA'
-          };
+        jsonData = {
+          'driverName' : 'NA',
+          'phoneNum' : 'NA'
+        };
       }
       TruckModel truckModelFinal = TruckModel(truckApproved: false);
       truckModelFinal.driverName =
@@ -88,7 +106,7 @@ class DriverApiCalls {
       truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
       truckModelFinal.imei = truckModel.imei;
       return truckModelFinal;
-      }
+    }
     else{
       jsonData = {
         'driverName' : 'NA',
@@ -131,26 +149,10 @@ class DriverApiCalls {
       print("driver Api response : ${response.body}");
       var decodedData = json.decode(response.body);
       if (decodedData["driverId"] != null) {
-        Get.defaultDialog(content: Scaffold(
-          body: Container(child: Column(
-            children: [
-              Text("Success!"),
-              Text("${decodedData["status"]}")
-            ],
-          ),),
-        ),);
-        // Get.snackbar("Success!", "${decodedData["status"]}");
+        Get.snackbar("Success!", "${decodedData["status"]}");
         return decodedData["driverId"];
       } else{
-        Get.defaultDialog(content: Scaffold(
-          body: Container(child: Column(
-            children: [
-              Text("Failed!"),
-              Text("${decodedData["status"]}")
-            ],
-          ),),
-        ),);
-        // Get.snackbar("Error", "${decodedData["status"]}");
+        Get.snackbar("Error", "${decodedData["status"]}");
         return null;}
     } catch (e) {
       print(e);
@@ -159,4 +161,3 @@ class DriverApiCalls {
     }
   }
 }
-
