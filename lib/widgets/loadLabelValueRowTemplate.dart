@@ -30,7 +30,7 @@ class LoadLabelValueRowTemplate extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    ":  ${value!}",
+                    ":  $value",
                     style: TextStyle(
                         fontSize: size_6,
                         fontWeight: label == "Booking date"

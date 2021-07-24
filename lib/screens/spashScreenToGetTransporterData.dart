@@ -14,31 +14,36 @@ class SplashScreenToGetTransporterData extends StatefulWidget {
   SplashScreenToGetTransporterData({required this.mobileNum});
 
   @override
-  _SplashScreenToGetTransporterDataState createState() => _SplashScreenToGetTransporterDataState();
+  _SplashScreenToGetTransporterDataState createState() =>
+      _SplashScreenToGetTransporterDataState();
 }
 
-class _SplashScreenToGetTransporterDataState extends State<SplashScreenToGetTransporterData> {
+class _SplashScreenToGetTransporterDataState
+    extends State<SplashScreenToGetTransporterData> {
   @override
   void initState() {
     super.initState();
     getData();
   }
-  getData() async{
-    String? transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
-    if (transporterId != null){
+
+  getData() async {
+    String? transporterId =
+        await runTransporterApiPost(mobileNum: widget.mobileNum);
+    if (transporterId != null) {
       Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
-    }
-    else {
+    } else {
       transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
-      if (transporterId != null){
-        Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
-      }
-      else{
-        Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
+      if (transporterId != null) {
+        Timer(
+            Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
+      } else {
+        Timer(
+            Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
         //TODO make a screen to show Api not working
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

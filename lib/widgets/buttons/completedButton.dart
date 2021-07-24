@@ -37,26 +37,24 @@ class CompletedButtonOrders extends StatelessWidget {
         );
       },
       child: Container(
-
-        width: double.infinity,
         child: Container(
-              padding: EdgeInsets.fromLTRB(
-                space_5,
-                size_1,
-                space_5,
-                size_1,
-              ),
-              child: Text(
-                'Completed',
-                style: TextStyle(
-                  letterSpacing: 0.7,
-                  fontWeight: normalWeight,
-                  color: white,
-                  fontSize: fontSize,
-                ),
-              ),
+          padding: EdgeInsets.fromLTRB(
+            space_5,
+            size_1,
+            space_5,
+            size_1,
+          ),
+          child: Text(
+            'Completed',
+            style: TextStyle(
+              letterSpacing: 0.7,
+              fontWeight: normalWeight,
+              color: white,
+              fontSize: fontSize,
             ),
+          ),
         ),
+      ),
     );
   }
 }

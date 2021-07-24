@@ -22,7 +22,7 @@ class OkButtonProductType extends StatelessWidget {
           style: ButtonStyle(backgroundColor: activeButtonColor),
           onPressed: () {
             providerData.updateProductType(controllerOthers.text == ""
-                ? 'Choose Product Type'
+                ? "Choose Product Type"
                 : controllerOthers.text);
             Get.back();
           },

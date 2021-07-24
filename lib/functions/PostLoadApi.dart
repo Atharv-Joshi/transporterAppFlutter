@@ -1,22 +1,27 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:liveasy/controller/postLoadErrorController.dart';
+import 'package:flutter_config/flutter_config.dart';
 
-class LoadApi {
-  postLoadAPi(
-      loadDate,
-      postLoadId,
-      loadingPoint,
-      loadingPointCity,
-      loadingPointState,
-      noOfTrucks,
-      productType,
-      truckType,
-      unloadingPoint,
-      unloadingPointCity,
-      unloadingPointState,
-      weight,
-      unitValue,
-      rate) async {
+Future<String?> postLoadAPi(
+    loadDate,
+    postLoadId,
+    loadingPoint,
+    loadingPointCity,
+    loadingPointState,
+    noOfTrucks,
+    productType,
+    truckType,
+    unloadingPoint,
+    unloadingPointCity,
+    unloadingPointState,
+    weight,
+    unitValue,
+    rate) async {
+  PostLoadErrorController postLoadErrorController =
+      Get.put(PostLoadErrorController());
+  try {
     Map data = {
       "loadDate": loadDate,
       "postLoadId": postLoadId,
@@ -35,7 +40,9 @@ class LoadApi {
     };
     String body = json.encode(data);
     var jsonData;
-    final String loadApiUrl = "http://15.207.224.92:8080/load";
+
+    final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+
     final response = await http.post(Uri.parse(loadApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -43,6 +50,19 @@ class LoadApi {
         body: body);
     jsonData = json.decode(response.body);
 
-    print(jsonData);
+    if (response.statusCode == 201) {
+      print("LOAD API Response-->$jsonData");
+      if (jsonData["loadId"] != null) {
+        String loadId = jsonData["loadId"];
+        return loadId;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  } catch (e) {
+    postLoadErrorController.updatePostLoadError(e.toString());
+    return null;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:liveasy/constants/color.dart';
 
@@ -35,6 +36,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
   @override
   Widget build(BuildContext context) {
+    bool visible = false;
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
 
@@ -52,7 +54,6 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                   resetFunction: () {
                     controller.text = "";
                     controllerOthers.text = "";
-
                     providerData.resetTruckFilters();
                     providerData.updateResetActive(false);
                   },
@@ -145,6 +146,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                       UnitValueWidget(),
                       SizedBox(height: space_3),
                       PriceTextFieldWidget(),
+                      SizedBox(height: space_3),
                       SizedBox(height: space_18),
                       ApplyButton(),
                       SizedBox(height: space_18),
