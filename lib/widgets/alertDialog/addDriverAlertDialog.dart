@@ -12,9 +12,8 @@ import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
-// import 'package:permission_handler/permission_handler.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:contact_picker/contact_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
 // ignore: must_be_immutable
@@ -26,11 +25,10 @@ class AddDriverAlertDialog extends StatefulWidget {
 class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
   TextEditingController driverNameController = TextEditingController();
   TextEditingController driverNumberController = TextEditingController();
-  final ContactPicker _contactPicker = new ContactPicker();
-  Contact? _contact;
-  String? contactName;
-  String? contactNumber;
-  String displayContact = "";
+  // PhoneContact? _contact;
+  // String? contactName;
+  // String? contactNumber;
+  // String displayContact = "";
 
   @override
   Widget build(BuildContext context) {
@@ -78,28 +76,28 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                         print(driverNameController.text);
                         print(driverNumberController.text);
                         // if (await Permission.contacts.request().isGranted) {
-                        //   Contact contact =
-                        //       await _contactPicker.selectContact();
-                        //   setState(() {
-                        //     _contact = contact;
-                        //     print(_contact);
-                        //     contactName = _contact!.fullName.toString();
-                        //     driverNameController = TextEditingController(
-                        //         text: _contact!.fullName.toString());
-                        //     contactNumber =
-                        //         _contact!.phoneNumber.number.contains("+91")
-                        //             ? _contact!.phoneNumber.number
-                        //                 .replaceRange(0, 3, "")
-                        //                 .replaceAll(new RegExp(r"\D"), "")
-                        //             : _contact!.phoneNumber.number
-                        //                 .toString()
-                        //                 .replaceAll(new RegExp(r"\D"), "");
-                        //     print(contactNumber);
-                        //     driverNumberController =
-                        //         TextEditingController(text: contactNumber);
-                        //     // displayContact =
-                        //     //     contactName! + " - " + contactNumber!;
-                        //   });
+
+                          final PhoneContact contact =
+                              await FlutterContactPicker.pickPhoneContact(askForPermission: true);
+                          print(contact);
+                          setState(() {
+                            String contactName = contact.fullName.toString();
+                            driverNameController = TextEditingController(
+                                text: contactName);
+                            String contactNumber =
+                                contact.phoneNumber!.number!.contains("+91")
+                                    ? contact.phoneNumber!.number!
+                                        .replaceRange(0, 3, "")
+                                        .replaceAll(new RegExp(r"\D"), "")
+                                    : contact.phoneNumber!.number!
+                                        .toString()
+                                        .replaceAll(new RegExp(r"\D"), "");
+                            print(contactNumber);
+                            driverNumberController =
+                                TextEditingController(text: contactNumber);
+                            // displayContact =
+                            //     contactName! + " - " + contactNumber!;
+                          });
                         // }
                       },
                       child: Image(
@@ -157,8 +155,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               name: driverNameController.text,
               number: driverNumberController.text,
               onTap: () async {
-
-
                 if (driverNumberController.text.length == 10) {
                   TransporterIdController tIdController =
                       Get.find<TransporterIdController>();
@@ -168,16 +164,35 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       driverNumberController.text,
                       transporterId);
                   if (driverId != null) {
-                    Navigator.of(context).pop();
+                    Get.dialog(
+                      Container(
+                        child: Text("Success"),
+                      ),
+                    );
+                    // Navigator.of(context).pop();
                     //For Book Now Alert Dialog
                     await getTruckDetailsFromTruckApi(context);
                     await getDriverDetailsFromDriverApi(context);
                   } else {
                     Navigator.of(context).pop();
-                    Get.snackbar("Error", "");
+                    Get.dialog(
+                      Container(
+                        child: Text("Failed"),
+                      ),
+                    );
                   }
                 } else {
-                  Get.snackbar("Error", "Enter a valid 10 digit number");
+                  Get.defaultDialog(
+                    content: Container(
+                      child: Column(
+                        children: [
+                          Text("Error!"),
+                          Text("Enter a valid 10 digit number")
+                        ],
+                      ),
+                    ),
+                  );
+                  // Get.snackbar("Error", "Enter a valid 10 digit number");
                 }
               },
             ),

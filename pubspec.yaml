@@ -46,7 +46,7 @@ dependencies:
   social_share: ^2.1.1
   image_picker: ^0.8.0+3
   contacts_service: ^0.6.1
-  contact_picker: ^0.0.2
+  fluttercontactpicker: ^4.5.1
   url_launcher: ^6.0.6
   wc_flutter_share: ^0.4.0
   date_format: ^2.0.2
