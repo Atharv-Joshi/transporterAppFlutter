@@ -14,7 +14,6 @@ class ViewBidButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoadApi loadApi = LoadApi();
     return Padding(
       padding: EdgeInsets.only(top: space_2, right: space_3),
       child: GestureDetector(

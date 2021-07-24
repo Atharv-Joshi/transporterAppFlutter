@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingDesicionCard.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 
-
+//TODO:instead of destructuring bidding model we can pass it entirely
 class BiddingDetails extends StatelessWidget {
 
+  BiddingModel? biddingModel;
+  bool? isLoadPosterVerified;
+  bool? fromTransporterSide;
   final String? loadId;
   final String? bidId;
   final String? rate;
@@ -23,6 +27,9 @@ class BiddingDetails extends StatelessWidget {
   final bool? transporterApproved;
 
   BiddingDetails({
+    this.isLoadPosterVerified,
+     this.biddingModel,
+    this.fromTransporterSide,
     required this.loadId ,
     required this.biddingDate,
     required this.unitValue,
@@ -52,10 +59,10 @@ class BiddingDetails extends StatelessWidget {
                 child: Stack(
                   children: [
                     LoadPosterDetails(
-                      loadPosterLocation: transporterLocation ,
-                      loadPosterName: transporterName,
-                      loadPosterCompanyName: companyName,
-                      loadPosterCompanyApproved: transporterApproved,
+                      loadPosterLocation: transporterLocation != null ? transporterLocation : 'NA' ,
+                      loadPosterName: transporterName != null ? transporterName : 'NA' ,
+                      loadPosterCompanyName:  companyName != null ? companyName : 'NA' ,
+                      loadPosterCompanyApproved:  shipperApproved != null ? shipperApproved : false ,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -71,7 +78,7 @@ class BiddingDetails extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  NegotiateButton(
+                                   NegotiateButton(
                                     active: !shipperApproved!,
                                       bidId : bidId),
                                   CallButton(directCall: true ,phoneNum: transporterPhoneNum ,)
@@ -85,6 +92,8 @@ class BiddingDetails extends StatelessWidget {
                 ),
               ),
               BiddingDecisionCard(
+                transporterApproved: transporterApproved,
+                fromTransporterSide: fromTransporterSide,
                 shipperApproved : shipperApproved,
                 biddingDate: biddingDate,
                 bidId: bidId,

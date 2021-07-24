@@ -5,8 +5,6 @@ import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
-import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 
 class AuthService {

@@ -4,7 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/MyLoadsCard.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http ;
@@ -21,7 +21,7 @@ class MyLoadsScreen extends StatefulWidget {
 
 class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
-  List<LoadApiModel> myLoadList = [];
+  List<LoadDetailsScreenModel> myLoadList = [];
 
   final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
 
@@ -96,17 +96,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
             itemCount: myLoadList.length,
             itemBuilder: (context , index){
               return MyLoadsCard(
-                loadId: myLoadList[index].loadId,
-                loadingPointCity: myLoadList[index].loadingPointCity,
-                unloadingPointCity: myLoadList[index]
-                    .unloadingPointCity,
-                truckType: myLoadList[index].truckType,
-                weight: myLoadList[index].weight,
-                productType: myLoadList[index].productType,
-                rate: myLoadList[index].rate,
-                unitValue: myLoadList[index].unitValue,
-                loadDate: myLoadList[index].loadDate,
-                noOfTrucks: myLoadList[index].noOfTrucks,
+                loadDetailsScreenModel: myLoadList[index],
               );
             }
         )
@@ -116,29 +106,33 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
 
   getDataByPostLoadId(int i) async {
-
+  print('transporter id ${transporterIdController.transporterId.value}');
     http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
-
+  print('in response ${response.body}');
     var jsonData = json.decode(response.body);
-
     for( var json in jsonData){
-      LoadApiModel loadScreenCardsModel = LoadApiModel();
-      loadScreenCardsModel.loadId = json['loadId'];
-      loadScreenCardsModel.loadingPointCity = json['loadingPointCity'] != null ?  json['loadingPointCity'] : 'NA' ;
-      loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'] != null ?  json['unloadingPointCity'] : 'NA' ;
-      loadScreenCardsModel.truckType = json['truckType'] != null ?  json['truckType'] : 'NA' ;
-      loadScreenCardsModel.weight = json['weight'] != null ?  json['weight'] : 'NA' ;
-      loadScreenCardsModel.productType = json['productType'] != null ?  json['productType'] : 'NA' ;
-      loadScreenCardsModel.rate = json['rate'].toString() ;
-      loadScreenCardsModel.unitValue = json['unitValue'] != null ?  json['unitValue'] : 'NA' ;
-      loadScreenCardsModel.noOfTrucks = json['noOfTrucks'] != null ?  json['noOfTrucks'] : 'NA' ;
-      loadScreenCardsModel.loadDate = json['loadDate'] != null ?  json['loadDate'] : 'NA' ;
+      LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
+      loadDetailsScreenModel.loadId = json['loadId'];
+      loadDetailsScreenModel.loadingPointCity = json['loadingPointCity'] != null ?  json['loadingPointCity'] : 'NA' ;
+      loadDetailsScreenModel.loadingPoint = json['loadingPoint'] != null ?  json['loadingPoint'] : 'NA' ;
+      loadDetailsScreenModel.loadingPointState = json['loadingPointState'] != null ?  json['loadingPointState'] : 'NA' ;
+      loadDetailsScreenModel.unloadingPointCity = json['unloadingPointCity'] != null ?  json['unloadingPointCity'] : 'NA' ;
+      loadDetailsScreenModel.unloadingPoint = json['unloadingPoint'] != null ?  json['unloadingPoint'] : 'NA' ;
+      loadDetailsScreenModel.unloadingPointState = json['unloadingPointState'] != null ?  json['unloadingPointState'] : 'NA' ;
+      loadDetailsScreenModel.postLoadId = json['postLoadId'];
+      loadDetailsScreenModel.truckType = json['truckType'] != null ?  json['truckType'] : 'NA' ;
+      loadDetailsScreenModel.weight = json['weight'] != null ?  json['weight'] : 'NA' ;
+      loadDetailsScreenModel.productType = json['productType'] != null ?  json['productType'] : 'NA' ;
+      loadDetailsScreenModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA' ;
+      loadDetailsScreenModel.unitValue = json['unitValue'] != null ?  json['unitValue'] : 'NA' ;
+      loadDetailsScreenModel.noOfTrucks = json['noOfTrucks'] != null ?  json['noOfTrucks'] : 'NA' ;
+      loadDetailsScreenModel.loadDate = json['loadDate'] != null ?  json['loadDate'] : 'NA' ;
       setState(() {
-        myLoadList.add(loadScreenCardsModel);
-      });
-      setState(() {
-        loading = false;
+        myLoadList.add(loadDetailsScreenModel);
       });
     }
+    setState(() {
+      loading = false;
+    });
   }//builder
 }//class end

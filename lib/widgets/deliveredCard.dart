@@ -1,45 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import 'package:liveasy/widgets/newRowTemplate.dart';
 
 import 'linePainter.dart';
 
 class DeliveredCard extends StatelessWidget {
-  final String loadingPoint;
-  final String unloadingPoint;
-  final String startedOn;
-  final String endedOn;
-  final String truckNo;
-  String companyName;
-  // final String phoneNum;
-  String driverName;
-  // final String imei;
+  Map model;
+
 
   DeliveredCard({
-    required this.loadingPoint,
-    required this.unloadingPoint,
-    required this.startedOn,
-    required this.endedOn,
-    required this.truckNo,
-    required this.companyName,
-    // required this.phoneNum,
-    required this.driverName,
-    // required this.imei
+    required this.model
+
   });
 
   @override
   Widget build(BuildContext context) {
-    driverName = driverName.length >= 12
-        ? driverName.substring(0, 10) + '..'
-        : driverName;
-    companyName = companyName.length >= 15
-        ? companyName.substring(0, 13) + '..'
-        : companyName;
+
+    model['companyName'] = model['companyName'].length >= 35
+        ? model['companyName'].substring(0, 33) + '..'
+        : model['companyName'];
+
+    model['unitValue'] = model['unitValue'] == 'PER_TON' ? 'tonne' : 'truck' ;
     return Container(
+      margin: EdgeInsets.only(bottom: space_3),
       child: Card(
+        elevation: 5,
         child: Column(
           children: [
             Container(
@@ -47,39 +37,39 @@ class DeliveredCard extends StatelessWidget {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          LoadEndPointTemplate(
-                              text: loadingPoint, endPointType: 'loading'),
-                          Container(
-                              padding: EdgeInsets.only(left: 2),
-                              height: space_6,
-                              width: space_12,
-                              child: CustomPaint(
-                                foregroundPainter: LinePainter(),
-                              )),
-                          LoadEndPointTemplate(
-                              text: unloadingPoint, endPointType: 'unloading'),
-                        ],
+                      Text(
+                        'Booking Date : ${model['bookingDate']}',
+                        style: TextStyle(
+                          fontSize: size_6,
+                          color: veryDarkGrey,
+                        ),
                       ),
                     ],
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LoadEndPointTemplate(
+                          text: model['loadingPoint'], endPointType: 'loading'),
+                      Container(
+                          padding: EdgeInsets.only(left: 2),
+                          height: space_3,
+                          width: space_12,
+                          child: CustomPaint(
+                            foregroundPainter: LinePainter(height:  space_3),
+                          )),
+                      LoadEndPointTemplate(
+                          text: model['unloadingPoint'], endPointType: 'unloading'),
+                    ],
+                  ),
                   Container(
-                    margin: EdgeInsets.only(top: space_4),
+                    margin: EdgeInsets.only(top: space_2),
                     child: Column(
                       children: [
-                        LoadLabelValueRowTemplate(
-                            value: truckNo, label: 'Truck No.'),
-                        LoadLabelValueRowTemplate(
-                            value: driverName, label: 'Driver Name'),
-                        LoadLabelValueRowTemplate(
-                            value: startedOn, label: 'Started on'),
-                        LoadLabelValueRowTemplate(
-                            value: endedOn, label: 'Ended on'),
+                          NewRowTemplate(label: 'Completed Date', value: model['completedDate']),
+                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}' , width: 100,),
                       ],
                     ),
                   ),
@@ -87,9 +77,9 @@ class DeliveredCard extends StatelessWidget {
               ),
             ),
             Container(
-              color: contactPlaneBackground,
+              // color: contactPlaneBackground,
               padding:
-                  EdgeInsets.symmetric(vertical: space_4, horizontal: space_3),
+                  EdgeInsets.fromLTRB(space_3, 0, space_3, space_3),
               child: Row(
                 children: [
                   Container(
@@ -98,10 +88,10 @@ class DeliveredCard extends StatelessWidget {
                         height: 16,
                         width: 23,
                         color: black,
-                        image: AssetImage('assets/icons/TruckIcon.png')),
+                        image: AssetImage('assets/icons/buildingIconBlack.png')),
                   ),
                   Text(
-                    companyName,
+                    model['companyName'],
                     style: TextStyle(
                       color: liveasyBlackColor,
                       fontWeight: mediumBoldWeight,

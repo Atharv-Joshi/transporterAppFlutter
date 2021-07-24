@@ -73,6 +73,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
               .indexOf(providerData.truckTypeValue)];
     }
 
+      driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
+
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -132,8 +135,10 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                   label: 'Truck Length'),
                               TruckReviewDetailsRow(
                                   value: widget.driverId != ''
-                                      ? '${driverModel.driverName}-${driverModel.phoneNum}'
-                                      : '---',
+                                      ?
+                                  '${driverModel.driverName}-${driverModel.phoneNum}'
+                                      :
+                                  '---',
                                   label: 'Driver Details'),
                             ],
                           ),
@@ -179,8 +184,15 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 setState(() {
                                   loading = false;
                                 });
-                                providerData.updateIndex(1);
-                                Get.offAll(() => NavigationScreen());
+
+                                if(providerData.isAddTruckSrcDropDown){
+                                  providerData.updateIndex(3);
+                                  Get.offAll(() => NavigationScreen());
+                                }
+                                else{
+                                  providerData.updateIndex(1);
+                                  Get.offAll(() => NavigationScreen());
+                                }
                                 providerData.resetTruckFilters();
                               } else {
                                 setState(() {

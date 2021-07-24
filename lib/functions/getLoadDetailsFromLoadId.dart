@@ -4,6 +4,7 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
 getLoadDetailsFromLoadId(loadId) async {
+  //canm be deleted later
   var jsonData;
   final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl/$loadId"));

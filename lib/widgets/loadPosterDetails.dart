@@ -15,9 +15,9 @@ class LoadPosterDetails extends StatelessWidget {
   bool? loadPosterCompanyApproved;
 
   LoadPosterDetails({
-    this.loadPosterLocation,
-    this.loadPosterName,
-    this.loadPosterCompanyName,
+    required this.loadPosterLocation,
+    required this.loadPosterName,
+    required this.loadPosterCompanyName,
     this.loadPosterCompanyApproved,
   });
 

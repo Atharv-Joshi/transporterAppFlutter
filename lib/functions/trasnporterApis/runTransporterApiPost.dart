@@ -23,7 +23,7 @@ Future<String?> runTransporterApiPost(
         body: body);
     print(response.body);
     if (response.statusCode == 201) {
-      
+
       var decodedResponse = json.decode(response.body);
       if (decodedResponse["transporterId"] != null) {
         String transporterId = decodedResponse["transporterId"];

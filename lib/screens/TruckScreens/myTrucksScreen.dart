@@ -208,8 +208,10 @@ class _MyTrucksState extends State<MyTrucks> {
   } //build
 
   getTruckData(int i) async {
+    print(transporterIdController.transporterId.value);
     http.Response response = await http.get(Uri.parse(
         '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
+    print(response.body);
     jsonData = json.decode(response.body);
     for (var json in jsonData) {
       TruckModel truckModel = TruckModel(truckApproved: false);
@@ -225,11 +227,10 @@ class _MyTrucksState extends State<MyTrucks> {
       setState(() {
         truckDataList.add(truckModel);
       });
-      setState(() {
-        loading = false;
-      });
-
-    }
+    }//for loop
+    setState(() {
+      loading=false;
+    });
   } //getTruckData
 
 } //class
