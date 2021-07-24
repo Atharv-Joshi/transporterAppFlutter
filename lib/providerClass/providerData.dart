@@ -1,6 +1,17 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
+import 'package:get/get.dart';
+
+
+//In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
+//Right now variable declaration and function definition are writing without any specific order but later on change this , there are two options
+// 1 Either declare the variables and its functions one below another so that developers immediately know which function updates what variable
+// 2 First declare all variables and then declare all functions
+//This is effective way for maintenance of code for long term.
+//P.S Care should be taken that provider should only be used for updating variables and not processing their values.
+
+
 
 class ProviderData extends ChangeNotifier {
   bool bidButtonSendRequestState = false;
@@ -56,16 +67,16 @@ class ProviderData extends ChangeNotifier {
   }
 
   int index = 0;
-  var dropDownValue1;
-  var dropDownValue2;
+  var selectedTruck;
+  var selectedDriver;
 
-  void updateDropDownValue1({required String? newValue}) {
-    dropDownValue1 = newValue;
+  void updateSelectedTruck(String? newValue) {
+    selectedTruck = newValue;
     notifyListeners();
   }
 
-  void updateDropDownValue2({required String? newValue}) {
-    dropDownValue2 = newValue;
+  void updateSelectedDriver(String? newValue) {
+    selectedDriver = newValue;
     notifyListeners();
   }
 
@@ -139,9 +150,17 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  String postLoadError = "";
+  bool loadWidget = true;
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
+    notifyListeners();
+  }
+
+  updateLowerAndUpperNavigationIndex(lowerValue , upperValue){
+    index = lowerValue;
+    upperNavigatorIndex = upperNavigatorIndex;
     notifyListeners();
   }
 
@@ -350,7 +369,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
-    productType = "Choose Product type";
+    productType = "Choose Product Type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -415,7 +434,9 @@ class ProviderData extends ChangeNotifier {
     if (truckNumber != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
-        productType != '') {
+        productType != "Choose Product Type" &&
+        ((perTruck != perTon) && price != 0 ||
+            (perTruck == perTon) && price == 0)) {
       return true;
     } else {
       return false;
@@ -437,16 +458,20 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-  void PerTruckTrue() {
-    perTruck = true;
-    perTon = false;
+
+  void PerTruckTrue(truck, ton) {
+    perTruck = truck;
+    perTon = ton;
+
 
     notifyListeners();
   }
 
-  void PerTonTrue() {
-    perTon = true;
-    perTruck = false;
+
+  void PerTonTrue(ton, truck) {
+    perTon = ton;
+    perTruck = truck;
+
     notifyListeners();
   }
 
@@ -459,6 +484,47 @@ class ProviderData extends ChangeNotifier {
     otpIsValid = value;
     notifyListeners();
   }
+
+
+  void updatePostLoadError(value) {
+    postLoadError = value;
+    notifyListeners();
+  }
+
+  void updateLoadWidget(value) {
+    loadWidget = value;
+    notifyListeners();
+  }
+
+  bool showDialogPrice() {
+    if (((perTruck != perTon) && price != 0 ||
+        (perTruck == perTon) && price == 0)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
+  // List truckModels = [];
+  // List driverModels = [];
+  // // bool updatedOnce = false;
+  //
+  // void updateTruckDriverModels(newTruckModels , newDriverModels , didUpdateOnce){
+  //   truckModels = newTruckModels;
+  //   driverModels = newDriverModels;
+  //   // updatedOnce = didUpdateOnce;
+  //   notifyListeners();
+  // }
+
+  bool isAddTruckSrcDropDown = false;
+
+  updateIsAddTruckSrcDropDown(bool value){
+    isAddTruckSrcDropDown = value;
+  }
+
+
+
 //----------------------------------
 
 }

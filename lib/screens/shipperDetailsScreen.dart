@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:liveasy/widgets/buttons/callButton.dart';
+import 'package:liveasy/widgets/buttons/completedButton.dart';
+import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
@@ -20,22 +24,32 @@ class ShipperDetails extends StatefulWidget {
   String? truckType;
   String? noOfTrucks;
   String? productType;
+  String bookingId;
+  String? transporterPhoneNum;
+  String? driverPhoneNum;
+  String? driverName;
+  String? transporterName;
 
-  ShipperDetails({
-    Key? key,
-    this.posterName,
-    this.truckType,
-    this.noOfTrucks,
-    this.productType,
-    this.loadingPoint,
-    this.unloadingPoint,
-    this.vehicleNo,
-    this.rate,
-    this.shipperPosterLocation,
-    this.shipperPosterName,
-    this.shipperPosterCompanyName,
-    this.shipperPosterCompanyApproved,
-  }) : super(key: key);
+  ShipperDetails(
+      {Key? key,
+      this.posterName,
+      this.truckType,
+      this.noOfTrucks,
+      this.productType,
+      this.loadingPoint,
+      this.unloadingPoint,
+      this.vehicleNo,
+      this.rate,
+      this.shipperPosterLocation,
+      this.shipperPosterName,
+      this.shipperPosterCompanyName,
+      this.shipperPosterCompanyApproved,
+      required this.bookingId,
+      this.transporterPhoneNum,
+      this.driverPhoneNum,
+      this.driverName,
+      this.transporterName})
+      : super(key: key);
 
   @override
   _ShipperDetailsState createState() => _ShipperDetailsState();
@@ -61,7 +75,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                   SizedBox(
                     width: space_3,
                   ),
-                  HeadingTextWidget("Shipper Details"),
+                  HeadingTextWidget("Order Details"),
                   // HelpButtonWidget(),
                 ],
               ),
@@ -77,6 +91,33 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                     shipperPosterLocation: widget.shipperPosterLocation,
                     shipperPosterCompanyName: widget.shipperPosterCompanyName,
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: space_8,
+                        top: MediaQuery.of(context).size.height * 0.192,
+                        right: space_8),
+                    child: Container(
+                      height: space_10,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius_2 - 2)),
+                      child: Card(
+                        color: white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TrackButton(truckApproved: false),
+                            CallButton(
+                              directCall: false,
+                              transporterPhoneNum: widget.transporterPhoneNum,
+                              driverPhoneNum: widget.driverPhoneNum,
+                              driverName: widget.driverName,
+                              transporterName: widget.transporterName,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -107,6 +148,13 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: space_2,
+              ),
+              CompletedButtonOrders(
+                bookingId: widget.bookingId,
+                fontSize: size_9,
               )
             ],
           ),

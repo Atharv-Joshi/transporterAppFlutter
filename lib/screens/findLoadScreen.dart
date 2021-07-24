@@ -33,13 +33,12 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context, listen: false);
     if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
-      print(transporterIdController.transporterId);
       controller1 = TextEditingController(
           text:
               ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
       findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
           providerData.unloadingPointCityFindLoad);
-          //findLoadApiData = runFindLoadApiGet("delhi", "");
+
     }
     if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
@@ -155,7 +154,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                                   itemCount: (snapshot.data.length),
                                   itemBuilder: (BuildContext context, index) =>
                                       SuggestedLoadsCard(
-                                    model: snapshot.data[index],
+                                        loadDetailsScreenModel: snapshot.data[index],
                                   ),
                                 ),
                               ),

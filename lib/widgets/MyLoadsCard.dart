@@ -3,40 +3,21 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
-import 'package:liveasy/widgets/loadValueColumnTemplate.dart';
-import 'package:liveasy/widgets/truckImageWidget.dart';
 import 'priceContainer.dart';
 
 // ignore: must_be_immutable
 class MyLoadsCard extends StatelessWidget {
 
-  String? loadingPointCity;
-  String? unloadingPointCity;
-  String? truckType;
-  String? weight;
-  String? productType;
-  String? unitValue;
-  String? rate;
-  String? loadId;
-  String? loadDate;
-  String? noOfTrucks;
+  LoadDetailsScreenModel loadDetailsScreenModel;
 
   MyLoadsCard(
       {
-        this.loadingPointCity,
-        this.unloadingPointCity,
-        this.truckType,
-        this.weight,
-        this.productType,
-        this.unitValue,
-        this.loadId,
-        this.rate,
-        this.loadDate,
-        this.noOfTrucks
+        required this.loadDetailsScreenModel
       }
       );
 
@@ -45,8 +26,16 @@ class MyLoadsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(truckType != 'Na'){
-      truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(truckType)];
+
+    if(truckFilterVariables.truckTypeValueList.contains(loadDetailsScreenModel.truckType)){
+      loadDetailsScreenModel.truckType = truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf( loadDetailsScreenModel.truckType)];
+    }
+
+    if(loadDetailsScreenModel.unitValue == 'PER_TON'){
+      loadDetailsScreenModel.unitValue = 'tonne';
+    }
+    else if(loadDetailsScreenModel.unitValue == 'PER_TRUCK'){
+      loadDetailsScreenModel.unitValue = 'truck';
     }
 
     return  Container(
@@ -59,17 +48,19 @@ class MyLoadsCard extends StatelessWidget {
               crossAxisAlignment:  CrossAxisAlignment.start,
               children: [
                 Text(
-                    'Posted Date : $loadDate',
+                    'Posted Date : ${loadDetailsScreenModel.loadDate}',
                 style: TextStyle(
                   fontSize: size_6,
                   color: veryDarkGrey
-                ),),
+                ),
+                ),
+
 
                 SizedBox(
                   height: space_1,
                 ),
 
-                LoadEndPointTemplate(text: loadingPointCity.toString(), endPointType: 'loading'),
+                LoadEndPointTemplate(text: loadDetailsScreenModel.loadingPointCity, endPointType: 'loading'),
 
                 Container(
                   height: space_4+2,
@@ -79,7 +70,7 @@ class MyLoadsCard extends StatelessWidget {
                   ),
                 ),
 
-                LoadEndPointTemplate(text: unloadingPointCity.toString(), endPointType: 'unloading'),
+                LoadEndPointTemplate(text: loadDetailsScreenModel.unloadingPointCity, endPointType: 'unloading'),
 
                 SizedBox(
                   height: space_1,
@@ -95,7 +86,7 @@ class MyLoadsCard extends StatelessWidget {
                       width: 24,),
                     ),
                     Text(
-                        '$truckType | $noOfTrucks trucks',
+                        '${loadDetailsScreenModel.truckType} | ${loadDetailsScreenModel.noOfTrucks} trucks',
                       style: TextStyle(
                           fontSize: size_6,
                           fontWeight: mediumBoldWeight
@@ -117,7 +108,7 @@ class MyLoadsCard extends StatelessWidget {
                         width: 24,),
                     ),
                     Text(
-                        '$productType | $weight tons',
+                        '${loadDetailsScreenModel.productType} | ${loadDetailsScreenModel.weight} tons',
                     style: TextStyle(
                       fontSize: size_6,
                         fontWeight: mediumBoldWeight
@@ -132,8 +123,8 @@ class MyLoadsCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      rate != null ? PriceContainer(rate: rate.toString(), unitValue: unitValue,) : SizedBox(),
-                      ViewBidsButton(loadId : loadId , loadingPointCity: loadingPointCity, unloadingPointCity: unloadingPointCity,),
+                      loadDetailsScreenModel.rate != 'NA' ? PriceContainer(rate: loadDetailsScreenModel.rate, unitValue: loadDetailsScreenModel.unitValue,) : SizedBox(),
+                      ViewBidsButton(loadId : loadDetailsScreenModel.loadId , loadingPointCity: loadDetailsScreenModel.loadingPointCity, unloadingPointCity: loadDetailsScreenModel.unloadingPointCity,),
                     ],
                   ),
               ],

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
-
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class PriceTextFieldWidget extends StatelessWidget {
@@ -34,7 +35,17 @@ class PriceTextFieldWidget extends StatelessWidget {
           ),
           keyboardType: TextInputType.number,
           controller: controller,
+          onEditingComplete: () {
+            FocusScope.of(context).unfocus();
+            if (providerData.perTon == providerData.perTruck) {
+              Get.snackbar("fill both fields",
+                  "unitValue cant be empty if price is filled");
+            }
+          },
           onChanged: (value) {
+            if (value.length < 1) {
+              providerData.updatePrice(0);
+            }
             providerData.updatePrice(int.parse(value));
           },
         ),

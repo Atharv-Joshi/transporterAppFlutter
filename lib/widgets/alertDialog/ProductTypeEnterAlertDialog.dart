@@ -9,7 +9,7 @@ import 'package:liveasy/widgets/buttons/CancelButtonProductType.dart';
 import 'package:liveasy/widgets/buttons/OkButtonProductType.dart';
 
 import '../ProductTypeTextField.dart';
-import '../../screens/TransporterOrders/completedTextField.dart';
+import '../completedTextField.dart';
 
 class ProductTypeEnterAlertDialog extends StatefulWidget {
   String heading;

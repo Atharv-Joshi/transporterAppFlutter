@@ -3,7 +3,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/biddingsCard.dart';
+import 'package:liveasy/widgets/biddingsCardShipperSide.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -47,14 +47,14 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
     for(var json in jsonData){
       BiddingModel biddingModel = BiddingModel();
-      biddingModel.bidId = json['bidId'];
-      biddingModel.transporterId = json['transporterId'];
+      biddingModel.bidId = json['bidId'] != null ? json['bidId'] : 'Na' ;
+      biddingModel.transporterId = json['transporterId']  != null ? json['transporterId'] : 'Na' ;
       biddingModel.currentBid = json['currentBid'] == null ? 'NA' : json['currentBid'].toString() ;
       biddingModel.previousBid =json['previousBid'] == null ? 'NA' : json['previousBid'].toString() ;
-      biddingModel.unitValue = json['unitValue'];
-      biddingModel.loadId = json['loadId'];
+      biddingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'Na' ;
+      biddingModel.loadId = json['loadId'] != null ? json['loadId'] : 'Na' ;
       biddingModel.biddingDate = json['biddingDate'] != null ? json['biddingDate'] : 'NA';
-      biddingModel.truckIdList = json['truckId'];
+      biddingModel.truckIdList = json['truckId'] != null ? json['truckId'] : 'Na' ;
       biddingModel.transporterApproval = json['transporterApproval'];
       biddingModel.shipperApproval = json['shipperApproval'];
       setState(() {
@@ -65,7 +65,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
 
     getBidDataByLoadId(i);
@@ -81,7 +81,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     scrollController.dispose();
     super.dispose();
   }
@@ -101,7 +101,9 @@ class _BiddingScreensState extends State<BiddingScreens> {
                       .of(context)
                       .size
                       .height * 0.83,
-                  child: biddingModelList.isEmpty ? Text('No bids yet') : ListView.builder(
+                  child: biddingModelList.isEmpty ? Text('No bids yet')
+                      : ListView.builder(
+                      controller: scrollController,
                       itemCount: biddingModelList.length ,
                       itemBuilder: (context,index){
                         if(biddingModelList.length == 0){
@@ -114,7 +116,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
                             if (snapshot.data == null) {
                               return LoadingWidget();
                             }
-                            return BiddingCard(
+                            return BiddingsCardShipperSide(
                               loadId: widget.loadId,
                               loadingPointCity: widget.loadingPointCity,
                               unloadingPointCity:  widget.unloadingPointCity,
@@ -129,7 +131,7 @@ class _BiddingScreensState extends State<BiddingScreens> {
                               transporterName: snapshot.data.transporterName,
                               shipperApproved: biddingModelList[index].shipperApproval,
                               transporterApproved: biddingModelList[index].transporterApproval,
-                              loadPostApproval: snapshot.data.companyApproved,
+                              isLoadPosterVerified: snapshot.data.companyApproved,
                             );
                           },
                         );

@@ -5,8 +5,9 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/widgets/buttons/CancelButttonBidDialogBox.dart';
 import 'package:liveasy/widgets/buttons/bidButtonSendRequest.dart';
-import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:provider/provider.dart';
 
 enum RadioButtonOptions { PER_TON, PER_TRUCK }
@@ -16,8 +17,9 @@ class BidButtonAlertDialog extends StatefulWidget {
   String? loadId;
   String? bidId;
   bool? isPost;
+  bool? isNegotiating;
 
-  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost});
+  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost ,  required this.isNegotiating});
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
@@ -142,16 +144,20 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
         ],
       ),
       actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            BidButtonSendRequest(
-              loadId: widget.loadId ,
-              bidId: widget.bidId,
-              isPost: widget.isPost,
-            ),
-            CancelButton()
-          ],
+        Container(
+          margin: EdgeInsets.only(right: space_2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BidButtonSendRequest(
+                isNegotiating: widget.isNegotiating,
+                loadId: widget.loadId ,
+                bidId: widget.bidId,
+                isPost: widget.isPost,
+              ),
+              CancelButtonBidDialogBox(),
+            ],
+          ),
         )
       ],
       buttonPadding: EdgeInsets.zero,

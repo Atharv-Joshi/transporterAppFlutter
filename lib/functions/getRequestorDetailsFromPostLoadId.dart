@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
-getRequestorDetailsFromPostLoadId(postLoadId) async {
+getLoadPosterDetailsFromPostLoadId(postLoadId) async {
   var jsonData;
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
@@ -16,20 +16,15 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
       print("transporter api response: ${response.body}");
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["transporterId"].toString();
-      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
-      loadPosterModel.loadPosterLocation =
-          jsonData["transporterLocation"].toString();
-      loadPosterModel.loadPosterName = jsonData["transporterName"].toString();
-      loadPosterModel.loadPosterCompanyName =
-          jsonData["companyName"].toString();
-      loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterCompanyApproved =
-          jsonData["companyApproved"];
-      loadPosterModel.loadPosterApproved =
-          jsonData["transporterApproved"];
-      loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"];
+      loadPosterModel.loadPosterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"] != null ? jsonData["phoneNo"] : 'NA';
+      loadPosterModel.loadPosterLocation = jsonData["transporterLocation"]  != null ? jsonData["transporterLocation"] : 'NA';
+      loadPosterModel.loadPosterName = jsonData["transporterName"] != null ? jsonData["transporterName"] : 'NA';
+      loadPosterModel.loadPosterCompanyName = jsonData["companyName"] != null ? jsonData["companyName"] : 'NA';
+      loadPosterModel.loadPosterKyc = jsonData["kyc"]  != null ? jsonData["kyc"] : 'NA';
+      loadPosterModel.loadPosterCompanyApproved =  jsonData["companyApproved"];
+      loadPosterModel.loadPosterApproved =  jsonData["transporterApproved"];
+      loadPosterModel.loadPosterAccountVerificationInProgress = jsonData["accountVerificationInProgress"];
       return loadPosterModel;
     }
     if (postLoadId.contains("shipper")) {
@@ -38,18 +33,14 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
       print("shipper api response: ${response.body}");
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
-      loadPosterModel.loadPosterId = jsonData["shipperId"].toString();
-      loadPosterModel.loadPosterName = jsonData["shipperName"].toString();
-      loadPosterModel.loadPosterCompanyName =
-          jsonData["companyName"].toString();
-      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"].toString();
-      loadPosterModel.loadPosterKyc = jsonData["kyc"].toString();
-      loadPosterModel.loadPosterLocation =
-          jsonData["shipperLocation"].toString();
-      loadPosterModel.loadPosterCompanyApproved =
-          jsonData["companyApproved"];
-      loadPosterModel.loadPosterAccountVerificationInProgress =
-          jsonData["accountVerificationInProgress"];
+      loadPosterModel.loadPosterId = jsonData["shipperId"]  != null ? jsonData["shipperId"] : 'NA';
+      loadPosterModel.loadPosterName = jsonData["shipperName"] != null ? jsonData["shipperName"] : 'NA';
+      loadPosterModel.loadPosterCompanyName =  jsonData["companyName"]  != null ? jsonData["companyName"] : 'NA';
+      loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"] != null ? jsonData["phoneNo"] : 'NA';
+      loadPosterModel.loadPosterKyc = jsonData["kyc"] != null ? jsonData["kyc"] : 'NA';
+      loadPosterModel.loadPosterLocation =  jsonData["shipperLocation"] != null ? jsonData["shipperLocation"] : 'NA';
+      loadPosterModel.loadPosterCompanyApproved =   jsonData["companyApproved"];
+      loadPosterModel.loadPosterAccountVerificationInProgress =  jsonData["accountVerificationInProgress"];
       return loadPosterModel;
     }
   } catch (e) {

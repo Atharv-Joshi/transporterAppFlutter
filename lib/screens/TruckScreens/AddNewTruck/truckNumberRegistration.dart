@@ -8,6 +8,7 @@ import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
+import 'package:liveasy/widgets/alertDialog/sameTruckAlertDialogBox.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
+
   const AddNewTruck({Key? key}) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
+    // providerData.updateIsAddTruckSrcDropDown(false);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),
@@ -143,8 +145,12 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                   setState(() {
                                     loading = false;
                                   });
-                                  Get.defaultDialog(
-                                    title:  'Truck Number Already Added'
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return SameTruckAlertDialogBox();
+                                      }
                                   );
                                 }
                               }

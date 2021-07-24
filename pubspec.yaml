@@ -54,6 +54,7 @@ dependencies:
   otp_text_field: ^1.1.1
   firebase_messaging: ^10.0.4
   overlay_support: ^1.2.1
+  shimmer: ^2.0.0
 
 
 

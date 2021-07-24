@@ -37,7 +37,6 @@ class PostLoadScreenTwoSearch extends StatelessWidget {
             return AlertDialog(
               content: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.52,
                 child: GridView.count(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
