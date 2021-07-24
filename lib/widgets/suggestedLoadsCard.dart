@@ -20,7 +20,6 @@ class SuggestedLoadsCard extends StatefulWidget {
   SuggestedLoadsCard(
       {
         required this.loadDetailsScreenModel,
-
       }
       );
 

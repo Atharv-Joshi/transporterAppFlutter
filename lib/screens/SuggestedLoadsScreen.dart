@@ -38,6 +38,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     Uri url = Uri.parse("$loadApiUrl?pageNo=$i");
     http.Response response = await http.get(url);
     jsonData = await jsonDecode(response.body);
+    LoadPosterModel loadPosterModel = LoadPosterModel();
 
     for (var json in jsonData) {
       LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
@@ -59,8 +60,13 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
       loadDetailsScreenModel.rate = json["rate"] != null ? json['rate'].toString() : 'NA';
       loadDetailsScreenModel.unitValue = json["unitValue"] != null ? json['unitValue'] : 'NA';
 
+      if(json["postLoadId"].contains('transporter') || json["postLoadId"].contains('shipper') ){
+        loadPosterModel =  await getLoadPosterDetailsFromApi(loadPosterId: json["postLoadId"].toString());
+      }
+      else{
+        continue;
+      }
 
-      LoadPosterModel loadPosterModel =  await getLoadPosterDetailsFromApi(loadPosterId: loadDetailsScreenModel.postLoadId.toString());
 
 
       if(loadPosterModel != null){
@@ -104,6 +110,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
       loading = true;
     });
     runSuggestedLoadApi(i);
+
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
