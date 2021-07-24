@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
+import 'package:get/get.dart';
 
 
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
@@ -148,6 +150,8 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  String postLoadError = "";
+  bool loadWidget = true;
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
@@ -365,7 +369,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
-    productType = "Choose Product type";
+    productType = "Choose Product Type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
@@ -430,7 +434,9 @@ class ProviderData extends ChangeNotifier {
     if (truckNumber != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
-        productType != '') {
+        productType != "Choose Product Type" &&
+        ((perTruck != perTon) && price != 0 ||
+            (perTruck == perTon) && price == 0)) {
       return true;
     } else {
       return false;
@@ -452,16 +458,20 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-  void perTruckTrue() {
-    perTruck = true;
-    perTon = false;
+
+  void PerTruckTrue(truck, ton) {
+    perTruck = truck;
+    perTon = ton;
+
 
     notifyListeners();
   }
 
-  void perTonTrue() {
-    perTon = true;
-    perTruck = false;
+
+  void PerTonTrue(ton, truck) {
+    perTon = ton;
+    perTruck = truck;
+
     notifyListeners();
   }
 
@@ -474,6 +484,27 @@ class ProviderData extends ChangeNotifier {
     otpIsValid = value;
     notifyListeners();
   }
+
+
+  void updatePostLoadError(value) {
+    postLoadError = value;
+    notifyListeners();
+  }
+
+  void updateLoadWidget(value) {
+    loadWidget = value;
+    notifyListeners();
+  }
+
+  bool showDialogPrice() {
+    if (((perTruck != perTon) && price != 0 ||
+        (perTruck == perTon) && price == 0)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 
   // List truckModels = [];
   // List driverModels = [];
@@ -491,6 +522,7 @@ class ProviderData extends ChangeNotifier {
   updateIsAddTruckSrcDropDown(bool value){
     isAddTruckSrcDropDown = value;
   }
+
 
 
 //----------------------------------

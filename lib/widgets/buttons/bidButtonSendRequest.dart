@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -9,11 +11,15 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/alertDialog/alreadyBidDialog.dart';
+import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
+import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
-  String? loadId ;
+  String? loadId;
   String? bidId;
   bool? isPost;
   bool? isNegotiating;
@@ -31,6 +37,73 @@ class BidButtonSendRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
+    getBidData() async {
+      String? bidResponse = "";
+      if (bidResponse == "") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return LoadingAlertDialog();
+          },
+        );
+      }
+
+      isPost!
+          ? bidResponse = await postBidAPi(loadId, providerData.rate1,
+              tIdController.transporterId.value, providerData.unitValue1)
+          : putBidForNegotiate(
+              bidId, providerData.rate1, providerData.unitValue1);
+
+      if (bidResponse == "success") {
+        print(bidResponse);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return completedDialog(
+              upperDialogText: "You have completed the bid!",
+              lowerDialogText: "wait for the shippers response",
+            );
+          },
+        );
+        Timer(
+            Duration(seconds: 3),
+            () => {
+                  providerData.updateUpperNavigatorIndex(0),
+                  providerData.updateIndex(3),
+                  Get.offAll(() => NavigationScreen()),
+                  providerData.updateBidButtonSendRequest(false),
+                });
+      } else if (bidResponse == "conflict") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlreadyBidDialog();
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return OrderFailedAlertDialog();
+          },
+        );
+        // Get.snackbar("${postLoadErrorController.error.value}", "failed");
+        // postLoadErrorController.resetPostLoadError();
+        // print(postLoadErrorController.error.value.toString());
+        // Timer(
+        //     Duration(seconds: 1),
+        //     () => {
+        //           showDialog(
+        //             context: context,
+        //             builder: (BuildContext context) {
+        //               return OrderFailedAlertDialog(
+        //                   postLoadErrorController.error.value.toString());
+        //             },
+        //           )
+        //         });
+      }
+    }
+
     return Container(
       margin: EdgeInsets.only(right: space_3),
       height: space_6 + 1,
@@ -46,33 +119,10 @@ class BidButtonSendRequest extends StatelessWidget {
           ),
         ),
         onPressed: providerData.bidButtonSendRequestState
-        ?
-        (){
-          if(isPost!)
-              {
-                postBidAPi(loadId, providerData.rate1,tIdController.transporterId.value, providerData.unitValue1);
-
+            ? () {
+                getBidData();
               }
-              else
-                {
-                  putBidForNegotiate(bidId, providerData.rate1, providerData.unitValue1);
-                }
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Bidding Request Send')));
-          // providerData.updateRate("" , 'PER_TON');
-          providerData.updateBidButtonSendRequest(false);
-          if(isNegotiating!){
-            providerData.updateIndex(2);
-          }
-          else{
-            providerData.updateIndex(3);
-          }
-          Navigator.pop(context);
-          Get.offAll(NavigationScreen());
-
-        }
-        : null,
-
+            : null,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(

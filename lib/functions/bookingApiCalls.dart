@@ -70,7 +70,8 @@ class BookingApiCalls {
       }
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel(truckId: []);
-        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : "NA";
+        bookingModel.bookingDate =
+            json['bookingDate'] != null ? json['bookingDate'] : "NA";
         bookingModel.bookingId = json['bookingId'];
         bookingModel.postLoadId = json['postLoadId'];
         bookingModel.loadId = json['loadId'];
@@ -78,9 +79,10 @@ class BookingApiCalls {
         bookingModel.truckId = json['truckId'];
         bookingModel.cancel = json['cancel'];
         bookingModel.completed = json['completed'];
-        bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : "NA";
-        bookingModel.rate =  json['rate'] != null ? json['rate'].toString() : 'NA';
-        bookingModel.unitValue = json['unitValue'] ;
+        bookingModel.completedDate =
+            json['completedDate'] != null ? json['completedDate'] : "NA";
+        bookingModel.rate = json['rate'] != null ? json['rate'] : 'NA';
+        bookingModel.unitValue = json['unitValue'];
       }
     }
     return modelList;

@@ -22,11 +22,10 @@ class ConfirmButtonSendRequest extends StatefulWidget {
   LoadDetailsScreenModel? loadDetailsScreenModel;
 
   ConfirmButtonSendRequest(
-      {
-        this.directBooking,
+      {this.directBooking,
       this.truckId,
       this.biddingModel,
-        this.postLoadId,
+      this.postLoadId,
       this.loadDetailsScreenModel});
 
   @override
@@ -35,7 +34,6 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 }
 
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
-
   @override
   Widget build(BuildContext context) {
 
