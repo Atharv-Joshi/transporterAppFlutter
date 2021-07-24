@@ -13,6 +13,7 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
     if (postLoadId.contains("transporter")) {
       http.Response response =
           await http.get(Uri.parse("$transporterApiUrl/$postLoadId"));
+      print("transporter api response: ${response.body}");
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["transporterId"].toString();
@@ -34,6 +35,7 @@ getRequestorDetailsFromPostLoadId(postLoadId) async {
     if (postLoadId.contains("shipper")) {
       http.Response response =
           await http.get(Uri.parse("$shipperApiUrl/$postLoadId"));
+      print("shipper api response: ${response.body}");
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["shipperId"].toString();

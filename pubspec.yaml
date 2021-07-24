@@ -21,7 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-
+  permission_handler: ^8.1.2
   flutter:
     sdk: flutter
 
@@ -52,6 +52,8 @@ dependencies:
   date_format: ^2.0.2
   jiffy: ^4.1.0
   otp_text_field: ^1.1.1
+  firebase_messaging: ^10.0.4
+  overlay_support: ^1.2.1
 
 
 

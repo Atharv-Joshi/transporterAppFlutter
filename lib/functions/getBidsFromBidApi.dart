@@ -13,7 +13,7 @@ Future<List<BidsModel>> getBidsFromBidApi() async {
   final String bidApiUrl = FlutterConfig.get("biddingApiUrl").toString();
   http.Response response = await http.get(Uri.parse(
       "$bidApiUrl?transporterId=${transporterIdController.transporterId}"));
-
+  print("bidding api response: ${response.body}");
   jsonData = json.decode(response.body);
   for (var json in jsonData) {
     BidsModel bidsModel = BidsModel();

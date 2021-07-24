@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -7,7 +6,7 @@ import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
-
+import "package:flutter/material.dart";
 class DriverApiCalls {
   List<DriverModel> driverList = [];
 
@@ -132,10 +131,26 @@ class DriverApiCalls {
       print("driver Api response : ${response.body}");
       var decodedData = json.decode(response.body);
       if (decodedData["driverId"] != null) {
-        Get.snackbar("Success!", "${decodedData["status"]}");
+        Get.defaultDialog(content: Scaffold(
+          body: Container(child: Column(
+            children: [
+              Text("Success!"),
+              Text("${decodedData["status"]}")
+            ],
+          ),),
+        ),);
+        // Get.snackbar("Success!", "${decodedData["status"]}");
         return decodedData["driverId"];
       } else{
-        Get.snackbar("Error", "${decodedData["status"]}");
+        Get.defaultDialog(content: Scaffold(
+          body: Container(child: Column(
+            children: [
+              Text("Failed!"),
+              Text("${decodedData["status"]}")
+            ],
+          ),),
+        ),);
+        // Get.snackbar("Error", "${decodedData["status"]}");
         return null;}
     } catch (e) {
       print(e);

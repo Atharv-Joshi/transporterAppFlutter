@@ -26,7 +26,7 @@ class _SplashScreenToGetTransporterDataState extends State<SplashScreenToGetTran
   getData() async{
     String? transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
     if (transporterId != null){
-      Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
+      Timer(Duration(milliseconds: 1000), () => Get.off(() => NavigationScreen()));
     }
     else {
       transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
