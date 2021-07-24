@@ -15,7 +15,7 @@ class DriverApiCalls {
   late List jsonData;
 
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
 
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
 
@@ -29,7 +29,6 @@ class DriverApiCalls {
     http.Response response = await http.get(Uri.parse(
         '$driverApiUrl?transporterId=${transporterIdController.transporterId.value}'));
 
-
     jsonData = json.decode(response.body);
 
     // if(jsonData.isEmpty){
@@ -39,14 +38,12 @@ class DriverApiCalls {
 
     for (var json in jsonData) {
       DriverModel driverModel = DriverModel();
-      driverModel.driverId =
-      json["driverId"] != null ? json["driverId"] : 'NA';
+      driverModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
       driverModel.transporterId =
-      json["transporterId"] != null ? json["transporterId"] : 'NA';
-      driverModel.phoneNum =
-      json["phoneNum"] != null ? json["phoneNum"] : 'NA';
+          json["transporterId"] != null ? json["transporterId"] : 'NA';
+      driverModel.phoneNum = json["phoneNum"] != null ? json["phoneNum"] : 'NA';
       driverModel.driverName =
-      json["driverName"] != null ? json["driverName"] : 'NA';
+          json["driverName"] != null ? json["driverName"] : 'NA';
       driverModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
       driverList.add(driverModel);
     }
@@ -59,78 +56,71 @@ class DriverApiCalls {
 
   //This function gets the details of a single driver by using the  driverId
   //IT takes two parameters from which only one needs to be provided during function call.
-  Future<dynamic> getDriverByDriverId({String? driverId, TruckModel? truckModel}) async {
-
+  Future<dynamic> getDriverByDriverId(
+      {String? driverId, TruckModel? truckModel}) async {
     Map? jsonData;
 
     if (driverId != null) {
       http.Response response =
-      await http.get(Uri.parse('$driverApiUrl/$driverId'));
+          await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
-      driverModel.driverId = jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
-      driverModel.transporterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
-      driverModel.phoneNum = jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
-      driverModel.driverName = jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
-      driverModel.truckId = jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+      driverModel.driverId =
+          jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+      driverModel.transporterId =
+          jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+      driverModel.phoneNum =
+          jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
+      driverModel.driverName =
+          jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+      driverModel.truckId =
+          jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
       return driverModel;
     }
 
     if (truckModel!.driverId != null) {
       try {
-        http.Response response =
-        await http.get(Uri.parse('$driverApiUrl/${truckModel.driverId}'))
-            .timeout(
-            Duration(seconds: 1),
-            onTimeout: () {
-              throw TimeoutException(
-                  'The connection has timed out, Please try again!');
-            });
+        http.Response response = await http
+            .get(Uri.parse('$driverApiUrl/${truckModel.driverId}'))
+            .timeout(Duration(seconds: 1), onTimeout: () {
+          throw TimeoutException(
+              'The connection has timed out, Please try again!');
+        });
         jsonData = json.decode(response.body);
-      }catch(e){
-        jsonData = {
-          'driverName' : 'NA',
-          'phoneNum' : 'NA'
-        };
+      } catch (e) {
+        jsonData = {'driverName': 'NA', 'phoneNum': 'NA'};
       }
       TruckModel truckModelFinal = TruckModel(truckApproved: false);
       truckModelFinal.driverName =
-      truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
+          truckModel.driverId != null ? jsonData!['driverName'] : 'NA';
       truckModelFinal.truckApproved = truckModel.truckApproved;
       truckModelFinal.truckId = truckModel.truckId;
       truckModelFinal.truckNo = truckModel.truckNo;
       truckModelFinal.truckType = truckModel.truckType;
       truckModelFinal.tyres = truckModel.tyres;
       truckModelFinal.driverNum =
-      truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
+          truckModel.driverId != null ? jsonData!['phoneNum'] : 'NA';
       truckModelFinal.imei = truckModel.imei;
       return truckModelFinal;
-    }
-    else{
-      jsonData = {
-        'driverName' : 'NA',
-        'phoneNum' : 'NA'
-      };
+    } else {
+      jsonData = {'driverName': 'NA', 'phoneNum': 'NA'};
       TruckModel truckModelFinal = TruckModel(truckApproved: false);
       truckModelFinal.driverName =
-      truckModel.driverId != null ? jsonData['driverName'] : 'NA';
+          truckModel.driverId != null ? jsonData['driverName'] : 'NA';
       truckModelFinal.truckApproved = truckModel.truckApproved;
       truckModelFinal.truckNo = truckModel.truckNo;
       truckModelFinal.truckId = truckModel.truckId;
       truckModelFinal.truckType = truckModel.truckType;
       truckModelFinal.tyres = truckModel.tyres;
       truckModelFinal.driverNum =
-      truckModel.driverId != null ? jsonData['phoneNum'] : 'NA';
+          truckModel.driverId != null ? jsonData['phoneNum'] : 'NA';
       truckModelFinal.imei = truckModel.imei;
       return truckModelFinal;
-
     }
-
   }
 
   //POST DRIVER-----------------------------------------------------------------
-
 
   postDriverApi(driverName, phoneNum, transporterId) async {
     try {
@@ -151,9 +141,10 @@ class DriverApiCalls {
       if (decodedData["driverId"] != null) {
         Get.snackbar("Success!", "${decodedData["status"]}");
         return decodedData["driverId"];
-      } else{
+      } else {
         Get.snackbar("Error", "${decodedData["status"]}");
-        return null;}
+        return null;
+      }
     } catch (e) {
       print(e);
       Get.snackbar("Error", "$e");
