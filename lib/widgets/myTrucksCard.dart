@@ -24,7 +24,7 @@ class MyTruckCard extends StatefulWidget {
   // int? passingWeight;
   // String? driverId;
   String? truckType;
-  int? tyres;
+  String? tyres;
   String? driverName;
   String? phoneNum;
 
@@ -51,6 +51,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   bool? verified;
   Position? userLocation;
+  // @Chirag I guess due to this await too the screen most be lagging for some time
   getUserLocation() async {
     PermissionStatus permission =
     await LocationPermissions().checkPermissionStatus();
@@ -64,15 +65,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
   @override
   void initState() {
     super.initState();
-    getUserLocation();
+    // getUserLocation();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    widget.truckType = widget.truckType != null
-        ?
-   truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+
+
+    widget.truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckType)
+        ? truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
         : 'NA';
 
     Map<String, Color> statusColor = {
@@ -82,7 +84,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = widget.truckType != 'NA' ||
-        widget.tyres != null ||
+        widget.tyres != 'NA' ||
         widget.driverName != 'NA' ||
         widget.phoneNum != "NA"
         ? true
@@ -129,7 +131,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   SizedBox(height: space_2,),
                   NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
                   NewRowTemplate(label: 'Truck Type', value: widget.truckType ,width: 98,),
-                  NewRowTemplate(label: 'Tyre', value: widget.tyres != null ? widget.tyres.toString() : 'NA' , width: 98,),
+                  NewRowTemplate(label: 'Tyre', value: widget.tyres  , width: 98,),
                   NewRowTemplate(label: 'Driver', value: widget.driverName , width: 98,),
                   Container(
                     margin: EdgeInsets.only(top: space_2),
@@ -171,7 +173,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(vertical: space_3),
-                      child: NewRowTemplate(label: 'Vehcle Number', value: widget.truckNo)
+                      child: NewRowTemplate(label: 'Vehicle Number', value: widget.truckNo)
                   ),
                   Container(
                     child: Text(

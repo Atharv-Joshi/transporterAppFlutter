@@ -65,6 +65,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
+    // providerData.updateIsAddNewDriver(false);
     if (providerData.truckTypeValue == '') {
       truckTypeText = '---';
     } else {

@@ -157,8 +157,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               name: driverNameController.text,
               number: driverNumberController.text,
               onTap: () async {
-
-
                 if (driverNumberController.text.length == 10) {
                   TransporterIdController tIdController =
                       Get.find<TransporterIdController>();

@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
 
-
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
 //Right now variable declaration and function definition are writing without any specific order but later on change this , there are two options
 // 1 Either declare the variables and its functions one below another so that developers immediately know which function updates what variable
 // 2 First declare all variables and then declare all functions
 //This is effective way for maintenance of code for long term.
 //P.S Care should be taken that provider should only be used for updating variables and not processing their values.
-
-
 
 class ProviderData extends ChangeNotifier {
   bool bidButtonSendRequestState = false;
@@ -150,6 +147,11 @@ class ProviderData extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  // bool isAddNewDriver = false;
+  // updateIsAddNewDriver(value){
+  //   isAddNewDriver = value;
+  //   notifyListeners();
+  // }
   String postLoadError = "";
   bool loadWidget = true;
 
@@ -158,7 +160,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateLowerAndUpperNavigationIndex(lowerValue , upperValue){
+  updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
     index = lowerValue;
     upperNavigatorIndex = upperNavigatorIndex;
     notifyListeners();
@@ -458,15 +460,12 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-
   void PerTruckTrue(truck, ton) {
     perTruck = truck;
     perTon = ton;
 
-
     notifyListeners();
   }
-
 
   void PerTonTrue(ton, truck) {
     perTon = ton;
@@ -484,7 +483,6 @@ class ProviderData extends ChangeNotifier {
     otpIsValid = value;
     notifyListeners();
   }
-
 
   void updatePostLoadError(value) {
     postLoadError = value;
@@ -505,7 +503,6 @@ class ProviderData extends ChangeNotifier {
     }
   }
 
-
   // List truckModels = [];
   // List driverModels = [];
   // // bool updatedOnce = false;
@@ -519,11 +516,9 @@ class ProviderData extends ChangeNotifier {
 
   bool isAddTruckSrcDropDown = false;
 
-  updateIsAddTruckSrcDropDown(bool value){
+  updateIsAddTruckSrcDropDown(bool value) {
     isAddTruckSrcDropDown = value;
   }
-
-
 
 //----------------------------------
 

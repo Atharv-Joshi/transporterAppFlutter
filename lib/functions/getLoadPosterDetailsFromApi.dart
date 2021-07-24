@@ -40,7 +40,7 @@ getLoadPosterDetailsFromApi({required String loadPosterId}) async {
       loadPosterModel.loadPosterCompanyName = jsonData["companyName"] != null ? jsonData["companyName"] : 'NA' ;
       loadPosterModel.loadPosterPhoneNo = jsonData["phoneNo"] != null ? jsonData["phoneNo"] : 'NA' ;
       loadPosterModel.loadPosterKyc = jsonData["kyc"] != null ? jsonData["kyc"] : 'NA' ;
-      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"];
+      loadPosterModel.loadPosterLocation = jsonData["shipperLocation"] != null ? jsonData["shipperLocation"] : 'NA' ;
       loadPosterModel.loadPosterCompanyApproved = jsonData["companyApproved"];
       loadPosterModel.loadPosterAccountVerificationInProgress =  jsonData["accountVerificationInProgress"];
       return loadPosterModel;
