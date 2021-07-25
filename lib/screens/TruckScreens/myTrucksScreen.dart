@@ -72,7 +72,8 @@ class _MyTrucksState extends State<MyTrucks> {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         // LoadingWidget();
-        getTruckData(i + 1);
+        i = i + 1;
+        getTruckData(i);
       }
     });
   }

@@ -134,7 +134,8 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        runSuggestedLoadApi(i + 1);
+        i = i + 1;
+        runSuggestedLoadApi(i);
       }
     });
   }
@@ -168,7 +169,8 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                 ),
               ),
               Container(
-                height: (MediaQuery.of(context).size.height),
+                // height: (MediaQuery.of(context).size.height),
+                height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_6,
                 color: backgroundColor,
                 child: loading == true
                     ? OnGoingLoadingWidgets()
