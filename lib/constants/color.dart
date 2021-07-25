@@ -64,3 +64,7 @@ dynamic greyishWhiteColorM =
 Color darkCharcoal = Color(0xff333333);
 const Color red = Colors.red;
 const Color navy = Color(0xff000066);
+
+const Color fadeGrey = Color(0xFFF1F1F1);
+Color selectedItemColor = Color(0xFFDADDE5);
+Color drawerItemColor = Color(0xFF152968);
