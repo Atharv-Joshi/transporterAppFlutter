@@ -131,7 +131,7 @@ class ProviderData extends ChangeNotifier {
 
   String truckId = '';
 
-  //variables related to rest button
+  //variables related to reset button
   bool resetActive = false;
 
   //variables related to driverApi
@@ -371,16 +371,16 @@ class ProviderData extends ChangeNotifier {
   }
 
   void resetTruckFilters() {
-    productType = "Choose Product Type";
+    // productType = "Choose Product Type";
     truckTypeValue = '';
     passingWeightValue = 0;
     totalTyresValue = 0;
-    truckNumber = 0;
+    // truckNumber = 0;
     truckLengthValue = 0;
-    price = 0;
+    // price = 0;
     driverIdValue = '';
-    unitValue = "";
-    resetUnitValue();
+    // unitValue = "";
+    // resetUnitValue();
     notifyListeners();
   }
 

@@ -46,7 +46,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
     scrollController.addListener(() {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-        getDataByPostLoadId(i + 1);
+        i = i + 1;
+        getDataByPostLoadId(i);
       }
     });
   }
