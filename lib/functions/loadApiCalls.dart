@@ -39,12 +39,12 @@ class LoadApiCalls {
 
     for (var json in jsonData) {
       LoadApiModel loadScreenCardsModel = LoadApiModel();
-      loadScreenCardsModel.loadId = json['loadId'];
-      loadScreenCardsModel.loadingPointCity = json['loadingPointCity'];
-      loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity'];
-      loadScreenCardsModel.truckType = json['truckType'];
-      loadScreenCardsModel.weight = json['weight'];
-      loadScreenCardsModel.productType = json['productType'];
+      loadScreenCardsModel.loadId = json['loadId'] != null ? json['loadId'] : 'NA';
+      loadScreenCardsModel.loadingPointCity = json['loadingPointCity']  != null ? json['loadingPointCity'] : 'NA';
+      loadScreenCardsModel.unloadingPointCity = json['unloadingPointCity']  != null ? json['unloadingPointCity'] : 'NA';
+      loadScreenCardsModel.truckType = json['truckType']  != null ? json['truckType'] : 'NA';
+      loadScreenCardsModel.weight = json['weight']  != null ? json['weight'] : 'NA';
+      loadScreenCardsModel.productType = json['productType'] != null ? json['productType'] : 'NA';
       loadList.add(loadScreenCardsModel);
     }
     return loadList;

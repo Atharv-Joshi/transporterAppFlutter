@@ -12,9 +12,9 @@ import 'package:liveasy/widgets/newRowTemplate.dart';
 
 class OnGoingLoadDetails extends StatelessWidget {
 
-  final Map model;
+  final Map loadALlDataModel;
 
-  OnGoingLoadDetails({required this.model});
+  OnGoingLoadDetails({required this.loadALlDataModel});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,10 @@ class OnGoingLoadDetails extends StatelessWidget {
                   child:                 Stack(
                     children: [
                       LoadPosterDetails(
-                        loadPosterLocation: model['transporterLocation'],
-                        loadPosterName:model['transporterName'],
-                        loadPosterCompanyName: model['companyName'],
-                        loadPosterCompanyApproved : model['transporterApproved'],
+                        loadPosterLocation: loadALlDataModel['transporterLocation'],
+                        loadPosterName:loadALlDataModel['transporterName'],
+                        loadPosterCompanyName: loadALlDataModel['companyName'],
+                        loadPosterCompanyApproved : loadALlDataModel['transporterApproved'],
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -52,10 +52,10 @@ class OnGoingLoadDetails extends StatelessWidget {
                                 TrackButton(truckApproved: true,),
                                 CallButton(
                                   directCall: false,
-                                  driverPhoneNum:  model['driverPhoneNum'],
-                                  driverName: model['driverName'],
-                                  transporterPhoneNum: model['transporterPhoneNum'],
-                                  transporterName:  model['transporterName'],
+                                  driverPhoneNum:  loadALlDataModel['driverPhoneNum'],
+                                  driverName: loadALlDataModel['driverName'],
+                                  transporterPhoneNum: loadALlDataModel['transporterPhoneNum'],
+                                  transporterName:  loadALlDataModel['transporterName'],
                                 )
                               ],
                             ),
@@ -72,17 +72,16 @@ class OnGoingLoadDetails extends StatelessWidget {
                     margin: EdgeInsets.all(space_3),
                     child: Column(
                       children: [
-                        NewRowTemplate(label: 'Location', value: '${model['loadingPoint']} - ${model['unloadingPoint']}'),
-                        NewRowTemplate(label: 'Truck No', value: model['truckNo']),
-                        NewRowTemplate(label: 'Truck Type', value: model['truckType']),
-                        NewRowTemplate(label: 'No of Trucks', value: model['noOfTrucks']),
-                        NewRowTemplate(label: 'Product Type', value: model['productType']),
-                        NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}'),
+                        NewRowTemplate(label: 'Location', value: '${loadALlDataModel['loadingPoint']} - ${loadALlDataModel['unloadingPoint']}'),
+                        NewRowTemplate(label: 'Truck No', value: loadALlDataModel['truckNo']),
+                        NewRowTemplate(label: 'Truck Type', value: loadALlDataModel['truckType']),
+                        NewRowTemplate(label: 'No of Trucks', value: loadALlDataModel['noOfTrucks']),
+                        NewRowTemplate(label: 'Product Type', value: loadALlDataModel['productType']),
+                        NewRowTemplate(label: 'Price', value: '${loadALlDataModel['rate']}/${loadALlDataModel['unitValue']}'),
                       ],
                     ),
                   ),
                 ),
-                CompletedButtonOrders(bookingId: 'bookingId' , fontSize: size_7,)
               ],
             ),
           )

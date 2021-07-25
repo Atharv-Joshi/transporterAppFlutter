@@ -10,7 +10,7 @@ import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/widgets/buttons/CancelBidButton.dart';
 import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/buttons/cancelButton.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 
@@ -25,19 +25,21 @@ class BiddingsCardTransporterSide extends StatelessWidget {
   final String? transporterPhoneNum;
   final String? transporterName;
   final String? transporterLocation;
-  final bool? loadPostApproval;
+  final bool? isLoadPosterVerified;
+  final String? postLoadId;
   String orderStatus = '';
   Color orderStatusColor = Colors.white;
 
   BiddingsCardTransporterSide({
     required this.biddingModel,
-    required this.loadPostApproval,
+    required this.isLoadPosterVerified,
     required this.loadingPointCity ,
     required this.unloadingPointCity,
     required this.companyName,
     required this.transporterPhoneNum,
     required this.transporterName,
     required this.transporterLocation,
+    required this.postLoadId
   });
 
   @override
@@ -54,6 +56,15 @@ class BiddingsCardTransporterSide extends StatelessWidget {
       orderStatus = 'Waiting for response';
       orderStatusColor = liveasyOrange;
     }
+     // else if(biddingModel.transporterApproval == true && biddingModel.shipperApproval == true){
+     //   orderStatus = 'Bid accepted by shipper ! Confirm to continue!';
+     //   orderStatusColor = liveasyGreen;
+     // }
+     // else if(biddingModel.transporterApproval == false && biddingModel.shipperApproval == true){
+     //   orderStatus = 'Shipper updated price. Confirm to continue';
+     //   orderStatusColor = liveasyGreen;
+     // }
+
 
     return GestureDetector(
       onTap: biddingModel.shipperApproval == false && biddingModel.transporterApproval == false
@@ -72,6 +83,8 @@ class BiddingsCardTransporterSide extends StatelessWidget {
           transporterLocation: transporterLocation,
           shipperApproved:  biddingModel.shipperApproval,
           transporterApproved:  biddingModel.transporterApproval,
+          isLoadPosterVerified: isLoadPosterVerified,
+          fromTransporterSide: true,
         ));
       },
       child: Container(
@@ -123,7 +136,7 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                       ),
 
                       SizedBox(height: space_2,),
-                      NewRowTemplate(label: 'Shipper', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName),
+                      NewRowTemplate(label: 'Shipper', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName , width: 98,),
                       biddingModel.previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.${ biddingModel.previousBid}/${biddingModel.unitValue}') : Container(),
                       NewRowTemplate(label: 'Current Bidding', value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
                       Container(
@@ -137,7 +150,8 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                                 color: orderStatusColor,
                                 fontWeight:  mediumBoldWeight,
                                 fontSize: size_8,
-                              ),),
+                              ),
+                            ),
                             CallButton(directCall: true , phoneNum: transporterPhoneNum,),
                           ],
                         ),
@@ -155,7 +169,11 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CancelBidButton(biddingModel:  biddingModel, active: !(biddingModel.shipperApproval == false && biddingModel.transporterApproval == false)),
-                      ConfirmOrderButton(biddingModel: biddingModel)
+                      ConfirmOrderButton(
+                          biddingModel: biddingModel ,
+                          postLoadId : postLoadId,
+                          shipperApproval: biddingModel.shipperApproval,
+                        transporterApproval: biddingModel.transporterApproval,)
                     ],
                   ),
                 )

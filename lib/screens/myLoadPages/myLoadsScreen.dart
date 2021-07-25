@@ -106,9 +106,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
 
   getDataByPostLoadId(int i) async {
-  print('transporter id ${transporterIdController.transporterId.value}');
     http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
-  print('in response ${response.body}');
     var jsonData = json.decode(response.body);
     for( var json in jsonData){
       LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();

@@ -14,6 +14,8 @@ class LoadCardFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    loadPosterCompanyName = loadPosterCompanyName!.length > 25 ? loadPosterCompanyName!.substring(0 , 22) + '..' : loadPosterCompanyName;
     return Container(
       height: 47,
       padding: EdgeInsets.symmetric(horizontal: space_3),
@@ -38,7 +40,6 @@ class LoadCardFooter extends StatelessWidget {
               )
             ],
           ),
-          // CallButton(loadPosterPhoneNo: "$loadPosterPhoneNo"),
           CallButton(
             directCall: true,
             phoneNum: loadPosterPhoneNo,

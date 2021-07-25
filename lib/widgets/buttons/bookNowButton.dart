@@ -5,46 +5,58 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
+import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
-  LoadDetailsScreenModel loadDetails;
+  LoadDetailsScreenModel loadDetailsScreenModel;
 
-  BookNowButton({required this.loadDetails});
+  BookNowButton({required this.loadDetailsScreenModel});
 
   @override
   _BookNowButtonState createState() => _BookNowButtonState();
 }
 
 class _BookNowButtonState extends State<BookNowButton> {
-  List truckDetailsList = [];
-  List driverDetailsList = [];
+  // List truckDetailsList = [];
+  // List driverDetailsList = [];
+
+  List<TruckModel> truckDetailsList = [];
+  List<DriverModel> driverDetailsList = [];
+
+  TruckApiCalls truckApiCalls = TruckApiCalls();
+  DriverApiCalls driverApiCalls = DriverApiCalls();
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    truckDetailsList = await truckApiCalls.getTruckData();
+    driverDetailsList = await driverApiCalls.getDriversByTransporterId();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-          await getTruckDetailsFromTruckApi(context)
-              .then((truckDetailsListFromApi) {
-            truckDetailsList = truckDetailsListFromApi;
-            // driverDetailsList = truckAndDriverList[1];
-          });
-          await getDriverDetailsFromDriverApi(context)
-              .then((driverDetailsListFromApi) {
-            driverDetailsList = driverDetailsListFromApi;
-          });
-
           await showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => BookNowButtonAlertDialog(
-              truckDetailsList: truckDetailsList,
-              driverDetailsList: driverDetailsList,
-              loadDetailsScreenModel: widget.loadDetails,
+            builder: (context) => BookLoadAlertDialogBox(
+              truckModelList: truckDetailsList,
+              driverModelList: driverDetailsList,
+              loadDetailsScreenModel: widget.loadDetailsScreenModel,
               directBooking: true,
             ),
           );

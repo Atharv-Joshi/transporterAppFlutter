@@ -13,30 +13,31 @@ import 'linePainter.dart';
 
 class OngoingCard extends StatelessWidget {
 
-  Map model;
+  Map loadAllDataModel;
 
 
   OngoingCard({
-    required this.model,
+    required this.loadAllDataModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    // model['driverName'] = model['driverName'].length >= 12
-    //     ? model['driverName'].substring(0, 10) + '..'
-    //     : model['driverName'];
 
-    model['companyName'] = model['companyName'].length >= 35
-        ? model['companyName'].substring(0, 33) + '..'
-        : model['companyName'];
+    loadAllDataModel['driverName'] = loadAllDataModel['driverName'].length >= 20
+        ? loadAllDataModel['driverName'].substring(0, 18) + '..'
+        : loadAllDataModel['driverName'];
 
-    model['unitValue'] = model['unitValue'] == "PER_TON" ? 'tonne' : 'truck';
+    loadAllDataModel['companyName'] = loadAllDataModel['companyName'].length >= 35
+        ? loadAllDataModel['companyName'].substring(0, 33) + '..'
+        : loadAllDataModel['companyName'];
+
+    loadAllDataModel['unitValue'] = loadAllDataModel['unitValue'] == "PER_TON" ? 'tonne' : 'truck';
 
 
 
     return GestureDetector(
       onTap: (){
-        Get.to(() => OnGoingLoadDetails(model: model,));
+        Get.to(() => OnGoingLoadDetails(loadALlDataModel: loadAllDataModel,));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: space_3),
@@ -52,7 +53,7 @@ class OngoingCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Booking Date : ${model['bookingDate']}',
+                          'Booking Date : ${loadAllDataModel['bookingDate']}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -67,7 +68,7 @@ class OngoingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: model['loadingPoint'], endPointType: 'loading'),
+                            text: loadAllDataModel['loadingPoint'], endPointType: 'loading'),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_3,
@@ -78,16 +79,16 @@ class OngoingCard extends StatelessWidget {
                               ),
                             )),
                         LoadEndPointTemplate(
-                            text: model['unloadingPoint'], endPointType: 'unloading'),
+                            text: loadAllDataModel['unloadingPoint'], endPointType: 'unloading'),
                       ],
                     ),
                     Container(
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
                         children: [
-                          NewRowTemplate(label: 'Truck No', value: model['truckNo']),
-                          NewRowTemplate(label: 'Driver Name', value: model['driverName']),
-                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}'),
+                          NewRowTemplate(label: 'Truck No', value: loadAllDataModel['truckNo'] , width: 78,),
+                          NewRowTemplate(label: 'Driver Name', value: loadAllDataModel['driverName']),
+                          NewRowTemplate(label: 'Price', value: '${loadAllDataModel['rate']}/${loadAllDataModel['unitValue']}' , width: 78,),
                         ],
                       ),
                     ),
@@ -105,7 +106,7 @@ class OngoingCard extends StatelessWidget {
                                 AssetImage('assets/icons/TruckIcon.png')),
                           ),
                           Text(
-                            model['companyName'],
+                            loadAllDataModel['companyName'],
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
@@ -128,10 +129,10 @@ class OngoingCard extends StatelessWidget {
                     TrackButton(truckApproved: false),
                     CallButton(
                       directCall: false,
-                      transporterPhoneNum: model['transporterPhoneNum'],
-                      driverPhoneNum: model['driverPhoneNum'],
-                      driverName: model['driverName'],
-                      transporterName: model['companyName'],
+                      transporterPhoneNum: loadAllDataModel['transporterPhoneNum'],
+                      driverPhoneNum: loadAllDataModel['driverPhoneNum'],
+                      driverName: loadAllDataModel['driverName'],
+                      transporterName: loadAllDataModel['companyName'],
                     ),
                   ],
                 ),
