@@ -89,6 +89,7 @@ class BiddingDecisionCard extends StatelessWidget {
                     bidId: bidId,
                     shipperApproved: shipperApproved,
                     transporterApproved: transporterApproved,
+                    fromTransporterSide: fromTransporterSide,
                   )
 
                 ],
