@@ -7,7 +7,6 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -18,7 +17,6 @@ import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
 
