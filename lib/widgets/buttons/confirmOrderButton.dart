@@ -4,18 +4,27 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 
 // ignore: must_be_immutable
 class ConfirmOrderButton extends StatefulWidget {
   BiddingModel biddingModel;
+  final String? postLoadId;
+  bool? shipperApproval;
+  bool? transporterApproval;
 
-  ConfirmOrderButton({required this.biddingModel});
+  ConfirmOrderButton({
+    this.transporterApproval,
+    this.shipperApproval,
+    required this.biddingModel,
+    required this.postLoadId,
+  });
 
   @override
   _ConfirmOrderButtonState createState() => _ConfirmOrderButtonState();
@@ -33,7 +42,6 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
   void initState() {
     super.initState();
     loadData();
-
   }
 
   loadData() async {
@@ -55,15 +63,25 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
               color: white,
               fontWeight: mediumBoldWeight),
         ),
-        onPressed: () async {
+        onPressed:
+        (widget.shipperApproval == false && widget.transporterApproval == true)
+        ? null
+        :
+            () async {
+          if(widget.shipperApproval == true && widget.transporterApproval == false){
+            // putBidForAccept(bidId);
+          }
            showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => BookNowButtonAlertDialog(
-                truckDetailsList: truckDetailsList,
-                driverDetailsList: driverDetailsList,
-                biddingModel: widget.biddingModel,
-                directBooking: false),
+            builder: (context) {
+              return BookLoadAlertDialogBox(
+                  truckModelList: truckDetailsList,
+                  driverModelList: driverDetailsList,
+                  postLoadId: widget.postLoadId,
+                  biddingModel: widget.biddingModel,
+                  directBooking: false);
+            }
           );
         },
         style: ButtonStyle(
@@ -71,7 +89,12 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
               RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius_6),
           )),
-          backgroundColor: MaterialStateProperty.all<Color>(liveasyGreen),
+          backgroundColor: MaterialStateProperty.all<Color>(
+              (widget.shipperApproval == false && widget.transporterApproval == true)
+              ? unselectedGrey
+              :
+              liveasyGreen
+          ),
         ),
       ),
     );

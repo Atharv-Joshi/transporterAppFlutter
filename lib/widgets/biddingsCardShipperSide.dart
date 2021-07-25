@@ -32,13 +32,13 @@ class BiddingsCardShipperSide extends StatelessWidget {
   final String? transporterLocation;
   final bool? shipperApproved;
   final bool? transporterApproved;
-  final bool? loadPostApproval;
+  final bool? isLoadPosterVerified;
    String orderStatus = '';
    Color orderStatusColor = Colors.white;
 
   BiddingsCardShipperSide({
     required this.loadId ,
-    required this.loadPostApproval,
+    required this.isLoadPosterVerified,
     required this.loadingPointCity ,
     required this.unloadingPointCity,
     required this.biddingDate,
@@ -88,6 +88,8 @@ class BiddingsCardShipperSide extends StatelessWidget {
           transporterLocation: transporterLocation,
           shipperApproved: shipperApproved,
           transporterApproved: transporterApproved,
+          isLoadPosterVerified: isLoadPosterVerified,
+          fromTransporterSide: false,
         ));
       },
       child: Container(
@@ -139,9 +141,9 @@ class BiddingsCardShipperSide extends StatelessWidget {
                       ),
 
                       SizedBox(height: space_2,),
-                      NewRowTemplate(label: 'Transporter', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName),
-                      previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.$previousBid/$unitValue') : Container(),
-                      NewRowTemplate(label: 'Current Bidding', value: 'Rs.$currentBid/$unitValue'),
+                      NewRowTemplate(label: 'Transporter', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName , width: 102,),
+                      previousBid != 'NA' ?  NewRowTemplate(label: 'Previous Bidding', value: 'Rs.$previousBid/$unitValue') : Container(),
+                      NewRowTemplate(label: 'Current Bidding', value: 'Rs.$currentBid/$unitValue' , width: 102,),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: Row(
@@ -172,11 +174,14 @@ class BiddingsCardShipperSide extends StatelessWidget {
                     children: [
                       NegotiateButton(
                         bidId: bidId,
-                        active: !shipperApproved!,),
+                        active: !shipperApproved!,
+                        ),
                       AcceptButton(
                           isBiddingDetails: false,
-                          active: !shipperApproved!,
-                          bidId : bidId
+                          bidId : bidId,
+                        fromTransporterSide: false,
+                        transporterApproved: transporterApproved,
+                        shipperApproved: shipperApproved,
                       ),
                     ],
                   ),

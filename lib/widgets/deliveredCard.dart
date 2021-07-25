@@ -69,7 +69,7 @@ class DeliveredCard extends StatelessWidget {
                     child: Column(
                       children: [
                           NewRowTemplate(label: 'Completed Date', value: model['completedDate']),
-                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}'),
+                          NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}' , width: 100,),
                       ],
                     ),
                   ),

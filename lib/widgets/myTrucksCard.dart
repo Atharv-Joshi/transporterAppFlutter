@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
@@ -11,6 +12,7 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -22,7 +24,7 @@ class MyTruckCard extends StatefulWidget {
   // int? passingWeight;
   // String? driverId;
   String? truckType;
-  int? tyres;
+  String? tyres;
   String? driverName;
   String? phoneNum;
 
@@ -49,6 +51,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   bool? verified;
   Position? userLocation;
+  // @Chirag I guess due to this await too the screen most be lagging for some time
   getUserLocation() async {
     PermissionStatus permission =
     await LocationPermissions().checkPermissionStatus();
@@ -62,15 +65,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
   @override
   void initState() {
     super.initState();
-    getUserLocation();
+    // getUserLocation();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    widget.truckType = widget.truckType != null
-        ? truckFilterVariables.truckTypeTextList[
-    truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+
+
+    widget.truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckType)
+        ? truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
         : 'NA';
 
     Map<String, Color> statusColor = {
@@ -80,7 +84,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = widget.truckType != 'NA' ||
-        widget.tyres != null ||
+        widget.tyres != 'NA' ||
         widget.driverName != 'NA' ||
         widget.phoneNum != "NA"
         ? true
@@ -90,6 +94,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
       widget.driverName = widget.driverName!.substring(0, 14) + '..';
     }
 
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
@@ -125,9 +130,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   SizedBox(height: space_2,),
                   NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
-                  NewRowTemplate(label: 'Truck Type', value: widget.truckType),
-                  NewRowTemplate(label: 'Tyre', value: widget.tyres != null ? widget.tyres.toString() : 'NA'),
-                  NewRowTemplate(label: 'Driver', value: widget.driverName),
+                  NewRowTemplate(label: 'Truck Type', value: widget.truckType ,width: 98,),
+                  NewRowTemplate(label: 'Tyre', value: widget.tyres  , width: 98,),
+                  NewRowTemplate(label: 'Driver', value: widget.driverName , width: 98,),
                   Container(
                     margin: EdgeInsets.only(top: space_2),
                     child:Row(
@@ -168,7 +173,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(vertical: space_3),
-                      child: NewRowTemplate(label: 'Vehcle Number', value: widget.truckNo)
+                      child: NewRowTemplate(label: 'Vehicle Number', value: widget.truckNo)
                   ),
                   Container(
                     child: Text(
@@ -195,6 +200,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           MaterialStateProperty.all<Color>(darkBlueColor),
                         ),
                         onPressed: () {
+                          providerData.updateIsAddTruckSrcDropDown(true);
                           Get.to( () => TruckDescriptionScreen(widget.truckId!));
                         },
                         child: Container(

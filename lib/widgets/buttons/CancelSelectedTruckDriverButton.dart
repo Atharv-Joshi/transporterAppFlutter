@@ -3,18 +3,31 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/providerClass/providerData.dart';
-import 'package:provider/provider.dart';
 
-//TODO: add something in its name which makes it clear where it is used
-class CancelButton extends StatelessWidget {
+
+class CancelSelectedTruckDriverButton extends StatefulWidget {
+
+  List? truckModelList ;
+  List? driverModelList;
+
+  CancelSelectedTruckDriverButton({
+    this.driverModelList,
+    this.truckModelList,
+});
+
+  @override
+  _CancelSelectedTruckDriverButtonState createState() => _CancelSelectedTruckDriverButtonState();
+}
+
+class _CancelSelectedTruckDriverButtonState extends State<CancelSelectedTruckDriverButton> {
   @override
   Widget build(BuildContext context) {
-    var providerData = Provider.of<ProviderData>(context, listen: false);
+
     return GestureDetector(
       onTap: () {
-        providerData.updateDropDownValue1(newValue: null);
-        providerData.updateDropDownValue2(newValue: null);
+        //if instead of using cancel button user uses mobile button this fails
+        widget.driverModelList!.removeLast();
+        widget.truckModelList!.removeLast();
         Navigator.of(context).pop();
       },
       child: Container(

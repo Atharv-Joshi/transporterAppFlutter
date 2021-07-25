@@ -9,6 +9,8 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +24,7 @@ class addRectangularButtonProductType extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Padding(
-      padding: EdgeInsets.only(left: space_1, right: space_1),
+      padding: EdgeInsets.only(left: space_1, right: space_1, bottom: space_1),
       child: Container(
         child: OutlinedButton(
           style: ButtonStyle(

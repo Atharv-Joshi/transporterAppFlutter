@@ -29,7 +29,6 @@ class OkButtonCompletedDate extends StatelessWidget {
                 completedDateController.completedDate.value, bookingId);
             Get.back();
             completedController.text = "";
-            print(completedDateController.completedDate.value);
           },
           child: Text(
             'OK',

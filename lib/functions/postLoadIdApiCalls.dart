@@ -21,7 +21,7 @@ class PostLoadIdApiCalls {
       "posterLocation": jsonData['transporterLocation'],
       "companyApproved": jsonData['companyApproved']
     };
-    print(transporterData);
+    print("transporterData-$transporterData");
 
     return transporterData;
   }

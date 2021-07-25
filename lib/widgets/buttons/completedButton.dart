@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
 
 class CompletedButtonOrders extends StatelessWidget {
@@ -12,6 +13,8 @@ class CompletedButtonOrders extends StatelessWidget {
   CompletedButtonOrders(
       {Key? key, required this.bookingId, required this.fontSize})
       : super(key: key);
+
+  BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +35,26 @@ class CompletedButtonOrders extends StatelessWidget {
             );
           },
         );
-        print("$bookingId");
-        // bookingApiCallsOrders.updateBookingApi("20-08-2021", bookingId);
       },
       child: Container(
-
-        width: double.infinity,
         child: Container(
-              padding: EdgeInsets.fromLTRB(
-                space_5,
-                size_1,
-                space_5,
-                size_1,
-              ),
-              child: Text(
-                'Completed',
-                style: TextStyle(
-                  letterSpacing: 0.7,
-                  fontWeight: normalWeight,
-                  color: white,
-                  fontSize: fontSize,
-                ),
-              ),
+          padding: EdgeInsets.fromLTRB(
+            space_5,
+            size_1,
+            space_5,
+            size_1,
+          ),
+          child: Text(
+            'Completed',
+            style: TextStyle(
+              letterSpacing: 0.7,
+              fontWeight: normalWeight,
+              color: white,
+              fontSize: fontSize,
             ),
+          ),
         ),
+      ),
     );
   }
 }

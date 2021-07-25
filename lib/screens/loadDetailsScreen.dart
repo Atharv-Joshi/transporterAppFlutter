@@ -17,9 +17,9 @@ import 'package:liveasy/widgets/buttons/shareButton.dart';
 
 // ignore: must_be_immutable
 class LoadDetailsScreen extends StatelessWidget {
-  LoadDetailsScreenModel loadDetails;
+  LoadDetailsScreenModel loadDetailsScreenModel;
 
-  LoadDetailsScreen({required this.loadDetails});
+  LoadDetailsScreen({required this.loadDetailsScreenModel});
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +53,10 @@ class LoadDetailsScreen extends StatelessWidget {
                   Stack(
                     children: [
                       LoadPosterDetails(
-                        loadPosterLocation: loadDetails.loadPosterLocation,
-                        loadPosterName: loadDetails.loadPosterName,
-                        loadPosterCompanyName: loadDetails.loadPosterCompanyName,
-                        loadPosterCompanyApproved : loadDetails.loadPosterCompanyApproved,
+                        loadPosterLocation: loadDetailsScreenModel.loadPosterLocation,
+                        loadPosterName: loadDetailsScreenModel.loadPosterName,
+                        loadPosterCompanyName: loadDetailsScreenModel.loadPosterCompanyName,
+                        loadPosterCompanyApproved : loadDetailsScreenModel.loadPosterCompanyApproved,
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -72,10 +72,10 @@ class LoadDetailsScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                BidButton(loadDetails: loadDetails),
+                                BidButton(loadDetails: loadDetailsScreenModel),
                                 CallButton(
                                   directCall: true,
-                                  driverPhoneNum: loadDetails.phoneNo,
+                                  phoneNum: loadDetailsScreenModel.phoneNo,
                                 )
                               ],
                             ),
@@ -96,13 +96,13 @@ class LoadDetailsScreen extends StatelessWidget {
                             margin: EdgeInsets.only(bottom: space_3),
                             child: LocationDetailsLoadDetails(
                               loadDetails: {
-                                "loadDate" : loadDetails.loadDate,
-                                "loadingPoint" : loadDetails.loadingPoint ,
-                                "loadingPointCity" : loadDetails.loadingPointCity,
-                                "loadingPointState" : loadDetails.loadingPointState ,
-                                "unloadingPoint" : loadDetails.unloadingPoint ,
-                                "unloadingPointCity" : loadDetails.unloadingPointCity,
-                                "unloadingPointState" : loadDetails.unloadingPointState,
+                                "loadDate" : loadDetailsScreenModel.loadDate,
+                                "loadingPoint" : loadDetailsScreenModel.loadingPoint ,
+                                "loadingPointCity" : loadDetailsScreenModel.loadingPointCity,
+                                "loadingPointState" : loadDetailsScreenModel.loadingPointState ,
+                                "unloadingPoint" : loadDetailsScreenModel.unloadingPoint ,
+                                "unloadingPointCity" : loadDetailsScreenModel.unloadingPointCity,
+                                "unloadingPointState" : loadDetailsScreenModel.unloadingPointState,
                               },
                             ),
                           ),
@@ -117,26 +117,26 @@ class LoadDetailsScreen extends StatelessWidget {
                             margin: EdgeInsets.only(bottom: space_3),
                             child: RequirementsLoadDetails(
                               loadDetails: {
-                                "truckType" : loadDetails.truckType,
-                                "noOfTrucks" : loadDetails.noOfTrucks ,
-                                "weight" : loadDetails.weight,
-                                "productType" : loadDetails.productType,
-                                "rate" : loadDetails.rate,
-                                "unitValue" : loadDetails.unitValue,
+                                "truckType" : loadDetailsScreenModel.truckType,
+                                "noOfTrucks" : loadDetailsScreenModel.noOfTrucks ,
+                                "weight" : loadDetailsScreenModel.weight,
+                                "productType" : loadDetailsScreenModel.productType,
+                                "rate" : loadDetailsScreenModel.rate,
+                                "unitValue" : loadDetailsScreenModel.unitValue,
                               },
                             ),
                           ),
                           Container(
                               margin: EdgeInsets.only(bottom: space_4),
-                              child: AdditionalDescriptionLoadDetails(loadDetails.comment)),
+                              child: AdditionalDescriptionLoadDetails(loadDetailsScreenModel.comment)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               BookNowButton(
-                                loadDetails: loadDetails,
+                                loadDetailsScreenModel: loadDetailsScreenModel,
                               ),
                               ShareButton(
-                                loadDetails: loadDetails,
+                                loadDetails: loadDetailsScreenModel,
                               )
                             ],
                           ),

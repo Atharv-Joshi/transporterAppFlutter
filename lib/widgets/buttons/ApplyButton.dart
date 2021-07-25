@@ -8,6 +8,7 @@ import 'package:liveasy/functions/PostLoadApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/screens/PostLoadScreens/loadConfirmation.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class ApplyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(TransporterIdController());
-    LoadApi loadApi = LoadApi();
+
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -43,38 +44,11 @@ class ApplyButton extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  providerData.updateUnitValue();
-
                   if (providerData.postLoadScreenTwoButton()) {
-                    loadApi.postLoadAPi(
-                        providerData.bookingDate,
-                        transporterIdController.transporterId.value,
-                        "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
-                        providerData.loadingPointCityPostLoad,
-                        providerData.loadingPointStatePostLoad,
-                        providerData.truckNumber,
-                        providerData.productType,
-                        providerData.truckTypeValue,
-                        "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-                        providerData.unloadingPointCityPostLoad,
-                        providerData.unloadingPointStatePostLoad,
-                        providerData.passingWeightValue,
-                        providerData.unitValue == ""
-                            ? null
-                            : providerData.unitValue,
-                        providerData.price == 0 ? null : providerData.price);
-                    providerData.resetTruckFilters();
-                    providerData.resetPostLoadScreenOne();
-                    controller.text = "";
-                    controllerOthers.text = "";
-                    Get.snackbar("Posted Successfully", "message");
+                    Get.to(LoadConfirmation());
                   } else {
                     return null;
                   }
-                  providerData.updateIndex(2);
-                  Get.offAll(() => NavigationScreen());
-
-
                 }),
           ),
         ),
