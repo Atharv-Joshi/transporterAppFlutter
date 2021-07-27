@@ -12,7 +12,7 @@ import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
-// import 'package:permission_handler/permission_handler.dart';
+ import 'package:permission_handler/permission_handler.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
@@ -77,30 +77,30 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       onTap: () async {
                         print(driverNameController.text);
                         print(driverNumberController.text);
-                        // if (await Permission.contacts.request().isGranted) {
-                        //   Contact contact =
-                        //       await _contactPicker.selectContact();
-                        //   setState(() {
-                        //     _contact = contact;
-                        //     print(_contact);
-                        //     contactName = _contact!.fullName.toString();
-                        //     driverNameController = TextEditingController(
-                        //         text: _contact!.fullName.toString());
-                        //     contactNumber =
-                        //         _contact!.phoneNumber.number.contains("+91")
-                        //             ? _contact!.phoneNumber.number
-                        //                 .replaceRange(0, 3, "")
-                        //                 .replaceAll(new RegExp(r"\D"), "")
-                        //             : _contact!.phoneNumber.number
-                        //                 .toString()
-                        //                 .replaceAll(new RegExp(r"\D"), "");
-                        //     print(contactNumber);
-                        //     driverNumberController =
-                        //         TextEditingController(text: contactNumber);
-                        //     // displayContact =
-                        //     //     contactName! + " - " + contactNumber!;
-                        //   });
-                        // }
+                        if (await Permission.contacts.request().isGranted) {
+                          Contact contact =
+                              await _contactPicker.selectContact();
+                          setState(() {
+                            _contact = contact;
+                            print(_contact);
+                            contactName = _contact!.fullName.toString();
+                            driverNameController = TextEditingController(
+                                text: _contact!.fullName.toString());
+                            contactNumber =
+                                _contact!.phoneNumber.number.contains("+91")
+                                    ? _contact!.phoneNumber.number
+                                        .replaceRange(0, 3, "")
+                                        .replaceAll(new RegExp(r"\D"), "")
+                                    : _contact!.phoneNumber.number
+                                        .toString()
+                                        .replaceAll(new RegExp(r"\D"), "");
+                            print(contactNumber);
+                            driverNumberController =
+                                TextEditingController(text: contactNumber);
+                            // displayContact =
+                            //     contactName! + " - " + contactNumber!;
+                          });
+                        }
                       },
                       child: Image(
                         image:
@@ -166,11 +166,13 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       driverNumberController.text,
                       transporterId);
                   if (driverId != null) {
+                    //TODO: show error success screens here
                     Navigator.of(context).pop();
                     //For Book Now Alert Dialog
                     await getTruckDetailsFromTruckApi(context);
                     await getDriverDetailsFromDriverApi(context);
-                  } else {
+                  }
+                  else {
                     Navigator.of(context).pop();
                     Get.snackbar("Error", "");
                   }
