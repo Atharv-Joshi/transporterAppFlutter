@@ -14,21 +14,27 @@ class AlertOkButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.back();
+        Get.back();
       },
-      child: Container(
-        decoration: BoxDecoration(
-            color: darkBlueColor,
-            borderRadius: BorderRadius.circular(radius_6),
-            boxShadow: [
-              BoxShadow(color: darkGreyColor, offset: Offset(2.0, 2.0))
-            ]),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: space_1, bottom: space_1),
-            child: Text(
-              "Ok",
-              style: TextStyle(
-                  color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
+      child: Padding(
+        padding: EdgeInsets.only(left: space_10, right: space_10),
+        child: Container(
+          decoration: BoxDecoration(
+              color: darkBlueColor,
+              borderRadius: BorderRadius.circular(radius_6),
+              boxShadow: [
+                BoxShadow(color: darkGreyColor, offset: Offset(2.0, 2.0))
+              ]),
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: space_2, bottom: space_2),
+              child: Text(
+                "Ok",
+                style: TextStyle(
+                    color: white,
+                    fontWeight: mediumBoldWeight,
+                    fontSize: size_8),
+              ),
             ),
           ),
         ),

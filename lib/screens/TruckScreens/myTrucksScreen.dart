@@ -12,6 +12,7 @@ import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
@@ -20,15 +21,11 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
-
   @override
   _MyTrucksState createState() => _MyTrucksState();
 }
 
 class _MyTrucksState extends State<MyTrucks> {
-
-
-
   // driverApiCall instance
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
@@ -57,7 +54,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   void initState() {
-
     super.initState();
 
     setState(() {
@@ -76,7 +72,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   void dispose() {
-
     scrollController.dispose();
     super.dispose();
   }
@@ -86,124 +81,124 @@ class _MyTrucksState extends State<MyTrucks> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
-        child:Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
-          height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_8,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Container(
+        padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+        height: MediaQuery.of(context).size.height -
+            kBottomNavigationBarHeight -
+            space_8,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: space_3,
+                    ),
+                    HeadingTextWidget("My Trucks"),
+                    // HelpButtonWidget(),
+                  ],
+                ),
+                HelpButtonWidget(),
+              ],
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(vertical: space_3),
+                child: SearchLoadWidget(
+                  hintText: 'Search',
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => NextUpdateAlertDialog());
+                  },
+                )),
+
+            //LIST OF TRUCK CARDS---------------------------------------------
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: space_3,
-                      ),
-                      HeadingTextWidget("My Trucks"),
-                      // HelpButtonWidget(),
-                    ],
-                  ),
-                  HelpButtonWidget(),
+                  loading
+                      ? TruckLoadingWidgets()
+                      : truckDataList.isEmpty
+                          ? Container(
+                              // height: MediaQuery.of(context).size.height * 0.27,
+                              margin: EdgeInsets.only(top: 153),
+                              child: Column(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/TruckListEmptyImage.png'),
+                                    height: 127,
+                                    width: 127,
+                                  ),
+                                  Text(
+                                    'Looks like you have not added any Trucks!',
+                                    style: TextStyle(
+                                        fontSize: size_8, color: grey),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              controller: scrollController,
+                              itemCount: truckDataList.length,
+                              itemBuilder: (context, index) {
+                                TruckModel truckModel =
+                                    TruckModel(truckApproved: false);
+                                truckModel.truckId =
+                                    truckDataList[index].truckId;
+                                truckModel.transporterId =
+                                    truckDataList[index].transporterId;
+                                truckModel.truckNo =
+                                    truckDataList[index].truckNo;
+                                truckModel.truckApproved =
+                                    truckDataList[index].truckApproved;
+                                truckModel.imei = truckDataList[index].imei;
+                                truckModel.passingWeight =
+                                    truckDataList[index].passingWeight;
+                                truckModel.driverId =
+                                    truckDataList[index].driverId;
+                                truckModel.truckType =
+                                    truckDataList[index].truckType;
+                                truckModel.tyres = truckDataList[index].tyres;
+
+                                return FutureBuilder(
+                                    future: driverApiCalls.getDriverByDriverId(
+                                        truckModel: truckModel),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      if (snapshot.data == null) {
+                                        return TruckLoadingWidgets();
+                                      }
+                                      return MyTruckCard(
+                                        truckId: snapshot.data.truckId,
+                                        truckApproved:
+                                            snapshot.data.truckApproved,
+                                        truckNo: snapshot.data.truckNo,
+                                        truckType: snapshot.data.truckType,
+                                        tyres: snapshot.data.tyres,
+                                        driverName: snapshot.data.driverName,
+                                        phoneNum: snapshot.data.driverNum,
+                                        imei: snapshot.data.imei,
+                                      );
+                                    } //builder
+                                    );
+                              }),
+                  Container(
+                      margin: EdgeInsets.only(bottom: space_2),
+                      child: AddTruckButton()),
                 ],
               ),
-              Container(
-                  margin: EdgeInsets.symmetric(vertical: space_3),
-                  child: SearchLoadWidget(
-                    hintText: 'Search',
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => NextUpdateAlertDialog());
-                    },
-                  )),
+            ),
 
-              //LIST OF TRUCK CARDS---------------------------------------------
-                Expanded(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-
-                      loading
-                      ? LoadingWidget()
-                      :
-                      truckDataList.isEmpty
-                          ? Container(
-                        // height: MediaQuery.of(context).size.height * 0.27,
-                        margin: EdgeInsets.only(top: 153),
-                        child: Column(
-                          children: [
-                            Image(
-                              image: AssetImage(
-                                  'assets/images/TruckListEmptyImage.png'),
-                              height: 127,
-                              width: 127,
-                            ),
-                            Text(
-                              'Looks like you have not added any Trucks!',
-                              style: TextStyle(fontSize: size_8, color: grey),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      )
-                          :
-                      ListView.builder(
-                          controller: scrollController,
-                          itemCount: truckDataList.length,
-                          itemBuilder: (context, index) {
-                            TruckModel truckModel =
-                            TruckModel(truckApproved: false);
-                            truckModel.truckId = truckDataList[index].truckId;
-                            truckModel.transporterId =
-                                truckDataList[index].transporterId;
-                            truckModel.truckNo = truckDataList[index].truckNo;
-                            truckModel.truckApproved =
-                                truckDataList[index].truckApproved;
-                            truckModel.imei = truckDataList[index].imei;
-                            truckModel.passingWeight =
-                                truckDataList[index].passingWeight;
-                            truckModel.driverId = truckDataList[index].driverId;
-                            truckModel.truckType = truckDataList[index].truckType;
-                            truckModel.tyres = truckDataList[index].tyres;
-
-                            return FutureBuilder(
-                                future: driverApiCalls.getDriverByDriverId(
-                                    truckModel: truckModel),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (snapshot.data == null) {
-                                    return Container();
-                                  }
-                                  return MyTruckCard(
-                                    truckId : snapshot.data.truckId,
-                                    truckApproved: snapshot.data.truckApproved,
-                                    truckNo: snapshot.data.truckNo,
-                                    truckType: snapshot.data.truckType,
-                                    tyres: snapshot.data.tyres,
-                                    driverName: snapshot.data.driverName,
-                                    phoneNum: snapshot.data.driverNum,
-                                    imei: snapshot.data.imei,
-                                  );
-                                } //builder
-                            );
-                          }),
-                      Container(
-                        margin: EdgeInsets.only(bottom: space_2),
-                          child: AddTruckButton()
-                      ),
-                    ],
-                  ),
-                ),
-
-
-
-              //--------------------------------------------------------------
-            ],
-          ),
-        )
-      ),
-
+            //--------------------------------------------------------------
+          ],
+        ),
+      )),
     );
   } //build
 
@@ -227,9 +222,9 @@ class _MyTrucksState extends State<MyTrucks> {
       setState(() {
         truckDataList.add(truckModel);
       });
-    }//for loop
+    } //for loop
     setState(() {
-      loading=false;
+      loading = false;
     });
   } //getTruckData
 
