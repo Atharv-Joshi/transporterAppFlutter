@@ -70,7 +70,8 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getDataByPostLoadIdDelivered(i + 1);
+        i = i + 1;
+        getDataByPostLoadIdDelivered(i);
       }
     });
   }

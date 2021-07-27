@@ -88,7 +88,8 @@ class _BiddingScreenTransporterSideState extends State<BiddingScreenTransporterS
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getBidsFromBidApi(i + 1);
+        i = i + 1;
+        getBidsFromBidApi(i);
       }
     });
   }

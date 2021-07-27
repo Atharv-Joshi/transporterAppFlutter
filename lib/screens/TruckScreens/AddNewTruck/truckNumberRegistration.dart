@@ -19,7 +19,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
 
-  // const AddNewTruck({Key? key}) : super(key: key);
+
 
   @override
   _AddNewTruckState createState() => _AddNewTruckState();
@@ -142,9 +142,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                           setState(() {
                             loading = true;
                           });
-                                providerData
-                                    .updateTruckNumberValue(_controller.text);
-
+                                providerData.updateTruckNumberValue(_controller.text);
                                 truckId = await truckApiCalls.postTruckData(
                                     truckNo: _controller.text);
 
@@ -153,9 +151,10 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                     loading = false;
                                   });
                                   providerData.updateResetActive(false);
-
+                                  // providerData.resetTruckFilters();
                                   Get.to(
-                                      () => TruckDescriptionScreen(truckId!));
+                                      () => TruckDescriptionScreen(truckId :  truckId! , truckNumber: _controller.text,)
+                                  );
                                 } else{
                                   setState(() {
                                     loading = false;

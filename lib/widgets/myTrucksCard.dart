@@ -73,7 +73,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
 
 
-    widget.truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckType)
+    String truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckType)
         ? truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
         : 'NA';
 
@@ -83,7 +83,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
       'Offline': unselectedGrey,
     };
 
-    verified = widget.truckType != 'NA' ||
+    verified = truckType != 'NA' ||
         widget.tyres != 'NA' ||
         widget.driverName != 'NA' ||
         widget.phoneNum != "NA"
@@ -130,7 +130,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   SizedBox(height: space_2,),
                   NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
-                  NewRowTemplate(label: 'Truck Type', value: widget.truckType ,width: 98,),
+                  NewRowTemplate(label: 'Truck Type', value: truckType ,width: 98,),
                   NewRowTemplate(label: 'Tyre', value: widget.tyres  , width: 98,),
                   NewRowTemplate(label: 'Driver', value: widget.driverName , width: 98,),
                   Container(
@@ -201,7 +201,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                         onPressed: () {
                           providerData.updateIsAddTruckSrcDropDown(true);
-                          Get.to( () => TruckDescriptionScreen(widget.truckId!));
+                          Get.to( () => TruckDescriptionScreen(truckId : widget.truckId! , truckNumber: widget.truckNo! ,)
+                          );
+                          providerData.resetTruckFilters();
                         },
                         child: Container(
                           child: Text(
