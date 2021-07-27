@@ -6,10 +6,11 @@ enum NavigationItem{
   Language,
   AddDriver,
   BuyGps,
+  Default
 }
 
 class  NavigationProvider extends ChangeNotifier{
-  NavigationItem _navigationItem = NavigationItem.MyAccount;
+  NavigationItem _navigationItem = NavigationItem.Default;
 
   NavigationItem get navigationItem => _navigationItem;
 

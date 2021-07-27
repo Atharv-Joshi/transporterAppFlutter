@@ -31,9 +31,10 @@ class HomeScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           key: _scaffoldKey,
-          drawer: NavigationDrawerWidget(
+          drawer: DrawerWidget(
               mobileNum: transporterIdController.mobileNum.value,
-              userName: transporterIdController.name.toString() ,
+              userName: transporterIdController.name.toString(),
+              // and pass image url here, if required.
           ),
           backgroundColor: backgroundColor,
           body: Container(
