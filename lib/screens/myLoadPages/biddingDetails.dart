@@ -62,7 +62,7 @@ class BiddingDetails extends StatelessWidget {
                       loadPosterLocation: transporterLocation != null ? transporterLocation : 'NA' ,
                       loadPosterName: transporterName != null ? transporterName : 'NA' ,
                       loadPosterCompanyName:  companyName != null ? companyName : 'NA' ,
-                      loadPosterCompanyApproved:  shipperApproved != null ? shipperApproved : false ,
+                      loadPosterCompanyApproved:  isLoadPosterVerified != null ? isLoadPosterVerified : false ,
                     ),
                     Padding(
                       padding: EdgeInsets.only(

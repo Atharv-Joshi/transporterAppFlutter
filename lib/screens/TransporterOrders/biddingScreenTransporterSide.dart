@@ -94,7 +94,8 @@ class _BiddingScreenTransporterSideState
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getBidsFromBidApi(i + 1);
+        i = i + 1;
+        getBidsFromBidApi(i);
       }
     });
   }

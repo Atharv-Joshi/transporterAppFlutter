@@ -74,7 +74,8 @@ class _BiddingScreensState extends State<BiddingScreens> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getBidDataByLoadId(i + 1);
+        i = i + 1;
+        getBidDataByLoadId(i);
       }
     });
   }
