@@ -15,13 +15,13 @@ class PostLoadIdApiCalls {
     // Map transporterData = jsonData['companyName'];
 
     Map transporterData = {
-      'companyName': jsonData['companyName'],
-      'posterPhoneNum': jsonData['phoneNo'].toString(),
-      'posterName': jsonData['transporterName'],
-      "posterLocation": jsonData['transporterLocation'],
-      "companyApproved": jsonData['companyApproved']
+      'companyName': jsonData['companyName'] != null ? jsonData['companyName'] : 'NA',
+      'posterPhoneNum': jsonData['phoneNo'] != null ? jsonData['phoneNo'] : 'NA',
+      'posterName': jsonData['transporterName'] != null ? jsonData['transporterName'] : 'NA',
+      "posterLocation": jsonData['transporterLocation']  != null ? jsonData['transporterLocation'] : 'NA',
+      "companyApproved": jsonData['companyApproved'] != null ? jsonData['companyApproved'] :false,
     };
-    print("transporterData-$transporterData");
+    // print("transporterData-$transporterData");
 
     return transporterData;
   }
@@ -34,11 +34,11 @@ class PostLoadIdApiCalls {
     // Map transporterData = jsonData['companyName'];
 
     Map shipperData = {
-      'companyName': jsonData['companyName'],
-      'posterPhoneNum': jsonData['phoneNo'].toString(),
-      'posterName': jsonData['shipperName'],
-      "posterLocation": jsonData['shipperLocation'],
-      "companyApproved": jsonData['companyApproved']
+      'companyName': jsonData['companyName'] != null ? jsonData['companyName'] : 'NA',
+      'posterPhoneNum': jsonData['phoneNo'] != null ? jsonData['phoneNo'] : 'NA',
+      'posterName': jsonData['shipperName'] != null ? jsonData['shipperName'] : 'NA',
+      "posterLocation": jsonData['shipperLocation'] != null ? jsonData['shipperLocation'] : 'NA',
+      "companyApproved": jsonData['companyApproved'] != null ? jsonData['companyApproved'] : false,
     };
 
     return shipperData;

@@ -21,7 +21,7 @@ class DeliveredCardOrders extends StatelessWidget {
   final String driverName;
   final String transporterPhoneNumber;
   final String driverPhoneNum;
-  final int rate;
+  final String rate;
   final String posterLocation;
   final bool companyApproved;
   final String posterName;
