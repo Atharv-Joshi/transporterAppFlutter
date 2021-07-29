@@ -213,22 +213,23 @@ class _MyTrucksState extends State<MyTrucks> {
         '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
     print(response.body);
     jsonData = json.decode(response.body);
-    for (var json in jsonData) {
-      TruckModel truckModel = TruckModel(truckApproved: false);
-      truckModel.truckId = json["truckId"];
-      truckModel.transporterId = json["transporterId"];
-      truckModel.truckNo = json["truckNo"];
-      truckModel.truckApproved = json["truckApproved"];
-      truckModel.imei = json["imei"];
-      truckModel.passingWeight = json["passingWeight"];
-      truckModel.truckType = json["truckType"];
-      truckModel.driverId = json["driverId"];
-      truckModel.tyres = json["tyres"];
-      setState(() {
-        truckDataList.add(truckModel);
-      });
-    }//for loop
-    setState(() {
+    if(jsonData != []) {
+      for (var json in jsonData) {
+        TruckModel truckModel = TruckModel(truckApproved: false);
+        truckModel.truckId = json["truckId"];
+        truckModel.transporterId = json["transporterId"];
+        truckModel.truckNo = json["truckNo"];
+        truckModel.truckApproved = json["truckApproved"];
+        truckModel.imei = json["imei"];
+        truckModel.passingWeight = json["passingWeight"];
+        truckModel.truckType = json["truckType"];
+        truckModel.driverId = json["driverId"];
+        truckModel.tyres = json["tyres"];
+        setState(() {
+          truckDataList.add(truckModel);
+        });
+      } //for loop
+    }setState(() {
       loading=false;
     });
   } //getTruckData
