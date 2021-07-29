@@ -10,238 +10,94 @@ class TruckLoadingWidgets extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Card(
-          child: Padding(
-            padding: EdgeInsets.all(space_2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_4,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_40,
-                    height: space_15,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: space_1),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                      SizedBox(
-                        width: space_2,
-                      ),
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        widget(),
         SizedBox(
           height: space_2,
         ),
-        Card(
-          child: Padding(
-            padding: EdgeInsets.all(space_2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_4,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_40,
-                    height: space_15,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: space_1),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                      SizedBox(
-                        width: space_2,
-                      ),
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        widget(),
         SizedBox(
           height: space_2,
         ),
-        Card(
-          child: Padding(
-            padding: EdgeInsets.all(space_2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_20,
-                    height: space_3,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_4,
-                ),
-                Shimmer.fromColors(
-                  highlightColor: greyishWhiteColor,
-                  baseColor: lightGrey,
-                  child: Container(
-                    width: space_40,
-                    height: space_15,
-                    color: lightGrey,
-                  ),
-                ),
-                SizedBox(
-                  height: space_2,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: space_1),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                      SizedBox(
-                        width: space_2,
-                      ),
-                      Shimmer.fromColors(
-                        highlightColor: greyishWhiteColor,
-                        baseColor: lightGrey,
-                        child: Container(
-                          width: space_16,
-                          height: space_6,
-                          color: lightGrey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        widget(),
       ],
+    );
+  }
+
+  Card widget() {
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(space_2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Shimmer.fromColors(
+              highlightColor: greyishWhiteColor,
+              baseColor: lightGrey,
+              child: Container(
+                width: space_20,
+                height: space_3,
+                color: lightGrey,
+              ),
+            ),
+            SizedBox(
+              height: space_2,
+            ),
+            Shimmer.fromColors(
+              highlightColor: greyishWhiteColor,
+              baseColor: lightGrey,
+              child: Container(
+                width: space_20,
+                height: space_3,
+                color: lightGrey,
+              ),
+            ),
+            SizedBox(
+              height: space_4,
+            ),
+            Shimmer.fromColors(
+              highlightColor: greyishWhiteColor,
+              baseColor: lightGrey,
+              child: Container(
+                width: space_40,
+                height: space_15,
+                color: lightGrey,
+              ),
+            ),
+            SizedBox(
+              height: space_2,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: space_1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Shimmer.fromColors(
+                    highlightColor: greyishWhiteColor,
+                    baseColor: lightGrey,
+                    child: Container(
+                      width: space_16,
+                      height: space_6,
+                      color: lightGrey,
+                    ),
+                  ),
+                  SizedBox(
+                    width: space_2,
+                  ),
+                  Shimmer.fromColors(
+                    highlightColor: greyishWhiteColor,
+                    baseColor: lightGrey,
+                    child: Container(
+                      width: space_16,
+                      height: space_6,
+                      color: lightGrey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

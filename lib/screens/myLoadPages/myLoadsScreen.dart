@@ -12,22 +12,19 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
 class MyLoadsScreen extends StatefulWidget {
-
-
-
   @override
   _MyLoadsScreenState createState() => _MyLoadsScreenState();
 }
 
 class _MyLoadsScreenState extends State<MyLoadsScreen> {
-
   List<LoadDetailsScreenModel> myLoadList = [];
 
-  final String loadApiUrl =  FlutterConfig.get("loadApiUrl");
+  final String loadApiUrl = FlutterConfig.get("loadApiUrl");
 
   ScrollController scrollController = ScrollController();
 
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   int i = 0;
 
@@ -35,7 +32,6 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   @override
   void initState() {
-
     super.initState();
 
     getDataByPostLoadId(i);
@@ -45,7 +41,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
     });
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
         i = i + 1;
         getDataByPostLoadId(i);
       }
@@ -54,17 +51,12 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   @override
   void dispose() {
-
     scrollController.dispose();
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
         height: MediaQuery.of(context).size.height -
             kBottomNavigationBarHeight -
@@ -99,10 +91,9 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                     }));
   }
 
-
-
   getDataByPostLoadId(int i) async {
-    http.Response response = await  http.get(Uri.parse('$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
+    http.Response response = await http.get(Uri.parse(
+        '$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
     var jsonData = json.decode(response.body);
     for (var json in jsonData) {
       LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
