@@ -20,12 +20,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_config/flutter_config.dart';
-double speed = 0;
+double speed = 10;
 Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
   print("in compute function with imei: $imei");
   if (speed > 2) {
   print("sleep starts");
-  sleep(Duration(seconds: 2));
+  // sleep(Duration(seconds: 2));
   print("speed>2");
   String gpsApiUrl = "http://3.108.162.7:3000/locationbyimei";
   try {
