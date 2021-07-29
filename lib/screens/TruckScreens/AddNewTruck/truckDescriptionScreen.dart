@@ -17,8 +17,14 @@ import 'package:liveasy/providerClass/providerData.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
+  String truckNumber;
 
-  TruckDescriptionScreen(this.truckId);
+  // TruckDescriptionScreen(
+  //      this.truckId,
+  //     this.truckNumber,
+  //     );
+
+  TruckDescriptionScreen({required this.truckId, required this.truckNumber});
 
   @override
   _TruckDescriptionScreenState createState() => _TruckDescriptionScreenState();
@@ -49,32 +55,46 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
       driverList = temp;
     });
     for (var instance in driverList) {
-      dropDownList.add(DropdownMenuItem<String>(
-        value: instance.driverId,
-        child: Text('${instance.driverName}-${instance.phoneNum}'),
-      ));
+      bool instanceAlreadyAdded = false;
+      for (var dropDown in dropDownList) {
+        if (dropDown.value == instance.driverId) {
+          instanceAlreadyAdded = true;
+          break;
+        }
+      }
+      if (!instanceAlreadyAdded) {
+        dropDownList.add(DropdownMenuItem<String>(
+          value: instance.driverId,
+          child: Text('${instance.driverName}-${instance.phoneNum}'),
+        ));
+      }
     }
 
-    dropDownList.add(DropdownMenuItem(
-      value: '',
-      child: GestureDetector(
-        onTap: (){
-          showDialog(
-              context: context,
-              builder: (context) => AddDriverAlertDialog());
-        },
-        child: Text('Add New Driver'),
-      ),
-    )
-
-    );
-
+    bool addNewDriverAlreadyAdded = false;
+    for (var dropDown in dropDownList) {
+      if (dropDown.value == '') {
+        addNewDriverAlreadyAdded = true;
+        break;
+      }
+    }
+    if (!addNewDriverAlreadyAdded) {
+      dropDownList.add(DropdownMenuItem(
+        value: '',
+        child: TextButton(
+          onPressed: () {
+            showDialog(
+                context: context, builder: (context) => AddDriverAlertDialog());
+          },
+          child: Text('Add New Driver'),
+        ),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     ProviderData providerData = Provider.of<ProviderData>(context);
+    print('truck Id : ${widget.truckId}');
 
     return Scaffold(
         body: SafeArea(
@@ -114,13 +134,13 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               providerData.truckTypeValue == ''
                   ? SizedBox()
                   : Container(
-                      margin: EdgeInsets.symmetric(vertical: space_2),
+                      margin: EdgeInsets.symmetric(vertical: space_3),
                       child: AddTruckSubtitleText(
                           text: 'Passing Weight (in tons.)')),
               providerData.truckTypeValue == ''
                   ? SizedBox()
                   : Container(
-                      height: 50,
+                      height: 60,
                       child: GridView.count(
                         shrinkWrap: true,
                         crossAxisSpacing: space_6,
@@ -145,7 +165,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               providerData.truckTypeValue == ''
                   ? SizedBox()
                   : Container(
-                      height: 50,
+                      height: 60,
                       child: GridView.count(
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
@@ -169,7 +189,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               providerData.truckTypeValue == ''
                   ? SizedBox()
                   : Container(
-                      height: 50,
+                      height: 60,
                       child: GridView.count(
                         shrinkWrap: true,
                         crossAxisSpacing: space_6,
@@ -238,7 +258,10 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     onPressedFunction: () {
                       providerData.updateResetActive(true);
                       Get.to(() => ReviewTruckDetails(
-                          widget.truckId, providerData.driverIdValue));
+                            truckId: widget.truckId,
+                            driverId: providerData.driverIdValue,
+                            truckNumber: widget.truckNumber,
+                          ));
                     },
                     text: 'Save',
                   ),

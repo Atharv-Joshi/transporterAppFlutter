@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
@@ -18,7 +19,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
 
-  const AddNewTruck({Key? key}) : super(key: key);
+
 
   @override
   _AddNewTruckState createState() => _AddNewTruckState();
@@ -31,16 +32,29 @@ class _AddNewTruckState extends State<AddNewTruck> {
   TruckApiCalls truckApiCalls = TruckApiCalls();
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
-  String? truckId;
+   String? truckId;
   RegExp truckNoRegex = RegExp(
       r"^[A-Za-z]{2}[ -/]{0,1}[0-9]{1,2}[ -/]{0,1}(?:[A-Za-z]{0,1})[ -/]{0,1}[A-Za-z]{0,2}[ -/]{0,1}[0-9]{4}$");
 
   bool? loading = false;
 
+  // List<DriverModel> driverDetailsList = [];
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   loadData();
+  // }
+  //
+  // loadData() async {
+  //   driverDetailsList = await driverApiCalls.getDriversByTransporterId();
+  // }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     // providerData.updateIsAddTruckSrcDropDown(false);
+    // providerData.updateIsAddNewDriver(false);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),
@@ -128,9 +142,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                           setState(() {
                             loading = true;
                           });
-                                providerData
-                                    .updateTruckNumberValue(_controller.text);
-
+                                providerData.updateTruckNumberValue(_controller.text);
                                 truckId = await truckApiCalls.postTruckData(
                                     truckNo: _controller.text);
 
@@ -139,8 +151,10 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                     loading = false;
                                   });
                                   providerData.updateResetActive(false);
+                                  // providerData.resetTruckFilters();
                                   Get.to(
-                                      () => TruckDescriptionScreen(truckId!));
+                                      () => TruckDescriptionScreen(truckId :  truckId! , truckNumber: _controller.text,)
+                                  );
                                 } else{
                                   setState(() {
                                     loading = false;

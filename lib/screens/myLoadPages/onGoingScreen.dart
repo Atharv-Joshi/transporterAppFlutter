@@ -68,7 +68,8 @@ class _OngoingScreenState extends State<OngoingScreen> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        getDataByPostLoadIdOnGoing(i + 1);
+        i = i + 1;
+        getDataByPostLoadIdOnGoing(i);
       }
     });
   }

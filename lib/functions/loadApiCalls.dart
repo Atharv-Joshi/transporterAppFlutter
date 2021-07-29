@@ -23,7 +23,7 @@ class LoadApiCalls {
           : 'NA',
       'noOfTrucks': jsonData['noOfTrucks'] != null
           ? jsonData['noOfTrucks'].toString()
-          : 'noOfTrucks',
+          : 'NA',
       'productType':
           jsonData['productType'] != null ? jsonData['productType'] : 'NA',
       'postLoadId': jsonData['postLoadId'],

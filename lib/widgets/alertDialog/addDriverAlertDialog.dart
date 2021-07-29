@@ -13,6 +13,9 @@ import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+ import 'package:permission_handler/permission_handler.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:contact_picker/contact_picker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
 // ignore: must_be_immutable
@@ -163,16 +166,13 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       driverNumberController.text,
                       transporterId);
                   if (driverId != null) {
-                    Get.dialog(
-                      Container(
-                        child: Text("Success"),
-                      ),
-                    );
-                    // Navigator.of(context).pop();
+                    //TODO: show error success screens here
+                    Navigator.of(context).pop();
                     //For Book Now Alert Dialog
                     await getTruckDetailsFromTruckApi(context);
                     await getDriverDetailsFromDriverApi(context);
-                  } else {
+                  }
+                  else {
                     Navigator.of(context).pop();
                     Get.dialog(
                       Container(

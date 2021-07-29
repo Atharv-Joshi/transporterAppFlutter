@@ -82,7 +82,6 @@ class OnGoingLoadDetails extends StatelessWidget {
                     ),
                   ),
                 ),
-                CompletedButtonOrders(bookingId:loadALlDataModel['bookingId'] , fontSize: size_7,)
               ],
             ),
           )

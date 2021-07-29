@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:marquee/marquee.dart';
 
 class LoadConfirmation extends StatefulWidget {
   const LoadConfirmation({Key? key}) : super(key: key);
@@ -30,118 +31,114 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
       body: SafeArea(
         child: Padding(
             padding: EdgeInsets.all(space_2),
-            child: Stack(
-              children: [
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: space_4,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: space_4,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: space_2),
-                                  child: BackButtonWidget(),
-                                ),
-                                SizedBox(
-                                  width: space_3,
-                                ),
-                                HeadingTextWidget("Load Confirmation"),
-                                // HelpButtonWidget(),
-                              ],
-                            ),
-                            SizedBox(
-                              height: space_4,
-                            ),
                             Padding(
-                              padding: EdgeInsets.only(left: space_3),
-                              child: Text(
-                                "Review details for your load",
-                                style: TextStyle(
-                                    fontSize: size_9,
-                                    fontWeight: mediumBoldWeight,
-                                    color: liveasyBlackColor),
-                              ),
+                              padding: EdgeInsets.only(left: space_2),
+                              child: BackButtonWidget(),
                             ),
                             SizedBox(
-                              height: space_4,
+                              width: space_3,
                             ),
-                            Card(
-                              elevation: 5,
-                              child: Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    space_3, space_2, space_3, space_3),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    LoadConfirmationTemplate(
-                                        value:
-                                            "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}-\n${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-                                        label: 'Location'),
-                                    LoadConfirmationTemplate(
-                                        value: providerData.bookingDate,
-                                        label: 'Date'),
-                                    LoadConfirmationTemplate(
-                                        value: providerData.truckTypeValue,
-                                        label: 'Truck Type'),
-                                    LoadConfirmationTemplate(
-                                        value:
-                                            providerData.truckNumber.toString(),
-                                        label: 'No.Of Trucks'),
-                                    LoadConfirmationTemplate(
-                                        value: providerData.passingWeightValue
-                                            .toString(),
-                                        label: 'Weight'),
-                                    LoadConfirmationTemplate(
-                                        value: providerData.productType,
-                                        label: 'Product Type'),
-                                    LoadConfirmationTemplate(
-                                        value: providerData.price == 0
-                                            ? "Price Not Given"
-                                            : "Rs.${providerData.price}/${providerData.unitValue}",
-                                        label: 'Price'),
-                                  ],
-                                ),
-                              ),
-                            )
+                            HeadingTextWidget("Load Confirmation"),
+                            // HelpButtonWidget(),
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: space_6),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: space_8, right: space_8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                  child: LoadConfirmationScreenButton(
-                                      title: 'Edit')),
-                              SizedBox(
-                                width: space_10,
-                              ),
-                              Expanded(
-                                  child: LoadConfirmationScreenButton(
-                                      title: 'Confirm')),
-                            ],
+                        SizedBox(
+                          height: space_4,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: space_3),
+                          child: Text(
+                            "Review details for your load",
+                            style: TextStyle(
+                                fontSize: size_9,
+                                fontWeight: mediumBoldWeight,
+                                color: liveasyBlackColor),
                           ),
                         ),
-                      )
-
-                      // HelpButtonWidget(),
-                    ],
+                        SizedBox(
+                          height: space_4,
+                        ),
+                        Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                space_3, space_2, space_3, space_3),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: LoadConfirmationTemplate(
+                                      value:
+                                          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                      label: 'Location'),
+                                ),
+                                LoadConfirmationTemplate(
+                                    value: providerData.bookingDate,
+                                    label: 'Date'),
+                                LoadConfirmationTemplate(
+                                    value: providerData.truckTypeValue,
+                                    label: 'Truck Type'),
+                                LoadConfirmationTemplate(
+                                    value: providerData.truckNumber.toString(),
+                                    label: 'No.Of Trucks'),
+                                LoadConfirmationTemplate(
+                                    value: providerData.passingWeightValue
+                                        .toString(),
+                                    label: 'Weight'),
+                                LoadConfirmationTemplate(
+                                    value: providerData.productType,
+                                    label: 'Product Type'),
+                                LoadConfirmationTemplate(
+                                    value: providerData.price == 0
+                                        ? "Price Not Given"
+                                        : "Rs.${providerData.price}/${providerData.unitValue}",
+                                    label: 'Price'),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: space_6),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: space_8, right: space_8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                              child:
+                                  LoadConfirmationScreenButton(title: 'Edit')),
+                          SizedBox(
+                            width: space_10,
+                          ),
+                          Expanded(
+                              child: LoadConfirmationScreenButton(
+                                  title: 'Confirm')),
+                        ],
+                      ),
+                    ),
+                  )
+
+                  // HelpButtonWidget(),
+                ],
+              ),
             )),
       ),
     );

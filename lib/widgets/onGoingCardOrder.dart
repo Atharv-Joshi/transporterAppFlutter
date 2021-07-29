@@ -26,7 +26,7 @@ class OngoingCardOrders extends StatelessWidget {
   final String imei;
   final String transporterPhoneNumber;
   final String bookingId;
-  final int rate;
+  final String rate;
   final String posterLocation;
   final bool companyApproved;
   final String posterName;
