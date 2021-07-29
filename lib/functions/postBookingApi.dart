@@ -30,11 +30,19 @@ postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
     print(response.body);
     jsonData = json.decode(response.body);
 
-    if (jsonData["bookingId"] != null) {
-      Get.snackbar('Booking Successful', '', snackPosition: SnackPosition.TOP);
-    } else
-      Get.snackbar('Booking Unsuccessful', '',
-          snackPosition: SnackPosition.TOP);
-    if (response.statusCode == 201) {}
-  } catch (e) {}
+    // if (jsonData["bookingId"] != null) {
+    //   Get.snackbar('Booking Successful', '', snackPosition: SnackPosition.TOP);
+    // } else
+    //   Get.snackbar('Booking Unsuccessful', '',
+    //       snackPosition: SnackPosition.TOP);
+    if (response.statusCode == 201) {
+      return "successful";
+    } else if (response.statusCode == 409) {
+      return "conflict";
+    } else {
+      return "unsuccessful";
+    }
+  } catch (e) {
+    return e.toString();
+  }
 }

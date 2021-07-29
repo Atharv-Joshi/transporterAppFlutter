@@ -54,6 +54,7 @@ dependencies:
   otp_text_field: ^1.1.1
   shimmer: ^2.0.0
   permission_handler: ^8.1.4+1
+  marquee: ^2.2.0
 
 
 

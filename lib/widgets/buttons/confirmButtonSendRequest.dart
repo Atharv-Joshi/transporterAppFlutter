@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,10 @@ import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
+import 'package:liveasy/widgets/alertDialog/alreadyBidDialog.dart';
+import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
+import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -36,33 +42,96 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
   @override
   Widget build(BuildContext context) {
-
-    if(widget.biddingModel != null){
-      widget.biddingModel!.unitValue = widget.biddingModel!.unitValue == 'tonne' ? 'PER_TON' : 'PER_TRUCK' ;
-    }
     ProviderData providerData = Provider.of<ProviderData>(context);
-    return GestureDetector(
-      onTap: widget.truckId != null ?
-          () {
-        if (widget.directBooking == true) {
-          postBookingApi(widget.loadDetailsScreenModel!.loadId, widget.loadDetailsScreenModel!.rate, widget.loadDetailsScreenModel!.unitValue,
-              widget.truckId, widget.loadDetailsScreenModel!.postLoadId);
-          print("directBooking");
-        } else {
-          postBookingApi(
-              widget.biddingModel!.loadId,
-              widget.biddingModel!.currentBid,
-              widget.biddingModel!.unitValue,
-              widget.truckId,
-              widget.postLoadId,
-              );
-        }
-        Navigator.of(context).pop();
-        providerData.updateLowerAndUpperNavigationIndex(3, 1);
-        Get.offAll(NavigationScreen());
-
+    getBookingData() async {
+      String? bidResponse = "";
+      if (bidResponse == "") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return LoadingAlertDialog();
+          },
+        );
       }
-      : null,
+      if (widget.directBooking == true) {
+        bidResponse = await postBookingApi(
+            widget.loadDetailsScreenModel!.loadId,
+            widget.loadDetailsScreenModel!.rate,
+            widget.loadDetailsScreenModel!.unitValue,
+            widget.truckId,
+            widget.loadDetailsScreenModel!.postLoadId);
+        print("directBooking");
+      } else {
+        bidResponse = await postBookingApi(
+          widget.biddingModel!.loadId,
+          widget.biddingModel!.currentBid,
+          widget.biddingModel!.unitValue,
+          widget.truckId,
+          widget.postLoadId,
+        );
+      }
+
+      if (bidResponse == "successful") {
+        print(bidResponse);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return completedDialog(
+              upperDialogText: "You have completed the bid!",
+              lowerDialogText: "wait for the shippers response",
+            );
+          },
+        );
+        Timer(
+            Duration(seconds: 3),
+            () => {
+                  providerData.updateUpperNavigatorIndex(1),
+                  providerData.updateIndex(3),
+                  Get.offAll(NavigationScreen())
+                });
+      } else if (bidResponse == "conflict") {
+        // change this according to the booking response
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlreadyBidDialog();
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return OrderFailedAlertDialog();
+          },
+        );
+        // Get.snackbar("${postLoadErrorController.error.value}", "failed");
+        // postLoadErrorController.resetPostLoadError();
+        // print(postLoadErrorController.error.value.toString());
+        // Timer(
+        //     Duration(seconds: 1),
+        //     () => {
+        //           showDialog(
+        //             context: context,
+        //             builder: (BuildContext context) {
+        //               return OrderFailedAlertDialog(
+        //                   postLoadErrorController.error.value.toString());
+        //             },
+        //           )
+        //         });
+      }
+    }
+
+    if (widget.biddingModel != null) {
+      widget.biddingModel!.unitValue =
+          widget.biddingModel!.unitValue == 'tonne' ? 'PER_TON' : 'PER_TRUCK';
+    }
+
+    return GestureDetector(
+      onTap: widget.truckId != null
+          ? () {
+              getBookingData();
+            }
+          : null,
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
