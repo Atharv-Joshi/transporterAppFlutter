@@ -19,10 +19,10 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
   final String truckId;
-
+  final String truckNumber;
   final String driverId;
 
-  ReviewTruckDetails(this.truckId, this.driverId);
+  ReviewTruckDetails({required this.truckId, required this.driverId , required this.truckNumber});
 
   @override
   _ReviewTruckDetailsState createState() => _ReviewTruckDetailsState();
@@ -30,7 +30,7 @@ class ReviewTruckDetails extends StatefulWidget {
 
 class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   TruckApiCalls truckApiCalls = TruckApiCalls();
-
+  //
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
   TruckIdController truckIdController = TruckIdController();
@@ -44,9 +44,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   String? truckIdForCrossVerification;
 
   bool loading = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getDriverDetails();
   }
@@ -65,6 +65,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
+    // providerData.updateIsAddNewDriver(false);
     if (providerData.truckTypeValue == '') {
       truckTypeText = '---';
     } else {
@@ -73,7 +74,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
               .indexOf(providerData.truckTypeValue)];
     }
 
-      driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
+      // driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
 
 
     return Scaffold(
@@ -86,10 +87,11 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                 backButton: true,
                   text: 'Add Truck',
                   reset: false,
-                  resetFunction: () {
-                    providerData.resetTruckFilters();
-                    Get.back();
-                  }),
+                  // resetFunction: () {
+                  //   providerData.resetTruckFilters();
+                  //   Get.back();
+                  // }
+                  ),
               Container(
                 margin: EdgeInsets.only(top: space_2),
                 child: Row(
@@ -100,7 +102,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                           fontSize: size_9, fontWeight: mediumBoldWeight),
                     ),
                     Text(
-                      '${providerData.truckNumberValue}',
+                      '${widget.truckNumber}',
                       style: TextStyle(
                           fontSize: size_9,
                           color: Color(0xff152968),
