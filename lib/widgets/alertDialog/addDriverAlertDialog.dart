@@ -11,14 +11,9 @@ import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
-import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
- import 'package:permission_handler/permission_handler.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:contact_picker/contact_picker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
-// ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
@@ -27,10 +22,6 @@ class AddDriverAlertDialog extends StatefulWidget {
 class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
   TextEditingController driverNameController = TextEditingController();
   TextEditingController driverNumberController = TextEditingController();
-  // PhoneContact? _contact;
-  // String? contactName;
-  // String? contactNumber;
-  // String displayContact = "";
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +88,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                             print(contactNumber);
                             driverNumberController =
                                 TextEditingController(text: contactNumber);
-                            // displayContact =
-                            //     contactName! + " - " + contactNumber!;
                           });
                         // }
                       },
