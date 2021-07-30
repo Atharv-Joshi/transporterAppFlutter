@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
           ),
           backgroundColor: backgroundColor,
           body: Container(
-            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_2),
+            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_0),
             child: ListView(
               children: [
                 Container(
@@ -79,12 +79,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: space_4),
-                    child: SuggestedLoadsWidget()),
-                SizedBox(
-                  height: space_4,
-                ),
-                Container(
                   height: 100,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
@@ -102,9 +96,14 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: space_5,
+                ),
                 transporterIdController.transporterApproved.value == false
                     ? AccountNotVerifiedWidget()
-                    : Container(),
+                    : Container(
+                    padding: EdgeInsets.symmetric(horizontal: space_4),
+                    child: SuggestedLoadsWidget()),
               ],
             ),
           ),
