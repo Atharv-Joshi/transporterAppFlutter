@@ -93,6 +93,7 @@ class BiddingDetails extends StatelessWidget {
               ),
               BiddingDecisionCard(
                 transporterApproved: transporterApproved,
+                loadId: loadId,
                 fromTransporterSide: fromTransporterSide,
                 shipperApproved : shipperApproved,
                 biddingDate: biddingDate,

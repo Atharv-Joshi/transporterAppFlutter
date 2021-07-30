@@ -155,6 +155,15 @@ class ProviderData extends ChangeNotifier {
   String postLoadError = "";
   bool loadWidget = true;
 
+  String bidLoadingPoint = '';
+  String bidUnloadingPoint = '';
+
+  updateBidEndpoints(loadingPoint , unLoadingPoint){
+    bidLoadingPoint = loadingPoint;
+    bidUnloadingPoint = unLoadingPoint;
+    notifyListeners();
+  }
+
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();

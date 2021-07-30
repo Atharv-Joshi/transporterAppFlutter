@@ -7,6 +7,7 @@ import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 class BiddingDecisionCard extends StatelessWidget {
   final String? rate;
   String? unitValue;
+  String? loadId;
   final String? biddingDate;
   final String? bidId;
   final bool? shipperApproved;
@@ -17,6 +18,7 @@ class BiddingDecisionCard extends StatelessWidget {
   BiddingDecisionCard(
   {
     required this.biddingDate,
+    this.loadId,
     required this.transporterApproved,
     this.fromTransporterSide,
     required this.unitValue,
@@ -73,7 +75,6 @@ class BiddingDecisionCard extends StatelessWidget {
 
                 ],
               )
-              //todo: check conditions once
                   : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -81,6 +82,7 @@ class BiddingDecisionCard extends StatelessWidget {
                   AcceptButton(
                     isBiddingDetails: true,
                     bidId: bidId,
+                    loadId: loadId,
                     shipperApproved: shipperApproved,
                     transporterApproved: transporterApproved,
                     fromTransporterSide: fromTransporterSide,
@@ -88,6 +90,7 @@ class BiddingDecisionCard extends StatelessWidget {
                   DeclineButton(
                     isBiddingDetails: true,
                     bidId: bidId,
+                    loadId: loadId,
                     shipperApproved: shipperApproved,
                     transporterApproved: transporterApproved,
                     fromTransporterSide: fromTransporterSide,

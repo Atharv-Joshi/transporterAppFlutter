@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 class AcceptButton extends StatelessWidget {
 
   String? bidId;
+  String? loadId;
   bool? isBiddingDetails;
    bool? shipperApproved;
    bool? transporterApproved;
@@ -24,6 +26,7 @@ class AcceptButton extends StatelessWidget {
     required this.isBiddingDetails ,
     this.shipperApproved,
     this.fromTransporterSide,
+    this.loadId,
   this.transporterApproved});
 
   @override
@@ -61,6 +64,7 @@ class AcceptButton extends StatelessWidget {
           else{
             providerData.updateIndex(2);
             Get.offAll(NavigationScreen());
+            Get.to(() => BiddingScreens(loadId: loadId, loadingPointCity: providerData.bidLoadingPoint, unloadingPointCity: providerData.bidUnloadingPoint));
           }
         }
         : null ,

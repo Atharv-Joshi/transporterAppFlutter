@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/biddingsCardShipperSide.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
 
 class BiddingScreens extends StatefulWidget {
 
@@ -89,6 +91,8 @@ class _BiddingScreensState extends State<BiddingScreens> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
+    providerData.updateBidEndpoints(widget.loadingPointCity, widget.unloadingPointCity);
     return Scaffold(
         body: SafeArea(
           child:Container(

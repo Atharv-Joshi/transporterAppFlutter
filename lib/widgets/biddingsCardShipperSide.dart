@@ -179,6 +179,7 @@ class BiddingsCardShipperSide extends StatelessWidget {
                       AcceptButton(
                           isBiddingDetails: false,
                           bidId : bidId,
+                          loadId: loadId,
                         fromTransporterSide: false,
                         transporterApproved: transporterApproved,
                         shipperApproved: shipperApproved,
