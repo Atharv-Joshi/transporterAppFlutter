@@ -58,7 +58,8 @@ class AcceptButton extends StatelessWidget {
             () {
           putBidForAccept(bidId);
           if(fromTransporterSide!){
-            providerData.updateIndex(3);
+            // providerData.updateIndex(3);
+            providerData.updateLowerAndUpperNavigationIndex(3, 0);
             Get.offAll(NavigationScreen());
           }
           else{

@@ -171,7 +171,7 @@ class ProviderData extends ChangeNotifier {
 
   updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
     index = lowerValue;
-    upperNavigatorIndex = upperNavigatorIndex;
+    upperNavigatorIndex = upperValue;
     notifyListeners();
   }
 

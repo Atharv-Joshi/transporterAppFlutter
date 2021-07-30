@@ -78,6 +78,12 @@ class BiddingDetails extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  fromTransporterSide!
+                                      ?
+                                  NegotiateButton(
+                                      active: false,
+                                      bidId : bidId)
+                                  :
                                    NegotiateButton(
                                     active: !shipperApproved!,
                                       bidId : bidId),
