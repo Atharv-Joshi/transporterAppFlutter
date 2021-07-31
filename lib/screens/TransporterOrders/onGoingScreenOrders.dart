@@ -77,7 +77,6 @@ class OngoingScreenOrders extends StatelessWidget {
                           );
                         });
                   } //builder
-
                   );
             } //else
           },
