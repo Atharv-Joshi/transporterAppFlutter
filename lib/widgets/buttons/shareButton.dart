@@ -1,11 +1,14 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:social_share/social_share.dart';
+import 'package:liveasy/widgets/shareImageWidget.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 // ignore: must_be_immutable
@@ -13,27 +16,33 @@ class ShareButton extends StatelessWidget {
   LoadDetailsScreenModel loadDetails;
   String? loadingPointCity;
   ByteData? bytes;
-
+  ScreenshotController screenshotController = ScreenshotController();
   ShareButton({this.loadingPointCity, required this.loadDetails});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // final ByteData bytes = await rootBundle.load('assets/image1.png');
-      // await Share.file('esys image', 'esys.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
-
       onTap: () async {
-        bytes =
-            await rootBundle.load('assets/images/whatsAppImageBackground.png');
-        await WcFlutterShare.share(
-            sharePopupTitle: 'share',
-            subject: 'This is subject',
-            text: 'This is text',
-            fileName: 'share.png',
-            mimeType: 'image/png',
-            bytesOfFile: bytes!.buffer.asUint8List());
-        SocialShare.shareWhatsapp(
-            "${loadDetails.loadingPointCity} => ${loadDetails.unloadingPointCity} posted by ${loadDetails.loadPosterName}"); //TODO: value has to be changed
+        print(
+            "Loading Pint City is: ${loadDetails.loadingPointCity}"
+                "\nUnloading Point City is: ${loadDetails.unloadingPointCity}"
+                "\nLoading Point State is: ${loadDetails.loadingPointState}"
+                "\nUnLoading Point State is: ${loadDetails.unloadingPointState}"
+                "\nLoad Id is: ${loadDetails.loadId}"
+        );
+        screenshotController.captureFromWidget(
+            InheritedTheme.captureAll(context, Material(child: shareImageWidget(loadDetails))),
+            delay: Duration(seconds: 1)).then((capturedImage) async {
+          var pngBytes = capturedImage.buffer.asUint8List();
+          await WcFlutterShare.share(
+              sharePopupTitle: 'share',
+              subject: 'This is subject',
+              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\nJaldi se iss load ko book karne ke liye iss link per click kare ya iss number per call kare ${loadDetails.phoneNo} \n*Aur load pane ke liye Liveasy app download kare*",
+              fileName: 'share.png',
+              mimeType: 'image/png',
+              bytesOfFile: pngBytes
+          );
+        });
       },
       child: Container(
         height: space_8,
@@ -54,14 +63,7 @@ class ShareButton extends StatelessWidget {
               "Share",
               style: TextStyle(
                   fontSize: size_8, fontWeight: normalWeight, color: white),
-            ),
-            // Stack(children:[Container(
-            //   child: Image(
-            //     image: AssetImage(
-            //       "assets/images/whatsAppImageBackground.png",
-            //     ),
-            //   ),
-            // )])
+            )
           ],
         ),
       ),
