@@ -206,7 +206,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
             ),
             Container(
               padding: EdgeInsets.only(bottom: space_2),
-              height: MediaQuery.of(context).size.height + space_2,
+              height: 2*space_40,
               width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
