@@ -25,13 +25,12 @@ class _SplashScreenToGetTransporterDataState
     super.initState();
     getData();
   }
-
-  getData() async {
-    String? transporterId =
-        await runTransporterApiPost(mobileNum: widget.mobileNum);
-    if (transporterId != null) {
-      Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
-    } else {
+  getData() async{
+    String? transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
+    if (transporterId != null){
+      Timer(Duration(milliseconds: 1000), () => Get.off(() => NavigationScreen()));
+    }
+    else {
       transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
       if (transporterId != null) {
         Timer(

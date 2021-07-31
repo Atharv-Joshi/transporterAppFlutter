@@ -80,19 +80,27 @@ class BookingApiCallsOrders {
           modelList.add(bookingModel);
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return modelList;
   }
 
-  updateBookingApi(completedDate, bookingId) async {
-    Map data = {"completed": true, "completedDate": completedDate};
-    String body = json.encode(data);
-    final response = await http.put(Uri.parse("$bookingApiUrl/$bookingId"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
+  Future<String?> updateBookingApi(completedDate, bookingId) async {
+    try {
+      Map data = {"completed": true, "completedDate": completedDate};
+      String body = json.encode(data);
+      final response = await http.put(Uri.parse("$bookingApiUrl/$bookingId"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      if (response.statusCode == 200) {
+        return "completed";
+      }
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return "error";
+    }
   }
 }
 

@@ -6,7 +6,8 @@ import 'package:liveasy/models/biddingModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 Future<List<BiddingModel>> getBidsFromBidApi() async {
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
   var jsonData;
   List<BiddingModel> biddingModelList = [];
   final String bidApiUrl = FlutterConfig.get("biddingApiUrl").toString();
@@ -23,7 +24,7 @@ Future<List<BiddingModel>> getBidsFromBidApi() async {
     biddingModel.previousBid = json['previousBid'].toString();
     biddingModel.unitValue = json["unitValue"];
     biddingModel.truckIdList = json["truckId"];
-    biddingModel.shipperApproval= json["shipperApproval"];
+    biddingModel.shipperApproval = json["shipperApproval"];
     biddingModel.transporterApproval = json['transporterApproval'];
     biddingModel.biddingDate = json['biddingDate'];
     biddingModelList.add(biddingModel);

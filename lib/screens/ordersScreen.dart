@@ -16,13 +16,11 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    PageController pageController = PageController(initialPage: providerData.upperNavigatorIndex);
-
+    PageController pageController =
+        PageController(initialPage: providerData.upperNavigatorIndex);
 
     return Scaffold(
       backgroundColor: backgroundColor,

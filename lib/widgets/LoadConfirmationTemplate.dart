@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:marquee/marquee.dart';
 
 class LoadConfirmationTemplate extends StatelessWidget {
   final String? label;
@@ -29,13 +30,43 @@ class LoadConfirmationTemplate extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          ":  ${value!}",
-                          style: TextStyle(
-                              fontWeight: mediumBoldWeight,
-                              color: veryDarkGrey,
-                              fontSize: size_6),
-                        ),
+                        label == 'Location'
+                            ? Row(
+                                children: [
+                                  Text(":  "),
+                                  Container(
+                                    height: 20,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.9,
+                                    child: Marquee(
+                                      text: "${value!}",
+                                      style: TextStyle(
+                                          fontWeight: mediumBoldWeight,
+                                          color: veryDarkGrey,
+                                          fontSize: size_6),
+                                      scrollAxis: Axis.horizontal,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      blankSpace: 20.0,
+                                      velocity: 100.0,
+                                      pauseAfterRound: Duration(seconds: 1),
+                                      accelerationDuration:
+                                          Duration(seconds: 1),
+                                      accelerationCurve: Curves.linear,
+                                      decelerationDuration:
+                                          Duration(milliseconds: 500),
+                                      decelerationCurve: Curves.easeOut,
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Text(
+                                ":  ${value!}",
+                                style: TextStyle(
+                                    fontWeight: mediumBoldWeight,
+                                    color: veryDarkGrey,
+                                    fontSize: size_6),
+                              ),
                       ],
                     )),
               ],

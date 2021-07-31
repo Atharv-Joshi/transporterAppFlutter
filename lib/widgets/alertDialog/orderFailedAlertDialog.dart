@@ -10,7 +10,7 @@ class OrderFailedAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Container(
-          height: MediaQuery.of(context).size.height / 4.5,
+          height: MediaQuery.of(context).size.height / 3.9,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
