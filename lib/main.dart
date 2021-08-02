@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
@@ -10,6 +11,8 @@ import 'package:liveasy/widgets/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'constants/color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
                 );
               } else {
                 return GetMaterialApp(
+                  builder: EasyLoading.init(),
                   theme: ThemeData(fontFamily: "montserrat"),
                   home: SplashScreenToGetTransporterData(
                     mobileNum: FirebaseAuth.instance.currentUser.phoneNumber

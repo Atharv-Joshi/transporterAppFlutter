@@ -54,6 +54,7 @@ dependencies:
   otp_text_field: ^1.1.1
   shimmer: ^2.0.0
   screenshot: ^1.2.3
+  flutter_easyloading: ^3.0.0
 
 dev_dependencies:
 

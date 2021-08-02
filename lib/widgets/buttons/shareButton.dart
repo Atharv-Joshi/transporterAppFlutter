@@ -2,6 +2,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'dart:convert';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -23,25 +26,28 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        print(
-            "Loading Pint City is: ${loadDetails.loadingPointCity}"
-                "\nUnloading Point City is: ${loadDetails.unloadingPointCity}"
-                "\nLoading Point State is: ${loadDetails.loadingPointState}"
-                "\nUnLoading Point State is: ${loadDetails.unloadingPointState}"
-                "\nLoad Id is: ${loadDetails.loadId}"
+        EasyLoading.instance
+          ..indicatorType = EasyLoadingIndicatorType.ring
+          ..indicatorSize = 45.0
+          ..radius = 10.0
+          ..maskColor = darkBlueColor
+          ..userInteractions = false
+          ..backgroundColor = darkBlueColor
+          ..dismissOnTap = false;
+        EasyLoading.show(
+          status: "Loading...",
         );
-        screenshotController.captureFromWidget(
-            InheritedTheme.captureAll(context, Material(child: shareImageWidget(loadDetails))),
-            delay: Duration(seconds: 1)).then((capturedImage) async {
+        await screenshotController.captureFromWidget(
+            InheritedTheme.captureAll(context, Material(child: shareImageWidget(loadDetails)))).then((capturedImage) async {
           var pngBytes = capturedImage.buffer.asUint8List();
           await WcFlutterShare.share(
               sharePopupTitle: 'share',
               subject: 'This is subject',
-              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\nJaldi se iss load ko book karne ke liye iss link per click kare ya iss number per call kare ${loadDetails.phoneNo} \n*Aur load pane ke liye Liveasy app download kare*",
+              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n\nya iss number per call kare ${loadDetails.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
               fileName: 'share.png',
               mimeType: 'image/png',
               bytesOfFile: pngBytes
-          );
+          ).then((value) => EasyLoading.dismiss());
         });
       },
       child: Container(
