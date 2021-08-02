@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: space_5,
+                  height: space_1,
                 ),
                 transporterIdController.transporterApproved.value == false
                     ? Column(
