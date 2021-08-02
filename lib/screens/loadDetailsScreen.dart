@@ -23,8 +23,7 @@ class LoadDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-       Scaffold(
+    return Scaffold(
         backgroundColor: statusBarColor,
         body: SafeArea(
           child: SingleChildScrollView(

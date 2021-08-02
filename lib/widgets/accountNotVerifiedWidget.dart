@@ -20,7 +20,7 @@ class AccountNotVerifiedWidget extends StatelessWidget {
       child: Container(
         height: space_8,
         padding: EdgeInsets.fromLTRB(space_3, space_1 - 3, space_3, 0),
-        margin: EdgeInsets.all(space_4),
+        margin: EdgeInsets.symmetric(vertical: space_3,horizontal: space_4),
         decoration: BoxDecoration(
           color: lightYellow,
           border: Border.all(color: darkYellow, width: borderWidth_10),
