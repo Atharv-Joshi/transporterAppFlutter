@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
 import 'package:liveasy/widgets/bonusWidget.dart';
-import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/buyGpsWidget.dart';
 import 'package:liveasy/widgets/drawerWidget.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
-import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +38,9 @@ class HomeScreen extends StatelessWidget {
           ),
           backgroundColor: backgroundColor,
           body: Container(
-            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_2),
+            height:
+                MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
+            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_0),
             child: ListView(
               children: [
                 Container(
@@ -69,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                      EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
+                  EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
                   child: SearchLoadWidget(
                     hintText: "Search",
                     onPressed: () {
@@ -77,12 +79,6 @@ class HomeScreen extends StatelessWidget {
                       Get.to(() => FindLoadScreen());
                     },
                   ),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: space_4),
-                    child: SuggestedLoadsWidget()),
-                SizedBox(
-                  height: space_4,
                 ),
                 Container(
                   height: 100,
@@ -102,9 +98,22 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: space_1,
+                ),
                 transporterIdController.transporterApproved.value == false
-                    ? AccountNotVerifiedWidget()
-                    : Container(),
+                    ? Column(
+                        children: [
+                          AccountNotVerifiedWidget(),
+                          Container(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: space_4),
+                              child: SuggestedLoadsWidget()),
+                        ],
+                      )
+                    : Container(
+                        padding: EdgeInsets.symmetric(horizontal: space_4),
+                        child: SuggestedLoadsWidget()),
               ],
             ),
           ),

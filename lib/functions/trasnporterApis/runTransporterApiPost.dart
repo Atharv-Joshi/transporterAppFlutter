@@ -34,9 +34,12 @@ Future<String?> runTransporterApiPost(
         bool accountVerificationInProgress =
             decodedResponse["accountVerificationInProgress"].toString() ==
                 "true";
-        String transporterLocation = decodedResponse["transporterLocation"];
-        String name = decodedResponse["transporterName"];
-        String companyName = decodedResponse["companyName"];
+        String transporterLocation = decodedResponse["transporterLocation"]== null
+            ? " ": decodedResponse["transporterLocation"];
+        String name = decodedResponse["transporterName"] == null
+            ? " " :decodedResponse["transporterName"];
+        String companyName = decodedResponse["companyName"] == null
+            ? " " : decodedResponse["companyName"];
         transporterIdController.updateTransporterId(transporterId);
         transporterIdController.updateTransporterApproved(transporterApproved);
         transporterIdController.updateCompanyApproved(companyApproved);
