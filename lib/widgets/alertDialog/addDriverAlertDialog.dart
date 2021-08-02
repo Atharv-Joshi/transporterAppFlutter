@@ -12,7 +12,7 @@ import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
- import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
@@ -167,12 +167,12 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       transporterId);
                   if (driverId != null) {
                     //TODO: show error success screens here
-                    Navigator.of(context).pop();
+                    Get.back();
+                    Get.back();
                     //For Book Now Alert Dialog
                     await getTruckDetailsFromTruckApi(context);
                     await getDriverDetailsFromDriverApi(context);
-                  }
-                  else {
+                  } else {
                     Navigator.of(context).pop();
                     Get.snackbar("Error", "");
                   }

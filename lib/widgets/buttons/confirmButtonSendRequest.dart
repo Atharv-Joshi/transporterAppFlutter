@@ -14,7 +14,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
-import 'package:liveasy/widgets/alertDialog/alreadyBidDialog.dart';
+import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +94,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlreadyBidDialog();
+            return ConflictDialog(dialog: 'You have already booked this load');
           },
         );
       } else {

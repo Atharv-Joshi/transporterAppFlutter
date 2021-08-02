@@ -60,7 +60,8 @@ putBidForAccept(String? bidId) async {
   print(response.body);
 }
 
-putBidForNegotiate(String? bidId, String? rate, String? unitValue) async {
+Future<String?> putBidForNegotiate(
+    String? bidId, String? rate, String? unitValue) async {
   //TODO: This can be done in a better way later on
   if (unitValue == "RadioButtonOptions.PER_TON") {
     unitValue = "PER_TON";
@@ -68,22 +69,32 @@ putBidForNegotiate(String? bidId, String? rate, String? unitValue) async {
   if (unitValue == "RadioButtonOptions.PER_TRUCK") {
     unitValue = "PER_TRUCK";
   }
+  try {
+    final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
 
-  final String bidApiUrl = FlutterConfig.get('biddingApiUrl');
+    Map<String, dynamic> data = {
+      "currentBid": rate,
+      "unitValue": unitValue,
+      'shipperApproval': true
+    };
 
-  Map<String, dynamic> data = {
-    "currentBid": rate,
-    "unitValue": unitValue,
-    'shipperApproval': true
-  };
+    String body = json.encode(data);
 
-  String body = json.encode(data);
-
-  final response = await http.put(Uri.parse("$bidApiUrl/$bidId"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: body);
+    final response = await http.put(Uri.parse("$bidApiUrl/$bidId"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
+    if (response.statusCode == 200) {
+      return "success";
+    } else if (response.statusCode == 409) {
+      return "conflict";
+    }
+    return "unsuccessful";
+  } catch (e) {
+    print(e.toString());
+    return e.toString();
+  }
 }
 
 declineBidFromShipperSide(String bidId) async {

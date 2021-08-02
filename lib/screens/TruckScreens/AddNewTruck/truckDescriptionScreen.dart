@@ -40,14 +40,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   late List driverList = [];
 
   List<DropdownMenuItem<String>> dropDownList = [];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getDriverList();
-  }
-
   void getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
@@ -63,10 +55,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
         }
       }
       if (!instanceAlreadyAdded) {
-        dropDownList.add(DropdownMenuItem<String>(
-          value: instance.driverId,
-          child: Text('${instance.driverName}-${instance.phoneNum}'),
-        ));
+        dropDownList.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.driverId,
+              child: Text('${instance.driverName}-${instance.phoneNum}'),
+            ));
       }
     }
 
@@ -92,10 +86,18 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDriverList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     print('truck Id : ${widget.truckId}');
 
+    getDriverList();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
