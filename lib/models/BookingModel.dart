@@ -6,6 +6,7 @@ class BookingModel {
   String? postLoadId;
   List? truckId;
   int? rate;
+  String? rateString;
   String? unitValue;
   bool? cancel;
   bool? completed;
@@ -23,5 +24,7 @@ class BookingModel {
       this.cancel,
       this.completed,
       this.bookingDate,
-      this.completedDate});
+      this.completedDate,
+      this.rateString
+      });
 }

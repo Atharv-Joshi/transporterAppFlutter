@@ -33,18 +33,18 @@ class BookingApiCallsOrders {
       }
 
       for (var json in jsonData) {
-        BookingModel bookingModel = BookingModel(truckId: []);
-        bookingModel.bookingDate = json['bookingDate'];
-        bookingModel.loadId = json['loadId'];
-        bookingModel.transporterId = json['transporterId'];
-        bookingModel.truckId = json['truckId'];
-        bookingModel.cancel = json['cancel'];
-        bookingModel.completed = json['completed'];
-        bookingModel.completedDate = json['completedDate'];
-        bookingModel.postLoadId = json['postLoadId'];
-        bookingModel.bookingId = json['bookingId'];
-        bookingModel.rate = json['rate'];
-        bookingModel.unitValue = json['unitValue'];
+        BookingModel bookingModel = BookingModel();
+        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : 'NA';
+        bookingModel.loadId = json['loadId'] != null ? json['loadId'] : 'NA';
+        bookingModel.transporterId = json['transporterId'] != null ? json['transporterId'] : 'NA';
+        bookingModel.truckId = json['truckId'] != null ? json['truckId'] : 'NA';
+        bookingModel.cancel = json['cancel'] != null ? json['cancel'] : false;
+        bookingModel.completed = json['completed'] != null ? json['completed'] : false;
+        bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : 'NA';
+        bookingModel.postLoadId = json['postLoadId'] != null ? json['postLoadId'] : 'NA';
+        bookingModel.bookingId = json['bookingId'] != null ? json['bookingId'] : 'NA';
+        bookingModel.rateString = json['rate'] != null ? json['rate'].toString() : 'NA';
+        bookingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'NA';
 
         modelList.add(bookingModel);
       }
@@ -65,34 +65,42 @@ class BookingApiCallsOrders {
           break;
         }
         for (var json in jsonData) {
-          BookingModel bookingModel = BookingModel(truckId: []);
-          bookingModel.bookingDate = json['bookingDate'];
-          bookingModel.loadId = json['loadId'];
-          bookingModel.transporterId = json['transporterId'];
-          bookingModel.truckId = json['truckId'];
-          bookingModel.cancel = json['cancel'];
-          bookingModel.completed = json['completed'];
-          bookingModel.completedDate = json['completedDate'];
-          bookingModel.postLoadId = json['postLoadId'];
-          bookingModel.rate = json['rate'];
-          bookingModel.unitValue = json['unitValue'];
+          BookingModel bookingModel = BookingModel();
+          bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : 'NA';
+          bookingModel.loadId = json['loadId'] != null ? json['loadId'] : 'NA';
+          bookingModel.transporterId = json['transporterId'] != null ? json['transporterId'] : 'NA';
+          bookingModel.truckId = json['truckId'] != null ? json['truckId'] : 'NA';
+          bookingModel.cancel = json['cancel'] != null ? json['cancel'] : false;
+          bookingModel.completed = json['completed'] != null ? json['completed'] : false;
+          bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : 'NA';
+          bookingModel.postLoadId = json['postLoadId'] != null ? json['postLoadId'] : 'NA';
+          bookingModel.rateString = json['rate'] != null ? json['rate'].toString() : 'NA';
+          bookingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'NA';
 
           modelList.add(bookingModel);
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
     return modelList;
   }
 
-  updateBookingApi(completedDate, bookingId) async {
-    Map data = {"completed": true, "completedDate": completedDate};
-    String body = json.encode(data);
-    final response = await http.put(Uri.parse("$bookingApiUrl/$bookingId"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
+  Future<String?> updateBookingApi(completedDate, bookingId) async {
+    try {
+      Map data = {"completed": true, "completedDate": completedDate};
+      String body = json.encode(data);
+      final response = await http.put(Uri.parse("$bookingApiUrl/$bookingId"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      if (response.statusCode == 200) {
+        return "completed";
+      }
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return "error";
+    }
   }
 }
 

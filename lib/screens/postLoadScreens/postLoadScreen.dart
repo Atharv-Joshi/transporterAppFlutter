@@ -13,13 +13,11 @@ import 'package:liveasy/widgets/buttons/postLoadButton.dart';
 import 'package:provider/provider.dart';
 
 class PostLoadScreen extends StatefulWidget {
-
   @override
   _PostLoadScreenState createState() => _PostLoadScreenState();
 }
 
 class _PostLoadScreenState extends State<PostLoadScreen> {
-
   //Page Controller
   PageController pageController = PageController(initialPage: 0);
 

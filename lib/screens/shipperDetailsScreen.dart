@@ -15,7 +15,7 @@ class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
   String? unloadingPoint;
   String? vehicleNo;
-  int? rate;
+  String? rate;
   String? shipperPosterLocation;
   String? shipperPosterName;
   String? shipperPosterCompanyName;
