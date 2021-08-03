@@ -26,7 +26,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
         ? loadDetailsScreenModel.rate!.substring(0, 4) + ".."
         : loadDetailsScreenModel.rate!;
     String rateInTonnes =
-        (rateLengthData[0] == 'N' ? "--" : "\u20B9${rateLengthData}/tonne");
+        (rateLengthData[0] == 'N' ? "--" : "\u20B9$rateLengthData/tonne");
 
     return GestureDetector(
         onTap: () => {

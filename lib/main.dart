@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   builder: EasyLoading.init(),
                   theme: ThemeData(fontFamily: "montserrat"),
                   home: SplashScreenToGetTransporterData(
-                    mobileNum: FirebaseAuth.instance.currentUser.phoneNumber
+                    mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
                         .toString()
                         .substring(3, 13),
                   ),
