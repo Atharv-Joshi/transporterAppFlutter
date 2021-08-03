@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
@@ -9,6 +10,8 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'constants/color.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +23,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return OverlaySupport.global(
+    return OverlaySupport(
       child: ChangeNotifierProvider<ProviderData>(
         create: (context) => ProviderData(),
         child: FutureBuilder(
@@ -29,11 +32,13 @@ class MyApp extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (FirebaseAuth.instance.currentUser == null) {
                   return GetMaterialApp(
+                    builder: EasyLoading.init(),
                     theme: ThemeData(fontFamily: "montserrat"),
                     home: SplashScreen(),
                   );
                 } else {
                   return GetMaterialApp(
+                    builder: EasyLoading.init(),
                     theme: ThemeData(fontFamily: "montserrat"),
                     home: SplashScreenToGetTransporterData(
                       mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber

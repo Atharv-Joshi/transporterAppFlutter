@@ -54,10 +54,9 @@ dependencies:
   firebase_messaging: ^10.0.4
   overlay_support: ^1.2.1
   shimmer: ^2.0.0
-  permission_handler: ^8.1.4+1
+  screenshot: ^1.2.3
+  flutter_easyloading: ^3.0.0
   marquee: ^2.2.0
-
-
 
 dev_dependencies:
 
