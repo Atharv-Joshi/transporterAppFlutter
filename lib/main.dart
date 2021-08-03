@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -37,6 +39,10 @@ class MyApp extends StatelessWidget {
                     home: SplashScreen(),
                   );
                 } else {
+                  var mUser = FirebaseAuth.instance.currentUser;
+                  var task = mUser!.getIdToken(true).then((value)  {
+                    log(value);
+                  });
                   return GetMaterialApp(
                     builder: EasyLoading.init(),
                     theme: ThemeData(fontFamily: "montserrat"),

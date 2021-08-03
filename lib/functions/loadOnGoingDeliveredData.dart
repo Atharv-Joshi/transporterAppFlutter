@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/transporterModel.dart';
 import 'driverApiCalls.dart';

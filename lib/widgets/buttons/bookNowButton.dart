@@ -8,7 +8,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';

@@ -5,7 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/Header.dart';

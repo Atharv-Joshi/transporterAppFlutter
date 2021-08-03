@@ -4,7 +4,7 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/middleDataforOrderSideBids.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
