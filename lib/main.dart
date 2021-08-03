@@ -23,32 +23,34 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ProviderData>(
-      create: (context) => ProviderData(),
-      child: FutureBuilder(
-          future: Firebase.initializeApp(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (FirebaseAuth.instance.currentUser == null) {
-                return GetMaterialApp(
-                  builder: EasyLoading.init(),
-                  theme: ThemeData(fontFamily: "montserrat"),
-                  home: SplashScreen(),
-                );
-              } else {
-                return GetMaterialApp(
-                  builder: EasyLoading.init(),
-                  theme: ThemeData(fontFamily: "montserrat"),
-                  home: SplashScreenToGetTransporterData(
-                    mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
-                        .toString()
-                        .substring(3, 13),
-                  ),
-                );
-              }
-            } else
-              return ErrorScreen();
-          }),
+    return OverlaySupport(
+      child: ChangeNotifierProvider<ProviderData>(
+        create: (context) => ProviderData(),
+        child: FutureBuilder(
+            future: Firebase.initializeApp(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (FirebaseAuth.instance.currentUser == null) {
+                  return GetMaterialApp(
+                    builder: EasyLoading.init(),
+                    theme: ThemeData(fontFamily: "montserrat"),
+                    home: SplashScreen(),
+                  );
+                } else {
+                  return GetMaterialApp(
+                    builder: EasyLoading.init(),
+                    theme: ThemeData(fontFamily: "montserrat"),
+                    home: SplashScreenToGetTransporterData(
+                      mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
+                          .toString()
+                          .substring(3, 13),
+                    ),
+                  );
+                }
+              } else
+                return ErrorScreen();
+            }),
+      ),
     );
   }
 }
