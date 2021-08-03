@@ -1,5 +1,10 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
@@ -15,6 +20,13 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+
+  List<LoadDetailsScreenModel> data = [];
+  String? loadID;
+  LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
+
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
+
   var screens = [
     HomeScreen(),
     MyTrucks(),
@@ -22,6 +34,38 @@ class _NavigationScreenState extends State<NavigationScreen> {
     OrdersScreen(),
     AccountPageUtil(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    this.initDynamicLinks();
+  }
+
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+          final Uri? deepLink = dynamicLink?.link;
+
+          if (deepLink != null) {
+              loadID = deepLink.path;
+              findLoadByLoadID(loadID!);
+          }
+        },
+        onError: (OnLinkErrorException e) async {
+          print('onLinkError');
+          print(e.message);
+        }
+    );
+
+    final PendingDynamicLinkData? dataLink = await FirebaseDynamicLinks.instance
+        .getInitialLink();
+    final Uri? deepLink = dataLink?.link;
+
+    if (deepLink != null) {
+      loadID = deepLink.path;
+      findLoadByLoadID(loadID!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
