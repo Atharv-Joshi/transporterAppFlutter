@@ -54,11 +54,11 @@ class DrawerWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           CircleAvatar(
-                            radius: radius_8,
+                            radius: radius_7,
                             backgroundColor: white,
                             child: Container(
-                              height: space_13,
-                              width: space_10,
+                              height: space_7,
+                              width: space_7,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(image),
@@ -69,29 +69,27 @@ class DrawerWidget extends StatelessWidget {
                           SizedBox(
                             width: space_2,
                           ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                  alignment: Alignment.topLeft,
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    name,
-                                    style: TextStyle(
-                                      fontWeight: mediumBoldWeight,
-                                      fontSize: size_7,
-                                      fontFamily: 'montserrat',
-                                    ),
+                          name != " " ?Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                alignment: Alignment.topLeft,
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  name,
+                                  style: TextStyle(
+                                    fontWeight: mediumBoldWeight,
+                                    fontSize: size_7,
+                                    fontFamily: 'montserrat',
                                   ),
                                 ),
-                                SizedBox(height: space_2),
-                                Text(mobileNum),
-                              ],
-                            ),
-                          )
+                              ),
+                              SizedBox(height: space_2),
+                              Text(mobileNum),
+                            ],
+                          ):
+                          Text(mobileNum),
                         ],
                       ),
                     ),
