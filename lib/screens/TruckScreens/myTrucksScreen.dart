@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
@@ -25,33 +26,20 @@ class MyTrucks extends StatefulWidget {
 }
 
 class _MyTrucksState extends State<MyTrucks> {
-  // driverApiCall instance
-  DriverApiCalls driverApiCalls = DriverApiCalls();
-
   //TransporterId controller
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  // //true if truck list is empty
-  // bool truckListEmpty = false;
-
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
-  // retrieving TRUCKAPIURL  from env file
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
-
-  //json data list
-  late List jsonData;
-
   // Truck Model List used to  create cards
-  List truckDataList = [];
-
-  // List<DriverModel> driverModelGlobalList = [];
+  var truckDataList = [];
 
   int i = 0;
 
   bool loading = false;
+
   @override
   void initState() {
     super.initState();
@@ -149,15 +137,16 @@ class _MyTrucksState extends State<MyTrucks> {
                               itemCount: truckDataList.length,
                               itemBuilder: (context, index) {
                                 return MyTruckCard(
-                                  truckId: truckDataList[index].truckId,
-                                  truckApproved:
-                                      truckDataList[index].truckApproved,
-                                  truckNo: truckDataList[index].truckNo,
-                                  truckType: truckDataList[index].truckType,
-                                  tyres: truckDataList[index].tyresString,
-                                  driverName: truckDataList[index].driverName,
-                                  phoneNum: truckDataList[index].driverNum,
-                                  imei: truckDataList[index].imei,
+                                  truckData: truckDataList[index],
+                                  // truckId: .truckId,
+                                  // truckApproved:
+                                  //     truckDataList[index].truckApproved,
+                                  // truckNo: truckDataList[index].truckNo,
+                                  // truckType: truckDataList[index].truckType,
+                                  // tyres: truckDataList[index].tyresString,
+                                  // driverName: truckDataList[index].driverName,
+                                  // phoneNum: truckDataList[index].driverNum,
+                                  // imei: truckDataList[index].imei,
                                 );
                               }),
                   Padding(
@@ -178,37 +167,10 @@ class _MyTrucksState extends State<MyTrucks> {
   } //build
 
   getTruckData(int i) async {
-    http.Response response = await http.get(Uri.parse(
-        '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
-    jsonData = json.decode(response.body);
-    for (var json in jsonData) {
-      TruckModel truckModel = TruckModel();
-      truckModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
-      truckModel.transporterId =
-          json["transporterId"] != null ? json["transporterId"] : 'NA';
-      truckModel.truckNo = json["truckNo"] != null ? json["truckNo"] : 'NA';
-      truckModel.truckApproved =
-          json["truckApproved"] != null ? json["truckApproved"] : false;
-      truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
-      truckModel.passingWeightString = json["passingWeight"] != null
-          ? json["passingWeight"].toString()
-          : 'NA';
-      truckModel.truckType =
-          json["truckType"] != null ? json["truckType"] : 'NA';
-      truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
-      truckModel.tyresString =
-          json["tyres"] != null ? json["tyres"].toString() : 'NA';
-      truckModel.truckLengthString =
-          json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
-      //driver data
-      DriverModel driverModel = await driverApiCalls.getDriverByDriverId(
-          driverId: truckModel.driverId);
-      truckModel.driverName = driverModel.driverName;
-      truckModel.driverNum = driverModel.phoneNum;
-      setState(() {
-        truckDataList.add(truckModel);
-      });
-    } //for loop
+    var truckDataListForPagei = await getTruckDataWithPageNo(i);
+    print("${truckDataListForPagei[0].truckNo}");
+    for (var truckData in truckDataListForPagei){
+    truckDataList.add(truckData);}
     setState(() {
       loading = false;
     });
