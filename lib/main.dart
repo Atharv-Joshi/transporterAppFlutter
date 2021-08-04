@@ -11,8 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'constants/color.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();

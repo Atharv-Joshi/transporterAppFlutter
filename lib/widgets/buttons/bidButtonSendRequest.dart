@@ -40,7 +40,8 @@ class BidButtonSendRequest extends StatelessWidget {
         Provider.of<ProviderData>(context, listen: false);
     getBidData() async {
       String? bidResponse = "";
-      if (bidResponse == "") {
+      String? putResponse = "";
+      if (bidResponse == "" || putResponse == "") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -52,10 +53,10 @@ class BidButtonSendRequest extends StatelessWidget {
       isPost!
           ? bidResponse = await postBidAPi(loadId, providerData.rate1,
               tIdController.transporterId.value, providerData.unitValue1)
-          : putBidForNegotiate(
+          : putResponse = await putBidForNegotiate(
               bidId, providerData.rate1, providerData.unitValue1);
 
-      if (bidResponse == "success") {
+      if (bidResponse == "success" || putResponse == "success") {
         print(bidResponse);
         showDialog(
           context: context,
