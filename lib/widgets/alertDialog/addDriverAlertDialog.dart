@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -10,6 +11,7 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
@@ -68,28 +70,26 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       onTap: () async {
                         print(driverNameController.text);
                         print(driverNumberController.text);
-                        // if (await Permission.contacts.request().isGranted) {
-
-                          final PhoneContact contact =
-                              await FlutterContactPicker.pickPhoneContact(askForPermission: true);
-                          print(contact);
-                          setState(() {
-                            String contactName = contact.fullName.toString();
-                            driverNameController = TextEditingController(
-                                text: contactName);
-                            String contactNumber =
-                                contact.phoneNumber!.number!.contains("+91")
-                                    ? contact.phoneNumber!.number!
-                                        .replaceRange(0, 3, "")
-                                        .replaceAll(new RegExp(r"\D"), "")
-                                    : contact.phoneNumber!.number!
-                                        .toString()
-                                        .replaceAll(new RegExp(r"\D"), "");
-                            print(contactNumber);
-                            driverNumberController =
-                                TextEditingController(text: contactNumber);
-                          });
-                        // }
+                        final PhoneContact contact =
+                            await FlutterContactPicker.pickPhoneContact(
+                                askForPermission: true);
+                        print("picked contact: $contact");
+                        setState(() {
+                          String contactName = contact.fullName.toString();
+                          driverNameController =
+                              TextEditingController(text: contactName);
+                          // as the number can have +91 and also may not have +91 in start
+                          String contactNumber =
+                              contact.phoneNumber!.number!.contains("+91")
+                                  ? contact.phoneNumber!.number!
+                                      .replaceRange(0, 3, "")
+                                      .replaceAll(new RegExp(r"\D"), "")
+                                  : contact.phoneNumber!.number!
+                                      .toString()
+                                      .replaceAll(new RegExp(r"\D"), "");
+                          driverNumberController =
+                              TextEditingController(text: contactNumber);
+                        });
                       },
                       child: Image(
                         image:
@@ -125,6 +125,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               child: TextField(
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
+                inputFormatters: [LengthLimitingTextInputFormatter(10)],
                 decoration: InputDecoration(
                   hintText: "Type here",
                   hintStyle: TextStyle(
@@ -146,30 +147,51 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               name: driverNameController.text,
               number: driverNumberController.text,
               onTap: () async {
-                if (driverNumberController.text.length == 10) {
+                if (driverNumberController.text.length == 10 &&
+                    (driverNumberController.text
+                        .startsWith(RegExp(r'[6-9]')))) {
                   TransporterIdController tIdController =
                       Get.find<TransporterIdController>();
                   String transporterId = '${tIdController.transporterId}';
-                  String? driverId = await driverApiCalls.postDriverApi(
+                  ResponseModel? response = await driverApiCalls.postDriverApi(
                       driverNameController.text,
                       driverNumberController.text,
                       transporterId);
-                  if (driverId != null) {
-                    //TODO: show error success screens here
-                    Navigator.of(context).pop();
-                    //For Book Now Alert Dialog
-                    await getTruckDetailsFromTruckApi(context);
-                    await getDriverDetailsFromDriverApi(context);
-                  }
-                  else {
-                    Navigator.of(context).pop();
-                    Get.dialog(
-                      Container(
-                        child: Text("Failed"),
+                  if (response != null) {
+                    if (response.statusCode == 201 && response.id != null) {
+                      // driver added successfully
+                      Navigator.of(context).pop();
+                      //For Book Now Alert Dialog
+                      await getTruckDetailsFromTruckApi(context);
+                      await getDriverDetailsFromDriverApi(context);
+                    } else {
+                      // most likely user trying to add same number again
+                      Get.defaultDialog(
+                        content: Container(
+                          child: Column(
+                            children: [
+                              Text("Conflict !"),
+                              Text("${response.message}")
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    //response is null so error with api
+                    Get.defaultDialog(
+                      content: Container(
+                        child: Column(
+                          children: [
+                            Text("Oops!! Error!"),
+                            Text("Please Try Again Later")
+                          ],
+                        ),
                       ),
                     );
                   }
                 } else {
+                  //user entered an invalid mobile number
                   Get.defaultDialog(
                     content: Container(
                       child: Column(
@@ -180,7 +202,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       ),
                     ),
                   );
-                  // Get.snackbar("Error", "Enter a valid 10 digit number");
                 }
               },
             ),

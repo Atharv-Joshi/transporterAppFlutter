@@ -57,7 +57,6 @@ getTruckDataWithPageNo(int i) async {
     truckModel.driverName = driverModel.driverName;
     truckModel.driverNum = driverModel.phoneNum;
     truckDataList.add(truckModel);
-    print("error not in getTruckDataWithPageNo file");
   }
   return truckDataList;
 }
