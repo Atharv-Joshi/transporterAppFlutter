@@ -74,7 +74,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             () => {
                   providerData.updateIndex(2),
                   Get.offAll(() => NavigationScreen()),
-                  providerData.resetTruckFilters(),
+                  providerData.resetPostLoadFilters(),
                   providerData.resetPostLoadScreenOne(),
                   controller.text = "",
                   controllerOthers.text = ""

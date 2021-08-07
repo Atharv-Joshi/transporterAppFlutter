@@ -10,8 +10,9 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/alertDialog/alreadyBidDialog.dart';
+import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
@@ -39,7 +40,8 @@ class BidButtonSendRequest extends StatelessWidget {
         Provider.of<ProviderData>(context, listen: false);
     getBidData() async {
       String? bidResponse = "";
-      if (bidResponse == "") {
+      String? putResponse = "";
+      if (bidResponse == "" || putResponse == "") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -51,10 +53,10 @@ class BidButtonSendRequest extends StatelessWidget {
       isPost!
           ? bidResponse = await postBidAPi(loadId, providerData.rate1,
               tIdController.transporterId.value, providerData.unitValue1)
-          : putBidForNegotiate(
+          : putResponse = await putBidForNegotiate(
               bidId, providerData.rate1, providerData.unitValue1);
 
-      if (bidResponse == "success") {
+      if (bidResponse == "success" || putResponse == "success") {
         print(bidResponse);
         showDialog(
           context: context,
@@ -68,16 +70,31 @@ class BidButtonSendRequest extends StatelessWidget {
         Timer(
             Duration(seconds: 3),
             () => {
-                  providerData.updateUpperNavigatorIndex(0),
-                  providerData.updateIndex(3),
-                  Get.offAll(() => NavigationScreen()),
-                  providerData.updateBidButtonSendRequest(false),
+                  if (!isPost!)
+                    {
+                      providerData.updateIndex(2),
+                      Get.offAll(() => NavigationScreen()),
+                      Get.to(() => BiddingScreens(
+                          loadId: loadId,
+                          loadingPointCity: providerData.bidLoadingPoint,
+                          unloadingPointCity: providerData.bidUnloadingPoint)),
+                      providerData.updateBidButtonSendRequest(false),
+                    }
+                  else
+                    {
+                      providerData.updateUpperNavigatorIndex(0),
+                      providerData.updateIndex(3),
+                      Get.offAll(() => NavigationScreen()),
+                      providerData.updateBidButtonSendRequest(false),
+                    }
                 });
       } else if (bidResponse == "conflict") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlreadyBidDialog();
+            return ConflictDialog(
+              dialog: 'you have already bid on this load',
+            );
           },
         );
       } else {

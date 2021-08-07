@@ -51,7 +51,7 @@ class LoadConfirmationTemplate extends StatelessWidget {
                                       velocity: 100.0,
                                       pauseAfterRound: Duration(seconds: 1),
                                       accelerationDuration:
-                                          Duration(seconds: 1),
+                                          Duration(milliseconds: 10),
                                       accelerationCurve: Curves.linear,
                                       decelerationDuration:
                                           Duration(milliseconds: 500),

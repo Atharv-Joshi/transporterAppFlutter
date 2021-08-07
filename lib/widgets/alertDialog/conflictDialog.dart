@@ -5,8 +5,9 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/alertOkButton.dart';
 
-class AlreadyBidDialog extends StatelessWidget {
-  const AlreadyBidDialog({Key? key}) : super(key: key);
+class ConflictDialog extends StatelessWidget {
+  String dialog;
+  ConflictDialog({Key? key, required this.dialog}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class AlreadyBidDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "You have already bid on this Load",
+                dialog,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: mediumBoldWeight,

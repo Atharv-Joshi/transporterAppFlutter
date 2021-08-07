@@ -14,6 +14,7 @@ import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
+// ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
@@ -156,12 +157,12 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       transporterId);
                   if (driverId != null) {
                     //TODO: show error success screens here
-                    Navigator.of(context).pop();
+                    Get.back();
+                    Get.back();
                     //For Book Now Alert Dialog
                     await getTruckDetailsFromTruckApi(context);
                     await getDriverDetailsFromDriverApi(context);
-                  }
-                  else {
+                  } else {
                     Navigator.of(context).pop();
                     Get.dialog(
                       Container(
