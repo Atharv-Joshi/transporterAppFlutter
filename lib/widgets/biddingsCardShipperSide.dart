@@ -24,7 +24,7 @@ class BiddingsCardShipperSide extends StatelessWidget {
   final String? unloadingPointCity;
   final String? currentBid;
   final String? previousBid;
-        String? unitValue;
+  String? unitValue;
   final String? companyName;
   final String? biddingDate;
   final String? transporterPhoneNum;
@@ -33,13 +33,13 @@ class BiddingsCardShipperSide extends StatelessWidget {
   final bool? shipperApproved;
   final bool? transporterApproved;
   final bool? isLoadPosterVerified;
-   String orderStatus = '';
-   Color orderStatusColor = Colors.white;
+  String orderStatus = '';
+  Color orderStatusColor = Colors.white;
 
   BiddingsCardShipperSide({
-    required this.loadId ,
+    required this.loadId,
     required this.isLoadPosterVerified,
-    required this.loadingPointCity ,
+    required this.loadingPointCity,
     required this.unloadingPointCity,
     required this.biddingDate,
     required this.unitValue,
@@ -56,48 +56,47 @@ class BiddingsCardShipperSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
 
-    if(transporterApproved == true && shipperApproved == true){
+    if (transporterApproved == true && shipperApproved == true) {
       orderStatus = 'Order confirmed!';
       orderStatusColor = liveasyGreen;
-    }
-    else if(transporterApproved == false && shipperApproved == true){
+    } else if (transporterApproved == false && shipperApproved == true) {
       orderStatus = 'Waiting for response';
       orderStatusColor = liveasyOrange;
-    }
-    else if(transporterApproved == false && shipperApproved == false){
+    } else if (transporterApproved == false && shipperApproved == false) {
       orderStatus = 'Order Cancelled';
       orderStatusColor = red;
     }
 
     return GestureDetector(
       onTap: shipperApproved == false && transporterApproved == false
-        ? null
-      : (){
-        Get.to(()=> BiddingDetails(
-          loadId : loadId,
-          bidId: bidId,
-          rate: currentBid,
-          unitValue: unitValue,
-          companyName: companyName,
-          biddingDate: biddingDate,
-          transporterPhoneNum: transporterPhoneNum,
-          transporterName : transporterName,
-          transporterLocation: transporterLocation,
-          shipperApproved: shipperApproved,
-          transporterApproved: transporterApproved,
-          isLoadPosterVerified: isLoadPosterVerified,
-          fromTransporterSide: false,
-        ));
-      },
+          ? null
+          : () {
+              Get.to(() => BiddingDetails(
+                    loadId: loadId,
+                    bidId: bidId,
+                    rate: currentBid,
+                    unitValue: unitValue,
+                    companyName: companyName,
+                    biddingDate: biddingDate,
+                    transporterPhoneNum: transporterPhoneNum,
+                    transporterName: transporterName,
+                    transporterLocation: transporterLocation,
+                    shipperApproved: shipperApproved,
+                    transporterApproved: transporterApproved,
+                    isLoadPosterVerified: isLoadPosterVerified,
+                    fromTransporterSide: false,
+                  ));
+            },
       child: Container(
         margin: EdgeInsets.only(bottom: space_2),
         child: Card(
           elevation: 3,
           child: Container(
-            color: shipperApproved == false && transporterApproved == false ? cancelledBiddingBackground : Colors.white,
+            color: shipperApproved == false && transporterApproved == false
+                ? cancelledBiddingBackground
+                : Colors.white,
             child: Column(
               children: [
                 Container(
@@ -105,18 +104,16 @@ class BiddingsCardShipperSide extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        child:  Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Bidding date : $biddingDate',
                               style: TextStyle(
-                                  fontSize: size_6,
-                                  color: veryDarkGrey
-                              ),
+                                  fontSize: size_6, color: veryDarkGrey),
                             ),
                             Icon(
-                                Icons.arrow_forward_ios_sharp,
+                              Icons.arrow_forward_ios_sharp,
                               size: 14,
                             ),
                           ],
@@ -125,38 +122,57 @@ class BiddingsCardShipperSide extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          LoadEndPointTemplate(text: loadingPointCity, endPointType: 'loading'),
-
+                          LoadEndPointTemplate(
+                              text: loadingPointCity, endPointType: 'loading'),
                           Container(
                               padding: EdgeInsets.only(left: 2),
                               height: space_3,
                               width: space_12,
                               child: CustomPaint(
                                 foregroundPainter: LinePainter(height: space_3),
-                              )
-                          ),
-
-                          LoadEndPointTemplate(text: unloadingPointCity, endPointType: 'unloading'),
+                              )),
+                          LoadEndPointTemplate(
+                              text: unloadingPointCity,
+                              endPointType: 'unloading'),
                         ],
                       ),
-
-                      SizedBox(height: space_2,),
-                      NewRowTemplate(label: 'Transporter', value: companyName!.length > 24 ? companyName!.substring(0,22) + '..' : companyName , width: 102,),
-                      previousBid != 'NA' ?  NewRowTemplate(label: 'Previous Bidding', value: 'Rs.$previousBid/$unitValue') : Container(),
-                      NewRowTemplate(label: 'Current Bidding', value: 'Rs.$currentBid/$unitValue' , width: 102,),
+                      SizedBox(
+                        height: space_2,
+                      ),
+                      NewRowTemplate(
+                        label: 'Transporter',
+                        value: companyName!.length > 24
+                            ? companyName!.substring(0, 22) + '..'
+                            : companyName,
+                        width: 102,
+                      ),
+                      previousBid != 'NA'
+                          ? NewRowTemplate(
+                              label: 'Previous Bidding',
+                              value: 'Rs.$previousBid/$unitValue')
+                          : Container(),
+                      NewRowTemplate(
+                        label: 'Current Bidding',
+                        value: 'Rs.$currentBid/$unitValue',
+                        width: 102,
+                      ),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                              Text(
-                                  orderStatus,
+                            Text(
+                              orderStatus,
                               style: TextStyle(
                                 color: orderStatusColor,
-                                fontWeight:  mediumBoldWeight,
+                                fontWeight: mediumBoldWeight,
                                 fontSize: size_8,
-                              ),),
-                            CallButton(directCall: true , phoneNum: transporterPhoneNum,),
+                              ),
+                            ),
+                            CallButton(
+                              directCall: true,
+                              phoneNum: transporterPhoneNum,
+                            ),
                           ],
                         ),
                       ),
@@ -164,28 +180,28 @@ class BiddingsCardShipperSide extends StatelessWidget {
                   ),
                 ),
                 shipperApproved == false && transporterApproved == false
-
-               ? Container()
-               :  Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  color: contactPlaneBackground,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      NegotiateButton(
-                        bidId: bidId,
-                        active: !shipperApproved!,
+                    ? Container()
+                    : Container(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        color: contactPlaneBackground,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            NegotiateButton(
+                              bidId: bidId,
+                              active: !shipperApproved!,
+                            ),
+                            AcceptButton(
+                              isBiddingDetails: false,
+                              bidId: bidId,
+                              loadId: loadId,
+                              fromTransporterSide: false,
+                              transporterApproved: transporterApproved,
+                              shipperApproved: shipperApproved,
+                            ),
+                          ],
                         ),
-                      AcceptButton(
-                          isBiddingDetails: false,
-                          bidId : bidId,
-                        fromTransporterSide: false,
-                        transporterApproved: transporterApproved,
-                        shipperApproved: shipperApproved,
-                      ),
-                    ],
-                  ),
-                )
+                      )
               ],
             ),
           ),

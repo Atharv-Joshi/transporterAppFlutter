@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 
+// ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
