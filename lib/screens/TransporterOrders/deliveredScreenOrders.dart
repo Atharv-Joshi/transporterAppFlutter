@@ -64,7 +64,7 @@ class DeliveredScreenOrders extends StatelessWidget {
                             companyApproved: snapshot.data['companyApproved'],
                             driverPhoneNum: snapshot.data['driverPhoneNum'],
                             transporterPhoneNumber:
-                                snapshot.data['transporterPhoneNum'],
+                                snapshot.data['posterPhoneNum'],
                             rate: snapshot.data['rate'],
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],

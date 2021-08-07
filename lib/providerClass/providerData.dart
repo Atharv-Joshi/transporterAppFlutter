@@ -155,6 +155,15 @@ class ProviderData extends ChangeNotifier {
   String postLoadError = "";
   bool loadWidget = true;
 
+  String bidLoadingPoint = '';
+  String bidUnloadingPoint = '';
+
+  updateBidEndpoints(loadingPoint, unLoadingPoint) {
+    bidLoadingPoint = loadingPoint;
+    bidUnloadingPoint = unLoadingPoint;
+    notifyListeners();
+  }
+
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
@@ -162,7 +171,7 @@ class ProviderData extends ChangeNotifier {
 
   updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
     index = lowerValue;
-    upperNavigatorIndex = upperNavigatorIndex;
+    upperNavigatorIndex = upperValue;
     notifyListeners();
   }
 
@@ -381,6 +390,20 @@ class ProviderData extends ChangeNotifier {
     driverIdValue = '';
     // unitValue = "";
     // resetUnitValue();
+    notifyListeners();
+  }
+
+  void resetPostLoadFilters() {
+    productType = "Choose Product Type";
+    truckTypeValue = '';
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckNumber = 0;
+    truckLengthValue = 0;
+    price = 0;
+    driverIdValue = '';
+    unitValue = "";
+    resetUnitValue();
     notifyListeners();
   }
 

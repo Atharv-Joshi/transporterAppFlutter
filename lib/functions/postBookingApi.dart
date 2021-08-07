@@ -38,11 +38,13 @@ postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
     if (response.statusCode == 201) {
       return "successful";
     } else if (response.statusCode == 409) {
+      print("conflict");
       return "conflict";
     } else {
       return "unsuccessful";
     }
   } catch (e) {
+    print(e.toString());
     return e.toString();
   }
 }
