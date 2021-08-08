@@ -6,7 +6,6 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/suggestedLoadsCard.dart';
 import 'dart:convert';
@@ -170,7 +169,9 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
               ),
               Container(
                 // height: (MediaQuery.of(context).size.height),
-                height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_6,
+                height: MediaQuery.of(context).size.height -
+                    kBottomNavigationBarHeight -
+                    space_6,
                 color: backgroundColor,
                 child: loading == true
                     ? OnGoingLoadingWidgets()

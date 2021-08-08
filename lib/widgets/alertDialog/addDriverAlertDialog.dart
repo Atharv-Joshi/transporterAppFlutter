@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -71,25 +72,26 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                         print(driverNumberController.text);
                         // if (await Permission.contacts.request().isGranted) {
 
-                          final PhoneContact contact =
-                              await FlutterContactPicker.pickPhoneContact(askForPermission: true);
-                          print(contact);
-                          setState(() {
-                            String contactName = contact.fullName.toString();
-                            driverNameController = TextEditingController(
-                                text: contactName);
-                            String contactNumber =
-                                contact.phoneNumber!.number!.contains("+91")
-                                    ? contact.phoneNumber!.number!
-                                        .replaceRange(0, 3, "")
-                                        .replaceAll(new RegExp(r"\D"), "")
-                                    : contact.phoneNumber!.number!
-                                        .toString()
-                                        .replaceAll(new RegExp(r"\D"), "");
-                            print(contactNumber);
-                            driverNumberController =
-                                TextEditingController(text: contactNumber);
-                          });
+                        final PhoneContact contact =
+                            await FlutterContactPicker.pickPhoneContact(
+                                askForPermission: true);
+                        print(contact);
+                        setState(() {
+                          String contactName = contact.fullName.toString();
+                          driverNameController =
+                              TextEditingController(text: contactName);
+                          String contactNumber =
+                              contact.phoneNumber!.number!.contains("+91")
+                                  ? contact.phoneNumber!.number!
+                                      .replaceRange(0, 3, "")
+                                      .replaceAll(new RegExp(r"\D"), "")
+                                  : contact.phoneNumber!.number!
+                                      .toString()
+                                      .replaceAll(new RegExp(r"\D"), "");
+                          print(contactNumber);
+                          driverNumberController =
+                              TextEditingController(text: contactNumber);
+                        });
                         // }
                       },
                       child: Image(
@@ -124,6 +126,9 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: space_2),
               child: TextField(
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                ],
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
