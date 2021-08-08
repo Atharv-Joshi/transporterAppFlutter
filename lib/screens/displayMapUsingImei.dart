@@ -27,7 +27,7 @@ Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
   print("sleep starts");
   // sleep(Duration(seconds: 2));
   print("speed>2");
-  String gpsApiUrl = "http://3.108.162.7:3000/locationbyimei";
+  String gpsApiUrl = "http://3.109.80.120:3000/locationbyimei";
   try {
     print("$gpsApiUrl/$imei");
     http.Response response = await http.get(Uri.parse("$gpsApiUrl/$imei"));
@@ -42,6 +42,7 @@ Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
       gpsDataModel.speed = jsonData["speed"];
       gpsDataModel.deviceName = jsonData["deviceName"];
       gpsDataModel.powerValue = jsonData["powerValue"];
+      gpsDataModel.direction = jsonData["direction"];
       return gpsDataModel;
     }
     else {
@@ -122,7 +123,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
       markers.add(
         Marker(
             markerId: MarkerId("GpsMarker"),
-            rotation: 0,
+            rotation: double.parse(gpsDataController.getGpsData().direction!),
             position: latLng,
             anchor: Offset(0.5, 0.5),
             icon: pinLocationIcon!),

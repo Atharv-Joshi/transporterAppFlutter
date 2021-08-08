@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
@@ -96,13 +97,16 @@ class DriverApiCalls {
           body: body);
       print("driver Api response : ${response.body}");
       var decodedData = json.decode(response.body);
+      ResponseModel returnResponse = ResponseModel();
       if (decodedData["driverId"] != null) {
-
-
-        return decodedData["driverId"];
+        returnResponse.statusCode = response.statusCode;
+        returnResponse.id = decodedData["driverId"];
+        returnResponse.message = decodedData["status"];
+        return returnResponse;
       } else{
-
-        return null;
+        returnResponse.statusCode = response.statusCode;
+        returnResponse.message = decodedData["apierror"]["debugMessage"];
+        return returnResponse;
       }
     } catch (e) {
       print(e);

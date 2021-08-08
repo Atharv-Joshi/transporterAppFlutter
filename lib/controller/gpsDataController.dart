@@ -13,5 +13,6 @@ class GpsDataController extends GetxController {
     gpsData.value.speed = newValue.speed;
     gpsData.value.deviceName = newValue.deviceName;
     gpsData.value.powerValue = newValue.powerValue;
+    gpsData.value.direction = newValue.direction;
   }
 }

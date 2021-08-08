@@ -22,6 +22,7 @@ class MapUtil {
         gpsDataModel.speed = jsonData["speed"];
         gpsDataModel.deviceName = jsonData["deviceName"];
         gpsDataModel.powerValue = jsonData["powerValue"];
+        gpsDataModel.direction = jsonData["direction"];
         return gpsDataModel;
       }
       else {
