@@ -1,6 +1,6 @@
 import 'package:liveasy/functions/postLoadIdApiCalls.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'driverApiCalls.dart';
