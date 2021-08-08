@@ -47,7 +47,7 @@ getTruckDataWithPageNo(int i) async {
         json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
     truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';
     truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
-    truckModel.tyresString =
+    truckModel.tyres =
         json["tyres"] != null ? json["tyres"].toString() : 'NA';
     truckModel.truckLengthString =
         json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
