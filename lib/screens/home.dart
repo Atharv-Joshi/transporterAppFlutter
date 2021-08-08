@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
@@ -73,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                   padding:
                   EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
                   child: SearchLoadWidget(
-                    hintText: "Search",
+                    hintText: AppLocalizations.of(context)!.search,
                     onPressed: () {
                       FocusScope.of(context).requestFocus(FocusNode());
                       Get.to(() => FindLoadScreen());

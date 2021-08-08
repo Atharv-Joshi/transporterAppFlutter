@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/getStartedButton.dart';
+import 'package:provider/provider.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class LanguageSelectionScreen extends StatefulWidget {
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProviderData>(context, listen: false);
     return Scaffold(
       backgroundColor: white,
       body: Padding(
@@ -30,7 +34,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 height: MediaQuery.of(context).size.height / 1.5,
                 child: Padding(
                   padding:
-                      EdgeInsets.fromLTRB(space_5, space_8, space_5, space_0),
+                  EdgeInsets.fromLTRB(space_5, space_8, space_5, space_0),
                   child: Column(
                     children: [
                       Padding(
@@ -38,16 +42,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         child: Image(
                             image: AssetImage("assets/icons/welcomeIcon.png")),
                       ),
-                      Text(
-                        "WELCOME!",
+                      Text(AppLocalizations.of(context)!.welcome,
                         style: TextStyle(
                             fontSize: size_11, fontWeight: boldWeight),
                       ),
                       SizedBox(
                         height: space_6,
                       ),
-                      Text(
-                        "Select Language",
+                      Text(AppLocalizations.of(context)!.selectLanguage,
                         style: TextStyle(
                             fontSize: size_10, fontWeight: normalWeight),
                       ),
@@ -58,29 +60,36 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Expanded(
-                            child: Container(
-                              height: space_8,
-                              decoration: BoxDecoration(
-                                  border: Border.all(width: 1, color: navy),
-                                  borderRadius:
-                                      BorderRadius.circular(radius_1)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "English",
-                                    style: TextStyle(
-                                        color: navy,
-                                        fontSize: size_9,
-                                        fontWeight: normalWeight),
-                                  ),
-                                  Image(
-                                    image: AssetImage("assets/icons/tick.png"),
-                                    width: space_3,
-                                    height: space_3,
-                                  )
-                                ],
+                            child: GestureDetector(
+                              onTap: () {
+                                provider.setLocale(Locale('en'));
+                              },
+                              child: Container(
+                                height: space_8,
+                                decoration: BoxDecoration(
+                                    border: Border.all(width: 1,
+                                        color:navy
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.circular(radius_1)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "English",
+                                      style: TextStyle(
+                                          color: navy,
+                                          fontSize: size_9,
+                                          fontWeight: normalWeight),
+                                    ),
+                                    Image(
+                                      image: AssetImage("assets/icons/tick.png"),
+                                      width: space_3,
+                                      height: space_3,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -88,26 +97,31 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                             width: space_2,
                           ),
                           Expanded(
-                            child: Container(
-                              height: space_8,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: darkGreyColor),
-                                  borderRadius:
-                                      BorderRadius.circular(radius_1)),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: space_2),
-                                    child: Text(
-                                      "Hindi",
-                                      style: TextStyle(
-                                          color: darkGreyColor,
-                                          fontSize: size_9,
-                                          fontWeight: normalWeight),
+                            child: GestureDetector(
+                              onTap: () {
+                                provider.setLocale(Locale('hi'));
+                              },
+                              child: Container(
+                                height: space_8,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: darkGreyColor),
+                                    borderRadius:
+                                        BorderRadius.circular(radius_1)),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: space_2),
+                                      child: Text(
+                                        "Hindi",
+                                        style: TextStyle(
+                                            color: darkGreyColor,
+                                            fontSize: size_9,
+                                            fontWeight: normalWeight),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),

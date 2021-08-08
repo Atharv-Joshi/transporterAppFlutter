@@ -12,6 +12,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
 import 'package:liveasy/widgets/homeScreenLoadsCard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SuggestedLoadsWidget extends StatefulWidget {
@@ -146,12 +147,12 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: space_3),
       child: data.isEmpty
           ? Column(children: [
               Row(
                 children: [
-                  Text(
-                    "Suggested Loads",
+                  Text(AppLocalizations.of(context)!.suggestedLoad,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontFamily: 'montserrat',
@@ -160,7 +161,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
                   ),
                   Spacer(),
                   Text(
-                    "See All",
+                    AppLocalizations.of(context)!.seeAll,
                     style: TextStyle(
                         color: liveasyGreen,
                         fontFamily: 'montserrat',
@@ -176,8 +177,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
           : Column(children: [
             Row(
               children: [
-                Text(
-                  "Suggested Loads",
+                  Text(AppLocalizations.of(context)!.suggestedLoad,
                   style: TextStyle(
                       color: liveasyBlackColor,
                       fontFamily: 'montserrat',
@@ -191,7 +191,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
                     Get.to(() => SuggestedLoadScreen());
                   },
                   child: Text(
-                    "See All",
+                    AppLocalizations.of(context)!.seeAll,
                     style: TextStyle(
                         color: liveasyGreen,
                         fontFamily: 'montserrat',
