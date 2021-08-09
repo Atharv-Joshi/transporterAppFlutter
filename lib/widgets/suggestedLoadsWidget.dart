@@ -13,7 +13,6 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
 import 'package:liveasy/widgets/homeScreenLoadsCard.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SuggestedLoadsWidget extends StatefulWidget {
@@ -22,7 +21,6 @@ class SuggestedLoadsWidget extends StatefulWidget {
 }
 
 class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
-
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
@@ -35,7 +33,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
   //API CALL--------------------------------------------------------------------
   runSuggestedLoadApi(int i) async {
     var suggestedLoadDataList = await runSuggestedLoadApiWithPageNo(i);
-    for (var suggestedLoadData in suggestedLoadDataList){
+    for (var suggestedLoadData in suggestedLoadDataList) {
       setState(() {
         data.add(suggestedLoadData);
       });
@@ -52,7 +50,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        i = i+1;
+        i = i + 1;
         runSuggestedLoadApi(i);
       }
     });
@@ -68,15 +66,15 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
   Widget build(BuildContext context) {
     return data.isEmpty
         ? Center(
-          child: CircularProgressIndicator(color: darkBlueColor),
-        )
+            child: CircularProgressIndicator(color: darkBlueColor),
+          )
         : ListView.builder(
-          controller: scrollController,
-          scrollDirection: Axis.vertical,
-          itemCount: data.length,
-          itemBuilder: (context, index) => HomeScreenLoadsCard(
-            loadDetailsScreenModel: data[index],
-          ),
-        );
+            controller: scrollController,
+            scrollDirection: Axis.vertical,
+            itemCount: data.length,
+            itemBuilder: (context, index) => HomeScreenLoadsCard(
+              loadDetailsScreenModel: data[index],
+            ),
+          );
   }
 }

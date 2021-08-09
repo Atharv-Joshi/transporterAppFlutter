@@ -93,7 +93,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                                       .replaceRange(0, 3, "")
                                       .replaceAll(new RegExp(r"\D"), "")
                                   : contact.phoneNumber!.number!
-                                      .toString()
+                                      .toString();
 
                           driverNumberController =
                               TextEditingController(text: contactNumber);
@@ -137,7 +137,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 ],
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
-                inputFormatters: [LengthLimitingTextInputFormatter(10)],
                 decoration: InputDecoration(
                   hintText: "Type here",
                   hintStyle: TextStyle(

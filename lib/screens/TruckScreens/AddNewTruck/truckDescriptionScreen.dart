@@ -40,6 +40,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   late List driverList = [];
 
   List<DropdownMenuItem<String>> dropDownList = [];
+
   void getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();

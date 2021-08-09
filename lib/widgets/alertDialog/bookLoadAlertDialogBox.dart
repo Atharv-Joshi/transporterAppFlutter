@@ -43,6 +43,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
   String? selectedTruck;
   String? selectedDriver;
   String? selectedDriverName;
+  dynamic dropDownValue;
 
   TransporterIdController transporterIdController = Get.find();
 
@@ -54,6 +55,66 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
       truckApproved: false, truckId: 'Add new Truck', truckNo: 'Add new Truck');
   late DriverModel driverModel = DriverModel(
       driverId: 'Add new Driver', driverName: 'Add new Driver', phoneNum: '');
+  late List driverList = [];
+  List<DropdownMenuItem<String>> dropDownList = [];
+  void getDriverList() async {
+    List temp;
+    temp = widget.driverModelList!;
+    setState(() {
+      driverList = temp;
+    });
+    for (var instance in driverList) {
+      bool instanceAlreadyAdded = false;
+      for (var dropDown in dropDownList) {
+        if (dropDown.value == instance.driverId) {
+          instanceAlreadyAdded = true;
+          break;
+        }
+      }
+      if (!instanceAlreadyAdded) {
+        dropDownList.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.driverId,
+              child: Text('${instance.driverName}-${instance.phoneNum}'),
+            ));
+      }
+    }
+
+    bool addNewDriverAlreadyAdded = false;
+    for (var dropDown in dropDownList) {
+      if (dropDown.value == '') {
+        addNewDriverAlreadyAdded = true;
+        break;
+      }
+    }
+    if (!addNewDriverAlreadyAdded) {
+      dropDownList.add(DropdownMenuItem(
+        value: '',
+        child: Expanded(
+          child: Container(
+            width: 400,
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AddDriverAlertDialog());
+              },
+              child: Text('Add New Driver'),
+            ),
+          ),
+        ),
+      ));
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDriverList();
+  }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -61,6 +122,8 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
     widget.truckModelList!.add(truckModel);
 
     widget.driverModelList!.add(driverModel);
+
+    getDriverList();
 
     return AlertDialog(
       contentPadding: EdgeInsets.all(space_1),
@@ -162,36 +225,28 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
-                  value: selectedDriver,
-                  icon: Icon(Icons.arrow_drop_down_circle_sharp),
-                  iconEnabledColor: darkBlueColor,
-                  style: TextStyle(
-                      fontSize: size_7,
-                      fontWeight: regularWeight,
-                      color: Colors.black),
-                  onChanged: (String? driverId) {
-                    if (driverId == 'Add new Driver') {
-                      providerData.updateIsAddTruckSrcDropDown(true);
-                      Navigator.pop(context);
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) => AddDriverAlertDialog());
-                    } else {
-                      setState(() {
-                        selectedDriver = driverId;
-                        truckApiCalls.updateDriverIdForTruck(
-                            truckID: selectedTruck!, driverID: selectedDriver!);
-                      });
-                    }
+                  underline: SizedBox(),
+                  isDense: true,
+                  isExpanded: true,
+                  focusColor: Colors.blue,
+                  hint: Text('Driver Name-Number'),
+                  value: dropDownValue,
+                  icon: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: darkBlueColor,
+                      ),
+                      child: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: white,
+                      )),
+                  onChanged: (String? newValue) {
+                    providerData.updateDriverDetailsValue(newValue);
+                    setState(() {
+                      dropDownValue = newValue!;
+                    });
                   },
-                  items: widget.driverModelList!
-                      .map<DropdownMenuItem<String>>(
-                          (e) => DropdownMenuItem<String>(
-                                value: e.driverId,
-                                child: Text('${e.driverName} - ${e.phoneNum}'),
-                              ))
-                      .toList(),
+                  items: dropDownList,
                 ),
               ),
             ),
