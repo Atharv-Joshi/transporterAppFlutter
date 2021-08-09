@@ -1,4 +1,3 @@
-
 class GpsDataModel {
   String? speed;
   double? lat;
@@ -6,12 +5,14 @@ class GpsDataModel {
   String? imei;
   String? deviceName;
   String? powerValue;
+  String? direction;
 
   GpsDataModel(
       {this.speed,
-        this.imei,
-        this.lat,
-        this.deviceName,
-        this.lng,
-        this.powerValue});
+      this.imei,
+      this.lat,
+      this.deviceName,
+      this.lng,
+      this.powerValue,
+      this.direction});
 }

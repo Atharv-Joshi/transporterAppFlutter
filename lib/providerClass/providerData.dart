@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/translations/l10n.dart';
 
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
 //Right now variable declaration and function definition are writing without any specific order but later on change this , there are two options
@@ -544,5 +545,26 @@ class ProviderData extends ChangeNotifier {
   }
 
 //----------------------------------
+
+
+ // Language locale Provider
+
+
+  Locale? _locale;
+
+  Locale? get locale => _locale;
+
+  void setLocale(Locale locale) {
+  if (!L10n.all.contains(locale)) return;
+
+  _locale = locale;
+  notifyListeners();
+  }
+
+  void clearLocale() {
+  _locale = null;
+  notifyListeners();
+  }
+
 
 }
