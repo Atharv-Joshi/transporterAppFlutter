@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
@@ -59,7 +60,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
   List<DropdownMenuItem<String>> dropDownList = [];
   void getDriverList() async {
     List temp;
-    temp = widget.driverModelList!;
+    temp = await driverApiCalls.getDriversByTransporterId();
     setState(() {
       driverList = temp;
     });

@@ -74,8 +74,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
 
                         // if (await Permission.contacts.request().isGranted) {
 
-                        
-
                         final PhoneContact contact =
                             await FlutterContactPicker.pickPhoneContact(
                                 askForPermission: true);
@@ -86,19 +84,16 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                           driverNameController =
                               TextEditingController(text: contactName);
 
-
                           String contactNumber =
                               contact.phoneNumber!.number!.contains("+91")
                                   ? contact.phoneNumber!.number!
                                       .replaceRange(0, 3, "")
                                       .replaceAll(new RegExp(r"\D"), "")
-                                  : contact.phoneNumber!.number!
-                                      .toString();
+                                  : contact.phoneNumber!.number!.toString();
 
                           driverNumberController =
                               TextEditingController(text: contactNumber);
                         });
-
                       },
                       child: Image(
                         image:
@@ -171,6 +166,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   if (response != null) {
                     if (response.statusCode == 201 && response.id != null) {
                       // driver added successfully
+                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
