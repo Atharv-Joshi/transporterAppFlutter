@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                   } else {
                     var mUser = FirebaseAuth.instance.currentUser;
                     var task = mUser!.getIdToken(true).then((value) {
-                      log(value);
+                      // log(value);
                     });
                     return GetMaterialApp(
                       builder: EasyLoading.init(),

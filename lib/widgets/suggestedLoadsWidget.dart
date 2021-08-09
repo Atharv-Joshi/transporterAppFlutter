@@ -66,78 +66,17 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: space_3),
-      child: data.isEmpty
-          ? Column(children: [
-              Row(
-                children: [
-                  Text(AppLocalizations.of(context)!.suggestedLoad,
-                    style: TextStyle(
-                        color: liveasyBlackColor,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight.bold,
-                        fontSize: size_8),
-                  ),
-                  Spacer(),
-                  Text(
-                    AppLocalizations.of(context)!.seeAll,
-                    style: TextStyle(
-                        color: liveasyGreen,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight.bold,
-                        fontSize: size_8),
-                  ),
-                ],
-              ),
-              Container(
-                  padding: EdgeInsets.only(top: space_6),
-                  child: CircularProgressIndicator(color: white))
-            ])
-          : Column(children: [
-            Row(
-              children: [
-                  Text(AppLocalizations.of(context)!.suggestedLoad,
-                  style: TextStyle(
-                      color: liveasyBlackColor,
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    Get.to(() => SuggestedLoadScreen());
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.seeAll,
-                    style: TextStyle(
-                        color: liveasyGreen,
-                        fontFamily: 'montserrat',
-                        fontWeight: FontWeight.bold,
-                        fontSize: size_8),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: space_2,
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: space_2),
-              height: 2*space_40,
-              width: double.infinity,
-              child: ListView.builder(
-                controller: scrollController,
-                scrollDirection: Axis.vertical,
-                itemCount: data.length,
-                itemBuilder: (context, index) => HomeScreenLoadsCard(
-                  loadDetailsScreenModel: data[index],
-                ),
-              ),
-            )
-          ]),
-    );
+    return data.isEmpty
+        ? Center(
+          child: CircularProgressIndicator(color: darkBlueColor),
+        )
+        : ListView.builder(
+          controller: scrollController,
+          scrollDirection: Axis.vertical,
+          itemCount: data.length,
+          itemBuilder: (context, index) => HomeScreenLoadsCard(
+            loadDetailsScreenModel: data[index],
+          ),
+        );
   }
 }

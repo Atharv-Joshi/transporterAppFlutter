@@ -25,7 +25,8 @@ Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
   print("in compute function with imei: $imei");
   if (speed > 2) {
   print("sleep starts");
-  // sleep(Duration(seconds: 2));
+  sleep(Duration(seconds: 20));
+  //flutter config is not functional in a different thread
   print("speed>2");
   String gpsApiUrl = "http://3.109.80.120:3000/locationbyimei";
   try {
@@ -35,6 +36,7 @@ Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
     print(response.body);
     var jsonData = await jsonDecode(response.body);
     if (response.statusCode == 200) {
+      speed = double.parse(jsonData["speed"]);
       GpsDataModel gpsDataModel = new GpsDataModel();
       gpsDataModel.imei = jsonData["imei"];
       gpsDataModel.lat = double.parse(jsonData["lat"]);
@@ -75,7 +77,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setCustomMapPin("assets/images/truckAsMarker.jpeg");
+    setCustomMapPin(pinImageLocation: "assets/images/truckAsMarker1x.png", userImageLocation: "assets/images/humanIcon.png");
     getAddress();
     speed = double.parse(widget.gpsData.speed!);
   }
@@ -107,6 +109,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
 
   String address = "";
   BitmapDescriptor? pinLocationIcon;
+  BitmapDescriptor? userLocationIcon;
   Map<PolylineId, Polyline> polylines = {};
   Set<Marker> markers = {};
   Position? myLocation;
@@ -137,13 +140,15 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     });
   }
 
-  void setCustomMapPin(
-      String imageLocation) async {
-    print(MediaQuery.of(context).devicePixelRatio);
+  void setCustomMapPin({String? pinImageLocation, String? userImageLocation}) async {
     pinLocationIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(
+            devicePixelRatio: (MediaQuery.of(context).devicePixelRatio)/4),
+        '$pinImageLocation');
+    userLocationIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(
             devicePixelRatio: MediaQuery.of(context).devicePixelRatio),
-        '$imageLocation');
+        '$userImageLocation');
   }
 
   void getAddress() async {
@@ -233,6 +238,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     Marker newMarker = Marker(
       icon: bitmapDescriptor,
       markerId: MarkerId(markerID),
+        anchor: Offset(0.5, 0.5),
       position: position
     );
     setState(() {
@@ -288,7 +294,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
     zoomToFitToCenterBound(googleMapController!, bounds, centerBounds);
 
     showMarkerAtPosition(
-        LatLng(myLocation!.latitude, myLocation!.longitude), "myPosition", BitmapDescriptor.defaultMarker);
+        LatLng(myLocation!.latitude, myLocation!.longitude), "myPosition", userLocationIcon!);
     print(pinLocationIcon);
     print(LatLng(gpsDataController.getGpsData().lat!, gpsDataController.getGpsData().lng!));
     setState(() {
