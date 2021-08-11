@@ -40,6 +40,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
   late List driverList = [];
 
   List<DropdownMenuItem<String>> dropDownList = [];
+
   void getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
@@ -74,12 +75,18 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     if (!addNewDriverAlreadyAdded) {
       dropDownList.add(DropdownMenuItem(
         value: '',
-        child: TextButton(
-          onPressed: () {
-            showDialog(
-                context: context, builder: (context) => AddDriverAlertDialog());
-          },
-          child: Text('Add New Driver'),
+        child: Expanded(
+          child: Container(
+            width: 400,
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AddDriverAlertDialog());
+              },
+              child: Text('Add New Driver'),
+            ),
+          ),
         ),
       ));
     }
