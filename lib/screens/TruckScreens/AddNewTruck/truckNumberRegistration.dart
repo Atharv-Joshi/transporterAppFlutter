@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/truckApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
@@ -72,7 +72,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         if (_controller.text != value.toUpperCase())
                           _controller.value = _controller.value
                               .copyWith(text: value.toUpperCase());
-                        if (truckNoRegex.hasMatch(value) && value.length > 9) {
+                        if (truckNoRegex.hasMatch(value) && value.length >= 9) {
                           providerData.updateResetActive(true);
                         } else {
                           providerData.updateResetActive(false);

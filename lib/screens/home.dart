@@ -14,15 +14,16 @@ import 'package:liveasy/widgets/drawerWidget.dart';
 import 'package:liveasy/widgets/liveasyTitleTextWidget.dart';
 import 'package:liveasy/widgets/referAndEarnWidget.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
+import 'package:liveasy/widgets/suggestedLoadWidgetHeader.dart';
 import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +33,18 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
           key: _scaffoldKey,
           drawer: DrawerWidget(
-              mobileNum: transporterIdController.mobileNum.value,
-              userName: transporterIdController.name.toString(),
-              // and pass image url here, if required.
+            mobileNum: transporterIdController.mobileNum.value,
+            userName: transporterIdController.name.toString(),
+            // and pass image url here, if required.
           ),
           backgroundColor: backgroundColor,
           body: Container(
-            height:
-                MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
-            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_0),
-            child: ListView(
+            height: MediaQuery.of(context).size.height -
+                kBottomNavigationBarHeight -
+                space_4 -
+                space_2, //space_4 and space_2 comes from padding given below
+            padding: EdgeInsets.fromLTRB(0, space_4, 0, space_2),
+            child: Column(
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: space_4),
@@ -71,9 +74,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                  EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
+                      EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
                   child: SearchLoadWidget(
-                    hintText: "Search",
+                    hintText: AppLocalizations.of(context)!.search,
                     onPressed: () {
                       FocusScope.of(context).requestFocus(FocusNode());
                       Get.to(() => FindLoadScreen());
@@ -102,18 +105,23 @@ class HomeScreen extends StatelessWidget {
                   height: space_1,
                 ),
                 transporterIdController.transporterApproved.value == false
-                    ? Column(
-                        children: [
-                          AccountNotVerifiedWidget(),
-                          Container(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: space_4),
-                              child: SuggestedLoadsWidget()),
-                        ],
-                      )
-                    : Container(
-                        padding: EdgeInsets.symmetric(horizontal: space_4),
-                        child: SuggestedLoadsWidget()),
+                    ? AccountNotVerifiedWidget()
+                    : SizedBox(
+                        height: space_2,
+                      ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: space_4),
+                  child: SuggestedLoadWidgetHeader(),
+                ),
+                SizedBox(
+                  height: space_2,
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: space_4),
+                    child: SuggestedLoadsWidget(),
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,8 +1,7 @@
 class TruckModel {
   int? passingWeight;
   String? passingWeightString;
-  int? tyres;
-  String? tyresString;
+  String? tyres;
   int? truckLength;
   String? truckLengthString;
   String? truckId;
@@ -25,7 +24,6 @@ class TruckModel {
         this.passingWeight,
         this.truckLengthString,
         this.passingWeightString,
-        this.tyresString,
         this.truckType,
         this.driverId,
         this.tyres,

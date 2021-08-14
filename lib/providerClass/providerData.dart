@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/translations/l10n.dart';
 
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
 //Right now variable declaration and function definition are writing without any specific order but later on change this , there are two options
@@ -9,6 +10,14 @@ import 'package:get/get.dart';
 // 2 First declare all variables and then declare all functions
 //This is effective way for maintenance of code for long term.
 //P.S Care should be taken that provider should only be used for updating variables and not processing their values.
+
+
+// enum class for language selection
+enum LanguageItem{
+  English,
+  Hindi
+}
+
 
 class ProviderData extends ChangeNotifier {
   bool bidButtonSendRequestState = false;
@@ -155,6 +164,15 @@ class ProviderData extends ChangeNotifier {
   String postLoadError = "";
   bool loadWidget = true;
 
+  String bidLoadingPoint = '';
+  String bidUnloadingPoint = '';
+
+  updateBidEndpoints(loadingPoint, unLoadingPoint) {
+    bidLoadingPoint = loadingPoint;
+    bidUnloadingPoint = unLoadingPoint;
+    notifyListeners();
+  }
+
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
     notifyListeners();
@@ -162,7 +180,7 @@ class ProviderData extends ChangeNotifier {
 
   updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
     index = lowerValue;
-    upperNavigatorIndex = upperNavigatorIndex;
+    upperNavigatorIndex = upperValue;
     notifyListeners();
   }
 
@@ -384,6 +402,20 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetPostLoadFilters() {
+    productType = "Choose Product Type";
+    truckTypeValue = '';
+    passingWeightValue = 0;
+    totalTyresValue = 0;
+    truckNumber = 0;
+    truckLengthValue = 0;
+    price = 0;
+    driverIdValue = '';
+    unitValue = "";
+    resetUnitValue();
+    notifyListeners();
+  }
+
   void resetPostLoadScreenOne() {
     clearLoadingPointPostLoad();
     clearUnloadingPointPostLoad();
@@ -521,5 +553,38 @@ class ProviderData extends ChangeNotifier {
   }
 
 //----------------------------------
+
+
+ // Language locale Provider
+
+
+  Locale? _locale;
+
+  Locale? get locale => _locale;
+
+  void setLocale(Locale locale) {
+  if (!L10n.all.contains(locale)) return;
+
+  _locale = locale;
+  notifyListeners();
+  }
+
+  void clearLocale() {
+  _locale = null;
+  notifyListeners();
+  }
+
+// ------------------------------------------------
+  // Language selection provider
+
+  LanguageItem _languageItem = LanguageItem.English;
+
+  LanguageItem get languageItem => _languageItem;
+
+  void setLanguageItem(LanguageItem languageItems){
+    _languageItem = languageItems;
+    notifyListeners();
+  }
+
 
 }

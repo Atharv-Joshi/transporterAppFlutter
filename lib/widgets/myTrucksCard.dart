@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
@@ -16,31 +17,34 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-  String? truckId;
-  // String? transporterId;
-  String? truckNo;
-  bool truckApproved;
-  String? imei;
-  // int? passingWeight;
-  // String? driverId;
-  String? truckType;
-  String? tyres;
-  String? driverName;
-  String? phoneNum;
+  TruckModel truckData;
+  // String? truckId;
+  // // String? transporterId;
+  // String? truckNo;
+  // bool truckApproved;
+  // String? imei;
+  // // int? passingWeight;
+  // // String? driverId;
+  // String? truckType;
+  // String? tyres;
+  // String? driverName;
+  // String? phoneNum;
 
   MyTruckCard(
       {
-        this.truckId,
-        // this.transporterId,
-        this.truckNo,
-        required this.truckApproved,
-        this.imei,
-        // this.passingWeight,
-        // this.driverId,
-        this.truckType,
-        this.driverName,
-        this.phoneNum, // will be valid number or 'NA'
-        this.tyres});
+        required this.truckData,
+        // this.truckId,
+        // // this.transporterId,
+        // this.truckNo,
+        // required this.truckApproved,
+        // this.imei,
+        // // this.passingWeight,
+        // // this.driverId,
+        // this.truckType,
+        // this.driverName,
+        // this.phoneNum, // will be valid number or 'NA'
+        // this.tyres
+      });
 
   @override
   _MyTruckCardState createState() => _MyTruckCardState();
@@ -51,7 +55,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   bool? verified;
   Position? userLocation;
-  // @Chirag I guess due to this await too the screen most be lagging for some time
+
   getUserLocation() async {
     PermissionStatus permission =
     await LocationPermissions().checkPermissionStatus();
@@ -73,8 +77,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
 
 
-    String truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckType)
-        ? truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckType)]
+    String truckType = truckFilterVariables.truckTypeValueList.contains(widget.truckData.truckType)
+        ? truckFilterVariables.truckTypeTextList[truckFilterVariables.truckTypeValueList.indexOf(widget.truckData.truckType)]
         : 'NA';
 
     Map<String, Color> statusColor = {
@@ -84,14 +88,14 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified = truckType != 'NA' ||
-        widget.tyres != 'NA' ||
-        widget.driverName != 'NA' ||
-        widget.phoneNum != "NA"
+        widget.truckData.tyres != 'NA' ||
+        widget.truckData.driverName != 'NA' ||
+        widget.truckData.driverNum != "NA"
         ? true
         : false;
 
-    if (widget.driverName!.length > 15) {
-      widget.driverName = widget.driverName!.substring(0, 14) + '..';
+    if (widget.truckData.driverName!.length > 15) {
+      widget.truckData.driverName = widget.truckData.driverName!.substring(0, 14) + '..';
     }
 
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -129,10 +133,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     ],
                   ),
                   SizedBox(height: space_2,),
-                  NewRowTemplate(label: 'Vehicle Number' , value: widget.truckNo),
+                  NewRowTemplate(label: 'Vehicle Number' , value: widget.truckData.truckNo),
                   NewRowTemplate(label: 'Truck Type', value: truckType ,width: 98,),
-                  NewRowTemplate(label: 'Tyre', value: widget.tyres  , width: 98,),
-                  NewRowTemplate(label: 'Driver', value: widget.driverName , width: 98,),
+                  NewRowTemplate(label: 'Tyre', value: widget.truckData.tyres.toString()  , width: 98,),
+                  NewRowTemplate(label: 'Driver', value: widget.truckData.driverName , width: 98,),
                   Container(
                     margin: EdgeInsets.only(top: space_2),
                     child:Row(
@@ -140,9 +144,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                       children: [
                         Container(
                             margin: EdgeInsets.only(right: space_2),
-                            child: TrackButton(truckApproved: widget.truckApproved, imei: widget.imei)
+                            child: TrackButton(truckApproved: widget.truckData.truckApproved!, imei: widget.truckData.imei)
                         ),
-                        CallButton(directCall: true , phoneNum: widget.phoneNum,)
+                        CallButton(directCall: true , phoneNum: widget.truckData.driverNum,)
                       ],
                     ),
                   ),
@@ -173,7 +177,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(vertical: space_3),
-                      child: NewRowTemplate(label: 'Vehicle Number', value: widget.truckNo)
+                      child: NewRowTemplate(label: 'Vehicle Number', value: widget.truckData.truckNo)
                   ),
                   Container(
                     child: Text(
@@ -201,7 +205,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                         onPressed: () {
                           providerData.updateIsAddTruckSrcDropDown(true);
-                          Get.to( () => TruckDescriptionScreen(truckId : widget.truckId! , truckNumber: widget.truckNo! ,)
+                          Get.to( () => TruckDescriptionScreen(truckId : widget.truckData.truckId! , truckNumber: widget.truckData.truckNo! ,)
                           );
                           providerData.resetTruckFilters();
                         },

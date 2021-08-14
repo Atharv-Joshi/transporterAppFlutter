@@ -41,13 +41,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
 
   List<DropdownMenuItem<String>> dropDownList = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getDriverList();
-  }
-
   void getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
@@ -63,10 +56,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
         }
       }
       if (!instanceAlreadyAdded) {
-        dropDownList.add(DropdownMenuItem<String>(
-          value: instance.driverId,
-          child: Text('${instance.driverName}-${instance.phoneNum}'),
-        ));
+        dropDownList.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.driverId,
+              child: Text('${instance.driverName}-${instance.phoneNum}'),
+            ));
       }
     }
 
@@ -80,15 +75,28 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     if (!addNewDriverAlreadyAdded) {
       dropDownList.add(DropdownMenuItem(
         value: '',
-        child: TextButton(
-          onPressed: () {
-            showDialog(
-                context: context, builder: (context) => AddDriverAlertDialog());
-          },
-          child: Text('Add New Driver'),
+        child: Expanded(
+          child: Container(
+            width: 400,
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AddDriverAlertDialog());
+              },
+              child: Text('Add New Driver'),
+            ),
+          ),
         ),
       ));
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDriverList();
   }
 
   @override
@@ -96,6 +104,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     ProviderData providerData = Provider.of<ProviderData>(context);
     print('truck Id : ${widget.truckId}');
 
+    getDriverList();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
