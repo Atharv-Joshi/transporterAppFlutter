@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -22,6 +23,7 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingLongWidgets.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/widgets/trucksLongCard.dart';
+import 'package:geolocator/geolocator.dart';
 
 class BuyGpsScreen extends StatefulWidget {
   const BuyGpsScreen({Key? key}) : super(key: key);
@@ -50,6 +52,10 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
   String? gpsId;
   bool isButtonDisable = false;
   bool isRadioButtonDisable = false;
+  Position? _currentPosition;
+  String? _currentAddress;
+  Position? userLocation;
+  bool locationPermissionis = false;
 
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
@@ -57,6 +63,9 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
   @override
   void initState() {
     super.initState();
+
+    _getUserAddress();
+
     setState(() {
       loading = true;
     });
@@ -292,41 +301,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                                         )
                                     ),
                                     onPressed: isButtonDisable
-                                        ? () async {
-                                      EasyLoading.instance
-                                        ..indicatorType = EasyLoadingIndicatorType.ring
-                                        ..indicatorSize = 45.0
-                                        ..radius = 10.0
-                                        ..maskColor = darkBlueColor
-                                        ..userInteractions = false
-                                        ..backgroundColor = darkBlueColor
-                                        ..dismissOnTap = false;
-                                      EasyLoading.show(
-                                        status: "Loading...",
-                                      );
-                                      gpsId = await buyGPSApiCalls.postByGPSData(
-                                          rate: _groupValue,
-                                          duration: _durationGroupValue,
-                                          address: "By App",
-                                          truckId: truckID);
-                                      if (gpsId != null) {
-                                        EasyLoading.dismiss();
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => completedDialog(
-                                              upperDialogText: "You’ve purchased GPS successfully!",
-                                              lowerDialogText: "",
-                                            ));
-                                      } else {
-                                        EasyLoading.dismiss();
-                                        showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (context) {
-                                              return SameTruckAlertDialogBox();
-                                            });
-                                      }
-                                    }
+                                        ? () => _payButtonFunction()
                                         : null,
                                     child: isButtonDisable
                                     ? Text(
@@ -369,6 +344,68 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
     setState(() {
       loading = false;
     });
-  }//getTruckData
+  }
+
+  _getUserAddress() async {
+    Geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+      });
+      try {
+        List<Placemark> p = await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude);
+        Placemark place = p[0];
+        setState(() {
+          locationPermissionis = true;
+          _currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
+          print("Current Address is $_currentAddress");
+        });
+      } catch (e) {
+        print(e);
+      }
+    }).catchError((e) {
+      print("Error is $e");
+    });
+  }
+
+  _payButtonFunction() async {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..maskColor = darkBlueColor
+      ..userInteractions = false
+      ..backgroundColor = darkBlueColor
+      ..dismissOnTap = false;
+    EasyLoading.show(
+      status: "Loading...",
+    );
+    gpsId = await buyGPSApiCalls.postByGPSData(
+        rate: _groupValue,
+        duration: _durationGroupValue,
+        address: locationPermissionis
+            ? _currentAddress
+            : "Location not Available",
+        truckId: truckID);
+    if (gpsId != null) {
+      EasyLoading.dismiss();
+      showDialog(
+          context: context,
+          builder: (context) => completedDialog(
+            upperDialogText: "You’ve purchased GPS successfully!",
+            lowerDialogText: "",
+          ));
+    } else {
+      EasyLoading.dismiss();
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return SameTruckAlertDialogBox();
+          });
+    }
+  }
 
 }
