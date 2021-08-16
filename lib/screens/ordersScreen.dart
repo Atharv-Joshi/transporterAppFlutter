@@ -44,7 +44,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     pageController: pageController,
                   ),
                   OrderScreenNavigationBarButton(
-                    text: 'On-going',
+                    text: AppLocalizations.of(context)!.on_going,
                     value: 1,
                     pageController: pageController,
                   ),
