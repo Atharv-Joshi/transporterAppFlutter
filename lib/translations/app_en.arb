@@ -3,5 +3,15 @@
   "search": "Search",
   "seeAll": "see all",
   "welcome": "WELCOME",
-  "selectLanguage": "Select Language"
+  "selectLanguage": "Select Language",
+
+  "home": "Home",
+  "my_truck": "My Trucks",
+  "my_loads": "My Loads",
+  "account": "Account",
+
+  "loads": "Loads",
+  "completed": "Completed",
+
+  "bids": "Bids"
 }
