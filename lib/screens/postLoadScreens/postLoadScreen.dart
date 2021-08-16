@@ -42,7 +42,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
                       value: 0,
                       pageController: pageController),
                   OrderScreenNavigationBarButton(
-                      text: 'On-going',
+                      text: AppLocalizations.of(context)!.on_going,
                       value: 1,
                       pageController: pageController),
                   OrderScreenNavigationBarButton(
