@@ -84,7 +84,9 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
               ),
               Container(
                 // height: (MediaQuery.of(context).size.height),
-                height:  MediaQuery.of(context).size.height -  kBottomNavigationBarHeight - space_6,
+                height: MediaQuery.of(context).size.height -
+                    kBottomNavigationBarHeight -
+                    space_6,
                 color: backgroundColor,
                 child: loading == true
                     ? OnGoingLoadingWidgets()
