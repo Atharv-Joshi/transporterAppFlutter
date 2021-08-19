@@ -77,7 +77,7 @@ class _ShowMapWithImeiState extends State<ShowMapWithImei> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setCustomMapPin(pinImageLocation: "assets/images/truckAsMarker1x.png", userImageLocation: "assets/images/humanIcon.png");
+    setCustomMapPin(pinImageLocation: "assets/images/truckAsMarker3x.png", userImageLocation: "assets/images/humanIcon3x.png");
     getAddress();
     speed = double.parse(widget.gpsData.speed!);
   }
