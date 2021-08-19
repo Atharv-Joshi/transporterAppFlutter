@@ -9,6 +9,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -24,6 +25,7 @@ class ConfirmButtonSendRequest extends StatefulWidget {
   bool? directBooking;
   String? truckId;
   BiddingModel? biddingModel;
+  String? selectedDriver;
   String? postLoadId;
   LoadDetailsScreenModel? loadDetailsScreenModel;
 
@@ -32,20 +34,23 @@ class ConfirmButtonSendRequest extends StatefulWidget {
       this.truckId,
       this.biddingModel,
       this.postLoadId,
-      this.loadDetailsScreenModel});
+      this.loadDetailsScreenModel,
+      this.selectedDriver});
 
   @override
   _ConfirmButtonSendRequestState createState() =>
       _ConfirmButtonSendRequestState();
 }
 
+TruckApiCalls truckApiCalls = TruckApiCalls();
+
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     getBookingData() async {
-      String? bidResponse = "";
-      if (bidResponse == "") {
+      String? bookResponse = "";
+      if (bookResponse == "") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -54,7 +59,9 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
       }
       if (widget.directBooking == true) {
-        bidResponse = await postBookingApi(
+        truckApiCalls.updateDriverIdForTruck(
+            driverID: widget.selectedDriver, truckID: widget.truckId);
+        bookResponse = await postBookingApi(
             widget.loadDetailsScreenModel!.loadId,
             widget.loadDetailsScreenModel!.rate,
             widget.loadDetailsScreenModel!.unitValue,
@@ -62,7 +69,9 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
             widget.loadDetailsScreenModel!.postLoadId);
         print("directBooking");
       } else {
-        bidResponse = await postBookingApi(
+        truckApiCalls.updateDriverIdForTruck(
+            driverID: widget.selectedDriver, truckID: widget.truckId);
+        bookResponse = await postBookingApi(
           widget.biddingModel!.loadId,
           widget.biddingModel!.currentBid,
           widget.biddingModel!.unitValue,
@@ -71,14 +80,14 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
       }
 
-      if (bidResponse == "successful") {
-        print(bidResponse);
+      if (bookResponse == "successful") {
+        print(bookResponse);
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return completedDialog(
-              upperDialogText: "You have completed the bid!",
-              lowerDialogText: "wait for the shippers response",
+              upperDialogText: "Your booking is confirmed",
+              lowerDialogText: "",
             );
           },
         );
@@ -89,7 +98,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
                   providerData.updateIndex(3),
                   Get.offAll(NavigationScreen())
                 });
-      } else if (bidResponse == "conflict") {
+      } else if (bookResponse == "conflict") {
         // change this according to the booking response
         showDialog(
           context: context,
