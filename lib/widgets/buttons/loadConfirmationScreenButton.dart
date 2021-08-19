@@ -64,8 +64,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return completedDialog(
-              upperDialogText: "Congratulations!",
-              lowerDialogText: "You have completed your order!",
+              upperDialogText: "You have added load Successfully!",
+              lowerDialogText: "",
             );
           },
         );

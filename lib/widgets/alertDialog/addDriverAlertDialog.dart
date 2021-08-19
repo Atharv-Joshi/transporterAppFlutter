@@ -7,14 +7,17 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/models/responseModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -28,6 +31,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context);
+    ResponseModel returnResponse = ResponseModel();
     return AlertDialog(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,11 +171,17 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   if (response != null) {
                     if (response.statusCode == 201 && response.id != null) {
                       // driver added successfully
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      Get.back();
+                      Get.back();
+
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
                       await getDriverDetailsFromDriverApi(context);
+                      print(
+                          "response id of driver ----->>${returnResponse.id}");
+
+                      // providerData.updateDropDownValue(
+                      //     );
                     } else {
                       // most likely user trying to add same number again
                       Get.defaultDialog(

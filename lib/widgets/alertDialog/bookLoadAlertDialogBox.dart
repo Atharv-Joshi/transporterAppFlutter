@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
@@ -44,7 +45,6 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
   String? selectedTruck;
   String? selectedDriver;
   String? selectedDriverName;
-  dynamic dropDownValue;
 
   TransporterIdController transporterIdController = Get.find();
 
@@ -57,12 +57,18 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
   late DriverModel driverModel = DriverModel(
       driverId: 'Add new Driver', driverName: 'Add new Driver', phoneNum: '');
   late List driverList = [];
+  late List truckList = [];
   List<DropdownMenuItem<String>> dropDownList = [];
+  List<DropdownMenuItem<String>> dropDownListT = [];
+  SelectedDriverController selectedDriverController =
+      Get.find<SelectedDriverController>();
+
   void getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
     setState(() {
       driverList = temp;
+      // print(driverList[0]);
     });
     for (var instance in driverList) {
       bool instanceAlreadyAdded = false;
@@ -107,6 +113,64 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
         ),
       ));
     }
+    // selectedDriverController.updateSelectedDriverController(
+    //     '${driverList[0].driverName}-${driverList[0].phoneNum}');
+    // for (var instance in driverList[0].d) {
+    //
+    //   print('${instance.driverName}-${instance.phoneNum}');
+    // }
+    // print("driver list driver name${driverList[0].driverName}");
+  }
+
+  void getTruckList() async {
+    List temp;
+    temp = await truckApiCalls.getTruckData();
+    setState(() {
+      truckList = temp;
+    });
+    for (var instance in truckList) {
+      bool instanceAlreadyAdded = false;
+      for (var dropDown in dropDownListT) {
+        if (dropDown.value == instance.truckId) {
+          instanceAlreadyAdded = true;
+          break;
+        }
+      }
+      if (!instanceAlreadyAdded) {
+        dropDownListT.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.truckId,
+              child: Text('${instance.truckNo}'),
+            ));
+      }
+    }
+
+    bool addNewTruckAlreadyAdded = false;
+    for (var dropDown in dropDownListT) {
+      if (dropDown.value == '') {
+        addNewTruckAlreadyAdded = true;
+        break;
+      }
+    }
+    if (!addNewTruckAlreadyAdded) {
+      dropDownListT.add(DropdownMenuItem(
+        value: '',
+        child: Expanded(
+          child: Container(
+            width: 400,
+            child: TextButton(
+              onPressed: () {
+                // providerData.updateIsAddTruckSrcDropDown(true);
+                Navigator.pop(context);
+                Get.to(() => AddNewTruck());
+              },
+              child: Text('Add New Truck'),
+            ),
+          ),
+        ),
+      ));
+    }
   }
 
   @override
@@ -114,10 +178,14 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
     // TODO: implement initState
     super.initState();
     getDriverList();
+    getTruckList();
   }
 
   @override
   Widget build(BuildContext context) {
+    selectedDriverController.updateFromTruck(false);
+    selectedDriverController.updateFromBook(true);
+    // selectedDriver = dropDownList![0];
     ProviderData providerData = Provider.of<ProviderData>(context);
 
     widget.truckModelList!.add(truckModel);
@@ -125,6 +193,18 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
     widget.driverModelList!.add(driverModel);
 
     getDriverList();
+    getTruckList();
+    print(
+        "bookLoadAlertDialog.dart ${selectedDriverController.newDriverAddedBook.value}");
+    if (selectedDriverController.newDriverAddedBook.value) {
+      selectedDriver = selectedDriverController.selectedDriverBook.value;
+
+      selectedDriverController.updateNewDriverAddedBookController(false);
+    }
+    // for (var i in widget.driverModelList!) {
+    //   print(i.driverName);
+    // }
+    // print('driver list driver name $selectedDriver');
 
     return AlertDialog(
       contentPadding: EdgeInsets.all(space_1),
@@ -155,50 +235,56 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  isDense: true,
+                  isExpanded: true,
+                  focusColor: Colors.blue,
+                  hint: Text('Truck number'),
                   value: selectedTruck,
-                  icon: Icon(Icons.arrow_drop_down_circle_sharp),
-                  iconEnabledColor: darkBlueColor,
-                  style: TextStyle(
-                      fontSize: size_7,
-                      fontWeight: regularWeight,
-                      color: Colors.black),
-                  onChanged: (String? truckId) {
-                    if (truckId == 'Add new Truck') {
-                      providerData.updateIsAddTruckSrcDropDown(true);
-                      Navigator.pop(context);
-                      Get.to(() => AddNewTruck());
-                    } else {
-                      setState(() {
-                        selectedTruck = truckId;
-                        for (TruckModel truckModel in widget.truckModelList!) {
-                          if (truckModel.truckId == selectedTruck) {
-                            if (truckModel.driverId != null) {
-                              selectedDriver = truckModel.driverId;
-                              for (DriverModel driverModel
-                                  in widget.driverModelList!) {
-                                if (driverModel.driverId == selectedDriver) {
-                                  selectedDriverName = driverModel.driverName;
-                                }
+                  icon: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: darkBlueColor,
+                      ),
+                      child: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: white,
+                      )),
+                  onChanged: (String? newValue) {
+                    providerData.updateDropDownValue(newValue);
+                    setState(() {
+                      selectedTruck = newValue!;
+                      for (TruckModel truckModel in widget.truckModelList!) {
+                        if (truckModel.truckId == selectedTruck) {
+                          if (truckModel.driverId != null) {
+                            for (var dropDown in dropDownList) {
+                              if (dropDown.value == truckModel.driverId) {
+                                selectedDriver = truckModel.driverId;
+                                break;
+                              } else {
+                                selectedDriver = null;
+                                selectedDriverName = null;
                               }
                             }
-                            //executed if truck doesn't have a driver
-                            else {
-                              selectedDriver = null;
-                              selectedDriverName = null;
+
+                            for (DriverModel driverModel
+                                in widget.driverModelList!) {
+                              if (driverModel.driverId == selectedDriver) {
+                                selectedDriverName = driverModel.driverName;
+                              }
                             }
-                            break;
-                          } //first if
-                        } //outer for
-                      }); //set state
-                    }
+                          }
+                          //executed if truck doesn't have a driver
+                          else {
+                            selectedDriver = null;
+                            selectedDriverName = null;
+                          }
+                          break;
+                        } //first if
+                      }
+                    });
                   },
-                  items: widget.truckModelList!
-                      .map<DropdownMenuItem<String>>(
-                          (e) => DropdownMenuItem<String>(
-                                value: e.truckId,
-                                child: Text(e.truckNo),
-                              ))
-                      .toList(),
+                  items: dropDownListT,
                 ),
               ),
             ),
@@ -231,7 +317,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
                   isExpanded: true,
                   focusColor: Colors.blue,
                   hint: Text('Driver Name-Number'),
-                  value: dropDownValue,
+                  value: selectedDriver,
                   icon: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
@@ -242,9 +328,9 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
                         color: white,
                       )),
                   onChanged: (String? newValue) {
-                    providerData.updateDriverDetailsValue(newValue);
+                    providerData.updateDropDownValue(newValue);
                     setState(() {
-                      dropDownValue = newValue!;
+                      selectedDriver = newValue!;
                     });
                   },
                   items: dropDownList,
@@ -262,11 +348,13 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
             children: [
               widget.loadDetailsScreenModel != null
                   ? ConfirmButtonSendRequest(
+                      selectedDriver: selectedDriver,
                       loadDetailsScreenModel: widget.loadDetailsScreenModel,
                       truckId: selectedTruck,
                       directBooking: true,
                     )
                   : ConfirmButtonSendRequest(
+                      selectedDriver: selectedDriver,
                       directBooking: false,
                       postLoadId: widget.postLoadId,
                       truckId: selectedTruck,
