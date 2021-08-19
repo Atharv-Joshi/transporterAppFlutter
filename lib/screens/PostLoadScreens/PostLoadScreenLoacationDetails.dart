@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
-  const PostLoadScreenOne({Key? key}) : super(key: key);
+  const PostLoadScreenOne( {Key? key}) : super(key: key);
 
   @override
   _PostLoadScreenOneState createState() => _PostLoadScreenOneState();

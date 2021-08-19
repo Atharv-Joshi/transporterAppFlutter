@@ -14,6 +14,7 @@ import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DrawerWidget extends StatelessWidget {
   final String mobileNum;
@@ -104,7 +105,7 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.MyAccount,
-                          text: "My Account",
+                          text: AppLocalizations.of(context)!.my_account,
                           image: 'assets/icons/person.png'),
                     ),
                     GestureDetector(
@@ -116,7 +117,7 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.Language,
-                          text: "Language",
+                          text:AppLocalizations.of(context)!.language,
                           image: 'assets/icons/languageIcon.png'),
                     ),
                     GestureDetector(
@@ -130,7 +131,7 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.AddDriver,
-                          text: "Add Driver",
+                          text: AppLocalizations.of(context)!.add_driver,
                           image: 'assets/icons/driverHandle.png'),
                     ),
                     GestureDetector(
@@ -142,7 +143,7 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.BuyGps,
-                          text: "Buy GPS",
+                          text: AppLocalizations.of(context)!.buy_gps,
                           image: 'assets/icons/gps.png'),
                     ),
                     SizedBox(

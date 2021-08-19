@@ -25,6 +25,7 @@ class LoadDetailsScreenModel {
   bool? loadPosterCompanyApproved;
   bool? loadPosterApproved;
   bool? loadPosterAccountVerificationInProgress;
+  String? postLoadDate;
 
   LoadDetailsScreenModel(
       {this.loadId,
@@ -52,5 +53,6 @@ class LoadDetailsScreenModel {
       this.loadPosterKyc,
       this.loadPosterCompanyApproved,
       this.loadPosterApproved,
-      this.loadPosterAccountVerificationInProgress});
+      this.loadPosterAccountVerificationInProgress,
+      this.postLoadDate});
 }

@@ -1,9 +1,16 @@
 {
+
+  "welcome": "आपका स्वागत है।",
+  "selectLanguage": "भाषा का चयन करें।",
+
   "suggestedLoad": "सुझाव लोड",
   "search": "खोजें",
   "seeAll": "सभी",
-  "welcome": "आपका स्वागत है।",
-  "selectLanguage": "भाषा का चयन करें।",
+
+  "my_account": "मेरा खाता",
+  "language": "भाषा",
+  "add_driver": "ड्राइवर जोड़ें",
+  "buy_gps": "GPS खरीदें",
 
   "home": "होम",
   "my_truck": "मेरा ट्रक",

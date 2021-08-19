@@ -1,9 +1,17 @@
 {
+  "welcome": "WELCOME",
+  "selectLanguage": "Select Language",
+
+
   "suggestedLoad": "Suggested Load",
   "search": "Search",
   "seeAll": "see all",
-  "welcome": "WELCOME",
-  "selectLanguage": "Select Language",
+
+  "my_account": "My Account",
+  "language": "Language",
+  "add_driver": "Add Driver",
+  "buy_gps": "Buy GPS",
+
 
   "home": "Home",
   "my_truck": "My Trucks",
@@ -12,7 +20,7 @@
 
   "loads": "Loads",
   "on_going": "On-going",
-  "completed": "Completed",
+  "completed": "Complete",
 
   "bids": "Bids"
 }

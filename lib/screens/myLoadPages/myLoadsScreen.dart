@@ -130,6 +130,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
           json['noOfTrucks'] != null ? json['noOfTrucks'] : 'NA';
       loadDetailsScreenModel.loadDate =
           json['loadDate'] != null ? json['loadDate'] : 'NA';
+      loadDetailsScreenModel.postLoadDate =
+          json['postLoadDate'] != null ? json['postLoadDate']: 'NA';
       setState(() {
         myLoadList.add(loadDetailsScreenModel);
       });

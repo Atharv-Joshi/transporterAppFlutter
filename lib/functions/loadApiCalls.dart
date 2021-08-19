@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
 import 'package:liveasy/models/loadApiModel.dart';
 
 class LoadApiCalls {
@@ -49,4 +50,23 @@ class LoadApiCalls {
     }
     return loadList;
   }
-} //class end
+
+}
+
+Future<void> disableActionOnload({String? loadId}) async {
+
+  final String loadApiUrl = FlutterConfig.get("loadApiUrl");
+
+  Map<String, String> data = {"status": "EXPIRED"};
+
+  String body = json.encode(data);
+
+  final response = await http.put(Uri.parse("$loadApiUrl/$loadId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body);
+
+  print("loadId ====== $loadApiUrl/$loadId ");
+  print("Response of disable data ${response.body}");
+}//class end
