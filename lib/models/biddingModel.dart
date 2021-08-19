@@ -1,5 +1,4 @@
 class BiddingModel{
-  //parameters
   String? bidId;
   String? transporterId;
   String? currentBid;
@@ -10,7 +9,16 @@ class BiddingModel{
   List? truckIdList;
   bool? transporterApproval;
   bool? shipperApproval;
-
+  String? loadingPointCity;
+  String? unloadingPointCity;
+  String? noOfTrucks;
+  String? productType;
+  String? postLoadId;
+  String? loadPosterCompanyName;
+  String? loadPosterPhoneNo;
+  String? loadPosterLocation;
+  String? loadPosterName;
+  bool? loadPosterCompanyApproved;
 
   BiddingModel(
       {
@@ -23,9 +31,17 @@ class BiddingModel{
         this.bidId,
         this.shipperApproval,
         this.transporterApproval,
-        this.truckIdList
+        this.truckIdList,
+        this.loadingPointCity,
+        this.unloadingPointCity,
+        this.noOfTrucks,
+        this.productType,
+        this.postLoadId,
+        this.loadPosterCompanyName,
+        this.loadPosterPhoneNo,
+        this.loadPosterLocation,
+        this.loadPosterName,
+        this.loadPosterCompanyApproved,
       }
       );
-
-//constructor
 }

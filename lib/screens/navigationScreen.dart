@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/AppVersionCheck.dart';
 import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
@@ -13,6 +14,7 @@ import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'TruckScreens/myTrucksScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -40,6 +42,20 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     super.initState();
     this.initDynamicLinks();
+    this.checkUpdate();
+  }
+
+  void checkUpdate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstTime = (prefs.getBool('isFirstTime') ?? true);
+    try {
+      if(isFirstTime == true) {
+        await prefs.setBool('isFirstTime', false);
+        versionCheck(context);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   void initDynamicLinks() async {
