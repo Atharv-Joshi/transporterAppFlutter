@@ -5,6 +5,7 @@ import 'package:liveasy/functions/loadApis/runSuggestedLoadApiWithPageNo.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/suggestedLoadsCard.dart';
 
@@ -29,7 +30,9 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
   runSuggestedLoadApi(int i) async {
     var suggestedLoadDataList = await runSuggestedLoadApiWithPageNo(i);
     for (var suggestedLoadData in suggestedLoadDataList){
+      setState(() {
         data.add(suggestedLoadData);
+      });
     }
     setState(() {
       loading = false;
@@ -92,10 +95,11 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                     ? OnGoingLoadingWidgets()
                     : ListView.builder(
                         controller: scrollController,
-                        itemCount: data.length,
-                        itemBuilder: (BuildContext context, index) =>
-                            SuggestedLoadsCard(
-                          loadDetailsScreenModel: data[index],
+                        itemCount: data.length+1,
+                        itemBuilder: (BuildContext context, index) => index == data.length
+                            ? Container(child: bottomProgressBarIndicatorWidget(),
+                                  margin: EdgeInsets.only(bottom: space_2),)
+                            : SuggestedLoadsCard(loadDetailsScreenModel: data[index],
                         ),
                       ),
               ),

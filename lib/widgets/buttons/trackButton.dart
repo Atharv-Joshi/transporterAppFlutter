@@ -33,7 +33,7 @@ class TrackButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async {
-          if (imei != null) {
+          if (imei != "NA") {
             EasyLoading.instance
               ..indicatorType = EasyLoadingIndicatorType.ring
               ..indicatorSize = 45.0
