@@ -6,15 +6,20 @@
   "suggestedLoad": "सुझाव लोड",
   "search": "खोजें",
   "seeAll": "सभी",
+  "help": "मदद",
 
   "my_account": "मेरा खाता",
   "language": "भाषा",
   "add_driver": "ड्राइवर जोड़ें",
   "buy_gps": "GPS खरीदें",
+  "about_us": "परिचय",
+  "contact_us": "संपर्क करें",
+  "logout": "लॉग आउट",
 
   "home": "होम",
   "my_truck": "मेरा ट्रक",
   "my_loads": "मेरा माल",
+  "order": "आदेश",
   "account": "खाता",
 
   "loads": "माल",

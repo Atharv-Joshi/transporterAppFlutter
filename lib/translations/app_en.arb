@@ -6,16 +6,21 @@
   "suggestedLoad": "Suggested Load",
   "search": "Search",
   "seeAll": "see all",
+  "help": "Help",
 
   "my_account": "My Account",
   "language": "Language",
   "add_driver": "Add Driver",
   "buy_gps": "Buy GPS",
+  "about_us": "About Us",
+  "contact_us": "Contact Us",
+  "logout": "Logout",
 
 
   "home": "Home",
   "my_truck": "My Trucks",
   "my_loads": "My Loads",
+  "order": "Order",
   "account": "Account",
 
   "loads": "Loads",

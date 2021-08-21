@@ -162,7 +162,7 @@ class DrawerWidget extends StatelessWidget {
 
                       title: Container(
                         margin: EdgeInsets.only(left: space_4),
-                        child: Text("About Us",
+                        child: Text(AppLocalizations.of(context)!.about_us,
                             style: TextStyle(
                                 color: darkBlueColor,
                                 fontSize: size_8,
@@ -173,7 +173,7 @@ class DrawerWidget extends StatelessWidget {
                     ListTile(
                       title: Container(
                         margin: EdgeInsets.only(left: space_4),
-                        child: Text("Contact Us",
+                        child: Text(AppLocalizations.of(context)!.contact_us,
                             style: TextStyle(
                                 color: darkBlueColor,
                                 fontSize: size_8,
@@ -199,7 +199,7 @@ class DrawerWidget extends StatelessWidget {
                         Get.offAll(LoginScreen());
                       },
                       child: ListTile(
-                        title: Text("Logout",
+                        title: Text(AppLocalizations.of(context)!.logout,
                             style: TextStyle(
                                 color: black,
                                 fontSize: size_8,

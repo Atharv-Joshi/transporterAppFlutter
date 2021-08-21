@@ -10,6 +10,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/postLoadErrorController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/PostLoadApi.dart';
+import 'package:liveasy/functions/PutLoadAPI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
@@ -43,63 +44,100 @@ class LoadConfirmationScreenButton extends StatelessWidget {
           },
         );
       }
-      loadId = await postLoadAPi(
-          providerData.bookingDate,
-          transporterIdController.transporterId.value,
-          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
-          providerData.loadingPointCityPostLoad,
-          providerData.loadingPointStatePostLoad,
-          providerData.truckNumber,
-          providerData.productType,
-          providerData.truckTypeValue,
-          "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-          providerData.unloadingPointCityPostLoad,
-          providerData.unloadingPointStatePostLoad,
-          providerData.passingWeightValue,
-          providerData.unitValue == "" ? null : providerData.unitValue,
-          providerData.price == 0 ? null : providerData.price);
+      if(providerData.editLoad == false){
+        loadId = await postLoadAPi(
+            providerData.bookingDate,
+            transporterIdController.transporterId.value,
+            "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
+            providerData.loadingPointCityPostLoad,
+            providerData.loadingPointStatePostLoad,
+            providerData.truckNumber,
+            providerData.productType,
+            providerData.truckTypeValue,
+            "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+            providerData.unloadingPointCityPostLoad,
+            providerData.unloadingPointStatePostLoad,
+            providerData.passingWeightValue,
+            providerData.unitValue == "" ? null : providerData.unitValue,
+            providerData.price == 0 ? null : providerData.price);
 
-      if (loadId != null) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return completedDialog(
-              upperDialogText: "Congratulations!",
-              lowerDialogText: "You have completed your order!",
-            );
-          },
-        );
-        Timer(
-            Duration(seconds: 3),
-            () => {
-                  providerData.updateIndex(2),
-                  Get.offAll(() => NavigationScreen()),
-                  providerData.resetPostLoadFilters(),
-                  providerData.resetPostLoadScreenOne(),
-                  controller.text = "",
-                  controllerOthers.text = ""
-                });
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return OrderFailedAlertDialog();
-          },
-        );
-        // Get.snackbar("${postLoadErrorController.error.value}", "failed");
-        // postLoadErrorController.resetPostLoadError();
-        // print(postLoadErrorController.error.value.toString());
-        // Timer(
-        //     Duration(seconds: 1),
-        //     () => {
-        //           showDialog(
-        //             context: context,
-        //             builder: (BuildContext context) {
-        //               return OrderFailedAlertDialog(
-        //                   postLoadErrorController.error.value.toString());
-        //             },
-        //           )
-        //         });
+        if (loadId != null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return completedDialog(
+                upperDialogText: "Congratulations!",
+                lowerDialogText: "You have completed your order!",
+              );
+            },
+          );
+          Timer(
+              Duration(seconds: 3),
+                  () => {
+                providerData.updateIndex(2),
+                Get.offAll(() => NavigationScreen()),
+                providerData.resetPostLoadFilters(),
+                providerData.resetPostLoadScreenOne(),
+                controller.text = "",
+                controllerOthers.text = ""
+              });
+          providerData.updateEditLoad(true, "");
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return OrderFailedAlertDialog();
+            },
+          );
+        }
+      }
+      else if(providerData.editLoad == true) {
+        loadId = await putLoadAPI(
+            providerData.transporterLoadId,
+            providerData.bookingDate,
+            transporterIdController.transporterId.value,
+            "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
+            providerData.loadingPointCityPostLoad,
+            providerData.loadingPointStatePostLoad,
+            providerData.truckNumber,
+            providerData.productType,
+            providerData.truckTypeValue,
+            "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+            providerData.unloadingPointCityPostLoad,
+            providerData.unloadingPointStatePostLoad,
+            providerData.passingWeightValue,
+            providerData.unitValue == "" ? null : providerData.unitValue,
+            providerData.price == 0 ? null : providerData.price);
+
+        if (loadId != null) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return completedDialog(
+                upperDialogText: "Congratulations!",
+                lowerDialogText: "You have successfully updated the load!",
+              );
+            },
+          );
+          Timer(
+              Duration(seconds: 3),
+                  () => {
+                providerData.updateIndex(2),
+                Get.offAll(() => NavigationScreen()),
+                providerData.resetPostLoadFilters(),
+                providerData.resetPostLoadScreenOne(),
+                controller.text = "",
+                controllerOthers.text = ""
+              });
+          providerData.updateEditLoad(false, "");
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return OrderFailedAlertDialog();
+            },
+          );
+        }
       }
     }
 

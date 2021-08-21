@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -11,6 +13,7 @@ import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.d
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
+import 'package:liveasy/widgets/buttons/repostButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +52,7 @@ class MyLoadsCard extends StatelessWidget {
     return  Container(
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(
+        color: loadDetailsScreenModel.status == "EXPIRED"? cancelledBiddingBackground:Colors.white,
           elevation: 3,
           child: Container(
             padding: EdgeInsets.only(bottom: space_2,left: space_2,right: space_2),
@@ -65,7 +69,13 @@ class MyLoadsCard extends StatelessWidget {
                       color: veryDarkGrey,
                       fontFamily: 'montserrat'),
                     ),
-                    PopupMenuButton<popupMenuforloads>(
+                    loadDetailsScreenModel.status == 'EXPIRED'
+                        ?  Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.more_vert, color: black),
+                        )
+                        : PopupMenuButton<popupMenuforloads>(
+                        offset: Offset(0,space_2),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(radius_2))),
                         onSelected:(item)=> onSelected(context,item),
@@ -136,7 +146,16 @@ class MyLoadsCard extends StatelessWidget {
                   height: space_2,
                 ),
 
-                  Row(
+                loadDetailsScreenModel.status == 'EXPIRED'
+                    ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Load Expired!",
+                          style: TextStyle(color: declineButtonRed,fontSize: size_8,fontWeight:mediumBoldWeight ,fontFamily:'montserrat',),),
+                        RepostButton(),
+                      ],
+                    )
+                    : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       loadDetailsScreenModel.rate != 'NA' ? PriceContainer(rate: loadDetailsScreenModel.rate, unitValue: loadDetailsScreenModel.unitValue,) : SizedBox(),
@@ -165,15 +184,40 @@ class MyLoadsCard extends StatelessWidget {
       );
 
   void onSelected(BuildContext context, popupMenuforloads item) {
+    ProviderData providerData = Provider.of<ProviderData>(context, listen: false);
     switch(item){
       case MenuItems.itemEdit:
+        providerData.updateLoadingPointPostLoad(
+            city: loadDetailsScreenModel.loadingPointCity!, state: loadDetailsScreenModel.loadingPointState!);
+        providerData.updateUnloadingPointPostLoad(
+            city: loadDetailsScreenModel.unloadingPointCity!, state: loadDetailsScreenModel.unloadingPointState!);
+        providerData.updateProductType(loadDetailsScreenModel.productType);
+        providerData.updateTruckNumber(int.parse(loadDetailsScreenModel.noOfTrucks!));
+        providerData.updatePassingWeightValue(int.parse(loadDetailsScreenModel.weight!));
+        providerData.updateTruckTypeValue(loadDetailsScreenModel.truckType!.replaceAll(" ", "_").toUpperCase());
 
+        if(loadDetailsScreenModel.unitValue == "tonne"){
+          providerData.PerTonTrue(true, false);
+        }else if(loadDetailsScreenModel.unitValue == "truck"){
+          providerData.PerTruckTrue(true, false);
+        }
+        providerData.updatePrice(int.parse(loadDetailsScreenModel.rate!));
+        providerData.updateBookingDate(loadDetailsScreenModel.loadDate);
+
+        providerData.postLoadScreenOneButton();
+        providerData.updateResetActive(true);
+        providerData.updateEditLoad(true,loadDetailsScreenModel.loadId!);
+
+        print(providerData.editLoad); // true
         Get.to(PostLoadScreenOne());
         break;
       case MenuItems.itemDisable:
         disableActionOnload(loadId: loadDetailsScreenModel.loadId);
-        Provider.of<ProviderData>(context, listen: false).updateIndex(2);
-        Get.offAll(NavigationScreen());
+        Timer(Duration(seconds: 1), () {
+          Provider.of<ProviderData>(context, listen: false).updateIndex(2);
+          Get.offAll(NavigationScreen());
+        });
+
         break;
     }
   }

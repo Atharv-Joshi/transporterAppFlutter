@@ -67,12 +67,18 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+
+    if(providerData.bookingDate != "" && providerData.bookingDate != bookingDateList[0]
+        && providerData.bookingDate != bookingDateList[1] && providerData.bookingDate != bookingDateList[2]){
+      bookingDateList[3] = providerData.bookingDate;
+    }
+
     if (bookingDateList.last != recentDate && !setDate) {
       providerData.updateBookingDate(bookingDateList[3]);
       setDate = true;
       recentDate = bookingDateList[3];
     }
-    if (!i) {
+    if (!i && providerData.bookingDate == "") {
       providerData.updateBookingDate(initialDay.MMMEd);
       i = true;
     }
