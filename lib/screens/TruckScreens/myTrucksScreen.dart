@@ -172,7 +172,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
   getTruckData(int i) async {
     var truckDataListForPagei = await getTruckDataWithPageNo(i);
-    print("${truckDataListForPagei[0].truckNo}");
     for (var truckData in truckDataListForPagei) {
       truckDataList.add(truckData);
     }
