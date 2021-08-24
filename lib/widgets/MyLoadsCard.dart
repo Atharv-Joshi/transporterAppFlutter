@@ -200,8 +200,11 @@ class MyLoadsCard extends StatelessWidget {
           providerData.PerTonTrue(true, false);
         }else if(loadDetailsScreenModel.unitValue == "truck"){
           providerData.PerTruckTrue(true, false);
+        }else{
+          providerData.PerTonTrue(false, false);
+          providerData.PerTruckTrue(false, false);
         }
-        providerData.updatePrice(int.parse(loadDetailsScreenModel.rate!));
+        loadDetailsScreenModel.rate == "NA" ? providerData.updatePrice(0): providerData.updatePrice(int.parse(loadDetailsScreenModel.rate!));
         providerData.updateBookingDate(loadDetailsScreenModel.loadDate);
 
         providerData.postLoadScreenOneButton();
