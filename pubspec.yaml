@@ -65,6 +65,9 @@ dependencies:
   package_info: ^2.0.2
   firebase_remote_config: ^0.10.0+4
   shared_preferences: ^2.0.6
+  location: ^4.3.0
+  device_info: ^2.0.2
+
 
 dev_dependencies:
 

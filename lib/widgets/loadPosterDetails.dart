@@ -38,8 +38,16 @@ class LoadPosterDetails extends StatelessWidget {
             padding: EdgeInsets.only(left: space_2, right: space_3),
             child: CircleAvatar(
               radius: radius_11,
-              backgroundImage:
-                  AssetImage("assets/images/defaultDriverImage.png"),
+              backgroundColor: white,
+              child: Container(
+                height: space_11,
+                width: space_11,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/defaultDriverImage.png"),
+                  ),
+                ),
+              ),
             ),
           ),
           Column(
