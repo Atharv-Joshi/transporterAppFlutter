@@ -69,7 +69,7 @@ class DrawerWidget extends StatelessWidget {
                           SizedBox(
                             width: space_2,
                           ),
-                          name != " " ?Column(
+                          name != "" ?Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
