@@ -13,10 +13,9 @@ Future<String> postAccountVerificationDocuments(
   TransporterIdController transporterIdController =
   Get.find<TransporterIdController>();
   try {
-    print("I am Posting this");
     final String documentApiUrl =
         FlutterConfig.get("documentApiUrl").toString();
-    Map data = {
+    Map data = companyIdProof != null?{
       "documents": [
         {
           "data": profilePhoto,
@@ -45,6 +44,30 @@ Future<String> postAccountVerificationDocuments(
         }
       ],
       "entityId": transporterIdController.transporterId.value
+    }: {
+      "documents": [
+        {
+          "data": profilePhoto,
+          "documentType": "Profile Photo",
+          "verified": true
+        },
+        {
+          "data": addressProofFront,
+          "documentType": "Address Proof Front Photo",
+          "verified": true
+        },
+        {
+          "data": addressProofBack,
+          "documentType": "Address Proof Back Photo",
+          "verified": true
+        },
+        {
+          "data": panFront,
+          "documentType": "ID Proof (Pan Card)Front Photo",
+          "verified": true
+        }
+      ],
+      "entityId": transporterIdController.transporterId.value
     };
     String body = json.encode(data);
 
@@ -53,7 +76,6 @@ Future<String> postAccountVerificationDocuments(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
-
     if (response.statusCode == 200) {
       print(response.body);
     } else {

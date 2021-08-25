@@ -13,9 +13,7 @@ postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
   try {
     Map data = {
       "loadId": loadId,
-      "rate": currentBid,
       "transporterId": tIdController.transporterId.toString(),
-      "unitValue": unit,
       "truckId": [truckId],
       "postLoadId": postLoadId,
       "bookingDate": now
