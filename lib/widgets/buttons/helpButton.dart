@@ -3,6 +3,7 @@ import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HelpButtonWidget extends StatelessWidget {
   @override
@@ -30,7 +31,7 @@ class HelpButtonWidget extends StatelessWidget {
                 width: space_1,
               ),
               Text(
-                "Help",
+                AppLocalizations.of(context)!.help,
                 style: TextStyle(fontSize: size_7, color: darkBlueColor),
               ),
             ],
