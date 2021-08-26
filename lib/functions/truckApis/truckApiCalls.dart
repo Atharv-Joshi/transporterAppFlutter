@@ -128,14 +128,14 @@ class TruckApiCalls {
   }
 
   updateDriverIdForTruck(
-      {required String truckID, required String driverID}) async {
+      {required String? truckID, required String? driverID}) async {
     //json map
     Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,
     };
 
     String body = json.encode(data);
-
+    print("run update driver id in truckApiCalls");
     http.Response response = await http.put(Uri.parse('$truckApiUrl/$truckID'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

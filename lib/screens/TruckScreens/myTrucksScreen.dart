@@ -8,6 +8,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -18,6 +19,7 @@ import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -66,6 +68,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   Widget build(BuildContext context) {
+    // ProviderData providerData = Provider.of<ProviderData>(context);
+    // providerData.resetTruckFilters();
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -168,9 +172,9 @@ class _MyTrucksState extends State<MyTrucks> {
 
   getTruckData(int i) async {
     var truckDataListForPagei = await getTruckDataWithPageNo(i);
-    print("${truckDataListForPagei[0].truckNo}");
-    for (var truckData in truckDataListForPagei){
-    truckDataList.add(truckData);}
+    for (var truckData in truckDataListForPagei) {
+      truckDataList.add(truckData);
+    }
     setState(() {
       loading = false;
     });

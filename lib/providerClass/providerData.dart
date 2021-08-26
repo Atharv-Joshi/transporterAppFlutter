@@ -161,6 +161,8 @@ class ProviderData extends ChangeNotifier {
   //variables related to orders page
   int upperNavigatorIndex = 0;
 
+  dynamic dropDownValue;
+
   // int rate = 0;
   //
   // void updateRate(value) {
@@ -259,6 +261,11 @@ class ProviderData extends ChangeNotifier {
     } else if (unitValue == "") {
       return null;
     }
+    notifyListeners();
+  }
+
+  void updateDropDownValue(value) {
+    dropDownValue = value;
     notifyListeners();
   }
 
@@ -591,24 +598,22 @@ class ProviderData extends ChangeNotifier {
 
 //----------------------------------
 
-
- // Language locale Provider
-
+  // Language locale Provider
 
   Locale? _locale;
 
   Locale? get locale => _locale;
 
   void setLocale(Locale locale) {
-  if (!L10n.all.contains(locale)) return;
+    if (!L10n.all.contains(locale)) return;
 
-  _locale = locale;
-  notifyListeners();
+    _locale = locale;
+    notifyListeners();
   }
 
   void clearLocale() {
-  _locale = null;
-  notifyListeners();
+    _locale = null;
+    notifyListeners();
   }
 
 // ------------------------------------------------

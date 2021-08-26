@@ -1,9 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/functions/getRequestorDetailsFromPostLoadId.dart';
+import 'package:liveasy/models/LoadModel.dart';
 import 'package:liveasy/models/loadApiModel.dart';
+import 'package:liveasy/models/loadPosterModel.dart';
 
 class LoadApiCalls {
   List<LoadApiModel> loadList = [];
@@ -26,7 +28,7 @@ class LoadApiCalls {
           ? jsonData['noOfTrucks'].toString()
           : 'NA',
       'productType':
-          jsonData['productType'] != null ? jsonData['productType'] : 'NA',
+      jsonData['productType'] != null ? jsonData['productType'] : 'NA',
       'postLoadId': jsonData['postLoadId'],
     };
 
@@ -35,7 +37,7 @@ class LoadApiCalls {
 
   Future<List<LoadApiModel>> getDataByPostLoadId(String postLoadId) async {
     http.Response response =
-        await http.get(Uri.parse('$loadApiUrl?postLoadId=$postLoadId'));
+    await http.get(Uri.parse('$loadApiUrl?postLoadId=$postLoadId'));
     var jsonData = json.decode(response.body);
 
     for (var json in jsonData) {
@@ -50,6 +52,7 @@ class LoadApiCalls {
     }
     return loadList;
   }
+
 
 }
 
@@ -70,3 +73,33 @@ Future<void> disableActionOnload({String? loadId}) async {
   print("loadId ====== $loadApiUrl/$loadId ");
   print("Response of disable data ${response.body}");
 }//class end
+
+  Future<dynamic> getDataByLoadIdForBid(String? loadId) async {
+    http.Response response = await http.get(Uri.parse('$loadApiUrl/$loadId'));
+
+    Map jsonData = json.decode(response.body);
+
+    if(response.statusCode == 200){
+
+    LoadModel loadModel = LoadModel();
+    loadModel.loadingPointCity = jsonData["loadingPointCity"] != null ? jsonData["loadingPointCity"] : 'NA';
+    loadModel.postLoadId = jsonData["postLoadId"] != null ? jsonData["postLoadId"] : 'NA';
+    loadModel.unloadingPointCity = jsonData["unloadingPointCity"] != null ? jsonData["unloadingPointCity"] : 'NA';
+    loadModel.productType = jsonData["productType"] != null ? jsonData["productType"] : 'NA';
+    loadModel.noOfTrucks = jsonData["noOfTrucks"] != null ? jsonData["noOfTrucks"] : 'NA';
+
+    if(loadModel.postLoadId != null && loadModel.postLoadId != 'NA'){
+    LoadPosterModel loadPosterModel = await getLoadPosterDetailsFromPostLoadId(loadModel.postLoadId);
+    loadModel.loadPosterCompanyName = loadPosterModel.loadPosterCompanyName;
+    loadModel.loadPosterPhoneNo = loadPosterModel.loadPosterPhoneNo;
+    loadModel.loadPosterLocation = loadPosterModel.loadPosterLocation;
+    loadModel.loadPosterName = loadPosterModel.loadPosterName;
+    loadModel.loadPosterCompanyApproved = loadPosterModel.loadPosterCompanyApproved;}
+    return loadModel;}
+    else if(response.statusCode == 404){
+      //case when load is not present in loadApi
+
+    }
+  }
+} //class end
+
