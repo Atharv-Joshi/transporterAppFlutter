@@ -54,7 +54,7 @@ Future<Map> loadAllData(bookingModel) async {
     'imei': truckData['imei'],
     'driverName': driverModel.driverName,
     'driverPhoneNum': driverModel.phoneNum,
-    'rate' : bookingModel.rate,
+    'rate' : bookingModel.rate.toString(),
     'unitValue' : bookingModel.unitValue,
     'noOfTrucks' : loadData['noOfTrucks'],
     'productType' : loadData['productType'],

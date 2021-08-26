@@ -29,6 +29,7 @@ class BiddingsCardTransporterSide extends StatelessWidget {
 
     biddingModel.unitValue = biddingModel.unitValue == 'PER_TON' ? 'tonne' : 'truck';
 
+    biddingModel.loadPosterCompanyName = biddingModel.loadPosterCompanyName == null ? "NA" : biddingModel.loadPosterCompanyName;
 
     if(biddingModel.transporterApproval == false && biddingModel.shipperApproval == false){
       orderStatus = 'Order Cancelled';

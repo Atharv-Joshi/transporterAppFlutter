@@ -17,14 +17,10 @@ class _OnGoingLoadingWidgetsState extends State<OnGoingLoadingWidgets> {
     return Column(
       children: [
         onGoingLoadingCard(),
-        SizedBox(
-          height: space_2,
-        ),
-        onGoingLoadingCard(),
       ],
     );
   }
-
+//TODO: change the design of this card
   Card onGoingLoadingCard() {
     return Card(
       child: Padding(
