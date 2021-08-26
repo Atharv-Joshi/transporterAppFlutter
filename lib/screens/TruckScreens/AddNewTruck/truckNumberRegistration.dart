@@ -37,6 +37,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),

@@ -61,6 +61,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             providerData.unitValue == "" ? null : providerData.unitValue,
             providerData.price == 0 ? null : providerData.price);
 
+
         if (loadId != null) {
           showDialog(
             context: context,
@@ -138,6 +139,48 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             },
           );
         }
+//=======
+    /*  if (loadId != null) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return completedDialog(
+              upperDialogText: "You have added load Successfully!",
+              lowerDialogText: "",
+            );
+          },
+        );
+        Timer(
+            Duration(seconds: 3),
+            () => {
+                  providerData.updateIndex(2),
+                  Get.offAll(() => NavigationScreen()),
+                  providerData.resetPostLoadFilters(),
+                  providerData.resetPostLoadScreenOne(),
+                  controller.text = "",
+                  controllerOthers.text = ""
+                });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return OrderFailedAlertDialog();
+          },
+        );
+        // Get.snackbar("${postLoadErrorController.error.value}", "failed");
+        // postLoadErrorController.resetPostLoadError();
+        // print(postLoadErrorController.error.value.toString());
+        // Timer(
+        //     Duration(seconds: 1),
+        //     () => {
+        //           showDialog(
+        //             context: context,
+        //             builder: (BuildContext context) {
+        //               return OrderFailedAlertDialog(
+        //                   postLoadErrorController.error.value.toString());
+        //             },
+        //           )
+        //         });  */
       }
     }
 
