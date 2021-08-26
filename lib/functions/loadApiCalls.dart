@@ -57,19 +57,26 @@ class LoadApiCalls {
 
     Map jsonData = json.decode(response.body);
 
+    if(response.statusCode == 200){
+
     LoadModel loadModel = LoadModel();
     loadModel.loadingPointCity = jsonData["loadingPointCity"] != null ? jsonData["loadingPointCity"] : 'NA';
     loadModel.postLoadId = jsonData["postLoadId"] != null ? jsonData["postLoadId"] : 'NA';
     loadModel.unloadingPointCity = jsonData["unloadingPointCity"] != null ? jsonData["unloadingPointCity"] : 'NA';
     loadModel.productType = jsonData["productType"] != null ? jsonData["productType"] : 'NA';
     loadModel.noOfTrucks = jsonData["noOfTrucks"] != null ? jsonData["noOfTrucks"] : 'NA';
+
+    if(loadModel.postLoadId != null && loadModel.postLoadId != 'NA'){
     LoadPosterModel loadPosterModel = await getLoadPosterDetailsFromPostLoadId(loadModel.postLoadId);
     loadModel.loadPosterCompanyName = loadPosterModel.loadPosterCompanyName;
     loadModel.loadPosterPhoneNo = loadPosterModel.loadPosterPhoneNo;
     loadModel.loadPosterLocation = loadPosterModel.loadPosterLocation;
     loadModel.loadPosterName = loadPosterModel.loadPosterName;
-    loadModel.loadPosterCompanyApproved = loadPosterModel.loadPosterCompanyApproved;
+    loadModel.loadPosterCompanyApproved = loadPosterModel.loadPosterCompanyApproved;}
+    return loadModel;}
+    else if(response.statusCode == 404){
+      //case when load is not present in loadApi
 
-    return loadModel;
+    }
   }
 } //class end
