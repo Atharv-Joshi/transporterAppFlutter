@@ -45,7 +45,7 @@ class CompletedButtonOrders extends StatelessWidget {
             size_1,
           ),
           child: Text(
-            'Completed',
+            'Complete',
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: normalWeight,

@@ -26,7 +26,7 @@ class PriceTextFieldWidget extends StatelessWidget {
         ),
         child: TextField(
           decoration: InputDecoration(
-            hintText: "Enter Price",
+            hintText: providerData.price.toString() == "0" ? "Enter Price" : providerData.price.toString(),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,

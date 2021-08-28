@@ -34,7 +34,8 @@ getBidDataWithPageNo(int i) async {
     biddingModel.transporterApproval = json['transporterApproval'];
     biddingModel.biddingDate =
     json['biddingDate'] != null ? json['biddingDate'] : 'NA';
-    LoadModel loadModel = await loadApiCalls.getDataByLoadIdForBid(biddingModel.loadId);
+    LoadModel? loadModel = await loadApiCalls.getDataByLoadIdForBid(biddingModel.loadId);
+    if(loadModel != null){
     biddingModel.loadingPointCity = loadModel.loadingPointCity;
     biddingModel.unloadingPointCity = loadModel.unloadingPointCity;
     biddingModel.noOfTrucks = loadModel.noOfTrucks;
@@ -45,7 +46,10 @@ getBidDataWithPageNo(int i) async {
     biddingModel.loadPosterLocation = loadModel.loadPosterLocation;
     biddingModel.loadPosterName = loadModel.loadPosterName;
     biddingModel.loadPosterCompanyApproved = loadModel.loadPosterCompanyApproved;
-    biddingModelList.add(biddingModel);
+    biddingModelList.add(biddingModel);}
+    else{
+      // case when load does not exist;
+    }
   }
   return biddingModelList;
 }

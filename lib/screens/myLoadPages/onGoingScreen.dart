@@ -50,7 +50,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
       bookingModel.completed = json['completed'];
       bookingModel.completedDate =
           json['completedDate'] != null ? json['completedDate'] : "NA";
-      bookingModel.rate = json['rate'] != null ? json['rate'] : 'NA';
+      bookingModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA';
       bookingModel.unitValue = json['unitValue'];
 
       setState(() {
