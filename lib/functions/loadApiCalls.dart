@@ -63,13 +63,21 @@ class LoadApiCalls {
     loadModel.unloadingPointCity = jsonData["unloadingPointCity"] != null ? jsonData["unloadingPointCity"] : 'NA';
     loadModel.productType = jsonData["productType"] != null ? jsonData["productType"] : 'NA';
     loadModel.noOfTrucks = jsonData["noOfTrucks"] != null ? jsonData["noOfTrucks"] : 'NA';
-    LoadPosterModel loadPosterModel = await getLoadPosterDetailsFromPostLoadId(loadModel.postLoadId);
-    loadModel.loadPosterCompanyName = loadPosterModel.loadPosterCompanyName;
-    loadModel.loadPosterPhoneNo = loadPosterModel.loadPosterPhoneNo;
-    loadModel.loadPosterLocation = loadPosterModel.loadPosterLocation;
-    loadModel.loadPosterName = loadPosterModel.loadPosterName;
-    loadModel.loadPosterCompanyApproved = loadPosterModel.loadPosterCompanyApproved;
-
-    return loadModel;
+    if (loadModel.postLoadId == "NA") {
+      loadModel.loadPosterCompanyName = "NA";
+      loadModel.loadPosterPhoneNo = "NA";
+      loadModel.loadPosterLocation = "NA";
+      loadModel.loadPosterName = "NA";
+      loadModel.loadPosterCompanyApproved = false;
+      return loadModel;
+    } else {
+      LoadPosterModel loadPosterModel = await getLoadPosterDetailsFromPostLoadId(loadModel.postLoadId);
+      loadModel.loadPosterCompanyName = loadPosterModel.loadPosterCompanyName;
+      loadModel.loadPosterPhoneNo = loadPosterModel.loadPosterPhoneNo;
+      loadModel.loadPosterLocation = loadPosterModel.loadPosterLocation;
+      loadModel.loadPosterName = loadPosterModel.loadPosterName;
+      loadModel.loadPosterCompanyApproved = loadPosterModel.loadPosterCompanyApproved;
+      return loadModel;
+    }
   }
 } //class end

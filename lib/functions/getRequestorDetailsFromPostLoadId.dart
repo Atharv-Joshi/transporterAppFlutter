@@ -11,9 +11,7 @@ getLoadPosterDetailsFromPostLoadId(postLoadId) async {
 
   try {
     if (postLoadId.contains("transporter")) {
-      http.Response response =
-          await http.get(Uri.parse("$transporterApiUrl/$postLoadId"));
-      print("transporter api response: ${response.body}");
+      http.Response response = await http.get(Uri.parse("$transporterApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
@@ -28,9 +26,7 @@ getLoadPosterDetailsFromPostLoadId(postLoadId) async {
       return loadPosterModel;
     }
     if (postLoadId.contains("shipper")) {
-      http.Response response =
-          await http.get(Uri.parse("$shipperApiUrl/$postLoadId"));
-      print("shipper api response: ${response.body}");
+      http.Response response = await http.get(Uri.parse("$shipperApiUrl/$postLoadId"));
       jsonData = json.decode(response.body);
       LoadPosterModel loadPosterModel = LoadPosterModel();
       loadPosterModel.loadPosterId = jsonData["shipperId"]  != null ? jsonData["shipperId"] : 'NA';
