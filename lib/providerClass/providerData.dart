@@ -25,6 +25,14 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool editLoad = false;
+  String? transporterLoadId;
+  void updateEditLoad(bool value, String transporterloadId){
+    editLoad = value;
+    transporterLoadId = transporterloadId;
+    notifyListeners();
+  }
+
   String? rate1;
   String? unitValue1;
 

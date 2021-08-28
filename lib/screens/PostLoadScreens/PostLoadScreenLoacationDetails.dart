@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
-  const PostLoadScreenOne({Key? key}) : super(key: key);
+  const PostLoadScreenOne( {Key? key}) : super(key: key);
 
   @override
   _PostLoadScreenOneState createState() => _PostLoadScreenOneState();
@@ -66,12 +67,18 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+
+    if(providerData.bookingDate != "" && providerData.bookingDate != bookingDateList[0]
+        && providerData.bookingDate != bookingDateList[1] && providerData.bookingDate != bookingDateList[2]){
+      bookingDateList[3] = providerData.bookingDate;
+    }
+
     if (bookingDateList.last != recentDate && !setDate) {
       providerData.updateBookingDate(bookingDateList[3]);
       setDate = true;
       recentDate = bookingDateList[3];
     }
-    if (!i) {
+    if (!i && providerData.bookingDate == "") {
       providerData.updateBookingDate(initialDay.MMMEd);
       i = true;
     }
