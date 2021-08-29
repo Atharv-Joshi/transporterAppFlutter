@@ -8,18 +8,21 @@ class TruckLoadingWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        widget(),
-        SizedBox(
-          height: space_2,
-        ),
-        widget(),
-        SizedBox(
-          height: space_2,
-        ),
-        widget(),
-      ],
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Column(
+        children: [
+          widget(),
+          SizedBox(
+            height: space_2,
+          ),
+          widget(),
+          SizedBox(
+            height: space_2,
+          ),
+          widget(),
+        ],
+      ),
     );
   }
 

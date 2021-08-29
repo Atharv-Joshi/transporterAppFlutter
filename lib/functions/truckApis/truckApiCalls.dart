@@ -58,7 +58,7 @@ class TruckApiCalls {
   Future<Map> getDataByTruckId(String truckId) async {
     http.Response response = await http.get(Uri.parse('$truckApiUrl/$truckId'));
     var jsonData = json.decode(response.body);
-
+    if(response.statusCode == 200){
     Map data = {
       'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
       'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
@@ -66,7 +66,16 @@ class TruckApiCalls {
       'truckType': jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
     };
 
-    return data;
+    return data;}
+    else{
+      Map data = {
+        'driverId':'NA',
+        'truckNo':'NA',
+        'imei': 'NA',
+        'truckType':'NA',
+      };
+      return data;
+    }
   }
 
   //POST------------------------------------------------------------------------
