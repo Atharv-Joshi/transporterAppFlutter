@@ -8,6 +8,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/WidgetLoadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/shareImageWidget.dart';
 import 'package:screenshot/screenshot.dart';
@@ -17,8 +18,9 @@ import 'package:wc_flutter_share/wc_flutter_share.dart';
 class ShareButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetails;
   String? loadingPointCity;
+  WidgetLoadDetailsScreenModel widgetLoadDetailsScreenModel;
 
-  ShareButton({this.loadingPointCity, required this.loadDetails});
+  ShareButton({this.loadingPointCity, required this.loadDetails, required this.widgetLoadDetailsScreenModel});
 
   @override
   _ShareButtonState createState() => _ShareButtonState();
@@ -88,7 +90,7 @@ class _ShareButtonState extends State<ShareButton> {
           await WcFlutterShare.share(
               sharePopupTitle: 'share',
               subject: 'This is subject',
-              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n$_stringUrl\n\nya iss number per call kare ${widget.loadDetails.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
+              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n$_stringUrl\n\nya iss number per call kare ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
               fileName: 'share.png',
               mimeType: 'image/png',
               bytesOfFile: pngBytes
