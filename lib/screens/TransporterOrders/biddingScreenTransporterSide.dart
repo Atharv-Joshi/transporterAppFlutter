@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bigApis/getBidDataWithPageNo.dart';
-import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/biddingsCardTransporterSide.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
 class BiddingScreenTransporterSide extends StatefulWidget {
@@ -20,15 +20,11 @@ class _BiddingScreenTransporterSideState
 
   int i = 0;
 
-  late List jsonData;
-
   TransporterIdController transporterIdController =
   Get.find<TransporterIdController>();
 
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
-
-  TransporterApiCalls transporterApiCalls = TransporterApiCalls();
 
   List biddingModelList = [];
 
@@ -67,14 +63,24 @@ class _BiddingScreenTransporterSideState
         child: loading
             ? OnGoingLoadingWidgets()
             : ListView.builder(
-            padding: EdgeInsets.only(bottom: 60),
-            controller: scrollController,
-            itemCount: biddingModelList.length,
-            itemBuilder: (context, index) {
+          padding: EdgeInsets.only(bottom: 60),
+          controller: scrollController,
+          itemCount: biddingModelList.length + 1,
+          itemBuilder: (context, index) {
+            if (index == biddingModelList.length) {
+              return loading
+              ? Container(
+                child: bottomProgressBarIndicatorWidget(),
+                margin: EdgeInsets.only(bottom: space_2),
+            )
+                  : SizedBox.shrink();
+            } else {
               return BiddingsCardTransporterSide(
-                biddingModel: biddingModelList[index],
+                  biddingModel: biddingModelList[index]
               );
-            })
+            }
+          }
+        )
     );
   }
 
