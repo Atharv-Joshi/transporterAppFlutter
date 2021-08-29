@@ -63,6 +63,7 @@ class DriverApiCalls {
       http.Response response =
           await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
+      if(response.statusCode == 200){
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
       driverModel.driverId =
@@ -76,10 +77,23 @@ class DriverApiCalls {
       driverModel.truckId =
           jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
       return driverModel;
+      }
+      else{
+        //case when server returns status code like 404, driver not found
+        DriverModel driverModel = DriverModel();
+        driverModel.driverId =  'NA';
+        driverModel.transporterId =  'NA';
+        driverModel.phoneNum =  'NA';
+        driverModel.driverName =  'NA';
+        driverModel.truckId =  'NA';
+      }
     } else {
       DriverModel driverModel = DriverModel();
-      driverModel.driverName = 'NA';
-      driverModel.phoneNum = 'NA';
+      driverModel.driverId =  'NA';
+      driverModel.transporterId =  'NA';
+      driverModel.phoneNum =  'NA';
+      driverModel.driverName =  'NA';
+      driverModel.truckId =  'NA';
       return driverModel;
     }
   }
@@ -131,5 +145,50 @@ class DriverApiCalls {
       print(e);
       return null;
     }
+  }
+}
+
+//This function gets the details of a single driver by using the  driverId
+//IT takes two parameters from which only one needs to be provided during function call.
+Future<DriverModel> getDriverByDriverId(
+    {String? driverId, TruckModel? truckModel}) async {
+  final String driverApiUrl = FlutterConfig.get('driverApiUrl');
+  if (driverId != 'NA') {
+    http.Response response =
+    await http.get(Uri.parse('$driverApiUrl/$driverId'));
+    print(response.body);
+    if(response.statusCode == 200){
+      Map jsonData = json.decode(response.body);
+      DriverModel driverModel = DriverModel();
+      driverModel.driverId =
+      jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+      driverModel.transporterId =
+      jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+      driverModel.phoneNum =
+      jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
+      driverModel.driverName =
+      jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+      driverModel.truckId =
+      jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+      return driverModel;
+    }
+    else{
+      //case when server returns status code like 404, driver not found
+      DriverModel driverModel = DriverModel();
+      driverModel.driverId =  'NA';
+      driverModel.transporterId =  'NA';
+      driverModel.phoneNum =  'NA';
+      driverModel.driverName =  'NA';
+      driverModel.truckId =  'NA';
+      return driverModel;
+    }
+  } else {
+    DriverModel driverModel = DriverModel();
+    driverModel.driverId =  'NA';
+    driverModel.transporterId =  'NA';
+    driverModel.phoneNum =  'NA';
+    driverModel.driverName =  'NA';
+    driverModel.truckId =  'NA';
+    return driverModel;
   }
 }
