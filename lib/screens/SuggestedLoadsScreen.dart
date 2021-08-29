@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/loadApis/runSuggestedLoadApiWithPageNo.dart';
-import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
@@ -23,7 +22,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
   //for pageNo
   int i = 0;
 
-  List<LoadDetailsScreenModel> data = [];
+  List data = [];
 
   bool loading = false;
 
@@ -63,7 +62,6 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     scrollController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

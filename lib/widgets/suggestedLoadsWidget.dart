@@ -1,19 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getLoadPosterDetailsFromApi.dart';
 import 'package:liveasy/functions/loadApis/runSuggestedLoadApiWithPageNo.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/models/loadPosterModel.dart';
-import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
 import 'package:liveasy/widgets/homeScreenLoadsCard.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
 // ignore: must_be_immutable
@@ -35,7 +24,7 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
 
   //API CALL--------------------------------------------------------------------
   runSuggestedLoadApi(int i) async {
-    var suggestedLoadDataList = await runSuggestedLoadApiWithPageNo(i);
+    var suggestedLoadDataList = await runWidgetSuggestedLoadApiWithPageNo(i);
     for (var suggestedLoadData in suggestedLoadDataList){
       setState(() {
         data.add(suggestedLoadData);
