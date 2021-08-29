@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/ChooseReceiverButton.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CallButton extends StatelessWidget {
   final String? transporterPhoneNum;
@@ -99,7 +100,7 @@ class CallButton extends StatelessWidget {
                 ),
               ),
               Text(
-                'Call',
+                AppLocalizations.of(context)!.call,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   letterSpacing: 0.7,

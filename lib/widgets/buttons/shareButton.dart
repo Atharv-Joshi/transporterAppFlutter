@@ -12,7 +12,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/shareImageWidget.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class ShareButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetails;
@@ -111,7 +111,7 @@ class _ShareButtonState extends State<ShareButton> {
               width: space_1 - 0.5,
             ),
             Text(
-              "Share",
+              AppLocalizations.of(context)!.share,
               style: TextStyle(
                   fontSize: size_8, fontWeight: normalWeight, color: white),
             )

@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
@@ -49,7 +50,7 @@ class LoadDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: space_3,
                     ),
-                    HeadingTextWidget("Load Details"),
+                    HeadingTextWidget(AppLocalizations.of(context)!.loadDetails),
                     // HelpButtonWidget(),
                   ],
                 ),

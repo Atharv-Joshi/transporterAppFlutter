@@ -54,25 +54,23 @@ class LoadApiCalls {
   }
 
 
-}
+  Future<void> disableActionOnLoad({String? loadId}) async {
 
-Future<void> disableActionOnload({String? loadId}) async {
+    final String loadApiUrl = FlutterConfig.get("loadApiUrl");
 
-  final String loadApiUrl = FlutterConfig.get("loadApiUrl");
+    Map<String, String> data = {"status": "EXPIRED"};
 
-  Map<String, String> data = {"status": "EXPIRED"};
+    String body = json.encode(data);
 
-  String body = json.encode(data);
+    final response = await http.put(Uri.parse("$loadApiUrl/$loadId"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
 
-  final response = await http.put(Uri.parse("$loadApiUrl/$loadId"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: body);
-
-  print("loadId ====== $loadApiUrl/$loadId ");
-  print("Response of disable data ${response.body}");
-}//class end
+    print("loadId ====== $loadApiUrl/$loadId ");
+    print("Response of disable data ${response.body}");
+  }
 
   Future<dynamic> getDataByLoadIdForBid(String? loadId) async {
     http.Response response = await http.get(Uri.parse('$loadApiUrl/$loadId'));
@@ -101,5 +99,5 @@ Future<void> disableActionOnload({String? loadId}) async {
 
     }
   }
-} //class end
+}
 

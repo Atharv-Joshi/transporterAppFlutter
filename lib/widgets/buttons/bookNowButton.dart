@@ -13,7 +13,7 @@ import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetailsScreenModel;
@@ -69,7 +69,7 @@ class _BookNowButtonState extends State<BookNowButton> {
               borderRadius: BorderRadius.circular(radius_6)),
           child: Center(
             child: Text(
-              "Book Now",
+              AppLocalizations.of(context)!.bookNow,
               style: TextStyle(
                   fontSize: size_8, fontWeight: mediumBoldWeight, color: white),
             ),

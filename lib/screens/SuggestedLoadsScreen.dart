@@ -8,6 +8,7 @@ import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/suggestedLoadsCard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SuggestedLoadScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                   children: [
                     Header(
                         reset: false,
-                        text: 'Suggested Loads',
+                        text: AppLocalizations.of(context)!.suggestedLoad,
                         backButton: true),
                     FilterButtonWidget()
                   ],

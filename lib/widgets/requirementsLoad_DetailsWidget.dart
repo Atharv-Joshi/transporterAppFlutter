@@ -4,6 +4,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {
@@ -19,7 +20,7 @@ class RequirementsLoadDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Requirements",
+          AppLocalizations.of(context)!.requirement,
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
         ),
         Container(

@@ -10,6 +10,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/postDriverApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class AddButton extends StatelessWidget {
@@ -57,7 +58,7 @@ class AddButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            "Add",
+            AppLocalizations.of(context)!.add,
             style: TextStyle(
                 color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),
