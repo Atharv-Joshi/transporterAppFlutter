@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -67,8 +67,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: "Congratulations!",
-                lowerDialogText: "You have completed your order!",
+                upperDialogText:  AppLocalizations.of(context)!.congratulations,
+                lowerDialogText: AppLocalizations.of(context)!.youHaveCompletedYourOrder,
               );
             },
           );
@@ -115,8 +115,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: "Congratulations!",
-                lowerDialogText: "You have successfully updated the load!",
+                upperDialogText: AppLocalizations.of(context)!.congratulations,
+                lowerDialogText: AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
               );
             },
           );

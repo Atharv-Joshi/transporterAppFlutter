@@ -32,7 +32,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             children: [
               Header(
                 reset: false,
-                text: 'Orders',
+                text: AppLocalizations.of(context)!.order,
                 backButton: false,
               ),
               Row(

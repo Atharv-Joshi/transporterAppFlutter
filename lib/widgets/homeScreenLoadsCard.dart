@@ -10,6 +10,7 @@ import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class HomeScreenLoadsCard extends StatelessWidget {
@@ -25,8 +26,9 @@ class HomeScreenLoadsCard extends StatelessWidget {
     String rateLengthData = loadDetailsScreenModel.rate!.length > 5
         ? loadDetailsScreenModel.rate!.substring(0, 4) + ".."
         : loadDetailsScreenModel.rate!;
+    String tonne = AppLocalizations.of(context)!.tonne;
     String rateInTonnes =
-        (rateLengthData[0] == 'N' ? "--" : "\u20B9$rateLengthData/tonne");
+        (rateLengthData[0] == 'N' ? "--" : "\u20B9$rateLengthData/$tonne");
 
     return GestureDetector(
         onTap: () => {
@@ -111,7 +113,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
                           width: space_15 + 3,
                           child: Center(
                             child: Text(
-                              "${loadDetailsScreenModel.weight} tonnes",
+                              "${loadDetailsScreenModel.weight} ${AppLocalizations.of(context)!.tonnes}",
                               style: TextStyle(
                                   fontFamily: 'montserrat',
                                   color: bidBackground,
