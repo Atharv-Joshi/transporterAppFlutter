@@ -14,10 +14,13 @@ class OnGoingLoadingWidgets extends StatefulWidget {
 class _OnGoingLoadingWidgetsState extends State<OnGoingLoadingWidgets> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Column( children:[
         onGoingLoadingCard(),
-      ],
+        onGoingLoadingCard(),
+        onGoingLoadingCard()
+      ],),
     );
   }
 //TODO: change the design of this card

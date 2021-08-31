@@ -3,6 +3,8 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/deliveredCardModel.dart';
+import 'package:liveasy/screens/myLoadPages/deliveredLoadDetails.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
@@ -11,25 +13,25 @@ import 'package:get/get.dart';
 import 'linePainter.dart';
 
 class DeliveredCard extends StatelessWidget {
-  Map model;
-
+  final DeliveredCardModel model;
 
   DeliveredCard({
     required this.model
-
   });
 
   @override
   Widget build(BuildContext context) {
+    if(model.companyName == null){
+      model.companyName = "NA";
+    }
+    model.companyName = model.companyName!.length >= 35
+        ? model.companyName!.substring(0, 33) + '..'
+        : model.companyName;
 
-    model['companyName'] = model['companyName'].length >= 35
-        ? model['companyName'].substring(0, 33) + '..'
-        : model['companyName'];
-
-    model['unitValue'] = model['unitValue'] == 'PER_TON' ? 'tonne' : 'truck' ;
+    model.unitValue = model.unitValue == 'PER_TON' ? 'tonne' : 'truck' ;
     return GestureDetector(
       onTap: (){
-        Get.to(() => OnGoingLoadDetails(loadALlDataModel: model,trackIndicator: false,));
+        Get.to(() => DeliveredLoadDetails(loadALlDataModel: model,trackIndicator: false,));
       },
       child: Container(
         margin: EdgeInsets.only(bottom: space_3),
@@ -45,7 +47,7 @@ class DeliveredCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Completed Date : ${model['completedDate']}',
+                          'Completed Date : ${model.completedDate}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -61,7 +63,7 @@ class DeliveredCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: model['loadingPoint'], endPointType: 'loading'),
+                            text: model.loadingPointCity, endPointType: 'loading'),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_3,
@@ -70,15 +72,15 @@ class DeliveredCard extends StatelessWidget {
                               foregroundPainter: LinePainter(height:  space_3),
                             )),
                         LoadEndPointTemplate(
-                            text: model['unloadingPoint'], endPointType: 'unloading'),
+                            text: model.unloadingPointCity, endPointType: 'unloading'),
                       ],
                     ),
                     Container(
                       margin: EdgeInsets.only(top: space_2),
                       child: Column(
                         children: [
-                            NewRowTemplate(label: 'Booking Date', value: model['bookingDate']),
-                            NewRowTemplate(label: 'Price', value: '${model['rate']}/${model['unitValue']}' , width: 100,),
+                            NewRowTemplate(label: 'Booking Date', value: model.bookingDate),
+                            NewRowTemplate(label: 'Price', value: '${model.rate}/${model.unitValue}' , width: 100,),
                         ],
                       ),
                     ),
@@ -100,7 +102,7 @@ class DeliveredCard extends StatelessWidget {
                           image: AssetImage('assets/icons/buildingIconBlack.png')),
                     ),
                     Text(
-                      model['companyName'],
+                      model.companyName!,
                       style: TextStyle(
                         color: liveasyBlackColor,
                         fontWeight: mediumBoldWeight,

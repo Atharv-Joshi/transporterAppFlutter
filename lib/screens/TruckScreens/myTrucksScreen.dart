@@ -20,7 +20,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -90,7 +89,7 @@ class _MyTrucksState extends State<MyTrucks> {
                     SizedBox(
                       width: space_3,
                     ),
-                    HeadingTextWidget(AppLocalizations.of(context)!.my_truck),
+                    HeadingTextWidget("My Trucks"),
                     // HelpButtonWidget(),
                   ],
                 ),
@@ -100,7 +99,7 @@ class _MyTrucksState extends State<MyTrucks> {
             Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: SearchLoadWidget(
-                  hintText: AppLocalizations.of(context)!.search,
+                  hintText: 'Search',
                   onPressed: () {
                     showDialog(
                         context: context,

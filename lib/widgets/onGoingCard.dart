@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
@@ -12,9 +13,7 @@ import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'linePainter.dart';
 
 class OngoingCard extends StatelessWidget {
-
-  Map loadAllDataModel;
-
+  final OngoingCardModel loadAllDataModel;
 
   OngoingCard({
     required this.loadAllDataModel,
@@ -22,18 +21,19 @@ class OngoingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (loadAllDataModel.driverName == null){
+      loadAllDataModel.driverName = "NA";
+    }
+    loadAllDataModel.driverName = loadAllDataModel.driverName!.length >= 20
+        ? loadAllDataModel.driverName!.substring(0, 18) + '..'
+        : loadAllDataModel.driverName;
+    if (loadAllDataModel.companyName == null){
+    }
+    loadAllDataModel.companyName = loadAllDataModel.companyName!.length >= 35
+        ? loadAllDataModel.companyName!.substring(0, 33) + '..'
+        : loadAllDataModel.companyName;
 
-    loadAllDataModel['driverName'] = loadAllDataModel['driverName'].length >= 20
-        ? loadAllDataModel['driverName'].substring(0, 18) + '..'
-        : loadAllDataModel['driverName'];
-
-    loadAllDataModel['companyName'] = loadAllDataModel['companyName'].length >= 35
-        ? loadAllDataModel['companyName'].substring(0, 33) + '..'
-        : loadAllDataModel['companyName'];
-
-    loadAllDataModel['unitValue'] = loadAllDataModel['unitValue'] == "PER_TON" ? 'tonne' : 'truck';
-
-
+    loadAllDataModel.unitValue= loadAllDataModel.unitValue == "PER_TON" ? 'tonne' : 'truck';
 
     return GestureDetector(
       onTap: (){
@@ -53,7 +53,7 @@ class OngoingCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Booking Date : ${loadAllDataModel['bookingDate']}',
+                          'Booking Date : ${loadAllDataModel.bookingDate}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -68,7 +68,7 @@ class OngoingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: loadAllDataModel['loadingPoint'], endPointType: 'loading'),
+                            text: loadAllDataModel.loadingPointCity, endPointType: 'loading'),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_3,
@@ -79,16 +79,16 @@ class OngoingCard extends StatelessWidget {
                               ),
                             )),
                         LoadEndPointTemplate(
-                            text: loadAllDataModel['unloadingPoint'], endPointType: 'unloading'),
+                            text: loadAllDataModel.unloadingPointCity, endPointType: 'unloading'),
                       ],
                     ),
                     Container(
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
                         children: [
-                          NewRowTemplate(label: 'Truck No', value: loadAllDataModel['truckNo'] , width: 78,),
-                          NewRowTemplate(label: 'Driver Name', value: loadAllDataModel['driverName']),
-                          NewRowTemplate(label: 'Price', value: '${loadAllDataModel['rate']}/${loadAllDataModel['unitValue']}' , width: 78,),
+                          NewRowTemplate(label: 'Truck No', value: loadAllDataModel.truckNo , width: 78,),
+                          NewRowTemplate(label: 'Driver Name', value: loadAllDataModel.driverName),
+                          NewRowTemplate(label: 'Price', value: '${loadAllDataModel.rate}/${loadAllDataModel.unitValue}' , width: 78,),
                         ],
                       ),
                     ),
@@ -106,7 +106,7 @@ class OngoingCard extends StatelessWidget {
                                 AssetImage('assets/icons/TruckIcon.png')),
                           ),
                           Text(
-                            loadAllDataModel['companyName'],
+                            loadAllDataModel.companyName!,
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
@@ -129,10 +129,10 @@ class OngoingCard extends StatelessWidget {
                     TrackButton(truckApproved: false),
                     CallButton(
                       directCall: false,
-                      transporterPhoneNum: loadAllDataModel['transporterPhoneNum'],
-                      driverPhoneNum: loadAllDataModel['driverPhoneNum'],
-                      driverName: loadAllDataModel['driverName'],
-                      transporterName: loadAllDataModel['companyName'],
+                      transporterPhoneNum: loadAllDataModel.transporterPhoneNum,
+                      driverPhoneNum: loadAllDataModel.driverPhoneNum,
+                      driverName: loadAllDataModel.driverName,
+                      transporterName: loadAllDataModel.companyName,
                     ),
                   ],
                 ),
