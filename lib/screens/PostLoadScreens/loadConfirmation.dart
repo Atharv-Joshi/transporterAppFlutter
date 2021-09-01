@@ -12,7 +12,6 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:marquee/marquee.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadConfirmation extends StatefulWidget {
   const LoadConfirmation({Key? key}) : super(key: key);
@@ -54,7 +53,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                             SizedBox(
                               width: space_3,
                             ),
-                            HeadingTextWidget(AppLocalizations.of(context)!.loadConfirmation),
+                            HeadingTextWidget("Load Confirmation"),
                             // HelpButtonWidget(),
                           ],
                         ),
@@ -64,7 +63,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         Padding(
                           padding: EdgeInsets.only(left: space_3),
                           child: Text(
-                            AppLocalizations.of(context)!.reviewDetailsForYourLoad,
+                            "Review details for your load",
                             style: TextStyle(
                                 fontSize: size_9,
                                 fontWeight: mediumBoldWeight,
@@ -86,29 +85,29 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                   child: LoadConfirmationTemplate(
                                       value:
                                           "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-                                      label: AppLocalizations.of(context)!.location),
+                                      label: 'Location'),
                                 ),
                                 LoadConfirmationTemplate(
                                     value: providerData.bookingDate,
-                                    label: AppLocalizations.of(context)!.date),
+                                    label: 'Date'),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckTypeValue,
-                                    label: AppLocalizations.of(context)!.truckType),
+                                    label: 'Truck Type'),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckNumber.toString(),
-                                    label: AppLocalizations.of(context)!.numberOfTrucks),
+                                    label: 'No.Of Trucks'),
                                 LoadConfirmationTemplate(
                                     value: providerData.passingWeightValue
                                         .toString(),
-                                    label: AppLocalizations.of(context)!.weight),
+                                    label: 'Weight'),
                                 LoadConfirmationTemplate(
                                     value: providerData.productType,
                                     label: 'Product Type'),
                                 LoadConfirmationTemplate(
                                     value: providerData.price == 0
-                                        ?  AppLocalizations.of(context)!.priceNotGiven
+                                        ? "Price Not Given"
                                         : "Rs.${providerData.price}/${providerData.unitValue}",
-                                    label: AppLocalizations.of(context)!.price),
+                                    label: 'Price'),
                               ],
                             ),
                           ),
@@ -125,14 +124,13 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         children: [
                           Expanded(
                               child:
-                                  LoadConfirmationScreenButton( // edit button
-                                      title: AppLocalizations.of(context)!.edit)),
+                                  LoadConfirmationScreenButton(title: 'Edit')),
                           SizedBox(
                             width: space_10,
                           ),
                           Expanded(
-                              child: LoadConfirmationScreenButton( // confirm button
-                                  title: AppLocalizations.of(context)!.confirm)),
+                              child: LoadConfirmationScreenButton(
+                                  title: 'Confirm')),
                         ],
                       ),
                     ),
