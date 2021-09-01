@@ -11,7 +11,7 @@ import 'package:liveasy/widgets/buttons/CancelBidButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
@@ -27,12 +27,14 @@ class BiddingsCardTransporterSide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    biddingModel.unitValue = biddingModel.unitValue == 'PER_TON' ? 'tonne' : 'truck';
+    biddingModel.unitValue = biddingModel.unitValue == 'PER_TON'
+        ? AppLocalizations.of(context)!.tonne
+        : AppLocalizations.of(context)!.truck;
 
     biddingModel.loadPosterCompanyName = biddingModel.loadPosterCompanyName == null ? "NA" : biddingModel.loadPosterCompanyName;
 
     if(biddingModel.transporterApproval == false && biddingModel.shipperApproval == false){
-      orderStatus = 'Order Cancelled';
+      orderStatus = AppLocalizations.of(context)!.orderCancelled;
       orderStatusColor = red;
     }
     else if(biddingModel.transporterApproval == true && biddingModel.shipperApproval == false){
@@ -87,7 +89,7 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Bidding date : ${biddingModel.biddingDate}',
+                              '${AppLocalizations.of(context)!.biddingDate} : ${biddingModel.biddingDate}',
                               style: TextStyle(
                                   fontSize: size_6,
                                   color: veryDarkGrey
@@ -119,9 +121,9 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                       ),
 
                       SizedBox(height: space_2,),
-                      NewRowTemplate(label: 'Shipper', value: biddingModel.loadPosterCompanyName!.length > 24 ? biddingModel.loadPosterCompanyName!.substring(0,22) + '..' : biddingModel.loadPosterCompanyName , width: 98,),
+                      NewRowTemplate(label: AppLocalizations.of(context)!.shipper, value: biddingModel.loadPosterCompanyName!.length > 24 ? biddingModel.loadPosterCompanyName!.substring(0,22) + '..' : biddingModel.loadPosterCompanyName , width: 98,),
                       biddingModel.previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.${ biddingModel.previousBid}/${biddingModel.unitValue}') : Container(),
-                      NewRowTemplate(label: 'Current Bidding', value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
+                      NewRowTemplate(label: AppLocalizations.of(context)!.currentBidding, value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: Row(

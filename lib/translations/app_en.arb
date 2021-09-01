@@ -40,6 +40,21 @@
 
   "addTruck": "Add Truck",
   "truckNumber": "Truck Number",
+  "verificationFailed": "Verification Failed",
+  "offline": "Offline",
+  "vehicleNumber": "Vehicle Number",
+  "tyre": "Tyre",
+  "driver": "Driver",
+  "truckDetailsArePending": "truck details are pending",
+  "uploadTruckDetails": "Upload Truck Details",
+  "selectADriver": "Select A Driver",
+  "driverNameNumber": "Driver Name-Number",
+  "save": "Save",
+  "passingWeigthInTons": "Passing Weight (in tons.)",
+  "totalTyres": "Total Tyres (front & rare)",
+  "truckLength": "Truck Length (in ft)",
+  "addNewDriver": "Add New Driver",
+  "driverDetails": "Driver Details",
 
   "loads": "Loads",
   "on_going": "On-going",
@@ -74,5 +89,17 @@
   "youHaveCompletedYourOrder": "You have completed your order!",
   "youHaveSuccessfullyUpdateYourOrder": "You have successfully updated the load!",
 
-  "bids": "Bids"
+  "bids": "Bids",
+  "biddingDate": "Bidding Date",
+  "shipper": "Shipper",
+  "currentBidding": "Current Bidding",
+  "orderCancelled": "Order Cancelled",
+  "truck": "truck",
+  "biddingDetails": "Bidding Details",
+  "accept": "Accept",
+  "decline": "Decline",
+  "bidding": "Bidding",
+  "orderDetails": "Order Details",
+  "complete": "Complete",
+  "completedDate": "Completed Date"
 }

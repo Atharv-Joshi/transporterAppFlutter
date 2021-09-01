@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:get/get.dart';
 import 'linePainter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeliveredCard extends StatelessWidget {
   final DeliveredCardModel model;
@@ -28,7 +29,9 @@ class DeliveredCard extends StatelessWidget {
         ? model.companyName!.substring(0, 33) + '..'
         : model.companyName;
 
-    model.unitValue = model.unitValue == 'PER_TON' ? 'tonne' : 'truck' ;
+    model.unitValue = model.unitValue == 'PER_TON'
+        ? AppLocalizations.of(context)!.tonne
+        : AppLocalizations.of(context)!.truck ;
     return GestureDetector(
       onTap: (){
         Get.to(() => DeliveredLoadDetails(loadALlDataModel: model,trackIndicator: false,));
@@ -47,7 +50,7 @@ class DeliveredCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Completed Date : ${model.completedDate}',
+                          '${AppLocalizations.of(context)!.completedDate} : ${model.completedDate}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -79,8 +82,8 @@ class DeliveredCard extends StatelessWidget {
                       margin: EdgeInsets.only(top: space_2),
                       child: Column(
                         children: [
-                            NewRowTemplate(label: 'Booking Date', value: model.bookingDate),
-                            NewRowTemplate(label: 'Price', value: '${model.rate}/${model.unitValue}' , width: 100,),
+                            NewRowTemplate(label: AppLocalizations.of(context)!.bookingDate, value: model.bookingDate),
+                            NewRowTemplate(label: AppLocalizations.of(context)!.price, value: '${model.rate}/${model.unitValue}' , width: 100,),
                         ],
                       ),
                     ),
