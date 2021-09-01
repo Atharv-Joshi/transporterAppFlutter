@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'linePainter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OngoingCard extends StatelessWidget {
   final OngoingCardModel loadAllDataModel;
@@ -33,7 +34,9 @@ class OngoingCard extends StatelessWidget {
         ? loadAllDataModel.companyName!.substring(0, 33) + '..'
         : loadAllDataModel.companyName;
 
-    loadAllDataModel.unitValue= loadAllDataModel.unitValue == "PER_TON" ? 'tonne' : 'truck';
+    loadAllDataModel.unitValue= loadAllDataModel.unitValue == "PER_TON"
+        ? AppLocalizations.of(context)!.tonne
+        : AppLocalizations.of(context)!.truck;
 
     return GestureDetector(
       onTap: (){
@@ -53,7 +56,7 @@ class OngoingCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Booking Date : ${loadAllDataModel.bookingDate}',
+                          '${AppLocalizations.of(context)!.bookingDate} : ${loadAllDataModel.bookingDate}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -86,9 +89,9 @@ class OngoingCard extends StatelessWidget {
                       margin: EdgeInsets.only(top: space_4),
                       child: Column(
                         children: [
-                          NewRowTemplate(label: 'Truck No', value: loadAllDataModel.truckNo , width: 78,),
-                          NewRowTemplate(label: 'Driver Name', value: loadAllDataModel.driverName),
-                          NewRowTemplate(label: 'Price', value: '${loadAllDataModel.rate}/${loadAllDataModel.unitValue}' , width: 78,),
+                          NewRowTemplate(label: AppLocalizations.of(context)!.truckNumber, value: loadAllDataModel.truckNo , width: 78,),
+                          NewRowTemplate(label: AppLocalizations.of(context)!.driverName, value: loadAllDataModel.driverName),
+                          NewRowTemplate(label: AppLocalizations.of(context)!.price, value: '${loadAllDataModel.rate}/${loadAllDataModel.unitValue}' , width: 78,),
                         ],
                       ),
                     ),

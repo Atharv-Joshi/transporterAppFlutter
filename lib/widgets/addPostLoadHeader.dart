@@ -6,6 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddPostLoadHeader extends StatefulWidget {
   dynamic resetFunction;
@@ -30,7 +31,7 @@ class _AddPostLoadHeaderState extends State<AddPostLoadHeader> {
             Container(
                 margin: EdgeInsets.only(right: space_2),
                 child: BackButtonWidget()),
-            Text('Post Load',
+            Text(AppLocalizations.of(context)!.postLoad,
                 style: TextStyle(
                   fontSize: size_10,
                   fontWeight: mediumBoldWeight,
@@ -41,7 +42,7 @@ class _AddPostLoadHeaderState extends State<AddPostLoadHeader> {
             ? TextButton(
                 onPressed:
                     providerData.resetActive ? widget.resetFunction : null,
-                child: Text('Reset',
+                child: Text(AppLocalizations.of(context)!.reset,
                     style: TextStyle(
                       color:
                           providerData.resetActive ? truckGreen : unactiveReset,

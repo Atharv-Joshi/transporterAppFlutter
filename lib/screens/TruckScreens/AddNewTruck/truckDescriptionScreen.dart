@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
@@ -89,7 +90,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     context: context,
                     builder: (context) => AddDriverAlertDialog());
               },
-              child: Text('Add New Driver'),
+              child: Text(AppLocalizations.of(context)!.addNewDriver),
             ),
           ),
         ),
@@ -138,14 +139,14 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               children: [
                 Header(
                     backButton: true,
-                    text: 'Add Truck',
+                    text: AppLocalizations.of(context)!.addTruck,
                     reset: true,
                     resetFunction: () {
                       providerData.resetTruckFilters();
                       dropDownValue = null;
                       providerData.updateResetActive(false);
                     }),
-                AddTruckSubtitleText(text: 'Truck Type'),
+                AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckType),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -166,7 +167,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_3),
                         child: AddTruckSubtitleText(
-                            text: 'Passing Weight (in tons.)')),
+                            text: AppLocalizations.of(context)!.passingWeigthInTons)),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -191,7 +192,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: AddTruckSubtitleText(
-                            text: 'Total Tyres (front & rear)')),
+                            text: AppLocalizations.of(context)!.totalTyres)),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -215,7 +216,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child:
-                            AddTruckSubtitleText(text: 'Truck Length (in ft)')),
+                            AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckLength)),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -237,7 +238,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       ),
                 Container(
                   margin: EdgeInsets.only(top: space_2),
-                  child: AddTruckSubtitleText(text: 'Select A Driver'),
+                  child: AddTruckSubtitleText(text: AppLocalizations.of(context)!.selectADriver),
                 ),
                 Align(
                   alignment: Alignment.center,
@@ -258,7 +259,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       isDense: true,
                       isExpanded: true,
                       focusColor: Colors.blue,
-                      hint: Text('Driver Name-Number'),
+                      hint: Text(AppLocalizations.of(context)!.driverNameNumber),
                       value: dropDownValue,
                       icon: Container(
                           decoration: BoxDecoration(

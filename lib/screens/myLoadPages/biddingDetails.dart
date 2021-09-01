@@ -7,6 +7,7 @@ import 'package:liveasy/widgets/biddingDesicionCard.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/negotiateButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO:instead of destructuring bidding model we can pass it entirely
 class BiddingDetails extends StatelessWidget {
@@ -50,7 +51,7 @@ class BiddingDetails extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: space_4, horizontal: space_2),
           child: Column(
             children: [
-              Header(reset: false, text: 'Bidding Details', backButton: true),
+              Header(reset: false, text: AppLocalizations.of(context)!.biddingDetails, backButton: true),
               Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: Stack(

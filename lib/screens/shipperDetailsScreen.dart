@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
@@ -78,7 +79,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                   SizedBox(
                     width: space_3,
                   ),
-                  HeadingTextWidget("Order Details"),
+                  HeadingTextWidget(AppLocalizations.of(context)!.orderDetails),
                   // HelpButtonWidget(),
                 ],
               ),
@@ -138,17 +139,17 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                           value: textOverflowEllipsis(
                               "${widget.loadingPoint}-${widget.unloadingPoint}",20
                           ),
-                          label: 'Location'),
+                          label: AppLocalizations.of(context)!.location),
                       LoadLabelValueRowTemplate(
-                          value: widget.vehicleNo, label: 'Truck no.'),
+                          value: widget.vehicleNo, label: AppLocalizations.of(context)!.truckNumber),
                       LoadLabelValueRowTemplate(
-                          value: widget.truckType, label: 'Truck Type'),
+                          value: widget.truckType, label: AppLocalizations.of(context)!.truckType),
                       LoadLabelValueRowTemplate(
-                          value: widget.noOfTrucks, label: 'No.Of Trucks'),
+                          value: widget.noOfTrucks, label: AppLocalizations.of(context)!.numberOfTrucks),
                       LoadLabelValueRowTemplate(
-                          value: widget.productType, label: 'Product Type'),
+                          value: widget.productType, label: AppLocalizations.of(context)!.productType),
                       LoadLabelValueRowTemplate(
-                          value: "Rs.${widget.rate}/tonne", label: 'Price'),
+                          value: "Rs.${widget.rate}/${AppLocalizations.of(context)!.tonne}", label: AppLocalizations.of(context)!.price),
                     ],
                   ),
                 ),

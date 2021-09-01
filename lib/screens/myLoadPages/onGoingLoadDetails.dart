@@ -10,6 +10,7 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnGoingLoadDetails extends StatelessWidget {
 
@@ -26,7 +27,7 @@ class OnGoingLoadDetails extends StatelessWidget {
             margin: EdgeInsets.all(space_4),
             child: Column(
               children: [
-                Header(reset: false, text: 'Order Details', backButton: true),
+                Header(reset: false, text: AppLocalizations.of(context)!.orderDetails, backButton: true),
                 Container(
                   margin: EdgeInsets.only(top: space_4),
                   child:                 Stack(
@@ -74,12 +75,12 @@ class OnGoingLoadDetails extends StatelessWidget {
                     margin: EdgeInsets.all(space_3),
                     child: Column(
                       children: [
-                        NewRowTemplate(label: 'Location', value: '${loadALlDataModel.loadingPointCity} - ${loadALlDataModel.unloadingPointCity}'),
-                        NewRowTemplate(label: 'Truck No', value: loadALlDataModel.truckNo),
-                        NewRowTemplate(label: 'Truck Type', value: loadALlDataModel.truckType),
-                        NewRowTemplate(label: 'No of Trucks', value: loadALlDataModel.noOfTrucks),
-                        NewRowTemplate(label: 'Product Type', value: loadALlDataModel.productType),
-                        NewRowTemplate(label: 'Price', value: '${loadALlDataModel.rate}/${loadALlDataModel.unitValue}'),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.location, value: '${loadALlDataModel.loadingPointCity} - ${loadALlDataModel.unloadingPointCity}'),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.truckNumber, value: loadALlDataModel.truckNo),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.truckType, value: loadALlDataModel.truckType),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.numberOfTrucks, value: loadALlDataModel.noOfTrucks),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.productType, value: loadALlDataModel.productType),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.price, value: '${loadALlDataModel.rate}/${loadALlDataModel.unitValue}'),
                       ],
                     ),
                   ),

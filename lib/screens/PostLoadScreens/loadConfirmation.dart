@@ -87,7 +87,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                 Container(
                                   child: LoadConfirmationTemplate(
                                       value:
-                                          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                      "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
                                       label: 'Location'),
                                 ),
                                 LoadConfirmationTemplate(
@@ -127,7 +127,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         children: [
                           Expanded(
                               child:
-                                  LoadConfirmationScreenButton(title: 'Edit')),
+                              LoadConfirmationScreenButton(title: 'Edit')),
                           SizedBox(
                             width: space_10,
                           ),

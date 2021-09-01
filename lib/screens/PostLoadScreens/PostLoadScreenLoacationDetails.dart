@@ -103,12 +103,12 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     if (providerData.loadingPointCityPostLoad != "") {
       controller1 = TextEditingController(
           text:
-              ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
+          ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
     }
     if (providerData.unloadingPointCityPostLoad != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
+          ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
     }
 
     return Scaffold(
@@ -144,8 +144,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                               ),
                               controller: controller1,
                               onTap: () {
-                                  providerData.updateResetActive(true);
-                                  print(providerData.resetActive);
+                                providerData.updateResetActive(true);
+                                print(providerData.resetActive);
                               }),
                         ),
                         SizedBox(height: size_5),
@@ -192,10 +192,10 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                                 _selectDate(context);
                               },
                               style:
-                                  ButtonStyle(backgroundColor: calendarColor),
+                              ButtonStyle(backgroundColor: calendarColor),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     'Select date',
