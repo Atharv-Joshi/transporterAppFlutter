@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/widgets/LoadConfirmationTemplate.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/loadConfirmationScreenButton.dart';
@@ -26,6 +28,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
     ProviderData providerData = Provider.of<ProviderData>(context);
     providerData.updateUnitValue();
     // providerData.updateLoadWidget(true);
+    PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
     return Scaffold(
       backgroundColor: statusBarColor,
       body: SafeArea(
@@ -84,11 +87,11 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                 Container(
                                   child: LoadConfirmationTemplate(
                                       value:
-                                          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                      "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
                                       label: 'Location'),
                                 ),
                                 LoadConfirmationTemplate(
-                                    value: providerData.bookingDate,
+                                    value: postLoadVariables.bookingDate.value,
                                     label: 'Date'),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckTypeValue,
@@ -124,7 +127,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         children: [
                           Expanded(
                               child:
-                                  LoadConfirmationScreenButton(title: 'Edit')),
+                              LoadConfirmationScreenButton(title: 'Edit')),
                           SizedBox(
                             width: space_10,
                           ),
