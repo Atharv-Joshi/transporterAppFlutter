@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/translations/l10n.dart';
 
 //In provider data class variables that will be required across different screens are declared . These variables are updated by defining respective function for them.
@@ -105,6 +107,7 @@ class ProviderData extends ChangeNotifier {
   String unloadingPointCityPostLoad = "";
   String unloadingPointStatePostLoad = "";
   String unloadingPointPostLoad = "";
+//
 
   String bookingDate = "";
   String completedDate = "";
@@ -484,7 +487,8 @@ class ProviderData extends ChangeNotifier {
   }
 
   void clearBookingDate() {
-    bookingDate = "";
+    PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
+    postLoadVariables.updateBookingDate("");
     notifyListeners();
   }
 
@@ -522,13 +526,15 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updateBookingDate(value) {
-    bookingDate = value;
+    PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
+    postLoadVariables.updateBookingDate(value);
     notifyListeners();
   }
 
   bool postLoadScreenOneButton() {
+    PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
     if (loadingPointCityPostLoad != "" &&
-        bookingDate != "" &&
+        postLoadVariables.bookingDate.value != "" &&
         unloadingPointCityPostLoad != '') {
       return true;
     } else {
