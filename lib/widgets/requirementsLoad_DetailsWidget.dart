@@ -28,10 +28,10 @@ class RequirementsLoadDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NewRowTemplate(label: 'Truck Type', value: loadDetails['truckType']),
-              NewRowTemplate(label: 'No of trucks', value: loadDetails["noOfTrucks"]),
-              NewRowTemplate(label: 'Weight', value: "${loadDetails['weight']} tonnes"),
-              NewRowTemplate(label: 'Product Type', value: loadDetails['productType']),
+              NewRowTemplate(label: AppLocalizations.of(context)!.truckType, value: loadDetails['truckType']),
+              NewRowTemplate(label: AppLocalizations.of(context)!.numberOfTrucks, value: loadDetails["noOfTrucks"]),
+              NewRowTemplate(label: AppLocalizations.of(context)!.weight, value: "${loadDetails['weight']} tonnes"),
+              NewRowTemplate(label: AppLocalizations.of(context)!.productType, value: loadDetails['productType']),
               NewRowTemplate(label: 'Bid Price', value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
             ],
           ),
