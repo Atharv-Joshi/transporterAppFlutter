@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
   const PostLoadScreenOne({Key? key}) : super(key: key);
@@ -132,7 +133,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AddTruckSubtitleText(text: "Location Details"),
+                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.locationDetails),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                               size_2, size_5, size_10, size_2),
@@ -165,7 +166,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           ),
                         ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Booking Date"),
+                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.bookingDate),
                         GridView.count(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
