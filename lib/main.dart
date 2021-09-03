@@ -1,6 +1,8 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
@@ -14,13 +16,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
+  await GetStorage.init();
   await FlutterConfig.loadEnvVariables();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();
+  bool isSwitched = false;
+  final switchData = GetStorage();
+  isSwitched = switchData.read('isSwitched');
+  if(isSwitched == true) {
+      print("It is Okay Working");
+      print("Enabled is false");
+      backgroundTry();
+    } else {
+      print("You are Okay to go");
+  }
   runApp(MyApp());
 }
 

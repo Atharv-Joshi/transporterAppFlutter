@@ -14,16 +14,21 @@ class MapUtil {
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
+      var LatLongList = [];
       if (response.statusCode == 200) {
-        GpsDataModel gpsDataModel = new GpsDataModel();
-        gpsDataModel.imei = jsonData["imei"];
-        gpsDataModel.lat = double.parse(jsonData["lat"]);
-        gpsDataModel.lng = double.parse(jsonData["lng"]);
-        gpsDataModel.speed = jsonData["speed"];
-        gpsDataModel.deviceName = jsonData["deviceName"];
-        gpsDataModel.powerValue = jsonData["powerValue"];
-        gpsDataModel.direction = jsonData["direction"];
-        return gpsDataModel;
+        for (var json in jsonData) {
+          GpsDataModel gpsDataModel = new GpsDataModel();
+          gpsDataModel.imei = json["imei"] != null ? json["imei"] : 'NA';
+          gpsDataModel.lat = double.parse(json["lat"] != null ? json["lat"] : 0);
+          gpsDataModel.lng = double.parse(json["lng"] != null ? json["lng"] : 0);
+          gpsDataModel.speed = json["speed"] != null ? json["speed"] : 'NA';
+          gpsDataModel.deviceName = json["deviceName"] != null ? json["deviceName"] : 'NA';
+          print("Device Name is ${gpsDataModel.deviceName}");
+          gpsDataModel.powerValue = json["powerValue"] != null ? json["powerValue"] : 'NA';
+          gpsDataModel.direction = json["direction"] != null ? json["direction"] : 'NA';
+          LatLongList.add(gpsDataModel);
+        }
+        return LatLongList;
       }
       else {
         return null;

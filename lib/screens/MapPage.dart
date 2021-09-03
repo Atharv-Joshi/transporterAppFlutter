@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:device_info/device_info.dart';
-import 'package:get/get.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/PostIMEILatLangData.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
+import 'package:flutter_background/flutter_background.dart';
 
 class MapPage extends StatefulWidget {
   MapPage({Key? key}) : super(key: key);
@@ -14,51 +11,38 @@ class MapPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MapPage> {
-  late Timer timer;
-  Position? _currentPosition;
-  double? latitude;
-  double? longitude;
-  String? device_Name;
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  final switchData = GetStorage();
+  bool isSwitched = false;
 
   @override
   void initState() {
     super.initState();
-    _getDeviceDetails();
+    getDeviceDetails();
+    bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
+    if(switchData.read('isSwitched') != null)
+    {
+      setState(() {
+        isSwitched = switchData.read('isSwitched');
+        if(isSwitched == true) {
+          if (enabled == true) {
+            print("It is Okay Working");
+          } else if (enabled == false) {
+            print("Enabled is false");
+            backgroundTry();
+          }
+
+        } else {
+          print("Button is off $isSwitched");
+          if(enabled == true) {
+            print("Executing Background false");
+            backgroundCancel();
+          } else {
+            print("You are Okay to go");
+          }
+        }
+      });
+    }
   }
-
-  _getDeviceDetails() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    var brand = androidInfo.brand;
-    device_Name = "$brand ${androidInfo.model}";
-  }
-
-  _getUserAddress() async {
-    Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) async {
-        _currentPosition = position;
-        latitude = _currentPosition!.latitude;
-        longitude = _currentPosition!.longitude;
-        print("Lat is $latitude");
-        print("longitude is $longitude");
-        print("Device Name is $device_Name");
-        postIMEILatLngData(
-            lat: (latitude.toString()),
-            trasnporterID: transporterIdController.transporterId.value,
-            deviceName: device_Name,
-            powerValue: '12',
-            lng: (longitude.toString()),
-            direction: 'dir',
-            speed: '90'
-        );
-    }).catchError((e) {
-      print("Error is $e");
-    });
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +56,12 @@ class _MyPageState extends State<MapPage> {
             children: [
               TextButton(
                 child: Text("Start Location"),
-                onPressed: () => {
-                  print("Click is working"),
-                  _getUserAddress(),
-                  timer = Timer.periodic(Duration(minutes: 1), (Timer t) => _getUserAddress())
+                onPressed: () async => {
+                  // _getUserAddress(),
+                  // timer = Timer.periodic(Duration(minutes: 1), (Timer t) => _getUserAddress()),
+                // success1 = await FlutterBackground.enableBackgroundExecution(),
+                  backgroundTry(),
+                  print("Success in button is pressed")
                 }),
               SizedBox(
                 height: 50,
@@ -87,6 +73,23 @@ class _MyPageState extends State<MapPage> {
                   // _locationSubscription.cancel()
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
+                  Switch(
+                  value: isSwitched,
+                  onChanged: (value){
+                    setState(() {
+                      isSwitched = value;
+                      switchData.write('isSwitched', isSwitched);
+                      if(isSwitched == true) {
+                        backgroundTry();
+                      } else {
+                        backgroundCancel();
+                      }
+                    });
+                  }
+                  )
             ],
           ),
         ),
@@ -94,3 +97,10 @@ class _MyPageState extends State<MapPage> {
     );
   }
 }
+
+
+void printHello() {
+final DateTime now = DateTime.now();
+print("[$now] Hello, world!");
+}
+

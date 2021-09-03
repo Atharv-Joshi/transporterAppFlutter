@@ -144,7 +144,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                       children: [
                         Container(
                             margin: EdgeInsets.only(right: space_2),
-                            child: TrackButton(truckApproved: widget.truckData.truckApproved!, imei: widget.truckData.imei)
+                            child: TrackButton(truckApproved: widget.truckData.truckApproved!, phoneNo: widget.truckData.driverNum)
                         ),
                         CallButton(directCall: true , phoneNum: widget.truckData.driverNum,)
                       ],
