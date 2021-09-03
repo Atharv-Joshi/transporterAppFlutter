@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/deliveredCardModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/completedButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
@@ -12,12 +13,12 @@ import 'package:liveasy/widgets/loadPosterDetails.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class OnGoingLoadDetails extends StatelessWidget {
+class DeliveredLoadDetails extends StatelessWidget {
 
-  final OngoingCardModel loadALlDataModel;
+  final DeliveredCardModel loadALlDataModel;
   bool? trackIndicator = false;
 
-  OnGoingLoadDetails({required this.loadALlDataModel,this.trackIndicator});
+  DeliveredLoadDetails({required this.loadALlDataModel,this.trackIndicator});
 
   @override
   Widget build(BuildContext context) {

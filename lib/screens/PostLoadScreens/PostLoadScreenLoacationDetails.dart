@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
@@ -14,9 +16,10 @@ import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
-  const PostLoadScreenOne( {Key? key}) : super(key: key);
+  const PostLoadScreenOne({Key? key}) : super(key: key);
 
   @override
   _PostLoadScreenOneState createState() => _PostLoadScreenOneState();
@@ -35,6 +38,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     DateTime.now().month,
     DateTime.now().day + 3,
   );
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -64,38 +68,48 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   bool i = false;
   bool setDate = false;
   var recentDate = fourthDay.MMMEd;
+  PostLoadVariablesController postLoadVariables = Get.put(PostLoadVariablesController());
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
 
-    if(providerData.bookingDate != "" && providerData.bookingDate != bookingDateList[0]
-        && providerData.bookingDate != bookingDateList[1] && providerData.bookingDate != bookingDateList[2]){
-      bookingDateList[3] = providerData.bookingDate;
+    // providerData.resetPostLoadScreenOne(); // to reset every thing
+    // providerData.resetPostLoadFilters();
+    // providerData.updateEditLoad(false, "");
+
+    if (postLoadVariables.bookingDate.value != "" &&
+        postLoadVariables.bookingDate.value != bookingDateList[0] &&
+        postLoadVariables.bookingDate.value != bookingDateList[1] &&
+        postLoadVariables.bookingDate.value != bookingDateList[2]) {
+      bookingDateList[3] = postLoadVariables.bookingDate.value;
     }
+    // if (providerData.bookingDate != "" &&
+    //     providerData.bookingDate != bookingDateList[0] &&
+    //     providerData.bookingDate != bookingDateList[1] &&
+    //     providerData.bookingDate != bookingDateList[2]) {
+    //   bookingDateList[3] = providerData.bookingDate;
+    // }
 
     if (bookingDateList.last != recentDate && !setDate) {
-      providerData.updateBookingDate(bookingDateList[3]);
+      postLoadVariables.updateBookingDate(bookingDateList[3]);
+      // providerData.updateBookingDate(bookingDateList[3]);
       setDate = true;
       recentDate = bookingDateList[3];
     }
-    if (!i && providerData.bookingDate == "") {
-      providerData.updateBookingDate(initialDay.MMMEd);
+    if (!i && postLoadVariables.bookingDate.value == "") {
+      postLoadVariables.updateBookingDate(initialDay.MMMEd);
       i = true;
     }
 
     if (providerData.loadingPointCityPostLoad != "") {
       controller1 = TextEditingController(
           text:
-              ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
-    } else {
-      controller1 = TextEditingController(text: (""));
+          ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
     }
     if (providerData.unloadingPointCityPostLoad != "") {
       controller2 = TextEditingController(
           text:
-              ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
-    } else {
-      controller2 = TextEditingController(text: (""));
+          ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
     }
 
     return Scaffold(
@@ -119,7 +133,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AddTruckSubtitleText(text: "Location Details"),
+                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.locationDetails),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                               size_2, size_5, size_10, size_2),
@@ -131,10 +145,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                               ),
                               controller: controller1,
                               onTap: () {
-                                setState(() {
-                                  providerData.updateResetActive(true);
-                                  print(providerData.resetActive);
-                                });
+                                providerData.updateResetActive(true);
+                                print(providerData.resetActive);
                               }),
                         ),
                         SizedBox(height: size_5),
@@ -154,7 +166,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           ),
                         ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Booking Date"),
+                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.bookingDate),
                         GridView.count(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -171,7 +183,6 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                         SizedBox(
                           height: space_4,
                         ),
-                        // ignore: deprecated_member_use
                         Center(
                           child: Container(
                             width: space_26,
@@ -182,13 +193,13 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                                 _selectDate(context);
                               },
                               style:
-                                  ButtonStyle(backgroundColor: calendarColor),
+                              ButtonStyle(backgroundColor: calendarColor),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
-                                    'Set date',
+                                    'Select date',
                                     style: TextStyle(
                                         color: black,
                                         fontSize: size_7,

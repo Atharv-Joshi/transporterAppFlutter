@@ -9,7 +9,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class AcceptButton extends StatelessWidget {
   String? bidId;
@@ -75,7 +75,7 @@ class AcceptButton extends StatelessWidget {
               ? EdgeInsets.symmetric(vertical: space_1, horizontal: space_3)
               : null,
           child: Text(
-            'Accept',
+            AppLocalizations.of(context)!.accept,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

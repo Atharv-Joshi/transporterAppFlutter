@@ -7,7 +7,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';

@@ -9,6 +9,7 @@ import 'linePainter.dart';
 import 'loadLabelValueRowTemplate.dart';
 import '../screens/shipperDetailsScreen.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeliveredCardOrders extends StatelessWidget {
   final String loadingPoint;
@@ -95,7 +96,7 @@ class DeliveredCardOrders extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         LoadLabelValueRowTemplate(
-                            value: endedOn, label: 'Completed date'),
+                            value: endedOn, label: AppLocalizations.of(context)!.completedDate),
                         Icon(Icons.arrow_forward_ios)
                       ],
 
@@ -107,7 +108,7 @@ class DeliveredCardOrders extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: loadingPoint, endPointType: 'loading'),
+                            text: loadingPoint, endPointType: AppLocalizations.of(context)!.location),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_6,
@@ -124,9 +125,9 @@ class DeliveredCardOrders extends StatelessWidget {
                       child: Column(
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: startedOn, label: 'Booking date'),
+                              value: startedOn, label: AppLocalizations.of(context)!.bookingDate),
                           LoadLabelValueRowTemplate(
-                              value: "Rs.$rate/$unitValue", label: 'Price'),
+                              value: "Rs.$rate/$unitValue", label: AppLocalizations.of(context)!.price),
                         ],
                       ),
                     ),

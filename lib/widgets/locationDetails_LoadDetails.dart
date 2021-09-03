@@ -4,7 +4,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
@@ -32,7 +32,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
         ),
 
         Text(
-          "Location Details",
+          AppLocalizations.of(context)!.loadDetails,
           style: TextStyle(
               fontWeight: mediumBoldWeight,
               fontSize: size_7),

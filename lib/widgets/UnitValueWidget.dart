@@ -6,6 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UnitValueWidget extends StatelessWidget {
   const UnitValueWidget({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class UnitValueWidget extends StatelessWidget {
                   ),
                   SizedBox(width: space_1),
                   Text(
-                    "Per Truck",
+                      AppLocalizations.of(context)!.perTruck,
                     style: TextStyle(
                         fontSize: size_7,
                         fontWeight: regularWeight,
@@ -90,7 +91,7 @@ class UnitValueWidget extends StatelessWidget {
                   ),
                   SizedBox(width: space_1),
                   Text(
-                    "Per Ton",
+                    AppLocalizations.of(context)!.perTon,
                     style: TextStyle(
                         fontSize: size_7,
                         fontWeight: regularWeight,

@@ -11,13 +11,14 @@ import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
-import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -38,7 +39,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Driver’s Name",
+            AppLocalizations.of(context)!.driverName,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -63,7 +64,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       controller: driverNameController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "Type here",
+                        hintText: AppLocalizations.of(context)!.typeHere,
                         hintStyle: TextStyle(
                             color: textLightColor,
                             fontSize: size_8,
@@ -114,7 +115,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             height: space_2 + 2,
           ),
           Text(
-            "Driver's Number",
+            AppLocalizations.of(context)!.driverNumber,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -138,7 +139,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: "Type here",
+                  hintText: AppLocalizations.of(context)!.typeHere,
                   hintStyle: TextStyle(
                       color: textLightColor,
                       fontSize: size_8,
@@ -214,8 +215,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                     content: Container(
                       child: Column(
                         children: [
-                          Text("Error!"),
-                          Text("Enter a valid 10 digit number")
+                          Text(AppLocalizations.of(context)!.error +"!"),
+                          Text(AppLocalizations.of(context)!.enterValid10DigitNumber)
                         ],
                       ),
                     ),

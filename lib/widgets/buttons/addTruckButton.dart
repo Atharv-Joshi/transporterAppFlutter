@@ -7,6 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTruckButton extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class AddTruckButton extends StatelessWidget {
           Get.to(() => AddNewTruck());
         },
         child: Text(
-          'Add Truck',
+          AppLocalizations.of(context)!.addTruck,
           style: TextStyle(
             fontWeight: mediumBoldWeight,
             fontSize: size_9,

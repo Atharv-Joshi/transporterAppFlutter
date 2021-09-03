@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class AdditionalDescriptionLoadDetails extends StatelessWidget {
@@ -19,7 +20,7 @@ class AdditionalDescriptionLoadDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Additional Description",
+          AppLocalizations.of(context)!.additionalDescription,
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
         ),
         SizedBox(
