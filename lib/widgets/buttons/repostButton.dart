@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 
 // ignore: must_be_immutable
@@ -21,7 +22,7 @@ class RepostButton extends StatelessWidget {
               )),
           backgroundColor: MaterialStateProperty.all<Color>(declineButtonRed),
         ),
-        onPressed: () {  },
+        onPressed: () { Get.to(PostLoadScreenOne()); },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 0 , horizontal: space_5),
           child:  Text(

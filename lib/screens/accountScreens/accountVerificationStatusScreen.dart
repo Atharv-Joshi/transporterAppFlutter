@@ -11,6 +11,7 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/buyGpsLongWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountVerificationStatusScreen extends StatelessWidget {
   final String mobileNum;
@@ -40,7 +41,7 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                       SizedBox(
                         width: space_2,
                       ),
-                      HeadingTextWidget("My Account"),
+                      HeadingTextWidget(AppLocalizations.of(context)!.my_account),
                     ],
                   ),
                   HelpButtonWidget(),

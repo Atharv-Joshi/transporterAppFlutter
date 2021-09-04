@@ -4,7 +4,11 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
+import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -12,6 +16,11 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -81,7 +90,7 @@ class _MyTrucksState extends State<MyTrucks> {
                     SizedBox(
                       width: space_3,
                     ),
-                    HeadingTextWidget("My Trucks"),
+                    HeadingTextWidget(AppLocalizations.of(context)!.my_truck),
                     // HelpButtonWidget(),
                   ],
                 ),
@@ -91,7 +100,7 @@ class _MyTrucksState extends State<MyTrucks> {
             Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: SearchLoadWidget(
-                  hintText: 'Search',
+                  hintText: AppLocalizations.of(context)!.search,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -108,6 +117,7 @@ class _MyTrucksState extends State<MyTrucks> {
                       ? TruckLoadingWidgets()
                       : truckDataList.isEmpty
                           ? Container(
+                              // height: MediaQuery.of(context).size.height * 0.27,
                               margin: EdgeInsets.only(top: 153),
                               child: Column(
                                 children: [
@@ -133,6 +143,15 @@ class _MyTrucksState extends State<MyTrucks> {
                               itemBuilder: (context, index) {
                                 return MyTruckCard(
                                   truckData: truckDataList[index],
+                                  // truckId: .truckId,
+                                  // truckApproved:
+                                  //     truckDataList[index].truckApproved,
+                                  // truckNo: truckDataList[index].truckNo,
+                                  // truckType: truckDataList[index].truckType,
+                                  // tyres: truckDataList[index].tyresString,
+                                  // driverName: truckDataList[index].driverName,
+                                  // phoneNum: truckDataList[index].driverNum,
+                                  // imei: truckDataList[index].imei,
                                 );
                               }),
                   Padding(

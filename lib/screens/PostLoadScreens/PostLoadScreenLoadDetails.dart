@@ -7,7 +7,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 import 'package:liveasy/providerClass/providerData.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/PostLoadScreenTwoSearch.dart';
 import 'package:liveasy/widgets/PriceTextFieldWidget.dart';
@@ -67,7 +67,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AddTruckSubtitleText(text: "Truck Type"),
+                      AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckType),
                       SizedBox(height: space_2),
                       GridView.count(
                         physics: NeverScrollableScrollPhysics(),
@@ -86,7 +86,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                             .toList(),
                       ),
                       SizedBox(height: space_3),
-                      AddTruckSubtitleText(text: "Number of Trucks"),
+                      AddTruckSubtitleText(text: AppLocalizations.of(context)!.numberOfTrucks),
                       SizedBox(height: space_2),
                       Padding(
                         padding: EdgeInsets.only(
@@ -112,7 +112,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                       ),
                       SizedBox(height: space_3),
-                      AddTruckSubtitleText(text: "Weight(in tons)"),
+                      AddTruckSubtitleText(text: AppLocalizations.of(context)!.weightInTon),
                       SizedBox(height: space_2),
                       Padding(
                         padding: EdgeInsets.only(
@@ -138,11 +138,11 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                       ),
                       SizedBox(height: space_2),
-                      AddTruckSubtitleText(text: "Product Type"),
+                      AddTruckSubtitleText(text: AppLocalizations.of(context)!.productType),
                       SizedBox(height: space_2),
                       PostLoadScreenTwoSearch(hintText: "Choose Product Type"),
                       SizedBox(height: space_3),
-                      AddTruckSubtitleText(text: "Price(Optional)"),
+                      AddTruckSubtitleText(text: AppLocalizations.of(context)!.priceOptional),
                       SizedBox(height: space_2),
                       UnitValueWidget(),
                       SizedBox(height: space_3),

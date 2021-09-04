@@ -138,7 +138,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activeOrdersIcon.png",
             ),
-            label: ("Orders"),
+            label: (AppLocalizations.of(context)!.order),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(

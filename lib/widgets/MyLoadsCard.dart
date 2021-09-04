@@ -215,7 +215,8 @@ class MyLoadsCard extends StatelessWidget {
         Get.to(PostLoadScreenOne());
         break;
       case MenuItems.itemDisable:
-        disableActionOnload(loadId: loadDetailsScreenModel.loadId);
+        LoadApiCalls loadApiCalls = LoadApiCalls();
+        loadApiCalls.disableActionOnLoad(loadId: loadDetailsScreenModel.loadId);
         Timer(Duration(seconds: 1), () {
           Provider.of<ProviderData>(context, listen: false).updateIndex(2);
           Get.offAll(NavigationScreen());

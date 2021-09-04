@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class PostButtonLoad extends StatelessWidget {
@@ -40,7 +41,7 @@ class PostButtonLoad extends StatelessWidget {
         },
         child: Container(
           child: Text(
-            'Post Load',
+            AppLocalizations.of(context)!.postLoad,
             style: TextStyle(
               fontWeight: mediumBoldWeight,
               color: white,
