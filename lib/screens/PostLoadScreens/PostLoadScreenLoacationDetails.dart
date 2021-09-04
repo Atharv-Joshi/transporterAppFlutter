@@ -67,7 +67,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   bool i = false;
   bool setDate = false;
   var recentDate = fourthDay.MMMEd;
-  PostLoadVariablesController postLoadVariables = Get.put(PostLoadVariablesController());
+  PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);

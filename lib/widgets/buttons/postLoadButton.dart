@@ -16,6 +16,7 @@ class PostButtonLoad extends StatelessWidget {
       Get.find<TransporterIdController>();
   @override
   Widget build(BuildContext context) {
+    ProviderData providerData = Provider.of<ProviderData>(context );
     return Container(
       height: space_8,
       width: space_33,
@@ -28,7 +29,11 @@ class PostButtonLoad extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(liveasyGreen),
         ),
         onPressed: () {
-          transporterIdController.companyApproved.value ? Get.to(PostLoadScreenOne())
+          providerData.resetPostLoadScreenOne();
+          providerData.resetPostLoadFilters();
+          providerData.updateEditLoad(false, "");
+          transporterIdController.companyApproved.value
+              ? Get.to(PostLoadScreenOne())
            : showDialog(
                   context: context,
                   builder: (context) => VerifyAccountNotifyAlertDialog());
