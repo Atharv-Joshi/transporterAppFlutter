@@ -1,7 +1,9 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';
@@ -20,7 +22,7 @@ class PostLoadScreen extends StatefulWidget {
 class _PostLoadScreenState extends State<PostLoadScreen> {
   //Page Controller
   PageController pageController = PageController(initialPage: 0);
-
+  PostLoadVariablesController postLoadVariables = Get.put(PostLoadVariablesController());
   int currentPage = 0;
 
   @override
