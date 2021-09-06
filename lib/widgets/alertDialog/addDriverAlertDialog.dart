@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,11 @@ import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 import 'package:provider/provider.dart';
+
+import 'CompletedDialog.dart';
+import 'conflictDialog.dart';
+import 'loadingAlertDialog.dart';
+import 'orderFailedAlertDialog.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -93,9 +100,15 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                               contact.phoneNumber!.number!.contains("+91")
                                   ? contact.phoneNumber!.number!
                                       .replaceRange(0, 3, "")
-                                      .replaceAll(new RegExp(r"\D"), "")
+                                      .replaceAll(
+                                        new RegExp(r"\D"),
+                                        "",
+                                      )
                                   : contact.phoneNumber!.number!.toString();
-
+                          contactNumber =
+                              contactNumber.replaceAll(" ", "").trim();
+                          contactNumber =
+                              contactNumber.replaceAll("-", "").trim();
                           driverNumberController =
                               TextEditingController(text: contactNumber);
                         });
@@ -134,6 +147,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               child: TextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
+                  FilteringTextInputFormatter.digitsOnly,
                 ],
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
@@ -164,62 +178,62 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   TransporterIdController tIdController =
                       Get.find<TransporterIdController>();
                   String transporterId = '${tIdController.transporterId}';
+                  String? driverAdded = "";
+                  if (driverAdded == "") {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return LoadingAlertDialog();
+                      },
+                    );
+                  }
                   ResponseModel? response = await driverApiCalls.postDriverApi(
                       driverNameController.text,
                       driverNumberController.text,
                       transporterId);
                   if (response != null) {
                     if (response.statusCode == 201 && response.id != null) {
-                      // driver added successfully
-                      Get.back();
-                      Get.back();
+                      // driver added successfully8
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return completedDialog(
+                            upperDialogText: "Driver successfully Added !",
+                            lowerDialogText: "",
+                          );
+                        },
+                      );
+                      Timer(Duration(seconds: 3),
+                          () => {Get.back(), Get.back(), Get.back()});
 
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
                       await getDriverDetailsFromDriverApi(context);
+
                       print(
                           "response id of driver ----->>${returnResponse.id}");
 
                       // providerData.updateDropDownValue(
                       //     );
-                    } else {
+                    } else if (response.statusCode == 409) {
                       // most likely user trying to add same number again
-                      Get.defaultDialog(
-                        content: Container(
-                          child: Column(
-                            children: [
-                              Text("Conflict !"),
-                              Text("${response.message}")
-                            ],
-                          ),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConflictDialog(
+                              dialog: 'This driver is already added');
+                        },
                       );
                     }
                   } else {
-                    //response is null so error with api
-                    Get.defaultDialog(
-                      content: Container(
-                        child: Column(
-                          children: [
-                            Text("Oops!! Error!"),
-                            Text("Please Try Again Later")
-                          ],
-                        ),
-                      ),
+                    //user entered an invalid mobile number
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return OrderFailedAlertDialog();
+                      },
                     );
                   }
-                } else {
-                  //user entered an invalid mobile number
-                  Get.defaultDialog(
-                    content: Container(
-                      child: Column(
-                        children: [
-                          Text("Error!"),
-                          Text("Enter a valid 10 digit number")
-                        ],
-                      ),
-                    ),
-                  );
                 }
               },
             ),

@@ -111,15 +111,19 @@ class DriverApiCalls {
 
         print(
             "driverApiCalls.api${selectedDriverController.newDriverAddedBook.value}");
+        print(
+            "driverApiCalls.api TRuck ${selectedDriverController.newDriverAddedTruck.value}");
+        print(
+            "driverApiCalls.api FRomTRuck ${selectedDriverController.fromTruck.value}");
 
         if (selectedDriverController.fromBook.value) {
           selectedDriverController.updateNewDriverAddedBookController(true);
           selectedDriverController
               .updateSelectedDriverBookController('${returnResponse.id}');
         } else if (selectedDriverController.fromTruck.value) {
+          selectedDriverController.updateNewDriverAddedTruckController(true);
           selectedDriverController
               .updateSelectedDriverTruckController('${returnResponse.id}');
-          selectedDriverController.updateNewDriverAddedTruckController(true);
         }
         return returnResponse;
       } else {
