@@ -4,6 +4,7 @@ const Color statusBarColor = Color(0xFFFFFFFF);
 const Color darkBlueColor = Color(0xFF152968);
 const Color lineGreyColor = Color(0xFFA6A6A6);
 const Color shareImageTextColor = Color(0xFF3A3A3A);
+const Color updateAvailableBackgroundColor = Color(0xFFF5F5F5);
 const Color grey = Color(0xFF828282);
 const Color backgroundColor = Color(0xFFF5F5F5);
 const Color whiteBackgroundColor = Color(0xffF9F9F9);
