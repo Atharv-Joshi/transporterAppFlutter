@@ -58,10 +58,6 @@ class _MyAppState extends State<MyApp> {
                       home: SplashScreen(),
                     );
                   } else {
-                    var mUser = FirebaseAuth.instance.currentUser;
-                    var task = mUser!.getIdToken(true).then((value) {
-                      // log(value);
-                    });
                     return GetMaterialApp(
                       builder: EasyLoading.init(),
                       theme: ThemeData(fontFamily: "montserrat"),

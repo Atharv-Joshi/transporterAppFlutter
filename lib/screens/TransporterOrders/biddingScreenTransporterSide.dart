@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bigApis/getBidDataWithPageNo.dart';
@@ -21,7 +23,7 @@ class _BiddingScreenTransporterSideState
   int i = 0;
 
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
 
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
@@ -62,32 +64,48 @@ class _BiddingScreenTransporterSideState
             space_8,
         child: loading
             ? OnGoingLoadingWidgets()
-            : ListView.builder(
-          padding: EdgeInsets.only(bottom: 60),
-          controller: scrollController,
-          itemCount: biddingModelList.length + 1,
-          itemBuilder: (context, index) {
-            if (index == biddingModelList.length) {
-              return loading
-              ? Container(
-                child: bottomProgressBarIndicatorWidget(),
-                margin: EdgeInsets.only(bottom: space_2),
-            )
-                  : SizedBox.shrink();
-            } else {
-              return BiddingsCardTransporterSide(
-                  biddingModel: biddingModelList[index]
-              );
-            }
-          }
-        )
-    );
+            : biddingModelList.length == 0
+                ? Container(
+                    margin: EdgeInsets.only(top: 153),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/images/EmptyLoad.png'),
+                          height: 127,
+                          width: 127,
+                        ),
+                        Text(
+                          'Looks like you have no bid yet!',
+                          style: TextStyle(fontSize: size_8, color: grey),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.only(bottom: 60),
+                    controller: scrollController,
+                    itemCount: biddingModelList.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == biddingModelList.length) {
+                        return loading
+                            ? Container(
+                                child: bottomProgressBarIndicatorWidget(),
+                                margin: EdgeInsets.only(bottom: space_2),
+                              )
+                            : SizedBox.shrink();
+                      } else {
+                        return BiddingsCardTransporterSide(
+                            biddingModel: biddingModelList[index]);
+                      }
+                    }));
   }
 
   getBidData(int i) async {
     var bidDataListForPagei = await getBidDataWithPageNo(i);
-    for (var bidData in bidDataListForPagei){
-      biddingModelList.add(bidData);}
+    for (var bidData in bidDataListForPagei) {
+      biddingModelList.add(bidData);
+    }
     setState(() {
       loading = false;
     });
