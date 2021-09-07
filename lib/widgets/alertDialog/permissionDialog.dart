@@ -59,7 +59,6 @@ class _PermissionDialogState extends State<PermissionDialog> {
                                     borderRadius:
                                         BorderRadius.circular(radius_4)))),
                     onPressed: () => {openAppSettings(), Navigator.pop(context)},
-                    onPressed: () {},
                     child: Text(
                       "Settings",
                       style: TextStyle(
