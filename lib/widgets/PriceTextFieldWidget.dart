@@ -7,6 +7,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PriceTextFieldWidget extends StatelessWidget {
   const PriceTextFieldWidget({Key? key}) : super(key: key);
@@ -26,7 +27,9 @@ class PriceTextFieldWidget extends StatelessWidget {
         ),
         child: TextField(
           decoration: InputDecoration(
-            hintText: "Enter Price",
+            hintText: providerData.price.toString() == "0"
+                ? AppLocalizations.of(context)!.enterPrice
+                : providerData.price.toString(),
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,

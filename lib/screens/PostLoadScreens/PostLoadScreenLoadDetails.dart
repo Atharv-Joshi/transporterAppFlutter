@@ -7,7 +7,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 import 'package:liveasy/providerClass/providerData.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/PostLoadScreenTwoSearch.dart';
 import 'package:liveasy/widgets/PriceTextFieldWidget.dart';
@@ -37,7 +37,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   @override
   Widget build(BuildContext context) {
     bool visible = false;
-    ProviderData providerData = Provider.of<ProviderData>(context);
+    ProviderData providerData =
+        Provider.of<ProviderData>(context, listen: false);
 
     return Scaffold(
       backgroundColor: backgroundColor,

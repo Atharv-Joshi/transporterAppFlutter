@@ -6,7 +6,7 @@ class TruckFilterVariables {
     'Full Body Trailer',
     'Half Body Trailer',
     'Standard Container',
-    'High-Cube Container'
+    'High Cube Container'
   ];
 
   List truckTypeValueList = [

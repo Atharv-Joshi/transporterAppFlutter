@@ -9,7 +9,7 @@ import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class CancelBidButton extends StatelessWidget {
   BiddingModel biddingModel;
@@ -41,7 +41,7 @@ class CancelBidButton extends StatelessWidget {
             : null,
         child: Container(
           child: Text(
-            'Cancel',
+            AppLocalizations.of(context)!.cancel,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

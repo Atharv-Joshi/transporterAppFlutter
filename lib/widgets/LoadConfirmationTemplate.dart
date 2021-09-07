@@ -37,7 +37,7 @@ class LoadConfirmationTemplate extends StatelessWidget {
                                   Container(
                                     height: 20,
                                     width:
-                                        MediaQuery.of(context).size.width / 1.9,
+                                        MediaQuery.of(context).size.width / 2,
                                     child: Marquee(
                                       text: "${value!}",
                                       style: TextStyle(

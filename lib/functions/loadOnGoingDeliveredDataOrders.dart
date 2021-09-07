@@ -62,7 +62,7 @@ Future<Map> loadAllDataOrders(BookingModel bookingModel) async {
         ? "NA"
         : loadDetails['unloadingPointCity'],
     'truckType':
-        loadDetails['truckType'] == null ? "NA" : loadDetails['truckType'],
+        truckData['truckType'] == null ? "NA" : truckData['truckType'],
     'productType':
         loadDetails['productType'] == null ? "NA" : loadDetails['productType'],
     'noOfTrucks':

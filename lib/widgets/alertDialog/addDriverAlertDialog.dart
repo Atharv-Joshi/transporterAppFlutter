@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,13 +11,14 @@ import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
-import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'CompletedDialog.dart';
 import 'conflictDialog.dart';
@@ -45,7 +44,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Driver’s Name",
+            AppLocalizations.of(context)!.driverName,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -100,15 +99,9 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                               contact.phoneNumber!.number!.contains("+91")
                                   ? contact.phoneNumber!.number!
                                       .replaceRange(0, 3, "")
-                                      .replaceAll(
-                                        new RegExp(r"\D"),
-                                        "",
-                                      )
+                                      .replaceAll(new RegExp(r"\D"), "")
                                   : contact.phoneNumber!.number!.toString();
-                          contactNumber =
-                              contactNumber.replaceAll(" ", "").trim();
-                          contactNumber =
-                              contactNumber.replaceAll("-", "").trim();
+
                           driverNumberController =
                               TextEditingController(text: contactNumber);
                         });
@@ -127,7 +120,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             height: space_2 + 2,
           ),
           Text(
-            "Driver's Number",
+            AppLocalizations.of(context)!.driverNumber,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -147,12 +140,11 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
               child: TextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
-                  FilteringTextInputFormatter.digitsOnly,
                 ],
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: "Type here",
+                  hintText: AppLocalizations.of(context)!.typeHere,
                   hintStyle: TextStyle(
                       color: textLightColor,
                       fontSize: size_8,
@@ -226,6 +218,30 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       );
                     }
                   } else {
+                    //response is null so error with api
+                    Get.defaultDialog(
+                      content: Container(
+                        child: Column(
+                          children: [
+                            Text("Oops!! Error!"),
+                            Text("Please Try Again Later")
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                } else {
+                  //user entered an invalid mobile number
+                  Get.defaultDialog(
+                    content: Container(
+                      child: Column(
+                        children: [
+                          Text(AppLocalizations.of(context)!.error +"!"),
+                          Text(AppLocalizations.of(context)!.enterValid10DigitNumber)
+                        ],
+                      ),
+                    ),
+                  );
                     //user entered an invalid mobile number
                     showDialog(
                       context: context,

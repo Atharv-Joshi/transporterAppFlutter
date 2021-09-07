@@ -1,14 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/models/popupModelForMyLoads.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
+import 'package:liveasy/widgets/buttons/repostButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/buttons/viewBidsButton.dart';
+import 'package:provider/provider.dart';
 import 'priceContainer.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/functions/loadApiCalls.dart';
 
 // ignore: must_be_immutable
 class MyLoadsCard extends StatelessWidget {
@@ -41,23 +52,38 @@ class MyLoadsCard extends StatelessWidget {
     return  Container(
       margin: EdgeInsets.only(bottom: space_2),
       child: Card(
+        color: loadDetailsScreenModel.status == "EXPIRED"? cancelledBiddingBackground:Colors.white,
           elevation: 3,
           child: Container(
-            padding: EdgeInsets.all(space_2),
+            padding: EdgeInsets.only(bottom: space_2,left: space_2,right: space_2),
             child: Column(
               crossAxisAlignment:  CrossAxisAlignment.start,
               children: [
-                Text(
-                    'Posted Date : ${loadDetailsScreenModel.loadDate}',
-                style: TextStyle(
-                  fontSize: size_6,
-                  color: veryDarkGrey
-                ),
-                ),
-
-
-                SizedBox(
-                  height: space_1,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        'Posted Date : ${loadDetailsScreenModel.postLoadDate}',
+                    style: TextStyle(
+                      fontSize: size_6,
+                      color: veryDarkGrey,
+                      fontFamily: 'montserrat'),
+                    ),
+                    loadDetailsScreenModel.status == 'EXPIRED'
+                        ?  Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.more_vert, color: black),
+                        )
+                        : PopupMenuButton<popupMenuforloads>(
+                        offset: Offset(0,space_2),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(radius_2))),
+                        onSelected:(item)=> onSelected(context,item),
+                        itemBuilder: (context) => [
+                          ...MenuItems.listItem.map(showEachItemFromList).toList(),
+                        ]
+                    ),
+                  ],
                 ),
 
                 LoadEndPointTemplate(text: loadDetailsScreenModel.loadingPointCity, endPointType: 'loading'),
@@ -120,7 +146,16 @@ class MyLoadsCard extends StatelessWidget {
                   height: space_2,
                 ),
 
-                  Row(
+                loadDetailsScreenModel.status == 'EXPIRED'
+                    ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Load Expired!",
+                          style: TextStyle(color: declineButtonRed,fontSize: size_8,fontWeight:mediumBoldWeight ,fontFamily:'montserrat',),),
+                        RepostButton(),
+                      ],
+                    )
+                    : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       loadDetailsScreenModel.rate != 'NA' ? PriceContainer(rate: loadDetailsScreenModel.rate, unitValue: loadDetailsScreenModel.unitValue,) : SizedBox(),
@@ -133,5 +168,61 @@ class MyLoadsCard extends StatelessWidget {
           ),
         ),
     );
+  }
+
+  PopupMenuItem<popupMenuforloads> showEachItemFromList(popupMenuforloads item) =>
+      PopupMenuItem<popupMenuforloads>(
+          value: item,
+          child: Row(
+            children: [
+              Image(image: AssetImage(item.iconImage),height: size_6+1,width: size_6+1,),
+              SizedBox(width: space_1+2,),
+              Text(item.itemText, style: TextStyle(fontWeight: mediumBoldWeight,
+                  fontFamily: 'montserrat',),),
+            ],
+          )
+      );
+
+  void onSelected(BuildContext context, popupMenuforloads item) {
+    ProviderData providerData = Provider.of<ProviderData>(context, listen: false);
+    switch(item){
+      case MenuItems.itemEdit:
+        providerData.updateLoadingPointPostLoad(
+            city: loadDetailsScreenModel.loadingPointCity!, state: loadDetailsScreenModel.loadingPointState!);
+        providerData.updateUnloadingPointPostLoad(
+            city: loadDetailsScreenModel.unloadingPointCity!, state: loadDetailsScreenModel.unloadingPointState!);
+        providerData.updateProductType(loadDetailsScreenModel.productType);
+        providerData.updateTruckNumber(int.parse(loadDetailsScreenModel.noOfTrucks!));
+        providerData.updatePassingWeightValue(int.parse(loadDetailsScreenModel.weight!));
+        providerData.updateTruckTypeValue(loadDetailsScreenModel.truckType!.replaceAll(" ", "_").toUpperCase());
+
+        if(loadDetailsScreenModel.unitValue == "tonne"){
+          providerData.PerTonTrue(true, false);
+        }else if(loadDetailsScreenModel.unitValue == "truck"){
+          providerData.PerTruckTrue(true, false);
+        }else{
+          providerData.PerTonTrue(false, false);
+          providerData.PerTruckTrue(false, false);
+        }
+        loadDetailsScreenModel.rate == "NA" ? providerData.updatePrice(0): providerData.updatePrice(int.parse(loadDetailsScreenModel.rate!));
+        providerData.updateBookingDate(loadDetailsScreenModel.loadDate);
+
+        providerData.postLoadScreenOneButton();
+        providerData.updateResetActive(true);
+        providerData.updateEditLoad(true,loadDetailsScreenModel.loadId!);
+
+        print(providerData.editLoad); // true
+        Get.to(PostLoadScreenOne());
+        break;
+      case MenuItems.itemDisable:
+        LoadApiCalls loadApiCalls = LoadApiCalls();
+        loadApiCalls.disableActionOnLoad(loadId: loadDetailsScreenModel.loadId);
+        Timer(Duration(seconds: 1), () {
+          Provider.of<ProviderData>(context, listen: false).updateIndex(2);
+          Get.offAll(NavigationScreen());
+        });
+
+        break;
+    }
   }
 }

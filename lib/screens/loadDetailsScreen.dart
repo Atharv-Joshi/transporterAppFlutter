@@ -5,6 +5,8 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/SelectedDriverController.dart';
+import 'package:liveasy/functions/loadApis/runSuggestedLoadApiWithPageNo.dart';
+import 'package:liveasy/models/WidgetLoadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/additionalDescription_LoadDetails.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
@@ -13,20 +15,43 @@ import 'package:liveasy/widgets/buttons/bookNowButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:liveasy/widgets/loadingWidgets/loadDetailsLoadingWidget.dart';
 import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 
-class LoadDetailsScreen extends StatelessWidget {
-  LoadDetailsScreenModel loadDetailsScreenModel;
+class LoadDetailsScreen extends StatefulWidget {
+  final LoadDetailsScreenModel loadDetailsScreenModel;
 
   LoadDetailsScreen({required this.loadDetailsScreenModel});
-  SelectedDriverController selectedDriverController =
-      Get.put(SelectedDriverController());
 
+  @override
+  _LoadDetailsScreenState createState() => _LoadDetailsScreenState();
+}
+
+class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
+  late WidgetLoadDetailsScreenModel widgetLoadDetailsScreenModel;
+  bool loading = false;
+  SelectedDriverController selectedDriverController =
+  Get.put(SelectedDriverController());
+  runGetDetailsByPostLoadID() async {
+    widgetLoadDetailsScreenModel = await getLoadDetailsByPostLoadID(loadPosterId: widget.loadDetailsScreenModel.postLoadId.toString());
+    setState(() {
+      loading = false;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    runGetDetailsByPostLoadID();
+    setState(() {
+      loading = true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     selectedDriverController.updateFromBook(false);
@@ -34,7 +59,9 @@ class LoadDetailsScreen extends StatelessWidget {
       backgroundColor: statusBarColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: loading == true
+              ? LoadDetailsLoadingWidget()
+          : Container(
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.symmetric(horizontal: space_2),
             child: Column(
@@ -49,7 +76,7 @@ class LoadDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: space_3,
                     ),
-                    HeadingTextWidget("Load Details"),
+                    HeadingTextWidget(AppLocalizations.of(context)!.loadDetails),
                     // HelpButtonWidget(),
                   ],
                 ),
@@ -60,12 +87,12 @@ class LoadDetailsScreen extends StatelessWidget {
                   children: [
                     LoadPosterDetails(
                       loadPosterLocation:
-                          loadDetailsScreenModel.loadPosterLocation,
-                      loadPosterName: loadDetailsScreenModel.loadPosterName,
+                      widgetLoadDetailsScreenModel.loadPosterLocation,
+                      loadPosterName: widgetLoadDetailsScreenModel.loadPosterName,
                       loadPosterCompanyName:
-                          loadDetailsScreenModel.loadPosterCompanyName,
+                      widgetLoadDetailsScreenModel.loadPosterCompanyName,
                       loadPosterCompanyApproved:
-                          loadDetailsScreenModel.loadPosterCompanyApproved,
+                      widgetLoadDetailsScreenModel.loadPosterCompanyApproved,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -81,10 +108,10 @@ class LoadDetailsScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              BidButton(loadDetails: loadDetailsScreenModel),
+                              BidButton(loadDetails: widget.loadDetailsScreenModel),
                               CallButton(
                                 directCall: true,
-                                phoneNum: loadDetailsScreenModel.phoneNo,
+                                phoneNum: widgetLoadDetailsScreenModel.phoneNo,
                               )
                             ],
                           ),
@@ -97,7 +124,7 @@ class LoadDetailsScreen extends StatelessWidget {
                   elevation: 5,
                   child: Padding(
                     padding:
-                        EdgeInsets.fromLTRB(space_2, space_3, space_2, space_3),
+                    EdgeInsets.fromLTRB(space_2, space_3, space_2, space_3),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -105,19 +132,19 @@ class LoadDetailsScreen extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: space_3),
                           child: LocationDetailsLoadDetails(
                             loadDetails: {
-                              "loadDate": loadDetailsScreenModel.loadDate,
+                              "loadDate": widget.loadDetailsScreenModel.loadDate,
                               "loadingPoint":
-                                  loadDetailsScreenModel.loadingPoint,
+                              widget.loadDetailsScreenModel.loadingPoint,
                               "loadingPointCity":
-                                  loadDetailsScreenModel.loadingPointCity,
+                              widget.loadDetailsScreenModel.loadingPointCity,
                               "loadingPointState":
-                                  loadDetailsScreenModel.loadingPointState,
+                              widget.loadDetailsScreenModel.loadingPointState,
                               "unloadingPoint":
-                                  loadDetailsScreenModel.unloadingPoint,
+                              widget.loadDetailsScreenModel.unloadingPoint,
                               "unloadingPointCity":
-                                  loadDetailsScreenModel.unloadingPointCity,
+                              widget.loadDetailsScreenModel.unloadingPointCity,
                               "unloadingPointState":
-                                  loadDetailsScreenModel.unloadingPointState,
+                              widget.loadDetailsScreenModel.unloadingPointState,
                             },
                           ),
                         ),
@@ -132,27 +159,28 @@ class LoadDetailsScreen extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: space_3),
                           child: RequirementsLoadDetails(
                             loadDetails: {
-                              "truckType": loadDetailsScreenModel.truckType,
-                              "noOfTrucks": loadDetailsScreenModel.noOfTrucks,
-                              "weight": loadDetailsScreenModel.weight,
-                              "productType": loadDetailsScreenModel.productType,
-                              "rate": loadDetailsScreenModel.rate,
-                              "unitValue": loadDetailsScreenModel.unitValue,
+                              "truckType": widget.loadDetailsScreenModel.truckType,
+                              "noOfTrucks": widget.loadDetailsScreenModel.noOfTrucks,
+                              "weight": widget.loadDetailsScreenModel.weight,
+                              "productType": widget.loadDetailsScreenModel.productType,
+                              "rate": widget.loadDetailsScreenModel.rate,
+                              "unitValue": widget.loadDetailsScreenModel.unitValue,
                             },
                           ),
                         ),
                         Container(
                             margin: EdgeInsets.only(bottom: space_4),
                             child: AdditionalDescriptionLoadDetails(
-                                loadDetailsScreenModel.comment)),
+                                widget.loadDetailsScreenModel.comment)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             BookNowButton(
-                              loadDetailsScreenModel: loadDetailsScreenModel,
+                              loadDetailsScreenModel: widget.loadDetailsScreenModel,
                             ),
                             ShareButton(
-                              loadDetails: loadDetailsScreenModel,
+                              loadDetails: widget.loadDetailsScreenModel,
+                              widgetLoadDetailsScreenModel: widgetLoadDetailsScreenModel,
                             )
                           ],
                         ),

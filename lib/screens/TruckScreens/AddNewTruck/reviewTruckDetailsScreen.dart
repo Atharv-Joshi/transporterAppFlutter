@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/controller/truckIdController.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
   final String truckId;
@@ -85,7 +86,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
             children: [
               Header(
                 backButton: true,
-                  text: 'Add Truck',
+                  text: AppLocalizations.of(context)!.addTruck,
                   reset: false,
                   // resetFunction: () {
                   //   providerData.resetTruckFilters();
@@ -125,23 +126,23 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                           child: Column(
                             children: [
                               TruckReviewDetailsRow(
-                                  value: truckTypeText, label: 'Truck Type'),
+                                  value: truckTypeText, label:AppLocalizations.of(context)!.truckType),
                               TruckReviewDetailsRow(
                                   value: providerData.totalTyresValue,
-                                  label: 'Total Tyres'),
+                                  label: AppLocalizations.of(context)!.totalTyres),
                               TruckReviewDetailsRow(
                                   value: providerData.passingWeightValue,
-                                  label: 'Passing Weight'),
+                                  label: AppLocalizations.of(context)!.passingWeigthInTons),
                               TruckReviewDetailsRow(
                                   value: providerData.truckLengthValue,
-                                  label: 'Truck Length'),
+                                  label: AppLocalizations.of(context)!.truckLength),
                               TruckReviewDetailsRow(
                                   value: widget.driverId != ''
                                       ?
                                   '${driverModel.driverName}-${driverModel.phoneNum}'
                                       :
                                   '---',
-                                  label: 'Driver Details'),
+                                  label: AppLocalizations.of(context)!.driverDetails),
                             ],
                           ),
                         ),
@@ -166,7 +167,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               Get.back();
                             },
                             optional: true,
-                            text: 'Edit'),
+                            text: AppLocalizations.of(context)!.edit),
                         MediumSizedButton(
                             onPressedFunction: () async {
                               setState(() {

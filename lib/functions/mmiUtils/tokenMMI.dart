@@ -2,13 +2,29 @@ import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 Future<String> getMapMyIndiaToken() async {
-  String clientIdMapMyIndia =
-      FlutterConfig.get("clientIdMapMyIndia").toString();
-  String clientSecretMapMyIndia =
-      FlutterConfig.get("clientSecretMapMyIndia").toString();
+  String? clientIdMapMyIndia;
+  String? clientSecretMapMyIndia;
+  await FirebaseDatabase.instance
+      .reference()
+      .child('clientSecretMapMyIndia')
+      .once()
+      .then((DataSnapshot snapshot) {
+    clientSecretMapMyIndia = snapshot.value;
+    print("clientSecretMapMyIndia = $clientSecretMapMyIndia");
+  });
+  await FirebaseDatabase.instance
+      .reference()
+      .child('clientIdMapMyIndia')
+      .once()
+      .then((DataSnapshot snapshot) {
+    clientIdMapMyIndia = snapshot.value;
+    print("clientIdMapMyIndia = $clientIdMapMyIndia");
+  });
+  // if(clientIdMapMyIndia != null && clientSecretMapMyIndia != null){
+
   TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
   Uri tokenUrl = Uri(
       scheme: "https",

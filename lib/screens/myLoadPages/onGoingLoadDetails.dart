@@ -3,16 +3,18 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/completedButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnGoingLoadDetails extends StatelessWidget {
 
-  final Map loadALlDataModel;
+  final OngoingCardModel loadALlDataModel;
   bool? trackIndicator = false;
 
   OnGoingLoadDetails({required this.loadALlDataModel,this.trackIndicator});
@@ -25,16 +27,16 @@ class OnGoingLoadDetails extends StatelessWidget {
             margin: EdgeInsets.all(space_4),
             child: Column(
               children: [
-                Header(reset: false, text: 'Order Details', backButton: true),
+                Header(reset: false, text: AppLocalizations.of(context)!.orderDetails, backButton: true),
                 Container(
                   margin: EdgeInsets.only(top: space_4),
                   child:                 Stack(
                     children: [
                       LoadPosterDetails(
-                        loadPosterLocation: loadALlDataModel['transporterLocation'],
-                        loadPosterName:loadALlDataModel['transporterName'],
-                        loadPosterCompanyName: loadALlDataModel['companyName'],
-                        loadPosterCompanyApproved : loadALlDataModel['transporterApproved'],
+                        loadPosterLocation: loadALlDataModel.transporterLocation,
+                        loadPosterName:loadALlDataModel.transporterName,
+                        loadPosterCompanyName: loadALlDataModel.companyName,
+                        loadPosterCompanyApproved : loadALlDataModel.transporterApproved,
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -53,10 +55,10 @@ class OnGoingLoadDetails extends StatelessWidget {
                                 TrackButton(truckApproved: trackIndicator!,),
                                 CallButton(
                                   directCall: false,
-                                  driverPhoneNum:  loadALlDataModel['driverPhoneNum'],
-                                  driverName: loadALlDataModel['driverName'],
-                                  transporterPhoneNum: loadALlDataModel['transporterPhoneNum'],
-                                  transporterName:  loadALlDataModel['transporterName'],
+                                  driverPhoneNum:  loadALlDataModel.driverPhoneNum,
+                                  driverName: loadALlDataModel.driverName,
+                                  transporterPhoneNum: loadALlDataModel.transporterPhoneNum,
+                                  transporterName:  loadALlDataModel.transporterName,
                                 )
                               ],
                             ),
@@ -73,12 +75,12 @@ class OnGoingLoadDetails extends StatelessWidget {
                     margin: EdgeInsets.all(space_3),
                     child: Column(
                       children: [
-                        NewRowTemplate(label: 'Location', value: '${loadALlDataModel['loadingPoint']} - ${loadALlDataModel['unloadingPoint']}'),
-                        NewRowTemplate(label: 'Truck No', value: loadALlDataModel['truckNo']),
-                        NewRowTemplate(label: 'Truck Type', value: loadALlDataModel['truckType']),
-                        NewRowTemplate(label: 'No of Trucks', value: loadALlDataModel['noOfTrucks']),
-                        NewRowTemplate(label: 'Product Type', value: loadALlDataModel['productType']),
-                        NewRowTemplate(label: 'Price', value: '${loadALlDataModel['rate']}/${loadALlDataModel['unitValue']}'),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.location, value: '${loadALlDataModel.loadingPointCity} - ${loadALlDataModel.unloadingPointCity}'),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.truckNumber, value: loadALlDataModel.truckNo),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.truckType, value: loadALlDataModel.truckType),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.numberOfTrucks, value: loadALlDataModel.noOfTrucks),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.productType, value: loadALlDataModel.productType),
+                        NewRowTemplate(label: AppLocalizations.of(context)!.price, value: '${loadALlDataModel.rate}/${loadALlDataModel.unitValue}'),
                       ],
                     ),
                   ),

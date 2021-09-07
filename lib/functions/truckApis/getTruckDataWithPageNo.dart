@@ -53,7 +53,7 @@ getTruckDataWithPageNo(int i) async {
         json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
     //driver data
     DriverModel driverModel =
-        await driverApiCalls.getDriverByDriverId(driverId: truckModel.driverId);
+        await getDriverByDriverId(driverId: truckModel.driverId);
     truckModel.driverName = driverModel.driverName;
     truckModel.driverNum = driverModel.phoneNum;
     truckDataList.add(truckModel);

@@ -11,7 +11,7 @@ import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class ConfirmOrderButton extends StatefulWidget {
   BiddingModel biddingModel;
@@ -56,7 +56,7 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
       height: 31,
       child: TextButton(
         child: Text(
-          'Confirm',
+          AppLocalizations.of(context)!.confirm,
           style: TextStyle(
               letterSpacing: 1,
               fontSize: size_6 + 1,

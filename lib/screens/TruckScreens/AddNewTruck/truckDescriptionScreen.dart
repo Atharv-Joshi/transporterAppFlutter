@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
@@ -143,14 +144,14 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               children: [
                 Header(
                     backButton: true,
-                    text: 'Add Truck',
+                    text: AppLocalizations.of(context)!.addTruck,
                     reset: true,
                     resetFunction: () {
                       providerData.resetTruckFilters();
                       dropDownValue = null;
                       providerData.updateResetActive(false);
                     }),
-                AddTruckSubtitleText(text: 'Truck Type'),
+                AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckType),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -175,8 +176,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
+                        height: 60,
                         child: GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -200,8 +201,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
+                        height: 60,
                         child: GridView.count(
-                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisSpacing: space_6,
                             mainAxisSpacing: space_1,
@@ -226,7 +227,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         height: 60,
                         child: GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -277,7 +277,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       isDense: true,
                       isExpanded: true,
                       focusColor: Colors.blue,
-                      hint: Text('Driver Name-Number'),
+                      hint: Text(AppLocalizations.of(context)!.driverNameNumber),
                       value: dropDownValue,
                       icon: Container(
                           decoration: BoxDecoration(

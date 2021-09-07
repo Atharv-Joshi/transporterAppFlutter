@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
+import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:get/get.dart';
 
@@ -49,6 +50,7 @@ class _BookNowButtonState extends State<BookNowButton> {
     driverDetailsList = await driverApiCalls.getDriversByTransporterId();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -56,14 +58,12 @@ class _BookNowButtonState extends State<BookNowButton> {
           await showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => transporterIdController.companyApproved.value
-                ? BookLoadAlertDialogBox(
-                    truckModelList: truckDetailsList,
-                    driverModelList: driverDetailsList,
-                    loadDetailsScreenModel: widget.loadDetailsScreenModel,
-                    directBooking: true,
-                  )
-                : VerifyAccountNotifyAlertDialog(),
+            builder: (context) => BookLoadAlertDialogBox(
+              truckModelList: truckDetailsList,
+              driverModelList: driverDetailsList,
+              loadDetailsScreenModel: widget.loadDetailsScreenModel,
+              directBooking: true,
+            ),
           );
         },
         child: Container(
@@ -74,7 +74,7 @@ class _BookNowButtonState extends State<BookNowButton> {
               borderRadius: BorderRadius.circular(radius_6)),
           child: Center(
             child: Text(
-              "Book Now",
+              AppLocalizations.of(context)!.bookNow,
               style: TextStyle(
                   fontSize: size_8, fontWeight: mediumBoldWeight, color: white),
             ),
