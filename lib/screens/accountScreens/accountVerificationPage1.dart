@@ -11,7 +11,7 @@ import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/accountVerification/idInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/profilePhoto.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class AccountVerificationPage1 extends StatefulWidget {
@@ -24,7 +24,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
   @override
   void initState() {
     super.initState();
-    // Permission.camera.request();
+    Permission.camera.request();
   }
 
   @override
