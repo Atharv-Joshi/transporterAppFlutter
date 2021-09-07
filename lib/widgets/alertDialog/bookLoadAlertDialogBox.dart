@@ -56,21 +56,21 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
       truckApproved: false, truckId: 'Add new Truck', truckNo: 'Add new Truck');
   late DriverModel driverModel = DriverModel(
       driverId: 'Add new Driver', driverName: 'Add new Driver', phoneNum: '');
-  late List driverList = [];
-  late List truckList = [];
+  late List? driverList = [];
+  late List? truckList = [];
   List<DropdownMenuItem<String>> dropDownList = [];
   List<DropdownMenuItem<String>> dropDownListT = [];
   SelectedDriverController selectedDriverController =
       Get.find<SelectedDriverController>();
 
-  void getDriverList() async {
+  getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
     setState(() {
       driverList = temp;
       // print(driverList[0]);
     });
-    for (var instance in driverList) {
+    for (var instance in driverList!) {
       bool instanceAlreadyAdded = false;
       for (var dropDown in dropDownList) {
         if (dropDown.value == instance.driverId) {
@@ -88,31 +88,31 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
       }
     }
 
-    bool addNewDriverAlreadyAdded = false;
-    for (var dropDown in dropDownList) {
-      if (dropDown.value == '') {
-        addNewDriverAlreadyAdded = true;
-        break;
-      }
-    }
-    if (!addNewDriverAlreadyAdded) {
-      dropDownList.add(DropdownMenuItem(
-        value: '',
-        child: Expanded(
-          child: Container(
-            width: 400,
-            child: TextButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => AddDriverAlertDialog());
-              },
-              child: Text('Add New Driver'),
-            ),
-          ),
-        ),
-      ));
-    }
+    // bool addNewDriverAlreadyAdded = false;
+    // for (var dropDown in dropDownList) {
+    //   if (dropDown.value == 'e') {
+    //     addNewDriverAlreadyAdded = true;
+    //     break;
+    //   }
+    // }
+    // if (!addNewDriverAlreadyAdded) {
+    //   dropDownList.add(DropdownMenuItem(
+    //     value: 'e',
+    //     child: Expanded(
+    //       child: Container(
+    //         width: 400,
+    //         child: TextButton(
+    //           onPressed: () {
+    //             showDialog(
+    //                 context: context,
+    //                 builder: (context) => AddDriverAlertDialog());
+    //           },
+    //           child: Text('Add New Driver'),
+    //         ),
+    //       ),
+    //     ),
+    //   ));
+    // }
     // selectedDriverController.updateSelectedDriverController(
     //     '${driverList[0].driverName}-${driverList[0].phoneNum}');
     // for (var instance in driverList[0].d) {
@@ -122,13 +122,13 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
     // print("driver list driver name${driverList[0].driverName}");
   }
 
-  void getTruckList() async {
+  getTruckList() async {
     List temp;
     temp = await truckApiCalls.getTruckData();
     setState(() {
       truckList = temp;
     });
-    for (var instance in truckList) {
+    for (var instance in truckList!) {
       bool instanceAlreadyAdded = false;
       for (var dropDown in dropDownListT) {
         if (dropDown.value == instance.truckId) {
@@ -146,31 +146,39 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
       }
     }
 
-    bool addNewTruckAlreadyAdded = false;
-    for (var dropDown in dropDownListT) {
-      if (dropDown.value == '') {
-        addNewTruckAlreadyAdded = true;
-        break;
-      }
-    }
-    if (!addNewTruckAlreadyAdded) {
-      dropDownListT.add(DropdownMenuItem(
-        value: '',
-        child: Expanded(
-          child: Container(
-            width: 400,
-            child: TextButton(
-              onPressed: () {
-                // providerData.updateIsAddTruckSrcDropDown(true);
-                Navigator.pop(context);
-                Get.to(() => AddNewTruck());
-              },
-              child: Text('Add New Truck'),
-            ),
-          ),
-        ),
-      ));
-    }
+    // bool addNewTruckAlreadyAdded = false;
+    // for (var dropDown in dropDownListT) {
+    //   if (dropDown.value == '') {
+    //     addNewTruckAlreadyAdded = true;
+    //     break;
+    //   }
+    // }
+    //
+    // dropDownListT.add(DropdownMenuItem(
+    //   value: '',
+    //   child: Expanded(
+    //     child: Container(
+    //       width: 400,
+    //       child: TextButton(
+    //         onPressed: () {
+    //           // providerData.updateIsAddTruckSrcDropDown(true);
+    //           Navigator.pop(context);
+    //           Get.to(() => AddNewTruck());
+    //         },
+    //         child: Text('Add New Truck'),
+    //       ),
+    //     ),
+    //   ),
+    // ));
+  }
+
+  void autoAddDriver() {
+    getDriverList();
+    getTruckList();
+    // if (selectedDriverController.newDriverAddedBook.value) {
+    //   selectedDriver = selectedDriverController.selectedDriverBook.value;
+    //   selectedDriverController.updateNewDriverAddedBookController(false);
+    // }
   }
 
   @override
@@ -192,15 +200,9 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
 
     widget.driverModelList!.add(driverModel);
 
-    getDriverList();
-    getTruckList();
-    print(
-        "bookLoadAlertDialog.dart ${selectedDriverController.newDriverAddedBook.value}");
-    if (selectedDriverController.newDriverAddedBook.value) {
-      selectedDriver = selectedDriverController.selectedDriverBook.value;
-
-      selectedDriverController.updateNewDriverAddedBookController(false);
-    }
+    // print(
+    //     "bookLoadAlertDialog.dart ${selectedDriverController.newDriverAddedBook.value}");
+    autoAddDriver();
     // for (var i in widget.driverModelList!) {
     //   print(i.driverName);
     // }
@@ -215,13 +217,32 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            margin: EdgeInsets.only(bottom: space_2),
-            child: Text(
-              "Select a Truck",
-              style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
-            ),
+          SizedBox(
+            height: space_2 + 2,
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: space_2),
+                child: Text(
+                  "Select a Truck",
+                  style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // providerData.updateIsAddTruckSrcDropDown(true);
+                  Navigator.pop(context);
+                  Get.to(() => AddNewTruck());
+                },
+                child: Text('Add New Truck'),
+              ),
+            ],
+          ),
+          // SizedBox(
+          //   height: space_2,
+          // ),
           Container(
             height: space_7 + 2,
             width: MediaQuery.of(context).size.width,
@@ -292,13 +313,26 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
           SizedBox(
             height: space_2 + 2,
           ),
-          Text(
-            "Select a Driver",
-            style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Select a Driver",
+                style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
+              ),
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AddDriverAlertDialog());
+                },
+                child: Text('Add New Driver'),
+              ),
+            ],
           ),
-          SizedBox(
-            height: space_2,
-          ),
+          // SizedBox(
+          //   height: space_2,
+          // ),
           Container(
             height: space_7 + 2,
             width: MediaQuery.of(context).size.width,

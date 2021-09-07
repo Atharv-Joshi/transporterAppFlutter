@@ -15,7 +15,6 @@ class PermissionDialog extends StatefulWidget {
 }
 
 class _PermissionDialogState extends State<PermissionDialog> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -28,8 +27,7 @@ class _PermissionDialogState extends State<PermissionDialog> {
         style: TextStyle(
             color: bidBackground,
             fontSize: size_9,
-            fontWeight: mediumBoldWeight
-        ),
+            fontWeight: mediumBoldWeight),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -40,8 +38,7 @@ class _PermissionDialogState extends State<PermissionDialog> {
             style: TextStyle(
                 color: loadingPointTextColor,
                 fontSize: size_8,
-                fontWeight: normalWeight
-            ),
+                fontWeight: normalWeight),
           ),
           SizedBox(
             height: space_2,
@@ -54,23 +51,21 @@ class _PermissionDialogState extends State<PermissionDialog> {
                 width: space_16,
                 child: TextButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(bidBackground),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(radius_4)
-                            )
-                        )
-                    ),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(bidBackground),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(radius_4)))),
                     onPressed: () => {openAppSettings(), Navigator.pop(context)},
                     child: Text(
                       "Settings",
                       style: TextStyle(
                           color: backgroundColor,
                           fontSize: (size_6 + 1),
-                          fontWeight: mediumBoldWeight
-                      ),
-                    )
-                ),
+                          fontWeight: mediumBoldWeight),
+                    )),
               ),
               SizedBox(
                 width: space_1,

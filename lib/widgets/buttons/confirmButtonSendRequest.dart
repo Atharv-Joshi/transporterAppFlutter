@@ -62,11 +62,13 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         truckApiCalls.updateDriverIdForTruck(
             driverID: widget.selectedDriver, truckID: widget.truckId);
         bookResponse = await postBookingApi(
-            widget.loadDetailsScreenModel!.loadId,
-            widget.loadDetailsScreenModel!.rate,
-            widget.loadDetailsScreenModel!.unitValue,
-            widget.truckId,
-            widget.loadDetailsScreenModel!.postLoadId);
+          widget.loadDetailsScreenModel!.loadId,
+          widget.loadDetailsScreenModel!.rate,
+          widget.loadDetailsScreenModel!.unitValue,
+          widget.truckId,
+          widget.loadDetailsScreenModel!.postLoadId,
+          widget.loadDetailsScreenModel!.rate,
+        );
         print("directBooking");
       } else {
         truckApiCalls.updateDriverIdForTruck(
@@ -77,6 +79,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
           widget.biddingModel!.unitValue,
           widget.truckId,
           widget.postLoadId,
+          widget.loadDetailsScreenModel!.rate,
         );
       }
 
