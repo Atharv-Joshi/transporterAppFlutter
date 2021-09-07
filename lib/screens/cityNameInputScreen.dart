@@ -21,7 +21,6 @@ class CityNameInputScreen extends StatefulWidget {
 }
 
 class _CityNameInputScreenState extends State<CityNameInputScreen> {
-  TokenMMIController tokenMMIController = Get.put(TokenMMIController(), permanent: true);
   var locationCard;
   TextEditingController controller = TextEditingController();
 
