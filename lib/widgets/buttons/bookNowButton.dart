@@ -14,6 +14,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
+import 'package:get/get.dart';
+
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetailsScreenModel;
@@ -33,6 +36,8 @@ class _BookNowButtonState extends State<BookNowButton> {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
   DriverApiCalls driverApiCalls = DriverApiCalls();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   @override
   void initState() {

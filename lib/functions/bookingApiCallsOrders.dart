@@ -34,17 +34,25 @@ class BookingApiCallsOrders {
 
       for (var json in jsonData) {
         BookingModel bookingModel = BookingModel();
-        bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : 'NA';
+        bookingModel.bookingDate =
+            json['bookingDate'] != null ? json['bookingDate'] : 'NA';
         bookingModel.loadId = json['loadId'] != null ? json['loadId'] : 'NA';
-        bookingModel.transporterId = json['transporterId'] != null ? json['transporterId'] : 'NA';
+        bookingModel.transporterId =
+            json['transporterId'] != null ? json['transporterId'] : 'NA';
         bookingModel.truckId = json['truckId'] != null ? json['truckId'] : 'NA';
         bookingModel.cancel = json['cancel'] != null ? json['cancel'] : false;
-        bookingModel.completed = json['completed'] != null ? json['completed'] : false;
-        bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : 'NA';
-        bookingModel.postLoadId = json['postLoadId'] != null ? json['postLoadId'] : 'NA';
-        bookingModel.bookingId = json['bookingId'] != null ? json['bookingId'] : 'NA';
-        bookingModel.rateString = json['rate'] != null ? json['rate'].toString() : 'NA';
-        bookingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'NA';
+        bookingModel.completed =
+            json['completed'] != null ? json['completed'] : false;
+        bookingModel.completedDate =
+            json['completedDate'] != null ? json['completedDate'] : 'NA';
+        bookingModel.postLoadId =
+            json['postLoadId'] != null ? json['postLoadId'] : 'NA';
+        bookingModel.bookingId =
+            json['bookingId'] != null ? json['bookingId'] : 'NA';
+        bookingModel.rateString =
+            json['rate'] != null ? json['rate'].toString() : 'NA';
+        bookingModel.unitValue =
+            json['unitValue'] != null ? json['unitValue'] : 'NA';
 
         modelList.add(bookingModel);
       }
@@ -66,16 +74,24 @@ class BookingApiCallsOrders {
         }
         for (var json in jsonData) {
           BookingModel bookingModel = BookingModel();
-          bookingModel.bookingDate = json['bookingDate'] != null ? json['bookingDate'] : 'NA';
+          bookingModel.bookingDate =
+              json['bookingDate'] != null ? json['bookingDate'] : 'NA';
           bookingModel.loadId = json['loadId'] != null ? json['loadId'] : 'NA';
-          bookingModel.transporterId = json['transporterId'] != null ? json['transporterId'] : 'NA';
-          bookingModel.truckId = json['truckId'] != null ? json['truckId'] : 'NA';
+          bookingModel.transporterId =
+              json['transporterId'] != null ? json['transporterId'] : 'NA';
+          bookingModel.truckId =
+              json['truckId'] != null ? json['truckId'] : 'NA';
           bookingModel.cancel = json['cancel'] != null ? json['cancel'] : false;
-          bookingModel.completed = json['completed'] != null ? json['completed'] : false;
-          bookingModel.completedDate = json['completedDate'] != null ? json['completedDate'] : 'NA';
-          bookingModel.postLoadId = json['postLoadId'] != null ? json['postLoadId'] : 'NA';
-          bookingModel.rateString = json['rate'] != null ? json['rate'].toString() : 'NA';
-          bookingModel.unitValue = json['unitValue'] != null ? json['unitValue'] : 'NA';
+          bookingModel.completed =
+              json['completed'] != null ? json['completed'] : false;
+          bookingModel.completedDate =
+              json['completedDate'] != null ? json['completedDate'] : 'NA';
+          bookingModel.postLoadId =
+              json['postLoadId'] != null ? json['postLoadId'] : 'NA';
+          bookingModel.rateString =
+              json['rate'] != null ? json['rate'].toString() : 'NA';
+          bookingModel.unitValue =
+              json['unitValue'] != null ? json['unitValue'] : 'NA';
 
           modelList.add(bookingModel);
         }
@@ -86,7 +102,12 @@ class BookingApiCallsOrders {
 
   Future<String?> updateBookingApi(completedDate, bookingId) async {
     try {
-      Map data = {"completed": true, "completedDate": completedDate};
+      print(bookingId);
+      Map data = {
+        "completed": true,
+        "completedDate": completedDate,
+        "cancel": false,
+      };
       String body = json.encode(data);
       final response = await http.put(Uri.parse("$bookingApiUrl/$bookingId"),
           headers: <String, String>{
