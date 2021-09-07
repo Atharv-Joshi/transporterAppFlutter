@@ -151,7 +151,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       dropDownValue = null;
                       providerData.updateResetActive(false);
                     }),
-                AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckType),
+                AddTruckSubtitleText(
+                    text: AppLocalizations.of(context)!.truckType),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -176,8 +177,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -201,8 +202,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisSpacing: space_6,
                             mainAxisSpacing: space_1,
@@ -225,8 +226,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -277,7 +278,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       isDense: true,
                       isExpanded: true,
                       focusColor: Colors.blue,
-                      hint: Text(AppLocalizations.of(context)!.driverNameNumber),
+                      hint:
+                          Text(AppLocalizations.of(context)!.driverNameNumber),
                       value: dropDownValue,
                       icon: Container(
                           decoration: BoxDecoration(

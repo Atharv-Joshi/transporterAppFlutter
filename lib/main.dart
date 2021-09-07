@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
+import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
 import 'package:liveasy/translations/l10n.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
@@ -15,6 +17,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity/connectivity.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +34,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var _connectionStatus = "Unknown";
+  late Connectivity connectivity;
+  late StreamSubscription<ConnectivityResult> subscription;
+
   @override
   void initState() {
     super.initState();
     configOneSignel();
+    connectivity = new Connectivity();
+    subscription =
+        connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      _connectionStatus = result.toString();
+      print(_connectionStatus);
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        setState(() {});
+      } else if (result == ConnectivityResult.none) {
+        Get.to(NoInternetScreen());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   void configOneSignel() {
