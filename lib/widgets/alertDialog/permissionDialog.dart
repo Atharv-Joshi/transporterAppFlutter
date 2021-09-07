@@ -5,7 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/CancelButttonBidDialogBox.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PermissionDialog extends StatefulWidget {
   const PermissionDialog({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _PermissionDialogState extends State<PermissionDialog> {
                                 RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.circular(radius_4)))),
-                    // onPressed: () => {openAppSettings(), Navigator.pop(context)},
+                    onPressed: () => {openAppSettings(), Navigator.pop(context)},
                     onPressed: () {},
                     child: Text(
                       "Settings",
