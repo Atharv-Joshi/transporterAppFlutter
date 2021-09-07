@@ -38,7 +38,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   Widget build(BuildContext context) {
     bool visible = false;
     ProviderData providerData =
-        Provider.of<ProviderData>(context, listen: false);
+        Provider.of<ProviderData>(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,

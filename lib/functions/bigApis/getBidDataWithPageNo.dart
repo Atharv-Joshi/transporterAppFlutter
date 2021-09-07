@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadApiCalls.dart';
@@ -13,7 +15,10 @@ getBidDataWithPageNo(int i) async {
   final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
   final LoadApiCalls loadApiCalls = LoadApiCalls();
   http.Response response = await http.get(Uri.parse(
-      "$biddingApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i"));
+      "$biddingApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i"),
+  headers: <String, String>{
+    HttpHeaders.authorizationHeader: transporterIdController.jmtToken.value
+  });
   var jsonData = json.decode(response.body);
   var biddingModelList = [];
   for (var json in jsonData) {

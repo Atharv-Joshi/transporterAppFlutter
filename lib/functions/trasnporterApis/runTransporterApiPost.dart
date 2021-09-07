@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
@@ -7,6 +9,13 @@ import 'package:liveasy/controller/transporterIdController.dart';
 Future<String?> runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
   try {
+    var mUser = FirebaseAuth.instance.currentUser;
+    String? firebaseToken;
+    await mUser!.getIdToken(true).then((value) {
+      // log(value);
+      firebaseToken = value;
+    });
+
     TransporterIdController transporterIdController =
         Get.put(TransporterIdController(), permanent: true);
 
@@ -19,6 +28,7 @@ Future<String?> runTransporterApiPost(
     final response = await http.post(Uri.parse(transporterApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: firebaseToken!
         },
         body: body);
     print(response.body);
@@ -49,6 +59,9 @@ Future<String?> runTransporterApiPost(
         transporterIdController.updateTransporterLocation(transporterLocation);
         transporterIdController.updateName(name);
         transporterIdController.updateCompanyName(companyName);
+        if(decodedResponse["token"] != null){
+          transporterIdController.updateJmtToken(decodedResponse["token"].toString());
+        }
         return transporterId;
       } else {
         return null;

@@ -5,7 +5,6 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/postLoadVariablesController.dart';
-import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
@@ -106,10 +105,16 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
           text:
           ("${providerData.loadingPointCityPostLoad} (${providerData.loadingPointStatePostLoad})"));
     }
+    else{
+      controller1 = TextEditingController(text: "");
+    }
     if (providerData.unloadingPointCityPostLoad != "") {
       controller2 = TextEditingController(
           text:
           ("${providerData.unloadingPointCityPostLoad} (${providerData.unloadingPointStatePostLoad})"));
+    }
+    else{
+      controller2 = TextEditingController(text: "");
     }
 
     return Scaffold(
