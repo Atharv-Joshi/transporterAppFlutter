@@ -122,7 +122,7 @@ class DrawerWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        selectItem(context, NavigationItem.MyDriver);
+                        selectItem(context, NavigationItem.AddDriver);
                         Navigator.of(context).pop();
                         showDialog(
                             context: context,
@@ -130,7 +130,7 @@ class DrawerWidget extends StatelessWidget {
                       },
                       child: drawerMenuItem(
                           context: context,
-                          item: NavigationItem.MyDriver,
+                          item: NavigationItem.AddDriver,
                           text: AppLocalizations.of(context)!.add_driver,
                           image: 'assets/icons/driverHandle.png'),
                     ),
