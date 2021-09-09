@@ -51,7 +51,6 @@ class _BookNowButtonState extends State<BookNowButton> {
     driverDetailsList = await driverApiCalls.getDriversByTransporterId();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -59,12 +58,15 @@ class _BookNowButtonState extends State<BookNowButton> {
           await showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => BookLoadAlertDialogBox(
-              truckModelList: truckDetailsList,
-              driverModelList: driverDetailsList,
-              loadDetailsScreenModel: widget.loadDetailsScreenModel,
-              directBooking: true,
-            ),
+            builder: (context) =>
+                transporterIdController.transporterApproved.value
+                    ? BookLoadAlertDialogBox(
+                        truckModelList: truckDetailsList,
+                        driverModelList: driverDetailsList,
+                        loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                        directBooking: true,
+                      )
+                    : VerifyAccountNotifyAlertDialog(),
           );
         },
         child: Container(
