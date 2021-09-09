@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/home.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/widgets/HelpCardWidget.dart';
@@ -16,6 +19,7 @@ class HelpScreen extends StatefulWidget{
 }
 
 class _HelpScreenState extends State<HelpScreen> {
+  final myController = TextEditingController();
   bool _showData = false;
   //add questions here
   List<String> questions = ['How to add truck?',
@@ -36,12 +40,12 @@ class _HelpScreenState extends State<HelpScreen> {
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(space_3, space_4, space_4, space_2),
+          padding: EdgeInsets.only(top:50, right:space_4, left: space_4),
           height: MediaQuery
               .of(context)
               .size
               .height -
-              kBottomNavigationBarHeight -
+              // kBottomNavigationBarHeight -
               space_4,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -53,13 +57,18 @@ class _HelpScreenState extends State<HelpScreen> {
                       children: [
                         Container(
                             padding: EdgeInsets.only(right: 20),
-                            child: Text(
-                              'Help and Support',
-                              style: TextStyle(fontFamily: 'montserrat',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.left,
-                            )
+                            child:
+                                Header(
+                                    reset: false,
+                                    text: 'Help and Support',
+                                    backButton: true),
+                                // Text(
+                                //   'Help and Support',
+                                //   style: TextStyle(fontFamily: 'montserrat',
+                                //       fontSize: 20,
+                                //       fontWeight: FontWeight.w600),
+                                //   textAlign: TextAlign.left,
+                                // ),
                         )
                       ],
                     ),
@@ -127,7 +136,6 @@ class _HelpScreenState extends State<HelpScreen> {
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(7)
-                                      // boxShadow: [BoxShadow(color: Colors.white, offset: Offset(0.0, 3.0))]
                                     ),
                                     child: Container(
                                         margin: EdgeInsets.all(5),
@@ -148,17 +156,19 @@ class _HelpScreenState extends State<HelpScreen> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                             Container(
+                                                              // margin: EdgeInsets.only(top: 5, bottom: 5),
                                                               alignment: Alignment.topLeft,
-                                                              // width: 269,
                                                               child: TextFormField(
-
+                                                                maxLines: 5,
+                                                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, fontFamily: 'montserrat'),
+                                                                controller: myController,
                                                                 textAlign: TextAlign.start,
                                                                 decoration: const InputDecoration(
                                                                   fillColor: Color(0xffF5F5F5),
                                                                   filled: true,
-                                                                  contentPadding: EdgeInsets.only(left: 13, right: 30, bottom: 80),
+                                                                  contentPadding: EdgeInsets.only(top: 20, left: 10, right: 10),
                                                                 border: OutlineInputBorder(),
-                                                                hintText: 'Please write to us, will get in touch with you.',
+                                                                hintText: 'Please write to us, we will get in touch with you.',
                                                                   hintStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, fontFamily: 'montserrat')
                                                           ),
                                                            ),
@@ -176,6 +186,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                                               MaterialStateProperty.all<Color>(darkBlueColor),
                                                             ),
                                                             onPressed: () {
+                                                              _sendMail(myController.text);
                                                             },
                                                             child: Container(
                                                               child: Text(
@@ -215,7 +226,7 @@ class ContactUsWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
        alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(left: 70),
+        padding: EdgeInsets.only(left: 7),
 
         child: GestureDetector(
         onTap: () {
@@ -254,6 +265,10 @@ class ContactUsWidget extends StatelessWidget{
   }
 }
 _callUs() async{
-  String url = 'tel:9708345127';
+  String url = 'tel:8290748131';
+  UrlLauncher.launch(url);
+}
+_sendMail(String askedQuestion) async{
+  String url = 'mailto:liveasy97@gmail.com?subject=Question&body=${askedQuestion}';
   UrlLauncher.launch(url);
 }

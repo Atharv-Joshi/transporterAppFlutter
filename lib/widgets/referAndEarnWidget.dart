@@ -3,11 +3,18 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class ReferAndEarnWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+      showDialog(
+          context: context,
+          builder: (context) => NextUpdateAlertDialog());
+    },
+        child: Container(
       height: 100,
       width: 180,
       padding: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
@@ -44,6 +51,6 @@ class ReferAndEarnWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
