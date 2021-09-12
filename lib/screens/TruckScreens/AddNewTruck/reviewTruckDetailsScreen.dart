@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
@@ -76,7 +77,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
     }
 
       // driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
-
+    NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
 
     return Scaffold(
       body: SafeArea(
@@ -189,12 +190,12 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 });
 
                                 if(providerData.isAddTruckSrcDropDown){
-                                  providerData.updateIndex(3);
                                   Get.offAll(() => NavigationScreen());
+                                  navigationIndexController.updateIndex(3);
                                 }
                                 else{
-                                  providerData.updateIndex(1);
                                   Get.offAll(() => NavigationScreen());
+                                  navigationIndexController.updateIndex(1);
                                 }
                                 providerData.resetTruckFilters();
                               } else {

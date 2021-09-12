@@ -2,6 +2,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/AppVersionCheck.dart';
 import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
@@ -23,13 +24,12 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-
   List<LoadDetailsScreenModel> data = [];
   String? loadID;
   LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
-
+  NavigationIndexController navigationIndex = Get.put(NavigationIndexController(), permanent: true);
   var screens = [
     HomeScreen(),
     MyTrucks(),
@@ -49,7 +49,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTime = (prefs.getBool('isFirstTime') ?? true);
     try {
-      if(isFirstTime == true) {
+      if (isFirstTime == true) {
         await prefs.setBool('isFirstTime', false);
         versionCheck(context);
       }
@@ -61,21 +61,19 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-          final Uri? deepLink = dynamicLink?.link;
+      final Uri? deepLink = dynamicLink?.link;
 
-          if (deepLink != null) {
-              loadID = deepLink.path;
-              findLoadByLoadID(loadID!);
-          }
-        },
-        onError: (OnLinkErrorException e) async {
-          print('onLinkError');
-          print(e.message);
-        }
-    );
+      if (deepLink != null) {
+        loadID = deepLink.path;
+        findLoadByLoadID(loadID!);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
 
-    final PendingDynamicLinkData? dataLink = await FirebaseDynamicLinks.instance
-        .getInitialLink();
+    final PendingDynamicLinkData? dataLink =
+        await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri? deepLink = dataLink?.link;
 
     if (deepLink != null) {
@@ -86,17 +84,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProviderData providerData =
-        Provider.of<ProviderData>(context, listen: false);
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
       backgroundColor: statusBarColor,
       // color of status bar which displays time on a phone
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
         onTap: (int pressedIndex) {
-          // Provider.of<ProviderData>(context, listen: false)
-          //     .updateIndex(pressedIndex);
           providerData.updateUpperNavigatorIndex(0);
-          providerData.updateIndex(pressedIndex);
+          navigationIndex.updateIndex(pressedIndex);
         },
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
@@ -150,12 +145,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
             label: (AppLocalizations.of(context)!.account),
           ),
         ],
-        currentIndex: Provider.of<ProviderData>(context).index,
-      ),
-      body: SafeArea(
+        currentIndex: navigationIndex.index.value,
+      ) ),
+      body: Obx(() => SafeArea(
         child: Center(
-            child: screens.elementAt(Provider.of<ProviderData>(context).index)),
-      ),
+            child: screens.elementAt(navigationIndex.index.value)),
+      ),)
     );
   }
 }

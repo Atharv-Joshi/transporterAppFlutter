@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/popupModelForMyLoads.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -185,6 +186,7 @@ class MyLoadsCard extends StatelessWidget {
 
   void onSelected(BuildContext context, popupMenuforloads item) {
     ProviderData providerData = Provider.of<ProviderData>(context, listen: false);
+    NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
     switch(item){
       case MenuItems.itemEdit:
         providerData.updateLoadingPointPostLoad(
@@ -218,8 +220,8 @@ class MyLoadsCard extends StatelessWidget {
         LoadApiCalls loadApiCalls = LoadApiCalls();
         loadApiCalls.disableActionOnLoad(loadId: loadDetailsScreenModel.loadId);
         Timer(Duration(seconds: 1), () {
-          Provider.of<ProviderData>(context, listen: false).updateIndex(2);
           Get.offAll(NavigationScreen());
+          navigationIndexController.updateIndex(2);
         });
 
         break;
