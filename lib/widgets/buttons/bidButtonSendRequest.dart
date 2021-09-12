@@ -7,6 +7,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -38,6 +39,8 @@ class BidButtonSendRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData =
         Provider.of<ProviderData>(context, listen: false);
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
     getBidData() async {
       String? bidResponse = "";
       String? putResponse = "";
@@ -72,8 +75,8 @@ class BidButtonSendRequest extends StatelessWidget {
             () => {
                   if (!isPost!)
                     {
-                      providerData.updateIndex(2),
                       Get.offAll(() => NavigationScreen()),
+                      navigationIndexController.updateIndex(2),
                       Get.to(() => BiddingScreens(
                           loadId: loadId,
                           loadingPointCity: providerData.bidLoadingPoint,
@@ -83,8 +86,8 @@ class BidButtonSendRequest extends StatelessWidget {
                   else
                     {
                       providerData.updateUpperNavigatorIndex(0),
-                      providerData.updateIndex(3),
                       Get.offAll(() => NavigationScreen()),
+                      navigationIndexController.updateIndex(3),
                       providerData.updateBidButtonSendRequest(false),
                     }
                 });

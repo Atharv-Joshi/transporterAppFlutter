@@ -8,6 +8,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
@@ -48,6 +49,8 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
     getBookingData() async {
       String? bookResponse = "";
       if (bookResponse == "") {
@@ -98,8 +101,8 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
             Duration(seconds: 3),
             () => {
                   providerData.updateUpperNavigatorIndex(1),
-                  providerData.updateIndex(3),
-                  Get.offAll(NavigationScreen())
+                  Get.offAll(NavigationScreen()),
+                  navigationIndexController.updateIndex(3),
                 });
       } else if (bookResponse == "conflict") {
         // change this according to the booking response

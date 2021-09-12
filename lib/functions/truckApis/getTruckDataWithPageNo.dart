@@ -1,27 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
-import 'package:liveasy/widgets/buttons/addTruckButton.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/buttons/helpButton.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
-import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
-import 'package:liveasy/widgets/myTrucksCard.dart';
-import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
 
 getTruckDataWithPageNo(int i) async {
-  DriverApiCalls driverApiCalls = DriverApiCalls();
-
   //TransporterId controller
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
@@ -47,8 +33,7 @@ getTruckDataWithPageNo(int i) async {
         json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
     truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';
     truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
-    truckModel.tyres =
-        json["tyres"] != null ? json["tyres"].toString() : 'NA';
+    truckModel.tyres = json["tyres"] != null ? json["tyres"].toString() : 'NA';
     truckModel.truckLengthString =
         json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
     //driver data

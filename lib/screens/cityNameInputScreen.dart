@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/tokenMMIController.dart';
 import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';

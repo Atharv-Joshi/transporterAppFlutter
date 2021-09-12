@@ -5,9 +5,7 @@ import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:liveasy/widgets/curves.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/widgets/cardTemplate.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   HudController hudController = Get.put(HudController());
+
   void initState() {
     super.initState();
     hudController.updateHud(
