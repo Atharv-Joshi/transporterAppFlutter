@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -20,6 +21,7 @@ class DrawerWidget extends StatelessWidget {
   final String mobileNum;
   final String userName;
   final String? imageUrl;
+  GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
   DrawerWidget(
       {required this.mobileNum, required this.userName, this.imageUrl});
@@ -195,7 +197,7 @@ class DrawerWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        FirebaseAuth.instance.signOut();
+                        FirebaseAuth.instance.signOut().then((value) => tidstorage.erase().then((value) => print('Storage is erased')));
                         Get.offAll(LoginScreen());
                       },
                       child: ListTile(

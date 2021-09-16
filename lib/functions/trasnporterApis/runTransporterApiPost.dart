@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+
+GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
 Future<String?> runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
@@ -41,14 +44,22 @@ Future<String?> runTransporterApiPost(
         String companyName = decodedResponse["companyName"] == null
             ? " " : decodedResponse["companyName"];
         transporterIdController.updateTransporterId(transporterId);
+        tidstorage.write("transporterId", transporterId).then((value) => print("Written transporterId"));
         transporterIdController.updateTransporterApproved(transporterApproved);
+        tidstorage.write("transporterApproved", transporterApproved).then((value) => print("Written transporterApproved"));
         transporterIdController.updateCompanyApproved(companyApproved);
+        tidstorage.write("companyApproved", companyApproved).then((value) => print("Written companyApproved"));
         transporterIdController.updateMobileNum(mobileNum);
+        tidstorage.write("mobileNum", mobileNum).then((value) => print("Written mobileNum"));
         transporterIdController
             .updateAccountVerificationInProgress(accountVerificationInProgress);
+        tidstorage.write("accountVerificationInProgress", accountVerificationInProgress).then((value) => print("Written accountVerificationInProgress"));
         transporterIdController.updateTransporterLocation(transporterLocation);
+        tidstorage.write("transporterLocation", transporterLocation).then((value) => print("Written transporterLocation"));
         transporterIdController.updateName(name);
+        tidstorage.write("name", name).then((value) => print("Written name"));
         transporterIdController.updateCompanyName(companyName);
+        tidstorage.write("companyName", companyName).then((value) => print("Written companyName"));
         return transporterId;
       } else {
         return null;

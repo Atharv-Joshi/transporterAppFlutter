@@ -14,7 +14,7 @@ Future<String> postAccountVerificationDocuments(
   Get.find<TransporterIdController>();
   try {
     final String documentApiUrl =
-        FlutterConfig.get("documentApiUrl").toString();
+    FlutterConfig.get("documentApiUrl").toString();
     Map data = companyIdProof != null?{
       "documents": [
         {
@@ -78,12 +78,13 @@ Future<String> postAccountVerificationDocuments(
         body: body);
     if (response.statusCode == 200) {
       print(response.body);
+      return "Success";
     } else {
       return "Error ${response.statusCode} \n Printing Response ${response.body}";
     }
   } catch (e) {
     print("Error is $e");
     Get.snackbar("Error", "$e", snackPosition: SnackPosition.BOTTOM);
+    return "Error Occurred";
   }
-  return "Success";
 }

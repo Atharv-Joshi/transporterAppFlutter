@@ -44,7 +44,7 @@ class IdInputWidget extends StatelessWidget {
                   RoundedImageDisplay(
                     text: "Id Front",
                     onPressed: () async {
-                      await getImageFromCamera(
+                      showPicker(
                           providerData.updateAddressProofFrontPhoto,
                           providerData.updateAddressProofFrontPhotoStr,
                           context
@@ -55,7 +55,7 @@ class IdInputWidget extends StatelessWidget {
                   RoundedImageDisplay(
                     text: "Id Back",
                     onPressed: () async {
-                      await getImageFromCamera(
+                      showPicker(
                           providerData.updateAddressProofBackPhoto,
                           providerData.updateAddressProofBackPhotoStr,
                           context
@@ -86,7 +86,7 @@ class IdInputWidget extends StatelessWidget {
                 child: RoundedImageDisplay(
                   text: "Pan Front",
                   onPressed: () async {
-                    await getImageFromCamera(
+                    showPicker(
                         providerData.updatePanFrontPhoto,
                         providerData.updatePanFrontPhotoStr,
                         context

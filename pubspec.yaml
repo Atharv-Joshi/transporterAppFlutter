@@ -32,9 +32,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.3
-  geocoder: ^0.2.1
   geolocator: ^7.0.3
-  geocoding: ^2.0.0
+  geocoding: ^2.0.1
   location_permissions: ^4.0.0
   provider: ^5.0.0
   permission_handler: ^8.1.4+2
@@ -48,7 +47,7 @@ dependencies:
   pinput: ^1.2.0
   modal_progress_hud_alt: ^1.0.0
   social_share: ^2.1.1
-  image_picker: ^0.8.0+3
+  image_picker: ^0.8.4
   contacts_service: ^0.6.1
   fluttercontactpicker: ^4.5.1
   url_launcher: ^6.0.9
@@ -71,11 +70,13 @@ dependencies:
   firebase_database: ^7.2.0
   flutter_background: ^1.0.2+1
   background_location: ^0.6.1
-  android_alarm_manager_plus: ^1.2.0
   fluster: ^1.2.0
   google_maps_cluster_manager: ^3.0.0+1
   flutter_cache_manager: ^3.1.2
-
+  logger: ^1.1.0
+  date_time_picker: ^2.1.0
+  pull_to_refresh: ^2.0.0
+  connectivity_plus: ^1.1.0
 
 dev_dependencies:
 

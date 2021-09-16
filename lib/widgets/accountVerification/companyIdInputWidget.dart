@@ -42,7 +42,7 @@ class CompanyIdInputWidget extends StatelessWidget {
                 child: RoundedImageDisplay(
                   text: "",
                   onPressed: () {
-                    getImageFromCamera(
+                    showPicker(
                         providerData.updateCompanyIdProofPhoto,
                         providerData.updateCompanyIdProofPhotoStr,
                         context

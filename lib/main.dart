@@ -1,4 +1,3 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -22,19 +21,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
   await GetStorage.init();
+  await GetStorage.init('TransporterIDStorage');
   await FlutterConfig.loadEnvVariables();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();
-  bool isSwitched = false;
-  final switchData = GetStorage();
-  isSwitched = switchData.read('isSwitched');
-  if(isSwitched == true) {
-      print("It is Okay Working");
-      print("Enabled is false");
-      backgroundTry();
-    } else {
-      print("You are Okay to go");
-  }
   runApp(MyApp());
 }
 

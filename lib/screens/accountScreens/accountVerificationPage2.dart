@@ -89,22 +89,30 @@ class AccountVerificationPage2 extends StatelessWidget {
                           text: "Verify",
                           onPressedConditionTrue: () async {
                             hudController.updateHud(true);
-                            await postAccountVerificationDocuments(
+                            final uploadstatus = await postAccountVerificationDocuments(
                                 profilePhoto: providerData.profilePhoto64,
                                 addressProofFront: providerData.addressProofFrontPhoto64,
                                 addressProofBack: providerData.addressProofBackPhoto64,
                                 panFront: providerData.panFrontPhoto64,
                                 companyIdProof: providerData.companyIdProofPhoto64);
-                            final status = await updateTransporterApi(
-                                accountVerificationInProgress: true,
-                                transporterId:
-                                transporterIdController.transporterId.value);
-                            if (status == "Success") {
-                              hudController.updateHud(false);
-                              Get.offAll(NavigationScreen());
-                              providerData.updateIndex(4);
+                            if (uploadstatus == "Success") {
+                              final status = await updateTransporterApi(
+                                  accountVerificationInProgress: true,
+                                  transporterId:
+                                  transporterIdController.transporterId.value);
+                              if (status == "Success") {
+                                hudController.updateHud(false);
+                                Get.offAll(NavigationScreen());
+                                providerData.updateIndex(4);
+                              } else {
+                                hudController.updateHud(false);
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => ConflictDialog(
+                                        dialog: "Failed Please try again"
+                                    ));
+                              }
                             } else {
-                              hudController.updateHud(false);
                               showDialog(
                                   context: context,
                                   builder: (context) => ConflictDialog(

@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
@@ -40,10 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      isSwitched = switchData.read('isSwitched');
-      print("State is $isSwitched");
-    });
+    try {
+      if(switchData.read('isSwitched') != null) {
+        if(switchData.read('isSwitched') == true) {
+          backgroundTry();
+        }
+      }
+    }catch (e) {
+      print("Expetion is $e");
+    }
   }
   @override
   Widget build(BuildContext context) {
