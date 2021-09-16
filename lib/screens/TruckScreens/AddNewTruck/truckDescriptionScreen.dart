@@ -47,7 +47,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
 
   List<DropdownMenuItem<String>> dropDownList = [];
 
-  void getDriverList() async {
+  getDriverList() async {
     List temp;
     temp = await driverApiCalls.getDriversByTransporterId();
     setState(() {
@@ -70,32 +70,32 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
             ));
       }
     }
-
-    bool addNewDriverAlreadyAdded = false;
-    for (var dropDown in dropDownList) {
-      if (dropDown.value == '') {
-        addNewDriverAlreadyAdded = true;
-        break;
-      }
-    }
-    if (!addNewDriverAlreadyAdded) {
-      dropDownList.add(DropdownMenuItem(
-        value: '',
-        child: Expanded(
-          child: Container(
-            width: 400,
-            child: TextButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => AddDriverAlertDialog());
-              },
-              child: Text(AppLocalizations.of(context)!.addNewDriver),
-            ),
-          ),
-        ),
-      ));
-    }
+    //
+    // bool addNewDriverAlreadyAdded = false;
+    // for (var dropDown in dropDownList) {
+    //   if (dropDown.value == '') {
+    //     addNewDriverAlreadyAdded = true;
+    //     break;
+    //   }
+    // }
+    // if (!addNewDriverAlreadyAdded) {
+    //   dropDownList.add(DropdownMenuItem(
+    //     value: '',
+    //     child: Expanded(
+    //       child: Container(
+    //         width: 400,
+    //         child: TextButton(
+    //           onPressed: () {
+    //             showDialog(
+    //                 context: context,
+    //                 builder: (context) => AddDriverAlertDialog());
+    //           },
+    //           child: Text('Add New Driver'),
+    //         ),
+    //       ),
+    //     ),
+    //   ));
+    // }
   }
 
   @override
@@ -105,23 +105,29 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
     getDriverList();
   }
 
+  void autoAddDriver() async {
+    await getDriverList();
+    if (selectedDriverController.newDriverAddedTruck.value) {
+      // print('dropDownValue: ${dropDownValue}');
+      dropDownValue = selectedDriverController.selectedDriverTruck.value;
+      selectedDriverController.updateNewDriverAddedTruckController(false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     print('truck Id : ${widget.truckId}');
     selectedDriverController.updateFromBook(false);
     selectedDriverController.updateFromTruck(true);
-    getDriverList();
-    print(
-        "value of book true or not: ${selectedDriverController.fromBook.value}");
-    print(
-        'dropDownValueUpp: ${selectedDriverController.newDriverAddedTruck.value}');
-    if (selectedDriverController.newDriverAddedTruck.value) {
-      print('dropDownValue: ${dropDownValue}');
-      dropDownValue = selectedDriverController.selectedDriverTruck.value;
-      providerData.updateDriverDetailsValue(dropDownValue);
-      selectedDriverController.updateNewDriverAddedTruckController(false);
-    }
+    autoAddDriver();
+    // print(
+    //     "value of book true or not: ${selectedDriverController.fromBook.value}");
+    // print(
+    //     "value of truck true or not: ${selectedDriverController.fromTruck.value}");
+    // print(
+    //     'dropDownValueUpp: ${selectedDriverController.newDriverAddedTruck.value}');
+
     return WillPopScope(
       onWillPop: () {
         providerData.resetTruckFilters();
@@ -131,7 +137,6 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
           body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
             color: backgroundColor,
             padding: EdgeInsets.fromLTRB(space_3, space_4, space_3, space_4),
             child: Column(
@@ -146,7 +151,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       dropDownValue = null;
                       providerData.updateResetActive(false);
                     }),
-                AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckType),
+                AddTruckSubtitleText(
+                    text: AppLocalizations.of(context)!.truckType),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -167,12 +173,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_3),
                         child: AddTruckSubtitleText(
-                            text: AppLocalizations.of(context)!.passingWeigthInTons)),
+                            text: 'Passing Weight (in tons.)')),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -192,12 +198,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: AddTruckSubtitleText(
-                            text: AppLocalizations.of(context)!.totalTyres)),
+                            text: 'Total Tyres (front & rear)')),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             crossAxisSpacing: space_6,
                             mainAxisSpacing: space_1,
@@ -216,12 +222,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child:
-                            AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckLength)),
+                            AddTruckSubtitleText(text: 'Truck Length (in ft)')),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
-                        height: 60,
                         child: GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           crossAxisSpacing: space_6,
                           mainAxisSpacing: space_1,
@@ -236,9 +242,22 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               .toList(),
                         ),
                       ),
-                Container(
-                  margin: EdgeInsets.only(top: space_2),
-                  child: AddTruckSubtitleText(text: AppLocalizations.of(context)!.selectADriver),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: space_2),
+                      child: AddTruckSubtitleText(text: 'Select A Driver'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AddDriverAlertDialog());
+                      },
+                      child: Text('Add New Driver'),
+                    ),
+                  ],
                 ),
                 Align(
                   alignment: Alignment.center,
@@ -259,7 +278,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       isDense: true,
                       isExpanded: true,
                       focusColor: Colors.blue,
-                      hint: Text(AppLocalizations.of(context)!.driverNameNumber),
+                      hint:
+                          Text(AppLocalizations.of(context)!.driverNameNumber),
                       value: dropDownValue,
                       icon: Container(
                           decoration: BoxDecoration(

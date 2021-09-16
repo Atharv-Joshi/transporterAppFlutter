@@ -8,8 +8,8 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
-import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
@@ -36,7 +36,8 @@ class DrawerWidget extends StatelessWidget {
     image =
         (imageUrl == null ? "assets/icons/defaultAccountIcon.png" : imageUrl)!;
     name = userName.length > 17 ? userName.substring(0, 15) + "..." : userName;
-
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
     return ClipRRect(
       borderRadius: BorderRadius.only(
           topRight: Radius.circular(radius_6),
@@ -72,27 +73,28 @@ class DrawerWidget extends StatelessWidget {
                           SizedBox(
                             width: space_2,
                           ),
-                          name != "" ?Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FittedBox(
-                                alignment: Alignment.topLeft,
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  name,
-                                  style: TextStyle(
-                                    fontWeight: mediumBoldWeight,
-                                    fontSize: size_7,
-                                    fontFamily: 'montserrat',
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: space_2),
-                              Text(mobileNum),
-                            ],
-                          ):
-                          Text(mobileNum),
+                          name != ""
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                      alignment: Alignment.topLeft,
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        name,
+                                        style: TextStyle(
+                                          fontWeight: mediumBoldWeight,
+                                          fontSize: size_7,
+                                          fontFamily: 'montserrat',
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: space_2),
+                                    Text(mobileNum),
+                                  ],
+                                )
+                              : Text(mobileNum),
                         ],
                       ),
                     ),
@@ -102,7 +104,7 @@ class DrawerWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         selectItem(context, NavigationItem.MyAccount);
-                        Provider.of<ProviderData>(context, listen: false).updateIndex(4);
+                        navigationIndexController.updateIndex(4);
                       },
                       child: drawerMenuItem(
                           context: context,
@@ -119,7 +121,7 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.Language,
-                          text:AppLocalizations.of(context)!.language,
+                          text: AppLocalizations.of(context)!.language,
                           image: 'assets/icons/languageIcon.png'),
                     ),
                     GestureDetector(
@@ -161,7 +163,6 @@ class DrawerWidget extends StatelessWidget {
                       height: space_3,
                     ),
                     ListTile(
-
                       title: Container(
                         margin: EdgeInsets.only(left: space_4),
                         child: Text(AppLocalizations.of(context)!.about_us,
@@ -265,8 +266,4 @@ class DrawerWidget extends StatelessWidget {
     final provider = Provider.of<NavigationProvider>(context, listen: false);
     provider.setNavigationItem(item);
   }
-
 }
-
-
-

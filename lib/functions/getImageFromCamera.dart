@@ -20,10 +20,7 @@ void showPicker(var functionToUpdate, var strToUpdate, var context) {
                     title: new Text('Photo Library'),
                     onTap: () async {
                       await getImageFromGallery(
-                          functionToUpdate,
-                          strToUpdate,
-                          context
-                      );
+                          functionToUpdate, strToUpdate, context);
                       Navigator.of(context).pop();
                     }),
                 new ListTile(
@@ -31,10 +28,7 @@ void showPicker(var functionToUpdate, var strToUpdate, var context) {
                   title: new Text('Camera'),
                   onTap: () async {
                     await getImageFromCamera(
-                        functionToUpdate,
-                        strToUpdate,
-                        context
-                    );
+                        functionToUpdate, strToUpdate, context);
                     Navigator.of(context).pop();
                   },
                 ),
@@ -42,14 +36,14 @@ void showPicker(var functionToUpdate, var strToUpdate, var context) {
             ),
           ),
         );
-      }
-  );
+      });
 }
 
-Future getImageFromCamera(var functionToUpdate, var strToUpdate, var context) async {
+Future getImageFromCamera(
+    var functionToUpdate, var strToUpdate, var context) async {
   var status = await Permission.camera.status;
   if (status.isDenied) {
-    if(await Permission.camera.request().isGranted) {
+    if (await Permission.camera.request().isGranted) {
       final picker = ImagePicker();
       var pickedFile = await picker.pickImage(source: ImageSource.camera);
       final bytes = await Io.File(pickedFile!.path).readAsBytes();
@@ -60,7 +54,7 @@ Future getImageFromCamera(var functionToUpdate, var strToUpdate, var context) as
       print("Picked file path is ${pickedFile!.path}");
       print("Base64 is $img64");
     } else {
-      if(await Permission.camera.isPermanentlyDenied) {
+      if (await Permission.camera.isPermanentlyDenied) {
         final picker = ImagePicker();
         var pickedFile = await picker.pickImage(source: ImageSource.camera);
         final bytes = await Io.File(pickedFile!.path).readAsBytes();
@@ -71,9 +65,7 @@ Future getImageFromCamera(var functionToUpdate, var strToUpdate, var context) as
         print("Picked file path is ${pickedFile!.path}");
         print("Base64 is $img64");
       } else {
-        showDialog(
-            context: context,
-            builder: (context) => PermissionDialog());
+        showDialog(context: context, builder: (context) => PermissionDialog());
       }
     }
   } else {

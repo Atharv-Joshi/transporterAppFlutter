@@ -16,10 +16,8 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       token = tokenMMIController.tokenMMI.value;
     }
 
-    Uri url = Uri(
-        scheme: 'http',
-        host: "atlas.mapmyindia.com",
-        path: "api/places/search/json?query=$cityName&pod=CITY");
+    Uri url = Uri.parse(
+        "http://atlas.mapmyindia.com/api/places/search/json?query=$cityName&pod=CITY");
     http.Response response1 = await http.get(
       url,
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},

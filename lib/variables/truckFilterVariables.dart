@@ -20,27 +20,57 @@ class TruckFilterVariables {
   ];
 
   Map<String, List<int>> passingWeightList = {
-    'OPEN_HALF_BODY': [6, 8, 12],
-    'FLATBED': [12, 16, 30],
-    'OPEN_FULL_BODY': [26, 28, 6, 24, 8],
-    'FULL_BODY_TRAILER': [8, 12],
-    'HALF_BODY_TRAILER': [16, 8, 28],
-    'STANDARD_CONTAINER': [28, 30, 8, 16],
-    'HIGH_CUBE_CONTAINER': [6, 8, 12, 26, 28],
+    'OPEN_HALF_BODY': [7, 8, 9, 15, 16, 18, 19, 20, 21, 24, 25, 30],
+    'FLATBED': [16, 21, 24, 30, 32, 33, 34, 40],
+    'OPEN_FULL_BODY': [7, 8, 9, 15, 16, 18, 19, 20, 21, 24, 25, 30],
+    'FULL_BODY_TRAILER': [
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    'HALF_BODY_TRAILER': [
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    'STANDARD_CONTAINER': [6, 7, 9, 15, 18],
+    'HIGH_CUBE_CONTAINER': [6, 7, 9, 15, 18],
   };
 
   Map<String, List<int>> totalTyresList = {
-    'OPEN_HALF_BODY': [26, 12],
-    'FLATBED': [6, 10],
-    'OPEN_FULL_BODY': [10, 24, 16],
-    'FULL_BODY_TRAILER': [18],
-    'HALF_BODY_TRAILER': [
-      16,
-      8,
-      6,
-    ],
-    'STANDARD_CONTAINER': [8, 10],
-    'HIGH_CUBE_CONTAINER': [8, 16],
+    'OPEN_HALF_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'FLATBED': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'OPEN_FULL_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'FULL_BODY_TRAILER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'HALF_BODY_TRAILER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'STANDARD_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
+    'HIGH_CUBE_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
   };
 
   Map<String, List<int>> truckLengthList = {

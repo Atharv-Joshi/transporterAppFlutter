@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
@@ -14,6 +15,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
+import 'package:get/get.dart';
+
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetailsScreenModel;
@@ -33,6 +37,8 @@ class _BookNowButtonState extends State<BookNowButton> {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
   DriverApiCalls driverApiCalls = DriverApiCalls();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   @override
   void initState() {
@@ -45,7 +51,6 @@ class _BookNowButtonState extends State<BookNowButton> {
     driverDetailsList = await driverApiCalls.getDriversByTransporterId();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -53,12 +58,15 @@ class _BookNowButtonState extends State<BookNowButton> {
           await showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => BookLoadAlertDialogBox(
-              truckModelList: truckDetailsList,
-              driverModelList: driverDetailsList,
-              loadDetailsScreenModel: widget.loadDetailsScreenModel,
-              directBooking: true,
-            ),
+            builder: (context) =>
+                transporterIdController.transporterApproved.value
+                    ? BookLoadAlertDialogBox(
+                        truckModelList: truckDetailsList,
+                        driverModelList: driverDetailsList,
+                        loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                        directBooking: true,
+                      )
+                    : VerifyAccountNotifyAlertDialog(),
           );
         },
         child: Container(

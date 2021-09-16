@@ -79,8 +79,6 @@ class ProviderData extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-  int index = 0;
   var selectedTruck;
   var selectedDriver;
 
@@ -196,7 +194,6 @@ class ProviderData extends ChangeNotifier {
   }
 
   updateLowerAndUpperNavigationIndex(lowerValue, upperValue) {
-    index = lowerValue;
     upperNavigatorIndex = upperValue;
     notifyListeners();
   }
@@ -336,11 +333,6 @@ class ProviderData extends ChangeNotifier {
     unloadingPointCityPostLoad = city;
     unloadingPointStatePostLoad = state;
 
-    notifyListeners();
-  }
-
-  void updateIndex(int newValue) {
-    index = newValue;
     notifyListeners();
   }
 

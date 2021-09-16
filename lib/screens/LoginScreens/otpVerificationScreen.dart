@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/widgets/otpInputField.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/functions/authFunctions.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -262,6 +263,7 @@ class _NewOTPVerificationScreenState extends State<NewOTPVerificationScreen> {
           hudController.updateHud(true);
           print(credential.smsCode);
           await FirebaseAuth.instance.signInWithCredential(credential);
+
           timerController.cancelTimer();
           Get.offAll(() => LanguageSelectionScreen());
           runTransporterApiPost(mobileNum: widget.phoneNumber);

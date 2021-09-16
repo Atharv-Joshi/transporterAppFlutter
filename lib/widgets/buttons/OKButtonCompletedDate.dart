@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/CompletedDateController.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -19,6 +20,7 @@ import '../completedTextField.dart';
 class OkButtonCompletedDate extends StatelessWidget {
   CompletedDateController completedDateController =
       Get.find<CompletedDateController>();
+  NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
   final String bookingId;
   OkButtonCompletedDate({Key? key, required this.bookingId}) : super(key: key);
   BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
@@ -53,8 +55,8 @@ class OkButtonCompletedDate extends StatelessWidget {
             Duration(seconds: 3),
             () => {
                   providerData.updateUpperNavigatorIndex(2),
-                  providerData.updateIndex(3),
                   Get.offAll(() => NavigationScreen()),
+                  navigationIndexController.updateIndex(3),
                   providerData.updateBidButtonSendRequest(false),
                   completedController.text = ""
                 });
