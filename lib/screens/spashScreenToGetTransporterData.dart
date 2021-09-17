@@ -54,16 +54,21 @@ class _SplashScreenToGetTransporterDataState
         name = tidstorage.read("name");
         companyName = tidstorage.read("companyName");
       });
-      transporterIdController.updateTransporterId(transporterId!);
-      transporterIdController.updateTransporterApproved(transporterApproved!);
-      transporterIdController.updateCompanyApproved(companyApproved!);
-      transporterIdController.updateMobileNum(mobileNum!);
-      transporterIdController
-          .updateAccountVerificationInProgress(accountVerificationInProgress!);
-      transporterIdController.updateTransporterLocation(transporterLocation!);
-      transporterIdController.updateName(name!);
-      transporterIdController.updateCompanyName(companyName!);
-      print("transporterID is $transporterId");
+      if (transporterId == null) {
+        print("Transporter ID is null");
+      } else {
+        print("It is in else");
+        transporterIdController.updateTransporterId(transporterId!);
+        transporterIdController.updateTransporterApproved(transporterApproved!);
+        transporterIdController.updateCompanyApproved(companyApproved!);
+        transporterIdController.updateMobileNum(mobileNum!);
+        transporterIdController
+            .updateAccountVerificationInProgress(accountVerificationInProgress!);
+        transporterIdController.updateTransporterLocation(transporterLocation!);
+        transporterIdController.updateName(name!);
+        transporterIdController.updateCompanyName(companyName!);
+        print("transporterID is $transporterId");
+      }
       Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
     }
   }

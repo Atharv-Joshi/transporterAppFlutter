@@ -34,6 +34,8 @@ Future<String?> runTransporterApiPost(
           HttpHeaders.authorizationHeader: firebaseToken!
         },
         body: body);
+    print("Url is $transporterApiUrl");
+    print("Body is $body");
     print(response.body);
     if (response.statusCode == 201) {
       var decodedResponse = json.decode(response.body);
