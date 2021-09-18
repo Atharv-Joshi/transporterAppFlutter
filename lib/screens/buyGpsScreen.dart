@@ -13,6 +13,7 @@ import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/screens/MapPage.dart';
 import 'package:liveasy/screens/OpenCellId.dart';
+import 'package:liveasy/screens/historyScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/alertDialog/buyGPSAddTruckDialog.dart';
@@ -189,10 +190,16 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                         ),
                         GestureDetector(
                             onTap: () => {
-                              // showDialog(
-                              //     context: context,
-                              //     builder: (context) => BuyGPSAddTruckDialog()),
-                              Get.to(() => MapPage())
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => BuyGPSAddTruckDialog()),
+                              // Get.to(() =>
+                              //     MapPage()
+                              // // HistoryScreen(
+                              // //   // imei: transporterIDImei,
+                              // //   // TruckNo: TruckNo,
+                              // // )
+                              // )
                             },
                             child: Row(
                               children: [

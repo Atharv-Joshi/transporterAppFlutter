@@ -12,6 +12,7 @@ import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/screens/displayMap.dart';
 import 'package:liveasy/screens/displayMapUsingImei.dart';
+import 'package:liveasy/screens/historyScreen.dart';
 
 // ignore: must_be_immutable
 class TrackButton extends StatelessWidget {
@@ -19,7 +20,9 @@ class TrackButton extends StatelessWidget {
   String? phoneNo;
   Position? userLocation;
   String? transporterIDImei;
-  TrackButton({required this.truckApproved, this.phoneNo, this.userLocation});
+  String? TruckNo;
+  String? imei;
+  TrackButton({required this.truckApproved, this.phoneNo, this.userLocation, this.TruckNo, this.imei});
   final TransporterApiCalls transporterApiCalls = TransporterApiCalls();
 
   @override
@@ -36,6 +39,14 @@ class TrackButton extends StatelessWidget {
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
+        onLongPress: () async {
+          Get.to(
+              HistoryScreen(
+                TruckNo: TruckNo,
+                imei: imei,
+              )
+          );
+        },
         onPressed: () async {
           transporterIDImei = await transporterApiCalls.getTransporterIdByPhoneNo(phoneNo: phoneNo);
           if (transporterIDImei != null) {
@@ -57,7 +68,9 @@ class TrackButton extends StatelessWidget {
               EasyLoading.dismiss();
               Get.to(
                 DisplayHistory(
-                  gpsData: gpsData
+                  imei: transporterIDImei,
+                  gpsData: gpsData,
+                  TruckNo: TruckNo,
                 ),
               );
             }

@@ -11,7 +11,8 @@ Future<String?> postIMEILatLngData({
   required String? speed,
   required String? deviceName,
   required String? powerValue,
-  required String? direction,}) async {
+  required String? direction,
+  required String? timestamp}) async {
 
   // json map
   Map<String, dynamic> data = {
@@ -21,10 +22,13 @@ Future<String?> postIMEILatLngData({
     "speed": speed,
     "deviceName": deviceName,
     "powerValue": powerValue,
-    "direction": direction
+    "direction": direction,
+    "timeStamp" : timestamp
   };
 
   String body = json.encode(data);
+
+  print("Body in post is $body");
 
   //post request
   http.Response response = await http.post(Uri.parse(gpsApiUrl),

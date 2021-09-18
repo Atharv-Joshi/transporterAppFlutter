@@ -8,13 +8,17 @@ class GpsDataModel {
   String? deviceName;
   String? powerValue;
   String? direction;
+  String? id;
+  String? address;
 
   GpsDataModel(
       {this.speed,
-      this.imei,
-      this.lat,
-      this.deviceName,
-      this.lng,
-      this.powerValue,
-      this.direction});
+        this.id,
+        this.address,
+        this.imei,
+        this.lat,
+        this.deviceName,
+        this.lng,
+        this.powerValue,
+        this.direction});
 }

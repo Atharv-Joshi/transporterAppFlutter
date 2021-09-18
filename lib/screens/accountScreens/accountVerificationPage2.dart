@@ -102,7 +102,7 @@ class AccountVerificationPage2 extends StatelessWidget {
                               if (status == "Success") {
                                 hudController.updateHud(false);
                                 Get.offAll(NavigationScreen());
-                                providerData.updateIndex(4);
+                                // providerData.updateIndex(4);
                               } else {
                                 hudController.updateHud(false);
                                 showDialog(
