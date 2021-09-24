@@ -9,7 +9,7 @@ class LoadDetailsScreenModel {
   String? unloadingPointState;
   String? productType;
   String? truckType;
-  String? noOfTrucks;
+  String? noOfTyres;
   String? weight;
   String? comment;
   String? status;
@@ -38,7 +38,7 @@ class LoadDetailsScreenModel {
       this.unloadingPointState,
       this.productType,
       this.truckType,
-      this.noOfTrucks,
+      this.noOfTyres,
       this.weight,
       this.comment,
       this.status,

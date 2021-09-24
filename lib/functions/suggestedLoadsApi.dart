@@ -22,7 +22,8 @@ Future<List<LoadApiModel>> runSuggestedLoadApi() async {
     cardsModal.unloadingPointState = json["unloadingPointState"];
     cardsModal.productType = json["productType"];
     cardsModal.truckType = json["truckType"];
-    cardsModal.noOfTrucks = json["noOfTrucks"];
+    cardsModal.noOfTrucks =
+        json["noOfTyres"]; // number of trucks changed to number of tyres
     cardsModal.weight = json["weight"];
     cardsModal.comment = json["comment"];
     cardsModal.status = json["status"];
