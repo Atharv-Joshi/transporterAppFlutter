@@ -29,7 +29,8 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
     ProviderData providerData = Provider.of<ProviderData>(context);
     providerData.updateUnitValue();
     // providerData.updateLoadWidget(true);
-    PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
+    PostLoadVariablesController postLoadVariables =
+        Get.find<PostLoadVariablesController>();
     return Scaffold(
       backgroundColor: statusBarColor,
       body: SafeArea(
@@ -57,7 +58,8 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                             SizedBox(
                               width: space_3,
                             ),
-                            HeadingTextWidget(AppLocalizations.of(context)!.loadConfirmation),
+                            HeadingTextWidget(
+                                AppLocalizations.of(context)!.loadConfirmation),
                             // HelpButtonWidget(),
                           ],
                         ),
@@ -67,7 +69,8 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         Padding(
                           padding: EdgeInsets.only(left: space_3),
                           child: Text(
-                              AppLocalizations.of(context)!.reviewDetailsForYourLoad,
+                            AppLocalizations.of(context)!
+                                .reviewDetailsForYourLoad,
                             style: TextStyle(
                                 fontSize: size_9,
                                 fontWeight: mediumBoldWeight,
@@ -88,28 +91,33 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                 Container(
                                   child: LoadConfirmationTemplate(
                                       value:
-                                      "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-                                      label: AppLocalizations.of(context)!.location),
+                                          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                      label: AppLocalizations.of(context)!
+                                          .location),
                                 ),
                                 LoadConfirmationTemplate(
                                     value: postLoadVariables.bookingDate.value,
                                     label: AppLocalizations.of(context)!.date),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckTypeValue,
-                                    label: AppLocalizations.of(context)!.truckType),
+                                    label: AppLocalizations.of(context)!
+                                        .truckType),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckNumber.toString(),
-                                    label: AppLocalizations.of(context)!.numberOfTrucks),
+                                    label: AppLocalizations.of(context)!.tyre),
                                 LoadConfirmationTemplate(
                                     value: providerData.passingWeightValue
                                         .toString(),
-                                    label: AppLocalizations.of(context)!.weight),
+                                    label:
+                                        AppLocalizations.of(context)!.weight),
                                 LoadConfirmationTemplate(
                                     value: providerData.productType,
-                                    label: AppLocalizations.of(context)!.productType),
+                                    label: AppLocalizations.of(context)!
+                                        .productType),
                                 LoadConfirmationTemplate(
                                     value: providerData.price == 0
-                                        ? AppLocalizations.of(context)!.priceNotGiven
+                                        ? AppLocalizations.of(context)!
+                                            .priceNotGiven
                                         : "Rs.${providerData.price}/${providerData.unitValue}",
                                     label: AppLocalizations.of(context)!.price),
                               ],
@@ -127,14 +135,15 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
-                              child:
-                              LoadConfirmationScreenButton(title: AppLocalizations.of(context)!.edit)),
+                              child: LoadConfirmationScreenButton(
+                                  title: AppLocalizations.of(context)!.edit)),
                           SizedBox(
                             width: space_10,
                           ),
                           Expanded(
                               child: LoadConfirmationScreenButton(
-                                  title: AppLocalizations.of(context)!.confirm)),
+                                  title:
+                                      AppLocalizations.of(context)!.confirm)),
                         ],
                       ),
                     ),

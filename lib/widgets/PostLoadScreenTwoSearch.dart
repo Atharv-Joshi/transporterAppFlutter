@@ -27,6 +27,10 @@ class PostLoadScreenTwoSearch extends StatelessWidget {
       "Construction Material",
       "Tyre",
       "Cylinders",
+      "putty",
+      "mustard doc",
+      "oil",
+      "tar",
       "Others"
     ];
     return GestureDetector(

@@ -12,10 +12,10 @@ class RequirementsLoadDetails extends StatelessWidget {
 
   RequirementsLoadDetails({required this.loadDetails});
 
-
   @override
   Widget build(BuildContext context) {
-    loadDetails['unitValue'] = loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck' ;
+    loadDetails['unitValue'] =
+        loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,11 +28,23 @@ class RequirementsLoadDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NewRowTemplate(label: AppLocalizations.of(context)!.truckType, value: loadDetails['truckType']),
-              NewRowTemplate(label: AppLocalizations.of(context)!.numberOfTrucks, value: loadDetails["noOfTrucks"]),
-              NewRowTemplate(label: AppLocalizations.of(context)!.weight, value: "${loadDetails['weight']} tonnes"),
-              NewRowTemplate(label: AppLocalizations.of(context)!.productType, value: loadDetails['productType']),
-              NewRowTemplate(label: 'Bid Price', value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.truckType,
+                  value: loadDetails['truckType']),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.tyre,
+                  value: loadDetails["noOfTyres"] == null
+                      ? "NA"
+                      : loadDetails["noOfTyres"]),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.weight,
+                  value: "${loadDetails['weight']} tonnes"),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.productType,
+                  value: loadDetails['productType']),
+              NewRowTemplate(
+                  label: 'Bid Price',
+                  value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
             ],
           ),
         ),

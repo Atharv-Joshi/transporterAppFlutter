@@ -30,15 +30,14 @@ TextEditingController controller = TextEditingController();
 TextEditingController controllerOthers = TextEditingController();
 
 class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
-  List<int> numberOfTrucksList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22];
   List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30];
 
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
   @override
   Widget build(BuildContext context) {
     bool visible = false;
-    ProviderData providerData =
-        Provider.of<ProviderData>(context);
+    ProviderData providerData = Provider.of<ProviderData>(context);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -86,7 +85,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                               .toList(),
                         ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Number of Trucks"),
+                        AddTruckSubtitleText(text: "Tyres(chakka)"),
                         SizedBox(height: space_2),
                         Padding(
                           padding: EdgeInsets.only(
@@ -98,7 +97,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               crossAxisCount: 6,
-                              children: numberOfTrucksList
+                              children: numberOfTyresList
                                   .map((e) => Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: AddTruckCircularButtonTemplate(
