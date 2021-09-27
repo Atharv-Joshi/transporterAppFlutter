@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
@@ -17,11 +18,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
+  await GetStorage.init();
+  await GetStorage.init('TransporterIDStorage');
   await FlutterConfig.loadEnvVariables();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();

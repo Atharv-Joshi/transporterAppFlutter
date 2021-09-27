@@ -11,6 +11,9 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/buyGPSApiCalls.dart';
 import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/screens/MapPage.dart';
+import 'package:liveasy/screens/OpenCellId.dart';
+import 'package:liveasy/screens/historyScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/alertDialog/buyGPSAddTruckDialog.dart';
@@ -190,6 +193,13 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                               showDialog(
                                   context: context,
                                   builder: (context) => BuyGPSAddTruckDialog()),
+                              // Get.to(() =>
+                              //     MapPage()
+                              // // HistoryScreen(
+                              // //   // imei: transporterIDImei,
+                              // //   // TruckNo: TruckNo,
+                              // // )
+                              // )
                             },
                             child: Row(
                               children: [
@@ -235,7 +245,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
   }
 
   getTruckData(int i) async {
-    var truckDataListForPagei = await getTruckDataWithPageNo(i);
+    var truckDataListForPagei = await getGPSTruckDataWithPageNo(i);
     for (var truckData in truckDataListForPagei){
       truckDataList.add(truckData);
     }

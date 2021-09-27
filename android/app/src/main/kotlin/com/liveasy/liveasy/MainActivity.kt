@@ -3,6 +3,7 @@ package com.liveasy.liveasy
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.telephony.CellInfoGsm
 import android.telephony.CellInfoLte
 import android.telephony.CellInfoWcdma
@@ -15,9 +16,15 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import com.google.gson.Gson
+import com.liveasy.liveasy.background.BackgroundService
+import com.liveasy.liveasy.background.Notifications
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "livelocation.flutter.dev/simlocation"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Notifications.createNotificationChannels(this)
+    }
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         println("It is in first functions of kotlin")
@@ -52,6 +59,31 @@ class MainActivity : FlutterActivity() {
                 }
             } else {
                 result.notImplemented()
+            }
+        }
+
+        val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
+
+        MethodChannel(binaryMessenger, "background.flutter.dev/background_service").apply {
+            setMethodCallHandler { method, result ->
+                if (method.method == "startService") {
+                    val callbackRawHandle = method.arguments as Long
+                    BackgroundService.startService(this@MainActivity, callbackRawHandle)
+                    result.success(null)
+                } else {
+                    result.notImplemented()
+                }
+            }
+        }
+
+        MethodChannel(binaryMessenger, "background.flutter.dev/app_retain").apply {
+            setMethodCallHandler { method, result ->
+                if (method.method == "sendToBackground") {
+                    moveTaskToBack(true)
+                    result.success(null)
+                } else {
+                    result.notImplemented()
+                }
             }
         }
     }
