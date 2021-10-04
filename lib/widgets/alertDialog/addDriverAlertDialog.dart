@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +16,8 @@ import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myDriversScreen.dart';
+import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
@@ -171,8 +175,21 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   if (response != null) {
                     if (response.statusCode == 201 && response.id != null) {
                       // driver added successfully
-                      Get.back();
-                      Get.back();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return completedDialog(
+                            upperDialogText: "Congratulations!",
+                            lowerDialogText: "Driver added successfully!",
+                          );
+                        },
+                      );
+                      Timer(
+                          Duration(seconds: 3),
+                              () => {
+                            providerData.updateIndex(2),
+                            Get.to(MyDrivers()),
+                          });
 
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
