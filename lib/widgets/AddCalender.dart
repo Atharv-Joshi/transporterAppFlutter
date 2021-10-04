@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
 
@@ -18,13 +20,14 @@ class AddCalender extends StatefulWidget {
 
 class _AddCalenderState extends State<AddCalender> {
   @override
+  PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       child: OutlinedButton(
         style: ButtonStyle(
             elevation: MaterialStateProperty.all<double>(2),
-            backgroundColor: providerData.bookingDate == widget.value
+            backgroundColor: postLoadVariables.bookingDate.value == widget.value
                 ? MaterialStateProperty.all(darkBlueColor)
                 : MaterialStateProperty.all(whiteBackgroundColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -39,11 +42,11 @@ class _AddCalenderState extends State<AddCalender> {
                       widget.text == 'Standard Container'
                   ? size_6
                   : size_7,
-              color: providerData.bookingDate == widget.text ? white : black),
+              color: postLoadVariables.bookingDate.value == widget.text ? white : black),
         ),
         onPressed: () {
           providerData.updateResetActive(true);
-          providerData.updateBookingDate(widget.value);
+          postLoadVariables.updateBookingDate(widget.value);
         },
       ),
     );

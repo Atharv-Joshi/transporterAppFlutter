@@ -13,6 +13,7 @@ import 'buttons/trackButton.dart';
 import 'linePainter.dart';
 import 'loadLabelValueRowTemplate.dart';
 import '../screens/shipperDetailsScreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OngoingCardOrders extends StatelessWidget {
   //variables
@@ -101,7 +102,7 @@ class OngoingCardOrders extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: startedOn, label: 'Booking date'),
+                              value: startedOn, label: AppLocalizations.of(context)!.bookingDate),
                           Icon(Icons.arrow_forward_ios)
                         ],
                       ),
@@ -129,11 +130,11 @@ class OngoingCardOrders extends StatelessWidget {
                         child: Column(
                           children: [
                             LoadLabelValueRowTemplate(
-                                value: vehicleNo, label: 'Truck no.'),
+                                value: vehicleNo, label: AppLocalizations.of(context)!.truckNumber),
                             LoadLabelValueRowTemplate(
-                                value: driverName, label: 'Driver Name'),
+                                value: driverName, label: AppLocalizations.of(context)!.driverName),
                             LoadLabelValueRowTemplate(
-                                value: "Rs.$rate/$unitValue", label: 'Price'),
+                                value: "Rs.$rate/$unitValue", label: AppLocalizations.of(context)!.price),
                           ],
                         ),
                       ),

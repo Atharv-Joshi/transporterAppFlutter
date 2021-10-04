@@ -4,6 +4,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {
@@ -11,15 +12,15 @@ class RequirementsLoadDetails extends StatelessWidget {
 
   RequirementsLoadDetails({required this.loadDetails});
 
-
   @override
   Widget build(BuildContext context) {
-    loadDetails['unitValue'] = loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck' ;
+    loadDetails['unitValue'] =
+        loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Requirements",
+          AppLocalizations.of(context)!.requirement,
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
         ),
         Container(
@@ -27,11 +28,23 @@ class RequirementsLoadDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NewRowTemplate(label: 'Truck Type', value: loadDetails['truckType']),
-              NewRowTemplate(label: 'No of trucks', value: loadDetails["noOfTrucks"]),
-              NewRowTemplate(label: 'Weight', value: "${loadDetails['weight']} tonnes"),
-              NewRowTemplate(label: 'Product Type', value: loadDetails['productType']),
-              NewRowTemplate(label: 'Bid Price', value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.truckType,
+                  value: loadDetails['truckType']),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.tyre,
+                  value: loadDetails["noOfTyres"] == null
+                      ? "NA"
+                      : loadDetails["noOfTyres"]),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.weight,
+                  value: "${loadDetails['weight']} tonnes"),
+              NewRowTemplate(
+                  label: AppLocalizations.of(context)!.productType,
+                  value: loadDetails['productType']),
+              NewRowTemplate(
+                  label: 'Bid Price',
+                  value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
             ],
           ),
         ),

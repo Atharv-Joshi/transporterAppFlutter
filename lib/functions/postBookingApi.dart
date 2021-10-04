@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
-postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
+postBookingApi(loadId, currentBid, unit, truckId, postLoadId, rate) async {
   TransporterIdController tIdController = Get.find<TransporterIdController>();
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
   var jsonData;
@@ -16,7 +15,9 @@ postBookingApi(loadId, currentBid, unit, truckId, postLoadId) async {
       "transporterId": tIdController.transporterId.toString(),
       "truckId": [truckId],
       "postLoadId": postLoadId,
-      "bookingDate": now
+      "bookingDate": now,
+      "rate": rate == "NA" ? null : rate,
+      "unitValue": rate == "NA" ? null : unit
     };
     String body = json.encode(data);
     final String bookingApiUrl = FlutterConfig.get('bookingApiUrl').toString();

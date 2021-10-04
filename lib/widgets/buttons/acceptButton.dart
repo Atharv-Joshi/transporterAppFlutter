@@ -4,12 +4,13 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/myLoadPages/biddingScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class AcceptButton extends StatelessWidget {
   String? bidId;
@@ -31,7 +32,7 @@ class AcceptButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
+    NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
     if (fromTransporterSide!) {
       activeButtonCondition =
           (transporterApproved == false && shipperApproved == true);
@@ -59,10 +60,11 @@ class AcceptButton extends StatelessWidget {
                 if (fromTransporterSide!) {
                   // providerData.updateIndex(3);
                   providerData.updateLowerAndUpperNavigationIndex(3, 0);
+                  navigationIndexController.updateIndex(3);
                   Get.offAll(NavigationScreen());
                 } else {
-                  providerData.updateIndex(2);
                   Get.offAll(NavigationScreen());
+                  navigationIndexController.updateIndex(2);
                   Get.to(() => BiddingScreens(
                       loadId: loadId,
                       loadingPointCity: providerData.bidLoadingPoint,
@@ -75,7 +77,7 @@ class AcceptButton extends StatelessWidget {
               ? EdgeInsets.symmetric(vertical: space_1, horizontal: space_3)
               : null,
           child: Text(
-            'Accept',
+            AppLocalizations.of(context)!.accept,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

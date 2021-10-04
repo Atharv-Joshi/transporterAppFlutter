@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/providerClass/providerData.dart';
-import 'package:provider/provider.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 
 class AccountNotVerifiedWidget extends StatelessWidget {
   const AccountNotVerifiedWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
     return GestureDetector(
       onTap: () {
-        Provider.of<ProviderData>(context, listen: false).updateIndex(4);
+        navigationIndexController.updateIndex(4);
       },
       child: Container(
         height: space_8,
         padding: EdgeInsets.fromLTRB(space_3, space_1 - 3, space_3, 0),
-        margin: EdgeInsets.symmetric(vertical: space_3,horizontal: space_4),
+        margin: EdgeInsets.symmetric(vertical: space_3, horizontal: space_4),
         decoration: BoxDecoration(
           color: lightYellow,
           border: Border.all(color: darkYellow, width: borderWidth_10),

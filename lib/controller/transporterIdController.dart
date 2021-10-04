@@ -48,4 +48,10 @@ class TransporterIdController extends GetxController {
   void updateTransporterLocation(String newValue) {
     transporterLocation.value = newValue;
   }
+
+  RxString jmtToken = "".obs;
+
+  void updateJmtToken(String newValue) {
+    jmtToken.value = newValue;
+  }
 }

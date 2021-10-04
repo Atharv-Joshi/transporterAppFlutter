@@ -4,7 +4,7 @@ import 'package:liveasy/models/loadPosterModel.dart';
 
 import 'loadApiCalls.dart';
 
-Future<Map> MiddleDataForOrderSideBids({loadId}) async {
+Future<Map> middleDataForOrderSideBids({loadId}) async {
 
   final LoadApiCalls loadApiCalls = LoadApiCalls();
 

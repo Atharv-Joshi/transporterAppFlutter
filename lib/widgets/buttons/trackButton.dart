@@ -8,15 +8,22 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/gpsDataController.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
+import 'package:liveasy/screens/displayMap.dart';
 import 'package:liveasy/screens/displayMapUsingImei.dart';
+import 'package:liveasy/screens/historyScreen.dart';
 
 // ignore: must_be_immutable
 class TrackButton extends StatelessWidget {
   bool truckApproved = false;
-  String? imei;
+  String? phoneNo;
   Position? userLocation;
-  TrackButton({required this.truckApproved, this.imei, this.userLocation});
+  String? transporterIDImei;
+  String? TruckNo;
+  String? imei;
+  TrackButton({required this.truckApproved, this.phoneNo, this.userLocation, this.TruckNo, this.imei});
+  final TransporterApiCalls transporterApiCalls = TransporterApiCalls();
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +39,17 @@ class TrackButton extends StatelessWidget {
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
+        onLongPress: () async {
+          Get.to(
+              HistoryScreen(
+                TruckNo: TruckNo,
+                imei: imei,
+              )
+          );
+        },
         onPressed: () async {
-          if (imei != "NA") {
+          transporterIDImei = await transporterApiCalls.getTransporterIdByPhoneNo(phoneNo: phoneNo);
+          if (transporterIDImei != null) {
             EasyLoading.instance
               ..indicatorType = EasyLoadingIndicatorType.ring
               ..indicatorSize = 45.0
@@ -45,15 +61,16 @@ class TrackButton extends StatelessWidget {
             EasyLoading.show(
               status: "Loading...",
             );
-            var gpsData = await mapUtil.getLocationByImei(imei: imei);
+            var gpsData = await mapUtil.getLocationByImei(imei: transporterIDImei);
             if (gpsData != null) {
-              GpsDataController gpsDataController = Get.put(GpsDataController());
-              gpsDataController.updateGpsData(gpsData);
+              // GpsDataController gpsDataController = Get.put(GpsDataController());
+              // gpsDataController.updateGpsData(gpsData);
               EasyLoading.dismiss();
               Get.to(
-                ShowMapWithImei(
+                DisplayHistory(
+                  imei: transporterIDImei,
                   gpsData: gpsData,
-                  userLocation: userLocation,
+                  TruckNo: TruckNo,
                 ),
               );
             }

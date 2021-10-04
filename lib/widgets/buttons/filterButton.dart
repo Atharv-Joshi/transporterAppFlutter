@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterButtonWidget extends StatelessWidget {
   @override
@@ -34,7 +35,7 @@ class FilterButtonWidget extends StatelessWidget {
                 width: space_1,
               ),
               Text(
-                "Filter",
+                AppLocalizations.of(context)!.filter,
                 style: TextStyle(fontSize: size_7, color: darkBlueColor),
               ),
             ],

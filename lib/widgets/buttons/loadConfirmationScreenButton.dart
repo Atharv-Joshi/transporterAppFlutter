@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -7,7 +7,9 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/postLoadErrorController.dart';
+import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/PostLoadApi.dart';
 import 'package:liveasy/functions/PutLoadAPI.dart';
@@ -22,6 +24,7 @@ import 'package:provider/provider.dart';
 
 class LoadConfirmationScreenButton extends StatelessWidget {
   String title;
+
   LoadConfirmationScreenButton({Key? key, required this.title})
       : super(key: key);
 
@@ -30,10 +33,13 @@ class LoadConfirmationScreenButton extends StatelessWidget {
     // LoadApi loadApi = LoadApi();
     PostLoadErrorController postLoadErrorController =
         Get.put(PostLoadErrorController());
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();
     ProviderData providerData = Provider.of<ProviderData>(context);
-
+    PostLoadVariablesController postLoadVariables =
+        Get.find<PostLoadVariablesController>();
     getData() async {
       String? loadId = '';
       if (loadId == '') {
@@ -44,9 +50,9 @@ class LoadConfirmationScreenButton extends StatelessWidget {
           },
         );
       }
-      if(providerData.editLoad == false){
+      if (providerData.editLoad == false) {
         loadId = await postLoadAPi(
-            providerData.bookingDate,
+            postLoadVariables.bookingDate.value,
             transporterIdController.transporterId.value,
             "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
             providerData.loadingPointCityPostLoad,
@@ -61,27 +67,27 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             providerData.unitValue == "" ? null : providerData.unitValue,
             providerData.price == 0 ? null : providerData.price);
 
-
         if (loadId != null) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: "Congratulations!",
-                lowerDialogText: "You have completed your order!",
+                upperDialogText: AppLocalizations.of(context)!.congratulations,
+                lowerDialogText:
+                    AppLocalizations.of(context)!.youHaveCompletedYourOrder,
               );
             },
           );
           Timer(
               Duration(seconds: 3),
-                  () => {
-                providerData.updateIndex(2),
-                Get.offAll(() => NavigationScreen()),
-                providerData.resetPostLoadFilters(),
-                providerData.resetPostLoadScreenOne(),
-                controller.text = "",
-                controllerOthers.text = ""
-              });
+              () => {
+                    Get.offAll(() => NavigationScreen()),
+                    navigationIndexController.updateIndex(2),
+                    providerData.resetPostLoadFilters(),
+                    providerData.resetPostLoadScreenOne(),
+                    controller.text = "",
+                    controllerOthers.text = ""
+                  });
           providerData.updateEditLoad(true, "");
         } else {
           showDialog(
@@ -91,11 +97,10 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             },
           );
         }
-      }
-      else if(providerData.editLoad == true) {
+      } else if (providerData.editLoad == true) {
         loadId = await putLoadAPI(
             providerData.transporterLoadId,
-            providerData.bookingDate,
+            postLoadVariables.bookingDate.value,
             transporterIdController.transporterId.value,
             "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
             providerData.loadingPointCityPostLoad,
@@ -115,21 +120,22 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: "Congratulations!",
-                lowerDialogText: "You have successfully updated the load!",
+                upperDialogText: AppLocalizations.of(context)!.congratulations,
+                lowerDialogText: AppLocalizations.of(context)!
+                    .youHaveSuccessfullyUpdateYourOrder,
               );
             },
           );
           Timer(
               Duration(seconds: 3),
-                  () => {
-                providerData.updateIndex(2),
-                Get.offAll(() => NavigationScreen()),
-                providerData.resetPostLoadFilters(),
-                providerData.resetPostLoadScreenOne(),
-                controller.text = "",
-                controllerOthers.text = ""
-              });
+              () => {
+                    Get.offAll(() => NavigationScreen()),
+                    navigationIndexController.updateIndex(2),
+                    providerData.resetPostLoadFilters(),
+                    providerData.resetPostLoadScreenOne(),
+                    controller.text = "",
+                    controllerOthers.text = ""
+                  });
           providerData.updateEditLoad(false, "");
         } else {
           showDialog(
@@ -140,7 +146,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
           );
         }
 //=======
-    /*  if (loadId != null) {
+        /*  if (loadId != null) {
         showDialog(
           context: context,
           builder: (BuildContext context) {

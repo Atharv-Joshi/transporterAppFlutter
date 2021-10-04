@@ -42,4 +42,23 @@ class TransporterApiCalls {
 
     return transporterModel;
   }
+
+  Future<String> getTransporterIdByPhoneNo({String? phoneNo}) async {
+    final String transporterIDImei;
+    Map data = {
+      "phoneNo": "$phoneNo"
+    };
+    String body = json.encode(data);
+    final response = await http.post(Uri.parse("$transporterApiUrl"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
+    var jsonData = json.decode(response.body);
+    print("response is ${response.body}");
+    transporterIDImei = jsonData['transporterId'];
+    print("Transporter ID Imei is $transporterIDImei");
+    return transporterIDImei;
+  }
+
 }

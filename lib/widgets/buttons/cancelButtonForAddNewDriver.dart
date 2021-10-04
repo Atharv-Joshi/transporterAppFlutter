@@ -3,6 +3,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CancelButtonForAddNewDriver extends StatefulWidget {
@@ -32,7 +33,7 @@ class _CancelButtonForAddNewDriverState extends State<CancelButtonForAddNewDrive
             border: Border.all(color: darkBlueColor)),
         child: Center(
           child: Text(
-            "Cancel",
+            AppLocalizations.of(context)!.cancel,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: normalWeight,

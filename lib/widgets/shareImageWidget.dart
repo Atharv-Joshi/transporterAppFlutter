@@ -163,7 +163,7 @@ class shareImageWidget extends StatelessWidget {
         ShareRequirementsLoadDetails(
           loadDetails: {
             "truckType" : loadDetails.truckType,
-            "noOfTrucks" : loadDetails.noOfTrucks ,
+            "noOfTrucks" : loadDetails.noOfTyres ,
             "weight" : loadDetails.weight,
             "productType" : loadDetails.productType,
             "rate" : loadDetails.rate,

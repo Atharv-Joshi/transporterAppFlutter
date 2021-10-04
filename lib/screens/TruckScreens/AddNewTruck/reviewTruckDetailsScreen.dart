@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/controller/truckIdController.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
   final String truckId;
@@ -75,7 +77,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
     }
 
       // driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
-
+    NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
 
     return Scaffold(
       body: SafeArea(
@@ -85,7 +87,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
             children: [
               Header(
                 backButton: true,
-                  text: 'Add Truck',
+                  text: AppLocalizations.of(context)!.addTruck,
                   reset: false,
                   // resetFunction: () {
                   //   providerData.resetTruckFilters();
@@ -125,23 +127,23 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                           child: Column(
                             children: [
                               TruckReviewDetailsRow(
-                                  value: truckTypeText, label: 'Truck Type'),
+                                  value: truckTypeText, label:AppLocalizations.of(context)!.truckType),
                               TruckReviewDetailsRow(
                                   value: providerData.totalTyresValue,
-                                  label: 'Total Tyres'),
+                                  label: AppLocalizations.of(context)!.totalTyres),
                               TruckReviewDetailsRow(
                                   value: providerData.passingWeightValue,
-                                  label: 'Passing Weight'),
+                                  label: AppLocalizations.of(context)!.passingWeigthInTons),
                               TruckReviewDetailsRow(
                                   value: providerData.truckLengthValue,
-                                  label: 'Truck Length'),
+                                  label: AppLocalizations.of(context)!.truckLength),
                               TruckReviewDetailsRow(
                                   value: widget.driverId != ''
                                       ?
                                   '${driverModel.driverName}-${driverModel.phoneNum}'
                                       :
                                   '---',
-                                  label: 'Driver Details'),
+                                  label: AppLocalizations.of(context)!.driverDetails),
                             ],
                           ),
                         ),
@@ -166,7 +168,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               Get.back();
                             },
                             optional: true,
-                            text: 'Edit'),
+                            text: AppLocalizations.of(context)!.edit),
                         MediumSizedButton(
                             onPressedFunction: () async {
                               setState(() {
@@ -188,12 +190,12 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 });
 
                                 if(providerData.isAddTruckSrcDropDown){
-                                  providerData.updateIndex(3);
                                   Get.offAll(() => NavigationScreen());
+                                  navigationIndexController.updateIndex(3);
                                 }
                                 else{
-                                  providerData.updateIndex(1);
                                   Get.offAll(() => NavigationScreen());
+                                  navigationIndexController.updateIndex(1);
                                 }
                                 providerData.resetTruckFilters();
                               } else {

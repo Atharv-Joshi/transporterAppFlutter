@@ -3,6 +3,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/acceptButton.dart';
 import 'package:liveasy/widgets/buttons/declineButton.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BiddingDecisionCard extends StatelessWidget {
   final String? rate;
@@ -26,7 +27,7 @@ class BiddingDecisionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
+    unitValue = unitValue == 'PER_TON' ? AppLocalizations.of(context)!.tonne : AppLocalizations.of(context)!.truck;
 
     return Container(
       child: Card(
@@ -36,9 +37,9 @@ class BiddingDecisionCard extends StatelessWidget {
           child: Column(
             children: [
               LoadLabelValueRowTemplate(
-                  value: 'Rs.$rate/$unitValue', label: 'Bidding'),
+                  value: 'Rs.$rate/$unitValue', label: AppLocalizations.of(context)!.bidding),
               LoadLabelValueRowTemplate(
-                  value: biddingDate, label: 'Bidding Date'),
+                  value: biddingDate, label: AppLocalizations.of(context)!.biddingDate),
               Container(
                 margin: EdgeInsets.symmetric(vertical: space_2),
                 child: Divider(

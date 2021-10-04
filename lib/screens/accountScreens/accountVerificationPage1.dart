@@ -26,6 +26,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
     super.initState();
     Permission.camera.request();
   }
+
   @override
   Widget build(BuildContext context) {
     var providerData = Provider.of<ProviderData>(context);
@@ -52,11 +53,8 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
-                    await getImageFromCamera(
-                        providerData.updateProfilePhoto,
-                        providerData.updateProfilePhotoStr,
-                        context
-                    );
+                    showPicker(providerData.updateProfilePhoto,
+                        providerData.updateProfilePhotoStr, context);
                   },
                   child: ProfilePhotoWidget(
                     providerData: providerData,
