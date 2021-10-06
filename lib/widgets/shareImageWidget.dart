@@ -10,26 +10,28 @@ class shareImageWidget extends StatelessWidget {
   LoadDetailsScreenModel loadDetails;
   shareImageWidget(this.loadDetails);
   @override
-  Widget build(BuildContext context){
-  return Container(
-    height: (space_40 * 3) + space_2,
-    width: (space_18 * 4) - space_2,
-    decoration: BoxDecoration(
-        color: darkBlueColor,
-        borderRadius: BorderRadius.circular(space_2)
-    ),
-    child: Column(
-      children: [
-        SizedBox(
-          height: space_4,
-        ),
-        Image.asset("assets/icons/liveasyicon.png", width: 37, height: 26,),
-        SizedBox(
-          height: space_2,
-        ),
-        Text(
-          "Welcome to LIVEASY",
-          style: TextStyle(
+  Widget build(BuildContext context) {
+    return Container(
+      height: (space_40 * 3) + space_2,
+      width: (space_18 * 4) - space_2,
+      decoration: BoxDecoration(
+          color: darkBlueColor, borderRadius: BorderRadius.circular(space_2)),
+      child: Column(
+        children: [
+          SizedBox(
+            height: space_4,
+          ),
+          Image.asset(
+            "assets/icons/liveasyicon.png",
+            width: 37,
+            height: 26,
+          ),
+          SizedBox(
+            height: space_2,
+          ),
+          Text(
+            "Welcome to LIVEASY",
+            style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_9),
           ),
           Text(
@@ -37,39 +39,39 @@ class shareImageWidget extends StatelessWidget {
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_7),
           ),
-        ),
-        SizedBox(
-          height: space_5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset("assets/icons/leftyellowtruckicon.png", width: space_10, height: space_10),
-            SizedBox(
-              width: space_2 - 1,
-            ),
-            Text(
-              "Chalo iss load ko book\nkaren",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: white,
-                fontSize: size_7,
-                fontWeight: boldWeight,
+          SizedBox(
+            height: space_5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/icons/leftyellowtruckicon.png",
+                  width: space_10, height: space_10),
+              SizedBox(
+                width: space_2 - 1,
               ),
-            ),
-            SizedBox(
-              width: space_2 - 1,
-            ),
-            Image.asset("assets/icons/rightyellowtruckicon.png", width: space_10, height: space_10),
-
-          ],
-        ),
-        SizedBox(
-          height: space_2,
-        ),
-        Container(
-          width: (space_29 * 2),
-          height: 1,
+              Text(
+                "Chalo iss load ko book\nkaren",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: white,
+                  fontSize: size_7,
+                  fontWeight: boldWeight,
+                ),
+              ),
+              SizedBox(
+                width: space_2 - 1,
+              ),
+              Image.asset("assets/icons/rightyellowtruckicon.png",
+                  width: space_10, height: space_10),
+            ],
+          ),
+          SizedBox(
+            height: space_2,
+          ),
+          Container(
+            width: (space_29 * 2),
+            height: 1,
             decoration: BoxDecoration(color: lineGreyColor),
           ),
           SizedBox(
