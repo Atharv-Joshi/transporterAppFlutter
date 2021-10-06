@@ -30,17 +30,12 @@ class shareImageWidget extends StatelessWidget {
         Text(
           "Welcome to LIVEASY",
           style: TextStyle(
-              color: white,
-              fontWeight: mediumBoldWeight,
-              fontSize: size_9
+                color: white, fontWeight: mediumBoldWeight, fontSize: size_9),
           ),
-        ),
-        Text(
-          "bookings that made your life easy",
-          style: TextStyle(
-              color: white,
-              fontWeight: mediumBoldWeight,
-              fontSize: size_7
+          Text(
+            "bookings that made your life easy",
+            style: TextStyle(
+                color: white, fontWeight: mediumBoldWeight, fontSize: size_7),
           ),
         ),
         SizedBox(
@@ -75,148 +70,122 @@ class shareImageWidget extends StatelessWidget {
         Container(
           width: (space_29 * 2),
           height: 1,
-          decoration: BoxDecoration(
-              color: lineGreyColor
+            decoration: BoxDecoration(color: lineGreyColor),
           ),
-        ),
-        SizedBox(
-          height: (space_2 + 4),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "${loadDetails.loadingPointCity}",
-              style: TextStyle(
-                  color: white,
-                  fontSize: size_10,
-                  fontWeight: boldWeight
-              ),
-            ),
-            SizedBox(
-                width: (space_1 - 2)
-            ),
-            Text(
-              "(${loadDetails.loadingPointState})",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: (space_2 + 2),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset("assets/icons/greenFilledCircleIcon.png", width: space_2, height: space_2),
-            SizedBox(
-              height: (space_2 - 2),
-            ),
-            Container(
-              width: 1,
-              height: (space_5 + 3),
-              decoration: BoxDecoration(
-                  color: white
-              ),
-            ),
-            SizedBox(
-              height: (space_2 - 2),
-            ),
-            Image.asset("assets/icons/redSemiFilledCircleIcon.png", width: space_2, height: space_2),
-
-          ],
-        ),
-        SizedBox(
-          height: space_2 + 2,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "${loadDetails.unloadingPointCity}",
-              style: TextStyle(
-                  color: white,
-                  fontSize: size_10,
-                  fontWeight: boldWeight
-              ),
-            ),
-            SizedBox(
-                width: (space_1 - 2)
-            ),
-            Text(
-              "(${loadDetails.unloadingPointState})",
-              style: TextStyle(
-                  color: white,
-                  fontWeight: regularWeight,
-                  fontSize: size_9
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: space_5,
-        ),
-        ShareRequirementsLoadDetails(
-          loadDetails: {
-            "truckType" : loadDetails.truckType,
-            "noOfTrucks" : loadDetails.noOfTyres ,
-            "weight" : loadDetails.weight,
-            "productType" : loadDetails.productType,
-            "rate" : loadDetails.rate,
-            "unitValue" : loadDetails.unitValue,
-          },
-        ),
-        SizedBox(
-          height: space_4,
-        ),
-        Text(
-          "Hurry up and book this load for your truck!!!",
-          style: TextStyle(
-              color: white,
-              fontSize: size_6,
-              fontWeight: fontWeight500
+          SizedBox(
+            height: (space_2 + 4),
           ),
-        ),
-        SizedBox(
-          height: space_4,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: space_8,
-              height: 1,
-              decoration: BoxDecoration(
-                  color: white
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 9, right: 9),
-              child: Text(
-                "For bookings and more details click\nthe link below",
-                textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${loadDetails.loadingPointCity}",
                 style: TextStyle(
-                    color: white,
-                    fontSize: size_6,
-                    fontWeight: fontWeight500
+                    color: white, fontSize: size_10, fontWeight: boldWeight),
+              ),
+              SizedBox(width: (space_1 - 2)),
+              Text(
+                "(${loadDetails.loadingPointState})",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18),
+              )
+            ],
+          ),
+          SizedBox(
+            height: (space_2 + 2),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset("assets/icons/greenFilledCircleIcon.png",
+                  width: space_2, height: space_2),
+              SizedBox(
+                height: (space_2 - 2),
+              ),
+              Container(
+                width: 1,
+                height: (space_5 + 3),
+                decoration: BoxDecoration(color: white),
+              ),
+              SizedBox(
+                height: (space_2 - 2),
+              ),
+              Image.asset("assets/icons/redSemiFilledCircleIcon.png",
+                  width: space_2, height: space_2),
+            ],
+          ),
+          SizedBox(
+            height: space_2 + 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${loadDetails.unloadingPointCity}",
+                style: TextStyle(
+                    color: white, fontSize: size_10, fontWeight: boldWeight),
+              ),
+              SizedBox(width: (space_1 - 2)),
+              Text(
+                "(${loadDetails.unloadingPointState})",
+                style: TextStyle(
+                    color: white, fontWeight: regularWeight, fontSize: size_9),
+              )
+            ],
+          ),
+          SizedBox(
+            height: space_5,
+          ),
+          ShareRequirementsLoadDetails(
+            loadDetails: {
+              "truckType": loadDetails.truckType,
+              "weight": loadDetails.weight,
+              "productType": loadDetails.productType,
+              "rate": loadDetails.rate,
+              "unitValue": loadDetails.unitValue,
+            },
+          ),
+          SizedBox(
+            height: space_4,
+          ),
+          Text(
+            "Hurry up and book this load for your truck!!!",
+            style: TextStyle(
+                color: white, fontSize: size_6, fontWeight: fontWeight500),
+          ),
+          SizedBox(
+            height: space_4,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: space_8,
+                height: 1,
+                decoration: BoxDecoration(color: white),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 9, right: 9),
+                child: Text(
+                  "For bookings and more details click\nthe link below",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: white,
+                      fontSize: size_6,
+                      fontWeight: fontWeight500),
                 ),
               ),
-            ),
-            Container(
-              width: space_8,
-              height: 1,
-              decoration: BoxDecoration(
-                  color: white
+              Container(
+                width: space_8,
+                height: 1,
+                decoration: BoxDecoration(color: white),
               ),
-            ),
-          ],
-        )
-      ],
-    ),
-  );
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
