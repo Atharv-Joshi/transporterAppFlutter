@@ -12,7 +12,10 @@ class HelpButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(HelpScreen());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HelpScreen()),
+        );
       },
       child: Container(
         height: space_6,

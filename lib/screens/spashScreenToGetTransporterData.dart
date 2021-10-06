@@ -83,7 +83,7 @@ class _SplashScreenToGetTransporterDataState
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [darkGreyColor, white])),
+                  colors: [shadowGrey, white])),
           padding: EdgeInsets.only(right: space_2,top: space_35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

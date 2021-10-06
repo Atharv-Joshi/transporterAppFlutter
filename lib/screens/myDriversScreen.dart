@@ -7,11 +7,14 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/MyDriversCard.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addDriverButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/loadingWidgets/driverLoadingWidgets.dart';
+import 'package:liveasy/widgets/loadingWidgets/truckLoadingLongWidgets.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 
 class MyDrivers extends StatefulWidget {
@@ -32,14 +35,14 @@ class _MyDriversState extends State<MyDrivers> {
 
   int i = 0;
 
-  bool flag = false;
+  bool? loading = false;
 
   @override
   void initState() {
     super.initState();
 
     setState(() {
-      flag = true;
+      loading = true;
     });
 
     getDriverData();
@@ -59,7 +62,7 @@ class _MyDriversState extends State<MyDrivers> {
   }
 
   Future<bool> _willPopCallback() async {
-   Get.to(NavigationScreen());
+   Get.offAll(NavigationScreen());
     return Future.value(true);
   }
   @override
@@ -68,9 +71,9 @@ class _MyDriversState extends State<MyDrivers> {
       onWillPop: _willPopCallback,
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: SingleChildScrollView(
+        body: SafeArea(
             child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+          padding: EdgeInsets.fromLTRB(space_4, space_5, space_4, space_2),
           height: MediaQuery.of(context).size.height - space_4,
           child: Column(
             children: [
@@ -87,7 +90,7 @@ class _MyDriversState extends State<MyDrivers> {
                       SizedBox(
                         width: space_3,
                       ),
-                      HeadingTextWidget("My Drivers"),
+                      HeadingTextWidget('My Drivers'),
                       // HelpButtonWidget(),
                     ],
                   ),
@@ -109,24 +112,17 @@ class _MyDriversState extends State<MyDrivers> {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    driverList.isEmpty
+                    loading!
+                        ? DriverLoadingWidgets()
+                        : driverList.isEmpty
                         ? Container(
-                            margin: EdgeInsets.only(top: 153),
-                            child: Column(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/TruckListEmptyImage.png'),
-                                  height: 127,
-                                  width: 127,
-                                ),
-                                Text(
+                            alignment: Alignment.center,
+                            // margin: EdgeInsets.only(top: 153),
+                            child:  Text(
                                   'Looks like you have not added any Drivers!',
                                   style: TextStyle(fontSize: size_8, color: grey),
                                   textAlign: TextAlign.center,
                                 ),
-                              ],
-                            ),
                           )
                         : ListView.builder(
                             padding: EdgeInsets.only(bottom: space_15),
@@ -140,8 +136,9 @@ class _MyDriversState extends State<MyDrivers> {
                     Padding(
                       padding: EdgeInsets.only(bottom: space_2),
                       child: Container(
-                          margin: EdgeInsets.only(bottom: space_2),
-                          child: AddDriverButton()),
+                            padding: EdgeInsets.only(bottom: space_2),
+                            margin: EdgeInsets.only(bottom: space_2),
+                            child: AddDriverButton()),
                     ),
                   ],
                 ),
@@ -158,7 +155,7 @@ class _MyDriversState extends State<MyDrivers> {
   getDriverData() async {
     driverList = await driverApiCalls.getDriversByTransporterId();
     setState(() {
-      flag = false;
+      loading = false;
     });
   } //getDriverData
 

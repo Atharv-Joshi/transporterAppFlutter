@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'alertDialog/addDriverAlertDialog.dart';
 import 'alertDialog/confirmDeleteDriverDialogBox.dart';
+import 'buttons/callButton.dart';
 
 class MyDriverCard extends StatefulWidget {
   late DriverModel driverData;
@@ -43,7 +44,6 @@ class _MyDriverCardState extends State<MyDriverCard> {
         elevation: 5,
         child: Container(
             padding: EdgeInsets.all(space_2),
-            child: Expanded(
               child: Column(
                 children: [
                   Row(
@@ -77,15 +77,10 @@ class _MyDriverCardState extends State<MyDriverCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    String url = 'tel:${widget.driverData.phoneNum}';
-                                    UrlLauncher.launch(url);
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/callButtonIcon.png',
-                                    height: size_9,
-                                  )),
+                              CallButton(
+                                directCall: true,
+                                phoneNum: widget.driverData.phoneNum,
+                              ),
                               PopupMenuButton<popupMenuforDrivers>(
                                   offset: Offset(0, space_2),
                                   shape: RoundedRectangleBorder(
@@ -106,7 +101,7 @@ class _MyDriverCardState extends State<MyDriverCard> {
                   ),
                 ],
               ),
-            )),
+            ),
       ),
     );
   }
