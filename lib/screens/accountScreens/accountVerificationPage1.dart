@@ -53,7 +53,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
-                    await getImageFromCamera(providerData.updateProfilePhoto,
+                    showPicker(providerData.updateProfilePhoto,
                         providerData.updateProfilePhotoStr, context);
                   },
                   child: ProfilePhotoWidget(

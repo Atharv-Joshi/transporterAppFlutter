@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -15,11 +16,13 @@ import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DrawerWidget extends StatelessWidget {
   final String mobileNum;
   final String userName;
   final String? imageUrl;
+  GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
   DrawerWidget(
       {required this.mobileNum, required this.userName, this.imageUrl});
@@ -160,26 +163,32 @@ class DrawerWidget extends StatelessWidget {
                     SizedBox(
                       height: space_3,
                     ),
-                    ListTile(
-                      title: Container(
-                        margin: EdgeInsets.only(left: space_4),
-                        child: Text(AppLocalizations.of(context)!.about_us,
-                            style: TextStyle(
-                                color: darkBlueColor,
-                                fontSize: size_8,
-                                fontFamily: 'montserrat',
-                                fontWeight: regularWeight)),
-                      ),
-                    ),
-                    ListTile(
-                      title: Container(
-                        margin: EdgeInsets.only(left: space_4),
-                        child: Text(AppLocalizations.of(context)!.contact_us,
-                            style: TextStyle(
-                                color: darkBlueColor,
-                                fontSize: size_8,
-                                fontFamily: 'montserrat',
-                                fontWeight: regularWeight)),
+                    // ListTile(
+                    //   title: Container(
+                    //     margin: EdgeInsets.only(left: space_4),
+                    //     child: Text(AppLocalizations.of(context)!.about_us,
+                    //         style: TextStyle(
+                    //             color: darkBlueColor,
+                    //             fontSize: size_8,
+                    //             fontFamily: 'montserrat',
+                    //             fontWeight: regularWeight)),
+                    //   ),
+                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        String url = 'tel:8290748131';
+                        UrlLauncher.launch(url);
+                      },
+                      child: ListTile(
+                        title: Container(
+                          margin: EdgeInsets.only(left: space_4),
+                          child: Text(AppLocalizations.of(context)!.contact_us,
+                              style: TextStyle(
+                                  color: darkBlueColor,
+                                  fontSize: size_8,
+                                  fontFamily: 'montserrat',
+                                  fontWeight: regularWeight)),
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -196,7 +205,10 @@ class DrawerWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        FirebaseAuth.instance.signOut();
+                        FirebaseAuth.instance.signOut().then((value) =>
+                            tidstorage
+                                .erase()
+                                .then((value) => print('Storage is erased')));
                         Get.offAll(LoginScreen());
                       },
                       child: ListTile(
