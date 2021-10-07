@@ -21,7 +21,9 @@ class AddDriverButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(truckGreen),
         ),
         onPressed: () {
-          Get.to(() => AddDriverAlertDialog());
+          showDialog(
+              context: context,
+              builder: (context) => AddDriverAlertDialog());
         },
         child: Text(
           'Add Driver',
