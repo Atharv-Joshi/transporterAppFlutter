@@ -16,6 +16,7 @@ import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
@@ -198,7 +199,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                         },
                       );
                       Timer(Duration(seconds: 3),
-                          () => {Get.back(), Get.back(), Get.back()});
+                          () => {Get.to(MyDrivers())});
 
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
