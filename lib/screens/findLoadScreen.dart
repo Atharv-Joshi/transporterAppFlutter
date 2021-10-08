@@ -17,7 +17,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/noCardDisplay.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
-import 'package:liveasy/widgets/addressInputWidget.dart';
+import 'package:liveasy/widgets/addressInputMMIWidget.dart';
 
 class FindLoadScreen extends StatefulWidget {
   @override
@@ -31,15 +31,11 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   @override
-  void initState() {
-    super.initState();
-    getMMIToken();
-  }
-  @override
   Widget build(BuildContext context) {
     if(Get.isRegistered<TokenMMIController>()){
       Get.find<TokenMMIController>();
     }else{Get.put(TokenMMIController());}
+    getMMIToken();
     var providerData = Provider.of<ProviderData>(context, listen: false);
     if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
       controller1 = TextEditingController(
@@ -91,7 +87,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 SizedBox(
                   height: space_5,
                 ),
-                AddressInputWidget(
+                AddressInputMMIWidget(
                     hintText: "Loading Point",
                     icon: LoadingPointImageIcon(
                       height: space_2 + 2,
@@ -104,7 +100,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                 SizedBox(
                   height: space_4,
                 ),
-                AddressInputWidget(
+                AddressInputMMIWidget(
                   hintText: "Unloading Point",
                   icon: UnloadingPointImageIcon(
                     height: space_2 + 2,
