@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:uuid/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 // ignore: must_be_immutable
 class AddressInputGMapsWidget extends StatelessWidget {
@@ -25,6 +26,7 @@ class AddressInputGMapsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+    String kGoogleApiKey = FlutterConfig.get('mapKey').toString();
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(space_6),
@@ -36,51 +38,75 @@ class AddressInputGMapsWidget extends StatelessWidget {
         readOnly: true,
         onTap: () async {
           providerData.updateResetActive(true);
-
           FocusScope.of(context).requestFocus(FocusNode());
-          // Get.to(() => CityNameInputGMaps(hintText));
-          const kGoogleApiKey = "AIzaSyBLJ8zwqBOM7yK_FYqGuKsiv8_huRvQwe8";
           var uuid = Uuid();
-          uuid.v4();
+          uuid.v4(); // for session token
           await PlacesAutocomplete.show(
               context: context,
               apiKey: kGoogleApiKey,
-              mode: Mode.overlay,
+              mode: Mode.fullscreen,
               language: "en",
+              logo: Text(""),
               sessionToken: "$uuid",
-              types: [],
+              types: ['(cities)'],
               strictbounds: false,
               components: [Component(Component.country, "in")]).then((value) {
             if (value != null) {
               print(value.description);
               List<String> result = value.description!.split(",");
-              int resultLenght = 0;
+              int resultLength = 0;
               for (var r in result) {
-                resultLenght++;
+                resultLength++;
                 r = r.trimLeft();
                 r = r.trimRight();
                 print(r);
               }
-              if (hintText == "Loading Point") {
-                Provider.of<ProviderData>(context, listen: false)
-                    .updateLoadingPointFindLoad(
-                        city: result[resultLenght - 3].toString(),
-                        state: result[resultLenght - 2].toString());
-              } else if (hintText == "Unloading Point") {
-                Provider.of<ProviderData>(context, listen: false)
-                    .updateUnloadingPointFindLoad(
-                        city: result[resultLenght - 3].toString(),
-                        state: result[resultLenght - 2].toString());
-              } else if (hintText == "Loading point") {
-                Provider.of<ProviderData>(context, listen: false)
-                    .updateLoadingPointPostLoad(
-                        city: result[resultLenght - 3].toString(),
-                        state: result[resultLenght - 2].toString());
-              } else if (hintText == "Unloading point") {
-                Provider.of<ProviderData>(context, listen: false)
-                    .updateUnloadingPointPostLoad(
-                        city: result[resultLenght - 3].toString(),
-                        state: result[resultLenght - 2].toString());
+              if (resultLength > 2) {
+                if (hintText == "Loading Point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateLoadingPointFindLoad(
+                          city: result[resultLength - 3].toString(),
+                          state: result[resultLength - 2].toString());
+                } else if (hintText == "Unloading Point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateUnloadingPointFindLoad(
+                          city: result[resultLength - 3].toString(),
+                          state: result[resultLength - 2].toString());
+                } else if (hintText == "Loading point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateLoadingPointPostLoad(
+                          city: result[resultLength - 3].toString(),
+                          state: result[resultLength - 2].toString());
+                } else if (hintText == "Unloading point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateUnloadingPointPostLoad(
+                          city: result[resultLength - 3].toString(),
+                          state: result[resultLength - 2].toString());
+                }
+              } else {
+                // only case of Delhi, India
+                // updating values with Delhi (Delhi)
+                if (hintText == "Loading Point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateLoadingPointFindLoad(
+                          city: result[0].toString(),
+                          state: result[0].toString());
+                } else if (hintText == "Unloading Point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateUnloadingPointFindLoad(
+                          city: result[0].toString(),
+                          state: result[0].toString());
+                } else if (hintText == "Loading point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateLoadingPointPostLoad(
+                          city: result[0].toString(),
+                          state: result[0].toString());
+                } else if (hintText == "Unloading point") {
+                  Provider.of<ProviderData>(context, listen: false)
+                      .updateUnloadingPointPostLoad(
+                          city: result[0].toString(),
+                          state: result[0].toString());
+                }
               }
             } else {}
           });
