@@ -79,8 +79,12 @@ class _SplashScreenToGetTransporterDataState
       backgroundColor: statusBarColor,
       body: SafeArea(
         child: Container(
-          color: white,
-          padding: EdgeInsets.only(right: space_2),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [shadowGrey, white])),
+          padding: EdgeInsets.only(right: space_2,top: space_35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -98,10 +102,6 @@ class _SplashScreenToGetTransporterDataState
                     SizedBox(
                       height: space_3,
                     ),
-                    Image(
-                      image: AssetImage("assets/images/tagLine.png"),
-                      height: space_3,
-                    )
                   ],
                 ),
               ),

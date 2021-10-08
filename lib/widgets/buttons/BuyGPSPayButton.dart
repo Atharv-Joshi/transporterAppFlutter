@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,8 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/buyGPSboolController.dart';
 import 'package:liveasy/functions/buyGPSApiCalls.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/screens/buyGpsScreen.dart';
+import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/sameTruckAlertDialogBox.dart';
 
@@ -106,9 +110,11 @@ class BuyGPSPayButton extends StatelessWidget {
       showDialog(
           context: context,
           builder: (context) => completedDialog(
-            upperDialogText: "You’ve purchased GPS successfully!",
-            lowerDialogText: "",
+            upperDialogText: "You’ve purchased GPS",
+            lowerDialogText: "successfully!",
           ));
+      Timer(Duration(seconds: 3),
+              () => {Get.back()});
     } else {
       EasyLoading.dismiss();
       showDialog(

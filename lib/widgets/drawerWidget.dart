@@ -13,6 +13,7 @@ import 'package:liveasy/providerClass/drawerProviderClassData.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
+import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -131,12 +132,12 @@ class DrawerWidget extends StatelessWidget {
                         Navigator.of(context).pop();
                         showDialog(
                             context: context,
-                            builder: (context) => AddDriverAlertDialog());
+                            builder: (context) => MyDrivers());
                       },
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.AddDriver,
-                          text: AppLocalizations.of(context)!.add_driver,
+                          text: 'My Drivers',
                           image: 'assets/icons/driverHandle.png'),
                     ),
                     GestureDetector(
