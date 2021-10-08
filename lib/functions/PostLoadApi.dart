@@ -59,10 +59,12 @@ Future<String?> postLoadAPi(
         return null;
       }
     } else {
+      print(response.statusCode);
       return null;
     }
   } catch (e) {
     postLoadErrorController.updatePostLoadError(e.toString());
+    print(e.toString());
     return null;
   }
 }
