@@ -1,14 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/MyLoadsCard.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
 class MyLoadsScreen extends StatefulWidget {
@@ -29,6 +31,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
   int i = 0;
 
   bool loading = false;
+  bool bottomProgressLoad = false;
 
   @override
   void initState() {
@@ -82,17 +85,25 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                     ),
                   )
                 : ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.only(bottom: space_15),
                     controller: scrollController,
                     itemCount: myLoadList.length,
-                    itemBuilder: (context, index) {
-                      return MyLoadsCard(
-                        loadDetailsScreenModel: myLoadList[index],
-                      );
-                    }));
+                    itemBuilder: (context, index) =>
+                        (index == myLoadList.length - 1)
+                            ? Visibility(
+                                visible: bottomProgressLoad,
+                                child: bottomProgressBarIndicatorWidget())
+                            : MyLoadsCard(
+                                loadDetailsScreenModel: myLoadList[index],
+                              ),
+                  ));
   }
 
   getDataByPostLoadId(int i) async {
+    setState(() {
+      bottomProgressLoad = true;
+    });
     http.Response response = await http.get(Uri.parse(
         '$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
     var jsonData = json.decode(response.body);
@@ -139,6 +150,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
     }
     setState(() {
       loading = false;
+      bottomProgressLoad = false;
     });
   } //builder
 } //class end

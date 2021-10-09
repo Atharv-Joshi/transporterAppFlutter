@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
@@ -10,12 +10,11 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
-import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
+import 'package:liveasy/widgets/alertDialog/LogOutDialogue.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DrawerWidget extends StatelessWidget {
@@ -205,11 +204,15 @@ class DrawerWidget extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        FirebaseAuth.instance.signOut().then((value) =>
-                            tidstorage
-                                .erase()
-                                .then((value) => print('Storage is erased')));
-                        Get.offAll(LoginScreen());
+                        Navigator.of(context).pop();
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => WillPopScope(
+                                  onWillPop: () async => false,
+                                  // <-- Prevents dialog dismiss on press of back button.
+                                  child: LogoutDialogue(),
+                                ));
                       },
                       child: ListTile(
                         title: Text(AppLocalizations.of(context)!.logout,

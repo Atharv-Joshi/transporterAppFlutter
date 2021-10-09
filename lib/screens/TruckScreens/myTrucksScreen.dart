@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -7,12 +8,12 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _MyTrucksState extends State<MyTrucks> {
   int i = 0;
 
   bool loading = false;
+  bool bottomProgressTruck = false;
 
   @override
   void initState() {
@@ -129,23 +131,33 @@ class _MyTrucksState extends State<MyTrucks> {
                               ),
                             )
                           : ListView.builder(
+                              physics: BouncingScrollPhysics(),
                               padding: EdgeInsets.only(bottom: space_15),
                               controller: scrollController,
                               itemCount: truckDataList.length,
-                              itemBuilder: (context, index) {
-                                return MyTruckCard(
-                                  truckData: truckDataList[index],
-                                  // truckId: .truckId,
-                                  // truckApproved:
-                                  //     truckDataList[index].truckApproved,
-                                  // truckNo: truckDataList[index].truckNo,
-                                  // truckType: truckDataList[index].truckType,
-                                  // tyres: truckDataList[index].tyresString,
-                                  // driverName: truckDataList[index].driverName,
-                                  // phoneNum: truckDataList[index].driverNum,
-                                  // imei: truckDataList[index].imei,
-                                );
-                              }),
+                              itemBuilder: (context, index) => (index ==
+                                      truckDataList.length - 1)
+                                  ? Visibility(
+                                      visible: bottomProgressTruck,
+                                      child: bottomProgressBarIndicatorWidget())
+                                  : MyTruckCard(
+                                      truckData: truckDataList[index],
+                                    ),
+                            ),
+                  // {
+                  //   return MyTruckCard(
+                  //     truckData: truckDataList[index],
+                  // truckId: .truckId,
+                  // truckApproved:
+                  //     truckDataList[index].truckApproved,
+                  // truckNo: truckDataList[index].truckNo,
+                  // truckType: truckDataList[index].truckType,
+                  // tyres: truckDataList[index].tyresString,
+                  // driverName: truckDataList[index].driverName,
+                  // phoneNum: truckDataList[index].driverNum,
+                  // imei: truckDataList[index].imei,
+                  //),
+                  // }),
                   Padding(
                     padding: EdgeInsets.only(bottom: space_2),
                     child: Container(
@@ -164,12 +176,16 @@ class _MyTrucksState extends State<MyTrucks> {
   } //build
 
   getTruckData(int i) async {
+    setState(() {
+      bottomProgressTruck = true;
+    });
     var truckDataListForPagei = await getTruckDataWithPageNo(i);
     for (var truckData in truckDataListForPagei) {
       truckDataList.add(truckData);
     }
     setState(() {
       loading = false;
+      bottomProgressTruck = false;
     });
   } //getTruckData
 
