@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:liveasy/functions/BackgroundAndLocation.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
@@ -99,7 +99,11 @@ class _MyAppState extends State<MyApp> {
                   } else {
                     return GetMaterialApp(
                       builder: EasyLoading.init(),
-                      theme: ThemeData(fontFamily: "montserrat"),
+                      theme: ThemeData(
+                          fontFamily: "montserrat",
+                          appBarTheme: AppBarTheme(
+                              color: statusBarColor,
+                              iconTheme: IconThemeData(color: grey))),
                       locale: provider.locale,
                       supportedLocales: L10n.all,
                       localizationsDelegates: [

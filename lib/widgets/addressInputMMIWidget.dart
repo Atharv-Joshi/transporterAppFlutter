@@ -9,13 +9,13 @@ import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class AddressInputWidget extends StatelessWidget {
+class AddressInputMMIWidget extends StatelessWidget {
   final String hintText;
   final Widget icon;
   final TextEditingController controller;
   var onTap;
 
-  AddressInputWidget(
+  AddressInputMMIWidget(
       {required this.hintText,
       required this.icon,
       required this.controller,
