@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
@@ -8,9 +9,11 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
 class GetStartedButton extends StatefulWidget {
-  const GetStartedButton({Key? key}) : super(key: key);
+  bool? nextScreen;
+ GetStartedButton({Key? key,  required this.nextScreen}) : super(key: key);
 
   @override
   _GetStartedButtonState createState() => _GetStartedButtonState();
@@ -21,7 +24,9 @@ class _GetStartedButtonState extends State<GetStartedButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.offAll(NavigationScreen());
+        Get.to(bottomProgressBarIndicatorWidget());
+        if(widget.nextScreen==true)
+        Timer(Duration(milliseconds: 1000), () => Get.off(() => NavigationScreen()));
       },
       child: Container(
         height: space_8,
