@@ -11,11 +11,13 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/buttons/getStartedButton.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:provider/provider.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
-  const LanguageSelectionScreen({Key? key}) : super(key: key);
+  LanguageSelectionScreen({Key? key}) : super(key: key);
 
   @override
   _LanguageSelectionScreenState createState() =>
@@ -24,7 +26,7 @@ class LanguageSelectionScreen extends StatefulWidget {
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   String? transporterId;
-  bool? _nextScreen = false;
+  bool _nextScreen = false;
   TransporterIdController transporterIdController =
   Get.put(TransporterIdController(), permanent: true);
   @override
@@ -32,7 +34,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     super.initState();
     getData();
   }
-
+  Function? onTapNext(){
+    Get.to(bottomProgressBarIndicatorWidget());
+    Get.off(() => NavigationScreen());
+  }
   getData() async {
     bool? transporterApproved;
     bool? companyApproved;
@@ -43,15 +48,23 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     String? companyName;
 
     transporterId = await runTransporterApiPost(
-      mobileNum:  FirebaseAuth
+     mobileNum: FirebaseAuth
         .instance.currentUser!.phoneNumber
         .toString()
-        .substring(3, 13),);
+        .substring(3, 13),
+    );
 
     if (transporterId != null){
       setState(() {
         _nextScreen=true;
-      });
+      });// setState(() {
+      //   onTap()=>(){
+      //     _nextScreen=true;
+      //     print('ok : $_nextScreen');
+      //     Get.to(bottomProgressBarIndicatorWidget());
+      //     Get.off(() => NavigationScreen());
+      //   };
+      // });
     }
     else {
       setState(() {
@@ -210,7 +223,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       SizedBox(
                         height: space_5,
                       ),
-                      GetStartedButton(nextScreen: _nextScreen)
+                      _nextScreen?
+                      GetStartedButton(onTapNext: this.onTapNext,) : GetStartedButton(onTapNext: (){
+                      },)
+
                     ],
                   ),
                 ),
