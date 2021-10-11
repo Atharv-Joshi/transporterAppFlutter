@@ -12,8 +12,8 @@ import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
 class GetStartedButton extends StatefulWidget {
-  bool? nextScreen;
- GetStartedButton({Key? key,  required this.nextScreen}) : super(key: key);
+  Function? onTapNext;
+ GetStartedButton({Key? key,  required this.onTapNext}) : super(key: key);
 
   @override
   _GetStartedButtonState createState() => _GetStartedButtonState();
@@ -23,10 +23,8 @@ class _GetStartedButtonState extends State<GetStartedButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(bottomProgressBarIndicatorWidget());
-        if(widget.nextScreen==true)
-        Timer(Duration(milliseconds: 1000), () => Get.off(() => NavigationScreen()));
+      onTap: (){
+        widget.onTapNext!();
       },
       child: Container(
         height: space_8,
