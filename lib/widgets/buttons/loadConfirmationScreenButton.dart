@@ -13,6 +13,7 @@ import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/PostLoadApi.dart';
 import 'package:liveasy/functions/PutLoadAPI.dart';
+import 'package:liveasy/functions/postOneSignalNotification.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
@@ -41,6 +42,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
     PostLoadVariablesController postLoadVariables =
         Get.find<PostLoadVariablesController>();
     getData() async {
+      // print(transporterIdController.transporterId.value);
       String? loadId = '';
       if (loadId == '') {
         showDialog(
@@ -89,6 +91,9 @@ class LoadConfirmationScreenButton extends StatelessWidget {
                     controllerOthers.text = ""
                   });
           providerData.updateEditLoad(true, "");
+
+          postNotification(providerData.loadingPointCityPostLoad,
+              providerData.unloadingPointCityPostLoad);
         } else {
           showDialog(
             context: context,

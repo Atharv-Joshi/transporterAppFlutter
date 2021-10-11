@@ -196,3 +196,16 @@ Future<DriverModel> getDriverByDriverId(
     return driverModel;
   }
 }
+Future<void> disableActionOnDriver({String? driverId}) async {
+
+  final String driverApiUrl = FlutterConfig.get("driverApiUrl");
+
+  final response = await http.delete(Uri.parse("$driverApiUrl/$driverId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+  );
+
+  print("driverId ====== $driverApiUrl/$driverId ");
+  print("Response of disable data ${response.body}");
+}//class end

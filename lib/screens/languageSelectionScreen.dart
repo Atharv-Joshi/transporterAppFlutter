@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/getStartedButton.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +23,69 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
+  String? transporterId;
+  bool? _nextScreen = false;
+  TransporterIdController transporterIdController =
+  Get.put(TransporterIdController(), permanent: true);
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    bool? transporterApproved;
+    bool? companyApproved;
+    String? mobileNum;
+    bool? accountVerificationInProgress;
+    String? transporterLocation;
+    String? name;
+    String? companyName;
+
+    transporterId = await runTransporterApiPost(
+      mobileNum:  FirebaseAuth
+        .instance.currentUser!.phoneNumber
+        .toString()
+        .substring(3, 13),);
+
+    if (transporterId != null){
+      setState(() {
+        _nextScreen=true;
+      });
+    }
+    else {
+      setState(() {
+        transporterId = tidstorage.read("transporterId");
+        transporterApproved = tidstorage.read("transporterApproved");
+        companyApproved = tidstorage.read("companyApproved");
+        mobileNum = tidstorage.read("mobileNum");
+        accountVerificationInProgress = tidstorage.read("accountVerificationInProgress");
+        transporterLocation = tidstorage.read("transporterLocation");
+        name = tidstorage.read("name");
+        companyName = tidstorage.read("companyName");
+      });
+
+      if (transporterId == null) {
+        print("Transporter ID is null");
+      } else {
+        print("It is in else");
+        transporterIdController.updateTransporterId(transporterId!);
+        transporterIdController.updateTransporterApproved(transporterApproved!);
+        transporterIdController.updateCompanyApproved(companyApproved!);
+        transporterIdController.updateMobileNum(mobileNum!);
+        transporterIdController
+            .updateAccountVerificationInProgress(accountVerificationInProgress!);
+        transporterIdController.updateTransporterLocation(transporterLocation!);
+        transporterIdController.updateName(name!);
+        transporterIdController.updateCompanyName(companyName!);
+        print("transporterID is $transporterId");
+      }
+      setState(() {
+        _nextScreen=true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -143,7 +210,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                       SizedBox(
                         height: space_5,
                       ),
-                      GetStartedButton()
+                      GetStartedButton(nextScreen: _nextScreen)
                     ],
                   ),
                 ),

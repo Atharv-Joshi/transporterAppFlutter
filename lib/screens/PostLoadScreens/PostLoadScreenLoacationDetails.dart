@@ -11,7 +11,8 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addressInputWidget.dart';
+import 'package:liveasy/widgets/addressInputGMapsWidget.dart';
+import 'package:liveasy/widgets/addressInputMMIWidget.dart';
 import 'package:liveasy/widgets/buttons/NextButton.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
@@ -69,12 +70,12 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   bool i = false;
   bool setDate = false;
   var recentDate = fourthDay.MMMEd;
-  PostLoadVariablesController postLoadVariables = Get.find<PostLoadVariablesController>();
+  PostLoadVariablesController postLoadVariables = Get.put(PostLoadVariablesController());
   TokenMMIController tokenMMIController = Get.put(TokenMMIController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    var locationCard = fillCityName("Delhi"); // as city search takes a lot of time in first go
+    // var locationCard = fillCityName("Delhi"); // as city search takes a lot of time in first go
     // providerData.resetPostLoadScreenOne(); // to reset every thing
     // providerData.resetPostLoadFilters();
     // providerData.updateEditLoad(false, "");
@@ -85,13 +86,6 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
         postLoadVariables.bookingDate.value != bookingDateList[2]) {
       bookingDateList[3] = postLoadVariables.bookingDate.value;
     }
-    // if (providerData.bookingDate != "" &&
-    //     providerData.bookingDate != bookingDateList[0] &&
-    //     providerData.bookingDate != bookingDateList[1] &&
-    //     providerData.bookingDate != bookingDateList[2]) {
-    //   bookingDateList[3] = providerData.bookingDate;
-    // }
-
     if (bookingDateList.last != recentDate && !setDate) {
       postLoadVariables.updateBookingDate(bookingDateList[3]);
       // providerData.updateBookingDate(bookingDateList[3]);
@@ -123,114 +117,117 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(space_4, space_2, space_4, space_0),
-              color: backgroundColor,
-              child: Column(
-                children: [
-                  AddPostLoadHeader(
-                    reset: true,
-                    resetFunction: () {
-                      providerData.resetPostLoadScreenOne();
-                    },
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.locationDetails),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              size_2, size_5, size_10, size_2),
-                          child: AddressInputWidget(
-                              hintText: "Loading point",
-                              icon: LoadingPointImageIcon(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(space_4, space_2, space_4, space_0),
+                color: backgroundColor,
+                child: Column(
+                  children: [
+                    AddPostLoadHeader(
+                      reset: true,
+                      resetFunction: () {
+                        providerData.resetPostLoadScreenOne();
+                      },
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AddTruckSubtitleText(text: AppLocalizations.of(context)!.locationDetails),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                size_2, size_5, size_10, size_2),
+                            child: AddressInputGMapsWidget(
+                                hintText: "Loading point",
+                                icon: LoadingPointImageIcon(
+                                  height: size_6,
+                                  width: size_6,
+                                ),
+                                controller: controller1,
+                                onTap: () {
+                                  providerData.updateLoadingPointPostLoad(city: "",state: "");
+                                }),
+                          ),
+                          SizedBox(height: size_5),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                size_2, size_5, size_10, size_2),
+                            child: AddressInputGMapsWidget(
+                              hintText: "Unloading point",
+                              icon: UnloadingPointImageIcon(
                                 height: size_6,
                                 width: size_6,
                               ),
-                              controller: controller1,
+                              controller: controller2,
                               onTap: () {
-                                providerData.updateResetActive(true);
-                                print(providerData.resetActive);
-                              }),
-                        ),
-                        SizedBox(height: size_5),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              size_2, size_5, size_10, size_2),
-                          child: AddressInputWidget(
-                            hintText: "Unloading point",
-                            icon: UnloadingPointImageIcon(
-                              height: size_6,
-                              width: size_6,
-                            ),
-                            controller: controller2,
-                            onTap: () {
-                              providerData.updateResetActive(true);
-                            },
-                          ),
-                        ),
-                        SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: AppLocalizations.of(context)!.bookingDate),
-                        GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          childAspectRatio: 4,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          padding: EdgeInsets.all(10.0),
-                          crossAxisCount: 2,
-                          children: bookingDateList
-                              .map((e) => AddCalender(value: e, text: e))
-                              .toList(),
-                        ),
-
-                        SizedBox(
-                          height: space_4,
-                        ),
-                        Center(
-                          child: Container(
-                            width: space_26,
-                            height: space_8,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setDate = false;
-                                _selectDate(context);
+                                providerData.updateUnloadingPointPostLoad(city: "",state: "");
                               },
-                              style:
-                              ButtonStyle(backgroundColor: calendarColor),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    'Select date',
-                                    style: TextStyle(
-                                        color: black,
-                                        fontSize: size_7,
-                                        fontWeight: normalWeight),
-                                  ),
-                                  Icon(
-                                    Icons.calendar_today_outlined,
-                                    color: black,
-                                    size: size_9,
-                                  )
-                                ],
+                            ),
+                          ),
+                          SizedBox(height: space_3),
+                          AddTruckSubtitleText(text: AppLocalizations.of(context)!.bookingDate),
+                          GridView.count(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            childAspectRatio: 4,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            padding: EdgeInsets.all(10.0),
+                            crossAxisCount: 2,
+                            children: bookingDateList
+                                .map((e) => AddCalender(value: e, text: e))
+                                .toList(),
+                          ),
+
+                          SizedBox(
+                            height: space_4,
+                          ),
+                          Center(
+                            child: Container(
+                              width: space_26,
+                              height: space_8,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setDate = false;
+                                  _selectDate(context);
+                                },
+                                style:
+                                ButtonStyle(backgroundColor: calendarColor),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'Select date',
+                                      style: TextStyle(
+                                          color: black,
+                                          fontSize: size_7,
+                                          fontWeight: normalWeight),
+                                    ),
+                                    Icon(
+                                      Icons.calendar_today_outlined,
+                                      color: black,
+                                      size: size_9,
+                                    )
+                                  ],
+                                ),
+
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: space_3,),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            nextButton(),
-          ],
+              nextButton(),
+            ],
+          ),
         ),
       ),
     );

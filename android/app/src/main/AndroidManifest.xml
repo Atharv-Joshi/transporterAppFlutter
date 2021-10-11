@@ -41,7 +41,7 @@
     <!--    </queries>-->
 
     <application
-        android:label="liveasy"
+        android:label="Transport App"
         android:icon="@mipmap/ic_launcher">
         <provider
             android:name="androidx.core.content.FileProvider"
