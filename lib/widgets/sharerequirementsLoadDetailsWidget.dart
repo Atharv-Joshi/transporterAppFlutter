@@ -11,10 +11,10 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
 
   ShareRequirementsLoadDetails({required this.loadDetails});
 
-
   @override
   Widget build(BuildContext context) {
-    loadDetails['unitValue'] = loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck' ;
+    loadDetails['unitValue'] =
+        loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck';
     return Column(
       children: [
         Padding(
@@ -27,8 +27,7 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
                 style: TextStyle(
                     fontSize: size_7,
                     fontWeight: mediumBoldWeight,
-                    color: white
-                ),
+                    color: white),
               ),
               SizedBox(
                 height: space_2,
@@ -41,11 +40,15 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              shareNewRowTemplate(label: 'Truck Type', value: loadDetails['truckType']),
-              shareNewRowTemplate(label: 'No of trucks', value: loadDetails["noOfTrucks"]),
-              shareNewRowTemplate(label: 'Weight', value: "${loadDetails['weight']} tonnes"),
-              shareNewRowTemplate(label: 'Product Type', value: loadDetails['productType']),
-              shareNewRowTemplate(label: 'Bid Price', value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
+              shareNewRowTemplate(
+                  label: 'Truck Type', value: loadDetails['truckType']),
+              shareNewRowTemplate(
+                  label: 'Weight', value: "${loadDetails['weight']} tonnes"),
+              shareNewRowTemplate(
+                  label: 'Product Type', value: loadDetails['productType']),
+              shareNewRowTemplate(
+                  label: 'Bid Price',
+                  value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
             ],
           ),
         ),

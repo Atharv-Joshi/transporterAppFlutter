@@ -58,7 +58,8 @@ class _PermissionDialogState extends State<PermissionDialog> {
                                 RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.circular(radius_4)))),
-                    onPressed: () => {openAppSettings(), Navigator.pop(context)},
+                    onPressed: () =>
+                        {openAppSettings(), Navigator.pop(context)},
                     child: Text(
                       "Settings",
                       style: TextStyle(
