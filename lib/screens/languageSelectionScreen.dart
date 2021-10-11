@@ -48,7 +48,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     String? companyName;
 
     transporterId = await runTransporterApiPost(
-     mobileNum: FirebaseAuth
+      mobileNum: FirebaseAuth
         .instance.currentUser!.phoneNumber
         .toString()
         .substring(3, 13),
@@ -57,14 +57,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     if (transporterId != null){
       setState(() {
         _nextScreen=true;
-      });// setState(() {
-      //   onTap()=>(){
-      //     _nextScreen=true;
-      //     print('ok : $_nextScreen');
-      //     Get.to(bottomProgressBarIndicatorWidget());
-      //     Get.off(() => NavigationScreen());
-      //   };
-      // });
+      });
     }
     else {
       setState(() {
