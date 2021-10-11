@@ -208,11 +208,14 @@ class DrawerWidget extends StatelessWidget {
                         showDialog(
                             barrierDismissible: false,
                             context: context,
-                            builder: (_) => WillPopScope(
-                                  onWillPop: () async => false,
-                                  // <-- Prevents dialog dismiss on press of back button.
-                                  child: LogoutDialogue(),
-                                ));
+                            builder: (BuildContext context) => LogoutDialogue()
+
+                            // builder: (_) => WillPopScope(
+                            //       onWillPop: () async => false,
+                            //       // <-- Prevents dialog dismiss on press of back button.
+                            //       child: LogoutDialogue(),
+                            //     )
+                            );
                       },
                       child: ListTile(
                         title: Text(AppLocalizations.of(context)!.logout,

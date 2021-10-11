@@ -22,13 +22,22 @@ class LogoutOkButton extends StatelessWidget {
         height: 31,
         width: 80,
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: darkShadow,
+              offset: Offset(0, 0),
+              blurRadius: 16,
+              spreadRadius: 0,
+            )
+          ],
             color: darkBlueColor,
-            borderRadius: BorderRadius.circular(radius_6)),
+            borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
             "Ok",
             style: TextStyle(
-                color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
+                fontFamily: 'montserrat',
+                color: backgroundColor, fontWeight: mediumBoldWeight, fontSize: 13),
           ),
         ),
       ),
