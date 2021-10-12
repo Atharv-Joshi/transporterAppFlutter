@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
-import 'package:liveasy/screens/PostLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
-import 'package:liveasy/screens/TransporterOrders/biddingScreenTransporterSide.dart';
-import 'package:liveasy/screens/TransporterOrders/onGoingScreenOrders.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
-import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
-import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
-import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
+import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 
 import 'alertDialog/addDriverAlertDialog.dart';
 import 'buttons/postLoadButton.dart';
@@ -52,7 +46,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
     SuggestedLoadScreen(),
     BuyGpsScreen(),
     OrdersScreen(),
-    AccountVerificationPage1(),
+    AccountPageUtil(),
     AddDriverAlertDialog(),
     LanguageSelectionScreen(),
     FindLoadScreen(),
