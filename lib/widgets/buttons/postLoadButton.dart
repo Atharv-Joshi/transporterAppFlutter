@@ -33,7 +33,7 @@ class PostButtonLoad extends StatelessWidget {
           providerData.resetPostLoadScreenOne();
           providerData.resetPostLoadFilters();
           providerData.updateEditLoad(false, "");
-          transporterIdController.companyApproved.value
+          transporterIdController.transporterApproved.value
               ? Get.to(PostLoadScreenOne())
            : showDialog(
                   context: context,
