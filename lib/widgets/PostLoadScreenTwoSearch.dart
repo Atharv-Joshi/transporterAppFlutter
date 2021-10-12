@@ -28,7 +28,7 @@ class PostLoadScreenTwoSearch extends StatelessWidget {
       "Tyre",
       "Cylinders",
       "Putty",
-      "Mustard DOC",
+      "DOC",
       "Oil",
       "Taar",
       "Others"
