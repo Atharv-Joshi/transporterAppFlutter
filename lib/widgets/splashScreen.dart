@@ -25,33 +25,40 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      body: Padding(
-        padding: EdgeInsets.only(right: space_2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage("assets/images/liveasyTruck.png")),
-            SizedBox(
-              height: space_2,
-            ),
-            Container(
-              child: Column(
-                children: [
-                  Image(
-                    image: AssetImage("assets/images/logoSplashScreen.png"),
-                    height: space_12,
-                  ),
-                  SizedBox(
-                    height: space_3,
-                  ),
-                  Image(
-                    image: AssetImage("assets/images/tagLine.png"),
-                    height: space_3,
-                  )
-                ],
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [shadowGrey, white])),
+          padding: EdgeInsets.only(right: space_2,top: space_35),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(image: AssetImage("assets/images/liveasyTruck.png")),
+              SizedBox(
+                height: space_2,
               ),
-            ),
-          ],
+              Container(
+                child: Column(
+                  children: [
+                    Image(
+                      image: AssetImage("assets/images/logoSplashScreen.png"),
+                      height: space_12,
+                    ),
+                    SizedBox(
+                      height: space_3,
+                    ),
+                    // Image(
+                    //   image: AssetImage("assets/images/tagLine.png"),
+                    //   height: space_3,
+                    // )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
