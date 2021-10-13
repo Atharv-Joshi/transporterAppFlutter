@@ -8,6 +8,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:provider/provider.dart';
 
 class VerifyNowButton extends StatelessWidget {
@@ -17,7 +18,7 @@ class VerifyNowButton extends StatelessWidget {
         Get.find<NavigationIndexController>();
     return GestureDetector(
       onTap: () {
-        Get.offAll(NavigationScreen());
+        Get.offAll(AccountPageUtil());
         navigationIndexController.updateIndex(4);
       },
       child: Container(

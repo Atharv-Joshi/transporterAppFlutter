@@ -199,7 +199,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                         },
                       );
                       Timer(Duration(seconds: 3),
-                          () => {Get.to(MyDrivers())});
+                          () => {Get.back(), Get.back(), Get.back()});
 
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);
