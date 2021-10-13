@@ -60,7 +60,7 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
           child: Text(
             '$text',
             style: TextStyle(
-                fontSize: size_9,
+                fontSize: size_10,
                 color: providerVariable == value ? white : black),
           ),
         ),
