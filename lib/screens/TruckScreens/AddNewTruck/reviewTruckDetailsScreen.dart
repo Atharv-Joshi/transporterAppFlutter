@@ -190,12 +190,12 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                 });
 
                                 if(providerData.isAddTruckSrcDropDown){
-                                  Get.offAll(() => NavigationScreen());
                                   navigationIndexController.updateIndex(3);
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
                                 }
                                 else{
-                                  Get.offAll(() => NavigationScreen());
                                   navigationIndexController.updateIndex(1);
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
                                 }
                                 providerData.resetTruckFilters();
                               } else {
