@@ -188,7 +188,12 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
     getDriverList();
     getTruckList();
   }
-
+  refresh() {
+    setState(() {
+      var page= ModalRoute.of(context)!.settings.name;
+      Get.to(page);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     selectedDriverController.updateFromTruck(false);
@@ -324,7 +329,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
                 onPressed: () {
                   showDialog(
                       context: context,
-                      builder: (context) => AddDriverAlertDialog());
+                      builder: (context) => AddDriverAlertDialog(notifyParent: refresh));
                 },
                 child: Text('Add New Driver'),
               ),
