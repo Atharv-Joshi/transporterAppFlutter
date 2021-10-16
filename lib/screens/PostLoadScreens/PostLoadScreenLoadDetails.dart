@@ -9,6 +9,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
+import 'package:liveasy/variables/truckFilterVariablesForPostLoad.dart';
 import 'package:liveasy/widgets/PostLoadScreenTwoSearch.dart';
 import 'package:liveasy/widgets/PriceTextFieldWidget.dart';
 import 'package:liveasy/widgets/UnitValueWidget.dart';
@@ -33,7 +34,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
   List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22];
   List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30];
 
-  TruckFilterVariables truckFilterVariables = TruckFilterVariables();
+  TruckFilterVariablesForPostLoad truckFilterVariables = TruckFilterVariablesForPostLoad();
   @override
   Widget build(BuildContext context) {
     bool visible = false;

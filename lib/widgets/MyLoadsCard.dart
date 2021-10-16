@@ -254,8 +254,9 @@ class MyLoadsCard extends StatelessWidget {
         LoadApiCalls loadApiCalls = LoadApiCalls();
         loadApiCalls.disableActionOnLoad(loadId: loadDetailsScreenModel.loadId);
         Timer(Duration(seconds: 1), () {
-          Get.offAll(NavigationScreen());
           navigationIndexController.updateIndex(2);
+          // Get.offAll(NavigationScreen());
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
         });
 
         break;
