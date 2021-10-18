@@ -1,22 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
-import 'package:liveasy/screens/PostLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
-import 'package:liveasy/screens/TransporterOrders/biddingScreenTransporterSide.dart';
-import 'package:liveasy/screens/TransporterOrders/onGoingScreenOrders.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
-import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
-import 'package:liveasy/screens/accountScreens/accountVerificationPage1.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
-import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
-import 'package:liveasy/screens/ordersScreen.dart';
-
+import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'alertDialog/addDriverAlertDialog.dart';
-import 'buttons/postLoadButton.dart';
 
 class HelpCardWidget extends StatefulWidget {
   HelpCardWidget({Key? key, required this.title, required this.index}) : super(key: key);
@@ -51,8 +45,8 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
     PostLoadScreenOne(),
     SuggestedLoadScreen(),
     BuyGpsScreen(),
-    OrdersScreen(),
-    AccountVerificationPage1(),
+  NavigationScreen(),
+    AccountPageUtil(),
     AddDriverAlertDialog(),
     LanguageSelectionScreen(),
     FindLoadScreen(),
@@ -61,6 +55,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
   ];
   @override
   Widget build(BuildContext context) {
+    NavigationIndexController navigationIndex = Get.put(NavigationIndexController(), permanent: true);
     return Container(
         child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -101,6 +96,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
+                                            navigationIndex.updateIndex(2);
                                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>redirect_links[widget.index]));
                                           },
                                           child: Container(

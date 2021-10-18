@@ -18,89 +18,81 @@ class UnitValueWidget extends StatelessWidget {
       padding: EdgeInsets.only(left: space_4),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () {
-              if (!providerData.perTruck) {
+          Container(
+              child: OutlinedButton(
+                style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(2),
+                    backgroundColor: providerData.perTruck
+                        ? MaterialStateProperty.all(darkBlueColor)
+                        : MaterialStateProperty.all(whiteBackgroundColor),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ))),
+                onPressed: () {
+                  if (!providerData.perTruck) {
 
-                providerData.PerTruckTrue(true, false);
-                if (providerData.price == 0) {
-                  Get.snackbar("fill both fields",
-                      "price cant be empty if unitValue is filled");
-                }
-              } else {
-                if (providerData.price != 0) {
-                  Get.snackbar("fill both fields",
-                      "unitValue cant be empty if price is filled");
-                }
-                providerData.PerTruckTrue(false, false);
+                    providerData.PerTruckTrue(true, false);
+                    if (providerData.price == 0) {
+                      Get.snackbar("fill both fields",
+                          "price cant be empty if unitValue is filled");
+                    }
+                  } else {
+                    if (providerData.price != 0) {
+                      Get.snackbar("fill both fields",
+                          "unitValue cant be empty if price is filled");
+                    }
+                    providerData.PerTruckTrue(false, false);
 
-              }
-            },
-            child: Container(
-              child: Row(
-                children: [
-                  Container(
-                    width: space_3,
-                    height: space_3,
-                    decoration: BoxDecoration(
-                        color: providerData.perTruck ? blueTitleColor : white,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(width: 1, color: black)),
-                  ),
-                  SizedBox(width: space_1),
-                  Text(
-                      AppLocalizations.of(context)!.perTruck,
-                    style: TextStyle(
-                        fontSize: size_7,
-                        fontWeight: regularWeight,
-                        color: textLightColor),
-                  ),
-                ],
-              ),
+                  }
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.perTruck,
+                  style: TextStyle(
+                    fontSize: size_7,
+                      fontWeight: regularWeight,
+                      color: providerData.perTruck? white : black),
+                ),
+              )
             ),
-          ),
           SizedBox(width: space_8),
-          GestureDetector(
-            onTap: () {
-              if (!providerData.perTon) {
+         Container(
+                child: OutlinedButton(
+                  style: ButtonStyle(
+                      elevation: MaterialStateProperty.all<double>(2),
+                      backgroundColor: providerData.perTon
+                          ? MaterialStateProperty.all(darkBlueColor)
+                          : MaterialStateProperty.all(whiteBackgroundColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7),
+                          ))),
+                  onPressed: () {
+                    if (!providerData.perTon) {
 
-                providerData.PerTonTrue(true, false);
-                if (providerData.price == 0) {
-                  Get.snackbar("fill both fields",
-                      "price cant be empty if unitValue is filled");
-                }
-              } else {
-                if (providerData.price != 0) {
-                  Get.snackbar("fill both fields",
-                      "unitValue cant be empty if price is filled");
-                }
-                providerData.PerTonTrue(false, false);
+                      providerData.PerTonTrue(true, false);
+                      if (providerData.price == 0) {
+                        Get.snackbar("fill both fields",
+                            "price cant be empty if unitValue is filled");
+                      }
+                    } else {
+                      if (providerData.price != 0) {
+                        Get.snackbar("fill both fields",
+                            "unitValue cant be empty if price is filled");
+                      }
+                      providerData.PerTonTrue(false, false);
 
-              }
-            },
-            child: Container(
-              child: Row(
-                children: [
-                  Container(
-                    width: space_3,
-                    height: space_3,
-                    decoration: BoxDecoration(
-                        color: providerData.perTon ? blueTitleColor : white,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(width: 1, color: black)),
-                  ),
-                  SizedBox(width: space_1),
-                  Text(
+                    }
+                  },
+                  child: Text(
                     AppLocalizations.of(context)!.perTon,
                     style: TextStyle(
                         fontSize: size_7,
                         fontWeight: regularWeight,
-                        color: textLightColor),
+                        color: providerData.perTon? white : black),
                   ),
-                ],
-              ),
+                )
             ),
-          ),
         ],
       ),
     );
