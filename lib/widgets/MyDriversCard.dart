@@ -8,6 +8,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/popupModelForMyDrivers.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/widgets/alertDialog/editDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'alertDialog/addDriverAlertDialog.dart';
@@ -139,6 +140,16 @@ class _MyDriverCardState extends State<MyDriverCard> {
             builder: (context) {
               return confirmDeleteDialogBox(
                 driverData: widget.driverData,
+              );
+            });
+        break;
+      case menuItems.itemEdit:
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return EditDriverAlertDialog(
+                driverEditData: widget.driverData,
               );
             });
         break;
