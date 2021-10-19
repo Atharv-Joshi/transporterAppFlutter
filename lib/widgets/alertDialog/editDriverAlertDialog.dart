@@ -69,31 +69,26 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
               border: Border.all(color: darkGreyColor)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: space_2),
-            child: Expanded(
-              child: TextField(
-                controller: driverEditNameController,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
+            child: TextField(
+              controller: driverEditNameController,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
                   hintText: "Type here",
-                  // labelText: widget.driverEditData.driverName,
+                  //labelText: widget.driverEditData.driverName,
                   hintStyle: TextStyle(
                       color: textLightColor,
                       fontSize: size_8,
                       fontWeight: regularWeight),
-                  border: InputBorder.none,
-                ),
-              ),
+                  border: InputBorder.none),
             ),
           ),
-        ),
+        )
       ]),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             EditButton(onTap: () async {
-              if (driverEditNameController.text !=
-                  widget.driverEditData.driverName) {
                 EasyLoading.instance
                   ..indicatorType = EasyLoadingIndicatorType.ring
                   ..indicatorSize = 45.0
@@ -122,7 +117,7 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
                         );
                       },
                     );
-                    Timer(Duration(milliseconds: 500),
+                    Timer(Duration(milliseconds: 1000),
                         () => {Get.to(MyDrivers())});
 
                     var totalResponses =
@@ -143,26 +138,6 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
                     );
                   }
                 }
-              } else {
-                EasyLoading.dismiss();
-                Get.defaultDialog(
-                  content: Container(
-                    child: Column(
-                      children: [
-                        Text(AppLocalizations.of(context)!.error + "!"),
-                        Text("change name to continue")
-                      ],
-                    ),
-                  ),
-                );
-                //user entered an invalid mobile number
-                // showDialog(
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return OrderFailedAlertDialog();
-                //   },
-                // );
-              }
             }),
             CancelButtonForAddNewDriver()
           ],
