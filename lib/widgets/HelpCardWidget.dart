@@ -8,6 +8,7 @@ import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
+import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'alertDialog/addDriverAlertDialog.dart';
@@ -47,7 +48,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
     BuyGpsScreen(),
   NavigationScreen(),
     AccountPageUtil(),
-    AddDriverAlertDialog(),
+    AddDriverAlertDialog(notifyParent: () { Get.to(MyDrivers()); },),
     LanguageSelectionScreen(),
     FindLoadScreen(),
     BuyGpsScreen(),

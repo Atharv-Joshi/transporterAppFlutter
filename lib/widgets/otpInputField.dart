@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:visibility_aware_state/visibility_aware_state.dart';
 
 class OTPInputField extends StatefulWidget {
   String _verificationCode = '';
@@ -25,7 +26,7 @@ class _OTPInputFieldState extends State<OTPInputField> {
   HudController hudController = Get.put(HudController());
   AuthService authService = AuthService();
   IsOtpInvalidController isOtpInvalidController =
-      Get.put(IsOtpInvalidController());
+  Get.put(IsOtpInvalidController());
 
   @override
   Widget build(BuildContext context) {

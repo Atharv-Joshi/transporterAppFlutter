@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 
 class AddDriverButton extends StatelessWidget {
@@ -23,7 +24,9 @@ class AddDriverButton extends StatelessWidget {
         onPressed: () {
           showDialog(
               context: context,
-              builder: (context) => AddDriverAlertDialog());
+              builder: (context) => AddDriverAlertDialog(notifyParent: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyDrivers()));
+              },));
         },
         child: Text(
           'Add Driver',

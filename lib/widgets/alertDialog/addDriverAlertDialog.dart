@@ -30,6 +30,8 @@ import 'orderFailedAlertDialog.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
+  final Function() notifyParent;
+  AddDriverAlertDialog({Key? key, required this.notifyParent}) : super(key: key);
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
 }
@@ -199,7 +201,10 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                         },
                       );
                       Timer(Duration(seconds: 3),
-                          () => {Get.back(), Get.back(), Get.back()});
+                          () => {
+                            Get.back(), Get.back(), Get.back(),
+                            widget.notifyParent()
+                         });
 
                       //For Book Now Alert Dialog
                       await getTruckDetailsFromTruckApi(context);

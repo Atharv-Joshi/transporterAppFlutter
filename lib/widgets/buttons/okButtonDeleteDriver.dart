@@ -22,7 +22,7 @@ class OkButtonDeleteDriver extends StatelessWidget {
       onTap: () {
         disableActionOnDriver(driverId: driverData.driverId);
         Timer(Duration(milliseconds: 1), () {
-          Get.to(MyDrivers());
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyDrivers()));
         });
       },
       child: Container(
