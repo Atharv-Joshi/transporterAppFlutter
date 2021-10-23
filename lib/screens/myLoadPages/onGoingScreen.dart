@@ -33,17 +33,21 @@ class _OngoingScreenState extends State<OngoingScreen> {
   ScrollController scrollController = ScrollController();
 
   getDataByPostLoadIdOnGoing(int i) async {
-    setState(() {
-      OngoingProgress = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        OngoingProgress = true;
+      });
+    }
     var bookingDataListWithPagei = await getOngoingDataWithPageNo(i);
     for (var bookingData in bookingDataListWithPagei) {
       modelList.add(bookingData);
     }
-    setState(() {
-      loading = false;
-      OngoingProgress = false;
-    });
+    if (this.mounted) { // check whether the state object is in tree
+      setState(() {
+        loading = false;
+        OngoingProgress = false;
+      });
+    }
   }
 
   @override
@@ -53,8 +57,8 @@ class _OngoingScreenState extends State<OngoingScreen> {
     getDataByPostLoadIdOnGoing(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
         i = i + 1;
         getDataByPostLoadIdOnGoing(i);
       }
@@ -93,18 +97,24 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: space_15),
-                  itemCount: modelList.length,
-                  itemBuilder: (context, index) =>
-                      (index == modelList.length - 1)
-                          ? Visibility(
-                              visible: OngoingProgress,
-                              child: bottomProgressBarIndicatorWidget())
-                          : OngoingCard(
-                              loadAllDataModel: modelList[index],
-                            )),
+              : RefreshIndicator(
+                  color: lightNavyBlue,
+                  onRefresh: () {
+                    return getDataByPostLoadIdOnGoing(0);
+                  },
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: space_15),
+                      itemCount: modelList.length,
+                      itemBuilder: (context, index) =>
+                          (index == modelList.length - 1)
+                              ? Visibility(
+                                  visible: OngoingProgress,
+                                  child: bottomProgressBarIndicatorWidget())
+                              : OngoingCard(
+                                  loadAllDataModel: modelList[index],
+                                )),
+                ),
     );
   }
 } //class end

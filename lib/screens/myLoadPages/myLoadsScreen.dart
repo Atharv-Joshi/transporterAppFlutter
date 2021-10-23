@@ -39,13 +39,15 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
     getDataByPostLoadId(i);
 
-    setState(() {
-      loading = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        loading = true;
+      });
+    }
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
         i = i + 1;
         getDataByPostLoadId(i);
       }
@@ -84,26 +86,34 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                       ],
                     ),
                   )
-                : ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: space_15),
-                    controller: scrollController,
-                    itemCount: myLoadList.length,
-                    itemBuilder: (context, index) =>
-                        (index == myLoadList.length - 1)
-                            ? Visibility(
-                                visible: bottomProgressLoad,
-                                child: bottomProgressBarIndicatorWidget())
-                            : MyLoadsCard(
-                                loadDetailsScreenModel: myLoadList[index],
-                              ),
+                : RefreshIndicator(
+                    color: lightNavyBlue,
+                    onRefresh: () {
+                      return getDataByPostLoadId(0);
+                    },
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: space_15),
+                      controller: scrollController,
+                      itemCount: myLoadList.length,
+                      itemBuilder: (context, index) =>
+                          (index == myLoadList.length - 1)
+                              ? Visibility(
+                                  visible: bottomProgressLoad,
+                                  child: bottomProgressBarIndicatorWidget())
+                              : MyLoadsCard(
+                                  loadDetailsScreenModel: myLoadList[index],
+                                ),
+                    ),
                   ));
   }
 
   getDataByPostLoadId(int i) async {
-    setState(() {
-      bottomProgressLoad = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        bottomProgressLoad = true;
+      });
+    }
     http.Response response = await http.get(Uri.parse(
         '$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
     var jsonData = json.decode(response.body);
@@ -144,13 +154,17 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
       loadDetailsScreenModel.postLoadDate =
           json['postLoadDate'] != null ? json['postLoadDate'] : 'NA';
       loadDetailsScreenModel.status = json['status'];
+      if (this.mounted) {
+        setState(() {
+          myLoadList.add(loadDetailsScreenModel);
+        });
+      }
+    }
+    if (this.mounted) {
       setState(() {
-        myLoadList.add(loadDetailsScreenModel);
+        loading = false;
+        bottomProgressLoad = false;
       });
     }
-    setState(() {
-      loading = false;
-      bottomProgressLoad = false;
-    });
   } //builder
 } //class end

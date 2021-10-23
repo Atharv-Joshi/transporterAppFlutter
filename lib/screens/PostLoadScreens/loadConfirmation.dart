@@ -27,7 +27,8 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    providerData.updateUnitValue();
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => providerData.updateUnitValue());
     // providerData.updateLoadWidget(true);
     PostLoadVariablesController postLoadVariables =
         Get.find<PostLoadVariablesController>();

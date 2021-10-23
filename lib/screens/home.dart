@@ -40,16 +40,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    // switchData.write("isSwitched", true);
     super.initState();
-    try {
-      if(switchData.read('isSwitched') != null) {
-        if(switchData.read('isSwitched') == true) {
-          backgroundTry();
-        }
-      }
-    }catch (e) {
-      print("Expetion is $e");
-    }
+    // try {
+    //   if(switchData.read('isSwitched') != null) {
+    //     if(switchData.read('isSwitched') == true) {
+    //       backgroundTry();
+    //     }
+    //   }
+    // }catch (e) {
+    //   print("Expetion is $e");
+    // }
   }
   @override
   Widget build(BuildContext context) {
@@ -64,8 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // and pass image url here, if required.
           ),
           backgroundColor: backgroundColor,
-          body: WillPopScope(
-            child: Container(
+          body: Container(
               height: MediaQuery.of(context).size.height -
                   kBottomNavigationBarHeight -
                   space_4 -
@@ -152,32 +152,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            onWillPop: onWillPop,
-          ),
         ),
       ),
     );
   }
 
-  Future<bool> onWillPop() {
-    setState(() {
-      isSwitched = switchData.read('isSwitched');
-      print("State OnWillPop is $isSwitched");
-    });
-    if (isSwitched == true) {
-      print("You can't go back");
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => WillPopScope(
-            onWillPop: () => Future.value(false),
-            child: ConflictDialog(
-                dialog: "You can't Close App\nPlease Press Home Button"
-            ),
-          ));
-      return Future.value(false);
-    }
-    print("You can exit back");
-    return Future.value(true);
-  }
+  // Future<bool> onWillPop() {
+  //   setState(() {
+  //     isSwitched = switchData.read('isSwitched');
+  //     print("State OnWillPop is $isSwitched");
+  //   });
+  //   if (isSwitched == true) {
+  //     print("You can't go back");
+  //     showDialog(
+  //         context: context,
+  //         barrierDismissible: false,
+  //         builder: (context) => WillPopScope(
+  //           onWillPop: () => Future.value(false),
+  //           child: ConflictDialog(
+  //               dialog: "You can't Close App\nPlease Press Home Button"
+  //           ),
+  //         ));
+  //     return Future.value(false);
+  //   }
+  //   print("You can exit back");
+  //   return Future.value(true);
+  // }
 }

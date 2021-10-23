@@ -43,6 +43,7 @@ class OngoingScreenOrders extends StatelessWidget {
               );
             } else {
               return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return FutureBuilder(

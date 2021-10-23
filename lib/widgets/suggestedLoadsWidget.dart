@@ -12,7 +12,6 @@ class SuggestedLoadsWidget extends StatefulWidget {
 }
 
 class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
-
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
@@ -24,11 +23,13 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
 
   //API CALL--------------------------------------------------------------------
   runSuggestedLoadApi(int i) async {
-    var suggestedLoadDataList = await runWidgetSuggestedLoadApiWithPageNo(i);
-    for (var suggestedLoadData in suggestedLoadDataList){
-      setState(() {
-        data.add(suggestedLoadData);
-      });
+    if (this.mounted) {
+      var suggestedLoadDataList = await runWidgetSuggestedLoadApiWithPageNo(i);
+      for (var suggestedLoadData in suggestedLoadDataList) {
+        setState(() {
+          data.add(suggestedLoadData);
+        });
+      }
     }
   }
 
@@ -40,9 +41,9 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
     runSuggestedLoadApi(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        i = i+1;
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
+        i = i + 1;
         runSuggestedLoadApi(i);
       }
     });
@@ -58,16 +59,24 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
   Widget build(BuildContext context) {
     return data.isEmpty
         ? Center(
-          child: CircularProgressIndicator(color: darkBlueColor),
-        )
-        : ListView.builder(
-          controller: scrollController,
-          scrollDirection: Axis.vertical,
-          itemCount: data.length +1,
-          itemBuilder: (context, index) => index == data.length
-              ? bottomProgressBarIndicatorWidget()
-              : HomeScreenLoadsCard(loadDetailsScreenModel: data[index],
-          ),
-        );
+            child: CircularProgressIndicator(color: darkBlueColor),
+          )
+        : RefreshIndicator(
+            color: lightNavyBlue,
+            onRefresh: () {
+              return runSuggestedLoadApi(0);
+            },
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              controller: scrollController,
+              scrollDirection: Axis.vertical,
+              itemCount: data.length + 1,
+              itemBuilder: (context, index) => index == data.length
+                  ? bottomProgressBarIndicatorWidget()
+                  : HomeScreenLoadsCard(
+                      loadDetailsScreenModel: data[index],
+                    ),
+            ),
+          );
   }
 }

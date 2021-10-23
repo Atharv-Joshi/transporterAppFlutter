@@ -45,7 +45,7 @@ class ApplyButton extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (providerData.postLoadScreenTwoButton()) {
-                    Get.to(LoadConfirmation());
+                    Get.to(() =>LoadConfirmation());
                   } else {
                     return null;
                   }

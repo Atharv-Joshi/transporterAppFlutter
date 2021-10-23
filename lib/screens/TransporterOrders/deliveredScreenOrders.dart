@@ -13,7 +13,10 @@ class DeliveredScreenOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.67,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.67,
         child: FutureBuilder(
           //getTruckData returns list of truck Model
           future: bookingApiCallsOrders.getDataByTransporterIdDelivered(),
@@ -24,7 +27,7 @@ class DeliveredScreenOrders extends StatelessWidget {
             print('delivered snapshot length :' +
                 '${snapshot.data.length}'); //number of cards
 
-            if (snapshot.data.length == 0) {
+            if (snapshot.data.length != 0) {
               return Container(
                 margin: EdgeInsets.only(top: 153),
                 child: Column(
@@ -44,6 +47,7 @@ class DeliveredScreenOrders extends StatelessWidget {
               );
             } else {
               return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return FutureBuilder(
@@ -64,7 +68,7 @@ class DeliveredScreenOrders extends StatelessWidget {
                             companyApproved: snapshot.data['companyApproved'],
                             driverPhoneNum: snapshot.data['driverPhoneNum'],
                             transporterPhoneNumber:
-                                snapshot.data['posterPhoneNum'],
+                            snapshot.data['posterPhoneNum'],
                             rate: snapshot.data['rate'],
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],
@@ -74,15 +78,13 @@ class DeliveredScreenOrders extends StatelessWidget {
                             startedOn: snapshot.data['startedOn'],
                             endedOn: snapshot.data['endedOn'],
                             bookingId: snapshot.data['bookingId'],
-
                             // imei: snapshot.data['imei'],
                             // phoneNum: snapshot.data['phoneNum'],
                           );
                         });
                   } //builder
-
-                  );
-            } //else
+              );
+          } //else
           },
         ));
   }
