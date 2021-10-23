@@ -113,7 +113,12 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
       selectedDriverController.updateNewDriverAddedTruckController(false);
     }
   }
-
+  refresh() {
+    setState(() {
+      var page= ModalRoute.of(context)!.settings.name;
+      Get.to(page);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -253,7 +258,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       onPressed: () {
                         showDialog(
                             context: context,
-                            builder: (context) => AddDriverAlertDialog());
+                            builder: (context) => AddDriverAlertDialog(notifyParent: refresh));
                       },
                       child: Text('Add New Driver'),
                     ),
