@@ -57,6 +57,9 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                       controllerOthers.text = "";
                       providerData.resetTruckFilters();
                       providerData.updateResetActive(false);
+                      providerData.updatePrice(0);
+                      providerData.PerTonTrue(false,false);
+                      providerData.updateBorderColor(darkBlueColor);
                     },
                   ),
                 ),

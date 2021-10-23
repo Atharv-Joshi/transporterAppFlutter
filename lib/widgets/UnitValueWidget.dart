@@ -5,7 +5,6 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UnitValueWidget extends StatelessWidget {
@@ -34,16 +33,9 @@ class UnitValueWidget extends StatelessWidget {
 
                     providerData.PerTruckTrue(true, false);
                     if (providerData.price == 0) {
-                      Get.snackbar("fill both fields",
-                          "price cant be empty if unitValue is filled");
+                        providerData.updateHintText("enter price");
+                        providerData.updateBorderColor(red);
                     }
-                  } else {
-                    if (providerData.price != 0) {
-                      Get.snackbar("fill both fields",
-                          "unitValue cant be empty if price is filled");
-                    }
-                    providerData.PerTruckTrue(false, false);
-
                   }
                 },
                 child: Text(
@@ -72,16 +64,9 @@ class UnitValueWidget extends StatelessWidget {
 
                       providerData.PerTonTrue(true, false);
                       if (providerData.price == 0) {
-                        Get.snackbar("fill both fields",
-                            "price cant be empty if unitValue is filled");
+                          providerData.updateHintText("enter price");
+                          providerData.updateBorderColor(red);
                       }
-                    } else {
-                      if (providerData.price != 0) {
-                        Get.snackbar("fill both fields",
-                            "unitValue cant be empty if price is filled");
-                      }
-                      providerData.PerTonTrue(false, false);
-
                     }
                   },
                   child: Text(
