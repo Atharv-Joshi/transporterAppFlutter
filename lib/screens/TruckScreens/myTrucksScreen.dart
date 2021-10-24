@@ -40,12 +40,7 @@ class _MyTrucksState extends State<MyTrucks> {
   void initState() {
     super.initState();
 
-    if (this.mounted) {
-      setState(() {
-        loading = true;
-      });
-    }
-
+    loading = true;
     getTruckData(i);
 
     scrollController.addListener(() {
@@ -135,6 +130,10 @@ class _MyTrucksState extends State<MyTrucks> {
                           : RefreshIndicator(
                               color: lightNavyBlue,
                               onRefresh: () {
+                                setState(() {
+                                  truckDataList.clear();
+                                  loading = true;
+                                });
                                 return getTruckData(0);
                               },
                               child: ListView.builder(

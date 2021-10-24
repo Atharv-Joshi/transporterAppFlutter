@@ -37,13 +37,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
   void initState() {
     super.initState();
 
+    loading = true;
     getDataByPostLoadId(i);
-
-    if (this.mounted) {
-      setState(() {
-        loading = true;
-      });
-    }
 
     scrollController.addListener(() {
       if (scrollController.position.pixels >
@@ -89,6 +84,10 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                 : RefreshIndicator(
                     color: lightNavyBlue,
                     onRefresh: () {
+                      setState(() {
+                        myLoadList.clear();
+                        loading = true;
+                      });
                       return getDataByPostLoadId(0);
                     },
                     child: ListView.builder(

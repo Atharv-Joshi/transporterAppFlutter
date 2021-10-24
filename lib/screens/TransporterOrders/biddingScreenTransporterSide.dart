@@ -88,6 +88,10 @@ class _BiddingScreenTransporterSideState
                 : RefreshIndicator(
                     color: lightNavyBlue,
                     onRefresh: () {
+                      setState(() {
+                        biddingModelList.clear();
+                        loading = true;
+                      });
                       return getBidData(0);
                     },
                     child: ListView.builder(

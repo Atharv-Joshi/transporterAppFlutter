@@ -4,7 +4,6 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
 import 'package:liveasy/widgets/deliveredCardOrders.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/completedLoadingWidgets.dart';
 
 class DeliveredScreenOrders extends StatelessWidget {
@@ -27,7 +26,7 @@ class DeliveredScreenOrders extends StatelessWidget {
             print('delivered snapshot length :' +
                 '${snapshot.data.length}'); //number of cards
 
-            if (snapshot.data.length != 0) {
+            if (snapshot.data.length == 0) {
               return Container(
                 margin: EdgeInsets.only(top: 153),
                 child: Column(

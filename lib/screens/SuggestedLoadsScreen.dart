@@ -95,6 +95,10 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                     : RefreshIndicator(
                   color: lightNavyBlue,
                   onRefresh: () {
+                    setState(() {
+                      data.clear();
+                      loading = true;
+                    });
                     return runSuggestedLoadApi(0);
                   },
                       child: ListView.builder(

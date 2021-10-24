@@ -64,6 +64,9 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
         : RefreshIndicator(
             color: lightNavyBlue,
             onRefresh: () {
+              setState(() {
+                data.clear();
+              });
               return runSuggestedLoadApi(0);
             },
             child: ListView.builder(

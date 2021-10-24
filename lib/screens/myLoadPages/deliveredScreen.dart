@@ -100,6 +100,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
               : RefreshIndicator(
                   color: lightNavyBlue,
                   onRefresh: () {
+                    setState(() {
+                      modelList.clear();
+                      loading = true;
+                    });
                     return getDataByPostLoadIdDelivered(0);
                   },
                   child: ListView.builder(

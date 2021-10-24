@@ -100,6 +100,10 @@ class _OngoingScreenState extends State<OngoingScreen> {
               : RefreshIndicator(
                   color: lightNavyBlue,
                   onRefresh: () {
+                    setState(() {
+                      modelList.clear();
+                      loading = true;
+                    });
                     return getDataByPostLoadIdOnGoing(0);
                   },
                   child: ListView.builder(
