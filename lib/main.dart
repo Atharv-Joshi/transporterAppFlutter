@@ -21,9 +21,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
 
+var firebase;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  firebase = Firebase.initializeApp();
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
   await FlutterConfig.loadEnvVariables();
@@ -78,7 +79,7 @@ class _MyAppState extends State<MyApp> {
         create: (context) => ProviderData(),
         builder: (context, child) {
           return FutureBuilder(
-              future: Firebase.initializeApp(),
+              future: firebase,
               builder: (context, snapshot) {
                 final provider = Provider.of<ProviderData>(context);
                 if (snapshot.connectionState == ConnectionState.done) {

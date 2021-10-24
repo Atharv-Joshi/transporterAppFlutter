@@ -40,15 +40,12 @@ class _MyTrucksState extends State<MyTrucks> {
   void initState() {
     super.initState();
 
-    setState(() {
-      loading = true;
-    });
-
+    loading = true;
     getTruckData(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
         i = i + 1;
         getTruckData(i);
       }
@@ -130,26 +127,36 @@ class _MyTrucksState extends State<MyTrucks> {
                                 ],
                               ),
                             )
-                          : ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              padding: EdgeInsets.only(bottom: space_15),
-                              controller: scrollController,
-                              itemCount: truckDataList.length,
-                              itemBuilder: (context, index) => (index ==
-                                      truckDataList.length - 1)
-                                  ? Visibility(
-                                      visible: bottomProgressTruck,
-                                      child: bottomProgressBarIndicatorWidget())
-                                  : MyTruckCard(
-                                      truckData: truckDataList[index],
-                                    ),
+                          : RefreshIndicator(
+                              color: lightNavyBlue,
+                              onRefresh: () {
+                                setState(() {
+                                  truckDataList.clear();
+                                  loading = true;
+                                });
+                                return getTruckData(0);
+                              },
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                padding: EdgeInsets.only(bottom: space_15),
+                                controller: scrollController,
+                                itemCount: truckDataList.length,
+                                itemBuilder: (context, index) => (index ==
+                                        truckDataList.length - 1)
+                                    ? Visibility(
+                                        visible: bottomProgressTruck,
+                                        child:
+                                            bottomProgressBarIndicatorWidget())
+                                    : MyTruckCard(
+                                        truckData: truckDataList[index],
+                                      ),
+                              ),
                             ),
                   // {
                   //   return MyTruckCard(
                   //     truckData: truckDataList[index],
                   // truckId: .truckId,
-                  // truckApproved:
-                  //     truckDataList[index].truckApproved,
+                  // truckApproved: truckDataList[index].truckApproved,
                   // truckNo: truckDataList[index].truckNo,
                   // truckType: truckDataList[index].truckType,
                   // tyres: truckDataList[index].tyresString,
@@ -176,17 +183,21 @@ class _MyTrucksState extends State<MyTrucks> {
   } //build
 
   getTruckData(int i) async {
-    setState(() {
-      bottomProgressTruck = true;
-    });
+    if (this.mounted) {
+      setState(() {
+        bottomProgressTruck = true;
+      });
+    }
     var truckDataListForPagei = await getTruckDataWithPageNo(i);
     for (var truckData in truckDataListForPagei) {
       truckDataList.add(truckData);
     }
-    setState(() {
-      loading = false;
-      bottomProgressTruck = false;
-    });
+    if (this.mounted) {
+      setState(() {
+        loading = false;
+        bottomProgressTruck = false;
+      });
+    }
   } //getTruckData
 
 } //class

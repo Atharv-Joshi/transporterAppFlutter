@@ -19,6 +19,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationScreen extends StatefulWidget {
+
+  var initScreen;
+  NavigationScreen({this.initScreen});
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
@@ -40,6 +44,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void initState() {
+    if(widget.initScreen != null)
+    {
+      navigationIndex.updateIndex(widget.initScreen);
+    }
     super.initState();
     this.initDynamicLinks();
     this.checkUpdate();

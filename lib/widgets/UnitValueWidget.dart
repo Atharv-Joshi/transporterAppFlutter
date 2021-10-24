@@ -37,6 +37,11 @@ class UnitValueWidget extends StatelessWidget {
                         providerData.updateBorderColor(red);
                     }
                   }
+                  else
+                  {
+                    providerData.PerTruckTrue(false, false);
+                    providerData.updateBorderColor(darkBlueColor);
+                  }
                 },
                 child: Text(
                   AppLocalizations.of(context)!.perTruck,
@@ -68,6 +73,11 @@ class UnitValueWidget extends StatelessWidget {
                           providerData.updateBorderColor(red);
                       }
                     }
+                    else
+                      {
+                        providerData.PerTonTrue(false, false);
+                        providerData.updateBorderColor(darkBlueColor);
+                      }
                   },
                   child: Text(
                     AppLocalizations.of(context)!.perTon,

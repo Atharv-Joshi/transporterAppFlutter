@@ -32,17 +32,22 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   ScrollController scrollController = ScrollController();
 
   getDataByPostLoadIdDelivered(int i) async {
-    setState(() {
-      DeliveredProgress = true;
-    });
+
+    if (this.mounted) {
+      setState(() {
+        DeliveredProgress = true;
+      });
+    }
     var bookingDataListWithPagei = await getDeliveredDataWithPageNo(i);
     for (var bookingData in bookingDataListWithPagei) {
       modelList.add(bookingData);
     }
-    setState(() {
-      loading = false;
-      DeliveredProgress = false;
-    });
+    if (this.mounted) {
+      setState(() {
+        loading = false;
+        DeliveredProgress = false;
+      });
+    }
   }
 
   @override
@@ -52,8 +57,8 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     getDataByPostLoadIdDelivered(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
         i = i + 1;
         getDataByPostLoadIdDelivered(i);
       }
@@ -92,25 +97,35 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: space_15),
-                  controller: scrollController,
-                  itemCount: modelList.length,
-                  itemBuilder: (context, index) =>
-                      (index == modelList.length - 1)
-                          ? Visibility(
-                              visible: DeliveredProgress,
-                              child: bottomProgressBarIndicatorWidget())
-                          : DeliveredCard(
-                              model: modelList[index],
-                            )
-                  // {
-                  //   return  DeliveredCard(
-                  //           model: modelList[index],
-                  //         );
-                  // } //builder
-                  ),
+              : RefreshIndicator(
+                  color: lightNavyBlue,
+                  onRefresh: () {
+                    setState(() {
+                      modelList.clear();
+                      loading = true;
+                    });
+                    return getDataByPostLoadIdDelivered(0);
+                  },
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: space_15),
+                      controller: scrollController,
+                      itemCount: modelList.length,
+                      itemBuilder: (context, index) =>
+                          (index == modelList.length - 1)
+                              ? Visibility(
+                                  visible: DeliveredProgress,
+                                  child: bottomProgressBarIndicatorWidget())
+                              : DeliveredCard(
+                                  model: modelList[index],
+                                )
+                      // {
+                      //   return  DeliveredCard(
+                      //           model: modelList[index],
+                      //         );
+                      // } //builder
+                      ),
+                ),
     );
   }
 } //class end
