@@ -79,44 +79,6 @@ class AccountVerificationPage2 extends StatelessWidget {
                         style: TextStyle(
                             fontSize: size_9, color: liveasyBlackColor),
                       ),
-                      ElevatedButtonWidget(
-                          condition: true,
-                          text: "Verify",
-                          onPressedConditionTrue: () async {
-                            hudController.updateHud(true);
-                            final uploadstatus =
-                                await postAccountVerificationDocuments(
-                                    profilePhoto: providerData.profilePhoto64,
-                                    addressProofFront:
-                                        providerData.addressProofFrontPhoto64,
-                                    addressProofBack:
-                                        providerData.addressProofBackPhoto64,
-                                    panFront: providerData.panFrontPhoto64,
-                                    companyIdProof:
-                                        providerData.companyIdProofPhoto64);
-                            if (uploadstatus == "Success") {
-                              final status = await updateTransporterApi(
-                                  accountVerificationInProgress: true,
-                                  transporterId: transporterIdController
-                                      .transporterId.value);
-                              if (status == "Success") {
-                                hudController.updateHud(false);
-                                Get.offAll(NavigationScreen());
-                                // providerData.updateIndex(4);
-                              } else {
-                                hudController.updateHud(false);
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => ConflictDialog(
-                                        dialog: "Failed Please try again"));
-                              }
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => ConflictDialog(
-                                      dialog: "Failed Please try again"));
-                            }
-                          }),
                     ],
                   ),
                   SizedBox(
@@ -131,28 +93,38 @@ class AccountVerificationPage2 extends StatelessWidget {
                       onPressedConditionTrue: () async {
                         hudController.updateHud(true);
                         await postAccountVerificationDocuments(
-                            profilePhoto: providerData.profilePhoto64,
-                            addressProofFront:
-                                providerData.addressProofFrontPhoto64,
-                            addressProofBack:
-                                providerData.addressProofBackPhoto64,
-                            panFront: providerData.panFrontPhoto64,
-                            companyIdProof: providerData.companyIdProofPhoto64);
-                        final status = await updateTransporterApi(
-                            accountVerificationInProgress: true,
-                            transporterId:
-                                transporterIdController.transporterId.value);
-                        if (status == "Success") {
-                          hudController.updateHud(false);
-                          Get.offAll(NavigationScreen());
-                          navigationIndexController.updateIndex(4);
-                        } else {
-                          hudController.updateHud(false);
-                          showDialog(
-                              context: context,
-                              builder: (context) => ConflictDialog(
-                                  dialog: "Failed Please try again"));
-                        }
+                                profilePhoto: providerData.profilePhoto64,
+                                addressProofFront:
+                                    providerData.addressProofFrontPhoto64,
+                                addressProofBack:
+                                    providerData.addressProofBackPhoto64,
+                                panFront: providerData.panFrontPhoto64,
+                                companyIdProof:
+                                    providerData.companyIdProofPhoto64)
+                            .then((uploadstatus) async {
+                          if (uploadstatus == "Success") {
+                            final status = await updateTransporterApi(
+                                accountVerificationInProgress: true,
+                                transporterId: transporterIdController
+                                    .transporterId.value);
+                            if (status == "Success") {
+                              hudController.updateHud(false);
+                              Get.offAll(NavigationScreen());
+                              // providerData.updateIndex(4);
+                            } else {
+                              hudController.updateHud(false);
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => ConflictDialog(
+                                      dialog: "Failed Please try again"));
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) => ConflictDialog(
+                                    dialog: "Failed Please try again"));
+                          }
+                        });
                       }),
                 ],
               ),

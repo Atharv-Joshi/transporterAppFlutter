@@ -11,11 +11,11 @@ class AccountPageUtil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!transporterIdController.transporterApproved.value &&
-        !transporterIdController.accountVerificationInProgress.value) {
-      return AccountVerificationPage1(); // When transporter is unverified and hasn't applied for verification
+    if (transporterIdController.transporterApproved.value ||
+        transporterIdController.accountVerificationInProgress.value) {
+      return AccountVerificationStatusScreen(); // When transporter is unverified and hasn't applied for verification
     } else {
-      return AccountVerificationStatusScreen();
+      return AccountVerificationPage1();
     }
   }
 }
