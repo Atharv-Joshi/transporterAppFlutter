@@ -22,6 +22,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
 
 var firebase;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   firebase = Firebase.initializeApp();
@@ -69,7 +70,8 @@ class _MyAppState extends State<MyApp> {
 
   void configOneSignel() {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.setAppId("b1948857-b2d1-4946-b4d1-86f911c30389");
+    String oneSignalAppId = FlutterConfig.get('oneSignalAppId').toString();
+    OneSignal.shared.setAppId(oneSignalAppId);
   }
 
   @override

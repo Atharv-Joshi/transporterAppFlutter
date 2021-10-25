@@ -222,8 +222,10 @@ class MyLoadsCard extends StatelessWidget {
             city: loadDetailsScreenModel.unloadingPointCity!,
             state: loadDetailsScreenModel.unloadingPointState!);
         providerData.updateProductType(loadDetailsScreenModel.productType);
-        providerData
-            .updateTruckNumber(int.parse(loadDetailsScreenModel.noOfTyres!));
+        if (loadDetailsScreenModel.noOfTyres != "NA") {
+          providerData
+              .updateTruckNumber(int.parse(loadDetailsScreenModel.noOfTyres!));
+        }
         providerData.updatePassingWeightValue(
             int.parse(loadDetailsScreenModel.weight!));
         providerData.updateTruckTypeValue(loadDetailsScreenModel.truckType!
@@ -256,7 +258,8 @@ class MyLoadsCard extends StatelessWidget {
         Timer(Duration(seconds: 1), () {
           navigationIndexController.updateIndex(2);
           // Get.offAll(NavigationScreen());
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => NavigationScreen()));
         });
 
         break;
