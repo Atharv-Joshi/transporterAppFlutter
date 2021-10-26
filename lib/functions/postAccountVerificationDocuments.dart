@@ -76,7 +76,7 @@ Future<String> postAccountVerificationDocuments(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print(response.body);
       return "Success";
     } else {
