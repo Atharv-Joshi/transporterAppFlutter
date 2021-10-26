@@ -14,12 +14,6 @@ import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountVerificationStatusScreen extends StatelessWidget {
-  final String mobileNum;
-  final bool accountVerificationInProgress;
-
-  AccountVerificationStatusScreen(
-      {required this.mobileNum, required this.accountVerificationInProgress});
-
   @override
   Widget build(BuildContext context) {
     TransporterIdController transporterIdController =
@@ -41,7 +35,8 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                       SizedBox(
                         width: space_2,
                       ),
-                      HeadingTextWidget(AppLocalizations.of(context)!.my_account),
+                      HeadingTextWidget(
+                          AppLocalizations.of(context)!.my_account),
                     ],
                   ),
                   HelpButtonWidget(),
@@ -69,19 +64,19 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                           width: space_8,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image:
-                              AssetImage("assets/icons/defaultAccountIcon.png"),
+                              image: AssetImage(
+                                  "assets/icons/defaultAccountIcon.png"),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    accountVerificationInProgress
+                    transporterIdController.accountVerificationInProgress.value
                         ? AccountDetailVerificationPending(
-                            mobileNum: mobileNum,
+                            mobileNum: transporterIdController.mobileNum.value,
                           )
                         : AccountDetailVerified(
-                            mobileNum: mobileNum,
+                            mobileNum: transporterIdController.mobileNum.value,
                             name: transporterIdController.name.value,
                             companyName:
                                 transporterIdController.companyName.value,
@@ -94,8 +89,10 @@ class AccountVerificationStatusScreen extends StatelessWidget {
               SizedBox(
                 height: space_3,
               ),
-              accountVerificationInProgress ? WaitForReviewCard() : Container(),
-              accountVerificationInProgress
+              transporterIdController.accountVerificationInProgress.value
+                  ? WaitForReviewCard()
+                  : Container(),
+              transporterIdController.accountVerificationInProgress.value
                   ? SizedBox(
                       height: space_3,
                     )

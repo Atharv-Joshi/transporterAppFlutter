@@ -14,20 +14,25 @@ import 'package:liveasy/widgets/shareImageWidget.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:package_info/package_info.dart';
+import 'package:flutter_config/flutter_config.dart';
+
 // ignore: must_be_immutable
 class ShareButton extends StatefulWidget {
   LoadDetailsScreenModel loadDetails;
   String? loadingPointCity;
   WidgetLoadDetailsScreenModel widgetLoadDetailsScreenModel;
 
-  ShareButton({this.loadingPointCity, required this.loadDetails, required this.widgetLoadDetailsScreenModel});
+  ShareButton(
+      {this.loadingPointCity,
+      required this.loadDetails,
+      required this.widgetLoadDetailsScreenModel});
 
   @override
   _ShareButtonState createState() => _ShareButtonState();
 }
 
 class _ShareButtonState extends State<ShareButton> {
-
   ByteData? bytes;
 
   bool _isCreateLink = false;
@@ -37,21 +42,22 @@ class _ShareButtonState extends State<ShareButton> {
   ScreenshotController screenshotController = ScreenshotController();
 
   Future<void> _createDynamicLink(bool short) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       _isCreateLink = true;
     });
-
+    String packageName = packageInfo.packageName;
+    String shareUrl = FlutterConfig.get('shareUrl').toString();
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: 'https://liveasywa.page.link',
-        link: Uri.parse('https://liveasywa.page.link/${widget.loadDetails.loadId}'),
+        uriPrefix: shareUrl,
+        link: Uri.parse('$shareUrl/${widget.loadDetails.loadId}'),
         androidParameters: AndroidParameters(
-          packageName: 'com.liveasy.liveasy',
+          packageName: packageName,
           minimumVersion: 0,
         ),
         dynamicLinkParametersOptions: DynamicLinkParametersOptions(
           shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
-        )
-    );
+        ));
 
     Uri url;
     if (short) {
@@ -84,17 +90,20 @@ class _ShareButtonState extends State<ShareButton> {
         EasyLoading.show(
           status: "Loading...",
         );
-        await screenshotController.captureFromWidget(
-            InheritedTheme.captureAll(context, Material(child: shareImageWidget(widget.loadDetails)))).then((capturedImage) async {
+        await screenshotController
+            .captureFromWidget(InheritedTheme.captureAll(
+                context, Material(child: shareImageWidget(widget.loadDetails))))
+            .then((capturedImage) async {
           var pngBytes = capturedImage.buffer.asUint8List();
           await WcFlutterShare.share(
-              sharePopupTitle: 'share',
-              subject: 'This is subject',
-              text: "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n$_stringUrl\n\nya iss number per call kare ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
-              fileName: 'share.png',
-              mimeType: 'image/png',
-              bytesOfFile: pngBytes
-          ).then((value) => EasyLoading.dismiss());
+                  sharePopupTitle: 'share',
+                  subject: 'This is subject',
+                  text:
+                      "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n$_stringUrl\n\nya iss number per call kare ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
+                  fileName: 'share.png',
+                  mimeType: 'image/png',
+                  bytesOfFile: pngBytes)
+              .then((value) => EasyLoading.dismiss());
         });
       },
       child: Container(
@@ -122,5 +131,4 @@ class _ShareButtonState extends State<ShareButton> {
       ),
     );
   }
-
 }

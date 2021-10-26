@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
+//TODO:all details not fetched
 Future<String> updateTransporterApi(
     {required bool accountVerificationInProgress,
     required String transporterId}) async {
