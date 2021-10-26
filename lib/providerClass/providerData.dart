@@ -518,7 +518,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   bool postLoadScreenTwoButton() {
-    if (truckNumber != 0 &&
+    if (totalTyresValue != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
         productType != "Choose Product Type" &&

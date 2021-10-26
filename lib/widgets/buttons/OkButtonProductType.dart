@@ -7,6 +7,8 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:provider/provider.dart';
 
+import '../addTruckCircularButtonTemplate.dart';
+
 class OkButtonProductType extends StatefulWidget {
   late String category;
 
@@ -32,11 +34,11 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
               int data = int.parse(controllerOthers.text);
               switch (widget.category) {
                 case 'weight':
-                  providerData.updatePassingWeightValue(
-                      controllerOthers.text == ""
-                          ? "Choose Product Weight"
-                          : data);
-                  setState(() {
+                    providerData.updatePassingWeightValue(
+                        controllerOthers.text == ""
+                            ? "Choose Product Weight"
+                            : data);
+                    print(data);
                     //weightList.remove(0);
                     if (!truckFilterVariables
                         .passingWeightList[providerData.truckTypeValue]!
@@ -51,20 +53,17 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
                                   1,
                               data);
                     }
-                  });
                   break;
                 case 'tyres':
-                  providerData.updateTotalTyresValue(controllerOthers.text == ""
-                      ? "Choose Product Tyres"
-                      : data);
-                  setState(() {
+                    providerData.updateTotalTyresValue(controllerOthers.text == ""
+                        ? "Choose Product Tyres"
+                        : data);
                     // weightList.remove(0);
                     // numberOfTyresList.add(data);
                     if (!numberOfTyresList.contains(data)) {
                       numberOfTyresList.insert(
                           numberOfTyresList.length - 1, data);
                     }
-                  });
                   break;
                 case 'length':
                   providerData.updateTruckLengthValue(
@@ -73,10 +72,12 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
                           : data);
                   break;
                 case 'Type':
-                  providerData.updateProductType(controllerOthers.text == ""
-                      ? "Choose Product Type"
-                      : controllerOthers.text);
-                  Get.back();
+                    providerData.updateProductType(controllerOthers.text == ""
+                        ? "Choose Product Type"
+                        : controllerOthers.text);
+                  break;
+                case 'Number':
+                    providerData.updateTruckNumber(data);
                   break;
                 default:
                   print("something went wrong in ok button");
@@ -87,7 +88,9 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
             } else {
               Get.back();
               Get.defaultDialog(
-                  title: "please enter Product ${widget.category} to continue");
+                  title: "Enter Product ${widget.category}",
+                  middleText:
+                      "please enter Product ${widget.category} to continue");
             }
           },
           child: Text(

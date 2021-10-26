@@ -44,6 +44,12 @@ class ApplyButton extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  print(providerData.totalTyresValue.toString());
+                  print(providerData.passingWeightValue.toString());
+                  print(providerData.productType.toString());
+                  print(providerData.truckTypeValue.toString());
+                  print(providerData.price.toString());
+                  print(providerData.truckNumber.toString());
                   if (providerData.postLoadScreenTwoButton()) {
                     Get.to(() =>LoadConfirmation());
                   } else {
