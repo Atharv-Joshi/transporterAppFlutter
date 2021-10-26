@@ -9,12 +9,12 @@ import 'package:liveasy/widgets/buttons/CancelButtonProductType.dart';
 import 'package:liveasy/widgets/buttons/OkButtonProductType.dart';
 
 import '../ProductTypeTextField.dart';
-import '../completedTextField.dart';
 
 class ProductTypeEnterAlertDialog extends StatefulWidget {
   String heading;
+  String category;
 
-  ProductTypeEnterAlertDialog({Key? key, required this.heading})
+  ProductTypeEnterAlertDialog({Key? key, required this.heading,required this.category})
       : super(key: key);
 
   @override
@@ -46,15 +46,14 @@ class _ProductTypeEnterAlertDialogState
                     ),
                     SizedBox(
                       height: space_3,
-                    ),
-                    ProductTypeTextField()
+                    ),ProductTypeTextField(hint: "Enter Product "+widget.category, category: widget.category,)
                   ],
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  OkButtonProductType(),
+                  OkButtonProductType(category: widget.category),
                   SizedBox(width: space_4),
                   CancelButtonProductType(),
                 ],
