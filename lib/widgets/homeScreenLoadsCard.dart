@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
+import 'alertDialog/verifyAccountNotifyAlertDialogWithCall.dart';
 
 // ignore: must_be_immutable
 class HomeScreenLoadsCard extends StatelessWidget {
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   final LoadDetailsScreenModel loadDetailsScreenModel;
 
@@ -32,10 +37,19 @@ class HomeScreenLoadsCard extends StatelessWidget {
 
     return GestureDetector(
         onTap: () => {
-              Get.to(
-                () => LoadDetailsScreen(
-                    loadDetailsScreenModel: loadDetailsScreenModel),
-              )
+              if (tIdController.transporterApproved.value)
+                {
+                  Get.to(
+                    () => LoadDetailsScreen(
+                        loadDetailsScreenModel: loadDetailsScreenModel),
+                  )
+                }
+              else
+                {
+                  showDialog(
+                      context: context,
+                      builder: (context) => VerifyAccountNotifyAlertDialogWithCall())
+                }
             },
         child: Card(
           elevation: elevation_2,
@@ -97,11 +111,12 @@ class HomeScreenLoadsCard extends StatelessWidget {
                 Container(
                   height: space_2,
                   child: CustomPaint(
-                    foregroundPainter:
-                    LinePainter(height:space_4, width: 2),
+                    foregroundPainter: LinePainter(height: space_4, width: 2),
                   ),
                 ),
-                SizedBox(height: space_1+2,),
+                SizedBox(
+                  height: space_1 + 2,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -113,8 +128,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
                           width: space_1 + 1,
                         ),
                         Text(
-                          loadDetailsScreenModel.unloadingPointCity!.length >
-                              20
+                          loadDetailsScreenModel.unloadingPointCity!.length > 20
                               ? "${loadDetailsScreenModel.unloadingPointCity!.substring(0, 19)}..."
                               : loadDetailsScreenModel.unloadingPointCity!,
                           style: TextStyle(
