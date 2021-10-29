@@ -54,6 +54,7 @@ class PriceTextFieldWidget extends StatelessWidget {
           },
           onChanged: (value) {
             if (value.length < 1) {
+              providerData.updateResetActive(false);
               providerData.updatePrice(0);
               if (providerData.price == 0 && (providerData.unitValue != providerData.unitValue1)) {
                 providerData.updateHintText("enter price");
@@ -63,6 +64,7 @@ class PriceTextFieldWidget extends StatelessWidget {
                 providerData.updateBorderColor(darkBlueColor);
               }
             } else {
+              providerData.updateResetActive(true);
               providerData.updateBorderColor(darkBlueColor);
               providerData.updatePrice(int.parse(value));
             }

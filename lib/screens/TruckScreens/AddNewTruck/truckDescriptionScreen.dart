@@ -192,7 +192,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               .passingWeightList[providerData.truckTypeValue]!
                               .map((e) => AddTruckCircularButtonTemplate(
                                     value: e,
-                                    text: e,
+                                    text: e != 0 ? e.toString() : "+",
                                     category: 'weight',
                                   ))
                               .toList(),
@@ -217,8 +217,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                                 .totalTyresList[providerData.truckTypeValue]!
                                 .map((e) => AddTruckCircularButtonTemplate(
                                       value: e,
-                                      text: e,
-                                      category: 'tyres',
+                                      text: e != 0 ? e.toString() : "+",
+                                      category: 'Number',
                                     ))
                                 .toList()),
                       ),
@@ -241,7 +241,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               .truckLengthList[providerData.truckTypeValue]!
                               .map((e) => AddTruckCircularButtonTemplate(
                                     value: e,
-                                    text: e,
+                                    text: e != 0 ? e.toString() : "+",
                                     category: 'length',
                                   ))
                               .toList(),

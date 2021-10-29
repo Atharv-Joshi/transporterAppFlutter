@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
+import 'alertDialog/ProductTypeEnterAlertDialog.dart';
+
 class AddTruckCircularButtonTemplate extends StatelessWidget {
-  final int text;
+  final String text;
   final int value;
 
   bool selected = false;
@@ -66,7 +70,21 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
         ),
       ),
       onTap: () {
-        providerFunction(value);
+        if(value == 0)
+          {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ProductTypeEnterAlertDialog(
+                    heading: 'Enter The Product $category', category: category,);
+              },
+            );
+          }
+        else
+          {
+            providerData.updateResetActive(true);
+            providerFunction(value);
+          }
       },
     );
   }

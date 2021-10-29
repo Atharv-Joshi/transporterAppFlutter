@@ -1,11 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 
 class ProductTypeTextField extends StatelessWidget {
-  const ProductTypeTextField({Key? key}) : super(key: key);
+  String hint;
+  String category;
+
+  ProductTypeTextField({Key? key,required this.hint,required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,9 @@ class ProductTypeTextField extends StatelessWidget {
         color: widgetBackGroundColor,
       ),
       child: TextField(
-        decoration: InputDecoration(hintText: "Others"),
+        decoration: InputDecoration(hintText: hint,border : InputBorder.none),
         controller: controllerOthers,
+        keyboardType: category != "Type" ? TextInputType.number : TextInputType.name,
       ),
     );
   }

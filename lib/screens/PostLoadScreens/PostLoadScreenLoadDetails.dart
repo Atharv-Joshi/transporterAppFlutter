@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
 
 import 'package:liveasy/constants/spaces.dart';
 
@@ -30,11 +31,12 @@ class PostLoadScreenTwo extends StatefulWidget {
 TextEditingController controller = TextEditingController();
 TextEditingController controllerOthers = TextEditingController();
 
-class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
-  List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22];
-  List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30];
+List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22,0];
+List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30,0];
+TruckFilterVariablesForPostLoad truckFilterVariables = TruckFilterVariablesForPostLoad();
 
-  TruckFilterVariablesForPostLoad truckFilterVariables = TruckFilterVariablesForPostLoad();
+class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
+
   @override
   Widget build(BuildContext context) {
     bool visible = false;
@@ -53,13 +55,18 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                   child: AddPostLoadHeader(
                     reset: true,
                     resetFunction: () {
-                      controller.text = "";
-                      controllerOthers.text = "";
-                      providerData.resetTruckFilters();
-                      providerData.updateResetActive(false);
-                      providerData.updatePrice(0);
-                      providerData.PerTonTrue(false,false);
-                      providerData.updateBorderColor(darkBlueColor);
+                      setState(() {
+                        controller.text = "";
+                        controllerOthers.text = "";
+                        providerData.resetTruckFilters();
+                        providerData.updatePrice(0);
+                        providerData.PerTonTrue(false,false);
+                        providerData.updateBorderColor(darkBlueColor);
+                        providerData.updateTotalTyresValue(0);
+                        providerData.resetOnNewType();
+                        providerData.clearProductType();
+                        providerData.updateResetActive(false);
+                      });
                     },
                   ),
                 ),
@@ -106,8 +113,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: AddTruckCircularButtonTemplate(
                                           value: e,
-                                          text: e,
-                                          category: 'Number',
+                                          text: e != 0 ? e.toString() : "+",
+                                          category: 'tyres',
                                         ),
                                       ))
                                   .toList(),
@@ -132,7 +139,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                                             child:
                                                 AddTruckCircularButtonTemplate(
                                               value: e,
-                                              text: e,
+                                              text: e != 0 ? e.toString() : "+",
                                               category: 'weight',
                                             ),
                                           ))
