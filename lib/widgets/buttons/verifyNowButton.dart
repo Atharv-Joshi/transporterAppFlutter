@@ -22,9 +22,8 @@ class VerifyNowButton extends StatelessWidget {
         navigationIndexController.updateIndex(4);
       },
       child: Container(
-        margin: EdgeInsets.only(right: space_3),
         height: space_8,
-        width: (space_16 * 2) + 3,
+        padding: EdgeInsets.symmetric(horizontal: space_3),
         decoration: BoxDecoration(
             color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_6)),
