@@ -58,9 +58,10 @@ class _VerifyAccountNotifyAlertDialogWithCallState
       ),
       actions: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             VerifyNowButton(),
+            SizedBox(width: 10),
             CallUs(number: "+918290748131")
           ],
         )
