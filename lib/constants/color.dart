@@ -23,6 +23,7 @@ const Color darkGreyColor = Color(0xFF878787);
 const Color lightNavyBlue = Color(0xff33364D);
 const Color navygreen = Color(0xff109E92);
 const Color shadowGrey = Color(0xffBDBDBD);
+const Color shadowGrey2 = Color(0xffd7d7d7);
 const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);

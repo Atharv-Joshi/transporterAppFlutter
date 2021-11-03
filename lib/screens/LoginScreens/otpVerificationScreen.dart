@@ -54,17 +54,7 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
   @override
   void onVisibilityChanged(WidgetVisibility visibility) {
     print('Visibility state : $visibility');
-    switch(visibility) {
-      case WidgetVisibility.VISIBLE:
-      // Like Android's Activity.onResume()
-        break;
-      case WidgetVisibility.INVISIBLE:
-      // Like Android's Activity.onPause()
-        break;
-      case WidgetVisibility.GONE:
-      // Like Android's Activity.onDestroy()
-        break;
-    }
+   
     super.onVisibilityChanged(visibility);
   }
   @override
