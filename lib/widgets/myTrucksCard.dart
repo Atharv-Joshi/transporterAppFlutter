@@ -19,6 +19,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
   TruckModel truckData;
+  String truckAddress;
+  String status;
   // String? truckId;
   // // String? transporterId;
   // String? truckNo;
@@ -34,6 +36,8 @@ class MyTruckCard extends StatefulWidget {
   MyTruckCard(
       {
         required this.truckData,
+        required this.truckAddress,
+        required this.status,
         // this.truckId,
         // // this.transporterId,
         // this.truckNo,
@@ -135,9 +139,35 @@ class _MyTruckCardState extends State<MyTruckCard> {
                   ),
                   SizedBox(height: space_2,),
                   NewRowTemplate(label: AppLocalizations.of(context)!.vehicleNumber , value: widget.truckData.truckNo),
-                  NewRowTemplate(label: AppLocalizations.of(context)!.truckType, value: truckType ,width: 98,),
-                  NewRowTemplate(label: AppLocalizations.of(context)!.tyre, value: widget.truckData.tyres.toString()  , width: 98,),
-                  NewRowTemplate(label: AppLocalizations.of(context)!.driver, value: widget.truckData.driverName , width: 98,),
+                  SizedBox(height: space_2,),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${widget.truckAddress}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: veryDarkGrey,
+                        fontWeight: mediumBoldWeight,
+                        fontSize: size_6,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: space_2,),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${widget.status}',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: veryDarkGrey,
+                        fontWeight: mediumBoldWeight,
+                        fontSize: size_6,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: space_2,),
+                  // NewRowTemplate(label: AppLocalizations.of(context)!.tyre, value: widget.truckData.tyres.toString()  , width: 98,),
+                  // NewRowTemplate(label: AppLocalizations.of(context)!.driver, value: widget.truckData.driverName , width: 98,),
                   Container(
                     margin: EdgeInsets.only(top: space_2),
                     child:Row(
@@ -150,6 +180,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               phoneNo: widget.truckData.driverNum,
                               TruckNo: widget.truckData.truckNo,
                               imei: widget.truckData.imei,
+                              DriverName: widget.truckData.driverName
                             )
                         ),
                         CallButton(directCall: true , phoneNum: widget.truckData.driverNum,)

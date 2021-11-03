@@ -8,6 +8,8 @@ class GpsDataModel {
   String? deviceName;
   String? powerValue;
   String? direction;
+  String? timestamp;
+  String? gpsTime;
   String? id;
   String? address;
 
@@ -20,5 +22,7 @@ class GpsDataModel {
         this.deviceName,
         this.lng,
         this.powerValue,
-        this.direction});
+        this.direction,
+        this.timestamp,
+        this.gpsTime});
 }

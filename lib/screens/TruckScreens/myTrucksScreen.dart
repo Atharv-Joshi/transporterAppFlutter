@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -13,6 +18,7 @@ import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -27,8 +33,16 @@ class _MyTrucksState extends State<MyTrucks> {
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
+  TruckApiCalls truckApiCalls = TruckApiCalls();
+
   // Truck Model List used to  create cards
   var truckDataList = [];
+  var truckAddressList = [];
+  var status = [];
+  MapUtil mapUtil = MapUtil();
+  late List<Placemark> placemarks;
+  String? truckAddress;
+  late String date;
 
   int i = 0;
 
@@ -37,7 +51,7 @@ class _MyTrucksState extends State<MyTrucks> {
   @override
   void initState() {
     super.initState();
-
+    getTruckAddress();
     setState(() {
       loading = true;
     });
@@ -135,6 +149,8 @@ class _MyTrucksState extends State<MyTrucks> {
                               itemBuilder: (context, index) {
                                 return MyTruckCard(
                                   truckData: truckDataList[index],
+                                  truckAddress: truckAddressList[index],
+                                  status: status[index],
                                   // truckId: .truckId,
                                   // truckApproved:
                                   //     truckDataList[index].truckApproved,
@@ -168,9 +184,71 @@ class _MyTrucksState extends State<MyTrucks> {
     for (var truckData in truckDataListForPagei) {
       truckDataList.add(truckData);
     }
+  } //getTruckData
+
+  getTruckAddress() async {
+    var logger = Logger();
+    logger.i("in truck address function");
+    var truckDataList = await truckApiCalls.getTruckData();
+
+    for (var truckData in truckDataList) {
+      print("IMEI is ${truckData.imei}");
+      if (truckData.imei!= null) {
+        var gpsData =
+        await mapUtil.getLocationByImei(imei: truckData.imei);
+        getStoppedSince(gpsData);
+        print("$gpsData");
+        placemarks =
+            await placemarkFromCoordinates(gpsData.last.lat, gpsData.last.lng);
+        var first = placemarks.first;
+        print(
+            "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+        if (first.subLocality == "")
+          truckAddress =
+              "${first.street}, ${first.locality},${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+        else
+          truckAddress =
+              "${first.street}, ${first.subLocality}, ${first.locality},${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+        print("truck add is $truckAddress");
+        truckAddressList.add(truckAddress);
+      } else {
+        truckAddressList.add("--");
+        status.add("--");
+      }
+    }
+    print("ALL $status");
+    print("ALL $truckAddressList");
     setState(() {
       loading = false;
     });
-  } //getTruckData
+  }
+
+  getStoppedSince(var gpsData) async {
+    var logger = Logger();
+    logger.i("in stopped since function");
+      var time = gpsData.last.gpsTime;
+      var timestamp1 = time.toString();
+
+      DateTime truckTime =
+          new DateFormat("dd-MM-yyyy hh:mm:ss").parse(timestamp1);
+      DateTime now = DateTime.now();
+
+      print("One is $truckTime");
+      print("two is $now");
+
+      var diff = now.difference(truckTime).toString();
+      print("diff is $diff");
+      var v = diff.toString().split(":");
+      if (gpsData.last.speed == "0") {
+        if(v[0]=="0")
+          status.add("Stopped since ${v[1]} min");
+        else
+          status.add("Stopped since ${v[0]} hrs : ${v[1]} min");
+      } else {
+        print("Running : ${gpsData.last.speed} km/h");
+        status.add("Running : ${gpsData.last.speed} km/h");
+      }
+  }
+
 
 } //class

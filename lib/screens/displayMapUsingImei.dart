@@ -28,7 +28,8 @@ Future<GpsDataModel?> getGpsDataFromApi(int imei) async {
   sleep(Duration(seconds: 20));
   //flutter config is not functional in a different thread
   print("speed>2");
-  String gpsApiUrl = "http://3.109.80.120:3000/locationbyimei";
+  // String gpsApiUrl = "http://3.109.80.120:3000/locationbyimei";
+  final String gpsApiUrl = FlutterConfig.get('gpsApiUrl');
   try {
     print("$gpsApiUrl/$imei");
     http.Response response = await http.get(Uri.parse("$gpsApiUrl/$imei"));
