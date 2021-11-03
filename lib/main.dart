@@ -21,9 +21,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
 
+var firebase;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  firebase = Firebase.initializeApp();
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
   await FlutterConfig.loadEnvVariables();
@@ -68,7 +70,8 @@ class _MyAppState extends State<MyApp> {
 
   void configOneSignel() {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.setAppId("b1948857-b2d1-4946-b4d1-86f911c30389");
+    String oneSignalAppId = FlutterConfig.get('oneSignalAppId').toString();
+    OneSignal.shared.setAppId(oneSignalAppId);
   }
 
   @override
@@ -78,7 +81,7 @@ class _MyAppState extends State<MyApp> {
         create: (context) => ProviderData(),
         builder: (context, child) {
           return FutureBuilder(
-              future: Firebase.initializeApp(),
+              future: firebase,
               builder: (context, snapshot) {
                 final provider = Provider.of<ProviderData>(context);
                 if (snapshot.connectionState == ConnectionState.done) {

@@ -5,7 +5,6 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UnitValueWidget extends StatelessWidget {
@@ -33,17 +32,17 @@ class UnitValueWidget extends StatelessWidget {
                   if (!providerData.perTruck) {
 
                     providerData.PerTruckTrue(true, false);
+                    providerData.updateResetActive(true);
                     if (providerData.price == 0) {
-                      Get.snackbar("fill both fields",
-                          "price cant be empty if unitValue is filled");
+                        providerData.updateHintText("enter price");
+                        providerData.updateBorderColor(red);
                     }
-                  } else {
-                    if (providerData.price != 0) {
-                      Get.snackbar("fill both fields",
-                          "unitValue cant be empty if price is filled");
-                    }
+                  }
+                  else
+                  {
+                    providerData.updateResetActive(false);
                     providerData.PerTruckTrue(false, false);
-
+                    providerData.updateBorderColor(darkBlueColor);
                   }
                 },
                 child: Text(
@@ -71,18 +70,18 @@ class UnitValueWidget extends StatelessWidget {
                     if (!providerData.perTon) {
 
                       providerData.PerTonTrue(true, false);
+                      providerData.updateResetActive(true);
                       if (providerData.price == 0) {
-                        Get.snackbar("fill both fields",
-                            "price cant be empty if unitValue is filled");
+                          providerData.updateHintText("enter price");
+                          providerData.updateBorderColor(red);
                       }
-                    } else {
-                      if (providerData.price != 0) {
-                        Get.snackbar("fill both fields",
-                            "unitValue cant be empty if price is filled");
-                      }
-                      providerData.PerTonTrue(false, false);
-
                     }
+                    else
+                      {
+                        providerData.updateResetActive(false);
+                        providerData.PerTonTrue(false, false);
+                        providerData.updateBorderColor(darkBlueColor);
+                      }
                   },
                   child: Text(
                     AppLocalizations.of(context)!.perTon,

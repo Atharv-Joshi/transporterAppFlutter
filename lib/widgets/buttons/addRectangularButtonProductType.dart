@@ -65,7 +65,7 @@ class addRectangularButtonProductType extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return ProductTypeEnterAlertDialog(
-                      heading: 'Enter The Product Type');
+                      heading: 'Enter The Product Type', category: "Type",);
                 },
               );
             } else {

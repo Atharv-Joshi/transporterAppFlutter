@@ -71,3 +71,6 @@ const Color navy = Color(0xff000066);
 
 const Color fadeGrey = Color(0xFFF1F1F1);
 const Color lightGrey = Color(0xffDADADA);
+
+//box shadow
+const Color darkShadow = Color(0x26000000);

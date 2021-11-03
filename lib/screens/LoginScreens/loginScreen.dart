@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     if (permission1 == PermissionStatus.denied ||
         permission1 == PermissionStatus.restricted) {
-      return LocationDisabledScreen();
+      //return LocationDisabledScreen();
     }
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(

@@ -18,13 +18,12 @@ class VerifyNowButton extends StatelessWidget {
         Get.find<NavigationIndexController>();
     return GestureDetector(
       onTap: () {
-        Get.offAll(AccountPageUtil());
+        Get.offAll(NavigationScreen(initScreen: 4));
         navigationIndexController.updateIndex(4);
       },
       child: Container(
-        margin: EdgeInsets.only(right: space_3),
         height: space_8,
-        width: (space_16 * 2) + 3,
+        padding: EdgeInsets.symmetric(horizontal: space_3),
         decoration: BoxDecoration(
             color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_6)),

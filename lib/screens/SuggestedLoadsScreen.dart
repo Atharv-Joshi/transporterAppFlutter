@@ -92,15 +92,26 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                 color: backgroundColor,
                 child: loading == true
                     ? OnGoingLoadingWidgets()
-                    : ListView.builder(
-                        controller: scrollController,
-                        itemCount: data.length+1,
-                        itemBuilder: (BuildContext context, index) => index == data.length
-                            ? Container(child: bottomProgressBarIndicatorWidget(),
-                                  margin: EdgeInsets.only(bottom: space_2),)
-                            : SuggestedLoadsCard(loadDetailsScreenModel: data[index],
+                    : RefreshIndicator(
+                  color: lightNavyBlue,
+                  onRefresh: () {
+                    setState(() {
+                      data.clear();
+                      loading = true;
+                    });
+                    return runSuggestedLoadApi(0);
+                  },
+                      child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                          controller: scrollController,
+                          itemCount: data.length+1,
+                          itemBuilder: (BuildContext context, index) => index == data.length
+                              ? Container(child: bottomProgressBarIndicatorWidget(),
+                                    margin: EdgeInsets.only(bottom: space_2),)
+                              : SuggestedLoadsCard(loadDetailsScreenModel: data[index],
+                          ),
                         ),
-                      ),
+                    ),
               ),
             ]),
           ),

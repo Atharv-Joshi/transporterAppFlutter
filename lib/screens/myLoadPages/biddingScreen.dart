@@ -92,8 +92,9 @@ class _BiddingScreensState extends State<BiddingScreens> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    providerData.updateBidEndpoints(
-        widget.loadingPointCity, widget.unloadingPointCity);
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => providerData.updateBidEndpoints(
+        widget.loadingPointCity, widget.unloadingPointCity));
     return Scaffold(
         body: SafeArea(
       child: Container(

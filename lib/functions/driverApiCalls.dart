@@ -150,6 +150,35 @@ class DriverApiCalls {
       return null;
     }
   }
+
+  Future<dynamic> editDriver({String? driverId,String? driverName}) async {
+
+    Map data = {
+      "driverName": driverName,
+    };
+    String body = json.encode(data);
+
+    final String driverApiUrl = FlutterConfig.get("driverApiUrl");
+
+    final response = await http.put(Uri.parse("$driverApiUrl/$driverId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body
+    );
+
+    ResponseModel returnResponse = ResponseModel();
+    var decodedData = json.decode(response.body);
+
+    returnResponse.statusCode = response.statusCode;
+    returnResponse.message =decodedData['message'];
+
+    return returnResponse;
+
+    print("updated driverId ====== $driverApiUrl/$driverId ");
+    print("updated driver data ${response.body}");
+  }
+
 }
 
 //This function gets the details of a single driver by using the  driverId

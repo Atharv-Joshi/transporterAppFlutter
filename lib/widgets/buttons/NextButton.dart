@@ -35,7 +35,7 @@ class nextButton extends StatelessWidget {
               ),
               onPressed: () {
                 providerData.postLoadScreenOneButton()
-                    ? Get.to(PostLoadScreenTwo())
+                    ? Get.to(() => PostLoadScreenTwo())
                     : null;
               }),
         ),

@@ -1,16 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bookingApi/getOngoingDataWithPageNo.dart';
-import 'package:liveasy/functions/loadOnGoingData.dart';
-import 'package:liveasy/models/BookingModel.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/onGoingCard.dart';
 
@@ -24,6 +21,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
   int i = 0;
 
   bool loading = false;
+  bool OngoingProgress = false;
 
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
@@ -35,13 +33,21 @@ class _OngoingScreenState extends State<OngoingScreen> {
   ScrollController scrollController = ScrollController();
 
   getDataByPostLoadIdOnGoing(int i) async {
+    if (this.mounted) {
+      setState(() {
+        OngoingProgress = true;
+      });
+    }
     var bookingDataListWithPagei = await getOngoingDataWithPageNo(i);
     for (var bookingData in bookingDataListWithPagei) {
       modelList.add(bookingData);
     }
-    setState(() {
-      loading = false;
-    });
+    if (this.mounted) { // check whether the state object is in tree
+      setState(() {
+        loading = false;
+        OngoingProgress = false;
+      });
+    }
   }
 
   @override
@@ -51,8 +57,8 @@ class _OngoingScreenState extends State<OngoingScreen> {
     getDataByPostLoadIdOnGoing(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
         i = i + 1;
         getDataByPostLoadIdOnGoing(i);
       }
@@ -91,15 +97,28 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  padding: EdgeInsets.only(bottom: space_15),
-                  itemCount: modelList.length,
-                  itemBuilder: (context, index) {
-                    return OngoingCard(
-                      loadAllDataModel: modelList[index],
-                    );
-                  } //builder
-                  ),
+              : RefreshIndicator(
+                  color: lightNavyBlue,
+                  onRefresh: () {
+                    setState(() {
+                      modelList.clear();
+                      loading = true;
+                    });
+                    return getDataByPostLoadIdOnGoing(0);
+                  },
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: space_15),
+                      itemCount: modelList.length,
+                      itemBuilder: (context, index) =>
+                          (index == modelList.length - 1)
+                              ? Visibility(
+                                  visible: OngoingProgress,
+                                  child: bottomProgressBarIndicatorWidget())
+                              : OngoingCard(
+                                  loadAllDataModel: modelList[index],
+                                )),
+                ),
     );
   }
 } //class end

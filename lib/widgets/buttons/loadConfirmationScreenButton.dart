@@ -199,7 +199,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
       onTap: () {
         // title=="Edit"?Get.to(PostLoadScreenOne()):
         if (title == "Edit") {
-          Get.to(PostLoadScreenOne());
+          Get.to(() => PostLoadScreenOne());
         } else {
           providerData.updateUnitValue();
           getData();

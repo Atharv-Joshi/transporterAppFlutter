@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/translations/l10n.dart';
 
@@ -150,6 +151,8 @@ class ProviderData extends ChangeNotifier {
   bool perTruck = false;
   bool perTon = false;
   bool otpIsValid = true;
+  String hintText = "enter price";
+  Color borderColor = darkBlueColor;
 
   String truckId = '';
 
@@ -250,6 +253,16 @@ class ProviderData extends ChangeNotifier {
 
   void updatePrice(value) {
     price = value;
+    notifyListeners();
+  }
+
+  void updateHintText(String value) {
+    hintText = value;
+    notifyListeners();
+  }
+
+  void updateBorderColor(Color value) {
+    borderColor = value;
     notifyListeners();
   }
 
@@ -505,7 +518,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   bool postLoadScreenTwoButton() {
-    if (truckNumber != 0 &&
+    if (totalTyresValue != 0 &&
         passingWeightValue != 0 &&
         truckTypeValue != '' &&
         productType != "Choose Product Type" &&
