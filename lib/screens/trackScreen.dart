@@ -195,8 +195,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     int c=0;
     print("length ${gpsDataHistory.length}");
     print("End lat ${gpsDataHistory[gpsDataHistory.length-1].lat}");
+    polylineCoordinates = [];
     for(int i=0; i<gpsDataHistory.length; i++) {
       c=b+1;
+      print("A is $a and B is $b");
       PointLatLng point1 =  PointLatLng(gpsDataHistory[a].lat,  gpsDataHistory[a].lng);
       PointLatLng point2 =  PointLatLng(gpsDataHistory[b].lat,  gpsDataHistory[b].lng);
       _getPolyline(point1, point2);
