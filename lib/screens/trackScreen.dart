@@ -24,10 +24,13 @@ import 'package:screenshot/screenshot.dart';
 import 'package:visibility_aware_state/visibility_aware_state.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'dart:ui' as ui;
+import 'package:custom_info_window/custom_info_window.dart';
 
 class TrackScreen extends StatefulWidget {
   final List gpsData;
-  final Position position;
+  var gpsDataHistory;
+  var gpsStoppageHistory;
+  // final Position position;
   final String? TruckNo;
   final String? imei;
   final String? driverNum;
@@ -35,7 +38,9 @@ class TrackScreen extends StatefulWidget {
 
   TrackScreen({
     required this.gpsData,
-    required this.position,
+    required this.gpsDataHistory,
+    required this.gpsStoppageHistory,
+    // required this.position,
     this.TruckNo,
     this.driverName,
     this.driverNum,
@@ -49,13 +54,15 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
-  late LatLng lastlatLngMarker;
+  late LatLng lastlatLngMarker = LatLng(widget.gpsData.last.lat, widget.gpsData.last.lng);
   late List<Placemark> placemarks;
   Iterable markers = [];
   ScreenshotController screenshotController = ScreenshotController();
   late BitmapDescriptor pinLocationIcon;
   late BitmapDescriptor pinLocationIconTruck;
-  late CameraPosition camPosition;
+  late CameraPosition camPosition =  CameraPosition(
+      target: lastlatLngMarker,
+      zoom: 8.0);
   var logger = Logger();
   late Marker markernew;
   List<Marker> customMarkers = [];
@@ -73,15 +80,21 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   late PointLatLng end;
   String? truckAddress;
   String? truckDate;
+  var gpsDataHistory;
+  var gpsStoppageHistory;
+  var truckStart = [];
+  var truckEnd = [];
+  var duration = [];
+  var stopAddress = [];
   String? Speed;
   String googleAPiKey = "AIzaSyCPU872xIfRhjvtdLViTDbj0EnIBuxlcSs";
   bool popUp=false;
   List<PolylineWayPoint> waypoints = [];
-  var gpsDataHistory;
-  var gpsStoppageHistory;
+  // var gpsDataHistory;
+  // var gpsStoppageHistory;
   late Uint8List markerIcon;
   var markerslist;
-
+  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
   late AnimationController _acontroller;
   late Animation<double> _heightFactorAnimation;
   double collapsedHeightFactor = 0.80;
@@ -113,9 +126,34 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       logger.e("Error is $e");
     }
   }
-  getTruckHistory() async{
+  getTruckHistory() {
+    getStoppage(widget.gpsStoppageHistory);
+    int a=0;
+    int b=a+1;
+    int c=0;
+    print("length ${widget.gpsDataHistory.length}");
+    print("End lat ${widget.gpsDataHistory[widget.gpsDataHistory.length-1].lat}");
+    for(int i=0; i<widget.gpsDataHistory.length; i++) {
+      c=b+1;
+      PointLatLng point1 =  PointLatLng(widget.gpsDataHistory[a].lat,  widget.gpsDataHistory[a].lng);
+      PointLatLng point2 =  PointLatLng(widget.gpsDataHistory[b].lat,  widget.gpsDataHistory[b].lng);
+      _getPolyline(point1, point2);
+      a=b;
+      b=c;
+      if(b>=widget.gpsDataHistory.length){
+        break;
+        }
+    }
+    if(widget.gpsDataHistory.length%2==0){
+      print("In even ");
+      PointLatLng point1 =  PointLatLng(widget.gpsDataHistory[widget.gpsDataHistory.length-2].lat,  widget.gpsDataHistory[widget.gpsDataHistory.length-2].lng);
+      PointLatLng point2 =  PointLatLng(widget.gpsDataHistory[widget.gpsDataHistory.length-1].lat,  widget.gpsDataHistory[widget.gpsDataHistory.length-1].lng);
+      _getPolyline(point1, point2);
+    }
+  }
+  getTruckHistoryAfter() async{
     var logger = Logger();
-    logger.i("in truck history function");
+    logger.i("in truck history after function");
 
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
     var nowTime = dateFormat.format(DateTime.now()).split(" ");
@@ -166,7 +204,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       b=c;
       if(b>=gpsDataHistory.length){
         break;
-        }
+      }
     }
     if(gpsDataHistory.length%2==0){
       print("In even ");
@@ -176,7 +214,69 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     }
   }
 
+  getStoppageTime() {
+    for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
+      print("start time is  ${widget.gpsStoppageHistory[i].startTime}");
+      var somei = widget.gpsStoppageHistory[i].startTime;
+      var timestamp = somei.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
+      var month = int.parse(timestamp.substring(2, 4));
+      var day = timestamp.substring(0, 2);
+      var hour = int.parse(timestamp.substring(8, 10));
+      var minute = int.parse(timestamp.substring(10, 12));
+      var monthname  = DateFormat('MMM').format(DateTime(0, month));
+      var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
+      setState(() {
+        truckStart.add("$day $monthname,$ampm");
+        print("start date is ${truckStart}");
+
+      });
+      print("end time is  ${widget.gpsStoppageHistory[i].endTime}");
+      var somei2 = widget.gpsStoppageHistory[i].endTime;
+      var timestamp2 = somei2.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
+      var month2 = int.parse(timestamp2.substring(2, 4));
+      var day2 = timestamp2.substring(0, 2);
+      var hour2 = int.parse(timestamp2.substring(8, 10));
+      var minute2 = int.parse(timestamp2.substring(10, 12));
+      var monthname2  = DateFormat('MMM').format(DateTime(0, month2));
+      var ampm2 = DateFormat.jm().format(DateTime(0, 0, 0, hour2, minute2));
+      setState(() {
+        if("$day2 $monthname2,$ampm2" == "$day $monthname,$ampm")
+          truckEnd.add("Present");
+        else
+          truckEnd.add("$day2 $monthname2,$ampm2");
+        print("end date is ${truckEnd}");
+
+      });
+      setState(() {
+        if(widget.gpsStoppageHistory[i].duration=="")
+          duration.add("Ongoing");
+        else
+          duration.add(widget.gpsStoppageHistory[i].duration);
+      });
+    }
+  }
+  getStoppageAddress() async{
+    for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
+      placemarks = await placemarkFromCoordinates(widget.gpsStoppageHistory[i].lat, widget.gpsStoppageHistory[i].lng);
+      print("stop los is $placemarks");
+      var first = placemarks.first;
+      print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+      setState(() {
+        if(first.subLocality=="")
+          stopAddress.add("${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
+
+        else
+          stopAddress.add("${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
+      });
+      print("stop add is $stopAddress");
+    }
+
+    }
   getStoppage(var gpsStoppage) async{
+    stopAddress = [];
+    truckStart = [];
+    truckEnd = [];
+    duration = [];
     print("Stop length ${gpsStoppage.length}");
     LatLng? latlong;
     List<LatLng> stoplatlong = [];
@@ -185,16 +285,88 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       stoplatlong.add(latlong);
     }
     print("Stops $stoplatlong");
-    markerIcon = await getBytesFromCanvas(1, 100, 100);
+    getStoppageTime();
+    getStoppageAddress();
     for(int i=0; i<stoplatlong.length; i++){
-                  setState(() {
+      markerIcon = await getBytesFromCanvas(i+1, 100, 100);
+      setState(() {
                     customMarkers.add(Marker(
                         markerId: MarkerId("Stop Mark $i"),
                         position: stoplatlong[i],
-                        infoWindow: InfoWindow(title: "Your Location"),
-                        icon: BitmapDescriptor.fromBytes(markerIcon),));
+                        // infoWindow: InfoWindow(title: "Your Location"),
+                        icon: BitmapDescriptor.fromBytes(markerIcon),
+                        onTap: (){
+                          _customInfoWindowController.addInfoWindow!(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Opacity(
+                                      opacity: 0.5 ,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: black,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          (duration[i]!="Ongoing")?
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 8.0),
+                                            child: Text(
+                                              "${duration[i]}",
+                                              style: TextStyle(
+                                              color: white,
+                                                  fontSize: size_6,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: regularWeight
+                                              ),
+                                            ),
+                                          ) :
+                                          SizedBox(
+                                            height: 8.0,
+                                          ),
+
+                                          Text(
+                                            "${truckStart[i]} - ${truckEnd[i]}",
+                                            style: TextStyle(
+                                            color: white,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8.0,
+                                          ),
+                                          Text(
+                                            "${stopAddress[i]}",
+                                            style: TextStyle(
+                                                color: white,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  )),
+                                ),
+                              ],
+                            ),
+                            stoplatlong[i],
+                          );
+                        },
+                    ));
                   });
-                  markerIcon = await getBytesFromCanvas(i+1, 100, 100);
     }
   }
 
@@ -236,10 +408,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
     setState(() {
       if(first.subLocality=="")
-        truckAddress = "${first.street}, ${first.locality}, ${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+        truckAddress = "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
 
       else
-        truckAddress = "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+        truckAddress = "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
     });
     print("truck add is $truckAddress");
     iconthenmarker();
@@ -280,42 +452,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     });
   }
 
-  Future getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission != PermissionStatus.granted) {
-      LocationPermission permission = await Geolocator.requestPermission();
-      if (permission != PermissionStatus.granted)
-        getLocation();
-      return;
-    }
-    getLocation();
-  }
-
-  getLocation() async {
-    LatLng? latlong;
-    // Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print("Your positiion is ${widget.position.latitude}, ${widget.position.longitude}");
-    start = PointLatLng(widget.position.latitude, widget.position.longitude);
-    end = PointLatLng(newGPSData.last.lat, newGPSData.last.lng);
-    // setState(() {
-    //   latlong = LatLng(widget.position.latitude, widget.position.longitude);
-    //   BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-    //       'assets/icons/manIcon.png')
-    //       .then((value) => {
-    //     setState(() {
-    //       pinLocationIcon = value;
-    //       customMarkers.add(Marker(
-    //           markerId: MarkerId("Transporter Mark"),
-    //           position: latlong!,
-    //           infoWindow: InfoWindow(title: "Your Location"),
-    //           icon: pinLocationIcon));
-    //     }),
-    //   });
-    // });
-    print("Start 1 is $start");
-    print("End  1 is $end");
-    // _getPolyline(start, end);
-  }
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
@@ -380,9 +516,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   void onActivityExecuted() {
     logger.i("It is in Activity Executed function");
     initfunction();
-    getLocation();
+    // getLocation();
     getTruckLocation();
-    getTruckHistory();
+    getTruckHistoryAfter();
     getTruckDateAfter();
     iconthenmarker();
   }
@@ -469,7 +605,15 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                 // height: 500,
                 height: 375,
                 width: MediaQuery.of(context).size.width,
-                child: GoogleMap(
+                child: Stack(
+                    children: <Widget>[
+                      GoogleMap(
+                  onTap: (position) {
+                    _customInfoWindowController.hideInfoWindow!();
+                  },
+                  onCameraMove: (position) {
+                    _customInfoWindowController.onCameraMove!();
+                  },
                   markers: customMarkers.toSet(),
                   // polylines: _polyline,
                   polylines: Set.from(polylines.values),
@@ -480,8 +624,16 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                   mapType: MapType.normal,
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
+                    _customInfoWindowController.googleMapController = controller;
                   },
                 ),
+
+              CustomInfoWindow(
+                controller: _customInfoWindowController,
+                height: 110,
+                width: 275,
+                offset: 30,
+              ),])
               ),
               Container(
                 height: 245,
