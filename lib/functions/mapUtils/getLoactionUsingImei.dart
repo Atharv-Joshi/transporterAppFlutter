@@ -33,6 +33,14 @@ class MapUtil {
           gpsDataModel.direction = json["direction"] != null ? json["direction"] : 'NA';
           gpsDataModel.timestamp = json["timeStamp"] != null ? json["timeStamp"] : 'NA';
           gpsDataModel.gpsTime = json["gpsTime"] != null ? json["gpsTime"] : 'NA';
+
+          var latn = gpsDataModel.lat = double.parse(json["lat"] != null ? json["lat"] : 0);
+          var lngn = gpsDataModel.lng = double.parse(json["lng"] != null ? json["lng"] : 0);
+          List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
+          var first = newPlace.first;
+          String? addressstring = "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+          print(addressstring);
+          gpsDataModel.address = addressstring;
           LatLongList.add(gpsDataModel);
         }
         return LatLongList;

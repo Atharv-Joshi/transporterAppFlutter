@@ -4,7 +4,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
@@ -17,20 +16,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
-import 'package:location_permissions/location_permissions.dart';
 import 'package:logger/logger.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:visibility_aware_state/visibility_aware_state.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 class TrackScreen extends StatefulWidget {
   final List gpsData;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  // final Position position;
   final String? TruckNo;
   final String? imei;
   final String? driverNum;
@@ -87,11 +83,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   var duration = [];
   var stopAddress = [];
   String? Speed;
-  String googleAPiKey = "AIzaSyCPU872xIfRhjvtdLViTDbj0EnIBuxlcSs";
+  String googleAPiKey = FlutterConfig.get("mapKey");
   bool popUp=false;
   List<PolylineWayPoint> waypoints = [];
-  // var gpsDataHistory;
-  // var gpsStoppageHistory;
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
@@ -111,8 +105,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     _heightFactorAnimation = Tween<double>(begin: collapsedHeightFactor, end: expandedHeightFactor).animate(_acontroller);
     try {
       initfunction();
-      // getCurrentLocation();
-      getTruckLocation();
+      iconthenmarker();
       getTruckHistory();
       getTruckDate();
       logger.i("in init state function");
@@ -126,6 +119,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       logger.e("Error is $e");
     }
   }
+
+  //get truck route history on map
+
   getTruckHistory() {
     getStoppage(widget.gpsStoppageHistory);
     int a=0;
@@ -143,7 +139,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       if(b>=widget.gpsDataHistory.length){
         break;
         }
-    }
+    } // get polyline between every two lat long obtained from response body
+
     if(widget.gpsDataHistory.length%2==0){
       print("In even ");
       PointLatLng point1 =  PointLatLng(widget.gpsDataHistory[widget.gpsDataHistory.length-2].lat,  widget.gpsDataHistory[widget.gpsDataHistory.length-2].lng);
@@ -151,6 +148,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       _getPolyline(point1, point2);
     }
   }
+
+  //function is called every one minute to get updated history
+
   getTruckHistoryAfter() async{
     var logger = Logger();
     logger.i("in truck history after function");
@@ -163,9 +163,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     var day = timestamp.substring(6, 8);
     var date = "$day-$month-$year";
     var time = nowTime[1];
-    var endTimeParam = "$date $time";
+    var endTimeParam = "$date $time";   //today's time and date
 
-    var yesterday2 = DateTime.now().subtract(Duration(days: 1));
     var yesterday = dateFormat.format(DateTime.now().subtract(Duration(days: 1))).split(" ");
     var timestamp2 = yesterday[0].replaceAll("-", "");
     var year2 = timestamp2.substring(0, 4);
@@ -173,7 +172,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     var day2 = timestamp2.substring(6, 8);
     var date2 = "$day2-$month2-$year2";
     var time2 = yesterday[1];
-    var startTimeParam = "$date2 $time2";
+    var startTimeParam = "$date2 $time2"; //yesterday's time and date (24 hr gap)
 
     print("START is $startTimeParam and END is $endTimeParam");
 
@@ -216,6 +215,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     }
   }
 
+  //get array of start time, end time and duration of each truck stop
+
   getStoppageTime() {
     for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
       print("start time is  ${widget.gpsStoppageHistory[i].startTime}");
@@ -257,6 +258,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       });
     }
   }
+
+  //get address of each truck stop
+
   getStoppageAddress() async{
     for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
       placemarks = await placemarkFromCoordinates(widget.gpsStoppageHistory[i].lat, widget.gpsStoppageHistory[i].lng);
@@ -272,8 +276,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       });
       print("stop add is $stopAddress");
     }
-
     }
+
+    //plot all the stop points
+
   getStoppage(var gpsStoppage) async{
     stopAddress = [];
     truckStart = [];
@@ -295,8 +301,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                     customMarkers.add(Marker(
                         markerId: MarkerId("Stop Mark $i"),
                         position: stoplatlong[i],
-                        // infoWindow: InfoWindow(title: "Your Location"),
                         icon: BitmapDescriptor.fromBytes(markerIcon),
+
+                        //info window
                         onTap: (){
                           _customInfoWindowController.addInfoWindow!(
                             Column(
@@ -372,6 +379,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     }
   }
 
+  //stop markers
+
   Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async  {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
@@ -403,21 +412,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     return data!.buffer.asUint8List();
   }
 
-  getTruckLocation() async{
-    placemarks = await placemarkFromCoordinates(newGPSData.last.lat, newGPSData.last.lng);
-    print("Truck los is $placemarks");
-    var first = placemarks.first;
-    print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
-    setState(() {
-      if(first.subLocality=="")
-        truckAddress = "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+  //get current date and time
 
-      else
-        truckAddress = "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-    });
-    print("truck add is $truckAddress");
-    iconthenmarker();
-  }
   getTruckDate() {
     var somei = widget.gpsData.last.gpsTime;
     var timestamp = somei.toString().replaceAll(" ", "").replaceAll("/", "").replaceAll(":", "");
@@ -435,6 +431,9 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       print("direction is $direction");
     });
   }
+
+  //get current date and time after one minute
+
   getTruckDateAfter() {
     var somei = newGPSData.last.gpsTime;
     var timestamp = somei.toString().replaceAll(" ", "").replaceAll("/", "").replaceAll(":", "");
@@ -515,11 +514,11 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       createmarker()
     });
   }
+
+  //function called every one minute
   void onActivityExecuted() {
     logger.i("It is in Activity Executed function");
     initfunction();
-    // getLocation();
-    getTruckLocation();
     getTruckHistoryAfter();
     getTruckDateAfter();
     iconthenmarker();
@@ -574,10 +573,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: statusBarColor,
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF525252),
-      //   title: ,
-      // ),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.fromLTRB(0, space_4, 0, 0),
@@ -617,7 +612,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                     _customInfoWindowController.onCameraMove!();
                   },
                   markers: customMarkers.toSet(),
-                  // polylines: _polyline,
                   polylines: Set.from(polylines.values),
                   myLocationButtonEnabled: true,
                   zoomControlsEnabled: false,
@@ -771,7 +765,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                     Container(
                                       width: 300,
                                       child: Text(
-                                        "$truckAddress",
+                                        "${newGPSData.last.address}",
                                         style: TextStyle(
                                             color: black,
                                             fontSize: size_6,
