@@ -4,6 +4,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
   TruckModel truckData;
+  var gpsData;
   String truckAddress;
   String status;
   // String? truckId;
@@ -36,6 +38,7 @@ class MyTruckCard extends StatefulWidget {
   MyTruckCard(
       {
         required this.truckData,
+        required this.gpsData,
         required this.truckAddress,
         required this.status,
         // this.truckId,
@@ -180,7 +183,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               phoneNo: widget.truckData.driverNum,
                               TruckNo: widget.truckData.truckNo,
                               imei: widget.truckData.imei,
-                              DriverName: widget.truckData.driverName
+                              DriverName: widget.truckData.driverName,
+                              gpsData: widget.gpsData,
                             )
                         ),
                         CallButton(directCall: true , phoneNum: widget.truckData.driverNum,)

@@ -39,6 +39,7 @@ class _MyTrucksState extends State<MyTrucks> {
   var truckDataList = [];
   var truckAddressList = [];
   var status = [];
+  var gpsDataList= [];
   MapUtil mapUtil = MapUtil();
   late List<Placemark> placemarks;
   String? truckAddress;
@@ -151,6 +152,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                   truckData: truckDataList[index],
                                   truckAddress: truckAddressList[index],
                                   status: status[index],
+                                  gpsData: gpsDataList[i],
                                   // truckId: .truckId,
                                   // truckApproved:
                                   //     truckDataList[index].truckApproved,
@@ -193,9 +195,10 @@ class _MyTrucksState extends State<MyTrucks> {
 
     for (var truckData in truckDataList) {
       print("IMEI is ${truckData.imei}");
-      if (truckData.imei!= null) {
+      if ((truckData.imei!= null)&&(truckData.driverId!= null)) {
         var gpsData =
         await mapUtil.getLocationByImei(imei: truckData.imei);
+        gpsDataList.add(gpsData);
         getStoppedSince(gpsData);
         print("$gpsData");
         placemarks =
@@ -218,6 +221,8 @@ class _MyTrucksState extends State<MyTrucks> {
     }
     print("ALL $status");
     print("ALL $truckAddressList");
+    print("ALL $gpsDataList");
+    print("type ${gpsDataList.runtimeType}");
     setState(() {
       loading = false;
     });
