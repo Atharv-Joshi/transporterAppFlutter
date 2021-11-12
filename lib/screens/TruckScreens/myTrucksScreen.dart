@@ -152,7 +152,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                   truckData: truckDataList[index],
                                   truckAddress: truckAddressList[index],
                                   status: status[index],
-                                  gpsData: gpsDataList[i],
+                                  gpsData: gpsDataList[index],
                                   // truckId: .truckId,
                                   // truckApproved:
                                   //     truckDataList[index].truckApproved,
@@ -184,7 +184,9 @@ class _MyTrucksState extends State<MyTrucks> {
   getTruckData(int i) async {
     var truckDataListForPagei = await getTruckDataWithPageNo(i);
     for (var truckData in truckDataListForPagei) {
-      truckDataList.add(truckData);
+      setState(() {
+        truckDataList.add(truckData);
+      });
     }
   } //getTruckData
 
@@ -215,6 +217,7 @@ class _MyTrucksState extends State<MyTrucks> {
         print("truck add is $truckAddress");
         truckAddressList.add(truckAddress);
       } else {
+        gpsDataList.add([]);
         truckAddressList.add("--");
         status.add("--");
       }

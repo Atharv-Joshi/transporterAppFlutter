@@ -10,6 +10,9 @@ class GpsDataModelForHistory {
   String? duration;
   String? startTime;
   String? endTime;
+  String? truckStatus;
+  double? distanceCovered;
+  double? totalDistanceCovered;
 
   GpsDataModelForHistory(
       {
@@ -19,6 +22,13 @@ class GpsDataModelForHistory {
         this.lng,
         this.gpsTime,
         this.direction,
-        this.posType
+        this.posType,
+        this.address,
+        this.duration,
+        this.startTime,
+        this.endTime,
+        this.truckStatus,
+        this.distanceCovered,
+        this.totalDistanceCovered,
       });
 }
