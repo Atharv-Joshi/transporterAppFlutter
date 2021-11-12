@@ -38,9 +38,10 @@ class MyTruckCard extends StatefulWidget {
   MyTruckCard(
       {
         required this.truckData,
-        required this.gpsData,
         required this.truckAddress,
         required this.status,
+        this.gpsData,
+
         // this.truckId,
         // // this.transporterId,
         // this.truckNo,
@@ -64,20 +65,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
   bool? verified;
   Position? userLocation;
 
-  getUserLocation() async {
-    PermissionStatus permission =
-    await LocationPermissions().checkPermissionStatus();
-    if (permission == PermissionStatus.granted) {
-      userLocation = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      print(userLocation);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    // getUserLocation();
   }
 
   @override
