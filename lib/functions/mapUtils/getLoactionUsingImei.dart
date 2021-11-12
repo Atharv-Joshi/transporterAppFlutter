@@ -8,6 +8,7 @@ import 'package:geocoding/geocoding.dart';
 
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
+  String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
 
   getLocationByImei({String? imei}) async {
     print("getLocationByImei got called with imei : $imei");
@@ -105,6 +106,40 @@ class MapUtil {
         return null;
       }
     } catch (e) {
+      print("ERROR IS : $e");
+      return null;
+    }
+  }
+  getRouteHistory({String? imei, String? starttime, String? endtime}) async {
+    try{
+      http.Response response = await http.get(Uri.parse(
+          "$routeHistoryApiUrl?imei=$imei&startTime=$starttime&endTime=$endtime"
+      ));
+
+      print("Response Body for history is ${response.body}");
+      print("Response status code is ${response.statusCode}");
+      var jsonData = await jsonDecode(response.body);
+      var routeHistory = [];
+      if (response.statusCode == 200) {
+        for (var json in jsonData) {
+          GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
+          gpsDataModel.truckStatus = json["truckStatus"] != null ? json["truckStatus"] : 'NA';
+          gpsDataModel.startTime = json["startTime"] != null ? json["startTime"] : 'NA';
+          gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
+          gpsDataModel.lat = json["lat"];
+          gpsDataModel.lng = json["lng"];
+          gpsDataModel.duration = json["duration"] != null ? json["duration"] : 'NA';
+          gpsDataModel.distanceCovered = json["distanceCovered"];
+          gpsDataModel.totalDistanceCovered = json["totalDistanceCovered"];
+
+          routeHistory.add(gpsDataModel);
+        }
+        return routeHistory;
+      }
+      else {
+        return null;
+      }
+      }catch(e){
       print("ERROR IS : $e");
       return null;
     }
