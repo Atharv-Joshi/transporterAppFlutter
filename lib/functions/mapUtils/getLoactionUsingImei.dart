@@ -8,7 +8,7 @@ import 'package:geocoding/geocoding.dart';
 
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
-  String routeHistoryApiUrl = "http://gps.dev.truckseasy.com:3000/routehistory";
+  String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
 
   getLocationByImei({String? imei}) async {
     print("getLocationByImei got called with imei : $imei");
