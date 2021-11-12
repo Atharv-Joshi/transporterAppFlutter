@@ -18,6 +18,7 @@ import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
@@ -248,10 +249,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   //get current date and time
 
   getTruckDate() {
-    var somei = newGPSData.last.gpsTime;
-    var timestamp = somei.toString();
     setState(() {
-      truckDate = getFormattedDateForDisplay(timestamp);
+      truckDate = getFormattedDateForDisplay3(DateTime.now().toString());
       print("Truck date is $truckDate");
     });
   }
@@ -612,32 +611,39 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: (space_4 + 2),
-                                    width: (space_4 + 2),
-                                    child: Icon(
-                                      Icons.play_circle_outline,
-                                      color: bidBackground,
-                                    )
-                                    // decoration: BoxDecoration(
-                                    //     image: DecorationImage(
-                                    //         image: AssetImage("assets/icons/playicon.png"))),
-                                  ),
-                                  SizedBox(
-                                    width: space_2,
-                                  ),
-                                  Text(
-                                    "Play trip history",
-                                    style: TextStyle(
-                                        fontSize: size_6,
+                              GestureDetector(
+                                onTap: (){
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => NextUpdateAlertDialog());
+                                    },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: (space_4 + 2),
+                                      width: (space_4 + 2),
+                                      child: Icon(
+                                        Icons.play_circle_outline,
                                         color: bidBackground,
-                                        fontWeight: mediumBoldWeight,
-                                        fontStyle: FontStyle.normal
+                                      )
+                                      // decoration: BoxDecoration(
+                                      //     image: DecorationImage(
+                                      //         image: AssetImage("assets/icons/playicon.png"))),
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      width: space_2,
+                                    ),
+                                    Text(
+                                      "Play trip history",
+                                      style: TextStyle(
+                                          fontSize: size_6,
+                                          color: bidBackground,
+                                          fontWeight: mediumBoldWeight,
+                                          fontStyle: FontStyle.normal
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               InkWell(
                                 onTap: (){
