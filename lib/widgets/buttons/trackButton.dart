@@ -110,7 +110,6 @@ class _TrackButtonState extends State<TrackButton> {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async{
-            print("LAD $loading");
           // if (loading) {
             EasyLoading.instance
               ..indicatorType = EasyLoadingIndicatorType.ring

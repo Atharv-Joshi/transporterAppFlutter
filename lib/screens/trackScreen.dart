@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -13,7 +14,9 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:logger/logger.dart';
@@ -45,7 +48,6 @@ class TrackScreen extends StatefulWidget {
   @override
   _TrackScreenState createState() => _TrackScreenState();
 }
-
 class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStateMixin {
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
@@ -71,6 +73,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   List<LatLng> latlng = [];
 
   List<LatLng> polylineCoordinates = [];
+  List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
   late PointLatLng start;
   late PointLatLng end;
@@ -78,8 +81,8 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   String? truckDate;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  var truckStart = [];
-  var truckEnd = [];
+  var newGPSRoute;
+  var stoppageTime = [];
   var duration = [];
   var stopAddress = [];
   String? Speed;
@@ -123,30 +126,11 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   //get truck route history on map
 
   getTruckHistory() {
+    gpsDataHistory=widget.gpsDataHistory;
+    gpsStoppageHistory=widget.gpsStoppageHistory;
     getStoppage(widget.gpsStoppageHistory);
-    int a=0;
-    int b=a+1;
-    int c=0;
-    print("length ${widget.gpsDataHistory.length}");
-    print("End lat ${widget.gpsDataHistory[widget.gpsDataHistory.length-1].lat}");
-    for(int i=0; i<widget.gpsDataHistory.length; i++) {
-      c=b+1;
-      PointLatLng point1 =  PointLatLng(widget.gpsDataHistory[a].lat,  widget.gpsDataHistory[a].lng);
-      PointLatLng point2 =  PointLatLng(widget.gpsDataHistory[b].lat,  widget.gpsDataHistory[b].lng);
-      _getPolyline(point1, point2);
-      a=b;
-      b=c;
-      if(b>=widget.gpsDataHistory.length){
-        break;
-        }
-    } // get polyline between every two lat long obtained from response body
-
-    if(widget.gpsDataHistory.length%2==0){
-      print("In even ");
-      PointLatLng point1 =  PointLatLng(widget.gpsDataHistory[widget.gpsDataHistory.length-2].lat,  widget.gpsDataHistory[widget.gpsDataHistory.length-2].lng);
-      PointLatLng point2 =  PointLatLng(widget.gpsDataHistory[widget.gpsDataHistory.length-1].lat,  widget.gpsDataHistory[widget.gpsDataHistory.length-1].lng);
-      _getPolyline(point1, point2);
-    }
+    polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
+    _getPolyline(polylineCoordinates);
   }
 
   //function is called every one minute to get updated history
@@ -154,136 +138,17 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   getTruckHistoryAfter() async{
     var logger = Logger();
     logger.i("in truck history after function");
-
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-    var nowTime = dateFormat.format(DateTime.now()).split(" ");
-    var timestamp = nowTime[0].replaceAll("-", "");
-    var year = timestamp.substring(0, 4);
-    var month = int.parse(timestamp.substring(4, 6));
-    var day = timestamp.substring(6, 8);
-    var date = "$day-$month-$year";
-    var time = nowTime[1];
-    var endTimeParam = "$date $time";   //today's time and date
-
-    var yesterday = dateFormat.format(DateTime.now().subtract(Duration(days: 1))).split(" ");
-    var timestamp2 = yesterday[0].replaceAll("-", "");
-    var year2 = timestamp2.substring(0, 4);
-    var month2 = int.parse(timestamp2.substring(4, 6));
-    var day2 = timestamp2.substring(6, 8);
-    var date2 = "$day2-$month2-$year2";
-    var time2 = yesterday[1];
-    var startTimeParam = "$date2 $time2"; //yesterday's time and date (24 hr gap)
-
-    print("START is $startTimeParam and END is $endTimeParam");
-
-    gpsDataHistory =
-    await mapUtil.getLocationHistoryByImei(
-        imei: widget.imei,
-        starttime: startTimeParam,
-        endtime: endTimeParam,
-        choice: "deviceTrackList");
-    gpsStoppageHistory =
-    await mapUtil.getLocationHistoryByImei(
-        imei: widget.imei,
-        starttime: startTimeParam,
-        endtime: endTimeParam,
-        choice: "stoppagesList");
+    gpsDataHistory = await getDataHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
+    gpsStoppageHistory = await getStoppageHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
     getStoppage(gpsStoppageHistory);
-    int a=0;
-    int b=a+1;
-    int c=0;
-    print("length ${gpsDataHistory.length}");
-    print("End lat ${gpsDataHistory[gpsDataHistory.length-1].lat}");
-    polylineCoordinates = [];
-    for(int i=0; i<gpsDataHistory.length; i++) {
-      c=b+1;
-      print("A is $a and B is $b");
-      PointLatLng point1 =  PointLatLng(gpsDataHistory[a].lat,  gpsDataHistory[a].lng);
-      PointLatLng point2 =  PointLatLng(gpsDataHistory[b].lat,  gpsDataHistory[b].lng);
-      _getPolyline(point1, point2);
-      a=b;
-      b=c;
-      if(b>=gpsDataHistory.length){
-        break;
-      }
-    }
-    if(gpsDataHistory.length%2==0){
-      print("In even ");
-      PointLatLng point1 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-2].lat,  gpsDataHistory[gpsDataHistory.length-2].lng);
-      PointLatLng point2 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-1].lat,  gpsDataHistory[gpsDataHistory.length-1].lng);
-      _getPolyline(point1, point2);
-    }
+    polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
+    _getPolyline(polylineCoordinates);
+
   }
-
-  //get array of start time, end time and duration of each truck stop
-
-  getStoppageTime() {
-    for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
-      print("start time is  ${widget.gpsStoppageHistory[i].startTime}");
-      var somei = widget.gpsStoppageHistory[i].startTime;
-      var timestamp = somei.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-      var month = int.parse(timestamp.substring(2, 4));
-      var day = timestamp.substring(0, 2);
-      var hour = int.parse(timestamp.substring(8, 10));
-      var minute = int.parse(timestamp.substring(10, 12));
-      var monthname  = DateFormat('MMM').format(DateTime(0, month));
-      var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-      setState(() {
-        truckStart.add("$day $monthname,$ampm");
-        print("start date is ${truckStart}");
-
-      });
-      print("end time is  ${widget.gpsStoppageHistory[i].endTime}");
-      var somei2 = widget.gpsStoppageHistory[i].endTime;
-      var timestamp2 = somei2.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-      var month2 = int.parse(timestamp2.substring(2, 4));
-      var day2 = timestamp2.substring(0, 2);
-      var hour2 = int.parse(timestamp2.substring(8, 10));
-      var minute2 = int.parse(timestamp2.substring(10, 12));
-      var monthname2  = DateFormat('MMM').format(DateTime(0, month2));
-      var ampm2 = DateFormat.jm().format(DateTime(0, 0, 0, hour2, minute2));
-      setState(() {
-        if("$day2 $monthname2,$ampm2" == "$day $monthname,$ampm")
-          truckEnd.add("Present");
-        else
-          truckEnd.add("$day2 $monthname2,$ampm2");
-        print("end date is ${truckEnd}");
-
-      });
-      setState(() {
-        if(widget.gpsStoppageHistory[i].duration=="")
-          duration.add("Ongoing");
-        else
-          duration.add(widget.gpsStoppageHistory[i].duration);
-      });
-    }
-  }
-
-  //get address of each truck stop
-
-  getStoppageAddress() async{
-    for(int i=0; i<widget.gpsStoppageHistory.length; i++) {
-      placemarks = await placemarkFromCoordinates(widget.gpsStoppageHistory[i].lat, widget.gpsStoppageHistory[i].lng);
-      print("stop los is $placemarks");
-      var first = placemarks.first;
-      print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
-      setState(() {
-        if(first.subLocality=="")
-          stopAddress.add("${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
-
-        else
-          stopAddress.add("${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
-      });
-      print("stop add is $stopAddress");
-    }
-    }
-
-    //plot all the stop points
 
   getStoppage(var gpsStoppage) async{
     stopAddress = [];
-    truckStart = [];
-    truckEnd = [];
+    stoppageTime = [];
     duration = [];
     print("Stop length ${gpsStoppage.length}");
     LatLng? latlong;
@@ -292,9 +157,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       latlong=LatLng(stop.lat, stop.lng);
       stoplatlong.add(latlong);
     }
-    print("Stops $stoplatlong");
-    getStoppageTime();
-    getStoppageAddress();
+    stoppageTime = getStoppageTime(gpsStoppage);
+    stopAddress = await getStoppageAddress(gpsStoppage);
+    duration = getStoppageDuration(gpsStoppage);
+
     for(int i=0; i<stoplatlong.length; i++){
       markerIcon = await getBytesFromCanvas(i+1, 100, 100);
       setState(() {
@@ -342,7 +208,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                           ),
 
                                           Text(
-                                            "${truckStart[i]} - ${truckEnd[i]}",
+                                            "${stoppageTime[i]}",
                                             style: TextStyle(
                                             color: white,
                                                 fontSize: size_6,
@@ -379,77 +245,14 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     }
   }
 
-  //stop markers
-
-  Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async  {
-    final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint = Paint()..color = Colors.red;
-    final Radius radius = Radius.circular(width/2);
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(0.0, 0.0, width.toDouble(),  height.toDouble()),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        paint);
-
-    TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
-    painter.text = TextSpan(
-      text: customNum.toString(), // your custom number here
-      style: TextStyle(fontSize: 50.0, color: Colors.white),
-    );
-
-    painter.layout();
-    painter.paint(
-        canvas,
-        Offset((width * 0.5) - painter.width * 0.5,
-            (height * .5) - painter.height * 0.5));
-    final img = await pictureRecorder.endRecording().toImage(width, height);
-    final data = await img.toByteData(format: ui.ImageByteFormat.png);
-    return data!.buffer.asUint8List();
-  }
-
   //get current date and time
 
   getTruckDate() {
-    var somei = widget.gpsData.last.gpsTime;
-    var timestamp = somei.toString().replaceAll(" ", "").replaceAll("/", "").replaceAll(":", "");
-    var year = timestamp.substring(4, 8);
-    var month = int.parse(timestamp.substring(2, 4));
-    var day = timestamp.substring(0, 2);
-    var hour = int.parse(timestamp.substring(8, 10));
-    var minute = int.parse(timestamp.substring(10, 12));
-    var monthname  = DateFormat('MMM').format(DateTime(0, month));
-    var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-    setState(() {
-      truckDate = "$ampm, $day $monthname $year";
-      print("Truck date is $truckDate");
-      direction = double.parse(widget.gpsData.last.direction);
-      print("direction is $direction");
-    });
-  }
-
-  //get current date and time after one minute
-
-  getTruckDateAfter() {
     var somei = newGPSData.last.gpsTime;
-    var timestamp = somei.toString().replaceAll(" ", "").replaceAll("/", "").replaceAll(":", "");
-    var year = timestamp.substring(4, 8);
-    print("timestamp is $timestamp");
-    var month = int.parse(timestamp.substring(2, 4));
-    var day = timestamp.substring(0, 2);
-    var hour = int.parse(timestamp.substring(8, 10));
-    var minute = int.parse(timestamp.substring(10, 12));
-    var monthname  = DateFormat('MMM').format(DateTime(0, month));
-    var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
+    var timestamp = somei.toString();
     setState(() {
-      truckDate = "$ampm, $day $monthname $year";
+      truckDate = getFormattedDateForDisplay(timestamp);
       print("Truck date is $truckDate");
-      direction = double.parse(newGPSData.last.direction);
-      print("direction after is $direction");
     });
   }
 
@@ -467,24 +270,19 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       _polyline.add(polyline);
     });
   }
-  _getPolyline(PointLatLng start, PointLatLng end) async {
+  _getPolyline(List<LatLng> polylineCoordinates) async {
     var logger = Logger();
     logger.i("in polyline function");
-    print("Start 3 is $start \nEnd 3 is $end");
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: loadingWidgetColor,
+      points: polylineCoordinates,
+      width: 2,
+    );
     setState(() {
-            polylineCoordinates.add(LatLng(start.latitude, start.longitude));
-            polylineCoordinates.add(LatLng(end.latitude, end.longitude));
-          });
-          PolylineId id = PolylineId('poly');
-          Polyline polyline = Polyline(
-            polylineId: id,
-            color: loadingWidgetColor,
-            points: polylineCoordinates,
-            width: 2,
-          );
-          setState(() {
-            polylines[id] = polyline;
-          });
+      polylines[id] = polyline;
+    });
 
     _addPolyLine();
   }
@@ -497,7 +295,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
 
   void initfunction() async {
     var gpsData = await mapUtil.getLocationByImei(imei: widget.imei);
+    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
     setState(() {
+      newGPSRoute = gpsRoute;
+      print("NEW ROute $newGPSRoute");
       newGPSData = gpsData;
       oldGPSData = newGPSData.reversed.toList();
     });
@@ -520,7 +321,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     logger.i("It is in Activity Executed function");
     initfunction();
     getTruckHistoryAfter();
-    getTruckDateAfter();
+    getTruckDate();
     iconthenmarker();
   }
 
@@ -841,6 +642,13 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                               InkWell(
                                 onTap: (){
                                   print("tapped");
+                                  Get.to(TruckHistoryScreen(
+                                    gpsData: newGPSData.last,
+                                    gpsTruckHistory: gpsDataHistory,
+                                    gpsStoppageHistory: gpsStoppageHistory,
+                                    truckNo: widget.TruckNo,
+                                    gpsTruckRoute: newGPSRoute,
+                                  ));
                                 },
                                 child: Container(
                                     width: 130,
