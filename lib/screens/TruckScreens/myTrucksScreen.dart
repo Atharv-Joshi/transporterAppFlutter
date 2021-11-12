@@ -217,6 +217,7 @@ class _MyTrucksState extends State<MyTrucks> {
         print("truck add is $truckAddress");
         truckAddressList.add(truckAddress);
       } else {
+        gpsDataList.add([]);
         truckAddressList.add("--");
         status.add("--");
       }
