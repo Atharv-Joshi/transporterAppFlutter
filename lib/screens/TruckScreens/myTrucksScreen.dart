@@ -197,7 +197,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
     for (var truckData in truckDataList) {
       print("IMEI is ${truckData.imei}");
-      if ((truckData.imei!= null)&&(truckData.driverId!= null)) {
+      if (truckData.imei!= null) {
         var gpsData =
         await mapUtil.getLocationByImei(imei: truckData.imei);
         gpsDataList.add(gpsData);
@@ -240,20 +240,23 @@ class _MyTrucksState extends State<MyTrucks> {
       DateTime truckTime =
           new DateFormat("dd-MM-yyyy hh:mm:ss").parse(timestamp1);
       DateTime now = DateTime.now();
+      Duration constraint = Duration(hours: 0, minutes: 0, seconds: 15);
 
       print("One is $truckTime");
       print("two is $now");
 
       var diff = now.difference(truckTime).toString();
+      var diff2 = now.difference(truckTime);
       print("diff is $diff");
+      double speed = double.parse(gpsData.last.speed);
       var v = diff.toString().split(":");
-      if (gpsData.last.speed == "0") {
+      if (speed<2 && diff2.compareTo(constraint)>0) {
         if(v[0]=="0")
           status.add("Stopped since ${v[1]} min");
         else
           status.add("Stopped since ${v[0]} hrs : ${v[1]} min");
       } else {
-        print("Running : ${gpsData.last.speed} km/h");
+       print("Running : ${gpsData.last.speed} km/h");
         status.add("Running : ${gpsData.last.speed} km/h");
       }
   }

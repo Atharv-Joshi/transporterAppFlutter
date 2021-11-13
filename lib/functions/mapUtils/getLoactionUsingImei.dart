@@ -39,7 +39,11 @@ class MapUtil {
           var lngn = gpsDataModel.lng = double.parse(json["lng"] != null ? json["lng"] : 0);
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
           var first = newPlace.first;
-          String? addressstring = "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+          String? addressstring;
+          if(first.subLocality == "")
+            addressstring = "${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+          else
+            addressstring = "${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
           print(addressstring);
           gpsDataModel.address = addressstring;
           LatLongList.add(gpsDataModel);
@@ -110,7 +114,7 @@ class MapUtil {
       return null;
     }
   }
-  getRouteHistory({String? imei, String? starttime, String? endtime}) async {
+  getRouteHistory({String? imei, String? starttime, String? endtime, String? choice}) async {
     try{
       http.Response response = await http.get(Uri.parse(
           "$routeHistoryApiUrl?imei=$imei&startTime=$starttime&endTime=$endtime"
@@ -118,22 +122,34 @@ class MapUtil {
 
       print("Response Body for history is ${response.body}");
       print("Response status code is ${response.statusCode}");
-      var jsonData = await jsonDecode(response.body);
+      Map<String, dynamic> jsonData = await jsonDecode(response.body);
+      var routeHistoryList = jsonData["routeHistoryList"];
       var routeHistory = [];
+      double totalDistanceCovered = jsonData["totalDistanceCovered"];
+      print("TOTAL $totalDistanceCovered");
+      // routeHistory.add(totalDistanceCovered);
       if (response.statusCode == 200) {
-        for (var json in jsonData) {
-          GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
-          gpsDataModel.truckStatus = json["truckStatus"] != null ? json["truckStatus"] : 'NA';
-          gpsDataModel.startTime = json["startTime"] != null ? json["startTime"] : 'NA';
-          gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
-          gpsDataModel.lat = json["lat"];
-          gpsDataModel.lng = json["lng"];
-          gpsDataModel.duration = json["duration"] != null ? json["duration"] : 'NA';
-          gpsDataModel.distanceCovered = json["distanceCovered"];
-          gpsDataModel.totalDistanceCovered = json["totalDistanceCovered"];
+        if(choice=="totalDistanceCovered")
+          routeHistory.add(totalDistanceCovered);
+        else {
+          for (var json in routeHistoryList) {
+            GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
+            gpsDataModel.truckStatus =
+                json["truckStatus"] != null ? json["truckStatus"] : 'NA';
+            gpsDataModel.startTime =
+                json["startTime"] != null ? json["startTime"] : 'NA';
+            gpsDataModel.endTime =
+                json["endTime"] != null ? json["endTime"] : 'NA';
+            gpsDataModel.lat = json["lat"];
+            gpsDataModel.lng = json["lng"];
+            gpsDataModel.duration =
+                json["duration"] != null ? json["duration"] : 'NA';
+            gpsDataModel.distanceCovered = json["distanceCovered"];
 
-          routeHistory.add(gpsDataModel);
+            routeHistory.add(gpsDataModel);
+          }
         }
+        print("ROUTE $routeHistory");
         return routeHistory;
       }
       else {
