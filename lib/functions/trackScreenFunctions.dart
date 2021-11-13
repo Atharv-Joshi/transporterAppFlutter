@@ -83,12 +83,13 @@ getFormattedDateForDisplay2(String date){
 }
 
 //get GPS Data Model functions -------------------
-getRouteStatusList(String? imei, String start, String end) async{
+getRouteStatusList(String? imei, String start, String end, String? choice) async{
   getFormattedDate(start, end);
   var gpsRoute = await mapUtil.getRouteHistory(
       imei: imei,
       starttime: startTimeParam,
-      endtime: endTimeParam);
+      endtime: endTimeParam,
+      choice: choice);
   return gpsRoute;
 }
 
@@ -150,7 +151,8 @@ getPoylineCoordinates(var gpsDataHistory){
 }
 getPoylineCoordinates2(var gpsDataHistory2){
   var logger = Logger();
-  logger.i("in polyline after function");
+  logger.i("in polyline 2 function");
+  polylineCoordinates2.clear();
   int a=0;
   int b=a+1;
   int c=0;

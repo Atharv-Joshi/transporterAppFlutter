@@ -13,6 +13,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
@@ -83,6 +84,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   var gpsDataHistory;
   var gpsStoppageHistory;
   var newGPSRoute;
+  var totalDistance;
   var stoppageTime = [];
   var duration = [];
   var stopAddress = [];
@@ -101,6 +103,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   double mapHeight=600;
 
   var direction;
+  bool setDate = false;
+  var selectedDateString = [];
+  var maptype = MapType.normal;
+
 
   @override
   void initState() {
@@ -294,9 +300,12 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
 
   void initfunction() async {
     var gpsData = await mapUtil.getLocationByImei(imei: widget.imei);
-    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()), "data");
+    var distance = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()), "totalDistanceCovered");
+
     setState(() {
       newGPSRoute = gpsRoute;
+      totalDistance = distance;
       print("NEW ROute $newGPSRoute");
       newGPSData = gpsData;
       oldGPSData = newGPSData.reversed.toList();
@@ -332,7 +341,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       print("Live location is ${newGPSData.last.lat}");
       String? title = widget.TruckNo;
       setState(() {
-        direction = double.parse(newGPSData.last.direction);
+        direction = 180 + double.parse(newGPSData.last.direction);
         lastlatLngMarker = LatLng(newGPSData.last.lat, newGPSData.last.lng);
         latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
