@@ -18,15 +18,22 @@ List<LatLng> polylineCoordinates2 = [];
 
 //Date format functions---------------------------
 getFormattedDate(String start, String end){
-  // var nowTime = dateFormat.format(DateTime.now()).split(" ");
+  var now = dateFormat.format(DateTime.now()).split(" ");
+  print("NOW ${now[1]}");
   var nowTime = end.split(" ");
   var timestamp = nowTime[0].replaceAll("-", "");
   var year = timestamp.substring(0, 4);
   var month = int.parse(timestamp.substring(4, 6));
   var day = timestamp.substring(6, 8);
   var date = "$day-$month-$year";
-  var time = nowTime[1];
+  var time;
+  if(nowTime[1] == "00:00:00.000")
+    time = now[1];
+  else
+    time = nowTime[1];
+
   endTimeParam = "$date $time";   //today's time and date
+  print("end time param $date $time");   //today's time and date
 
   // var yesterday = dateFormat.format(DateTime.now().subtract(Duration(days: 1))).split(" ");
   var yesterday = start.split(" ");
@@ -35,8 +42,15 @@ getFormattedDate(String start, String end){
   var month2 = int.parse(timestamp2.substring(4, 6));
   var day2 = timestamp2.substring(6, 8);
   var date2 = "$day2-$month2-$year2";
-  var time2 = yesterday[1];
+  // var time2 = yesterday[1];
+  var time2;
+  if(nowTime[1] == "00:00:00.000")
+    time2 = now[1];
+  else
+    time2 = yesterday[1];
   startTimeParam = "$date2 $time2";
+  print("start time param $date2 $time2");   //today's time and date
+
 }
 
 getFormattedDateForDisplay(String date){
@@ -83,13 +97,13 @@ getFormattedDateForDisplay2(String date){
 }
 
 //get GPS Data Model functions -------------------
-getRouteStatusList(String? imei, String start, String end, String? choice) async{
+getRouteStatusList(String? imei, String start, String end) async{
   getFormattedDate(start, end);
   var gpsRoute = await mapUtil.getRouteHistory(
       imei: imei,
       starttime: startTimeParam,
-      endtime: endTimeParam,
-      choice: choice);
+      endtime: endTimeParam
+  );
   return gpsRoute;
 }
 
@@ -217,6 +231,7 @@ getStoppageTime(var gpsStoppageHistory) {
 
     stoppageTime.add("$truckStart - $truckEnd");
   }
+  print("Stop time $stoppageTime");
   return stoppageTime;
 }
 
