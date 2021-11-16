@@ -9,11 +9,8 @@ import 'package:liveasy/widgets/LoadConfirmationTemplate.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/loadConfirmationScreenButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:marquee/marquee.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadConfirmation extends StatefulWidget {
@@ -104,7 +101,8 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                     label: AppLocalizations.of(context)!
                                         .truckType),
                                 LoadConfirmationTemplate(
-                                    value: providerData.truckNumber.toString(),
+                                    value:
+                                        providerData.totalTyresValue.toString(),
                                     label: AppLocalizations.of(context)!.tyre),
                                 LoadConfirmationTemplate(
                                     value: providerData.passingWeightValue

@@ -59,7 +59,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
             providerData.loadingPointCityPostLoad,
             providerData.loadingPointStatePostLoad,
-            providerData.truckNumber,
+            providerData.totalTyresValue,
             providerData.productType,
             providerData.truckTypeValue,
             "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
@@ -110,7 +110,7 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
             providerData.loadingPointCityPostLoad,
             providerData.loadingPointStatePostLoad,
-            providerData.truckNumber,
+            providerData.totalTyresValue,
             providerData.productType,
             providerData.truckTypeValue,
             "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
@@ -150,48 +150,6 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             },
           );
         }
-//=======
-        /*  if (loadId != null) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return completedDialog(
-              upperDialogText: "You have added load Successfully!",
-              lowerDialogText: "",
-            );
-          },
-        );
-        Timer(
-            Duration(seconds: 3),
-            () => {
-                  providerData.updateIndex(2),
-                  Get.offAll(() => NavigationScreen()),
-                  providerData.resetPostLoadFilters(),
-                  providerData.resetPostLoadScreenOne(),
-                  controller.text = "",
-                  controllerOthers.text = ""
-                });
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return OrderFailedAlertDialog();
-          },
-        );
-        // Get.snackbar("${postLoadErrorController.error.value}", "failed");
-        // postLoadErrorController.resetPostLoadError();
-        // print(postLoadErrorController.error.value.toString());
-        // Timer(
-        //     Duration(seconds: 1),
-        //     () => {
-        //           showDialog(
-        //             context: context,
-        //             builder: (BuildContext context) {
-        //               return OrderFailedAlertDialog(
-        //                   postLoadErrorController.error.value.toString());
-        //             },
-        //           )
-        //         });  */
       }
     }
 
