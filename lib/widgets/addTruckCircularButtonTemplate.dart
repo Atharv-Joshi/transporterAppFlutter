@@ -37,10 +37,11 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
     } else if (category == 'length') {
       providerVariable = providerData.truckLengthValue;
       providerFunction = providerData.updateTruckLengthValue;
-    } else if (category == 'Number') {
-      providerVariable = providerData.truckNumber;
-      providerFunction = providerData.updateTruckNumber;
     }
+    // else if (category == 'Number') {
+    //   providerVariable = providerData.truckNumber;
+    //   providerFunction = providerData.updateTruckNumber;
+    // }
 
     return GestureDetector(
       child: Container(
