@@ -208,12 +208,14 @@ class _MyTrucksState extends State<MyTrucks> {
         var first = placemarks.first;
         print(
             "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
-        if (first.subLocality == "")
-          truckAddress =
-              "${first.street}, ${first.locality},${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+        if(first.subLocality == "")
+          truckAddress = "${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+        else if(first.locality == "")
+          truckAddress = "${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+        else if(first.administrativeArea == "")
+          truckAddress = "${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
         else
-          truckAddress =
-              "${first.street}, ${first.subLocality}, ${first.locality},${first.administrativeArea},\n${first.postalCode}, ${first.country}";
+          truckAddress = "${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
         print("truck add is $truckAddress");
         truckAddressList.add(truckAddress);
       } else {
@@ -250,7 +252,7 @@ class _MyTrucksState extends State<MyTrucks> {
       print("diff is $diff");
       double speed = double.parse(gpsData.last.speed);
       var v = diff.toString().split(":");
-      if (speed<2 && diff2.compareTo(constraint)>0) {
+      if (speed<=2 && diff2.compareTo(constraint)>0) {
         if(v[0]=="0")
           status.add("Stopped since ${v[1]} min");
         else

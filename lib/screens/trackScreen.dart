@@ -32,6 +32,7 @@ class TrackScreen extends StatefulWidget {
   final List gpsData;
   var gpsDataHistory;
   var gpsStoppageHistory;
+  var routeHistory;
   final String? TruckNo;
   final String? imei;
   final String? driverNum;
@@ -41,6 +42,7 @@ class TrackScreen extends StatefulWidget {
     required this.gpsData,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
+    required this.routeHistory,
     // required this.position,
     this.TruckNo,
     this.driverName,
@@ -101,7 +103,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   double expandedHeightFactor = 0.50;
   bool isAnimation = false;
   double mapHeight=600;
-
+  DateTimeRange selectedDate = DateTimeRange(
+    start: DateTime.now().subtract(Duration(days: 1)),
+   end: DateTime.now()
+  );
   var direction;
   bool setDate = false;
   var selectedDateString = [];
@@ -129,7 +134,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       logger.e("Error is $e");
     }
   }
-
   //get truck route history on map
 
   getTruckHistory() {
@@ -298,14 +302,27 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     UrlLauncher.launch(url);
   }
 
-  void initfunction() async {
+  void initfunction() {
+    setState(() {
+      newGPSData = widget.gpsData;
+      oldGPSData = newGPSData.reversed.toList();
+      newGPSRoute=widget.routeHistory;
+      totalDistance=newGPSRoute.removeAt(0);
+      print("NEW ROute $newGPSRoute");
+      print("NEW ROute $totalDistance");
+    });
+  }
+  void initfunctionAfter() async {
     var gpsData = await mapUtil.getLocationByImei(imei: widget.imei);
-    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()), "data");
-    var distance = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()), "totalDistanceCovered");
+    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
 
     setState(() {
       newGPSRoute = gpsRoute;
-      totalDistance = distance;
+      totalDistance = newGPSRoute.removeAt(0);
+      selectedDate = DateTimeRange(
+          start: DateTime.now().subtract(Duration(days: 1)),
+          end: DateTime.now()
+      );
       print("NEW ROute $newGPSRoute");
       newGPSData = gpsData;
       oldGPSData = newGPSData.reversed.toList();
@@ -327,7 +344,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   //function called every one minute
   void onActivityExecuted() {
     logger.i("It is in Activity Executed function");
-    initfunction();
+    initfunctionAfter();
     getTruckHistoryAfter();
     getTruckDate();
     iconthenmarker();
@@ -426,19 +443,33 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                   zoomControlsEnabled: false,
                   initialCameraPosition: camPosition,
                   compassEnabled: true,
-                  mapType: MapType.normal,
+                  mapType: maptype,
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                     _customInfoWindowController.googleMapController = controller;
                   },
                 ),
-
-              CustomInfoWindow(
-                controller: _customInfoWindowController,
-                height: 110,
-                width: 275,
-                offset: 30,
-              ),])
+                    CustomInfoWindow(
+                      controller: _customInfoWindowController,
+                      height: 110,
+                      width: 275,
+                      offset: 30,
+                    ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          child: const Icon(Icons.my_location),
+                          onPressed: () {
+                            setState(() {
+                              this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
+                            });
+                          },
+                        ),
+                      ),
+                    ]
+                )
               ),
               Container(
                 height: 245,
@@ -549,6 +580,31 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                 ),
                               ],
                             ),
+
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total Distance",
+                                  style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontWeight: mediumBoldWeight,
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 10
+                                ),
+                                Text(
+                                  "$totalDistance km",
+                                  style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontWeight: regularWeight,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -625,6 +681,15 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                   showDialog(
                                       context: context,
                                       builder: (context) => NextUpdateAlertDialog());
+                                  // Get.to(PlayRouteHistory(
+                                  //   gpsTruckHistory: gpsDataHistory,
+                                  //   truckNo: widget.TruckNo,
+                                  //   routeHistory: newGPSRoute,
+                                  //   gpsData: newGPSData,
+                                  //   dateRange: selectedDate.toString(),
+                                  //   gpsStoppageHistory: gpsStoppageHistory,
+                                  //   totalDistance: totalDistance,
+                                  // ));
                                     },
                                 child: Row(
                                   children: [
@@ -658,11 +723,10 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                 onTap: (){
                                   print("tapped");
                                   Get.to(TruckHistoryScreen(
-                                    gpsData: newGPSData.last,
-                                    gpsTruckHistory: gpsDataHistory,
-                                    gpsStoppageHistory: gpsStoppageHistory,
                                     truckNo: widget.TruckNo,
                                     gpsTruckRoute: newGPSRoute,
+                                    dateRange: selectedDate.toString(),
+                                    imei: newGPSData.last.imei,
                                   ));
                                 },
                                 child: Container(

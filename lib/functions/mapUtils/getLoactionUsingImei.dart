@@ -42,6 +42,10 @@ class MapUtil {
           String? addressstring;
           if(first.subLocality == "")
             addressstring = "${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+          else if(first.locality == "")
+            addressstring = "${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+          else if(first.administrativeArea == "")
+            addressstring = "${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
           else
             addressstring = "${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
           print(addressstring);
@@ -114,7 +118,7 @@ class MapUtil {
       return null;
     }
   }
-  getRouteHistory({String? imei, String? starttime, String? endtime, String? choice}) async {
+  getRouteHistory({String? imei, String? starttime, String? endtime}) async {
     try{
       http.Response response = await http.get(Uri.parse(
           "$routeHistoryApiUrl?imei=$imei&startTime=$starttime&endTime=$endtime"
@@ -127,11 +131,8 @@ class MapUtil {
       var routeHistory = [];
       double totalDistanceCovered = jsonData["totalDistanceCovered"];
       print("TOTAL $totalDistanceCovered");
-      // routeHistory.add(totalDistanceCovered);
+      routeHistory.add(totalDistanceCovered);
       if (response.statusCode == 200) {
-        if(choice=="totalDistanceCovered")
-          routeHistory.add(totalDistanceCovered);
-        else {
           for (var json in routeHistoryList) {
             GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
             gpsDataModel.truckStatus =
@@ -148,7 +149,6 @@ class MapUtil {
 
             routeHistory.add(gpsDataModel);
           }
-        }
         print("ROUTE $routeHistory");
         return routeHistory;
       }

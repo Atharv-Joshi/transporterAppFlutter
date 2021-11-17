@@ -11,6 +11,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/gpsDataController.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
@@ -54,6 +55,7 @@ class _TrackButtonState extends State<TrackButton> {
   var truckData;
   var gpsDataHistory;
   var gpsStoppageHistory;
+  var gpsRoute;
   var endTimeParam;
   var startTimeParam;
   MapUtil mapUtil = MapUtil();
@@ -70,30 +72,6 @@ class _TrackButtonState extends State<TrackButton> {
     // getUserLocation();
   }
 
-  getTruckHistory() async{
-    var logger = Logger();
-    logger.i("in truck history function");
-
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-    var nowTime = dateFormat.format(DateTime.now()).split(" ");
-    var timestamp = nowTime[0].replaceAll("-", "");
-    var year = timestamp.substring(0, 4);
-    var month = int.parse(timestamp.substring(4, 6));
-    var day = timestamp.substring(6, 8);
-    var date = "$day-$month-$year";
-    var time = nowTime[1];
-    endTimeParam = "$date $time";
-
-    // var yesterday2 = DateTime.now().subtract(Duration(days: 1));
-    var yesterday = dateFormat.format(DateTime.now().subtract(Duration(days: 1))).split(" ");
-    var timestamp2 = yesterday[0].replaceAll("-", "");
-    var year2 = timestamp2.substring(0, 4);
-    var month2 = int.parse(timestamp2.substring(4, 6));
-    var day2 = timestamp2.substring(6, 8);
-    var date2 = "$day2-$month2-$year2";
-    var time2 = yesterday[1];
-    startTimeParam = "$date2 $time2";
-}
 
   @override
   Widget build(BuildContext context) {
@@ -122,21 +100,14 @@ class _TrackButtonState extends State<TrackButton> {
             EasyLoading.show(
               status: "Loading...",
             );
-            getTruckHistory();
+            // getTruckHistory();
 
-            gpsDataHistory =
-            await mapUtil.getLocationHistoryByImei(
-                imei: widget.imei,
-                starttime: startTimeParam,
-                endtime: endTimeParam,
-                choice: "deviceTrackList");
-            gpsStoppageHistory =
-            await mapUtil.getLocationHistoryByImei(
-                imei: widget.imei,
-                starttime: startTimeParam,
-                endtime: endTimeParam,
-                choice: "stoppagesList");
-            if (gpsStoppageHistory!= null) {
+            gpsDataHistory = await getDataHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
+
+            gpsStoppageHistory = await getStoppageHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+            gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+
+            if (gpsRoute!= null) {
               EasyLoading.dismiss();
               Get.to(
                 TrackScreen(
@@ -148,6 +119,7 @@ class _TrackButtonState extends State<TrackButton> {
                   driverNum: widget.phoneNo,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
+                  routeHistory: gpsRoute,
                 ),
               );
             }
