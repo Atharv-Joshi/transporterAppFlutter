@@ -13,6 +13,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:liveasy/screens/animarker.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
@@ -681,15 +682,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                   showDialog(
                                       context: context,
                                       builder: (context) => NextUpdateAlertDialog());
-                                  // Get.to(PlayRouteHistory(
-                                  //   gpsTruckHistory: gpsDataHistory,
-                                  //   truckNo: widget.TruckNo,
-                                  //   routeHistory: newGPSRoute,
-                                  //   gpsData: newGPSData,
-                                  //   dateRange: selectedDate.toString(),
-                                  //   gpsStoppageHistory: gpsStoppageHistory,
-                                  //   totalDistance: totalDistance,
-                                  // ));
                                     },
                                 child: Row(
                                   children: [
@@ -700,9 +692,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
                                         Icons.play_circle_outline,
                                         color: bidBackground,
                                       )
-                                      // decoration: BoxDecoration(
-                                      //     image: DecorationImage(
-                                      //         image: AssetImage("assets/icons/playicon.png"))),
                                     ),
                                     SizedBox(
                                       width: space_2,

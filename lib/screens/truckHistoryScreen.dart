@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/Header.dart';
+import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/truckHistoryStatus.dart';
@@ -112,7 +113,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         );
       },
     );
-    // Jiffy nextDay = Jiffy(picked);
 
     if (picked != null) {
       setState(() {
@@ -134,17 +134,15 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         status: "Loading...",
       );
       var newRouteHistory = await getRouteStatusList(widget.imei, selectedDateString[0], selectedDateString[1]);
-
       print("AFter $newRouteHistory");
-      setState(() {
+      if (newRouteHistory!= null) {
+        setState(() {
         totalDistance = newRouteHistory.removeAt(0);
         print("AFter $totalDistance");
 
         gpsRoute = newRouteHistory;
         dateRange = selectedDate.toString();
       });
-
-      if (gpsRoute!= null) {
         Get.back();
         EasyLoading.dismiss();
         // getDateRange();
@@ -154,7 +152,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
           dateRange: dateRange,
           imei: widget.imei,
         ));
-
+      }
+      else{
+        EasyLoading.dismiss();
+        showDialog(
+            context: context,
+            builder: (context) => InvalidDateCondition());
+        print("gps route null");
       }
     }
   }
