@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -53,7 +56,7 @@ class TrackScreen extends StatefulWidget {
   @override
   _TrackScreenState createState() => _TrackScreenState();
 }
-class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStateMixin {
+class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
@@ -65,7 +68,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   late BitmapDescriptor pinLocationIconTruck;
   late CameraPosition camPosition =  CameraPosition(
       target: lastlatLngMarker,
-      zoom: 8.0);
+      zoom: 8);
   var logger = Logger();
   late Marker markernew;
   List<Marker> customMarkers = [];
@@ -89,6 +92,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   var newGPSRoute;
   var totalDistance;
   var stoppageTime = [];
+  List<LatLng> stoplatlong = [];
   var duration = [];
   var stopAddress = [];
   String? Speed;
@@ -98,10 +102,6 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
-  late AnimationController _acontroller;
-  late Animation<double> _heightFactorAnimation;
-  double collapsedHeightFactor = 0.80;
-  double expandedHeightFactor = 0.50;
   bool isAnimation = false;
   double mapHeight=600;
   DateTimeRange selectedDate = DateTimeRange(
@@ -112,15 +112,18 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   bool setDate = false;
   var selectedDateString = [];
   var maptype = MapType.normal;
-
+  double zoom = 8;
+  bool showBottomMenu = true;
+  var totalRunningTime;
+  var totalStoppedTime;
 
   @override
   void initState() {
     super.initState();
-    _acontroller=AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
-    _heightFactorAnimation = Tween<double>(begin: collapsedHeightFactor, end: expandedHeightFactor).animate(_acontroller);
+    WidgetsBinding.instance!.addObserver(this);
     try {
       initfunction();
+      initfunction2();
       iconthenmarker();
       getTruckHistory();
       getTruckDate();
@@ -128,14 +131,41 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       lastlatLngMarker = LatLng(widget.gpsData.last.lat, widget.gpsData.last.lng);
       camPosition = CameraPosition(
           target: lastlatLngMarker,
-          zoom: 8.0
+          zoom: zoom
       );
+
       timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
     } catch (e) {
       logger.e("Error is $e");
     }
   }
-  //get truck route history on map
+
+  void onMapCreated(GoogleMapController controller) {
+    controller.setMapStyle("[]");
+    _controller.complete(controller);
+    _customInfoWindowController.googleMapController = controller;
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('appLifeCycleState inactive');
+        break;
+      case AppLifecycleState.resumed:
+    final GoogleMapController controller = await _controller.future;
+    onMapCreated(controller);
+    print('appLifeCycleState resumed');
+    break;
+    case AppLifecycleState.paused:
+    print('appLifeCycleState paused');
+    break;
+    case AppLifecycleState.detached:
+    print('appLifeCycleState detached');
+    break;
+  }
+  }
 
   getTruckHistory() {
     gpsDataHistory=widget.gpsDataHistory;
@@ -161,10 +191,11 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
   getStoppage(var gpsStoppage) async{
     stopAddress = [];
     stoppageTime = [];
+    stoplatlong = [];
     duration = [];
     print("Stop length ${gpsStoppage.length}");
     LatLng? latlong;
-    List<LatLng> stoplatlong = [];
+
     for(var stop in gpsStoppage) {
       latlong=LatLng(stop.lat, stop.lng);
       stoplatlong.add(latlong);
@@ -297,13 +328,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
     _addPolyLine();
   }
 
-  _makingPhoneCall() async {
-
-    String url = 'tel:${widget.driverNum}';
-    UrlLauncher.launch(url);
-  }
-
-  void initfunction() {
+  initfunction(){
     setState(() {
       newGPSData = widget.gpsData;
       oldGPSData = newGPSData.reversed.toList();
@@ -312,7 +337,16 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
       print("NEW ROute $newGPSRoute");
       print("NEW ROute $totalDistance");
     });
+    totalRunningTime = getTotalRunningTime(newGPSRoute);
+    totalStoppedTime = getTotalStoppageTime(newGPSRoute);
   }
+  Future<void> initfunction2() async {
+    final GoogleMapController controller = await _controller.future;
+    setState(() {
+      _googleMapController = controller;
+    });
+  }
+
   void initfunctionAfter() async {
     var gpsData = await mapUtil.getLocationByImei(imei: widget.imei);
     var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
@@ -324,10 +358,12 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
           start: DateTime.now().subtract(Duration(days: 1)),
           end: DateTime.now()
       );
-      print("NEW ROute $newGPSRoute");
+      print("NEW ROute $totalDistance");
       newGPSData = gpsData;
       oldGPSData = newGPSData.reversed.toList();
     });
+    totalRunningTime = getTotalRunningTime(newGPSRoute);
+    totalStoppedTime = getTotalStoppageTime(newGPSRoute);
   }
 
   void iconthenmarker() {
@@ -380,7 +416,7 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
         CameraPosition(
           bearing: 0,
           target: lastlatLngMarker,
-          zoom: 15.0,
+          zoom: zoom,
         ),
       ));
     } catch (e) {
@@ -397,350 +433,328 @@ class _TrackScreenState extends State<TrackScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: statusBarColor,
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(0, space_4, 0, 0),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(bottom: space_4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                      child: Header(
-                          reset: false,
-                          text: 'Location Tracking',
-                          backButton: true
-                      ),
-                    ),
-                    HelpButtonWidget()
-                  ],
-                ),
-              ),
-              Container(
-                // width: 250,
-                // height: 500,
-                height: 375,
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                    children: <Widget>[
-                      GoogleMap(
-                  onTap: (position) {
-                    _customInfoWindowController.hideInfoWindow!();
-                  },
-                  onCameraMove: (position) {
-                    _customInfoWindowController.onCameraMove!();
-                  },
-                  markers: customMarkers.toSet(),
-                  polylines: Set.from(polylines.values),
-                  myLocationButtonEnabled: true,
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: camPosition,
-                  compassEnabled: true,
-                  mapType: maptype,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    _customInfoWindowController.googleMapController = controller;
-                  },
-                ),
-                    CustomInfoWindow(
-                      controller: _customInfoWindowController,
-                      height: 110,
-                      width: 275,
-                      offset: 30,
-                    ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(space_2, space_2, 0, 0),
-                        child: FloatingActionButton(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          child: const Icon(Icons.my_location),
-                          onPressed: () {
-                            setState(() {
-                              this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
-                            });
-                          },
+    double height= MediaQuery.of(context).size.height;
+    double threshold = 100;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: statusBarColor,
+        body: GestureDetector(
+          onTap: (){
+            setState(() {
+              showBottomMenu = !showBottomMenu;
+            });
+          },
+          onPanEnd: (details){
+            if(details.velocity.pixelsPerSecond.dy > threshold) {
+              this.setState(() {
+                showBottomMenu = false;
+              });
+            }
+            else if(details.velocity.pixelsPerSecond.dy < -threshold){
+              this.setState(() {
+                showBottomMenu = true;
+              });
+            }
+          },
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                          left: 0,
+                          top: -100,
+                          bottom: 0 ,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Stack(
+                                children: <Widget>[
+                                  GoogleMap(
+                              onTap: (position) {
+                                _customInfoWindowController.hideInfoWindow!();
+                              },
+                              onCameraMove: (position) {
+                                _customInfoWindowController.onCameraMove!();
+                              },
+                              markers: customMarkers.toSet(),
+                              polylines: Set.from(polylines.values),
+                              myLocationButtonEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: camPosition,
+                              compassEnabled: true,
+                              mapType: maptype,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                                _customInfoWindowController.googleMapController = controller;
+                              },
+                              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                                      new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
+                                    ].toSet(),
+                            ),
+                                CustomInfoWindow(
+                                  controller: _customInfoWindowController,
+                                  height: 110,
+                                  width: 275,
+                                  offset: 30,
+                                ),
+                                  Positioned(
+                                    left: 10,
+                                    top: 275,
+                                    child: FloatingActionButton(
+                                      heroTag: "btn1",
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      child: const Icon(Icons.my_location),
+                                      onPressed: () {
+                                        setState(() {
+                                          this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 10,
+                                    bottom: height/3+145,
+                                    child: FloatingActionButton(
+                                      heroTag: "btn2",
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      child: const Icon(Icons.zoom_in),
+                                      onPressed: () {
+                                        setState(() {
+                                          this.zoom = this.zoom + 0.5;
+                                        });
+                                        this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                            CameraPosition(
+                                              bearing: 0,
+                                              target: lastlatLngMarker,
+                                              zoom: this.zoom,
+                                            ),
+                                          ));
+
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 10,
+                                    bottom: height/3+80,
+                                    child: FloatingActionButton(
+                                      heroTag: "btn3",
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      child: const Icon(Icons.zoom_out),
+                                      onPressed: () {
+                                        setState(() {
+                                          this.zoom = this.zoom - 0.5;
+                                        });
+                                        this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                            bearing: 0,
+                                            target: lastlatLngMarker,
+                                            zoom: this.zoom,
+                                          ),
+                                        ));
+                                      },
+                                    ),
+                                  ),
+                                ]
+                            )
+                          ),
                         ),
-                      ),
-                    ]
-                )
-              ),
-              Container(
-                height: 245,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12)
-                    )
-                ),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
+              Positioned(
+                top: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: white,
+                  child: Column(
                     children: [
                       Container(
-                        height: space_11,
-                        decoration : BoxDecoration(
-                            color: shadowGrey2,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12)
-                            )
-                        ),
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        margin: EdgeInsets.only(bottom: 14),
+                        // margin: EdgeInsets.only(bottom: space_10),
+                        width: MediaQuery.of(context).size.width,
+                        height: space_13,
+                        color: white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "${widget.driverName}",
-                              style: TextStyle(
-                                  color: black,
-                                  fontSize: size_7,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: mediumBoldWeight
+                            Container(
+                              margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
+                              child: Header(
+                                  reset: false,
+                                  text: 'Location Tracking',
+                                  backButton: true
                               ),
                             ),
-                            SizedBox(
-                                width: 15
-                            ),
-                            Row(
-                              children: [
-                                InkWell(
-                                  child: Container(
-                                    height: space_5,
-                                    width: space_16,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(width: borderWidth_10, color: black)),
-                                    padding: EdgeInsets.only(left: (space_3 - 1), right: (space_3 - 2)),
-                                    margin: EdgeInsets.only(right: (space_3)),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: space_3,
-                                            width: space_3,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage("assets/icons/callButtonIcon.png"))),
-                                          ),
-                                          SizedBox(
-                                            width: space_1,
-                                          ),
-                                          Text(
-                                            "Call",
-                                            style: TextStyle(fontSize: size_7, color: black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    _makingPhoneCall();
-                                  },
-                                ),
-
-                              ],
-                            )
+                            HelpButtonWidget()
                           ],
                         ),
                       ),
                       Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Speed",
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: size_6,
-                                    fontWeight: mediumBoldWeight,
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: 10
-                                ),
-                                Text(
-                                  "${newGPSData.last.speed} km/h",
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: size_6,
-                                    fontWeight: regularWeight,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Total Distance",
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: size_6,
-                                    fontWeight: mediumBoldWeight,
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: 10
-                                ),
-                                Text(
-                                  "$totalDistance km",
-                                  style: TextStyle(
-                                    color: black,
-                                    fontSize: size_6,
-                                    fontWeight: regularWeight,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 15),
-                        margin: EdgeInsets.only(top: 20),
-                        child: Column(
-                          children: [
-                            Row(
+                          margin: EdgeInsets.fromLTRB(space_9, space_1, 0, space_2),
+                          child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.my_location,
-                                  color: shareImageTextColor,
-                                ),
-                                SizedBox(
-                                    width: 10
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 300,
-                                      child: Text(
-                                        "${newGPSData.last.address}",
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: size_6,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: mediumBoldWeight
+                                Container(
+                                    child: Column(
+                                      children: [
+
+                                        Row(
+                                            children: [
+                                              Image(
+                                                image: AssetImage(
+                                                    'assets/icons/distanceCovered.png'),
+                                                height: 23,
+                                              ),
+                                              SizedBox(
+                                                width: space_1,
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                width: 170,
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text("Travelled ",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: liveasyGreen,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                        Text("$totalDistance km",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: black,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Text("$totalRunningTime ",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: grey,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+
+                                            ]
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      width: 180,
-                                      child: Text(
-                                        "$truckDate",
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: size_6,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: regularWeight
+                                        SizedBox(
+                                          height: space_3,
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-                          margin: EdgeInsets.only(top: 15),
-                          width: 345,
-                          height: 0.4,
-                          decoration: BoxDecoration(
-                            color: black,
-                          )
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        margin: EdgeInsets.only(top: 15),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => NextUpdateAlertDialog());
-                                    },
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: (space_4 + 2),
-                                      width: (space_4 + 2),
-                                      child: Icon(
-                                        Icons.play_circle_outline,
-                                        color: bidBackground,
-                                      )
-                                    ),
-                                    SizedBox(
-                                      width: space_2,
-                                    ),
-                                    Text(
-                                      "Play trip history",
-                                      style: TextStyle(
-                                          fontSize: size_6,
-                                          color: bidBackground,
-                                          fontWeight: mediumBoldWeight,
-                                          fontStyle: FontStyle.normal
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: (){
-                                  print("tapped");
-                                  Get.to(TruckHistoryScreen(
-                                    truckNo: widget.TruckNo,
-                                    gpsTruckRoute: newGPSRoute,
-                                    dateRange: selectedDate.toString(),
-                                    imei: newGPSData.last.imei,
-                                  ));
-                                },
-                                child: Container(
-                                    width: 130,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                        color: bidBackground,
-                                        borderRadius: BorderRadius.circular(15)
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                        "See history",
-                                        style: TextStyle(
-                                            color: white,
-                                            fontSize: size_6,
-                                            fontWeight: mediumBoldWeight,
-                                            fontStyle: FontStyle.normal
-                                        )
+                                        Row(
+                                            children: [
+                                              Icon(Icons.pause,
+                                                  size: size_11),
+                                              SizedBox(
+                                                width: space_1,
+                                              ),
+                                              Container(
+                                                alignment: Alignment.centerLeft,
+                                                width: 170,
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text("${gpsStoppageHistory.length } ",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: black,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                        Text("Stops",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: red,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Text("$totalStoppedTime ",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                color: grey,
+                                                                fontSize: size_6,
+                                                                fontStyle: FontStyle.normal,
+                                                                fontWeight: regularWeight)),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+
+                                            ]
+                                        ),
+
+                                      ],
                                     )
                                 ),
-                              ),
-                            ]
-                        ),
+                                SizedBox(
+                                    width: space_2
+                                ),
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text("${newGPSData.last.speed} km/h",
+                                          style: TextStyle(
+                                              color: liveasyGreen,
+                                              fontSize: size_10,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)
+                                      ),
+                                      Text("Status",
+                                          style: TextStyle(
+                                              color: black,
+                                              fontSize: size_6,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)
+                                      )
+                                    ],
+                                  ),
+                                )
+
+                              ]
+                          )
+                      ),
+                      SizedBox(
+                        height: 8,
                       )
-                    ]
+                    ],
+                  ),
+                ),
+              ),
+
+              AnimatedPositioned(
+                curve: Curves.easeInOut,
+                duration: Duration(milliseconds: 400),
+                left: 0,
+                bottom: (showBottomMenu)? 0 : -(height/3),
+                child: TrackScreenDetails(
+                  driverName: widget.driverName,
+                  totalDistance: totalDistance,
+                  truckDate: truckDate,
+                  driverNum: widget.driverNum,
+                  gpsData: newGPSData,
+                  dateRange: selectedDate.toString(),
+                  TruckNo: widget.TruckNo,
+                  gpsTruckRoute: newGPSRoute,
+                  gpsDataHistory: gpsDataHistory,
+                  gpsStoppageHistory: gpsStoppageHistory,
+                  stops: stoplatlong,
+                  totalRunningTime: totalRunningTime,
+                  totalStoppedTime: totalStoppedTime,
                 ),
               )
             ],
