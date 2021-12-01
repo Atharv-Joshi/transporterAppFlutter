@@ -27,7 +27,7 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -497,61 +497,70 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                   Positioned(
                                     left: 10,
                                     top: 275,
-                                    child: FloatingActionButton(
-                                      heroTag: "btn1",
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: Colors.black,
-                                      child: const Icon(Icons.my_location),
-                                      onPressed: () {
-                                        setState(() {
-                                          this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
-                                        });
-                                      },
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: FloatingActionButton(
+                                        heroTag: "btn1",
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        child: const Icon(Icons.my_location, size: 22, color: Color(0xFF152968) ),
+                                        onPressed: () {
+                                          setState(() {
+                                            this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Positioned(
                                     right: 10,
-                                    bottom: height/3+145,
-                                    child: FloatingActionButton(
-                                      heroTag: "btn2",
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: Colors.black,
-                                      child: const Icon(Icons.zoom_in),
-                                      onPressed: () {
-                                        setState(() {
-                                          this.zoom = this.zoom + 0.5;
-                                        });
-                                        this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                    bottom: height/3+140,
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: FloatingActionButton(
+                                        heroTag: "btn2",
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        child: const Icon(Icons.zoom_in, size: 22,  color: Color(0xFF152968)),
+                                        onPressed: () {
+                                          setState(() {
+                                            this.zoom = this.zoom + 0.5;
+                                          });
+                                          this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                              CameraPosition(
+                                                bearing: 0,
+                                                target: lastlatLngMarker,
+                                                zoom: this.zoom,
+                                              ),
+                                            ));
+
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 10,
+                                    bottom: height/3+90,
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: FloatingActionButton(
+                                        heroTag: "btn3",
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        child: const Icon(Icons.zoom_out, size:22,  color: Color(0xFF152968)),
+                                        onPressed: () {
+                                          setState(() {
+                                            this.zoom = this.zoom - 0.5;
+                                          });
+                                          this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
                                             CameraPosition(
                                               bearing: 0,
                                               target: lastlatLngMarker,
                                               zoom: this.zoom,
                                             ),
                                           ));
-
-                                      },
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    bottom: height/3+80,
-                                    child: FloatingActionButton(
-                                      heroTag: "btn3",
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: Colors.black,
-                                      child: const Icon(Icons.zoom_out),
-                                      onPressed: () {
-                                        setState(() {
-                                          this.zoom = this.zoom - 0.5;
-                                        });
-                                        this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-                                          CameraPosition(
-                                            bearing: 0,
-                                            target: lastlatLngMarker,
-                                            zoom: this.zoom,
-                                          ),
-                                        ));
-                                      },
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ]
@@ -578,7 +587,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                               margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
                               child: Header(
                                   reset: false,
-                                  text: 'Location Tracking',
+                                  text: "${widget.TruckNo}",
                                   backButton: true
                               ),
                             ),
@@ -738,7 +747,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
               AnimatedPositioned(
                 curve: Curves.easeInOut,
-                duration: Duration(milliseconds: 400),
+                duration: Duration(milliseconds: 200),
                 left: 0,
                 bottom: (showBottomMenu)? 0 : -(height/3),
                 child: TrackScreenDetails(

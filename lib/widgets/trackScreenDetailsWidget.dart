@@ -7,7 +7,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:url_launcher/url_launcher.dart';
 
 
 class TrackScreenDetails extends StatefulWidget {
@@ -76,9 +76,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
 
   }
 
-  _makingPhoneCall() async {
-    String url = 'tel:${widget.driverNum}';
-    UrlLauncher.launch(url);
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 
   @override
@@ -120,11 +124,12 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                   margin: EdgeInsets.only(bottom: 14),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.place ,
-                        color: black,
+                        Icons.place_outlined ,
+                        color: bidBackground,
+                        size: 27
                       ),
                       SizedBox(
                           width: 10
@@ -173,6 +178,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             foregroundColor: Colors.white,
                             child: const Icon(Icons.near_me_outlined, size: 30),
                             onPressed: () {
+                              openMap(gpsData.last.lat, gpsData.last.lng);
                             },
                           ),
                           SizedBox(

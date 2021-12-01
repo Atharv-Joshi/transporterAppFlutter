@@ -395,7 +395,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
 
                 Positioned(
                         left: 0,
-                        top: -100,
+                        top: -75,
                         bottom: 0 ,
                         child: Container(
                             width: MediaQuery.of(context).size.width,
@@ -411,12 +411,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                         .then<int>((value) => value.mapId), //Grab Google Map Id
                                     markers: markers.values.toSet(),
                                     child: GoogleMap(
-                                      // onTap: (position) {
-                                      //   _customInfoWindowController.hideInfoWindow!();
-                                      // },
-                                      // onCameraMove: (position) {
-                                      //   _customInfoWindowController.onCameraMove!();
-                                      // },
                                       markers: customMarkers.toSet(),
                                       polylines: Set.from(polylines.values),
                                       myLocationButtonEnabled: true,
@@ -438,12 +432,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                       ].toSet(),
                                     ),
                                   ),
-                                  // CustomInfoWindow(
-                                  //   controller: _customInfoWindowController,
-                                  //   height: 110,
-                                  //   width: 275,
-                                  //   offset: 30,
-                                  // ),
 
                                 ]
                             )
@@ -464,9 +452,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                // SizedBox(
-                                //   width: space_3,
-                                // ),
                                 Header(
                                     reset: false,
                                     text: "${widget.truckNo}",
@@ -626,7 +611,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
 
                 AnimatedPositioned(
                   curve: Curves.easeInOut,
-                  duration: Duration(milliseconds: 400),
+                  duration: Duration(milliseconds: 200),
                   left: 0,
                   bottom: (showBottomMenu)? -30 : -(height/3),
 
