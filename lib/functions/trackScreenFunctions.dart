@@ -269,6 +269,7 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
   final Canvas canvas = Canvas(pictureRecorder);
   final Paint paint = Paint()..color = Colors.red;
   final Radius radius = Radius.circular(width/2);
+  // canvas.drawRect(Offset(0, -100) & const Size(500, 500), paint);
   canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(0.0, 0.0, width.toDouble(),  height.toDouble()),
@@ -293,6 +294,120 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
   final img = await pictureRecorder.endRecording().toImage(width, height);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
+}
+Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int height) async{
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  final Paint paint = Paint()..color = Colors.black.withAlpha(100);
+  final Radius radius = Radius.circular(10);
+  canvas.drawRect(Offset(100, -100) & const Size(500, 250), paint);
+
+  TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter.text = TextSpan(
+    text: time, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.white),
+  );
+  painter.layout();
+  painter.paint(
+      canvas,
+      Offset(190,
+          30));
+  TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: speed, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.white),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(190,
+          65));
+  final img = await pictureRecorder.endRecording().toImage(500, 250);
+  final data = await img.toByteData(format: ui.ImageByteFormat.png);
+  return data!.buffer.asUint8List();
+}
+
+getTotalRunningTime(var routeHistory){
+  var totalRunning;
+  int hours = 0;
+  int minutes = 0;
+  int seconds = 0;
+  print("route history length ${routeHistory.length}");
+  for(var instance in routeHistory) {
+    if (instance.truckStatus == "running") {
+      print("Stat ${instance.truckStatus}");
+      print("Duration ${instance.duration}");
+
+      var sep = (instance.duration).toString().replaceAll("hours", "").replaceAll("hour", "").replaceAll("minutes", "").replaceAll("seconds", "");
+      var time = sep.split(" ");
+
+      if(time.length == 4)
+        {
+          hours+=int.parse(time[0]);
+          minutes+=int.parse(time[1]);
+          seconds+=int.parse(time[2]);
+        }
+      else if(time.length == 3)
+      {
+        minutes+=int.parse(time[0]);
+        seconds+=int.parse(time[1]);
+      }
+      else if(time.length == 2)
+      {
+        seconds+=int.parse(time[0]);
+      }
+    }
+  }
+  minutes += seconds ~/ 60;
+  seconds = seconds % 60;
+
+  hours += minutes ~/ 60;
+  minutes = minutes % 60;
+
+  print("DURATION $hours h $minutes m $seconds s");
+  totalRunning = "$hours hrs $minutes min $seconds sec";
+  return totalRunning;
+}
+getTotalStoppageTime(var routeHistory){
+  var totalStopped;
+  int hours = 0;
+  int minutes = 0;
+  int seconds = 0;
+  print("route history length ${routeHistory.length}");
+  for(var instance in routeHistory) {
+    if (instance.truckStatus == "stopped") {
+      print("Stat ${instance.truckStatus}");
+      print("Duration ${instance.duration}");
+
+      var sep = (instance.duration).toString().replaceAll("hours", "").replaceAll("hour", "").replaceAll("minutes", "").replaceAll("seconds", "");
+      var time = sep.split(" ");
+
+      if(time.length == 4)
+      {
+        hours+=int.parse(time[0]);
+        minutes+=int.parse(time[1]);
+        seconds+=int.parse(time[2]);
+      }
+      else if(time.length == 3)
+      {
+        minutes+=int.parse(time[0]);
+        seconds+=int.parse(time[1]);
+      }
+      else if(time.length == 2)
+      {
+        seconds+=int.parse(time[0]);
+      }
+    }
+  }
+  minutes += seconds ~/ 60;
+  seconds = seconds % 60;
+
+  hours += minutes ~/ 60;
+  minutes = minutes % 60;
+
+  print("DURATION $hours h $minutes m $seconds s");
+  totalStopped = "$hours hrs $minutes min $seconds sec";
+  return totalStopped;
 }
 
 

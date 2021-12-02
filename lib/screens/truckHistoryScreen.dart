@@ -101,15 +101,38 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
             data: ThemeData.light().copyWith(
-              primaryColor: lightBlue,
-              accentColor: const Color(0xFF8CE7F1),
+              primaryColor: darkBlueColor,
+              scaffoldBackgroundColor: white,
+
+              accentColor: darkBlueColor,
               unselectedWidgetColor: grey,
-              colorScheme: ColorScheme.light(primary: lightBlue),
+
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                //Selected dates background color
+                primary: darkBlueColor,
+                onSecondary: darkBlueColor,
+                //Month title and week days color
+                onSurface: Colors.black,
+                //Header elements and selected dates text color
+                // onPrimary: Colors.black,
+                onBackground: white
+              ),
               buttonTheme: ButtonThemeData(
                   textTheme: ButtonTextTheme.primary
               ),
             ),
-            child: child!
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                alignment: Alignment.center,
+                  margin: EdgeInsets.fromLTRB(space_6, space_30, space_6, space_30),
+                  child: child! ,
+              //     decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.all(Radius.circular(12),
+              //     ),
+              // )
+        ),
+            )
         );
       },
     );
