@@ -100,12 +100,15 @@ class _TrackButtonState extends State<TrackButton> {
             EasyLoading.show(
               status: "Loading...",
             );
-            // getTruckHistory();
+            DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+            String from = yesterday.toIso8601String();
 
-            gpsDataHistory = await getDataHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
+            DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+            String to = now.toIso8601String();
 
-            gpsStoppageHistory = await getStoppageHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
-            gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+            gpsDataHistory = await getDataHistory(widget.gpsData.last.deviceId, from , to);
+            gpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.deviceId, from , to);
+            gpsRoute = await getRouteStatusList(widget.gpsData.last.deviceId, from , to);
 
             if (gpsRoute!= null) {
               EasyLoading.dismiss();

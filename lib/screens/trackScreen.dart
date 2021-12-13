@@ -60,7 +60,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
-  late LatLng lastlatLngMarker = LatLng(widget.gpsData.last.lat, widget.gpsData.last.lng);
+  late LatLng lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
   late List<Placemark> placemarks;
   Iterable markers = [];
   ScreenshotController screenshotController = ScreenshotController();
@@ -116,6 +116,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool showBottomMenu = true;
   var totalRunningTime;
   var totalStoppedTime;
+  var status;
 
   @override
   void initState() {
@@ -126,9 +127,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       initfunction2();
       iconthenmarker();
       getTruckHistory();
-      getTruckDate();
+      // getTruckDate();
       logger.i("in init state function");
-      lastlatLngMarker = LatLng(widget.gpsData.last.lat, widget.gpsData.last.lng);
+      lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(
           target: lastlatLngMarker,
           zoom: zoom
@@ -169,6 +170,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   getTruckHistory() {
     gpsDataHistory=widget.gpsDataHistory;
+    print("Gps data history length ${gpsDataHistory.length}");
     gpsStoppageHistory=widget.gpsStoppageHistory;
     getStoppage(widget.gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
@@ -177,11 +179,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   //function is called every one minute to get updated history
 
-  getTruckHistoryAfter() async{
+  getTruckHistoryAfter() {
     var logger = Logger();
     logger.i("in truck history after function");
-    gpsDataHistory = await getDataHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
-    gpsStoppageHistory = await getStoppageHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
     getStoppage(gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
     _getPolyline(polylineCoordinates);
@@ -197,7 +197,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     LatLng? latlong;
 
     for(var stop in gpsStoppage) {
-      latlong=LatLng(stop.lat, stop.lng);
+      latlong=LatLng(stop.latitude, stop.longitude);
       stoplatlong.add(latlong);
     }
     stoppageTime = getStoppageTime(gpsStoppage);
@@ -263,7 +263,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                             height: 8.0,
                                           ),
                                           Text(
-                                            "${stopAddress[i]}",
+                                            "  ${stopAddress[i]}",
                                             style: TextStyle(
                                                 color: white,
                                                 fontSize: size_6,
@@ -289,13 +289,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   }
 
   //get current date and time
-
-  getTruckDate() {
-    setState(() {
-      truckDate = getFormattedDateForDisplay3(DateTime.now().toString());
-      print("Truck date is $truckDate");
-    });
-  }
 
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
@@ -327,18 +320,46 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
     _addPolyLine();
   }
-
+  getStopList(){
+    int i=0;
+    var start;
+    var end;
+    var duration;
+    int length = newGPSRoute.length;
+    print("GpsRoute Length ${length}");
+    while(i<newGPSRoute.length){
+      print("i $i");
+      if(i==0) {
+        DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+        start = getISOtoIST(yesterday.toIso8601String());
+        end = getISOtoIST(newGPSRoute[i].startTime);
+        duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
+        newGPSRoute.insert(i, ["stopped", start, end, duration]);
+      } else {
+        start = getISOtoIST(newGPSRoute[i - 1].endTime);
+        end = getISOtoIST(newGPSRoute[i].startTime);
+        duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
+        newGPSRoute.insert(i, ["stopped", start, end, duration]);
+      }
+      i = i+2;
+    }
+    print("With Stops $newGPSRoute");
+  }
   initfunction(){
     setState(() {
       newGPSData = widget.gpsData;
       oldGPSData = newGPSData.reversed.toList();
       newGPSRoute=widget.routeHistory;
-      totalDistance=newGPSRoute.removeAt(0);
-      print("NEW ROute $newGPSRoute");
-      print("NEW ROute $totalDistance");
+      gpsStoppageHistory = widget.gpsStoppageHistory;
+
+      totalRunningTime = getTotalRunningTime(newGPSRoute);
+      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      totalDistance = getTotalDistance(newGPSRoute);
+      status = getStatus(newGPSData, gpsStoppageHistory);
     });
-    totalRunningTime = getTotalRunningTime(newGPSRoute);
-    totalStoppedTime = getTotalStoppageTime(newGPSRoute);
+
+    getStopList();
+
   }
   Future<void> initfunction2() async {
     final GoogleMapController controller = await _controller.future;
@@ -348,22 +369,33 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   }
 
   void initfunctionAfter() async {
-    var gpsData = await mapUtil.getLocationByImei(imei: widget.imei);
-    var gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+    logger.i("It is in init function after function");
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+    String from = yesterday.toIso8601String();
 
+    DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+    String to = now.toIso8601String();
+    var gpsData = await mapUtil.getTraccarPosition(deviceId : 7);
+    var gpsRoute = await getRouteStatusList(newGPSData.last.deviceId, from , to);
+    var newGpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
+    var newGpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
     setState(() {
       newGPSRoute = gpsRoute;
-      totalDistance = newGPSRoute.removeAt(0);
+      gpsDataHistory = newGpsDataHistory;
+      gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(
           start: DateTime.now().subtract(Duration(days: 1)),
           end: DateTime.now()
       );
-      print("NEW ROute $totalDistance");
+      print("NEW ROute $newGPSRoute");
       newGPSData = gpsData;
       oldGPSData = newGPSData.reversed.toList();
+      totalRunningTime = getTotalRunningTime(newGPSRoute);
+      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      totalDistance = getTotalDistance(newGPSRoute);
+      status = getStatus(newGPSData, gpsStoppageHistory);
     });
-    totalRunningTime = getTotalRunningTime(newGPSRoute);
-    totalStoppedTime = getTotalStoppageTime(newGPSRoute);
+    getStopList();
   }
 
   void iconthenmarker() {
@@ -383,7 +415,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     logger.i("It is in Activity Executed function");
     initfunctionAfter();
     getTruckHistoryAfter();
-    getTruckDate();
     iconthenmarker();
   }
 
@@ -391,12 +422,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     try {
       final GoogleMapController controller = await _controller.future;
       LatLng latLngMarker =
-      LatLng(newGPSData.last.lat, newGPSData.last.lng);
-      print("Live location is ${newGPSData.last.lat}");
+      LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
+      print("Live location is ${newGPSData.last.latitude}");
       String? title = widget.TruckNo;
       setState(() {
-        direction = 180 + double.parse(newGPSData.last.direction);
-        lastlatLngMarker = LatLng(newGPSData.last.lat, newGPSData.last.lng);
+        direction = 180 + newGPSData.last.course;
+        lastlatLngMarker = LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
         latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
             markerId: MarkerId(newGPSData.last.id.toString()),
@@ -598,7 +629,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                       Container(
                           margin: EdgeInsets.fromLTRB(space_9, space_1, 0, space_2),
                           child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                     child: Column(
@@ -628,7 +659,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                                                 fontSize: size_6,
                                                                 fontStyle: FontStyle.normal,
                                                                 fontWeight: regularWeight)),
-                                                        Text("$totalDistance km",
+                                                        Text("${totalDistance} km",
                                                             softWrap: true,
                                                             style: TextStyle(
                                                                 color: black,
@@ -710,13 +741,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                       ],
                                     )
                                 ),
-                                SizedBox(
-                                    width: space_2
-                                ),
+
                                 Container(
                                   child: Column(
                                     children: [
-                                      Text("${newGPSData.last.speed} km/h",
+                                      Text("${(newGPSData.last.speed).toStringAsFixed(2)} km/h",
                                           style: TextStyle(
                                               color: liveasyGreen,
                                               fontSize: size_10,
@@ -726,6 +755,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                       Text("Status",
                                           style: TextStyle(
                                               color: black,
+                                              fontSize: size_6,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)
+                                      ),
+                                      Text("$status",
+                                          style: TextStyle(
+                                              color: grey,
                                               fontSize: size_6,
                                               fontStyle: FontStyle.normal,
                                               fontWeight: regularWeight)
@@ -752,8 +788,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                 bottom: (showBottomMenu)? 0 : -(height/3),
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
-                  totalDistance: totalDistance,
-                  truckDate: truckDate,
+                  // truckDate: truckDate,
                   driverNum: widget.driverNum,
                   gpsData: newGPSData,
                   dateRange: selectedDate.toString(),

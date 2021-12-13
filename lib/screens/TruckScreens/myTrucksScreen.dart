@@ -40,6 +40,7 @@ class _MyTrucksState extends State<MyTrucks> {
   var truckAddressList = [];
   var status = [];
   var gpsDataList= [];
+  var gpsStoppageHistory= [];
   MapUtil mapUtil = MapUtil();
   late List<Placemark> placemarks;
   String? truckAddress;
@@ -194,30 +195,16 @@ class _MyTrucksState extends State<MyTrucks> {
     var logger = Logger();
     logger.i("in truck address function");
     var truckDataList = await truckApiCalls.getTruckData();
-
     for (var truckData in truckDataList) {
-      print("IMEI is ${truckData.imei}");
-      if (truckData.imei!= null) {
+      print("IMEI is ${truckData.deviceId}");
+      if (truckData.deviceId!= 0) {
+        // int deviceId = int.parse(truckData.deviceId);
         var gpsData =
-        await mapUtil.getLocationByImei(imei: truckData.imei);
+        await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
         gpsDataList.add(gpsData);
         getStoppedSince(gpsData);
         print("$gpsData");
-        placemarks =
-            await placemarkFromCoordinates(gpsData.last.lat, gpsData.last.lng);
-        var first = placemarks.first;
-        print(
-            "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
-        if(first.subLocality == "")
-          truckAddress = "${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-        else if(first.locality == "")
-          truckAddress = "${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-        else if(first.administrativeArea == "")
-          truckAddress = "${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
-        else
-          truckAddress = "${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-        print("truck add is $truckAddress");
-        truckAddressList.add(truckAddress);
+        truckAddressList.add("${gpsData.last.address}");
       } else {
         gpsDataList.add([]);
         truckAddressList.add("--");
@@ -228,6 +215,7 @@ class _MyTrucksState extends State<MyTrucks> {
     print("ALL $truckAddressList");
     print("ALL $gpsDataList");
     print("type ${gpsDataList.runtimeType}");
+    print("--TRUCK SCREEN DONE--");
     setState(() {
       loading = false;
     });
@@ -236,31 +224,11 @@ class _MyTrucksState extends State<MyTrucks> {
   getStoppedSince(var gpsData) async {
     var logger = Logger();
     logger.i("in stopped since function");
-      var time = gpsData.last.gpsTime;
-      var timestamp1 = time.toString();
-
-      DateTime truckTime =
-          new DateFormat("dd-MM-yyyy hh:mm:ss").parse(timestamp1);
-      DateTime now = DateTime.now();
-      Duration constraint = Duration(hours: 0, minutes: 0, seconds: 15);
-
-      print("One is $truckTime");
-      print("two is $now");
-
-      var diff = now.difference(truckTime).toString();
-      var diff2 = now.difference(truckTime);
-      print("diff is $diff");
-      double speed = double.parse(gpsData.last.speed);
-      var v = diff.toString().split(":");
-      if (speed<=2 && diff2.compareTo(constraint)>0) {
-        if(v[0]=="0")
-          status.add("Stopped since ${v[1]} min");
-        else
-          status.add("Stopped since ${v[0]} hrs : ${v[1]} min");
-      } else {
-       print("Running : ${gpsData.last.speed} km/h");
-        status.add("Running : ${gpsData.last.speed} km/h");
-      }
+    if(gpsData.last.motion == false)
+      status.add("Stopped");
+    else
+      status.add("Running");
+    print("STATUS : $status");
   }
 
 

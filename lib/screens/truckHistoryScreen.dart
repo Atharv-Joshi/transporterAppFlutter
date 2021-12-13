@@ -19,13 +19,13 @@ class TruckHistoryScreen extends StatefulWidget {
   var gpsTruckRoute;
   String? truckNo;
   String? dateRange;
-  String? imei;
+  int? deviceId;
 
   TruckHistoryScreen({
       required this.gpsTruckRoute,
       required this.truckNo,
       required this.dateRange,
-      required this.imei,
+      required this.deviceId,
   });
 
   @override
@@ -49,6 +49,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
 
   @override
   void initState() {
+
     super.initState();
     setState(() {
       gpsRoute = widget.gpsTruckRoute;
@@ -56,6 +57,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       loading = true;
     });
     getDateRange();
+    // getStopList();
   }
 
   getDateRange(){
@@ -138,12 +140,16 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     );
 
     if (picked != null) {
+      var istDate1;
+      var istDate2;
       setState(() {
         // bookingDateList[3] = (nextDay.MMMEd);
         selectedDate = picked;
         print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
-        print("selected date 1 ${selectedDateString[0]} and ${selectedDateString[1]}");
+        istDate1 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[0]).subtract(Duration(hours: 5, minutes: 30));
+        istDate2 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[1]).subtract(Duration(hours: 5, minutes: 30));
+        print("selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
       EasyLoading.instance
         ..indicatorType = EasyLoadingIndicatorType.ring
@@ -156,13 +162,30 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       EasyLoading.show(
         status: "Loading...",
       );
-      var newRouteHistory = await getRouteStatusList(widget.imei, selectedDateString[0], selectedDateString[1]);
-      print("AFter $newRouteHistory");
+      var newRouteHistory = await getRouteStatusList(widget.deviceId, istDate1.toIso8601String(), istDate2.toIso8601String());
+      print("AFter ${newRouteHistory.length}");
+      int i=0;
+      var start;
+      var end;
+      var duration;
+      while(i<newRouteHistory.length){
+        if(i==0) {
+          DateTime yesterday = istDate1;
+          start = getISOtoIST(istDate1.toIso8601String());
+          end = getISOtoIST(newRouteHistory[i].startTime);
+          duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
+          newRouteHistory.insert(i, ["stopped", start, end, duration]);
+        } else {
+          start = getISOtoIST(newRouteHistory[i - 1].endTime);
+          end = getISOtoIST(newRouteHistory[i].startTime);
+          duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
+          newRouteHistory.insert(i, ["stopped", start, end, duration]);
+        }
+        i = i+2;
+      }
+      print("With Stops $newRouteHistory");
       if (newRouteHistory!= null) {
         setState(() {
-        totalDistance = newRouteHistory.removeAt(0);
-        print("AFter $totalDistance");
-
         gpsRoute = newRouteHistory;
         dateRange = selectedDate.toString();
       });
@@ -173,7 +196,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
           truckNo: widget.truckNo,
           gpsTruckRoute: gpsRoute,
           dateRange: dateRange,
-          imei: widget.imei,
+          deviceId: widget.deviceId,
         ));
       }
       else{

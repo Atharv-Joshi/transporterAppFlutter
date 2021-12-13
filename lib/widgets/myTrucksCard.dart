@@ -68,6 +68,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   @override
   void initState() {
     super.initState();
+    print("GDATA ${widget.gpsData}");
   }
 
   @override
