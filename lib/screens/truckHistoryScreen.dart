@@ -81,6 +81,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     });
   }
 
+  //Displays CALENDAR to PICK DATE RANGE -------------------
   Future<void> _selectDate(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
@@ -127,12 +128,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 alignment: Alignment.center,
-                  margin: EdgeInsets.fromLTRB(space_6, space_30, space_6, space_30),
+                  margin: EdgeInsets.fromLTRB(space_6, space_15, space_6, space_20),
                   child: child! ,
-              //     decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.all(Radius.circular(12),
-              //     ),
-              // )
         ),
             )
         );
@@ -143,7 +140,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       var istDate1;
       var istDate2;
       setState(() {
-        // bookingDateList[3] = (nextDay.MMMEd);
         selectedDate = picked;
         print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
@@ -162,6 +158,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       EasyLoading.show(
         status: "Loading...",
       );
+      //get NEW ROUTE HISTORY using SELECTED DATE
       var newRouteHistory = await getRouteStatusList(widget.deviceId, istDate1.toIso8601String(), istDate2.toIso8601String());
       print("AFter ${newRouteHistory.length}");
       int i=0;

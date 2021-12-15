@@ -154,15 +154,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                   truckAddress: truckAddressList[index],
                                   status: status[index],
                                   gpsData: gpsDataList[index],
-                                  // truckId: .truckId,
-                                  // truckApproved:
-                                  //     truckDataList[index].truckApproved,
-                                  // truckNo: truckDataList[index].truckNo,
-                                  // truckType: truckDataList[index].truckType,
-                                  // tyres: truckDataList[index].tyresString,
-                                  // driverName: truckDataList[index].driverName,
-                                  // phoneNum: truckDataList[index].driverNum,
-                                  // imei: truckDataList[index].imei,
                                 );
                               }),
                   Padding(
@@ -192,18 +183,14 @@ class _MyTrucksState extends State<MyTrucks> {
   } //getTruckData
 
   getTruckAddress() async {
-    var logger = Logger();
-    logger.i("in truck address function");
     var truckDataList = await truckApiCalls.getTruckData();
     for (var truckData in truckDataList) {
-      print("IMEI is ${truckData.deviceId}");
+      print("DeviceId is ${truckData.deviceId}");
       if (truckData.deviceId!= 0) {
-        // int deviceId = int.parse(truckData.deviceId);
-        var gpsData =
-        await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
+        //Call Traccar position API to get current details of truck
+        var gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
         gpsDataList.add(gpsData);
         getStoppedSince(gpsData);
-        print("$gpsData");
         truckAddressList.add("${gpsData.last.address}");
       } else {
         gpsDataList.add([]);
@@ -214,7 +201,6 @@ class _MyTrucksState extends State<MyTrucks> {
     print("ALL $status");
     print("ALL $truckAddressList");
     print("ALL $gpsDataList");
-    print("type ${gpsDataList.runtimeType}");
     print("--TRUCK SCREEN DONE--");
     setState(() {
       loading = false;
@@ -222,14 +208,10 @@ class _MyTrucksState extends State<MyTrucks> {
   }
 
   getStoppedSince(var gpsData) async {
-    var logger = Logger();
-    logger.i("in stopped since function");
     if(gpsData.last.motion == false)
       status.add("Stopped");
     else
       status.add("Running");
     print("STATUS : $status");
   }
-
-
 } //class

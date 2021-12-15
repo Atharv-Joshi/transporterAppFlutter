@@ -18,25 +18,6 @@ List<LatLng> polylineCoordinates2 = [];
 
 //Date format functions---------------------------
 
-getFormattedDateForDisplay3(String date){
-  var logger = Logger();
-  logger.i("in getFormattedDateForDisplay3 function");
-  var timestamp1 = date.substring(0, date.indexOf('+'));
-  print("timestamp1 is $timestamp1");
-
-  var timestamp = date.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-  var year = timestamp.substring(0, 4);
-  print("timestamp is $timestamp");
-  var month = int.parse(timestamp.substring(4, 6));
-  var day = timestamp.substring(6, 8);
-  var hour = int.parse(timestamp.substring(8, 10));
-  var minute = int.parse(timestamp.substring(10, 12));
-  var monthname  = DateFormat('MMM').format(DateTime(0, month));
-  var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-  var truckDate = "$ampm, $day $monthname $year";
-  return truckDate;
-}
-
 getFormattedDateForDisplay2(String date){
   var timestamp = date
       .replaceAll(" ", "")
@@ -179,6 +160,7 @@ getPoylineCoordinates(var gpsDataHistory){
   print("POLY $polylineCoordinates");
   return polylineCoordinates;
 }
+
 getPoylineCoordinates2(var gpsDataHistory2){
   var logger = Logger();
   logger.i("in polyline 2 function");
@@ -228,7 +210,6 @@ getStoppageTime(var gpsStoppageHistory) {
         .replaceAll(":", "")
         .replaceAll(" ", "")
         .replaceAll(".", "");
-    var year = timestamp.substring(0, 4);
     print("timestamp is $timestamp");
     var month = int.parse(timestamp.substring(4, 6));
     var day = timestamp.substring(6, 8);
@@ -246,7 +227,6 @@ getStoppageTime(var gpsStoppageHistory) {
         .replaceAll(":", "")
         .replaceAll(" ", "")
         .replaceAll(".", "");
-    var year2 = timestamp2.substring(0, 4);
     print("timestamp is $timestamp2");
     var month2 = int.parse(timestamp2.substring(4, 6));
     var day2 = timestamp2.substring(6, 8);
@@ -314,7 +294,34 @@ getStoppageAddress(var gpsStoppageHistory) async{
   return stopAddress;
 }
 
-//get stop markers
+getStopList(var newGPSRoute){
+  int i=0;
+  var start;
+  var end;
+  var duration;
+  int length = newGPSRoute.length;
+  print("GpsRoute Length ${length}");
+  while(i<newGPSRoute.length){
+    print("i $i");
+    if(i==0) {
+      DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+      start = getISOtoIST(yesterday.toIso8601String());
+      end = getISOtoIST(newGPSRoute[i].startTime);
+      duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
+      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+    } else {
+      start = getISOtoIST(newGPSRoute[i - 1].endTime);
+      end = getISOtoIST(newGPSRoute[i].startTime);
+      duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
+      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+    }
+    i = i+2;
+  }
+  print("With Stops $newGPSRoute");
+  return newGPSRoute;
+}
+
+//STOP MARKER -------------
 Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async  {
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
@@ -346,6 +353,8 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
 }
+
+//INFO WINDOW FOR PLAY ROUTE HISTORY ---------------------------
 Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int height) async{
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
@@ -378,6 +387,7 @@ Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int 
   return data!.buffer.asUint8List();
 }
 
+//Display data on TRACK SCREEN -----------
 getTotalRunningTime(var routeHistory){
   var totalRunning;
   var duration = 0;
@@ -454,6 +464,7 @@ getStatus(var gpsData, var gpsStoppageHistory){
   return status;
 }
 
+//MILLISECONDS TO HRS MIN SEC---------------
 convertMillisecondsToDuration(int time){
   var formatted;
   var time2 = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: time).toString();

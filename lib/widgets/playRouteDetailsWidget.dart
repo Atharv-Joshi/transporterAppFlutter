@@ -12,14 +12,14 @@ import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 
 import 'alertDialog/invalidDateConditionDialog.dart';
 
-class MenuWidget extends StatefulWidget {
+class PlayRouteDetailsWidget extends StatefulWidget {
   String? dateRange;
   String? truckNo;
   var gpsData;
   // String? toDate;
 
 
-  MenuWidget({
+  PlayRouteDetailsWidget({
     required this.dateRange,
     required this.truckNo,
     required this.gpsData,
@@ -27,10 +27,10 @@ class MenuWidget extends StatefulWidget {
   });
 
   @override
-  _MenuWidgetState createState() => _MenuWidgetState();
+  _PlayRouteDetailsWidgetState createState() => _PlayRouteDetailsWidgetState();
 }
 
-class _MenuWidgetState extends State<MenuWidget> {
+class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
   DateTimeRange selectedDate = DateTimeRange(
       start: DateTime.now().subtract(Duration(days: 1)),
@@ -68,6 +68,7 @@ class _MenuWidgetState extends State<MenuWidget> {
     print("Start is ${start} and ENd is ${end}");
   }
 
+  //Displays CALENDAR to PICK DATE RANGE -------------------
   Future<void> _selectDate(BuildContext context) async {
 
     final DateTimeRange? picked = await showDateRangePicker(
@@ -111,14 +112,14 @@ class _MenuWidgetState extends State<MenuWidget> {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_6, space_30, space_6, space_30),
+                margin: EdgeInsets.fromLTRB(space_6, space_15, space_6, space_20),
                 child: child! ,
               ),
             )
         );
       },
     );
-
+    //If picked is not null, run all APIs with newly Selected Dates
     if (picked != null) {
       var istDate1;
       var istDate2;
@@ -204,6 +205,7 @@ class _MenuWidgetState extends State<MenuWidget> {
     }
   }
 
+//CUSTOM SELECTION allows user to select date range like 2 days, 4 days...
   customSelection(String? choice) async{
     String startTime =  DateTime.now().subtract(Duration(days: 1)).toString();
     String endTime = DateTime.now().toString();
@@ -257,6 +259,7 @@ class _MenuWidgetState extends State<MenuWidget> {
       status: "Loading...",
     );
 
+   //Run all APIs using new Date Range
     var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.imei, startTime, endTime);
     var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.imei,  startTime, endTime);
     var newRouteHistory = await getRouteStatusList(widget.gpsData.last.imei,  startTime, endTime);

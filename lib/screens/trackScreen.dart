@@ -2,31 +2,25 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
-import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
+import 'package:liveasy/widgets/stoppageInfoWindow.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -75,7 +69,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   Completer<GoogleMapController> _controller = Completer();
   late List newGPSData=widget.gpsData;
   late List reversedList;
-  late List oldGPSData;
   MapUtil mapUtil = MapUtil();
   List<LatLng> latlng = [];
 
@@ -116,17 +109,22 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   var totalRunningTime;
   var totalStoppedTime;
   var status;
+  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  late String from;
+  late String to;
+  DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
+    from = yesterday.toIso8601String();
+    to = now.toIso8601String();
     try {
       initfunction();
       initfunction2();
       iconthenmarker();
       getTruckHistory();
-      // getTruckDate();
       logger.i("in init state function");
       lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(
@@ -150,20 +148,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     switch (state) {
-      case AppLifecycleState.inactive:
-        print('appLifeCycleState inactive');
-        break;
       case AppLifecycleState.resumed:
-    final GoogleMapController controller = await _controller.future;
-    onMapCreated(controller);
-    print('appLifeCycleState resumed');
-    break;
-    case AppLifecycleState.paused:
-    print('appLifeCycleState paused');
-    break;
-    case AppLifecycleState.detached:
-    print('appLifeCycleState detached');
-    break;
+        final GoogleMapController controller = await _controller.future;
+        onMapCreated(controller);
+        print('appLifeCycleState resumed');
+         break;
   }
   }
 
@@ -210,75 +199,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                         markerId: MarkerId("Stop Mark $i"),
                         position: stoplatlong[i],
                         icon: BitmapDescriptor.fromBytes(markerIcon),
-
                         //info window
                         onTap: (){
                           _customInfoWindowController.addInfoWindow!(
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Opacity(
-                                      opacity: 0.5 ,
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: black,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          (duration[i]!="Ongoing")?
-                                          Container(
-                                            margin: EdgeInsets.only(bottom: 8.0),
-                                            child: Text(
-                                              "${duration[i]}",
-                                              style: TextStyle(
-                                              color: white,
-                                                  fontSize: size_6,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight
-                                              ),
-                                            ),
-                                          ) :
-                                          SizedBox(
-                                            height: 8.0,
-                                          ),
-
-                                          Text(
-                                            "${stoppageTime[i]}",
-                                            style: TextStyle(
-                                            color: white,
-                                                fontSize: size_6,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: regularWeight
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8.0,
-                                          ),
-                                          Text(
-                                            "  ${stopAddress[i]}",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontSize: size_6,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: regularWeight
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  )),
-                                ),
-                              ],
-                            ),
+                            getInfoWindow(duration[i], stoppageTime[i], stopAddress[i]),
                             stoplatlong[i],
                           );
                         },
@@ -286,8 +210,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                   });
     }
   }
-
-  //get current date and time
 
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
@@ -316,38 +238,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     setState(() {
       polylines[id] = polyline;
     });
-
     _addPolyLine();
   }
-  getStopList(){
-    int i=0;
-    var start;
-    var end;
-    var duration;
-    int length = newGPSRoute.length;
-    print("GpsRoute Length ${length}");
-    while(i<newGPSRoute.length){
-      print("i $i");
-      if(i==0) {
-        DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-        start = getISOtoIST(yesterday.toIso8601String());
-        end = getISOtoIST(newGPSRoute[i].startTime);
-        duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
-        newGPSRoute.insert(i, ["stopped", start, end, duration]);
-      } else {
-        start = getISOtoIST(newGPSRoute[i - 1].endTime);
-        end = getISOtoIST(newGPSRoute[i].startTime);
-        duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
-        newGPSRoute.insert(i, ["stopped", start, end, duration]);
-      }
-      i = i+2;
-    }
-    print("With Stops $newGPSRoute");
-  }
+
   initfunction(){
     setState(() {
       newGPSData = widget.gpsData;
-      oldGPSData = newGPSData.reversed.toList();
       newGPSRoute=widget.routeHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
 
@@ -355,11 +251,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
       status = getStatus(newGPSData, gpsStoppageHistory);
+      newGPSRoute = getStopList(newGPSRoute);
     });
-
-    getStopList();
-
   }
+
   Future<void> initfunction2() async {
     final GoogleMapController controller = await _controller.future;
     setState(() {
@@ -369,11 +264,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   void initfunctionAfter() async {
     logger.i("It is in init function after function");
-    DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-    String from = yesterday.toIso8601String();
-
-    DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
-    String to = now.toIso8601String();
     var gpsData = await mapUtil.getTraccarPosition(deviceId : 7);
     var gpsRoute = await getRouteStatusList(newGPSData.last.deviceId, from , to);
     var newGpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
@@ -387,14 +277,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
           end: DateTime.now()
       );
       print("NEW ROute $newGPSRoute");
-      newGPSData = gpsData;
-      oldGPSData = newGPSData.reversed.toList();
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
       status = getStatus(newGPSData, gpsStoppageHistory);
+      newGPSRoute = getStopList(newGPSRoute);
     });
-    getStopList();
   }
 
   void iconthenmarker() {
@@ -626,7 +514,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.fromLTRB(space_9, space_1, 0, space_2),
+                          margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

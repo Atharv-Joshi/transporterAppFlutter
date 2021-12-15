@@ -66,7 +66,6 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       totalRunningTime = widget.totalRunningTime;
       totalStoppedTime = widget.totalStoppedTime;
     });
-    print("New ${totalRunningTime}");
 
   }
 
