@@ -8,6 +8,7 @@ class TruckModel {
   String? transporterId;
   String? truckNo;
   String? imei;
+  int? deviceId;
   String? driverId;
   String? truckType;
   String? driverName;
@@ -21,6 +22,7 @@ class TruckModel {
         this.truckNo,
         this.truckApproved,
         this.imei,
+        this.deviceId,
         this.passingWeight,
         this.truckLengthString,
         this.passingWeightString,

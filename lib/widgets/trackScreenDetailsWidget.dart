@@ -19,11 +19,9 @@ class TrackScreenDetails extends StatefulWidget {
   var gpsTruckRoute;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  var totalDistance;
   var stops;
   var totalRunningTime;
   var totalStoppedTime;
-  final String? truckDate;
 
   TrackScreenDetails({
     required this.gpsData,
@@ -34,9 +32,7 @@ class TrackScreenDetails extends StatefulWidget {
     required this.dateRange,
     required this.TruckNo,
     required this.driverName,
-    required this.totalDistance,
     required this.stops,
-    required this.truckDate,
     required this.totalRunningTime,
     required this.totalStoppedTime,
   });
@@ -50,7 +46,6 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var gpsTruckRoute;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  var totalDistance;
   var stops;
   var totalRunningTime;
   var totalStoppedTime;
@@ -67,12 +62,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       gpsTruckRoute = widget.gpsTruckRoute;
       gpsDataHistory = widget.gpsDataHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
-      totalDistance = widget.totalDistance;
       stops = widget.stops;
       totalRunningTime = widget.totalRunningTime;
       totalStoppedTime = widget.totalStoppedTime;
     });
-    print("New ${totalRunningTime}");
 
   }
 
@@ -178,7 +171,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             foregroundColor: Colors.white,
                             child: const Icon(Icons.near_me_outlined, size: 30),
                             onPressed: () {
-                              openMap(gpsData.last.lat, gpsData.last.lng);
+                              openMap(gpsData.last.latitude, gpsData.last.longitude);
                             },
                           ),
                           SizedBox(
@@ -232,11 +225,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                               Get.to(PlayRouteHistory(
                                 gpsTruckHistory: gpsDataHistory,
                                 truckNo: widget.TruckNo,
-                                routeHistory: gpsTruckRoute,
                                 gpsData: gpsData,
                                 dateRange: widget.dateRange,
                                 gpsStoppageHistory: gpsStoppageHistory,
-                                totalDistance: totalDistance,
                                 totalRunningTime: totalRunningTime,
                                 totalStoppedTime: totalStoppedTime,
                               ));
@@ -267,7 +258,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 truckNo: widget.TruckNo,
                                 gpsTruckRoute: gpsTruckRoute,
                                 dateRange: widget.dateRange,
-                                imei: gpsData.last.imei,
+                                deviceId: gpsData.last.deviceId,
                               ));
                             },
                           ),

@@ -3,18 +3,14 @@ import 'dart:typed_data';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:flutter_animarker/flutter_map_marker_animation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/playRouteDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
@@ -28,21 +24,15 @@ class PlayRouteHistory extends StatefulWidget {
   var gpsData;
   var gpsTruckHistory;
   var gpsStoppageHistory;
-  var routeHistory;
   var totalRunningTime;
   var totalStoppedTime;
-  double totalDistance;
   String? truckNo;
   String? dateRange;
-  // String? toDate;
-  // List<LatLng> polylineCoordinates ;
 
   PlayRouteHistory({
     required this.gpsTruckHistory,
     required this.gpsStoppageHistory,
     required this.gpsData,
-    required this.routeHistory,
-    required this.totalDistance,
     required this.truckNo,
     required this.dateRange,
     required this.totalRunningTime,
@@ -57,7 +47,7 @@ class PlayRouteHistory extends StatefulWidget {
 
 class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBindingObserver{
   List<Marker> customMarkers = [];
-  String time = getFormattedDateForDisplay3(DateTime.now().toString());
+  String? time;
   Map<PolylineId, Polyline> polylines = {};
   late List<LatLng> polylineCoordinates2 ;
   final Set<Polyline> _polyline = {};
@@ -71,7 +61,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   var gpsData = [];
   var gpsTruckHistory = [];
   var gpsStoppageHistory = [];
-  var routeHistory = [];
   var stops = [];
   var totalDistance;
   String? dateRange;
@@ -109,10 +98,8 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       getDateRange();
       getInfoWindow();
       getStops();
-
       check();
-      getTime();
-      logger.i("in init state function");
+      print("PLAY ROUTE HISTORY DONE ------");
 
     } catch (e) {
       logger.e("Error is $e");
@@ -120,7 +107,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     if(mounted)
       setState(() {
         camPosition = CameraPosition(
-            target: LatLng(gpsTruckHistory[0].lat, gpsTruckHistory[0].lng),
+            target: LatLng(gpsTruckHistory[0].latitude, gpsTruckHistory[0].longitude),
             zoom: 11.5
         );
         stream = Stream.periodic(Duration(milliseconds: 350), (count) => Locations[count])
@@ -130,12 +117,12 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   }
 
   initfunction(){
+    var logger = Logger();
+    logger.i("in initState 1 function");
     setState(() {
       gpsData = widget.gpsData;
       gpsTruckHistory = widget.gpsTruckHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
-      routeHistory = widget.routeHistory;
-      totalDistance = widget.totalDistance;
       dateRange = widget.dateRange;
       totalRunningTime = widget.totalRunningTime;
       totalStoppedTime = widget.totalStoppedTime;
@@ -145,6 +132,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     getLatLngList();
   }
 
+  //REFRESH MAP WHEN APP RESUMED ----------------------
   void onMapCreated(GoogleMapController controller) {
     controller.setMapStyle("[]");
     _controller.complete(controller);
@@ -173,25 +161,17 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   }
 
   getInfoWindow(){
+    var logger = Logger();
+    logger.i("in getInfoWindow function");
     routeTime = [];
     routeSpeed = [];
     int a=0;
     int c=0;
     for(int i=0; i<gpsTruckHistory.length ; i++){
       c=a+10;
-
-      print("Route Inst ${gpsTruckHistory[a].gpsTime}");
-      var somei = gpsTruckHistory[a].gpsTime;
-      var timestamp = somei.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-      var month = int.parse(timestamp.substring(2, 4));
-      var day = timestamp.substring(0, 2);
-      var hour = int.parse(timestamp.substring(8, 10));
-      var minute = int.parse(timestamp.substring(10, 12));
-      var monthname  = DateFormat('MMM').format(DateTime(0, month));
-      var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-      var time = "$day $monthname, $ampm";
+      var time = getISOtoIST(gpsTruckHistory[a].deviceTime);
       routeTime.add("$time");
-      routeSpeed.add("${gpsTruckHistory[a].gpsSpeed} km/h");
+      routeSpeed.add("${(gpsTruckHistory[a].speed).toStringAsFixed(2)} km/h");
 
       a=c;
       if(a>=gpsTruckHistory.length){
@@ -204,9 +184,11 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   }
 
   getStops() async {
+    var logger = Logger();
+    logger.i("in getStops function");
     stops = [];
     for(var stop in gpsStoppageHistory) {
-      stops.add(LatLng(stop.lat, stop.lng));
+      stops.add(LatLng(stop.latitude, stop.longitude));
     }
     print("Stop Locations $stops");
     for(int i=0; i<stops.length; i++){
@@ -225,25 +207,26 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     print("Route time  $routeTime");
   }
 
+  //Function to get EVERY 10th LAT LONG
   getLatLngList(){
+    var logger = Logger();
+    logger.i("in get lat long list function");
     Locations.clear();
     int a=0;
-    int b=a+1;
     int c=0;
     for(int i=0; i<gpsTruckHistory.length ; i++){
       c=a+10;
-      Locations.add(LatLng(gpsTruckHistory[a].lat, gpsTruckHistory[a].lng));
-      // Locations.add(LatLng(gpsTruckHistory[b].lat, gpsTruckHistory[b].lng));
+      Locations.add(LatLng(gpsTruckHistory[a].latitude, gpsTruckHistory[a].longitude));
       a=c;
-      // b=c;
       if(a>=gpsTruckHistory.length){
         break;
       }
     }
   }
 
+  //New location when truck moves
   void newLocationUpdate(LatLng latLng) async{
-    markerIcon = await getBytesFromCanvas2(routeTime[i].toString(),routeSpeed[i].toString(), 300, 150);
+    markerIcon = await getBytesFromCanvas2(routeTime[i].toString(),routeSpeed[i].toString(), 350, 150);
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
         'assets/icons/playHistoryPin.png')
         .then((value) => {
@@ -271,59 +254,26 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                   })
                 }
             });
-    ;
     i=i+1;
-  }
-  newLocationUpdate2(LatLng latLng) {
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-        'assets/icons/playHistoryPin.png')
-        .then((value) => {
-      if(mounted)
-        {
-          setState(() {
-            pinLocationIconTruck = value;
-          }),
-          setState(()
-          {
-            markers[kMarkerId2] = Marker(
-                markerId: kMarkerId2,
-                position: latLng,
-                icon: pinLocationIconTruck,
-                rotation: 180,
-                onTap: () {
-                  print("Tapped");
-
-                });
-          })
-        }
-    });
-    ;
   }
 
 
   getDateRange(){
+    var logger = Logger();
+    logger.i("in getDateRange function");
     var splitted = dateRange!.split(" - ");
     var start1 = getFormattedDateForDisplay2(splitted[0]).split(", ");
     var end1 = getFormattedDateForDisplay2(splitted[1]).split(", ");
-    var start2 = start1[0].split(" ");
-    var end2 = end1[0].split(" ");
     start = start1[0];
     end = end1[0];
     print("Start is ${start} and ENd is ${end}");
   }
 
-
-
   getTruckHistory() {
-    logger.i("in truck History function");
+    var logger = Logger();
+    logger.i("in truck historyfunction");
     polylineCoordinates2 = getPoylineCoordinates2(gpsTruckHistory);
     _getPolyline(polylineCoordinates2);
-  }
-  getTime(){
-    print("Date Timenow ${DateTime.now().toString()}");
-    setState(() {
-      time = getFormattedDateForDisplay3(DateTime.now().toString());
-    });
   }
 
   _getPolyline(List<LatLng> polylineCoordinates2) {
@@ -360,8 +310,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
 
   void dispose() {
     logger.i("Activity is disposed");
-    // timer.cancel();
-    // stream.cancel();
     super.dispose();
   }
   @override
@@ -439,7 +387,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                       ),
                 Positioned(
                   top: 0,
-                  // left: 0,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     color: white,
@@ -492,7 +439,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                                                     fontSize: size_6,
                                                                     fontStyle: FontStyle.normal,
                                                                     fontWeight: regularWeight)),
-                                                            Text("$totalDistance km",
+                                                            Text("${(gpsData.last.distance/1000).toStringAsFixed(2)} km",
                                                                 softWrap: true,
                                                                 style: TextStyle(
                                                                     color: black,
@@ -580,7 +527,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                     Container(
                                       child: Column(
                                         children: [
-                                          Text("${gpsData.last.speed} km/h",
+                                          Text("${(gpsData.last.speed).toStringAsFixed(2)} km/h",
                                               style: TextStyle(
                                                   color: liveasyGreen,
                                                   fontSize: size_10,
@@ -615,7 +562,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                   left: 0,
                   bottom: (showBottomMenu)? -30 : -(height/3),
 
-                  child: MenuWidget(dateRange: dateRange, gpsData: gpsData, truckNo: widget.truckNo,),
+                  child: PlayRouteDetailsWidget(dateRange: dateRange, gpsData: gpsData, truckNo: widget.truckNo,),
                 )
                 //MENU PLACE
               ],

@@ -17,68 +17,6 @@ List<LatLng> polylineCoordinates = [];
 List<LatLng> polylineCoordinates2 = [];
 
 //Date format functions---------------------------
-getFormattedDate(String start, String end){
-  var now = dateFormat.format(DateTime.now()).split(" ");
-  print("NOW ${now[1]}");
-  var nowTime = end.split(" ");
-  var timestamp = nowTime[0].replaceAll("-", "");
-  var year = timestamp.substring(0, 4);
-  var month = int.parse(timestamp.substring(4, 6));
-  var day = timestamp.substring(6, 8);
-  var date = "$day-$month-$year";
-  var time;
-  if(nowTime[1] == "00:00:00.000")
-    time = now[1];
-  else
-    time = nowTime[1];
-
-  endTimeParam = "$date $time";   //today's time and date
-  print("end time param $date $time");   //today's time and date
-
-  // var yesterday = dateFormat.format(DateTime.now().subtract(Duration(days: 1))).split(" ");
-  var yesterday = start.split(" ");
-  var timestamp2 = yesterday[0].replaceAll("-", "");
-  var year2 = timestamp2.substring(0, 4);
-  var month2 = int.parse(timestamp2.substring(4, 6));
-  var day2 = timestamp2.substring(6, 8);
-  var date2 = "$day2-$month2-$year2";
-  // var time2 = yesterday[1];
-  var time2;
-  if(nowTime[1] == "00:00:00.000")
-    time2 = now[1];
-  else
-    time2 = yesterday[1];
-  startTimeParam = "$date2 $time2";
-  print("start time param $date2 $time2");   //today's time and date
-
-}
-
-getFormattedDateForDisplay(String date){
-  var timestamp = date.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-  var year = timestamp.substring(4, 8);
-  print("timestamp is $timestamp");
-  var month = int.parse(timestamp.substring(2, 4));
-  var day = timestamp.substring(0, 2);
-  var hour = int.parse(timestamp.substring(8, 10));
-  var minute = int.parse(timestamp.substring(10, 12));
-  var monthname  = DateFormat('MMM').format(DateTime(0, month));
-  var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-  var truckDate = "$ampm, $day $monthname $year";
-  return truckDate;
-}
-getFormattedDateForDisplay3(String date){
-  var timestamp = date.replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-  var year = timestamp.substring(0, 4);
-  print("timestamp is $timestamp");
-  var month = int.parse(timestamp.substring(4, 6));
-  var day = timestamp.substring(6, 8);
-  var hour = int.parse(timestamp.substring(8, 10));
-  var minute = int.parse(timestamp.substring(10, 12));
-  var monthname  = DateFormat('MMM').format(DateTime(0, month));
-  var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
-  var truckDate = "$ampm, $day $monthname $year";
-  return truckDate;
-}
 
 getFormattedDateForDisplay2(String date){
   var timestamp = date
@@ -96,37 +34,95 @@ getFormattedDateForDisplay2(String date){
   return truckDate;
 }
 
+getISOtoIST(String date){
+  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date);
+  var timestamp = istDate.toString()
+      .replaceAll("-", "")
+      .replaceAll(":", "")
+      .replaceAll(" ", "")
+      .replaceAll(".", "");
+      var year = timestamp.substring(0, 4);
+      var month = int.parse(timestamp.substring(4, 6));
+      var day = timestamp.substring(6, 8);
+      var hour = int.parse(timestamp.substring(8, 10));
+      var minute = int.parse(timestamp.substring(10, 12));
+      var monthname  = DateFormat('MMM').format(DateTime(0, month));
+      var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
+      var truckDate = "$day $monthname $year, $ampm";
+      print("ISO $truckDate");
+      return truckDate;
+
+}
+
+getStopDuration(String from, String to){
+  print("from : $from and to : $to");
+  DateTime start=
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(from);
+  DateTime end =
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(to);
+  print("from : $start and to : $end");
+
+  var diff = end.difference(start).toString();
+  print("diff is $diff");
+  DateTime dur =
+  new DateFormat("HH:mm:ss").parse(diff);
+  var timestamp = dur.toString()
+      .replaceAll("-", "")
+      .replaceAll(":", "")
+      .replaceAll(" ", "")
+      .replaceAll(".", "");
+  print("timestamp $timestamp");
+  var hour = int.parse(timestamp.substring(8, 10));
+  var minute = int.parse(timestamp.substring(10, 12));
+  var second = int.parse(timestamp.substring(12, 14));
+  var duration;
+  if(hour==0 && second ==0)
+    duration = "$minute min";
+  else if(minute==0)
+    duration = "$second sec";
+  else if(second==0)
+    duration = "$hour hr $minute min";
+  else if(hour==0)
+    duration = "$minute min $second sec";
+  else
+    duration = "$hour hr $minute min $second sec";
+  print("Stop DUR is $duration");
+  print("Stop DUR is $dur");
+
+  return duration;
+
+}
+
 //get GPS Data Model functions -------------------
-getRouteStatusList(String? imei, String start, String end) async{
-  getFormattedDate(start, end);
-  var gpsRoute = await mapUtil.getRouteHistory(
-      imei: imei,
-      starttime: startTimeParam,
-      endtime: endTimeParam
+getRouteStatusList(int? deviceId, String from, String to) async{
+  var gpsRoute = await mapUtil.getTraccarTrips(
+    deviceId: deviceId,
+    from: from,
+    to: to,
   );
   return gpsRoute;
 }
 
-getDataHistory(String? imei, String start, String end) async{
-  getFormattedDate(start, end);
+getDataHistory(int? deviceId, String from, String to) async{
+  // getFormattedDate(start, end);
   var gpsDataHistory =
-  await mapUtil.getLocationHistoryByImei(
-      imei: imei,
-      starttime: startTimeParam,
-      endtime: endTimeParam,
-      choice: "deviceTrackList");
+  await mapUtil.getTraccarHistory(
+      deviceId: deviceId,
+      from: from,
+      to: to,
+      );
   return gpsDataHistory;
 
 }
 
-getStoppageHistory(String? imei, String start, String end) async{
-  getFormattedDate(start, end);
+getStoppageHistory(int? deviceId, String from, String to) async{
+  // getFormattedDate(start, end);
   var gpsStoppageHistory =
-  await mapUtil.getLocationHistoryByImei(
-      imei: imei,
-      starttime: startTimeParam,
-      endtime: endTimeParam,
-      choice: "stoppagesList");
+  await mapUtil.getTraccarStoppages(
+    deviceId: deviceId,
+    from: from,
+    to: to
+  );
   return gpsStoppageHistory;
 }
 
@@ -137,14 +133,14 @@ getPoylineCoordinates(var gpsDataHistory){
   logger.i("in polyline after function");
   polylineCoordinates.clear();
   int a=0;
-  int b=a+1;
+  int b=a+2;
   int c=0;
   print("length ${gpsDataHistory.length}");
-  print("End lat ${gpsDataHistory[gpsDataHistory.length-1].lat}");
+  print("End lat ${gpsDataHistory[gpsDataHistory.length-1].latitude}");
   for(int i=0; i<gpsDataHistory.length; i++) {
-    c=b+1;
-    PointLatLng point1 =  PointLatLng(gpsDataHistory[a].lat,  gpsDataHistory[a].lng);
-    PointLatLng point2 =  PointLatLng(gpsDataHistory[b].lat,  gpsDataHistory[b].lng);
+    c=b+2;
+    PointLatLng point1 =  PointLatLng(gpsDataHistory[a].latitude,  gpsDataHistory[a].longitude);
+    PointLatLng point2 =  PointLatLng(gpsDataHistory[b].latitude,  gpsDataHistory[b].longitude);
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates.add(LatLng(point2.latitude, point2.longitude));
     a=b;
@@ -156,13 +152,15 @@ getPoylineCoordinates(var gpsDataHistory){
 
   if(gpsDataHistory.length%2==0){
     print("In even ");
-    PointLatLng point1 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-2].lat,  gpsDataHistory[gpsDataHistory.length-2].lng);
-    PointLatLng point2 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-1].lat,  gpsDataHistory[gpsDataHistory.length-1].lng);
+    PointLatLng point1 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-2].latitude,  gpsDataHistory[gpsDataHistory.length-2].longitude);
+    PointLatLng point2 =  PointLatLng(gpsDataHistory[gpsDataHistory.length-1].latitude,  gpsDataHistory[gpsDataHistory.length-1].longitude);
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates.add(LatLng(point2.latitude, point2.longitude));
   }
+  print("POLY $polylineCoordinates");
   return polylineCoordinates;
 }
+
 getPoylineCoordinates2(var gpsDataHistory2){
   var logger = Logger();
   logger.i("in polyline 2 function");
@@ -171,11 +169,11 @@ getPoylineCoordinates2(var gpsDataHistory2){
   int b=a+1;
   int c=0;
   print("length ${gpsDataHistory2.length}");
-  print("End lat ${gpsDataHistory2[gpsDataHistory2.length-1].lat}");
+  print("End lat ${gpsDataHistory2[gpsDataHistory2.length-1].latitude}");
   for(int i=0; i<gpsDataHistory2.length; i++) {
     c=b+1;
-    PointLatLng point1 =  PointLatLng(gpsDataHistory2[a].lat,  gpsDataHistory2[a].lng);
-    PointLatLng point2 =  PointLatLng(gpsDataHistory2[b].lat,  gpsDataHistory2[b].lng);
+    PointLatLng point1 =  PointLatLng(gpsDataHistory2[a].latitude,  gpsDataHistory2[a].longitude);
+    PointLatLng point2 =  PointLatLng(gpsDataHistory2[b].latitude,  gpsDataHistory2[b].longitude);
     polylineCoordinates2.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates2.add(LatLng(point2.latitude, point2.longitude));
     a=b;
@@ -187,8 +185,8 @@ getPoylineCoordinates2(var gpsDataHistory2){
 
   if(gpsDataHistory2.length%2==0){
     print("In even ");
-    PointLatLng point1 =  PointLatLng(gpsDataHistory2[gpsDataHistory2.length-2].lat,  gpsDataHistory2[gpsDataHistory2.length-2].lng);
-    PointLatLng point2 =  PointLatLng(gpsDataHistory2[gpsDataHistory2.length-1].lat,  gpsDataHistory2[gpsDataHistory2.length-1].lng);
+    PointLatLng point1 =  PointLatLng(gpsDataHistory2[gpsDataHistory2.length-2].latitude,  gpsDataHistory2[gpsDataHistory2.length-2].longitude);
+    PointLatLng point2 =  PointLatLng(gpsDataHistory2[gpsDataHistory2.length-1].latitude,  gpsDataHistory2[gpsDataHistory2.length-1].longitude);
     polylineCoordinates2.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates2.add(LatLng(point2.latitude, point2.longitude));
   }
@@ -205,25 +203,37 @@ getStoppageTime(var gpsStoppageHistory) {
 
   for(int i=0; i<gpsStoppageHistory.length; i++) {
     print("start time is  ${gpsStoppageHistory[i].startTime}");
-    var somei = gpsStoppageHistory[i].startTime;
-    var timestamp = somei.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-    var month = int.parse(timestamp.substring(2, 4));
-    var day = timestamp.substring(0, 2);
+    var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].startTime);
+    print("IST $istDate");
+    var timestamp = istDate.toString()
+        .replaceAll("-", "")
+        .replaceAll(":", "")
+        .replaceAll(" ", "")
+        .replaceAll(".", "");
+    print("timestamp is $timestamp");
+    var month = int.parse(timestamp.substring(4, 6));
+    var day = timestamp.substring(6, 8);
     var hour = int.parse(timestamp.substring(8, 10));
     var minute = int.parse(timestamp.substring(10, 12));
     var monthname  = DateFormat('MMM').format(DateTime(0, month));
     var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
     truckStart = "$day $monthname,$ampm";
+    print("ISO $truckStart");
 
-    var somei2 = gpsStoppageHistory[i].endTime;
-    var timestamp2 = somei2.toString().replaceAll(" ", "").replaceAll("-", "").replaceAll(":", "");
-    var month2 = int.parse(timestamp2.substring(2, 4));
-    var day2 = timestamp2.substring(0, 2);
+    var istDate2 =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].endTime);
+    print("IST $istDate2");
+    var timestamp2 = istDate2.toString()
+        .replaceAll("-", "")
+        .replaceAll(":", "")
+        .replaceAll(" ", "")
+        .replaceAll(".", "");
+    print("timestamp is $timestamp2");
+    var month2 = int.parse(timestamp2.substring(4, 6));
+    var day2 = timestamp2.substring(6, 8);
     var hour2 = int.parse(timestamp2.substring(8, 10));
     var minute2 = int.parse(timestamp2.substring(10, 12));
     var monthname2  = DateFormat('MMM').format(DateTime(0, month2));
-    var ampm2 = DateFormat.jm().format(DateTime(0, 0, 0, hour2, minute2));
-
+    var ampm2  = DateFormat.jm().format(DateTime(0, 0, 0, hour2, minute2));
     if("$day2 $monthname2,$ampm2" == "$day $monthname,$ampm")
       truckEnd = "Present";
     else
@@ -238,18 +248,39 @@ getStoppageTime(var gpsStoppageHistory) {
 getStoppageDuration(var gpsStoppageHistory){
   var duration = [];
   for(int i=0; i<gpsStoppageHistory.length; i++) {
-    if(gpsStoppageHistory[i].duration=="")
+    if(gpsStoppageHistory[i].duration==0)
       duration.add("Ongoing");
-    else
-      duration.add(gpsStoppageHistory[i].duration);
+    else {
+      var time = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: gpsStoppageHistory[i].duration).toString();
+      var time2 =  new DateFormat("hh:mm:ss").parse(time).toString();
+      var dur = time2.substring(0, time2.indexOf('.'));
+
+      var timestamp = dur.toString()
+          .replaceAll("-", "")
+          .replaceAll(":", "")
+          .replaceAll(" ", "");
+      var hour = int.parse(timestamp.substring(8, 10));
+      var minute = int.parse(timestamp.substring(10, 12));
+      var second = int.parse(timestamp.substring(12, 14));
+      if(hour==0 && second ==0)
+        duration.add("$minute min");
+      else if(minute==0)
+        duration.add("$second sec");
+      else if(second==0)
+        duration.add("$hour hr $minute min");
+      else if(hour==0)
+        duration.add("$minute min $second sec");
+      else
+        duration.add("$hour hrs $minute min $second sec");
     }
+  }
   return duration;
   }
 
 getStoppageAddress(var gpsStoppageHistory) async{
   var stopAddress = [];
   for(int i=0; i<gpsStoppageHistory.length; i++) {
-    List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory[i].lat, gpsStoppageHistory[i].lng);
+    List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory[i].latitude, gpsStoppageHistory[i].longitude);
     print("stop los is $placemarks");
     var first = placemarks.first;
     print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
@@ -263,7 +294,34 @@ getStoppageAddress(var gpsStoppageHistory) async{
   return stopAddress;
 }
 
-//get stop markers
+getStopList(var newGPSRoute){
+  int i=0;
+  var start;
+  var end;
+  var duration;
+  int length = newGPSRoute.length;
+  print("GpsRoute Length ${length}");
+  while(i<newGPSRoute.length){
+    print("i $i");
+    if(i==0) {
+      DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+      start = getISOtoIST(yesterday.toIso8601String());
+      end = getISOtoIST(newGPSRoute[i].startTime);
+      duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
+      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+    } else {
+      start = getISOtoIST(newGPSRoute[i - 1].endTime);
+      end = getISOtoIST(newGPSRoute[i].startTime);
+      duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
+      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+    }
+    i = i+2;
+  }
+  print("With Stops $newGPSRoute");
+  return newGPSRoute;
+}
+
+//STOP MARKER -------------
 Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async  {
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
@@ -295,6 +353,8 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
 }
+
+//INFO WINDOW FOR PLAY ROUTE HISTORY ---------------------------
 Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int height) async{
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
@@ -327,87 +387,108 @@ Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int 
   return data!.buffer.asUint8List();
 }
 
+//Display data on TRACK SCREEN -----------
 getTotalRunningTime(var routeHistory){
   var totalRunning;
-  int hours = 0;
-  int minutes = 0;
-  int seconds = 0;
+  var duration = 0;
   print("route history length ${routeHistory.length}");
   for(var instance in routeHistory) {
-    if (instance.truckStatus == "running") {
-      print("Stat ${instance.truckStatus}");
-      print("Duration ${instance.duration}");
-
-      var sep = (instance.duration).toString().replaceAll("hours", "").replaceAll("hour", "").replaceAll("minutes", "").replaceAll("seconds", "");
-      var time = sep.split(" ");
-
-      if(time.length == 4)
-        {
-          hours+=int.parse(time[0]);
-          minutes+=int.parse(time[1]);
-          seconds+=int.parse(time[2]);
-        }
-      else if(time.length == 3)
-      {
-        minutes+=int.parse(time[0]);
-        seconds+=int.parse(time[1]);
-      }
-      else if(time.length == 2)
-      {
-        seconds+=int.parse(time[0]);
-      }
-    }
+    print("Duration : ${instance.duration}");
+    duration += (instance.duration) as int;
   }
-  minutes += seconds ~/ 60;
-  seconds = seconds % 60;
-
-  hours += minutes ~/ 60;
-  minutes = minutes % 60;
-
-  print("DURATION $hours h $minutes m $seconds s");
-  totalRunning = "$hours hrs $minutes min $seconds sec";
+  totalRunning = convertMillisecondsToDuration(duration);
+  print("Total running $totalRunning");
   return totalRunning;
 }
+
 getTotalStoppageTime(var routeHistory){
   var totalStopped;
-  int hours = 0;
-  int minutes = 0;
-  int seconds = 0;
-  print("route history length ${routeHistory.length}");
+  var duration = 0;
+  print("stop history length ${routeHistory.length}");
   for(var instance in routeHistory) {
-    if (instance.truckStatus == "stopped") {
-      print("Stat ${instance.truckStatus}");
-      print("Duration ${instance.duration}");
+    duration += (instance.duration) as int;
+  }
+  print("total $duration");
+  totalStopped = convertMillisecondsToDuration(duration);
+  print("Total stopped $totalStopped");
+  return totalStopped;
+}
 
-      var sep = (instance.duration).toString().replaceAll("hours", "").replaceAll("hour", "").replaceAll("minutes", "").replaceAll("seconds", "");
-      var time = sep.split(" ");
+getTotalDistance(var tripHistory){
+  var total = 0.0;
+  var totalDist = 0.0;
+  for(var instance in tripHistory){
+    total += (instance.distance) as double;
+  }
+  totalDist = total/1000;
+  print("Total distance $totalDist");
+  return (totalDist.toStringAsFixed(2));
+}
 
-      if(time.length == 4)
-      {
-        hours+=int.parse(time[0]);
-        minutes+=int.parse(time[1]);
-        seconds+=int.parse(time[2]);
-      }
-      else if(time.length == 3)
-      {
-        minutes+=int.parse(time[0]);
-        seconds+=int.parse(time[1]);
-      }
-      else if(time.length == 2)
-      {
-        seconds+=int.parse(time[0]);
-      }
+getStatus(var gpsData, var gpsStoppageHistory){
+  String status;
+  if(gpsData.last.motion == false)
+  {
+    var timestamp1 =  gpsStoppageHistory.last.startTime.toString();
+
+    DateTime truckTime = new DateFormat("yyyy-MM-ddTHH:mm:ss")
+        .parse(timestamp1);
+
+    var now = DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now());
+    DateTime nowTime = DateTime.parse(now);
+    Duration constraint = Duration(hours: 0, minutes: 0, seconds: 15);
+
+    print("One is $truckTime");
+    print("two is $now");
+
+    var diff = nowTime.difference(truckTime).toString();
+    var diff2 = nowTime.difference(truckTime);
+    print("diff is $diff");
+    double speed = gpsData.last.speed;
+    var v = diff.toString().split(":");
+    if (speed <= 2 && diff2.compareTo(constraint) > 0) {
+      if (v[0] == "0")
+        status = "Stopped since ${v[1]} min ";
+      else if((v[1] == "00") && (v[0] == "0"))
+        status = "Stopped since ${(double.parse(v[2])).toStringAsFixed(1)} sec";
+      else
+        status = "Stopped since ${v[0]} hrs : ${v[1]} min";
+    } else {
+      print("Running : ${(gpsData.last.speed).toStringAsFixed(2)} km/h");
+      status = "Running : ${(gpsData.last.speed).toStringAsFixed(2)} km/h";
     }
   }
-  minutes += seconds ~/ 60;
-  seconds = seconds % 60;
+  else
+    status = "Running : ${(gpsData.last.speed).toStringAsFixed(2)} km/h";
+  print("STATUS : $status");
+  return status;
+}
 
-  hours += minutes ~/ 60;
-  minutes = minutes % 60;
-
-  print("DURATION $hours h $minutes m $seconds s");
-  totalStopped = "$hours hrs $minutes min $seconds sec";
-  return totalStopped;
+//MILLISECONDS TO HRS MIN SEC---------------
+convertMillisecondsToDuration(int time){
+  var formatted;
+  var time2 = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: time).toString();
+  var time3 =  new DateFormat("HH:mm:ss").parse(time2).toString();
+  var dur = time3.substring(0, time3.indexOf('.'));
+  var timestamp = dur.toString()
+      .replaceAll("-", "")
+      .replaceAll(":", "")
+      .replaceAll(" ", "");
+  var hour = int.parse(timestamp.substring(8, 10));
+  var minute = int.parse(timestamp.substring(10, 12));
+  var second = int.parse(timestamp.substring(12, 14));
+  if(hour==0 && second ==0)
+    formatted = "$minute min";
+  else if(minute==0)
+    formatted = "$second sec";
+  else if(second==0)
+    formatted = "$hour hr $minute min";
+  else if(hour==0)
+    formatted = "$minute min $second sec";
+  else
+    formatted = "$hour hrs $minute min $second sec";
+  print("Formatted $formatted");
+  return formatted;
 }
 
 

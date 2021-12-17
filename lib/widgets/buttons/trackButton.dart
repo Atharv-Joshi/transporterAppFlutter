@@ -41,7 +41,8 @@ class TrackButton extends StatefulWidget {
     this.userLocation,
     this.TruckNo,
     this.DriverName,
-    this.imei});
+    this.imei
+  });
 
   @override
   _TrackButtonState createState() => _TrackButtonState();
@@ -60,16 +61,20 @@ class _TrackButtonState extends State<TrackButton> {
   var startTimeParam;
   MapUtil mapUtil = MapUtil();
   bool loading=false;
+  late String from;
+  late String to;
 
   @override
   void initState() {
     super.initState();
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30)); //from param
+    from = yesterday.toIso8601String();
+    DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30)); //to param
+    to = now.toIso8601String();
 
-    // getTruckHistory();
     setState(() {
       loading = true;
     });
-    // getUserLocation();
   }
 
 
@@ -88,7 +93,6 @@ class _TrackButtonState extends State<TrackButton> {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async{
-          // if (loading) {
             EasyLoading.instance
               ..indicatorType = EasyLoadingIndicatorType.ring
               ..indicatorSize = 45.0
@@ -100,20 +104,16 @@ class _TrackButtonState extends State<TrackButton> {
             EasyLoading.show(
               status: "Loading...",
             );
-            // getTruckHistory();
-
-            gpsDataHistory = await getDataHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
-
-            gpsStoppageHistory = await getStoppageHistory(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
-            gpsRoute = await getRouteStatusList(widget.imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+            gpsDataHistory = await getDataHistory(widget.gpsData.last.deviceId, from , to);
+            gpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.deviceId, from , to);
+            gpsRoute = await getRouteStatusList(widget.gpsData.last.deviceId, from , to);
 
             if (gpsRoute!= null) {
               EasyLoading.dismiss();
               Get.to(
                 TrackScreen(
-                  imei:  widget.imei,
+                  // imei:  widget.imei,
                   gpsData: widget.gpsData,
-                  // position: position,
                   TruckNo:  widget.TruckNo,
                   driverName: widget.DriverName,
                   driverNum: widget.phoneNo,

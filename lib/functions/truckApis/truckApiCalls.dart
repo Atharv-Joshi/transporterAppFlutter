@@ -44,6 +44,7 @@ class TruckApiCalls {
         truckModel.truckNo = json["truckNo"];
         truckModel.truckApproved = json["truckApproved"];
         truckModel.imei = json["imei"];
+        truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
         truckModel.passingWeight = json["passingWeight"];
         truckModel.truckType = json["truckType"];
         truckModel.driverId = json["driverId"];

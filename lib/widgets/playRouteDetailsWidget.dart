@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -11,14 +12,14 @@ import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 
 import 'alertDialog/invalidDateConditionDialog.dart';
 
-class MenuWidget extends StatefulWidget {
+class PlayRouteDetailsWidget extends StatefulWidget {
   String? dateRange;
   String? truckNo;
   var gpsData;
   // String? toDate;
 
 
-  MenuWidget({
+  PlayRouteDetailsWidget({
     required this.dateRange,
     required this.truckNo,
     required this.gpsData,
@@ -26,10 +27,10 @@ class MenuWidget extends StatefulWidget {
   });
 
   @override
-  _MenuWidgetState createState() => _MenuWidgetState();
+  _PlayRouteDetailsWidgetState createState() => _PlayRouteDetailsWidgetState();
 }
 
-class _MenuWidgetState extends State<MenuWidget> {
+class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
   DateTimeRange selectedDate = DateTimeRange(
       start: DateTime.now().subtract(Duration(days: 1)),
@@ -67,9 +68,9 @@ class _MenuWidgetState extends State<MenuWidget> {
     print("Start is ${start} and ENd is ${end}");
   }
 
+  //Displays CALENDAR to PICK DATE RANGE -------------------
   Future<void> _selectDate(BuildContext context) async {
-    // timer.cancel();
-    // i=0;
+
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
       initialDateRange: DateTimeRange(
@@ -98,13 +99,9 @@ class _MenuWidgetState extends State<MenuWidget> {
               unselectedWidgetColor: grey,
 
               colorScheme: ColorScheme.fromSwatch().copyWith(
-                //Selected dates background color
                   primary: darkBlueColor,
                   onSecondary: darkBlueColor,
-                  //Month title and week days color
                   onSurface: Colors.black,
-                  //Header elements and selected dates text color
-                  // onPrimary: Colors.black,
                   onBackground: white
               ),
               buttonTheme: ButtonThemeData(
@@ -115,25 +112,25 @@ class _MenuWidgetState extends State<MenuWidget> {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_6, space_30, space_6, space_30),
+                margin: EdgeInsets.fromLTRB(space_6, space_15, space_6, space_20),
                 child: child! ,
-                //     decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.all(Radius.circular(12),
-                //     ),
-                // )
               ),
             )
         );
       },
     );
-
+    //If picked is not null, run all APIs with newly Selected Dates
     if (picked != null) {
+      var istDate1;
+      var istDate2;
       setState(() {
         // bookingDateList[3] = (nextDay.MMMEd);
         selectedDate = picked;
         print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
-        print("selected date 1 ${selectedDateString[0]} and ${selectedDateString[1]}");
+        istDate1 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[0]).subtract(Duration(hours: 5, minutes: 30));
+        istDate2 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[1]).subtract(Duration(hours: 5, minutes: 30));
+        print("selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
       EasyLoading.instance
         ..indicatorType = EasyLoadingIndicatorType.ring
@@ -146,14 +143,13 @@ class _MenuWidgetState extends State<MenuWidget> {
       EasyLoading.show(
         status: "Loading...",
       );
-      var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.imei, selectedDateString[0], selectedDateString[1]);
-      var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.imei, selectedDateString[0], selectedDateString[1]);
-      var newRouteHistory = await getRouteStatusList(widget.gpsData.last.imei, selectedDateString[0], selectedDateString[1]);
+      var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+      var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+      var newRouteHistory = await getRouteStatusList(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
 
       print("AFter $newGpsTruckHistory");
       print("AFter $newGpsStoppageHistory");
       print("AFter $newRouteHistory");
-
       if (newRouteHistory!= null) {
         setState(() {
           gpsTruckHistory = newGpsTruckHistory;
@@ -161,22 +157,39 @@ class _MenuWidgetState extends State<MenuWidget> {
           totalDistance = newRouteHistory.removeAt(0);
           routeHistory = newRouteHistory;
           dateRange = selectedDate.toString();
-          totalRunningTime = getTotalRunningTime(newRouteHistory);
-          totalStoppedTime = getTotalStoppageTime(newRouteHistory);
-          // fromDate = yesterday.toString();
-          // toDate = today.toString();
         });
-        // getLatLngList();
+        totalRunningTime = getTotalRunningTime(routeHistory);
+        totalStoppedTime = getTotalStoppageTime(routeHistory);
+
+        int i=0;
+        var start;
+        var end;
+        var duration;
+        while(i<routeHistory.length){
+          if(i==0) {
+            DateTime yesterday = istDate1;
+            start = getISOtoIST(istDate1.toIso8601String());
+            end = getISOtoIST(routeHistory[i].startTime);
+            duration = getStopDuration(yesterday.toIso8601String(), routeHistory[i].startTime);
+            routeHistory.insert(i, ["stopped", start, end, duration]);
+          } else {
+            start = getISOtoIST(routeHistory[i - 1].endTime);
+            end = getISOtoIST(routeHistory[i].startTime);
+            duration = getStopDuration(routeHistory[i - 1].endTime, routeHistory[i].startTime);
+            routeHistory.insert(i, ["stopped", start, end, duration]);
+          }
+          i = i+2;
+        }
+        print("With Stops $routeHistory");
+
         Get.back();
         EasyLoading.dismiss();
         Get.to(PlayRouteHistory(
           gpsTruckHistory: gpsTruckHistory,
           truckNo: widget.truckNo,
-          routeHistory: routeHistory,
           gpsData: widget.gpsData,
           dateRange: selectedDate.toString(),
           gpsStoppageHistory: gpsStoppageHistory,
-          totalDistance: totalDistance,
           totalStoppedTime: totalStoppedTime,
           totalRunningTime: totalRunningTime,
           // locations: Locations,
@@ -192,6 +205,7 @@ class _MenuWidgetState extends State<MenuWidget> {
     }
   }
 
+//CUSTOM SELECTION allows user to select date range like 2 days, 4 days...
   customSelection(String? choice) async{
     String startTime =  DateTime.now().subtract(Duration(days: 1)).toString();
     String endTime = DateTime.now().toString();
@@ -225,6 +239,14 @@ class _MenuWidgetState extends State<MenuWidget> {
       });
       break;
     }
+    var istDate1;
+    var istDate2;
+    setState(() {
+      // bookingDateList[3] = (nextDay.MMMEd);
+      istDate1 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(startTime).subtract(Duration(hours: 5, minutes: 30));
+      istDate2 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(endTime).subtract(Duration(hours: 5, minutes: 30));
+      print("selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
+    });
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
       ..indicatorSize = 45.0
@@ -236,14 +258,37 @@ class _MenuWidgetState extends State<MenuWidget> {
     EasyLoading.show(
       status: "Loading...",
     );
+
+   //Run all APIs using new Date Range
     var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.imei, startTime, endTime);
     var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.imei,  startTime, endTime);
     var newRouteHistory = await getRouteStatusList(widget.gpsData.last.imei,  startTime, endTime);
-
+    var newTotalRunningTime = getTotalRunningTime(newRouteHistory);
+    var newTotalStoppedTime = getTotalStoppageTime(newRouteHistory);
     print("AFter $newGpsTruckHistory");
     print("AFter $newGpsStoppageHistory");
     print("AFter $newRouteHistory");
 
+    int i=0;
+    var start;
+    var end;
+    var duration;
+    while(i<newRouteHistory.length){
+      if(i==0) {
+        DateTime yesterday = istDate1;
+        start = getISOtoIST(istDate1.toIso8601String());
+        end = getISOtoIST(newRouteHistory[i].startTime);
+        duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
+        newRouteHistory.insert(i, ["stopped", start, end, duration]);
+      } else {
+        start = getISOtoIST(newRouteHistory[i - 1].endTime);
+        end = getISOtoIST(newRouteHistory[i].startTime);
+        duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
+        newRouteHistory.insert(i, ["stopped", start, end, duration]);
+      }
+      i = i+2;
+    }
+    print("With Stops $newRouteHistory");
     if (newRouteHistory!= null) {
       setState(() {
         gpsTruckHistory = newGpsTruckHistory;
@@ -251,8 +296,8 @@ class _MenuWidgetState extends State<MenuWidget> {
         totalDistance = newRouteHistory.removeAt(0);
         routeHistory = newRouteHistory;
         dateRange = "$startTime - $endTime";
-        totalRunningTime = getTotalRunningTime(newRouteHistory);
-        totalStoppedTime = getTotalStoppageTime(newRouteHistory);
+        totalRunningTime = newTotalRunningTime;
+        totalStoppedTime = newTotalStoppedTime;
         // fromDate = yesterday.toString();
         // toDate = today.toString();
       });
@@ -262,11 +307,9 @@ class _MenuWidgetState extends State<MenuWidget> {
       Get.to(PlayRouteHistory(
         gpsTruckHistory: gpsTruckHistory,
         truckNo: widget.truckNo,
-        routeHistory: routeHistory,
         gpsData: widget.gpsData,
         dateRange: dateRange,
         gpsStoppageHistory: gpsStoppageHistory,
-        totalDistance: totalDistance,
         totalStoppedTime: totalStoppedTime,
         totalRunningTime: totalRunningTime,
         // locations: Locations,
