@@ -35,7 +35,7 @@ getFormattedDateForDisplay2(String date){
 }
 
 getISOtoIST(String date){
-  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date);
+  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date).add(Duration(hours: 5, minutes: 30));
   var timestamp = istDate.toString()
       .replaceAll("-", "")
       .replaceAll(":", "")
@@ -432,7 +432,7 @@ getStatus(var gpsData, var gpsStoppageHistory){
     var timestamp1 =  gpsStoppageHistory.last.startTime.toString();
 
     DateTime truckTime = new DateFormat("yyyy-MM-ddTHH:mm:ss")
-        .parse(timestamp1);
+        .parse(timestamp1).add(Duration(hours: 5, minutes: 30));
 
     var now = DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now());
     DateTime nowTime = DateTime.parse(now);
