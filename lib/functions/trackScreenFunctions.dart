@@ -35,7 +35,7 @@ getFormattedDateForDisplay2(String date){
 }
 
 getISOtoIST(String date){
-  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date);
+  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date).add(Duration(hours: 5, minutes: 30));
   var timestamp = istDate.toString()
       .replaceAll("-", "")
       .replaceAll(":", "")
@@ -203,7 +203,7 @@ getStoppageTime(var gpsStoppageHistory) {
 
   for(int i=0; i<gpsStoppageHistory.length; i++) {
     print("start time is  ${gpsStoppageHistory[i].startTime}");
-    var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].startTime);
+    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime).add(Duration(hours: 5, minutes: 30));
     print("IST $istDate");
     var timestamp = istDate.toString()
         .replaceAll("-", "")
@@ -220,7 +220,7 @@ getStoppageTime(var gpsStoppageHistory) {
     truckStart = "$day $monthname,$ampm";
     print("ISO $truckStart");
 
-    var istDate2 =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].endTime);
+    var istDate2 =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].endTime).add(Duration(hours: 5, minutes: 30));
     print("IST $istDate2");
     var timestamp2 = istDate2.toString()
         .replaceAll("-", "")
@@ -432,7 +432,7 @@ getStatus(var gpsData, var gpsStoppageHistory){
     var timestamp1 =  gpsStoppageHistory.last.startTime.toString();
 
     DateTime truckTime = new DateFormat("yyyy-MM-ddTHH:mm:ss")
-        .parse(timestamp1);
+        .parse(timestamp1).add(Duration(hours: 5, minutes: 30));
 
     var now = DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now());
     DateTime nowTime = DateTime.parse(now);
