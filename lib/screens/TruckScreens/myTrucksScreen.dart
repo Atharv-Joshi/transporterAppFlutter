@@ -318,7 +318,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                           width: 127,
                                         ),
                                         Text(
-                                          'Looks like you none of your trucks are runnung!',
+                                          'Looks like you none of your trucks are running!',
                                           style: TextStyle(
                                               fontSize: size_8, color: grey),
                                           textAlign: TextAlign.center,

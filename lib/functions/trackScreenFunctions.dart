@@ -202,21 +202,22 @@ getStoppageTime(var gpsStoppageHistory) {
   var stoppageTime = [];
 
   for(int i=0; i<gpsStoppageHistory.length; i++) {
-    print("start time is  ${gpsStoppageHistory[i].startTime}");
+ //   print("start time is  ${gpsStoppageHistory[i].startTime}");
     // final dateTime = DateTime.parse('2021-08-11T11:38:09.000Z');
     // print(convertDateTimeToString(dateTime));
-    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime);
-    print("here $istDate");
-    istDate = istDate.add(Duration(hours: 5, minutes: 30));
-    print("hh $istDate");
-    print("isDate $istDate");
-    print("IST $istDate");
+ //   var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime);
+//    print("here $istDate");
+ //   istDate = istDate.add(Duration(hours: 5, minutes: 30));
+  //  print("hh $istDate");
+  //  print("isDate $istDate");
+    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime).add(Duration(hours: 5, minutes: 30));
+  //  print("IST $istDate");
     var timestamp = istDate.toString()
         .replaceAll("-", "")
         .replaceAll(":", "")
         .replaceAll(" ", "")
         .replaceAll(".", "");
-    print("timestamp is $timestamp");
+  //  print("timestamp is $timestamp");
     var month = int.parse(timestamp.substring(4, 6));
     var day = timestamp.substring(6, 8);
     var hour = int.parse(timestamp.substring(8, 10));
@@ -226,7 +227,7 @@ getStoppageTime(var gpsStoppageHistory) {
     truckStart = "$day $monthname,$ampm";
     print("ISO $truckStart");
 
-    var istDate2 =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].endTime).add(Duration(hours: 5, minutes: 30));
+    var istDate2 =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].endTime).add(Duration(hours: 5, minutes: 30));
     print("IST $istDate2");
     var timestamp2 = istDate2.toString()
         .replaceAll("-", "")
