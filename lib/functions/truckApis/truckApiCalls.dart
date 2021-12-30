@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/controller/truckIdController.dart';
+import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
 import 'package:flutter_config/flutter_config.dart';
@@ -36,20 +38,30 @@ class TruckApiCalls {
       if (jsonData.isEmpty) {
         break;
       }
-
+      
       for (var json in jsonData) {
-        TruckModel truckModel = TruckModel(truckApproved: false);
-        truckModel.truckId = json["truckId"];
-        truckModel.transporterId = json["transporterId"];
-        truckModel.truckNo = json["truckNo"];
-        truckModel.truckApproved = json["truckApproved"];
-        truckModel.imei = json["imei"];
-        truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
-        truckModel.passingWeight = json["passingWeight"];
-        truckModel.truckType = json["truckType"];
-        truckModel.driverId = json["driverId"];
-        truckModel.tyres = json["tyres"].toString();
-        truckDataList.add(truckModel);
+        TruckModel truckModel = TruckModel();
+    truckModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
+    truckModel.transporterId =
+        json["transporterId"] != null ? json["transporterId"] : 'NA';
+    truckModel.truckNo = json["truckNo"] != null ? json["truckNo"] : 'NA';
+    truckModel.truckApproved =
+        json["truckApproved"] != null ? json["truckApproved"] : false;
+    truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
+    truckModel.passingWeightString =
+        json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
+    truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';
+     truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
+    truckModel.tyres = json["tyres"] != null ? json["tyres"].toString() : 'NA';
+    truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
+    truckModel.truckLengthString =
+        json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
+    //driver data
+    DriverModel driverModel =
+        await getDriverByDriverId(driverId: truckModel.driverId);
+    truckModel.driverName = driverModel.driverName;
+    truckModel.driverNum = driverModel.phoneNum;
+    truckDataList.add(truckModel);
       }
     }
     return truckDataList; // list of truckModels

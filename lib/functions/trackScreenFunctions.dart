@@ -202,15 +202,22 @@ getStoppageTime(var gpsStoppageHistory) {
   var stoppageTime = [];
 
   for(int i=0; i<gpsStoppageHistory.length; i++) {
-    print("start time is  ${gpsStoppageHistory[i].startTime}");
+ //   print("start time is  ${gpsStoppageHistory[i].startTime}");
+    // final dateTime = DateTime.parse('2021-08-11T11:38:09.000Z');
+    // print(convertDateTimeToString(dateTime));
+ //   var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime);
+//    print("here $istDate");
+ //   istDate = istDate.add(Duration(hours: 5, minutes: 30));
+  //  print("hh $istDate");
+  //  print("isDate $istDate");
     var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime).add(Duration(hours: 5, minutes: 30));
-    print("IST $istDate");
+  //  print("IST $istDate");
     var timestamp = istDate.toString()
         .replaceAll("-", "")
         .replaceAll(":", "")
         .replaceAll(" ", "")
         .replaceAll(".", "");
-    print("timestamp is $timestamp");
+  //  print("timestamp is $timestamp");
     var month = int.parse(timestamp.substring(4, 6));
     var day = timestamp.substring(6, 8);
     var hour = int.parse(timestamp.substring(8, 10));
@@ -350,6 +357,29 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
       Offset((width * 0.5) - painter.width * 0.5,
           (height * .5) - painter.height * 0.5));
   final img = await pictureRecorder.endRecording().toImage(width, height);
+  final data = await img.toByteData(format: ui.ImageByteFormat.png);
+  return data!.buffer.asUint8List();
+}//Info Window for mapscreen
+Future<Uint8List> getBytesFromCanvas3(String truckNo, int width, int height) async{
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  final Paint paint = Paint()..color = Colors.black.withAlpha(100);
+  final Radius radius = Radius.circular(10);
+  canvas.drawRect(Offset(100, -100) & const Size(500, 250), paint);
+
+  TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
+  
+  TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: truckNo, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.white),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(190,
+          65));
+  final img = await pictureRecorder.endRecording().toImage(500, 250);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
 }

@@ -29,15 +29,15 @@ class MapUtil {
           gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           print("LAT : ${gpsDataModel.latitude}, LONG : ${gpsDataModel.longitude} ");
           gpsDataModel.distance = json["attributes"]["totalDistance"] != null ? json["attributes"]["totalDistance"] : 0;
-          gpsDataModel.motion = json["attributes"]["motion"] != null ? json["attributes"]["motion"] : 0;
+          gpsDataModel.motion = json["attributes"]["motion"] != null ? json["attributes"]["motion"] : false;
           print("Motion : ${gpsDataModel.motion}");
-
+          gpsDataModel.ignition = json["attributes"]["ignition"] != null ? json["attributes"]["ignition"] : false;
           gpsDataModel.speed = json["speed"] != null ? json["speed"] : 'NA';
           gpsDataModel.course = json["course"] != null ? json["course"] : 'NA';
           gpsDataModel.deviceTime = json["deviceTime"] != null ? json["deviceTime"] : 'NA';
           gpsDataModel.serverTime = json["serverTime"] != null ? json["serverTime"] : 'NA';
           gpsDataModel.fixTime = json["fixTime"] != null ? json["fixTime"] : 'NA';
-
+       //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
@@ -69,7 +69,8 @@ class MapUtil {
   getTraccarHistory({int? deviceId, String? from,String? to, }) async{
     print("FROM : $from");
     print("TO : $to");
-
+    print("$traccarApi");
+    print("$deviceId");
     try {
       http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
       print(response.statusCode);

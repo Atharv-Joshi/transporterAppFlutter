@@ -84,6 +84,8 @@ dependencies:
   flutter_gifimage: ^1.0.0
   flutter_google_places: ^0.3.0
   custom_info_window: ^1.0.1
+  share: ^2.0.4
+  dotted_line: ^3.1.0
   flutter_animarker: ^3.2.0
 
 dev_dependencies:
