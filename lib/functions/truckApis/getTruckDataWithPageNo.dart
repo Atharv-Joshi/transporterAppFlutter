@@ -31,8 +31,9 @@ getTruckDataWithPageNo(int i) async {
     truckModel.passingWeightString =
         json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
     truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';
-    truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
+     truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
     truckModel.tyres = json["tyres"] != null ? json["tyres"].toString() : 'NA';
+    truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
     truckModel.truckLengthString =
         json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
     //driver data
@@ -66,6 +67,7 @@ getGPSTruckDataWithPageNo(int i) async {
     truckModel.truckApproved =
     json["truckApproved"] != null ? json["truckApproved"] : false;
     truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
+    truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
     truckModel.passingWeightString =
     json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
     truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';

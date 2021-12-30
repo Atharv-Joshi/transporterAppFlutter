@@ -26,6 +26,8 @@ class PlayRouteHistory extends StatefulWidget {
   var gpsStoppageHistory;
   var totalRunningTime;
   var totalStoppedTime;
+ // var routeHistory;
+ // var totalDistance;
   String? truckNo;
   String? dateRange;
 
@@ -37,6 +39,8 @@ class PlayRouteHistory extends StatefulWidget {
     required this.dateRange,
     required this.totalRunningTime,
     required this.totalStoppedTime,
+  //  required this.routeHistory,
+  //  required this.totalDistance,
     // required this.toDate,
     // required this.polylineCoordinates,
   });

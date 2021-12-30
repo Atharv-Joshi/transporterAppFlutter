@@ -35,7 +35,7 @@ getFormattedDateForDisplay2(String date){
 }
 
 getISOtoIST(String date){
-  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date);
+  var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(date).add(Duration(hours: 5, minutes: 30));
   var timestamp = istDate.toString()
       .replaceAll("-", "")
       .replaceAll(":", "")
@@ -203,7 +203,13 @@ getStoppageTime(var gpsStoppageHistory) {
 
   for(int i=0; i<gpsStoppageHistory.length; i++) {
     print("start time is  ${gpsStoppageHistory[i].startTime}");
-    var istDate =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].startTime);
+    // final dateTime = DateTime.parse('2021-08-11T11:38:09.000Z');
+    // print(convertDateTimeToString(dateTime));
+    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime);
+    print("here $istDate");
+    istDate = istDate.add(Duration(hours: 5, minutes: 30));
+    print("hh $istDate");
+    print("isDate $istDate");
     print("IST $istDate");
     var timestamp = istDate.toString()
         .replaceAll("-", "")
@@ -220,7 +226,7 @@ getStoppageTime(var gpsStoppageHistory) {
     truckStart = "$day $monthname,$ampm";
     print("ISO $truckStart");
 
-    var istDate2 =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].endTime);
+    var istDate2 =  new DateFormat("yyyy-MM-ddThh:mm:ss").parse(gpsStoppageHistory[i].endTime).add(Duration(hours: 5, minutes: 30));
     print("IST $istDate2");
     var timestamp2 = istDate2.toString()
         .replaceAll("-", "")
@@ -352,6 +358,29 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
   final img = await pictureRecorder.endRecording().toImage(width, height);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
+}//Info Window for mapscreen
+Future<Uint8List> getBytesFromCanvas3(String truckNo, int width, int height) async{
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  final Paint paint = Paint()..color = Colors.black.withAlpha(100);
+  final Radius radius = Radius.circular(10);
+  canvas.drawRect(Offset(100, -100) & const Size(500, 250), paint);
+
+  TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
+  
+  TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: truckNo, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.white),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(190,
+          65));
+  final img = await pictureRecorder.endRecording().toImage(500, 250);
+  final data = await img.toByteData(format: ui.ImageByteFormat.png);
+  return data!.buffer.asUint8List();
 }
 
 //INFO WINDOW FOR PLAY ROUTE HISTORY ---------------------------
@@ -432,7 +461,7 @@ getStatus(var gpsData, var gpsStoppageHistory){
     var timestamp1 =  gpsStoppageHistory.last.startTime.toString();
 
     DateTime truckTime = new DateFormat("yyyy-MM-ddTHH:mm:ss")
-        .parse(timestamp1);
+        .parse(timestamp1).add(Duration(hours: 5, minutes: 30));
 
     var now = DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now());
     DateTime nowTime = DateTime.parse(now);

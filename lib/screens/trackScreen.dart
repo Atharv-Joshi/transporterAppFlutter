@@ -31,9 +31,10 @@ class TrackScreen extends StatefulWidget {
   var gpsStoppageHistory;
   var routeHistory;
   final String? TruckNo;
-  final String? imei;
+  final int? deviceId;
   final String? driverNum;
   final String? driverName;
+  var truckId;
 
   TrackScreen({
     required this.gpsData,
@@ -44,7 +45,8 @@ class TrackScreen extends StatefulWidget {
     this.TruckNo,
     this.driverName,
     this.driverNum,
-    this.imei});
+    this.deviceId,
+    this.truckId});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -104,7 +106,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool setDate = false;
   var selectedDateString = [];
   var maptype = MapType.normal;
-  double zoom = 8;
+  double zoom = 10;
   bool showBottomMenu = true;
   var totalRunningTime;
   var totalStoppedTime;
@@ -120,6 +122,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     WidgetsBinding.instance!.addObserver(this);
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
+    
     try {
       initfunction();
       initfunction2();
@@ -250,6 +253,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
+      print("kya $to");
       status = getStatus(newGPSData, gpsStoppageHistory);
       newGPSRoute = getStopList(newGPSRoute);
     });
@@ -264,7 +268,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   void initfunctionAfter() async {
     logger.i("It is in init function after function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId : 7);
+    var gpsData = await mapUtil.getTraccarPosition(deviceId : widget.deviceId);
     var gpsRoute = await getRouteStatusList(newGPSData.last.deviceId, from , to);
     var newGpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
     var newGpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
@@ -307,17 +311,20 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   void createmarker() async {
     try {
+      print("rj");
       final GoogleMapController controller = await _controller.future;
       LatLng latLngMarker =
       LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
       print("Live location is ${newGPSData.last.latitude}");
+      print("hh");
+      print("id ${newGPSData.last.deviceId.toString()}");
       String? title = widget.TruckNo;
       setState(() {
         direction = 180 + newGPSData.last.course;
         lastlatLngMarker = LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
         latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
-            markerId: MarkerId(newGPSData.last.id.toString()),
+            markerId: MarkerId(newGPSData.last.deviceId.toString()),
             position: latLngMarker,
             infoWindow: InfoWindow(title: title),
             icon: pinLocationIconTruck,
@@ -513,7 +520,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                           ],
                         ),
                       ),
-                      Container(
+                    ]
+                  )
+                )
+              ),
+                /*      Container(
                           margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -667,12 +678,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                   ),
                 ),
               ),
-
+*/
               AnimatedPositioned(
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-                bottom: (showBottomMenu)? 0 : -(height/3),
+                bottom: (showBottomMenu)? 0 : -(height/3)+ 110,
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
                   // truckDate: truckDate,
@@ -686,6 +697,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                   stops: stoplatlong,
                   totalRunningTime: totalRunningTime,
                   totalStoppedTime: totalStoppedTime,
+                  truckId: widget.truckId,
+                  deviceId: widget.deviceId,
+                  totalDistance: totalDistance,
+
                 ),
               )
             ],

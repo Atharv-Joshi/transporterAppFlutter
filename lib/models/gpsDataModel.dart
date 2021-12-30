@@ -5,6 +5,7 @@ class GpsDataModel {
   double? latitude;
   double? longitude;
   int? deviceId;
+  bool? ignition;
   double? course;
   String? deviceTime;
   String? serverTime;
@@ -34,5 +35,6 @@ class GpsDataModel {
         this.startTime,
         this.endTime,
         this.motion,
+        this.ignition,
       });
 }

@@ -1,14 +1,20 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/AppVersionCheck.dart';
+import 'package:liveasy/functions/getDriverDetailsFromDriverId.dart';
 import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
+import 'package:liveasy/functions/trackScreenFunctions.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
+import 'package:liveasy/screens/trackScreen.dart';
 import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/home.dart';
@@ -31,7 +37,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
   List<LoadDetailsScreenModel> data = [];
   String? loadID;
   LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
-
+  TruckApiCalls _truckApiCalls = TruckApiCalls();
+  var gpsDataHistory;
+  var gpsStoppageHistory;
+  var gpsData;
+  var gpsRoute;
+  late Map truckdata;
+  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  late String from;
+  late String to;
+  DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   TransporterIdController tIdController = Get.find<TransporterIdController>();
   NavigationIndexController navigationIndex = Get.put(NavigationIndexController(), permanent: true);
   var screens = [
@@ -48,6 +63,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     {
       navigationIndex.updateIndex(widget.initScreen);
     }
+    from = yesterday.toIso8601String();
+    to = now.toIso8601String();
     super.initState();
     this.initDynamicLinks();
     this.checkUpdate();
@@ -65,16 +82,107 @@ class _NavigationScreenState extends State<NavigationScreen> {
       print(e);
     }
   }
+  void _handleDynamicLink(PendingDynamicLinkData? dataLink) async{
+    
+      final Uri? deepLink = dataLink?.link;
+
+      if (deepLink != null) {
+        if (deepLink.queryParameters.containsKey('deviceId')) {
+          EasyLoading.instance
+              ..indicatorType = EasyLoadingIndicatorType.ring
+              ..indicatorSize = 45.0
+              ..radius = 10.0
+              ..maskColor = darkBlueColor
+              ..userInteractions = false
+              ..backgroundColor = darkBlueColor
+              ..dismissOnTap = false;
+            EasyLoading.show(
+              status: "Loading...",
+            );
+          int deviceId = int.parse(deepLink.queryParameters['deviceId']!);  
+          print(deviceId);
+          
+          String? truckId = deepLink.queryParameters['truckId']; 
+          print(truckId);
+          truckdata =  await _truckApiCalls.getDataByTruckId(truckId!);
+          String driverId = truckdata['driverId'];
+          print("1st pass");
+          print(driverId);
+          DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
+          print("2nd pass");
+          gpsData = await mapUtil.getTraccarPosition(deviceId : deviceId);
+          gpsRoute = await getRouteStatusList(gpsData.last.deviceId, from , to);
+          gpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
+          gpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
+          print("6th pass $gpsRoute");
+          print(truckdata['truckNo']);
+          print(driverModel.driverName);
+          print(driverModel.phoneNum);
+          print('here');
+       //   print(imei);
+          EasyLoading.dismiss();
+          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,routeHistory: gpsRoute,deviceId: deviceId,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
+}
+        else{
+        loadID = deepLink.path;
+        findLoadByLoadID(loadID!);
+        }
+     
+  }
+}
 
   void initDynamicLinks() async {
+    
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+           _handleDynamicLink(dynamicLink);
+  /*       EasyLoading.instance
+              ..indicatorType = EasyLoadingIndicatorType.ring
+              ..indicatorSize = 45.0
+              ..radius = 10.0
+              ..maskColor = darkBlueColor
+              ..userInteractions = false
+              ..backgroundColor = darkBlueColor
+              ..dismissOnTap = false;
+            EasyLoading.show(
+              status: "Loading...",
+            );
       final Uri? deepLink = dynamicLink?.link;
 
       if (deepLink != null) {
+        if (deepLink.queryParameters.containsKey('imei')) {
+          String? imei = deepLink.queryParameters['imei'];  
+          print(imei);
+          
+          String? truckId = deepLink.queryParameters['truckId']; 
+          print(truckId);
+          truckdata =  await _truckApiCalls.getDataByTruckId(truckId!);
+          String driverId = truckdata['driverId'];
+          print("1st pass");
+          print(driverId);
+          DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
+          print("2nd pass");
+          gpsDataHistory =  await getDataHistory(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
+          print("3rd pass$gpsDataHistory");
+          gpsData = await mapUtil.getLocationByImei(imei: imei);
+          print("4th pass $gpsData");
+          gpsStoppageHistory = await  getStoppageHistory(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+          print("5th pass $gpsStoppageHistory");
+          gpsRoute = await getRouteStatusList(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+          print("6th pass $gpsRoute");
+          print(truckdata['truckNo']);
+          print(driverModel.driverName);
+          print(driverModel.phoneNum);
+          print('here');
+          print(imei);
+          EasyLoading.dismiss();
+          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,routeHistory: gpsRoute,imei: imei,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
+}
+        else{
         loadID = deepLink.path;
         findLoadByLoadID(loadID!);
-      }
+        }
+      }*/
     }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
       print(e.message);
@@ -82,12 +190,46 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
     final PendingDynamicLinkData? dataLink =
         await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = dataLink?.link;
+         _handleDynamicLink(dataLink);
+ /*   final Uri? deepLink = dataLink?.link;
 
     if (deepLink != null) {
+      
+      if (deepLink.queryParameters.containsKey('imei')) {
+        EasyLoading.instance
+              ..indicatorType = EasyLoadingIndicatorType.ring
+              ..indicatorSize = 45.0
+              ..radius = 10.0
+              ..maskColor = darkBlueColor
+              ..userInteractions = false
+              ..backgroundColor = darkBlueColor
+              ..dismissOnTap = false;
+            EasyLoading.show(
+              status: "Loading...",
+            );
+          String? imei = deepLink.queryParameters['imei'];  
+          String? truckId = deepLink.queryParameters['truckId']; 
+          truckdata =  await _truckApiCalls.getDataByTruckId(truckId!);
+          String driverId = truckdata['driverId'];
+
+          
+          DriverModel driverModel = getDriverDetailsFromDriverId(driverId);
+          EasyLoading.dismiss();
+          gpsDataHistory =  await getDataHistory(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()) );
+          EasyLoading.dismiss();
+          gpsData = await mapUtil.getLocationByImei(imei: imei);
+          gpsStoppageHistory = await  getStoppageHistory(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+          gpsRoute = await getRouteStatusList(imei, dateFormat.format(DateTime.now().subtract(Duration(days: 1))),  dateFormat.format(DateTime.now()));
+        //  EasyLoading.dismiss();
+          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,routeHistory: gpsRoute,imei: imei,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
+}
+else{
       loadID = deepLink.path;
       findLoadByLoadID(loadID!);
-    }
+}
+*/
+
+    
   }
 
   @override
