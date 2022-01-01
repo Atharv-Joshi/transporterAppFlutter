@@ -245,9 +245,7 @@ class _MyTrucksState extends State<MyTrucks> {
                           },
                   children: [
                 
-                    Expanded(
-                    
-                    child: Stack(
+                    Stack(
                       alignment: Alignment.bottomCenter,
                       
                       children: [
@@ -297,9 +295,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                     }),
                           ],
                     ),
-                  ),
-                    Expanded(
-                    child: Stack(
+                    Stack(
                       alignment: Alignment.bottomCenter,
                       
                       children: [
@@ -326,7 +322,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                       ],
                                     ),
                                   )
-                                : ListView.builder(
+                                : 
+                                ListView.builder(
                                     padding: EdgeInsets.only(bottom: space_15),
                                     controller: scrollController,
                                     itemCount: runningList.length,
@@ -349,9 +346,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                     }),
                           ],
                     ),
-                  ),
-                    Expanded(
-                    child: Stack(
+                    Stack(
                       alignment: Alignment.bottomCenter,
                       
                       children: [
@@ -401,7 +396,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                     }),
                           ],
                     ),
-                  ),
                   
                   ]
                 ),
@@ -445,6 +439,7 @@ class _MyTrucksState extends State<MyTrucks> {
       if (truckData.deviceId != 0 ) {
         //Call Traccar position API to get current details of truck
         gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
+        
         gpsDataList.add(gpsData);
         getStoppedSince(gpsData);
         if(truckData.truckApproved == true && gpsData.last.speed >= 2)

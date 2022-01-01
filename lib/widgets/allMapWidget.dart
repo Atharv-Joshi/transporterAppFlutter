@@ -172,15 +172,17 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
               onTap: (){}),
             icon: pinLocationIconTruck,
         rotation: direction));
+        print("here i am");
         customMarkers.add(Marker(
-            markerId: MarkerId('Details of ${gpsData.last.deviceId.toString()}'),
+            markerId: MarkerId("Details of ${gpsData.last.deviceId.toString()}"),
             position: latLngMarker,
             icon: BitmapDescriptor.fromBytes(markerIcon),
         rotation: 0.0));
 
         
       });
-      controller.showMarkerInfoWindow(MarkerId(gpsData.last.deviceId.toString()));
+      print("done");
+   //   controller.showMarkerInfoWindow(MarkerId(gpsData.last.deviceId.toString()));
       controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0,

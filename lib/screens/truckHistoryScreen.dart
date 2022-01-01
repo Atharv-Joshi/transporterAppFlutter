@@ -22,15 +22,15 @@ class TruckHistoryScreen extends StatefulWidget {
   String? truckNo;
   String? dateRange;
   int? deviceId;
-  double latitude;
-  double longitude;
+//  double latitude;
+ // double longitude;
   TruckHistoryScreen({
       required this.gpsTruckRoute,
       required this.truckNo,
       required this.dateRange,
       required this.deviceId,
-      required this.latitude,
-      required this.longitude,
+ //     required this.latitude,
+  //    required this.longitude,
 
   });
 
@@ -190,12 +190,12 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
           start = getISOtoIST(istDate1.toIso8601String());
           end = getISOtoIST(newRouteHistory[i].startTime);
           duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
-          newRouteHistory.insert(i, ["stopped", start, end, duration,gpsPosition.last.latitude,gpsPosition.last.longitude]);
+          newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
         } else {
           start = getISOtoIST(newRouteHistory[i - 1].endTime);
           end = getISOtoIST(newRouteHistory[i].startTime);
           duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
-          newRouteHistory.insert(i, ["stopped", start, end, duration,gpsPosition.last.latitude,gpsPosition.last.longitude]);
+          newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
         }
         i = i+2;
       }
@@ -213,9 +213,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
           gpsTruckRoute: gpsRoute,
           dateRange: dateRange,
           deviceId: widget.deviceId,
-          latitude: widget.latitude
-          ,
-          longitude: widget.longitude
+      //    latitude: widget.latitude,
+      //    longitude: widget.longitude
         ));
       }
       else{
@@ -234,8 +233,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
          
       truckHistory: gpsRoute[index],
       deviceId: widget.deviceId,
-      latitude: widget.latitude,
-      longitude: widget.longitude,
     );
   }
 
