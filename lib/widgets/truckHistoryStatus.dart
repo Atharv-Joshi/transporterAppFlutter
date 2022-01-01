@@ -12,14 +12,11 @@ import 'package:liveasy/models/gpsDataModel.dart';
 class TruckStatus extends StatefulWidget {
   var truckHistory;
   var deviceId;
-  double latitude;
-  double longitude;
+  
   TruckStatus(
       {
         required this.truckHistory,
         required this.deviceId,
-        required this.latitude,
-        required this.longitude,
        });
 
   @override
@@ -37,7 +34,7 @@ class _TruckStatusState extends State<TruckStatus> {
   @override
   void initState() {
     super.initState();
-    getPosition();
+   // getPosition();
     print("Here ${widget.truckHistory.runtimeType}");
     if(widget.truckHistory.runtimeType==GpsDataModel) {
       getFormattedDate();
@@ -259,14 +256,14 @@ class _TruckStatusState extends State<TruckStatus> {
     setState(() {
       newGpsPosition = gpsPosition;
     });
-    print("LAt and Long ${widget.latitude} ${widget.longitude}");
+   // print("LAt and Long ${widget.truckHistory[4]} ${widget.truckHistory[5]}");
   }
   getAddress() async{
     print("bhai");
     print(widget.truckHistory);
     print("hehe");
-    print("hehe and Long ${widget.latitude} ${widget.longitude}");
-    placemarks = await placemarkFromCoordinates(widget.latitude, widget.longitude);
+    print("hehe and Long ${widget.truckHistory[4]} ${widget.truckHistory[5]}");
+    placemarks = await placemarkFromCoordinates(widget.truckHistory[4], widget.truckHistory[5]);
     print("kaise stop loc is $placemarks");
     print("pppp");
     var first = placemarks.first;

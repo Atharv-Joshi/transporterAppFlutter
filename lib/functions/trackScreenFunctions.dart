@@ -314,13 +314,15 @@ getStopList(var newGPSRoute){
       DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
       start = getISOtoIST(yesterday.toIso8601String());
       end = getISOtoIST(newGPSRoute[i].startTime);
+      
       duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
-      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+      print("kk $duration");
+      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     } else {
       start = getISOtoIST(newGPSRoute[i - 1].endTime);
       end = getISOtoIST(newGPSRoute[i].startTime);
       duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
-      newGPSRoute.insert(i, ["stopped", start, end, duration]);
+      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     }
     i = i+2;
   }

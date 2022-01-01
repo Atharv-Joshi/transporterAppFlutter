@@ -159,17 +159,15 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                       Container(
                             width: width/2 +10,
-                            child: Flexible(
-                              child: Text(
-                                
-                                "${gpsData.last.address}",
-                                maxLines: 2,
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: 12,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: normalWeight
-                                ),
+                            child: Text(
+                              
+                              "${gpsData.last.address}",
+                              maxLines: 2,
+                              style: TextStyle(
+                                  color: black,
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: normalWeight
                               ),
                             ),
                           ),
@@ -525,8 +523,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                   gpsTruckRoute: widget.gpsTruckRoute,
                                   dateRange: widget.dateRange,
                                   deviceId: widget.deviceId,
-                                  latitude: latitude,
-                                  longitude: longitude,
+                             //     latitude: latitude,
+                            //      longitude: longitude,
 
                                 ));
                               },
