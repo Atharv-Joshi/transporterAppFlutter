@@ -6,15 +6,20 @@ import 'package:liveasy/models/gpsDataModelForHistory.dart';
 import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart';
 
+String traccarUser = FlutterConfig.get("traccarUser");
+String traccarPass = FlutterConfig.get("traccarPass");
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
   String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
   String traccarApi =  FlutterConfig.get("traccarApi");
 
+  String basicAuth =
+      'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
+
   //TRACCAR API CALLS------------------------------------------------------------
   getTraccarPosition({int? deviceId}) async{
     try {
-      http.Response response = await http.get(Uri.parse("${traccarApi}/positions?deviceId=$deviceId"));
+      http.Response response = await http.get(Uri.parse("${traccarApi}/positions?deviceId=$deviceId"),headers: <String, String>{'authorization': basicAuth});
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -37,7 +42,7 @@ class MapUtil {
           gpsDataModel.deviceTime = json["deviceTime"] != null ? json["deviceTime"] : 'NA';
           gpsDataModel.serverTime = json["serverTime"] != null ? json["serverTime"] : 'NA';
           gpsDataModel.fixTime = json["fixTime"] != null ? json["fixTime"] : 'NA';
-       //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
+          //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
@@ -72,7 +77,7 @@ class MapUtil {
     print("$traccarApi");
     print("$deviceId");
     try {
-      http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth});;
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -111,7 +116,7 @@ class MapUtil {
     print("TO : $to");
 
     try {
-      http.Response response = await http.get(Uri.parse("$traccarApi/reports/stops?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/stops?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth});
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -150,7 +155,7 @@ class MapUtil {
     print("TO : $to");
 
     try {
-      http.Response response = await http.get(Uri.parse("$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth});
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -185,7 +190,7 @@ class MapUtil {
       return null;
     }
   }
- //LOCATION BY IMEI CALLS---------------------------------------------------
+  //LOCATION BY IMEI CALLS---------------------------------------------------
   getLocationByImei({String? imei}) async {
     print("getLocationByImei got called with imei : $imei");
     // try {
@@ -256,18 +261,18 @@ class MapUtil {
           for (var json in deviceTrackList) {
             GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
             gpsDataModel.gpsSpeed =
-                json["gpsSpeed"] != null ? json["gpsSpeed"] : 'NA';
+            json["gpsSpeed"] != null ? json["gpsSpeed"] : 'NA';
             // print("ID is ${gpsDataModel.id}");
             gpsDataModel.satellite =
-                json["satellite"] != null ? json["satellite"] : 'NA';
+            json["satellite"] != null ? json["satellite"] : 'NA';
             gpsDataModel.lat = json["lat"];
             gpsDataModel.lng = json["lng"];
             gpsDataModel.gpsTime =
-                json["gpsTime"] != null ? json["gpsTime"] : 'NA';
+            json["gpsTime"] != null ? json["gpsTime"] : 'NA';
             gpsDataModel.direction =
-                json["direction"] != null ? json["direction"] : 'NA';
+            json["direction"] != null ? json["direction"] : 'NA';
             gpsDataModel.posType =
-                json["posType"] != null ? json["posType"] : 'NA';
+            json["posType"] != null ? json["posType"] : 'NA';
 
             LatLongList.add(gpsDataModel);
           }
@@ -309,29 +314,29 @@ class MapUtil {
       print("TOTAL $totalDistanceCovered");
       routeHistory.add(totalDistanceCovered);
       if (response.statusCode == 200) {
-          for (var json in routeHistoryList) {
-            GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
-            gpsDataModel.truckStatus =
-                json["truckStatus"] != null ? json["truckStatus"] : 'NA';
-            gpsDataModel.startTime =
-                json["startTime"] != null ? json["startTime"] : 'NA';
-            gpsDataModel.endTime =
-                json["endTime"] != null ? json["endTime"] : 'NA';
-            gpsDataModel.lat = json["lat"];
-            gpsDataModel.lng = json["lng"];
-            gpsDataModel.duration =
-                json["duration"] != null ? json["duration"] : 'NA';
-            gpsDataModel.distanceCovered = json["distanceCovered"];
+        for (var json in routeHistoryList) {
+          GpsDataModelForHistory gpsDataModel = new GpsDataModelForHistory();
+          gpsDataModel.truckStatus =
+          json["truckStatus"] != null ? json["truckStatus"] : 'NA';
+          gpsDataModel.startTime =
+          json["startTime"] != null ? json["startTime"] : 'NA';
+          gpsDataModel.endTime =
+          json["endTime"] != null ? json["endTime"] : 'NA';
+          gpsDataModel.lat = json["lat"];
+          gpsDataModel.lng = json["lng"];
+          gpsDataModel.duration =
+          json["duration"] != null ? json["duration"] : 'NA';
+          gpsDataModel.distanceCovered = json["distanceCovered"];
 
-            routeHistory.add(gpsDataModel);
-          }
+          routeHistory.add(gpsDataModel);
+        }
         print("ROUTE $routeHistory");
         return routeHistory;
       }
       else {
         return null;
       }
-      }catch(e){
+    }catch(e){
       print("ERROR IS : $e");
       return null;
     }
