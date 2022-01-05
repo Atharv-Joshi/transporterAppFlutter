@@ -96,7 +96,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                       controller: scrollController,
                       itemCount: myLoadList.length,
                       itemBuilder: (context, index) =>
-                          (index == myLoadList.length - 1)
+                          (index == myLoadList.length)//removed -1 here
                               ? Visibility(
                                   visible: bottomProgressLoad,
                                   child: bottomProgressBarIndicatorWidget())
