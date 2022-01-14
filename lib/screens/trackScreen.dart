@@ -29,23 +29,26 @@ class TrackScreen extends StatefulWidget {
   final List gpsData;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  var routeHistory;
   final String? TruckNo;
   final int? deviceId;
   final String? driverNum;
   final String? driverName;
   var truckId;
-
+  var gpsRoute;
+  var totalRunningTime;
+  var totalDistance;
   TrackScreen({
     required this.gpsData,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
-    required this.routeHistory,
     // required this.position,
+    this.gpsRoute,
     this.TruckNo,
     this.driverName,
     this.driverNum,
     this.deviceId,
+    this.totalRunningTime,
+    this.totalDistance,
     this.truckId});
 
   @override
@@ -63,11 +66,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   late BitmapDescriptor pinLocationIconTruck;
   late CameraPosition camPosition =  CameraPosition(
       target: lastlatLngMarker,
-      zoom: 8);
+      zoom: 10);
   var logger = Logger();
   late Marker markernew;
   List<Marker> customMarkers = [];
   late Timer timer;
+  late Timer timer2;
   Completer<GoogleMapController> _controller = Completer();
   late List newGPSData=widget.gpsData;
   late List reversedList;
@@ -84,7 +88,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   var gpsDataHistory;
   var gpsStoppageHistory;
   var newGPSRoute;
+  var newGPSRouteWithStops;
   var totalDistance;
+  
   var stoppageTime = [];
   List<LatLng> stoplatlong = [];
   var duration = [];
@@ -106,7 +112,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool setDate = false;
   var selectedDateString = [];
   var maptype = MapType.normal;
-  double zoom = 10;
+  double zoom = 16;
   bool showBottomMenu = true;
   var totalRunningTime;
   var totalStoppedTime;
@@ -129,13 +135,14 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       iconthenmarker();
       getTruckHistory();
       logger.i("in init state function");
-      lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
+      lastlatLngMarker = LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
       camPosition = CameraPosition(
           target: lastlatLngMarker,
           zoom: zoom
       );
 
-      timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
+      timer = Timer.periodic(Duration(minutes: 5, seconds: 0), (Timer t) => onActivityExecuted());
+      timer2 = Timer.periodic(Duration(minutes: 0, seconds: 20), (Timer t) => onActivityExecuted2());
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -244,18 +251,19 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     _addPolyLine();
   }
 
-  initfunction(){
+  initfunction() async{
+  //  var gpsRoute = await getRouteStatusList(newGPSData.last.deviceId, from , to);
+   // var gpsStoppageHistory = await getStoppageHistory(newGPSData.last.deviceId, from,  to);
     setState(() {
       newGPSData = widget.gpsData;
-      newGPSRoute=widget.routeHistory;
+      
       gpsStoppageHistory = widget.gpsStoppageHistory;
-
-      totalRunningTime = getTotalRunningTime(newGPSRoute);
+      totalDistance = widget.totalDistance;
+      totalRunningTime = widget.totalRunningTime;
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      totalDistance = getTotalDistance(newGPSRoute);
-      print("kya $to");
+      
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute);
+     newGPSRouteWithStops = widget.gpsRoute;
     });
   }
 
@@ -276,6 +284,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       newGPSRoute = gpsRoute;
       gpsDataHistory = newGpsDataHistory;
       gpsStoppageHistory = newGpsStoppageHistory;
+      newGPSRouteWithStops = gpsRoute;
+      newGPSData = gpsData;
       selectedDate = DateTimeRange(
           start: DateTime.now().subtract(Duration(days: 1)),
           end: DateTime.now()
@@ -284,8 +294,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
+      print("after running time $totalRunningTime");
+      print("after stopped time $totalStoppedTime");
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute);
+      newGPSRouteWithStops = getStopList(newGPSRouteWithStops);
+      print("HERE ROute $newGPSRoute");
     });
   }
 
@@ -308,7 +321,17 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     getTruckHistoryAfter();
     iconthenmarker();
   }
+  void onActivityExecuted2() async{
+    newGPSData = await mapUtil.getTraccarPosition(deviceId : widget.deviceId);
+    print("speed3 ${newGPSData.last.speed}");
+    var newGpsDataHistory = await getDataHistory(newGPSData.last.deviceId, from , to);
+    setState(() {
+    
+      gpsDataHistory = newGpsDataHistory;
 
+    });
+    iconthenmarker();
+  }
   void createmarker() async {
     try {
       print("rj");
@@ -353,6 +376,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   void dispose() {
     logger.i("Activity is disposed");
     timer.cancel();
+    timer2.cancel();
     super.dispose();
   }
 
@@ -691,7 +715,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                   gpsData: newGPSData,
                   dateRange: selectedDate.toString(),
                   TruckNo: widget.TruckNo,
-                  gpsTruckRoute: newGPSRoute,
+                  gpsTruckRoute: newGPSRouteWithStops,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
                   stops: stoplatlong,
