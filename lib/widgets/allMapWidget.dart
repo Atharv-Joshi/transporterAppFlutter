@@ -59,6 +59,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       target: lastlatLngMarker,
       zoom: 4.5);
   var logger = Logger();
+  bool visibility = false;
   late Marker markernew;
   List<Marker> customMarkers = [];
   late Timer timer;
@@ -71,6 +72,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
   String googleAPiKey = FlutterConfig.get("mapKey");
   bool popUp=false;
   late Uint8List markerIcon;
+  late Uint8List markerDetails;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
   bool isAnimation = false;
@@ -86,7 +88,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
     initfunction2();
     try {
 
-      timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
+      timer = Timer.periodic(Duration(minutes: 0, seconds: 5), (Timer t) => onActivityExecuted());
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -155,11 +157,14 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       
       LatLng latLngMarker =
       LatLng(gpsData.last.latitude, gpsData.last.longitude);
+
       print("Live location is  ${gpsData.last.latitude}");
       print("hh");
       print(gpsData.last.deviceId.toString());
       String title = truckData.truckNo!;
+       markerDetails = await getBytesFromCanvas4(truckData.truckNo!,gpsData.last.address, 100, 100);
       markerIcon = await getBytesFromCanvas3(truckData.truckNo!, 100, 100);
+     
       setState(() {
         direction = 180 + gpsData.last.course;
         lastlatLngMarker = LatLng(gpsData.last.latitude, gpsData.last.longitude);
@@ -167,18 +172,36 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
         customMarkers.add(Marker(
             markerId: MarkerId(gpsData.last.deviceId.toString()),
             position: latLngMarker,
-            infoWindow: InfoWindow(
-           //   title: title,
-              onTap: (){}),
+            
+            infoWindow: InfoWindow(  
+              onTap: (){
+              }),
             icon: pinLocationIconTruck,
-        rotation: direction));
+        rotation: direction,
+        onTap: () {
+          print("working");
+          setState(() {
+            visibility = !visibility;
+          });
+        
+        }
+        )
+        );
         print("here i am");
         customMarkers.add(Marker(
             markerId: MarkerId("Details of ${gpsData.last.deviceId.toString()}"),
             position: latLngMarker,
             icon: BitmapDescriptor.fromBytes(markerIcon),
         rotation: 0.0));
-
+        customMarkers.add(Marker(
+          anchor: const Offset(0, -50),
+            markerId: MarkerId("Additional Details of ${gpsData.last.deviceId.toString()}"),
+            position: latLngMarker,
+            visible: visibility,
+            icon: BitmapDescriptor.fromBytes(markerDetails),
+        rotation: 0.0)
+        );
+        
         
       });
       print("done");

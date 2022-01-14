@@ -111,17 +111,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
           DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
           print("2nd pass");
           gpsData = await mapUtil.getTraccarPosition(deviceId : deviceId);
-          gpsRoute = await getRouteStatusList(gpsData.last.deviceId, from , to);
+          
           gpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
           gpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
-          print("6th pass $gpsRoute");
+         
           print(truckdata['truckNo']);
           print(driverModel.driverName);
           print(driverModel.phoneNum);
           print('here');
        //   print(imei);
           EasyLoading.dismiss();
-          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,routeHistory: gpsRoute,deviceId: deviceId,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
+          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,deviceId: deviceId,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
 }
         else{
         loadID = deepLink.path;

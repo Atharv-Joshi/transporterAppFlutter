@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
@@ -63,9 +65,11 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   void initState() {
     super.initState();
     initFunction();
+    timer = Timer.periodic(Duration(minutes: 0, seconds: 20), (Timer t) => initFunction());
   }
 
-  initFunction(){
+  initFunction() async{
+  //  print("ppppp ${widget.totalRunningTime}");
     setState(() {
       gpsData = widget.gpsData;
       gpsTruckRoute = widget.gpsTruckRoute;
@@ -77,7 +81,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       latitude = gpsData.last.latitude;
       longitude = gpsData.last.longitude;
     });
-
+   
+   print("speed2 ${gpsData.last.speed}");
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
@@ -378,14 +383,14 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 
                                     children: [
                                       (widget.gpsData.last.speed>2)?
-                                      Text("${(gpsData.last.speed).round()} km/h",
+                                      Text("${(widget.gpsData.last.speed).round()} km/h",
                                           style: TextStyle(
                                               color: liveasyGreen,
                                               fontSize: size_10,
                                               fontStyle: FontStyle.normal,
                                               fontWeight: regularWeight)
                                       ):
-                                      Text("${(gpsData.last.speed).round()} km/h",
+                                      Text("${(widget.gpsData.last.speed).round()} km/h",
                                           style: TextStyle(
                                               color: red,
                                               fontSize: size_10,
@@ -431,7 +436,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           foregroundColor: Colors.white,
                           child: const Icon(Icons.near_me_outlined, size: 30),
                           onPressed: () {
-                            openMap(gpsData.last.lat, gpsData.last.lng);
+                            openMap(gpsData.last.latitude, gpsData.last.longitude);
                           },
                         ),
                         SizedBox(
@@ -454,7 +459,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                       Column(
                         children:[
-                            DynamicLinkService(deviceId: widget.deviceId,truckId: widget.truckId),
+                            DynamicLinkService(deviceId: widget.deviceId,truckId: widget.truckId,truckNo: widget.TruckNo,),
                             SizedBox(
                         height: 8,
                       ),

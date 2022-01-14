@@ -301,33 +301,75 @@ getStoppageAddress(var gpsStoppageHistory) async{
   return stopAddress;
 }
 
-getStopList(var newGPSRoute){
+getStopList(var newGPSRouteWithStops){
   int i=0;
   var start;
   var end;
   var duration;
-  int length = newGPSRoute.length;
+  int length = newGPSRouteWithStops.length;
+  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
+  var latitude = newGPSRouteWithStops[length -1].latitude;
+  var longitude = newGPSRouteWithStops[length -1].longitude;
+  bool la = false;
+  var lastStop = newGPSRouteWithStops[length -1].endTime;
+  DateTime nowDateFormat=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
+      DateTime lastStopDateFormat =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newGPSRouteWithStops[length -1].endTime);
+  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
+  {
+    la = true;
+  }    
   print("GpsRoute Length ${length}");
-  while(i<newGPSRoute.length){
+  while(i<newGPSRouteWithStops.length){
     print("i $i");
     if(i==0) {
-      DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-      start = getISOtoIST(yesterday.toIso8601String());
-      end = getISOtoIST(newGPSRoute[i].startTime);
+      DateTime st=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(yesterday.toIso8601String());
+      DateTime en =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newGPSRouteWithStops[i].startTime);
+      print("from : $st and to : $en");
+
+      var diff = en.compareTo(st);
+      if(diff <=0)
+      {
+        i++;
+        start = getISOtoIST(newGPSRouteWithStops[i-1].endTime);
+        end = getISOtoIST(newGPSRouteWithStops[i].startTime);
+        duration = getStopDuration(newGPSRouteWithStops[i-1].endTime, newGPSRouteWithStops[i].startTime);
+      }
+          
+      else{
+        start = getISOtoIST(yesterday.toIso8601String());
+        
+      end = getISOtoIST(newGPSRouteWithStops[i].startTime);
       
-      duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
+      duration = getStopDuration(yesterday.toIso8601String(), newGPSRouteWithStops[i].startTime);
+      }
+      
       print("kk $duration");
-      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
-    } else {
-      start = getISOtoIST(newGPSRoute[i - 1].endTime);
-      end = getISOtoIST(newGPSRoute[i].startTime);
-      duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
-      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
+      newGPSRouteWithStops.insert(i, ["stopped", start, end, duration,newGPSRouteWithStops[i].latitude,newGPSRouteWithStops[i].longitude]);
+    } 
+    
+    else {
+      start = getISOtoIST(newGPSRouteWithStops[i - 1].endTime);
+      end = getISOtoIST(newGPSRouteWithStops[i].startTime);
+      duration = getStopDuration(newGPSRouteWithStops[i - 1].endTime, newGPSRouteWithStops[i].startTime);
+      newGPSRouteWithStops.insert(i, ["stopped", start, end, duration,newGPSRouteWithStops[i].latitude,newGPSRouteWithStops[i].longitude]);
     }
     i = i+2;
   }
-  print("With Stops $newGPSRoute");
-  return newGPSRoute;
+  
+  if(la)
+  {
+    start = getISOtoIST(lastStop);
+    end = getISOtoIST(now.toIso8601String());
+    duration = getStopDuration(lastStop, now.toIso8601String());
+    newGPSRouteWithStops.insert(i, ["stopped", start, end, duration,latitude,longitude]);
+  }
+  print("With Stops $newGPSRouteWithStops");
+  return newGPSRouteWithStops;
 }
 
 //STOP MARKER -------------
@@ -365,11 +407,11 @@ Future<Uint8List> getBytesFromCanvas(int customNum, int width, int height) async
 Future<Uint8List> getBytesFromCanvas3(String truckNo, int width, int height) async{
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
-  final Paint paint = Paint()..color = Colors.black.withAlpha(100);
+  final Paint paint = Paint()..color = const Color(0xFF152968);
   final Radius radius = Radius.circular(10);
-  canvas.drawRect(Offset(100, -100) & const Size(500, 250), paint);
+  canvas.drawRect(Offset(280,195) & const Size(250, 60), paint);
 
-  TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
+ // TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
   
   TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
   painter2.text = TextSpan(
@@ -379,9 +421,55 @@ Future<Uint8List> getBytesFromCanvas3(String truckNo, int width, int height) asy
   painter2.layout();
   painter2.paint(
       canvas,
-      Offset(190,
-          65));
-  final img = await pictureRecorder.endRecording().toImage(500, 250);
+      Offset(290,
+          203));
+  final img = await pictureRecorder.endRecording().toImage(530, 250);
+  final data = await img.toByteData(format: ui.ImageByteFormat.png);
+  return data!.buffer.asUint8List();
+}
+
+Future<Uint8List> getBytesFromCanvas4(String truckNo,String truckAddress, int width, int height) async{
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  final Paint paint = Paint()..color = Colors.white;
+  final Radius radius = Radius.circular(10);
+  canvas.drawRect(Offset(320,-200) & const Size(500, 250), paint);
+
+ // TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
+  
+  TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: truckNo, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.black),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(290,
+          403));
+
+
+  TextPainter painter3 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: 'at', // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.black),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(290,
+          303))  ;
+  TextPainter painter4 = TextPainter(textDirection: ui.TextDirection.ltr);
+  painter2.text = TextSpan(
+    text: truckAddress, // your custom number here
+    style: TextStyle(fontSize: 34.0, color: Colors.black),
+  );
+  painter2.layout();
+  painter2.paint(
+      canvas,
+      Offset(290,
+          403));   
+  final img = await pictureRecorder.endRecording().toImage(500,250);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
 }
@@ -424,6 +512,7 @@ getTotalRunningTime(var routeHistory){
   var totalRunning;
   var duration = 0;
   print("route history length ${routeHistory.length}");
+  print(routeHistory);
   for(var instance in routeHistory) {
     print("Duration : ${instance.duration}");
     duration += (instance.duration) as int;
