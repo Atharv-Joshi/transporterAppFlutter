@@ -52,10 +52,12 @@ class _MyTruckCardState extends State<MyTruckCard> {
   var gpsRoute;
   var totalDistance;
   DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-  
+  var totalRunningTime;
+  var newGPSRouteWithStops;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   late String from = yesterday.toIso8601String();
   late String to= now.toIso8601String();
+  bool done = false;
   @override
   void initState() {
     super.initState();   
@@ -102,46 +104,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
       child: GestureDetector(
         onTap: () async{
           // if (loading) {
-            EasyLoading.instance
-              ..indicatorType = EasyLoadingIndicatorType.ring
-              ..indicatorSize = 45.0
-              ..radius = 10.0
-              ..maskColor = darkBlueColor
-              ..userInteractions = false
-              ..backgroundColor = darkBlueColor
-              ..dismissOnTap = false;
-            EasyLoading.show(
-              status: "Loading...",
-            );
-            // getTruckHistory();
-            
-            print(widget.truckData.deviceId);
-            gpsDataHistory = await getDataHistory(widget.truckData.deviceId, from,  to);
-
-            gpsStoppageHistory = await getStoppageHistory(widget.truckData.deviceId, from,  to);
-            gpsRoute = await getRouteStatusList(widget.truckData.deviceId, from,  to);
-            
-            if (gpsRoute!= null && widget.truckData.truckApproved == true) {
-              EasyLoading.dismiss();
-              Get.to(
-                TrackScreen(
-                  deviceId:  widget.truckData.deviceId,
-                  gpsData: widget.gpsData,
-                  // position: position,
-                  TruckNo:  widget.truckData.truckNo,
-                  driverName: widget.truckData.driverName,
-                  driverNum: widget.truckData.driverNum,
-                  gpsDataHistory: gpsDataHistory,
-                  gpsStoppageHistory: gpsStoppageHistory,
-                  routeHistory: gpsRoute,
-                  truckId: widget.truckData.truckId,
-                ),
-              );
-            }
-            else{
-              EasyLoading.dismiss();
-              print("gpsData null or truck not approved");
-            }
+          all();
         
         },
         child: Card(
@@ -608,11 +571,78 @@ class _MyTruckCardState extends State<MyTruckCard> {
       ),
     );
   }
-  initfunction() async {
-    var gpsRoute = await getRouteStatusList(widget.truckData.deviceId,from, to);
+
+  Future<void> all() async{
+    print("hellllo $gpsRoute");
+    EasyLoading.instance
+              ..indicatorType = EasyLoadingIndicatorType.ring
+              ..indicatorSize = 45.0
+              ..radius = 10.0
+              ..maskColor = darkBlueColor
+              ..userInteractions = false
+              ..backgroundColor = darkBlueColor
+              ..dismissOnTap = false;
+            EasyLoading.show(
+              status: "Loading...",
+            );
+            // getTruckHistory();
+            
+            print(widget.truckData.deviceId);
+            
+            
+    var vgpsDataHistory = await getDataHistory(widget.truckData.deviceId, from,  to);
+    var vgpsStoppageHistory = await getStoppageHistory(widget.truckData.deviceId, from,  to);
+    
+     
     setState(() {
-      totalDistance =  getTotalDistance(gpsRoute);
+     
+      gpsDataHistory = vgpsDataHistory;
+      gpsStoppageHistory = vgpsStoppageHistory;
+      
+      done = true;
     });
+            if(gpsRoute!= null && widget.truckData.truckApproved == true)  {
+              EasyLoading.dismiss();
+              Get.to(() =>
+                TrackScreen(
+                  deviceId:  widget.truckData.deviceId,
+                  gpsData: widget.gpsData,
+                  // position: position,
+                  TruckNo:  widget.truckData.truckNo,
+                  driverName: widget.truckData.driverName,
+                  driverNum: widget.truckData.driverNum,
+                  gpsDataHistory: gpsDataHistory,
+                  gpsStoppageHistory: gpsStoppageHistory,
+                  gpsRoute: newGPSRouteWithStops,
+                  truckId: widget.truckData.truckId,
+                  totalDistance: totalDistance,
+                  totalRunningTime: totalRunningTime,
+                ),
+              );
+              
+            }
+            else{
+            //  EasyLoading.dismiss();
+            print("gpsData null or truck not approved");
+            
+            EasyLoading.dismiss();
+         //   all();
+           //   print("gpsData null or truck not approved");
+            }
+  }
+  initfunction() async {
+    
+    var vgpsRoute = await getRouteStatusList(widget.truckData.deviceId, from,  to);
+    
+    setState(() {
+     totalDistance =  getTotalDistance(vgpsRoute);
+      totalRunningTime = getTotalRunningTime(vgpsRoute);
+      
+      gpsRoute = vgpsRoute;
+      newGPSRouteWithStops = getStopList(gpsRoute);
+    });
+    
+    
     
   }
 }
