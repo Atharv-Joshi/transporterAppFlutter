@@ -63,9 +63,13 @@ class _MyAppState extends State<MyApp> {
         setState(() {});
       } else if (result == ConnectivityResult.none) {
         Get.defaultDialog(
-          barrierDismissible: false,
-          content: NoInternetConnection.noInternetDialogue(),
-        );
+            barrierDismissible: false,
+            content: NoInternetConnection.noInternetDialogue(),
+            onWillPop: () async => false,
+            title: "\nNo Internet",
+            titleStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ));
       }
     });
   }
