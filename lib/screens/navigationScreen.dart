@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -12,6 +14,7 @@ import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/screens/trackScreen.dart';
@@ -25,7 +28,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationScreen extends StatefulWidget {
-
   var initScreen;
   NavigationScreen({this.initScreen});
 
@@ -43,12 +45,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
   var gpsData;
   var gpsRoute;
   late Map truckdata;
-  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   TransporterIdController tIdController = Get.find<TransporterIdController>();
-  NavigationIndexController navigationIndex = Get.put(NavigationIndexController(), permanent: true);
+  NavigationIndexController navigationIndex =
+      Get.put(NavigationIndexController(), permanent: true);
   var screens = [
     HomeScreen(),
     MyTrucks(),
@@ -59,8 +63,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void initState() {
-    if(widget.initScreen != null)
-    {
+    if (widget.initScreen != null) {
       navigationIndex.updateIndex(widget.initScreen);
     }
     from = yesterday.toIso8601String();
@@ -68,6 +71,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
     super.initState();
     this.initDynamicLinks();
     this.checkUpdate();
+    checkConnection();
+  }
+
+  Future<void> checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        Get.back();
+      }
+    } on SocketException catch (_) {
+      Get.defaultDialog(
+          barrierDismissible: false,
+          content: NoInternetConnection.noInternetDialogue(),
+          onWillPop: () async => false,
+          title: "\nNo Internet",
+          titleStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ));
+    }
   }
 
   void checkUpdate() async {
@@ -82,61 +104,68 @@ class _NavigationScreenState extends State<NavigationScreen> {
       print(e);
     }
   }
-  void _handleDynamicLink(PendingDynamicLinkData? dataLink) async{
-    
-      final Uri? deepLink = dataLink?.link;
 
-      if (deepLink != null) {
-        if (deepLink.queryParameters.containsKey('deviceId')) {
-          EasyLoading.instance
-              ..indicatorType = EasyLoadingIndicatorType.ring
-              ..indicatorSize = 45.0
-              ..radius = 10.0
-              ..maskColor = darkBlueColor
-              ..userInteractions = false
-              ..backgroundColor = darkBlueColor
-              ..dismissOnTap = false;
-            EasyLoading.show(
-              status: "Loading...",
-            );
-          int deviceId = int.parse(deepLink.queryParameters['deviceId']!);  
-          print(deviceId);
-          
-          String? truckId = deepLink.queryParameters['truckId']; 
-          print(truckId);
-          truckdata =  await _truckApiCalls.getDataByTruckId(truckId!);
-          String driverId = truckdata['driverId'];
-          print("1st pass");
-          print(driverId);
-          DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
-          print("2nd pass");
-          gpsData = await mapUtil.getTraccarPosition(deviceId : deviceId);
-          
-          gpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
-          gpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
-         
-          print(truckdata['truckNo']);
-          print(driverModel.driverName);
-          print(driverModel.phoneNum);
-          print('here');
-       //   print(imei);
-          EasyLoading.dismiss();
-          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,deviceId: deviceId,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
-}
-        else{
+  void _handleDynamicLink(PendingDynamicLinkData? dataLink) async {
+    final Uri? deepLink = dataLink?.link;
+
+    if (deepLink != null) {
+      if (deepLink.queryParameters.containsKey('deviceId')) {
+        EasyLoading.instance
+          ..indicatorType = EasyLoadingIndicatorType.ring
+          ..indicatorSize = 45.0
+          ..radius = 10.0
+          ..maskColor = darkBlueColor
+          ..userInteractions = false
+          ..backgroundColor = darkBlueColor
+          ..dismissOnTap = false;
+        EasyLoading.show(
+          status: "Loading...",
+        );
+        int deviceId = int.parse(deepLink.queryParameters['deviceId']!);
+        print(deviceId);
+
+        String? truckId = deepLink.queryParameters['truckId'];
+        print(truckId);
+        truckdata = await _truckApiCalls.getDataByTruckId(truckId!);
+        String driverId = truckdata['driverId'];
+        print("1st pass");
+        print(driverId);
+        DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
+        print("2nd pass");
+        gpsData = await mapUtil.getTraccarPosition(deviceId: deviceId);
+
+        gpsDataHistory = await getDataHistory(gpsData.last.deviceId, from, to);
+        gpsStoppageHistory =
+            await getStoppageHistory(gpsData.last.deviceId, from, to);
+
+        print(truckdata['truckNo']);
+        print(driverModel.driverName);
+        print(driverModel.phoneNum);
+        print('here');
+        //   print(imei);
+        EasyLoading.dismiss();
+        Get.to(() => TrackScreen(
+              gpsData: gpsData,
+              gpsDataHistory: gpsDataHistory,
+              gpsStoppageHistory: gpsStoppageHistory,
+              deviceId: deviceId,
+              TruckNo: truckdata['truckNo'],
+              driverName: driverModel.driverName,
+              driverNum: driverModel.phoneNum,
+              truckId: truckId,
+            ));
+      } else {
         loadID = deepLink.path;
         findLoadByLoadID(loadID!);
-        }
-     
+      }
+    }
   }
-}
 
   void initDynamicLinks() async {
-    
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-           _handleDynamicLink(dynamicLink);
-  /*       EasyLoading.instance
+      _handleDynamicLink(dynamicLink);
+      /*       EasyLoading.instance
               ..indicatorType = EasyLoadingIndicatorType.ring
               ..indicatorSize = 45.0
               ..radius = 10.0
@@ -190,8 +219,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
     final PendingDynamicLinkData? dataLink =
         await FirebaseDynamicLinks.instance.getInitialLink();
-         _handleDynamicLink(dataLink);
- /*   final Uri? deepLink = dataLink?.link;
+    _handleDynamicLink(dataLink);
+    /*   final Uri? deepLink = dataLink?.link;
 
     if (deepLink != null) {
       
@@ -228,79 +257,78 @@ else{
       findLoadByLoadID(loadID!);
 }
 */
-
-    
   }
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
-      backgroundColor: statusBarColor,
-      // color of status bar which displays time on a phone
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-        onTap: (int pressedIndex) {
-          providerData.updateUpperNavigatorIndex(0);
-          navigationIndex.updateIndex(pressedIndex);
-        },
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: true,
-        unselectedItemColor: grey,
-        selectedItemColor: grey,
-        selectedLabelStyle: TextStyle(color: flagGreen),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: BottomNavigationIconWidget(
-              iconPath: "homeIcon.png",
-            ),
-            activeIcon: BottomNavigationIconWidget(
-              iconPath: "activeHomeIcon.png",
-            ),
-            label: (AppLocalizations.of(context)!.home),
+        backgroundColor: statusBarColor,
+        // color of status bar which displays time on a phone
+        bottomNavigationBar: Obx(() => BottomNavigationBar(
+              onTap: (int pressedIndex) {
+                providerData.updateUpperNavigatorIndex(0);
+                navigationIndex.updateIndex(pressedIndex);
+              },
+              type: BottomNavigationBarType.fixed,
+              showUnselectedLabels: true,
+              unselectedItemColor: grey,
+              selectedItemColor: grey,
+              selectedLabelStyle: TextStyle(color: flagGreen),
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: BottomNavigationIconWidget(
+                    iconPath: "homeIcon.png",
+                  ),
+                  activeIcon: BottomNavigationIconWidget(
+                    iconPath: "activeHomeIcon.png",
+                  ),
+                  label: (AppLocalizations.of(context)!.home),
+                ),
+                BottomNavigationBarItem(
+                  icon: BottomNavigationIconWidget(
+                    iconPath: "myTrucksIcon.png",
+                  ),
+                  activeIcon: BottomNavigationIconWidget(
+                    iconPath: "activeMyTrucksIcon.png",
+                  ),
+                  label: (AppLocalizations.of(context)!.my_truck),
+                ),
+                BottomNavigationBarItem(
+                  icon: BottomNavigationIconWidget(
+                    iconPath: "postLoadIcon.png",
+                  ),
+                  activeIcon: BottomNavigationIconWidget(
+                    iconPath: "activePostLoadIcon.png",
+                  ),
+                  label: (AppLocalizations.of(context)!.my_loads),
+                ),
+                BottomNavigationBarItem(
+                  icon: BottomNavigationIconWidget(
+                    iconPath: "ordersIcon.png",
+                  ),
+                  activeIcon: BottomNavigationIconWidget(
+                    iconPath: "activeOrdersIcon.png",
+                  ),
+                  label: (AppLocalizations.of(context)!.order),
+                ),
+                BottomNavigationBarItem(
+                  icon: BottomNavigationIconWidget(
+                    iconPath: "accountIcon.png",
+                  ),
+                  activeIcon: BottomNavigationIconWidget(
+                    iconPath: "activeAccountIcon.png",
+                  ),
+                  label: (AppLocalizations.of(context)!.account),
+                ),
+              ],
+              currentIndex: navigationIndex.index.value,
+            )),
+        body: Obx(
+          () => SafeArea(
+            child:
+                Center(child: screens.elementAt(navigationIndex.index.value)),
           ),
-          BottomNavigationBarItem(
-            icon: BottomNavigationIconWidget(
-              iconPath: "myTrucksIcon.png",
-            ),
-            activeIcon: BottomNavigationIconWidget(
-              iconPath: "activeMyTrucksIcon.png",
-            ),
-            label: (AppLocalizations.of(context)!.my_truck),
-          ),
-          BottomNavigationBarItem(
-            icon: BottomNavigationIconWidget(
-              iconPath: "postLoadIcon.png",
-            ),
-            activeIcon: BottomNavigationIconWidget(
-              iconPath: "activePostLoadIcon.png",
-            ),
-            label: (AppLocalizations.of(context)!.my_loads),
-          ),
-          BottomNavigationBarItem(
-            icon: BottomNavigationIconWidget(
-              iconPath: "ordersIcon.png",
-            ),
-            activeIcon: BottomNavigationIconWidget(
-              iconPath: "activeOrdersIcon.png",
-            ),
-            label: (AppLocalizations.of(context)!.order),
-          ),
-          BottomNavigationBarItem(
-            icon: BottomNavigationIconWidget(
-              iconPath: "accountIcon.png",
-            ),
-            activeIcon: BottomNavigationIconWidget(
-              iconPath: "activeAccountIcon.png",
-            ),
-            label: (AppLocalizations.of(context)!.account),
-          ),
-        ],
-        currentIndex: navigationIndex.index.value,
-      ) ),
-      body: Obx(() => SafeArea(
-        child: Center(
-            child: screens.elementAt(navigationIndex.index.value)),
-      ),)
-    );
+        ));
   }
 }
