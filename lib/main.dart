@@ -46,7 +46,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    checkConnection();
     super.initState();
+  }
+
+  void checkConnection() {
     configOneSignel();
     connectivity = new Connectivity();
     subscription =
@@ -55,9 +59,13 @@ class _MyAppState extends State<MyApp> {
       print(_connectionStatus);
       if (result == ConnectivityResult.mobile ||
           result == ConnectivityResult.wifi) {
+        Get.back();
         setState(() {});
       } else if (result == ConnectivityResult.none) {
-        Get.to(NoInternetScreen());
+        Get.defaultDialog(
+          barrierDismissible: false,
+          content: NoInternetConnection.noInternetDialogue(),
+        );
       }
     });
   }
