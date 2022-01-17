@@ -95,13 +95,7 @@ class _MapAllTrucksState extends State<MapAllTrucks> with WidgetsBindingObserver
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
-    iconthenmarker();
-    try {
-
-      timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
-    } catch (e) {
-      logger.e("Error is $e");
-    }
+    
   }
  
   void onMapCreated(GoogleMapController controller) {
@@ -135,7 +129,7 @@ class _MapAllTrucksState extends State<MapAllTrucks> with WidgetsBindingObserver
   
 
   //function called every one minute
-  void onActivityExecuted() {
+/*  void onActivityExecuted() {
     logger.i("It is in Activity Executed function");
     
     iconthenmarker();
@@ -192,7 +186,7 @@ class _MapAllTrucksState extends State<MapAllTrucks> with WidgetsBindingObserver
     timer.cancel();
     super.dispose();
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     double height= MediaQuery.of(context).size.height;

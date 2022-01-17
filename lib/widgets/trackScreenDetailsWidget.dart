@@ -84,7 +84,12 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
    
    print("speed2 ${gpsData.last.speed}");
   }
-
+  @override
+  void dispose() {
+    
+    timer.cancel();
+    super.dispose();
+  }
   static Future<void> openMap(double latitude, double longitude) async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
