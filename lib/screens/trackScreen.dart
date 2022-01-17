@@ -112,7 +112,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool setDate = false;
   var selectedDateString = [];
   var maptype = MapType.normal;
-  double zoom = 16;
+  double zoom = 15;
   bool showBottomMenu = true;
   var totalRunningTime;
   var totalStoppedTime;
@@ -142,7 +142,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       );
 
       timer = Timer.periodic(Duration(minutes: 5, seconds: 0), (Timer t) => onActivityExecuted());
-      timer2 = Timer.periodic(Duration(minutes: 0, seconds: 15), (Timer t) => onActivityExecuted2());
+      timer2 = Timer.periodic(Duration(minutes: 0, seconds: 10), (Timer t) => onActivityExecuted2());
     } catch (e) {
       logger.e("Error is $e");
     }
