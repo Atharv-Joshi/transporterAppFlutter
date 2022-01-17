@@ -112,7 +112,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool setDate = false;
   var selectedDateString = [];
   var maptype = MapType.normal;
-  double zoom = 16;
+  double zoom = 15;
   bool showBottomMenu = true;
   var totalRunningTime;
   var totalStoppedTime;
@@ -142,7 +142,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       );
 
       timer = Timer.periodic(Duration(minutes: 5, seconds: 0), (Timer t) => onActivityExecuted());
-      timer2 = Timer.periodic(Duration(minutes: 0, seconds: 20), (Timer t) => onActivityExecuted2());
+      timer2 = Timer.periodic(Duration(minutes: 0, seconds: 10), (Timer t) => onActivityExecuted2());
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -181,7 +181,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     var logger = Logger();
     logger.i("in truck history after function");
     getStoppage(gpsStoppageHistory);
-    polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
+    polylineCoordinates.add(LatLng(newGPSData.last.latitude, newGPSData.last.longitude));
     _getPolyline(polylineCoordinates);
 
   }
@@ -318,18 +318,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   void onActivityExecuted() {
     logger.i("It is in Activity Executed function");
     initfunctionAfter();
-    getTruckHistoryAfter();
+    getTruckHistory();
     iconthenmarker();
   }
   void onActivityExecuted2() async{
     newGPSData = await mapUtil.getTraccarPosition(deviceId : widget.deviceId);
-    print("speed3 ${newGPSData.last.speed}");
-    var newGpsDataHistory = await getDataHistory(newGPSData.last.deviceId, from , to);
-    setState(() {
-    
-      gpsDataHistory = newGpsDataHistory;
+    getTruckHistoryAfter();
 
-    });
     iconthenmarker();
   }
   void createmarker() async {

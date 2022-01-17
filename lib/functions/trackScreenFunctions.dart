@@ -134,6 +134,7 @@ getPoylineCoordinates(var gpsDataHistory){
   polylineCoordinates.clear();
   int a=0;
   int b=a+2;
+
   int c=0;
   print("length ${gpsDataHistory.length}");
   print("End lat ${gpsDataHistory[gpsDataHistory.length-1].latitude}");
@@ -307,6 +308,7 @@ getStopList(var newGPSRouteWithStops){
   var end;
   var duration;
   int length = newGPSRouteWithStops.length;
+  
   DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
   var latitude = newGPSRouteWithStops[length -1].latitude;
