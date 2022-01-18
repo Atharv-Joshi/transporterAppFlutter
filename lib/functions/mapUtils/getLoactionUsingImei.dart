@@ -134,8 +134,6 @@ class MapUtil {
           gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
           gpsDataModel.duration = json["duration"] != null ? json["duration"] : 0;
 
-          // print("Device time : ${gpsDataModel.deviceTime}");
-
           LatLongList.add(gpsDataModel);
         }
         print("TDS $LatLongList");

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geocoding/geocoding.dart';
@@ -126,8 +127,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     try {
       initfunction();
       initfunction2();
-      iconthenmarker();
       getTruckHistory();
+      iconthenmarker();
+
       logger.i("in init state function");
       lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(
@@ -163,7 +165,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     gpsDataHistory=widget.gpsDataHistory;
     print("Gps data history length ${gpsDataHistory.length}");
     gpsStoppageHistory=widget.gpsStoppageHistory;
-    getStoppage(widget.gpsStoppageHistory);
+    // getStoppage(widget.gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
     _getPolyline(polylineCoordinates);
   }
@@ -173,45 +175,76 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   getTruckHistoryAfter() {
     var logger = Logger();
     logger.i("in truck history after function");
-    getStoppage(gpsStoppageHistory);
+    // getStoppage(gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
     _getPolyline(polylineCoordinates);
 
   }
 
-  getStoppage(var gpsStoppage) async{
-    stopAddress = [];
-    stoppageTime = [];
-    stoplatlong = [];
-    duration = [];
-    print("Stop length ${gpsStoppage.length}");
+  addstops(var gpsStoppage) async{
+    var logger = Logger();
+    logger.i("in addstops function");
+    FutureGroup futureGroup = FutureGroup();
+    for(int i=0; i<gpsStoppage.length; i++)
+    {
+      var future = getStoppage(gpsStoppage[i], i);
+      futureGroup.add(future);
+    }
+    futureGroup.close();
+    await futureGroup.future;
+    print("STOPS DONE __");
+
+    //This is another way to fire placemark APIs in parallel ------
+
+    // stopAddress =[];
+    // var obj = [];
+    // for(int i=0; i<gpsStoppage.length; i++) {
+    //   obj.add(getStoppageAddress(gpsStoppage[i]));
+    // }
+    // print("Added all ");
+    // for(int i=0; i<gpsStoppage.length; i++) {
+    //
+    //   var place = await obj[i];
+    //   stopAddress.insert(i, place);
+    // }
+    // print("STOPSS $stopAddress");
+  }
+
+  getStoppage(var gpsStoppage, int i) async{
+    var stopAddress;
+    var stoppageTime;
+    var stoplatlong;
+    var duration;
+    print("Stop length ${gpsStoppage}");
     LatLng? latlong;
 
-    for(var stop in gpsStoppage) {
-      latlong=LatLng(stop.latitude, stop.longitude);
-      stoplatlong.add(latlong);
-    }
+    // for(var stop in gpsStoppage) {
+      latlong=LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
+      stoplatlong=latlong;
+    // }
     stoppageTime = getStoppageTime(gpsStoppage);
-    stopAddress = await getStoppageAddress(gpsStoppage);
+    // stopAddress = await getStoppageAddress(gpsStoppage);
     duration = getStoppageDuration(gpsStoppage);
 
-    for(int i=0; i<stoplatlong.length; i++){
+    // for(int i=0; i<stoplatlong.length; i++){
       markerIcon = await getBytesFromCanvas(i+1, 100, 100);
       setState(() {
                     customMarkers.add(Marker(
                         markerId: MarkerId("Stop Mark $i"),
-                        position: stoplatlong[i],
+                        position: stoplatlong,
                         icon: BitmapDescriptor.fromBytes(markerIcon),
                         //info window
-                        onTap: (){
+                        onTap: () async{
+                          stopAddress = await getStoppageAddress(gpsStoppage);
+
                           _customInfoWindowController.addInfoWindow!(
-                            getInfoWindow(duration[i], stoppageTime[i], stopAddress[i]),
-                            stoplatlong[i],
+                            getInfoWindow(duration, stoppageTime, stopAddress),
+                            stoplatlong,
                           );
                         },
                     ));
                   });
-    }
+    // }
   }
 
   _addPolyLine() {
@@ -257,7 +290,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       status = getStatus(newGPSData, gpsStoppageHistory);
       newGPSRoute = getStopList(newGPSRoute);
     });
+    addstops(gpsStoppageHistory);
   }
+
 
   Future<void> initfunction2() async {
     final GoogleMapController controller = await _controller.future;
@@ -268,11 +303,17 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   void initfunctionAfter() async {
     logger.i("It is in init function after function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId : widget.deviceId);
-    var gpsRoute = await getRouteStatusList(newGPSData.last.deviceId, from , to);
-    var newGpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
-    var newGpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
+    var f1 = mapUtil.getTraccarPosition(deviceId : widget.deviceId);
+    var f =  getDataHistory(newGPSData.last.deviceId, from,  to);
+    var s = getStoppageHistory(newGPSData.last.deviceId, from,  to);
+    var t = getRouteStatusList(newGPSData.last.deviceId, from,  to);
+
+    var gpsData = await f1;
+    var gpsRoute = await t;
+    var newGpsDataHistory = await f;
+    var newGpsStoppageHistory = await s;
     setState(() {
+      newGPSData = gpsData;
       newGPSRoute = gpsRoute;
       gpsDataHistory = newGpsDataHistory;
       gpsStoppageHistory = newGpsStoppageHistory;
@@ -287,6 +328,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       status = getStatus(newGPSData, gpsStoppageHistory);
       newGPSRoute = getStopList(newGPSRoute);
     });
+    addstops(gpsStoppageHistory);
   }
 
   void iconthenmarker() {
@@ -421,7 +463,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                 ),
                                   Positioned(
                                     left: 10,
-                                    top: 275,
+                                    top: 175,
                                     child: SizedBox(
                                       height: 40,
                                       child: FloatingActionButton(
@@ -439,7 +481,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                   ),
                                   Positioned(
                                     right: 10,
-                                    bottom: height/3+140,
+                                    bottom: height/3+90,
                                     child: SizedBox(
                                       height: 40,
                                       child: FloatingActionButton(
@@ -465,7 +507,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                                   ),
                                   Positioned(
                                     right: 10,
-                                    bottom: height/3+90,
+                                    bottom: height/3+40,
                                     child: SizedBox(
                                       height: 40,
                                       child: FloatingActionButton(
