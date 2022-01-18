@@ -50,7 +50,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   var gpsDataHistory;
   var gpsStoppageHistory;
   var gpsRoute;
-  var totalDistance;
+  var totalDistance = '';
   DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   var totalRunningTime;
   var newGPSRouteWithStops;
@@ -73,7 +73,11 @@ class _MyTruckCardState extends State<MyTruckCard> {
     
    
   }
-
+  @override
+  void dispose() {
+    
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -633,12 +637,14 @@ class _MyTruckCardState extends State<MyTruckCard> {
   initfunction() async {
     
     var vgpsRoute = await getRouteStatusList(widget.truckData.deviceId, from,  to);
-    
+    setState(() {
+      gpsRoute = vgpsRoute;
+    });
     setState(() {
      totalDistance =  getTotalDistance(vgpsRoute);
       totalRunningTime = getTotalRunningTime(vgpsRoute);
       
-      gpsRoute = vgpsRoute;
+      
       newGPSRouteWithStops = getStopList(gpsRoute);
     });
     

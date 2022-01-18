@@ -16,6 +16,7 @@ import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
@@ -289,8 +290,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedAddressList.clear();
                                         StoppedGpsData.clear();
                                         StoppedList.clear();
+                                        loading = true;
                                       });
-                                      return refreshData(0);
+                                      return getTruckAddress(0);
                                     },
                                     child: ListView.builder(
                                         physics: BouncingScrollPhysics(),
@@ -299,8 +301,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                         padding: EdgeInsets.only(bottom: space_15),
                                         
                                         itemCount: truckDataList.length,
-                                        itemBuilder: (context, index) {
-                                          return MyTruckCard(
+                                        itemBuilder: (context, index)=> index == truckDataList.length? 
+                                            bottomProgressBarIndicatorWidget():
+                                             MyTruckCard(
                                             truckData: truckDataList[index],
                                             truckAddress: truckAddressList[index],
                                             status: status[index],
@@ -314,8 +317,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             // driverName: truckDataList[index].driverName,
                                             // phoneNum: truckDataList[index].driverNum,
                                             // imei: truckDataList[index].imei,
-                                          );
-                                        }),
+                                          )
+                                        ),
                                   ),
                             ],
                       ),
@@ -338,7 +341,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                             width: 127,
                                           ),
                                           Text(
-                                            'Looks like you none of your trucks are running!',
+                                            'Looks like none of your trucks are running!',
                                             style: TextStyle(
                                                 fontSize: size_8, color: grey),
                                             textAlign: TextAlign.center,
@@ -364,8 +367,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedAddressList.clear();
                                         StoppedGpsData.clear();
                                         StoppedList.clear();
+                                        loading = true;
                                       });
-                                      return refreshData(0);
+                                      return getTruckAddress(0);
                                     },
                                     child: ListView.builder(
                                         padding: EdgeInsets.only(bottom: space_15),
@@ -373,8 +377,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                         controller: scrollController,
                                         scrollDirection: Axis.vertical,
                                         itemCount: runningList.length,
-                                        itemBuilder: (context, index) {
-                                          return MyTruckCard(
+                                        itemBuilder: (context, index) => index == runningList.length
+                  ? bottomProgressBarIndicatorWidget() : 
+                                           MyTruckCard(
                                             truckData: runningList[index],
                                             truckAddress: runningAddressList[index],
                                             status: runningStatus[index],
@@ -388,8 +393,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             // driverName: truckDataList[index].driverName,
                                             // phoneNum: truckDataList[index].driverNum,
                                             // imei: truckDataList[index].imei,
-                                          );
-                                        }),
+                                          ),
+                                        ),
                                   ),
                             ],
                       ),
@@ -436,17 +441,19 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedAddressList.clear();
                                         StoppedGpsData.clear();
                                         StoppedList.clear();
+                                        loading = true;
                                       });
-                                      return refreshData(0);
+                                      return getTruckAddress(0);
                                     },
                                     child: ListView.builder(
                                         padding: EdgeInsets.only(bottom: space_15),
                                         physics: BouncingScrollPhysics(),
                                         controller: scrollController,
                                         scrollDirection: Axis.vertical,
-                                        itemCount: StoppedList.length,
-                                        itemBuilder: (context, index) {
-                                          return MyTruckCard(
+                                        itemCount: StoppedList.length ,
+                                        itemBuilder: (context, index) => index == StoppedList.length
+                  ? bottomProgressBarIndicatorWidget():
+                                           MyTruckCard(
                                             truckData: StoppedList[index],
                                             truckAddress: StoppedAddressList[index],
                                             status: StoppedStatus[index],
@@ -460,8 +467,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             // driverName: truckDataList[index].driverName,
                                             // phoneNum: truckDataList[index].driverNum,
                                             // imei: truckDataList[index].imei,
-                                          );
-                                        }),
+                                          ),
+                                        ),
                                   ),
                             ],
                       ),
@@ -503,7 +510,11 @@ class _MyTrucksState extends State<MyTrucks> {
   } //getTruckData
 
   getTruckAddress(int i) async {
-    truckDataListForPage = await getTruckDataWithPageNo(i);
+    var truckDataListForPagevar = await getTruckDataWithPageNo(i);
+
+    setState(() {
+      truckDataListForPage = truckDataListForPagevar;
+    });
     for (var truckData in truckDataListForPage) {
       print("hello DeviceId is ${truckData.deviceId}");
       setState(() {
@@ -559,22 +570,25 @@ class _MyTrucksState extends State<MyTrucks> {
   refreshData(int i) async{
      {
  //   truckDataListForPage = await getTruckDataWithPageNo(i);
+    
     for (var truckData in truckDataListForPage) {
       print("hello DeviceId is ${truckData.deviceId}");
-      setState(() {
+    /*  setState(() {
         truckDataList.add(truckData);
-      });
+      });*/
       if (truckData.deviceId != 0 ) {
         //Call Traccar position API to get current details of truck
-        gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
+        var vgpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
         
-        
+        setState(() {
+          gpsData = vgpsData;
+        });
         getStoppedSince(gpsData);
         if(truckData.truckApproved == true && gpsData.last.speed >= 2)
         {
        //   print("more");
           setState(() {
-            runningList.add(truckData);
+       //     runningList.add(truckData);
           runningAddressList.add("${gpsData.last.address}");
           
           runningGpsData.add(gpsData);
@@ -584,7 +598,7 @@ class _MyTrucksState extends State<MyTrucks> {
         else if (truckData.truckApproved == true && gpsData.last.speed < 2){
        //   print("kess");
        setState(() {
-         StoppedList.add(truckData);
+     //    StoppedList.add(truckData);
           StoppedAddressList.add("${gpsData.last.address}");
           
           StoppedGpsData.add(gpsData);
