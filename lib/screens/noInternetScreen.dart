@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -55,10 +59,24 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
               height: space_7 + 3,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => super.widget));
+                  var _connectionStatus = "Unknown";
+                  late Connectivity connectivity;
+                  late StreamSubscription<ConnectivityResult> subscription;
+                  connectivity = new Connectivity();
+                  subscription = connectivity.onConnectivityChanged
+                      .listen((ConnectivityResult result) {
+                    _connectionStatus = result.toString();
+                    print(_connectionStatus);
+                    if (result == ConnectivityResult.mobile ||
+                        result == ConnectivityResult.wifi) {
+                      Get.back();
+                    } else {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => super.widget));
+                    }
+                  });
                 },
                 child: Text(
                   'Try Again',

@@ -119,7 +119,7 @@ class _TrackButtonState extends State<TrackButton> {
                   driverNum: widget.phoneNo,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
-                  routeHistory: gpsRoute,
+                  
                 ),
               );
             }
