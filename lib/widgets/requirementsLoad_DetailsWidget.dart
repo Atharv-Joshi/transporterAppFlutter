@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -20,7 +21,8 @@ class RequirementsLoadDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context)!.requirement,
+          'requirement'.tr,
+          // AppLocalizations.of(context)!.requirement,
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
         ),
         Container(
@@ -29,21 +31,26 @@ class RequirementsLoadDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               NewRowTemplate(
-                  label: AppLocalizations.of(context)!.truckType,
+                  label: 'truckType'.tr,
+                  // AppLocalizations.of(context)!.truckType,
                   value: loadDetails['truckType']),
               NewRowTemplate(
-                  label: AppLocalizations.of(context)!.tyre,
+                  label: 'tyre'.tr,
+                  // AppLocalizations.of(context)!.tyre,
                   value: loadDetails["noOfTyres"] == null
                       ? "NA"
                       : loadDetails["noOfTyres"]),
               NewRowTemplate(
-                  label: AppLocalizations.of(context)!.weight,
+                  label: 'weight'.tr,
+                  // AppLocalizations.of(context)!.weight,
                   value: "${loadDetails['weight']} tonnes"),
               NewRowTemplate(
-                  label: AppLocalizations.of(context)!.productType,
+                  label: 'productType'.tr,
+                  // AppLocalizations.of(context)!.productType,
                   value: loadDetails['productType']),
               NewRowTemplate(
-                  label: 'Bid Price',
+                  label: 'bidPrice'.tr,
+                  // 'Bid Price',
                   value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
             ],
           ),

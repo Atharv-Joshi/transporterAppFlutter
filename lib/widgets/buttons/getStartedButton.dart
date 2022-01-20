@@ -33,7 +33,8 @@ class _GetStartedButtonState extends State<GetStartedButton> {
             borderRadius: BorderRadius.circular(radius_6)),
         child: Center(
           child: Text(
-            "Get Started",
+            'getStarted'.tr,
+            // "Get Started",
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
           ),

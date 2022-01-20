@@ -21,6 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
 
+import 'language/localization_service.dart';
+
 var firebase;
 
 void main() async {
@@ -89,14 +91,17 @@ class _MyAppState extends State<MyApp> {
                     return GetMaterialApp(
                       builder: EasyLoading.init(),
                       theme: ThemeData(fontFamily: "montserrat"),
-                      locale: provider.locale,
-                      supportedLocales: L10n.all,
-                      localizationsDelegates: [
-                        AppLocalizations.delegate,
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                      ],
+                      translations: LocalizationService(),
+                      locale: LocalizationService().getCurrentLocale(),
+                      fallbackLocale: Locale('en','US'),
+                      // locale: provider.locale,
+                      // supportedLocales: L10n.all,
+                      // localizationsDelegates: [
+                      //   AppLocalizations.delegate,
+                      //   GlobalMaterialLocalizations.delegate,
+                      //   GlobalCupertinoLocalizations.delegate,
+                      //   GlobalWidgetsLocalizations.delegate,
+                      // ],
                       home: SplashScreen(),
                     );
                   } else {
@@ -107,14 +112,17 @@ class _MyAppState extends State<MyApp> {
                           appBarTheme: AppBarTheme(
                               color: statusBarColor,
                               iconTheme: IconThemeData(color: grey))),
-                      locale: provider.locale,
-                      supportedLocales: L10n.all,
-                      localizationsDelegates: [
-                        AppLocalizations.delegate,
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                      ],
+                      translations: LocalizationService(),
+                      locale: LocalizationService().getCurrentLocale(),
+                      fallbackLocale: Locale('en','US'),
+                      // locale: provider.locale,
+                      // supportedLocales: L10n.all,
+                      // localizationsDelegates: [
+                      //   AppLocalizations.delegate,
+                      //   GlobalMaterialLocalizations.delegate,
+                      //   GlobalCupertinoLocalizations.delegate,
+                      //   GlobalWidgetsLocalizations.delegate,
+                      // ],
                       home: SplashScreenToGetTransporterData(
                         mobileNum: FirebaseAuth
                             .instance.currentUser!.phoneNumber

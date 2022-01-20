@@ -13,7 +13,7 @@ class SearchLoadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: space_7,
+      height: space_8,
       decoration: BoxDecoration(
         color: widgetBackGroundColor,
         borderRadius: BorderRadius.circular(30),

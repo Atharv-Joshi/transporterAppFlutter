@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/elevation.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -86,14 +87,14 @@ class WaitForReviewCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Upload Details",
+                    "uploadDetails".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_9,
                         fontWeight: mediumBoldWeight),
                   ),
                   Text(
-                    "Provide details",
+                    "provideDetails".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_6,
@@ -103,14 +104,14 @@ class WaitForReviewCard extends StatelessWidget {
                     height: space_8,
                   ),
                   Text(
-                    "Wait for review",
+                    "waitForReview".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_9,
                         fontWeight: mediumBoldWeight),
                   ),
                   Text(
-                    "This might take a few days",
+                    "takeTime".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_6,
@@ -120,14 +121,14 @@ class WaitForReviewCard extends StatelessWidget {
                     height: space_8,
                   ),
                   Text(
-                    "Verified",
+                    "verified".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_9,
                         fontWeight: mediumBoldWeight),
                   ),
                   Text(
-                    "Search for loads",
+                    "searchForLoads".tr,
                     style: TextStyle(
                         color: liveasyBlackColor,
                         fontSize: size_6,

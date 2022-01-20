@@ -96,7 +96,9 @@ class DeliveredCardOrders extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         LoadLabelValueRowTemplate(
-                            value: endedOn, label: AppLocalizations.of(context)!.completedDate),
+                            value: endedOn, label: 'completedDate'.tr
+                        // AppLocalizations.of(context)!.completedDate
+                        ),
                         Icon(Icons.arrow_forward_ios)
                       ],
 
@@ -108,7 +110,9 @@ class DeliveredCardOrders extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: loadingPoint, endPointType: AppLocalizations.of(context)!.location),
+                            text: loadingPoint, endPointType: 'location'.tr
+                        // AppLocalizations.of(context)!.location
+                        ),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_6,
@@ -125,9 +129,13 @@ class DeliveredCardOrders extends StatelessWidget {
                       child: Column(
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: startedOn, label: AppLocalizations.of(context)!.bookingDate),
+                              value: startedOn, label: 'bookingDate'.tr
+                          // AppLocalizations.of(context)!.bookingDate
+                          ),
                           LoadLabelValueRowTemplate(
-                              value: "Rs.$rate/$unitValue", label: AppLocalizations.of(context)!.price),
+                              value: "Rs.$rate/$unitValue", label: 'price'.tr
+                          // AppLocalizations.of(context)!.price
+                          ),
                         ],
                       ),
                     ),

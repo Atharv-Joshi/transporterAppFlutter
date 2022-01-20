@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -46,7 +47,8 @@ class CompletedButtonOrders extends StatelessWidget {
             size_1,
           ),
           child: Text(
-            AppLocalizations.of(context)!.complete,
+            'complete'.tr,
+            // AppLocalizations.of(context)!.complete,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: normalWeight,

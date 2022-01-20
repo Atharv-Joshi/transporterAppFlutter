@@ -36,7 +36,9 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                         width: space_2,
                       ),
                       HeadingTextWidget(
-                          AppLocalizations.of(context)!.my_account),
+                        'my_account'.tr
+                          // AppLocalizations.of(context)!.my_account
+                      ),
                     ],
                   ),
                   HelpButtonWidget(),

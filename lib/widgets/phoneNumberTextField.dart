@@ -84,7 +84,8 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                 ],
                 maxLength: 10,
                 validator: (value) =>
-                    value!.length == 10 ? null : 'Enter a valid Phone Number',
+                    value!.length == 10 ? null : 'EnterPhoneNumber'.tr,
+                    // 'Enter a valid Phone Number',
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   counterText: "",
@@ -95,7 +96,8 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                   disabledBorder: InputBorder.none,
                   filled: true,
                   fillColor: white,
-                  hintText: 'Enter Phone Number',
+                  hintText: 'EnterPhoneNumber'.tr,
+                  // 'Enter Phone Number',
                   hintStyle: TextStyle(color: darkCharcoal, fontSize: size_7),
                   // focusedBorder: OutlineInputBorder(
                   //   borderRadius: BorderRadius.circular(size_2),

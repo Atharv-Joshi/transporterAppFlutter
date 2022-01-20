@@ -256,7 +256,9 @@ else{
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activeHomeIcon.png",
             ),
-            label: (AppLocalizations.of(context)!.home),
+            label: ('home'.tr
+                // AppLocalizations.of(context)!.home
+            ),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(
@@ -265,7 +267,9 @@ else{
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activeMyTrucksIcon.png",
             ),
-            label: (AppLocalizations.of(context)!.my_truck),
+            label: ('my_truck'.tr
+                // AppLocalizations.of(context)!.my_truck
+            ),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(
@@ -274,7 +278,9 @@ else{
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activePostLoadIcon.png",
             ),
-            label: (AppLocalizations.of(context)!.my_loads),
+            label: ('my_loads'.tr
+                // AppLocalizations.of(context)!.my_loads
+            ),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(
@@ -283,7 +289,9 @@ else{
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activeOrdersIcon.png",
             ),
-            label: (AppLocalizations.of(context)!.order),
+            label: ('order'.tr
+                // AppLocalizations.of(context)!.order
+            ),
           ),
           BottomNavigationBarItem(
             icon: BottomNavigationIconWidget(
@@ -292,7 +300,9 @@ else{
             activeIcon: BottomNavigationIconWidget(
               iconPath: "activeAccountIcon.png",
             ),
-            label: (AppLocalizations.of(context)!.account),
+            label: ('account'.tr
+                // AppLocalizations.of(context)!.account
+            ),
           ),
         ],
         currentIndex: navigationIndex.index.value,

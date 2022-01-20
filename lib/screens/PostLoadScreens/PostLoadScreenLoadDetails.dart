@@ -158,7 +158,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         SizedBox(height: space_3),
                         PriceTextFieldWidget(),
                         SizedBox(height: space_3),
-                        SizedBox(height: space_18),
+                        // SizedBox(height: space_18),
                         ApplyButton(),
                         SizedBox(height: space_18),
                       ],
