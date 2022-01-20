@@ -166,6 +166,8 @@ class MapUtil {
           gpsDataModel.deviceId = json["deviceId"] != null ? json["deviceId"] : 0;
           gpsDataModel.latitude = json["startLat"] != null ? json["startLat"] : 0;
           gpsDataModel.longitude = json["startLon"] != null ? json["startLon"] : 0;
+          gpsDataModel.endLat = json["endLat"] != null ? json["endLat"] : 0;
+          gpsDataModel.endLon = json["endLon"] != null ? json["endLon"] : 0;
           gpsDataModel.speed = json["averageSpeed"] != null ? json["averageSpeed"] : 0;
           gpsDataModel.distance = json["distance"] != null ? json["distance"] : 0;
 

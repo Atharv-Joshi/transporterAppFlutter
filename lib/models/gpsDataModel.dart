@@ -4,6 +4,8 @@ class GpsDataModel {
   double? speed ;
   double? latitude;
   double? longitude;
+  double? endLat;
+  double? endLon;
   int? deviceId;
   bool? ignition;
   double? course;
@@ -26,6 +28,8 @@ class GpsDataModel {
         this.deviceId,
         this.latitude,
         this.longitude,
+        this.endLat,
+        this.endLon,
         this.course,
         this.deviceTime,
         this.serverTime,

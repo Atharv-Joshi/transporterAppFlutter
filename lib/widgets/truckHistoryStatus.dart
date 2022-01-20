@@ -39,14 +39,10 @@ class _TruckStatusState extends State<TruckStatus> {
     if(widget.truckHistory.runtimeType==GpsDataModel) {
       getFormattedDate();
       duration = convertMillisecondsToDuration(widget.truckHistory.duration);
-      
     }
     else{
       getAddress();
     }
-      
-    
-    
   }
 
   @override
@@ -251,21 +247,8 @@ class _TruckStatusState extends State<TruckStatus> {
       ),
     );
   }
-  void getPosition() async {
-    gpsPosition = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    setState(() {
-      newGpsPosition = gpsPosition;
-    });
-   // print("LAt and Long ${widget.truckHistory[4]} ${widget.truckHistory[5]}");
-  }
   getAddress() async{
-    print("bhai");
-    print(widget.truckHistory);
-    print("hehe");
-    print("hehe and Long ${widget.truckHistory[4]} ${widget.truckHistory[5]}");
     placemarks = await placemarkFromCoordinates(widget.truckHistory[4], widget.truckHistory[5]);
-    print("kaise stop loc is $placemarks");
-    print("pppp");
     var first = placemarks.first;
     print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
     setState(() {

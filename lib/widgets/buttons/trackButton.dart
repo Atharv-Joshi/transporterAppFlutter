@@ -112,14 +112,16 @@ class _TrackButtonState extends State<TrackButton> {
               EasyLoading.dismiss();
               Get.to(
                 TrackScreen(
-                  // imei:  widget.imei,
+                  deviceId:  truckData.deviceId,
                   gpsData: widget.gpsData,
-                  TruckNo:  widget.TruckNo,
-                  driverName: widget.DriverName,
-                  driverNum: widget.phoneNo,
+                  // position: position,
+                  TruckNo:  truckData.truckNo,
+                  driverName: truckData.driverName,
+                  driverNum: truckData.driverNum,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
-                  
+                  routeHistory: gpsRoute,
+                  truckId: truckData.truckId,
                 ),
               );
             }

@@ -42,7 +42,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   var gpsStoppageHistory;
   var gpsData;
   var gpsRoute;
-  late Map truckdata;
+  var truckData;
   DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
@@ -104,24 +104,40 @@ class _NavigationScreenState extends State<NavigationScreen> {
           
           String? truckId = deepLink.queryParameters['truckId']; 
           print(truckId);
-          truckdata =  await _truckApiCalls.getDataByTruckId(truckId!);
-          String driverId = truckdata['driverId'];
+          truckData =  await _truckApiCalls.getDataByTruckId(truckId!);
+          String driverId = truckData['driverId'];
           print("1st pass");
           print(driverId);
           DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
           print("2nd pass");
-          gpsData = await mapUtil.getTraccarPosition(deviceId : deviceId);
-          
-          gpsDataHistory = await getDataHistory(gpsData.last.deviceId, from , to);
-          gpsStoppageHistory = await getStoppageHistory(gpsData.last.deviceId, from , to);
-         
-          print(truckdata['truckNo']);
-          print(driverModel.driverName);
-          print(driverModel.phoneNum);
-          print('here');
-       //   print(imei);
-          EasyLoading.dismiss();
-          Get.to(() => TrackScreen(gpsData: gpsData,gpsDataHistory: gpsDataHistory,gpsStoppageHistory: gpsStoppageHistory ,deviceId: deviceId,TruckNo: truckdata['truckNo'],driverName: driverModel.driverName,driverNum:driverModel.phoneNum,truckId: truckId,));
+          var f1 =  mapUtil.getTraccarPosition(deviceId : deviceId);
+          var f =  getDataHistory(truckData.deviceId, from,  to);
+          var s = getStoppageHistory(truckData.deviceId, from,  to);
+          var t = getRouteStatusList(truckData.deviceId, from,  to);
+
+          gpsData = await f1;
+          gpsDataHistory =  await f;
+          gpsStoppageHistory =  await s;
+          gpsRoute =  await t;
+
+          if (gpsRoute!= null && gpsDataHistory!= null && gpsStoppageHistory!= null && truckData.truckApproved == true) {
+            EasyLoading.dismiss();
+            Get.to(
+              TrackScreen(
+                deviceId:  truckData.deviceId,
+                gpsData: gpsData,
+                // position: position,
+                TruckNo:  truckData.truckNo,
+                driverName: truckData.driverName,
+                driverNum: truckData.driverNum,
+                gpsDataHistory: gpsDataHistory,
+                gpsStoppageHistory: gpsStoppageHistory,
+                routeHistory: gpsRoute,
+                truckId: truckData.truckId,
+              ),
+            );
+          }
+
 }
         else{
         loadID = deepLink.path;

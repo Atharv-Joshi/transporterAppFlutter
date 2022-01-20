@@ -87,7 +87,6 @@ getStopDuration(String from, String to){
   else
     duration = "$hour hr $minute min $second sec";
   print("Stop DUR is $duration");
-  print("Stop DUR is $dur");
 
   return duration;
 
@@ -256,7 +255,7 @@ getStoppageDuration(var gpsStoppageHistory){
   var duration;
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
     if(gpsStoppageHistory.duration==0)
-      duration.add("Ongoing");
+      duration="Ongoing";
     else {
       var time = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: gpsStoppageHistory.duration).toString();
       var time2 =  new DateFormat("hh:mm:ss").parse(time).toString();
@@ -306,6 +305,19 @@ getStopList(var newGPSRoute){
   var start;
   var end;
   var duration;
+  bool last = false;
+  var lastStop = newGPSRoute[newGPSRoute.length -1].endTime;
+  DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
+
+  DateTime nowDateFormat=
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
+  DateTime lastStopDateFormat =
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newGPSRoute[newGPSRoute.length -1].endTime);
+  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)    //Check if end time of last trip is less than current time, if yes, then add stop at end
+  {
+    last = true;
+  }
+
   int length = newGPSRoute.length;
   print("GpsRoute Length ${length}");
   while(i<newGPSRoute.length){
@@ -316,7 +328,6 @@ getStopList(var newGPSRoute){
       end = getISOtoIST(newGPSRoute[i].startTime);
       
       duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
-      print("kk $duration");
       newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     } else {
       start = getISOtoIST(newGPSRoute[i - 1].endTime);
@@ -325,6 +336,14 @@ getStopList(var newGPSRoute){
       newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     }
     i = i+2;
+  }
+
+  if(last)         //to add stop at end
+  {
+    start = getISOtoIST(lastStop);
+    end = getISOtoIST(now.toIso8601String());
+    duration = getStopDuration(lastStop, now.toIso8601String());
+    newGPSRoute.add(["stopped", start, end, duration, newGPSRoute.last.endLat, newGPSRoute.last.endLon]);
   }
   print("With Stops $newGPSRoute");
   return newGPSRoute;

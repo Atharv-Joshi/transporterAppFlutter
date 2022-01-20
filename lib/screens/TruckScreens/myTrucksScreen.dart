@@ -500,14 +500,6 @@ class _MyTrucksState extends State<MyTrucks> {
     );
    } //build
 
-  getTruckData(int i) async {
-    var truckDataListForPagei = await getTruckDataWithPageNo(i);
-    for (var truckData in truckDataListForPagei) {
-      setState(() {
-        truckDataList.add(truckData);
-      });
-    }
-  } //getTruckData
 
   getTruckAddress(int i) async {
     var truckDataListForPagevar = await getTruckDataWithPageNo(i);
@@ -517,41 +509,39 @@ class _MyTrucksState extends State<MyTrucks> {
     });
     for (var truckData in truckDataListForPage) {
       print("hello DeviceId is ${truckData.deviceId}");
+
       setState(() {
-        truckDataList.add(truckData);
+        truckDataList.add(truckData);                               //Add data for ALL trucks
       });
+
       if (truckData.deviceId != 0 ) {
         //Call Traccar position API to get current details of truck
+
         gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
-        
-        
         getStoppedSince(gpsData);
-        if(truckData.truckApproved == true && gpsData.last.speed >= 2)
+
+        if(truckData.truckApproved == true && gpsData.last.speed >= 2)          //For RUNNING Section
         {
-       //   print("more");
           setState(() {
             runningList.add(truckData);
-          runningAddressList.add("${gpsData.last.address}");
-          
-          runningGpsData.add(gpsData);
+            runningAddressList.add("${gpsData.last.address}");
+            runningGpsData.add(gpsData);
           });
-          
+
         }
-        else if (truckData.truckApproved == true && gpsData.last.speed < 2){
-       //   print("kess");
+        else if (truckData.truckApproved == true && gpsData.last.speed < 2){     //For STOPPED section
        setState(() {
-         StoppedList.add(truckData);
+          StoppedList.add(truckData);
           StoppedAddressList.add("${gpsData.last.address}");
-          
           StoppedGpsData.add(gpsData);
        });
-          
+
         }
         setState(() {
           gpsDataList.add(gpsData);
           truckAddressList.add("${gpsData.last.address}");
         });
-        
+
       } else {
 
         gpsDataList.add([]);
