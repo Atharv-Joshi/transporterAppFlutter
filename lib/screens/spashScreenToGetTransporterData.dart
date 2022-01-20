@@ -1,13 +1,10 @@
 import 'dart:async';
-
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
-import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 
@@ -24,12 +21,13 @@ class _SplashScreenToGetTransporterDataState
     extends State<SplashScreenToGetTransporterData> {
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
   TransporterIdController transporterIdController =
-  Get.put(TransporterIdController(), permanent: true);
+      Get.put(TransporterIdController(), permanent: true);
   @override
   void initState() {
     super.initState();
     getData();
   }
+
   getData() async {
     bool? transporterApproved;
     bool? companyApproved;
@@ -39,17 +37,19 @@ class _SplashScreenToGetTransporterDataState
     String? name;
     String? companyName;
 
-    String? transporterId = await runTransporterApiPost(mobileNum: widget.mobileNum);
-    if (transporterId != null){
-      Timer(Duration(milliseconds: 1000), () => Get.off(() => NavigationScreen()));
-    }
-    else {
+    String? transporterId =
+        await runTransporterApiPost(mobileNum: widget.mobileNum);
+    if (transporterId != null) {
+      Timer(Duration(milliseconds: 1000),
+          () => Get.off(() => NavigationScreen()));
+    } else {
       setState(() {
         transporterId = tidstorage.read("transporterId");
         transporterApproved = tidstorage.read("transporterApproved");
         companyApproved = tidstorage.read("companyApproved");
         mobileNum = tidstorage.read("mobileNum");
-        accountVerificationInProgress = tidstorage.read("accountVerificationInProgress");
+        accountVerificationInProgress =
+            tidstorage.read("accountVerificationInProgress");
         transporterLocation = tidstorage.read("transporterLocation");
         name = tidstorage.read("name");
         companyName = tidstorage.read("companyName");
@@ -62,8 +62,8 @@ class _SplashScreenToGetTransporterDataState
         transporterIdController.updateTransporterApproved(transporterApproved!);
         transporterIdController.updateCompanyApproved(companyApproved!);
         transporterIdController.updateMobileNum(mobileNum!);
-        transporterIdController
-            .updateAccountVerificationInProgress(accountVerificationInProgress!);
+        transporterIdController.updateAccountVerificationInProgress(
+            accountVerificationInProgress!);
         transporterIdController.updateTransporterLocation(transporterLocation!);
         transporterIdController.updateName(name!);
         transporterIdController.updateCompanyName(companyName!);
@@ -84,7 +84,7 @@ class _SplashScreenToGetTransporterDataState
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [shadowGrey, white])),
-          padding: EdgeInsets.only(right: space_2,top: space_35),
+          padding: EdgeInsets.only(right: space_2, top: space_35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
