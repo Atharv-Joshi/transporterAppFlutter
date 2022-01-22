@@ -287,7 +287,6 @@ getStoppageAddress(var gpsStoppageHistory) async{
   var stopAddress;
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
     List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
-    print("stop los is $placemarks");
     var first = placemarks.first;
     print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
 

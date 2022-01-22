@@ -46,7 +46,6 @@ class MapUtil {
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
-          print("$newPlace");
           var first = newPlace.first;
           String? addressstring;
           if(first.subLocality == "")

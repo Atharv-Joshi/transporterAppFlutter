@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
@@ -48,7 +49,6 @@ class _MyTrucksState extends State<MyTrucks> {
   var gpsStoppageHistory= [];
   MapUtil mapUtil = MapUtil();
   late List<Placemark> placemarks;
-  String? truckAddress;
   late String date;
 
   var gpsData;
@@ -67,6 +67,19 @@ class _MyTrucksState extends State<MyTrucks> {
   var StoppedStatus = [];
   var StoppedGpsData = [];
   var truckDataListForPage = [];
+
+  var gpsList = [];
+  var truckAddress = [];
+  var stat = [];
+  var running = [];
+  var runningAddress = [];
+  var runningStat = [];
+  var runningGps = [];
+  var Stopped = [];
+  var StoppedAddress = [];
+  var StoppedStat = [];
+  var StoppedGps = [];
+
   @override
   void initState() {
     from = yesterday.toIso8601String();
@@ -340,6 +353,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                             height: 127,
                                             width: 127,
                                           ),
+                                          SizedBox(
+                                            height: 20
+                                          ),
                                           Text(
                                             'Looks like none of your trucks are running!',
                                             style: TextStyle(
@@ -378,7 +394,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         scrollDirection: Axis.vertical,
                                         itemCount: runningList.length,
                                         itemBuilder: (context, index) => index == runningList.length
-                  ? bottomProgressBarIndicatorWidget() : 
+                                            ? bottomProgressBarIndicatorWidget() :
                                            MyTruckCard(
                                             truckData: runningList[index],
                                             truckAddress: runningAddressList[index],
@@ -415,6 +431,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                                 'assets/images/TruckListEmptyImage.png'),
                                             height: 127,
                                             width: 127,
+                                          ),
+                                          SizedBox(
+                                              height: 20
                                           ),
                                           Text(
                                             'Looks like none of your trucks are stopped!',
@@ -502,53 +521,72 @@ class _MyTrucksState extends State<MyTrucks> {
 
 
   getTruckAddress(int i) async {
-    var truckDataListForPagevar = await getTruckDataWithPageNo(i);
+    FutureGroup futureGroup = FutureGroup();
 
+    var truckDataListForPagevar = await getTruckDataWithPageNo(i);
     setState(() {
       truckDataListForPage = truckDataListForPagevar;
     });
-    for (var truckData in truckDataListForPage) {
-      print("hello DeviceId is ${truckData.deviceId}");
+    print("Truck length ${truckDataListForPagevar.length}");
 
+    //FIX LENGTH OF ALL LIST----------------------
+    gpsList = List.filled(truckDataListForPagevar.length, null, growable: true);
+    truckAddress = List.filled(truckDataListForPagevar.length, "", growable: true);
+    stat = List.filled(truckDataListForPagevar.length, "", growable: true);
+    running = List.filled(truckDataListForPagevar.length, null, growable: true);
+    runningAddress =  List.filled(truckDataListForPagevar.length, "", growable: true);
+    runningStat = List.filled(truckDataListForPagevar.length, "", growable: true);
+    runningGps =  List.filled(truckDataListForPagevar.length, null, growable: true);
+    Stopped =  List.filled(truckDataListForPagevar.length, null, growable: true);
+    StoppedAddress = List.filled(truckDataListForPagevar.length, "", growable: true);
+    StoppedStat = List.filled(truckDataListForPagevar.length, "", growable: true);
+    StoppedGps =  List.filled(truckDataListForPagevar.length, null, growable: true);
+    //------------------------------------------------
+
+    //START ADDING DATA-------------------------------
+    for (int i = 0 ; i<truckDataListForPagevar.length ; i++) {
       setState(() {
-        truckDataList.add(truckData);                               //Add data for ALL trucks
-      });
+      truckDataList.add(truckDataListForPagevar[i]);                               //Add data for ALL trucks
+    });
+      print("DeviceId is ${truckDataListForPagevar[i].deviceId}");
 
-      if (truckData.deviceId != 0 ) {
-        //Call Traccar position API to get current details of truck
+      if (truckDataListForPagevar[i].deviceId != 0 && truckDataListForPagevar[i].truckApproved == true) {
+        var future = getGPSData(truckDataListForPagevar[i], i);
+        futureGroup.add(future);
 
-        gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
-        getStoppedSince(gpsData);
-
-        if(truckData.truckApproved == true && gpsData.last.speed >= 2)          //For RUNNING Section
-        {
-          setState(() {
-            runningList.add(truckData);
-            runningAddressList.add("${gpsData.last.address}");
-            runningGpsData.add(gpsData);
-          });
-
-        }
-        else if (truckData.truckApproved == true && gpsData.last.speed < 2){     //For STOPPED section
-       setState(() {
-          StoppedList.add(truckData);
-          StoppedAddressList.add("${gpsData.last.address}");
-          StoppedGpsData.add(gpsData);
-       });
-
-        }
-        setState(() {
-          gpsDataList.add(gpsData);
-          truckAddressList.add("${gpsData.last.address}");
-        });
-
-      } else {
-
-        gpsDataList.add([]);
-        truckAddressList.add("--");
-        status.add("--");
       }
     }
+    futureGroup.close();
+    await futureGroup.future;           //Fire all APIs at once (not one after the other)
+
+    setState(() {
+      gpsDataList = gpsList;
+      truckAddressList = truckAddress;
+      status = stat;
+
+      runningList = running;
+      runningAddressList = runningAddress;
+      runningGpsData = runningGps;
+      runningStatus = runningStat;
+
+      StoppedList = Stopped;
+      StoppedAddressList = StoppedAddress;
+      StoppedGpsData = StoppedGps;
+      StoppedStatus = StoppedStat;
+    });
+
+    //NOW REMOVE EXTRA ELEMENTS FROM RUNNING AND STOPPED LISTS-------
+
+    runningList.removeWhere((item) => item == null);
+    runningGpsData.removeWhere((item) => item== null);
+    runningAddressList.removeWhere((item) => item == "");
+    runningStatus.removeWhere((item) => item == "");
+
+    StoppedList.removeWhere((item) => item == null);
+    StoppedGpsData.removeWhere((item) => item== null);
+    StoppedAddressList.removeWhere((item) => item == "");
+    StoppedAddressList.removeWhere((item) => item == "");
+
     print("ALL $status");
     print("ALL $truckAddressList");
     print("ALL $gpsDataList");
@@ -557,56 +595,84 @@ class _MyTrucksState extends State<MyTrucks> {
       loading = false;
     });
   }
+
+  getGPSData(var truckData, int i) async{
+    gpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
+    getStoppedSince(gpsData, i);
+
+    if(truckData.truckApproved == true && gpsData.last.speed >= 2)          //For RUNNING Section
+      {
+      running.removeAt(i);
+      runningAddress.removeAt(i);
+      runningGps.removeAt(i);
+
+      running.insert(i, truckData);
+      runningAddress.insert(i,"${gpsData.last.address}");
+      runningGps.insert(i,gpsData);
+      }
+    else if (truckData.truckApproved == true && gpsData.last.speed < 2){     //For STOPPED section
+
+      Stopped.removeAt(i);
+      StoppedAddress.removeAt(i);
+      StoppedGps.removeAt(i);
+
+      Stopped.insert(i,truckData);
+      StoppedAddress.insert(i,"${gpsData.last.address}");
+      StoppedGps.insert(i,gpsData);
+    }
+      gpsList.removeAt(i);
+      truckAddress.removeAt(i);
+
+      gpsList.insert(i, gpsData);
+      truckAddress.insert(i, "${gpsData.last.address}");
+  }
+
   refreshData(int i) async{
-     {
- //   truckDataListForPage = await getTruckDataWithPageNo(i);
-    
-    for (var truckData in truckDataListForPage) {
-      print("hello DeviceId is ${truckData.deviceId}");
-    /*  setState(() {
-        truckDataList.add(truckData);
-      });*/
-      if (truckData.deviceId != 0 ) {
-        //Call Traccar position API to get current details of truck
-        var vgpsData = await mapUtil.getTraccarPosition(deviceId : truckData.deviceId);
-        
-        setState(() {
-          gpsData = vgpsData;
-        });
-        getStoppedSince(gpsData);
-        if(truckData.truckApproved == true && gpsData.last.speed >= 2)
-        {
-       //   print("more");
-          setState(() {
-       //     runningList.add(truckData);
-          runningAddressList.add("${gpsData.last.address}");
-          
-          runningGpsData.add(gpsData);
-          });
-          
-        }
-        else if (truckData.truckApproved == true && gpsData.last.speed < 2){
-       //   print("kess");
-       setState(() {
-     //    StoppedList.add(truckData);
-          StoppedAddressList.add("${gpsData.last.address}");
-          
-          StoppedGpsData.add(gpsData);
-       });
-          
-        }
-        setState(() {
-          gpsDataList.add(gpsData);
-          truckAddressList.add("${gpsData.last.address}");
-        });
-        
-      } else {
+    FutureGroup futureGroup = FutureGroup();
 
-        gpsDataList.add([]);
-        truckAddressList.add("--");
-        status.add("--");
+    for (int i = 0 ; i<truckDataListForPage.length ; i++) {
+      setState(() {
+        truckDataList.add(truckDataListForPage[i]);                               //Add data for ALL trucks
+      });
+      print("DeviceId is ${truckDataListForPage[i].deviceId}");
+
+      if (truckDataListForPage[i].deviceId != 0 && truckDataListForPage[i].truckApproved == true) {
+        var future = getGPSData(truckDataListForPage[i], i);
+        futureGroup.add(future);
+
       }
     }
+    futureGroup.close();
+    await futureGroup.future;           //Fire all APIs at once (not one after the other)
+
+    setState(() {
+      gpsDataList = gpsList;
+      truckAddressList = truckAddress;
+      status = stat;
+
+      runningList = running;
+      runningAddressList = runningAddress;
+      runningGpsData = runningGps;
+      runningStatus = runningStat;
+
+      StoppedList = Stopped;
+      StoppedAddressList = StoppedAddress;
+      StoppedGpsData = StoppedGps;
+      StoppedStatus = StoppedStat;
+    });
+
+    //NOW REMOVE EXTRA ELEMENTS FROM RUNNING AND STOPPED LISTS-------
+
+    runningList.removeWhere((item) => item == null);
+    runningGpsData.removeWhere((item) => item== null);
+    runningAddressList.removeWhere((item) => item == "");
+    runningStatus.removeWhere((item) => item == "");
+
+    StoppedList.removeWhere((item) => item == null);
+    StoppedGpsData.removeWhere((item) => item== null);
+    StoppedAddressList.removeWhere((item) => item == "");
+    StoppedAddressList.removeWhere((item) => item == "");
+
     print("ALL $status");
     print("ALL $truckAddressList");
     print("ALL $gpsDataList");
@@ -615,20 +681,24 @@ class _MyTrucksState extends State<MyTrucks> {
       loading = false;
     });
   }
-  
-  }
-  getStoppedSince(var gpsData) async {
+
+  getStoppedSince(var gpsData, int i) async {
     if( gpsData.last.motion == false)
     {
-      StoppedStatus.add("Stopped");
-      status.add("Stopped");
+      StoppedStat.removeAt(i);
+      StoppedStat.insert(i,"Stopped");
+
+      stat.removeAt(i);
+      stat.insert(i, "Stopped" );
     }
     else
     {
-      runningStatus.add("Running");
-      status.add("Running");
+      runningStat.removeAt(i);
+      runningStat.insert(i,"Running");
+
+      stat.removeAt(i);
+      stat.insert(i, "Running" );
     }
-    print("STATUS : $status");
   }
   
 }

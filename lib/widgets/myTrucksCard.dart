@@ -59,9 +59,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
   late String to= now.toIso8601String();
   @override
   void initState() {
-    print("See ${widget.truckData.deviceId}");
     super.initState();
-    if(widget.truckData.deviceId != 0 ) {
+    if(widget.truckData.deviceId != 0 && widget.truckData.truckApproved == true) {
+      print("For ${widget.truckData.deviceId}");
       try {
         initfunction();
       } catch (e) {}
@@ -84,8 +84,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified =  widget.truckData.truckApproved;
-    print("where");
-    print(widget.truckData.truckId);
     if (driver && widget.truckData.driverName!.length > 15) {
       widget.truckData.driverName = widget.truckData.driverName!.substring(0, 14) + '..';
     }
