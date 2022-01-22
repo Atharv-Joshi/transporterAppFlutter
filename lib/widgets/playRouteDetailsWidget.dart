@@ -143,9 +143,13 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       EasyLoading.show(
         status: "Loading...",
       );
-      var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
-      var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
-      var newRouteHistory = await getRouteStatusList(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+      var f = getDataHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+      var s = getStoppageHistory(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+      var t = getRouteStatusList(widget.gpsData.last.deviceId,  istDate1.toIso8601String(), istDate2.toIso8601String());
+
+      var newGpsTruckHistory = await f;
+      var newGpsStoppageHistory = await s;
+      var newRouteHistory = await t;
 
       print("AFter $newGpsTruckHistory");
       print("AFter $newGpsStoppageHistory");
@@ -260,9 +264,12 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     );
 
    //Run all APIs using new Date Range
-    var newGpsTruckHistory = await getDataHistory(widget.gpsData.last.imei, startTime, endTime);
-    var newGpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.imei,  startTime, endTime);
-    var newRouteHistory = await getRouteStatusList(widget.gpsData.last.imei,  startTime, endTime);
+    var f = getDataHistory(widget.gpsData.last.imei, startTime, endTime);
+    var s = getStoppageHistory(widget.gpsData.last.imei,  startTime, endTime);
+    var t = getRouteStatusList(widget.gpsData.last.imei,  startTime, endTime);
+    var newGpsTruckHistory = await f;
+    var newGpsStoppageHistory = await s;
+    var newRouteHistory = await t;
     var newTotalRunningTime = getTotalRunningTime(newRouteHistory);
     var newTotalStoppedTime = getTotalStoppageTime(newRouteHistory);
     print("AFter $newGpsTruckHistory");

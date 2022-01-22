@@ -58,8 +58,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   void initState() {
 
     super.initState();
-    getPosition();
-    
+
     setState(() {
       gpsRoute = widget.gpsTruckRoute;
       dateRange = widget.dateRange;
@@ -228,9 +227,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   }
 
   Widget status(int index){
-    print("OOOOO");
     return TruckStatus(
-         
       truckHistory: gpsRoute[index],
       deviceId: widget.deviceId,
     );
@@ -419,11 +416,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
             )
         )
     );
-  }
-
-  void getPosition() async {
-    gpsPosition = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    print("LAt and Long ${gpsPosition.last.latitude} ${gpsPosition.last.longitude}");
   }
 
 }
