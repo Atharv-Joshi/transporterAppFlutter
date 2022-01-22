@@ -46,7 +46,6 @@ class MapUtil {
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
-          print("$newPlace");
           var first = newPlace.first;
           String? addressstring;
           if(first.subLocality == "")
@@ -134,8 +133,6 @@ class MapUtil {
           gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
           gpsDataModel.duration = json["duration"] != null ? json["duration"] : 0;
 
-          // print("Device time : ${gpsDataModel.deviceTime}");
-
           LatLongList.add(gpsDataModel);
         }
         print("TDS $LatLongList");
@@ -168,6 +165,8 @@ class MapUtil {
           gpsDataModel.deviceId = json["deviceId"] != null ? json["deviceId"] : 0;
           gpsDataModel.latitude = json["startLat"] != null ? json["startLat"] : 0;
           gpsDataModel.longitude = json["startLon"] != null ? json["startLon"] : 0;
+          gpsDataModel.endLat = json["endLat"] != null ? json["endLat"] : 0;
+          gpsDataModel.endLon = json["endLon"] != null ? json["endLon"] : 0;
           gpsDataModel.speed = json["averageSpeed"] != null ? json["averageSpeed"] : 0;
           gpsDataModel.distance = json["distance"] != null ? json["distance"] : 0;
 
