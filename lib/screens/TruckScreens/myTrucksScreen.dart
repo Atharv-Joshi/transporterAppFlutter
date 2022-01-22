@@ -376,7 +376,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                         runningAddressList.clear();
                                         runningGpsData.clear();
                                         runningStatus.clear();
-                                        truckDataList.clear();
                                         truckAddressList.clear();
                                         gpsDataList.clear();
                                         status.clear();
@@ -453,7 +452,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                         runningAddressList.clear();
                                         runningGpsData.clear();
                                         runningStatus.clear();
-                                        truckDataList.clear();
                                         truckAddressList.clear();
                                         gpsDataList.clear();
                                         status.clear();
