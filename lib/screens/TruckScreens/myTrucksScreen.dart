@@ -84,23 +84,25 @@ class _MyTrucksState extends State<MyTrucks> {
   void initState() {
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
+    FutureGroup futureGroup = FutureGroup();
     super.initState();
-    
-    
     setState(() {
       loading = true;
     });
+    var f1 = getTruckAddress();
+    var f2 = getTruckData(i);
 
- //   getTruckData(i);
-    getTruckAddress(i);
+    futureGroup.add(f1);
+    futureGroup.add(f2);
+
+    futureGroup.close();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         i = i + 1;
-        getTruckAddress(i);
+        getTruckData(i);
       }
     });
-    
   }
 
   @override
@@ -295,7 +297,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                         runningAddressList.clear();
                                         runningGpsData.clear();
                                         runningStatus.clear();
-                                        truckDataList.clear();
                                         truckAddressList.clear();
                                         gpsDataList.clear();
                                         status.clear();
@@ -305,7 +306,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedList.clear();
                                         loading = true;
                                       });
-                                      return getTruckAddress(0);
+                                      return refreshData(i);
                                     },
                                     child: ListView.builder(
                                         physics: BouncingScrollPhysics(),
@@ -385,7 +386,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedList.clear();
                                         loading = true;
                                       });
-                                      return getTruckAddress(0);
+                                      return refreshData(i);
                                     },
                                     child: ListView.builder(
                                         padding: EdgeInsets.only(bottom: space_15),
@@ -462,7 +463,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         StoppedList.clear();
                                         loading = true;
                                       });
-                                      return getTruckAddress(0);
+                                      return refreshData(i);
                                     },
                                     child: ListView.builder(
                                         padding: EdgeInsets.only(bottom: space_15),
@@ -471,7 +472,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         scrollDirection: Axis.vertical,
                                         itemCount: StoppedList.length ,
                                         itemBuilder: (context, index) => index == StoppedList.length
-                  ? bottomProgressBarIndicatorWidget():
+                                          ? bottomProgressBarIndicatorWidget():
                                            MyTruckCard(
                                             truckData: StoppedList[index],
                                             truckAddress: StoppedAddressList[index],
@@ -519,14 +520,19 @@ class _MyTrucksState extends State<MyTrucks> {
     );
    } //build
 
-
-  getTruckAddress(int i) async {
+  getTruckData(int i) async {
+    var truckDataListForPagei = await getTruckDataWithPageNo(i);
+    for (var truckData in truckDataListForPagei) {
+      setState(() {
+        truckDataList.add(truckData);
+      });
+    }
+  }
+  getTruckAddress() async {
     FutureGroup futureGroup = FutureGroup();
 
-    var truckDataListForPagevar = await getTruckDataWithPageNo(i);
-    setState(() {
-      truckDataListForPage = truckDataListForPagevar;
-    });
+    var truckDataListForPagevar = await truckApiCalls.getTruckData();
+
     print("Truck length ${truckDataListForPagevar.length}");
 
     //FIX LENGTH OF ALL LIST----------------------
@@ -545,9 +551,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
     //START ADDING DATA-------------------------------
     for (int i = 0 ; i<truckDataListForPagevar.length ; i++) {
-      setState(() {
-      truckDataList.add(truckDataListForPagevar[i]);                               //Add data for ALL trucks
-    });
+
       print("DeviceId is ${truckDataListForPagevar[i].deviceId}");
 
       if (truckDataListForPagevar[i].deviceId != 0 && truckDataListForPagevar[i].truckApproved == true) {
@@ -625,19 +629,31 @@ class _MyTrucksState extends State<MyTrucks> {
 
       gpsList.insert(i, gpsData);
       truckAddress.insert(i, "${gpsData.last.address}");
+      print("DONE ONE PART");
   }
 
   refreshData(int i) async{
     FutureGroup futureGroup = FutureGroup();
+    print("Trcuk dat $truckDataList");
+    //FIX LENGTH OF ALL LIST----------------------
+    gpsList = List.filled(truckDataList.length, null, growable: true);
+    truckAddress = List.filled(truckDataList.length, "", growable: true);
+    stat = List.filled(truckDataList.length, "", growable: true);
+    running = List.filled(truckDataList.length, null, growable: true);
+    runningAddress =  List.filled(truckDataList.length, "", growable: true);
+    runningStat = List.filled(truckDataList.length, "", growable: true);
+    runningGps =  List.filled(truckDataList.length, null, growable: true);
+    Stopped =  List.filled(truckDataList.length, null, growable: true);
+    StoppedAddress = List.filled(truckDataList.length, "", growable: true);
+    StoppedStat = List.filled(truckDataList.length, "", growable: true);
+    StoppedGps =  List.filled(truckDataList.length, null, growable: true);
+    //------------------------------------------------
+    for (int i = 0 ; i<truckDataList.length ; i++) {
 
-    for (int i = 0 ; i<truckDataListForPage.length ; i++) {
-      setState(() {
-        truckDataList.add(truckDataListForPage[i]);                               //Add data for ALL trucks
-      });
-      print("DeviceId is ${truckDataListForPage[i].deviceId}");
+      print("DeviceId is ${truckDataList[i].deviceId}");
 
-      if (truckDataListForPage[i].deviceId != 0 && truckDataListForPage[i].truckApproved == true) {
-        var future = getGPSData(truckDataListForPage[i], i);
+      if (truckDataList[i].deviceId != 0 && truckDataList[i].truckApproved == true) {
+        var future = getGPSData(truckDataList[i], i);
         futureGroup.add(future);
 
       }
