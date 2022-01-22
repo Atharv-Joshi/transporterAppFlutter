@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -43,10 +44,17 @@ class _MyAppState extends State<MyApp> {
   var _connectionStatus = "Unknown";
   late Connectivity connectivity;
   late StreamSubscription<ConnectivityResult> subscription;
+  bool isDisconnected = false;
 
   @override
   void initState() {
     super.initState();
+    setState(() {});
+    checkConnection();
+    connectivityChecker();
+  }
+
+  void checkConnection() {
     configOneSignel();
     connectivity = new Connectivity();
     subscription =
@@ -55,11 +63,45 @@ class _MyAppState extends State<MyApp> {
       print(_connectionStatus);
       if (result == ConnectivityResult.mobile ||
           result == ConnectivityResult.wifi) {
-        setState(() {});
-      } else if (result == ConnectivityResult.none) {
-        Get.to(NoInternetScreen());
+        if (isDisconnected) {
+          isDisconnected = false;
+          connectivityChecker();
+          Get.back();
+        }
+      } else {
+        if (!isDisconnected) {
+          isDisconnected = true;
+          Get.defaultDialog(
+              barrierDismissible: false,
+              content: NoInternetConnection.noInternetDialogue(),
+              onWillPop: () async => false,
+              title: "\nNo Internet",
+              titleStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ));
+        } else
+          connectivityChecker();
       }
     });
+  }
+
+  Future<void> connectivityChecker() async {
+    print("Checking internet...");
+    try {
+      await InternetAddress.lookup('google.com');
+    } on SocketException catch (_) {
+      isDisconnected = true;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        Get.defaultDialog(
+            barrierDismissible: false,
+            content: NoInternetConnection.noInternetDialogue(),
+            onWillPop: () async => false,
+            title: "\nNo Internet",
+            titleStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+            ));
+      });
+    }
   }
 
   @override
