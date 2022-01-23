@@ -37,14 +37,10 @@ class _SplashScreenToGetTransporterDataState
     String? name;
     String? companyName;
 
-    // String? transporterId =
-    //     await runTransporterApiPost(mobileNum: widget.mobileNum);
-    //old method commented
-    String? transporterId = tidstorage.read("transporterId");
-
-    runTransporterApiPost(mobileNum: widget.mobileNum);
+    String? transporterId =
+        await runTransporterApiPost(mobileNum: widget.mobileNum);
     if (transporterId != null) {
-      Timer(Duration(milliseconds: 2000),
+      Timer(Duration(milliseconds: 1000),
           () => Get.off(() => NavigationScreen()));
     } else {
       setState(() {
