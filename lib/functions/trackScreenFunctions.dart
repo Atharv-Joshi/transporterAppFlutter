@@ -87,7 +87,6 @@ getStopDuration(String from, String to){
   else
     duration = "$hour hr $minute min $second sec";
   print("Stop DUR is $duration");
-  print("Stop DUR is $dur");
 
   return duration;
 
@@ -133,12 +132,12 @@ getPoylineCoordinates(var gpsDataHistory){
   logger.i("in polyline after function");
   polylineCoordinates.clear();
   int a=0;
-  int b=a+2;
+  int b=a+3;
   int c=0;
   print("length ${gpsDataHistory.length}");
   print("End lat ${gpsDataHistory[gpsDataHistory.length-1].latitude}");
   for(int i=0; i<gpsDataHistory.length; i++) {
-    c=b+2;
+    c=b+3;
     PointLatLng point1 =  PointLatLng(gpsDataHistory[a].latitude,  gpsDataHistory[a].longitude);
     PointLatLng point2 =  PointLatLng(gpsDataHistory[b].latitude,  gpsDataHistory[b].longitude);
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
@@ -199,9 +198,9 @@ getPoylineCoordinates2(var gpsDataHistory2){
 getStoppageTime(var gpsStoppageHistory) {
   String truckStart ;
   String truckEnd ;
-  var stoppageTime = [];
+  var stoppageTime;
 
-  for(int i=0; i<gpsStoppageHistory.length; i++) {
+  // for(int i=0; i<gpsStoppageHistory.length; i++) {
  //   print("start time is  ${gpsStoppageHistory[i].startTime}");
     // final dateTime = DateTime.parse('2021-08-11T11:38:09.000Z');
     // print(convertDateTimeToString(dateTime));
@@ -210,7 +209,7 @@ getStoppageTime(var gpsStoppageHistory) {
  //   istDate = istDate.add(Duration(hours: 5, minutes: 30));
   //  print("hh $istDate");
   //  print("isDate $istDate");
-    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].startTime).add(Duration(hours: 5, minutes: 30));
+    var istDate =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory.startTime).add(Duration(hours: 5, minutes: 30));
   //  print("IST $istDate");
     var timestamp = istDate.toString()
         .replaceAll("-", "")
@@ -227,7 +226,7 @@ getStoppageTime(var gpsStoppageHistory) {
     truckStart = "$day $monthname,$ampm";
     print("ISO $truckStart");
 
-    var istDate2 =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory[i].endTime).add(Duration(hours: 5, minutes: 30));
+    var istDate2 =  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(gpsStoppageHistory.endTime).add(Duration(hours: 5, minutes: 30));
     print("IST $istDate2");
     var timestamp2 = istDate2.toString()
         .replaceAll("-", "")
@@ -246,19 +245,19 @@ getStoppageTime(var gpsStoppageHistory) {
     else
       truckEnd = "$day2 $monthname2,$ampm2";
 
-    stoppageTime.add("$truckStart - $truckEnd");
-  }
+    stoppageTime="$truckStart - $truckEnd";
+  // }
   print("Stop time $stoppageTime");
   return stoppageTime;
 }
 
 getStoppageDuration(var gpsStoppageHistory){
-  var duration = [];
-  for(int i=0; i<gpsStoppageHistory.length; i++) {
-    if(gpsStoppageHistory[i].duration==0)
-      duration.add("Ongoing");
+  var duration;
+  // for(int i=0; i<gpsStoppageHistory.length; i++) {
+    if(gpsStoppageHistory.duration==0)
+      duration="Ongoing";
     else {
-      var time = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: gpsStoppageHistory[i].duration).toString();
+      var time = new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: gpsStoppageHistory.duration).toString();
       var time2 =  new DateFormat("hh:mm:ss").parse(time).toString();
       var dur = time2.substring(0, time2.indexOf('.'));
 
@@ -270,34 +269,33 @@ getStoppageDuration(var gpsStoppageHistory){
       var minute = int.parse(timestamp.substring(10, 12));
       var second = int.parse(timestamp.substring(12, 14));
       if(hour==0 && second ==0)
-        duration.add("$minute min");
+        duration="$minute min";
       else if(minute==0)
-        duration.add("$second sec");
+        duration="$second sec";
       else if(second==0)
-        duration.add("$hour hr $minute min");
+        duration="$hour hr $minute min";
       else if(hour==0)
-        duration.add("$minute min $second sec");
+        duration="$minute min $second sec";
       else
-        duration.add("$hour hrs $minute min $second sec");
-    }
+        duration="$hour hrs $minute min $second sec";
+    // }
   }
   return duration;
   }
 
 getStoppageAddress(var gpsStoppageHistory) async{
-  var stopAddress = [];
-  for(int i=0; i<gpsStoppageHistory.length; i++) {
-    List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory[i].latitude, gpsStoppageHistory[i].longitude);
-    print("stop los is $placemarks");
+  var stopAddress;
+  // for(int i=0; i<gpsStoppageHistory.length; i++) {
+    List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
     var first = placemarks.first;
     print("${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
 
     if(first.subLocality=="")
-      stopAddress.add("${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
+      stopAddress="${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
     else
-      stopAddress.add("${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}");
+      stopAddress="${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
 
-  }
+  // }
   return stopAddress;
 }
 
@@ -306,6 +304,19 @@ getStopList(var newGPSRoute){
   var start;
   var end;
   var duration;
+  bool last = false;
+  var lastStop = newGPSRoute[newGPSRoute.length -1].endTime;
+  DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
+
+  DateTime nowDateFormat=
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
+  DateTime lastStopDateFormat =
+  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newGPSRoute[newGPSRoute.length -1].endTime);
+  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)    //Check if end time of last trip is less than current time, if yes, then add stop at end
+  {
+    last = true;
+  }
+
   int length = newGPSRoute.length;
   print("GpsRoute Length ${length}");
   while(i<newGPSRoute.length){
@@ -316,7 +327,6 @@ getStopList(var newGPSRoute){
       end = getISOtoIST(newGPSRoute[i].startTime);
       
       duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
-      print("kk $duration");
       newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     } else {
       start = getISOtoIST(newGPSRoute[i - 1].endTime);
@@ -325,6 +335,14 @@ getStopList(var newGPSRoute){
       newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
     }
     i = i+2;
+  }
+
+  if(last)         //to add stop at end
+  {
+    start = getISOtoIST(lastStop);
+    end = getISOtoIST(now.toIso8601String());
+    duration = getStopDuration(lastStop, now.toIso8601String());
+    newGPSRoute.add(["stopped", start, end, duration, newGPSRoute.last.endLat, newGPSRoute.last.endLon]);
   }
   print("With Stops $newGPSRoute");
   return newGPSRoute;

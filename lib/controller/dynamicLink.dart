@@ -25,11 +25,12 @@ class DynamicLinkService extends StatefulWidget {
   
   int deviceId;
   String? truckId;
-
+  String? truckNo;
   DynamicLinkService(
       {
       required this.deviceId,
        this.truckId,
+       this.truckNo,
       });
 
   @override
@@ -103,7 +104,7 @@ class DynamicLink extends State<DynamicLinkService> {
         EasyLoading.show(
           status: "Loading...",
         );
-          await Share.share("To check the location,click on the link $_stringUrl",
+          await Share.share("To check the location of ${widget.truckNo},click on the link $_stringUrl",
                   
                   )
               .then((value) => EasyLoading.dismiss());

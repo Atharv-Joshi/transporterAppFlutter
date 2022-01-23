@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
@@ -58,18 +59,13 @@ class _MyTruckCardState extends State<MyTruckCard> {
   late String to= now.toIso8601String();
   @override
   void initState() {
-    super.initState();   
-    try{
-      initfunction();
+    super.initState();
+    if(widget.truckData.deviceId != 0 && widget.truckData.truckApproved == true) {
+      print("For ${widget.truckData.deviceId}");
+      try {
+        initfunction();
+      } catch (e) {}
     }
-    catch(e)
-    {
-
-    }
-    
-    
-    
-   
   }
 
   @override
@@ -88,8 +84,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
     };
 
     verified =  widget.truckData.truckApproved;
-    print("where");
-    print(widget.truckData.truckId);
     if (driver && widget.truckData.driverName!.length > 15) {
       widget.truckData.driverName = widget.truckData.driverName!.substring(0, 14) + '..';
     }
@@ -116,12 +110,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
             // getTruckHistory();
             
             print(widget.truckData.deviceId);
-            gpsDataHistory = await getDataHistory(widget.truckData.deviceId, from,  to);
 
-            gpsStoppageHistory = await getStoppageHistory(widget.truckData.deviceId, from,  to);
-            gpsRoute = await getRouteStatusList(widget.truckData.deviceId, from,  to);
+            var f =  getDataHistory(widget.truckData.deviceId, from,  to);
+            var s = getStoppageHistory(widget.truckData.deviceId, from,  to);
+            var t = getRouteStatusList(widget.truckData.deviceId, from,  to);
+
+            gpsDataHistory =  await f;
+            gpsStoppageHistory =  await s;
+            gpsRoute =  await t;
             
-            if (gpsRoute!= null && widget.truckData.truckApproved == true) {
+            if (gpsRoute!= null && gpsDataHistory!= null && gpsStoppageHistory!= null && widget.truckData.truckApproved == true) {
               EasyLoading.dismiss();
               Get.to(
                 TrackScreen(
@@ -616,8 +614,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
     );
   }
   initfunction() async {
-    var gpsRoute = await getRouteStatusList(widget.truckData.deviceId,from, to);
+    var gpsRoute1 = await getRouteStatusList(widget.truckData.deviceId,from, to);
     setState(() {
+      gpsRoute = gpsRoute1;
       totalDistance =  getTotalDistance(gpsRoute);
     });
     
