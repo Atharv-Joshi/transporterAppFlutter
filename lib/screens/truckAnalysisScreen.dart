@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class truckAnalysisScreen extends StatefulWidget {
   var gpsStoppageHistory;
@@ -47,11 +48,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen> {
     return Scaffold(
         appBar: AppBar(title: Text("Analysis Screen"),
           backgroundColor: Colors.black,),
-        body: Column(
-            children: <Widget>[
-              Text("knjjdsvjn")
-            ])
-    );
+        body: NextUpdateAlertDialog());
   }
 }
 
