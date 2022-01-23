@@ -100,8 +100,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   bool isAnimation = false;
   double mapHeight=600;
   DateTimeRange selectedDate = DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 1)),
-   end: DateTime.now()
+      start: DateTime.now().subtract(Duration(days: 1)),
+      end: DateTime.now()
   );
   var direction;
   bool setDate = false;
@@ -123,7 +123,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     WidgetsBinding.instance!.addObserver(this);
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
-    
+
     try {
       initfunction();
       initfunction2();
@@ -157,8 +157,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
         final GoogleMapController controller = await _controller.future;
         onMapCreated(controller);
         print('appLifeCycleState resumed');
-         break;
-  }
+        break;
+    }
   }
 
   getTruckHistory() {
@@ -219,31 +219,31 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     LatLng? latlong;
 
     // for(var stop in gpsStoppage) {
-      latlong=LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
-      stoplatlong=latlong;
+    latlong=LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
+    stoplatlong=latlong;
     // }
     stoppageTime = getStoppageTime(gpsStoppage);
     // stopAddress = await getStoppageAddress(gpsStoppage);
     duration = getStoppageDuration(gpsStoppage);
 
     // for(int i=0; i<stoplatlong.length; i++){
-      markerIcon = await getBytesFromCanvas(i+1, 100, 100);
-      setState(() {
-                    customMarkers.add(Marker(
-                        markerId: MarkerId("Stop Mark $i"),
-                        position: stoplatlong,
-                        icon: BitmapDescriptor.fromBytes(markerIcon),
-                        //info window
-                        onTap: () async{
-                          stopAddress = await getStoppageAddress(gpsStoppage);
+    markerIcon = await getBytesFromCanvas(i+1, 100, 100);
+    setState(() {
+      customMarkers.add(Marker(
+        markerId: MarkerId("Stop Mark $i"),
+        position: stoplatlong,
+        icon: BitmapDescriptor.fromBytes(markerIcon),
+        //info window
+        onTap: () async{
+          stopAddress = await getStoppageAddress(gpsStoppage);
 
-                          _customInfoWindowController.addInfoWindow!(
-                            getInfoWindow(duration, stoppageTime, stopAddress),
-                            stoplatlong,
-                          );
-                        },
-                    ));
-                  });
+          _customInfoWindowController.addInfoWindow!(
+            getInfoWindow(duration, stoppageTime, stopAddress),
+            stoplatlong,
+          );
+        },
+      ));
+    });
     // }
   }
 
@@ -370,13 +370,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
             position: latLngMarker,
             infoWindow: InfoWindow(title: title),
             icon: pinLocationIconTruck,
-        rotation: direction));
+            rotation: direction));
         _polyline.add(Polyline(
-          polylineId: PolylineId(newGPSData.last.id.toString()),
-          visible: true,
-          points: polylineCoordinates,
-          color: Colors.blue,
-          width: 2
+            polylineId: PolylineId(newGPSData.last.id.toString()),
+            visible: true,
+            points: polylineCoordinates,
+            color: Colors.blue,
+            width: 2
         ));
       });
       controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -426,147 +426,147 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
           child: Stack(
             children: <Widget>[
               Positioned(
-                          left: 0,
-                          top: -100,
-                          bottom: 0 ,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Stack(
-                                children: <Widget>[
-                                  GoogleMap(
-                              onTap: (position) {
-                                _customInfoWindowController.hideInfoWindow!();
-                              },
-                              onCameraMove: (position) {
-                                _customInfoWindowController.onCameraMove!();
-                              },
-                              markers: customMarkers.toSet(),
-                              polylines: Set.from(polylines.values),
-                              myLocationButtonEnabled: true,
-                              zoomControlsEnabled: false,
-                              initialCameraPosition: camPosition,
-                              compassEnabled: true,
-                              mapType: maptype,
-                              onMapCreated: (GoogleMapController controller) {
-                                _controller.complete(controller);
-                                _customInfoWindowController.googleMapController = controller;
-                              },
-                              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                                      new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
-                                    ].toSet(),
-                            ),
-                                CustomInfoWindow(
-                                  controller: _customInfoWindowController,
-                                  height: 110,
-                                  width: 275,
-                                  offset: 30,
-                                ),
-                                  Positioned(
-                                    left: 10,
-                                    top: 175,
-                                    child: SizedBox(
-                                      height: 40,
-                                      child: FloatingActionButton(
-                                        heroTag: "btn1",
-                                        backgroundColor: Colors.white,
-                                        foregroundColor: Colors.black,
-                                        child: const Icon(Icons.my_location, size: 22, color: Color(0xFF152968) ),
-                                        onPressed: () {
-                                          setState(() {
-                                            this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    bottom: height/3+90,
-                                    child: SizedBox(
-                                      height: 40,
-                                      child: FloatingActionButton(
-                                        heroTag: "btn2",
-                                        backgroundColor: Colors.white,
-                                        foregroundColor: Colors.black,
-                                        child: const Icon(Icons.zoom_in, size: 22,  color: Color(0xFF152968)),
-                                        onPressed: () {
-                                          setState(() {
-                                            this.zoom = this.zoom + 0.5;
-                                          });
-                                          this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-                                              CameraPosition(
-                                                bearing: 0,
-                                                target: lastlatLngMarker,
-                                                zoom: this.zoom,
-                                              ),
-                                            ));
-
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 10,
-                                    bottom: height/3+40,
-                                    child: SizedBox(
-                                      height: 40,
-                                      child: FloatingActionButton(
-                                        heroTag: "btn3",
-                                        backgroundColor: Colors.white,
-                                        foregroundColor: Colors.black,
-                                        child: const Icon(Icons.zoom_out, size:22,  color: Color(0xFF152968)),
-                                        onPressed: () {
-                                          setState(() {
-                                            this.zoom = this.zoom - 0.5;
-                                          });
-                                          this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-                                            CameraPosition(
-                                              bearing: 0,
-                                              target: lastlatLngMarker,
-                                              zoom: this.zoom,
-                                            ),
-                                          ));
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ]
-                            )
-                          ),
-                        ),
-              Positioned(
-                top: 0,
+                left: 0,
+                top: -100,
+                bottom: 0 ,
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: white,
-                  child: Column(
-                    children: [
-                      Container(
-                        // margin: EdgeInsets.only(bottom: space_10),
-                        width: MediaQuery.of(context).size.width,
-                        height: space_13,
-                        color: white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                              child: Header(
-                                  reset: false,
-                                  text: "${widget.TruckNo}",
-                                  backButton: true
+                    width: MediaQuery.of(context).size.width,
+                    child: Stack(
+                        children: <Widget>[
+                          GoogleMap(
+                            onTap: (position) {
+                              _customInfoWindowController.hideInfoWindow!();
+                            },
+                            onCameraMove: (position) {
+                              _customInfoWindowController.onCameraMove!();
+                            },
+                            markers: customMarkers.toSet(),
+                            polylines: Set.from(polylines.values),
+                            myLocationButtonEnabled: true,
+                            zoomControlsEnabled: false,
+                            initialCameraPosition: camPosition,
+                            compassEnabled: true,
+                            mapType: maptype,
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                              _customInfoWindowController.googleMapController = controller;
+                            },
+                            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                              new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
+                            ].toSet(),
+                          ),
+                          CustomInfoWindow(
+                            controller: _customInfoWindowController,
+                            height: 110,
+                            width: 275,
+                            offset: 30,
+                          ),
+                          Positioned(
+                            left: 10,
+                            top: 175,
+                            child: SizedBox(
+                              height: 40,
+                              child: FloatingActionButton(
+                                heroTag: "btn1",
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                child: const Icon(Icons.my_location, size: 22, color: Color(0xFF152968) ),
+                                onPressed: () {
+                                  setState(() {
+                                    this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
+                                  });
+                                },
                               ),
                             ),
-                            HelpButtonWidget()
-                          ],
-                        ),
-                      ),
-                    ]
-                  )
-                )
+                          ),
+                          Positioned(
+                            right: 10,
+                            bottom: height/3+90,
+                            child: SizedBox(
+                              height: 40,
+                              child: FloatingActionButton(
+                                heroTag: "btn2",
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                child: const Icon(Icons.zoom_in, size: 22,  color: Color(0xFF152968)),
+                                onPressed: () {
+                                  setState(() {
+                                    this.zoom = this.zoom + 0.5;
+                                  });
+                                  this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                    CameraPosition(
+                                      bearing: 0,
+                                      target: lastlatLngMarker,
+                                      zoom: this.zoom,
+                                    ),
+                                  ));
+
+                                },
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 10,
+                            bottom: height/3+40,
+                            child: SizedBox(
+                              height: 40,
+                              child: FloatingActionButton(
+                                heroTag: "btn3",
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                child: const Icon(Icons.zoom_out, size:22,  color: Color(0xFF152968)),
+                                onPressed: () {
+                                  setState(() {
+                                    this.zoom = this.zoom - 0.5;
+                                  });
+                                  this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                                    CameraPosition(
+                                      bearing: 0,
+                                      target: lastlatLngMarker,
+                                      zoom: this.zoom,
+                                    ),
+                                  ));
+                                },
+                              ),
+                            ),
+                          ),
+                        ]
+                    )
+                ),
               ),
-                /*      Container(
+              Positioned(
+                  top: 0,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: white,
+                      child: Column(
+                          children: [
+                            Container(
+                              // margin: EdgeInsets.only(bottom: space_10),
+                              width: MediaQuery.of(context).size.width,
+                              height: space_13,
+                              color: white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
+                                    child: Header(
+                                        reset: false,
+                                        text: "${widget.TruckNo}",
+                                        backButton: true
+                                    ),
+                                  ),
+                                  HelpButtonWidget()
+                                ],
+                              ),
+                            ),
+                          ]
+                      )
+                  )
+              ),
+              /*      Container(
                           margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -725,7 +725,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-                bottom: (showBottomMenu)? 0 : -(height/3)+ 110,
+                bottom: (showBottomMenu)? 0 : -(height/3)+ 55,
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
                   // truckDate: truckDate,
