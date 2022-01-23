@@ -31,7 +31,9 @@ class HomeScreenLoadsCard extends StatelessWidget {
     String rateLengthData = loadDetailsScreenModel.rate!.length > 5
         ? loadDetailsScreenModel.rate!.substring(0, 4) + ".."
         : loadDetailsScreenModel.rate!;
-    String tonne = AppLocalizations.of(context)!.tonne;
+    // String tonne = AppLocalizations.of(context)!.tonne;
+    String tonne = 'tonne'.tr;
+    String tonnes = 'tonnes'.tr;
     String rateInTonnes =
         (rateLengthData[0] == 'N' ? "--" : "\u20B9$rateLengthData/$tonne");
 
@@ -98,7 +100,8 @@ class HomeScreenLoadsCard extends StatelessWidget {
                         width: space_15 + 3,
                         child: Center(
                           child: Text(
-                            "${loadDetailsScreenModel.weight} ${AppLocalizations.of(context)!.tonnes}",
+                            "${loadDetailsScreenModel.weight} $tonnes",
+                                // "${AppLocalizations.of(context)!.tonnes}",
                             style: TextStyle(
                                 fontFamily: 'montserrat',
                                 color: bidBackground,

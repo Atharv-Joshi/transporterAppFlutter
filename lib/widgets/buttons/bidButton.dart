@@ -50,7 +50,8 @@ class _BidButtonState extends State<BidButton> {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.bids,
+            'bids'.tr,
+            // AppLocalizations.of(context)!.bids,
             style: TextStyle(
                 color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -30,7 +31,8 @@ class BonusWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Bonus",
+                  "bonus".tr,
+                  // "Bonus",
                   style: TextStyle(
                       fontSize: size_10,
                       fontWeight: mediumBoldWeight,

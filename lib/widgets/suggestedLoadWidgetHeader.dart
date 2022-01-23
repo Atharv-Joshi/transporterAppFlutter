@@ -13,8 +13,8 @@ class SuggestedLoadWidgetHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          AppLocalizations.of(context)!.suggestedLoad,
+        Text('suggestedLoad'.tr,
+          // AppLocalizations.of(context)!.suggestedLoad,
           style: TextStyle(
               color: liveasyBlackColor,
               fontFamily: 'montserrat',
@@ -27,8 +27,8 @@ class SuggestedLoadWidgetHeader extends StatelessWidget {
             FocusScope.of(context).requestFocus(FocusNode());
             Get.to(() => SuggestedLoadScreen());
           },
-          child: Text(
-            AppLocalizations.of(context)!.seeAll,
+          child: Text('seeAll'.tr,
+            // AppLocalizations.of(context)!.seeAll,
             style: TextStyle(
                 color: liveasyGreen,
                 fontFamily: 'montserrat',

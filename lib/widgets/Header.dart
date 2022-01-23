@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -45,7 +46,7 @@ class _HeaderState extends State<Header> {
             ? TextButton(
                 onPressed:
                     providerData.resetActive ? widget.resetFunction : null,
-                child: Text('Reset',
+                child: Text('reset'.tr,
                     style: TextStyle(
                       color: providerData.resetActive
                           ? liveasyGreen

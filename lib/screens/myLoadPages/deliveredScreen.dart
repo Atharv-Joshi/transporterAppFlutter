@@ -90,7 +90,8 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                         width: 127,
                       ),
                       Text(
-                        'Looks like you have not added any Loads!',
+                        'stoppedLoad'.tr,
+                        // 'Looks like you have not added any Loads!',
                         style: TextStyle(fontSize: size_8, color: grey),
                         textAlign: TextAlign.center,
                       ),

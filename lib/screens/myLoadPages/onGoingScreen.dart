@@ -90,7 +90,8 @@ class _OngoingScreenState extends State<OngoingScreen> {
                         width: 127,
                       ),
                       Text(
-                        'Looks like you have not added any Loads!',
+                        'noOnGoingLoad'.tr,
+                        // 'Looks like you have not added any Loads!',
                         style: TextStyle(fontSize: size_8, color: grey),
                         textAlign: TextAlign.center,
                       ),

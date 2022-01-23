@@ -74,9 +74,10 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: AppLocalizations.of(context)!.congratulations,
-                lowerDialogText:
-                    AppLocalizations.of(context)!.youHaveCompletedYourOrder,
+                upperDialogText: 'congratulations'.tr,
+                // AppLocalizations.of(context)!.congratulations,
+                lowerDialogText: 'youHaveCompletedYourOrder'.tr
+                    // AppLocalizations.of(context)!.youHaveCompletedYourOrder,
               );
             },
           );
@@ -125,9 +126,10 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: AppLocalizations.of(context)!.congratulations,
-                lowerDialogText: AppLocalizations.of(context)!
-                    .youHaveSuccessfullyUpdateYourOrder,
+                upperDialogText: 'congratulations'.tr,
+                // AppLocalizations.of(context)!.congratulations,
+                lowerDialogText: 'youHaveSuccessfullyUpdateYourOrder'.tr
+                // AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
               );
             },
           );

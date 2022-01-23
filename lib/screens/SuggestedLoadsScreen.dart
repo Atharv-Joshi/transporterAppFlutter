@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/loadApis/runSuggestedLoadApiWithPageNo.dart';
@@ -78,7 +79,8 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                   children: [
                     Header(
                         reset: false,
-                        text: AppLocalizations.of(context)!.suggestedLoad,
+                        text: 'suggestedLoad'.tr,
+                        // AppLocalizations.of(context)!.suggestedLoad,
                         backButton: true),
                     FilterButtonWidget()
                   ],

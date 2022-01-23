@@ -87,7 +87,8 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
             children: [
               Header(
                 backButton: true,
-                  text: AppLocalizations.of(context)!.addTruck,
+                  text: 'addTruck'.tr,
+                  // AppLocalizations.of(context)!.addTruck,
                   reset: false,
                   // resetFunction: () {
                   //   providerData.resetTruckFilters();
@@ -127,23 +128,32 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                           child: Column(
                             children: [
                               TruckReviewDetailsRow(
-                                  value: truckTypeText, label:AppLocalizations.of(context)!.truckType),
+                                  value: truckTypeText, label: 'truckType'.tr
+                              // AppLocalizations.of(context)!.truckType
+                              ),
                               TruckReviewDetailsRow(
                                   value: providerData.totalTyresValue,
-                                  label: AppLocalizations.of(context)!.totalTyres),
+                                  label: 'totalTyres'.tr
+                                  // AppLocalizations.of(context)!.totalTyres
+                              ),
                               TruckReviewDetailsRow(
                                   value: providerData.passingWeightValue,
-                                  label: AppLocalizations.of(context)!.passingWeigthInTons),
-                              TruckReviewDetailsRow(
-                                  value: providerData.truckLengthValue,
-                                  label: AppLocalizations.of(context)!.truckLength),
+                                  label: 'passingWeigth'.tr
+                                  // AppLocalizations.of(context)!.passingWeigthInTons
+                              ),
+                             // Change here----------------------------
+                             //  TruckReviewDetailsRow(
+                             //      value: providerData.truckLengthValue,
+                             //  //     label: AppLocalizations.of(context)!.truckLength),
                               TruckReviewDetailsRow(
                                   value: widget.driverId != ''
                                       ?
                                   '${driverModel.driverName}-${driverModel.phoneNum}'
                                       :
                                   '---',
-                                  label: AppLocalizations.of(context)!.driverDetails),
+                                  label: 'driverDetails'.tr
+                                  // AppLocalizations.of(context)!.driverDetails
+                              ),
                             ],
                           ),
                         ),
@@ -168,7 +178,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               Get.back();
                             },
                             optional: true,
-                            text: AppLocalizations.of(context)!.edit),
+                            text: 'edit'.tr
+                            // AppLocalizations.of(context)!.edit
+                        ),
                         MediumSizedButton(
                             onPressedFunction: () async {
                               setState(() {
@@ -178,7 +190,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                   await truckApiCalls.putTruckData(
                                 truckType: providerData.truckTypeValue,
                                 totalTyres: providerData.totalTyresValue,
-                                truckLength: providerData.truckLengthValue,
+                                // truckLength: providerData.truckLengthValue,
                                 passingWeight: providerData.passingWeightValue,
                                 driverID: widget.driverId,
                                 truckID: widget.truckId,

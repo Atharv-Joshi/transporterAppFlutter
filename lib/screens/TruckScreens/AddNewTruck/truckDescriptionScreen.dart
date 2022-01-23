@@ -151,7 +151,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
               children: [
                 Header(
                     backButton: true,
-                    text: AppLocalizations.of(context)!.addTruck,
+                    text: 'addTruck'.tr,
+                    // AppLocalizations.of(context)!.addTruck,
                     reset: true,
                     resetFunction: () {
                       providerData.resetTruckFilters();
@@ -159,7 +160,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       providerData.updateResetActive(false);
                     }),
                 AddTruckSubtitleText(
-                    text: AppLocalizations.of(context)!.truckType),
+                    text: 'truckType'.tr
+                    // AppLocalizations.of(context)!.truckType
+                ),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -180,7 +183,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_3),
                         child: AddTruckSubtitleText(
-                            text: 'Passing Weight (in tons.)')),
+                            text: 'passingWeight'.tr,
+                            // 'Passing Weight (in tons.)'
+                        )),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -205,7 +210,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: AddTruckSubtitleText(
-                            text: 'Total Tyres (front & rear)')),
+                            text: 'totalTyres'.tr
+                            // 'Total Tyres (front & rear)'
+                        )),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -224,31 +231,35 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                                     ))
                                 .toList()),
                       ),
-                providerData.truckTypeValue == ''
-                    ? SizedBox()
-                    : Container(
-                        margin: EdgeInsets.symmetric(vertical: space_2),
-                        child:
-                            AddTruckSubtitleText(text: 'Truck Length (in ft)')),
-                providerData.truckTypeValue == ''
-                    ? SizedBox()
-                    : Container(
-                        child: GridView.count(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          crossAxisSpacing: space_6,
-                          mainAxisSpacing: space_1,
-                          crossAxisCount: 5,
-                          children: truckFilterVariables
-                              .truckLengthList[providerData.truckTypeValue]!
-                              .map((e) => AddTruckCircularButtonTemplate(
-                                    value: e,
-                                    text: e != 0 ? e.toString() : "+",
-                                    category: 'length',
-                                  ))
-                              .toList(),
-                        ),
-                      ),
+                // changed here-----------------------------------
+                // providerData.truckTypeValue == ''
+                //     ? SizedBox()
+                //     : Container(
+                //         margin: EdgeInsets.symmetric(vertical: space_2),
+                //         child:
+                //             AddTruckSubtitleText(text: 'Truck Length (in ft)')),
+                // providerData.truckTypeValue == ''
+                //     ? SizedBox()
+                //     : Container(
+                //         child: GridView.count(
+                //           physics: NeverScrollableScrollPhysics(),
+                //           shrinkWrap: true,
+                //           crossAxisSpacing: space_6,
+                //           mainAxisSpacing: space_1,
+                //           crossAxisCount: 5,
+                //           children: truckFilterVariables
+                //               .truckLengthList[providerData.truckTypeValue]!
+                //               .map((e) => AddTruckCircularButtonTemplate(
+                //                     value: e,
+                //                     text: e != 0 ? e.toString() : "+",
+                //                     category: 'length',
+                //                   ))
+                //               .toList(),
+                //         ),
+                //       ),
+                //till here----------------------------------------------------
+
+                // change of select driver from here---------------------------
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -287,7 +298,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       isExpanded: true,
                       focusColor: Colors.blue,
                       hint:
-                          Text(AppLocalizations.of(context)!.driverNameNumber),
+                          Text('driverNameNumber'.tr
+                              // AppLocalizations.of(context)!.driverNameNumber
+                          ),
                       value: dropDownValue,
                       icon: Container(
                           decoration: BoxDecoration(
@@ -308,6 +321,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     ),
                   ),
                 ),
+                //till here-----------------------------------------
                 Align(
                   alignment: Alignment.center,
                   child: Container(

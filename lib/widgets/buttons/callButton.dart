@@ -118,7 +118,8 @@ class CallButton extends StatelessWidget {
                 ),
               ),
               Text(
-                AppLocalizations.of(context)!.call,
+                'call'.tr,
+                // AppLocalizations.of(context)!.call,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   letterSpacing: 0.7,

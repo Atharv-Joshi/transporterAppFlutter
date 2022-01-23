@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -37,7 +38,8 @@ class CancelLogoutButton extends StatelessWidget {
             ],
           ),
           child: Text(
-            AppLocalizations.of(context)!.cancel,
+            'cancel'.tr,
+            // AppLocalizations.of(context)!.cancel,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: normalWeight,

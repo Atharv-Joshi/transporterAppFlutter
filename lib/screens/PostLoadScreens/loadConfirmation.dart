@@ -57,7 +57,9 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                               width: space_3,
                             ),
                             HeadingTextWidget(
-                                AppLocalizations.of(context)!.loadConfirmation),
+                              'loadConfirmation'.tr
+                                // AppLocalizations.of(context)!.loadConfirmation
+                            ),
                             // HelpButtonWidget(),
                           ],
                         ),
@@ -67,8 +69,9 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         Padding(
                           padding: EdgeInsets.only(left: space_3),
                           child: Text(
-                            AppLocalizations.of(context)!
-                                .reviewDetailsForYourLoad,
+                            'reviewDetailsForYourLoad'.tr,
+                            // AppLocalizations.of(context)!
+                            //     .reviewDetailsForYourLoad,
                             style: TextStyle(
                                 fontSize: size_9,
                                 fontWeight: mediumBoldWeight,
@@ -90,35 +93,48 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                   child: LoadConfirmationTemplate(
                                       value:
                                           "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
-                                      label: AppLocalizations.of(context)!
-                                          .location),
+                                      label: 'location'.tr
+                                      // AppLocalizations.of(context)!
+                                      //     .location
+                                  ),
                                 ),
                                 LoadConfirmationTemplate(
                                     value: postLoadVariables.bookingDate.value,
-                                    label: AppLocalizations.of(context)!.date),
+                                    label: 'date'.tr
+                                    // AppLocalizations.of(context)!.date
+                                ),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckTypeValue,
-                                    label: AppLocalizations.of(context)!
-                                        .truckType),
+                                    label: 'truckType'.tr
+                                    // AppLocalizations.of(context)!
+                                    //     .truckType
+                                ),
                                 LoadConfirmationTemplate(
                                     value:
                                         providerData.totalTyresValue.toString(),
-                                    label: AppLocalizations.of(context)!.tyre),
+                                    label: 'tyre'.tr
+                                    // AppLocalizations.of(context)!.tyre
+                                ),
                                 LoadConfirmationTemplate(
                                     value: providerData.passingWeightValue
                                         .toString(),
-                                    label:
-                                        AppLocalizations.of(context)!.weight),
+                                    label:'weight'.tr
+                                        // AppLocalizations.of(context)!.weight
+                                ),
                                 LoadConfirmationTemplate(
                                     value: providerData.productType,
-                                    label: AppLocalizations.of(context)!
-                                        .productType),
+                                    label: 'productType'.tr
+                                    // AppLocalizations.of(context)!.productType
+                                ),
                                 LoadConfirmationTemplate(
                                     value: providerData.price == 0
-                                        ? AppLocalizations.of(context)!
-                                            .priceNotGiven
+                                        ? 'priceNotGiven'.tr
+                                    // AppLocalizations.of(context)!
+                                    //         .priceNotGiven
                                         : "Rs.${providerData.price}/${providerData.unitValue}",
-                                    label: AppLocalizations.of(context)!.price),
+                                    label: 'price'.tr
+                                    // AppLocalizations.of(context)!.price
+                                ),
                               ],
                             ),
                           ),
@@ -135,14 +151,17 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         children: [
                           Expanded(
                               child: LoadConfirmationScreenButton(
-                                  title: AppLocalizations.of(context)!.edit)),
+                                  title: 'edit'.tr
+                                  // AppLocalizations.of(context)!.edit
+                              )),
                           SizedBox(
                             width: space_10,
                           ),
                           Expanded(
                               child: LoadConfirmationScreenButton(
-                                  title:
-                                      AppLocalizations.of(context)!.confirm)),
+                                  title: 'confirm'.tr
+                                      // AppLocalizations.of(context)!.confirm
+                              )),
                         ],
                       ),
                     ),

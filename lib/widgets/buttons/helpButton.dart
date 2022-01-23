@@ -37,8 +37,8 @@ class HelpButtonWidget extends StatelessWidget {
               SizedBox(
                 width: space_1,
               ),
-              Text(
-                AppLocalizations.of(context)!.help,
+              Text('help'.tr,
+                // AppLocalizations.of(context)!.help,
                 style: TextStyle(fontSize: size_7, color: darkBlueColor),
               ),
             ],

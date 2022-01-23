@@ -137,7 +137,10 @@ class _MyTrucksState extends State<MyTrucks> {
                   /*  SizedBox(
                       width: space_3,
                     ),*/
-                    HeadingTextWidget(AppLocalizations.of(context)!.my_truck),
+                    HeadingTextWidget(
+                      'my_truck'.tr
+                        // AppLocalizations.of(context)!.my_truck
+                    ),
                     // HelpButtonWidget(),
                   ],
                 ),
@@ -147,7 +150,8 @@ class _MyTrucksState extends State<MyTrucks> {
             Container(
                 margin: EdgeInsets.symmetric(vertical: space_3),
                 child: SearchLoadWidget(
-                  hintText: AppLocalizations.of(context)!.search,
+                  hintText: 'search'.tr,
+                  // AppLocalizations.of(context)!.search,
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -160,7 +164,7 @@ class _MyTrucksState extends State<MyTrucks> {
           //    height: 26,
           //    width: 200,
                   padding: EdgeInsets.fromLTRB(10,2,10,2),
-             
+
               //    margin: EdgeInsets.symmetric(horizontal: space_2),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF7F8FA),
@@ -169,16 +173,18 @@ class _MyTrucksState extends State<MyTrucks> {
                       blurRadius: 9,
                       offset: Offset(0, 2),),
                     ],
-                    
+
             ),
-            
+
               child: Row(
-                
+
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-               
+
                   TruckScreenBarButton(
-                    text: 'All', value: 0, pageController: pageController),
+                    text: 'all'.tr,
+                    // 'All',
+                      value: 0, pageController: pageController),
                   Container(
                     padding: EdgeInsets.all(0),
                     width: 1,
@@ -186,7 +192,9 @@ class _MyTrucksState extends State<MyTrucks> {
                     color: const Color(0xFFC2C2C2),
                   ),
                   TruckScreenBarButton(
-                    text: 'Running', value: 1, pageController: pageController),
+                    text: 'running'.tr,
+                    // 'Running'
+                       value: 1, pageController: pageController),
                   Container(
                     padding: EdgeInsets.all(0),
                     width: 1,
@@ -194,26 +202,28 @@ class _MyTrucksState extends State<MyTrucks> {
                     color: const Color(0xFFC2C2C2),
                   ),
                   TruckScreenBarButton(
-                    text: 'Stopped', value: 2, pageController: pageController),
+                    text: 'stopped'.tr,
+                    // 'Stopped',
+                      value: 2, pageController: pageController),
                 ],
               ),
 
             ),
             SizedBox(
-              height: 9,
+              height: 6,
             ),
             GestureDetector (
               onTap: (){
                 Get.to(MapAllTrucks(gpsDataList: gpsDataList, truckDataList: truckDataList,runningDataList: runningList,runningGpsDataList: runningGpsData,stoppedList: StoppedList,stoppedGpsList: StoppedGpsData,));
               },
               child: Container(
-                
+
            //     margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
                 padding: EdgeInsets.fromLTRB(space_5, space_2, space_2, space_2),
                 decoration: BoxDecoration(
                     color: const Color(0xFFF7F8FA),
                     boxShadow: [
-                      
+
                       BoxShadow(color: const Color(0xFFEFEFEF),
                       blurRadius: 9,
                       offset: Offset(0, 2),),
@@ -229,7 +239,8 @@ class _MyTrucksState extends State<MyTrucks> {
                             width:18,
                           ),
                     Text(
-                      'See All Trucks on Map',
+                      'seeAllTruckMap'.tr,
+                      // 'See All Trucks on Map',
                       style: TextStyle(fontSize: 15),
                     ),
                     Spacer(),
@@ -245,7 +256,7 @@ class _MyTrucksState extends State<MyTrucks> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             Expanded(
               child: Stack(
@@ -281,7 +292,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             width: 127,
                                           ),
                                           Text(
-                                            'Looks like you have not added any Trucks!',
+                                            'notruckadded'.tr,
+                                            // 'Looks like you have not added any Trucks!',
                                             style: TextStyle(
                                                 fontSize: size_8, color: grey),
                                             textAlign: TextAlign.center,
@@ -358,7 +370,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             height: 20
                                           ),
                                           Text(
-                                            'Looks like none of your trucks are running!',
+                                            'notruckrunning'.tr,
+                                            // 'Looks like none of your trucks are running!',
                                             style: TextStyle(
                                                 fontSize: size_8, color: grey),
                                             textAlign: TextAlign.center,
@@ -436,7 +449,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                               height: 20
                                           ),
                                           Text(
-                                            'Looks like none of your trucks are stopped!',
+                                            'notruckstopped'.tr,
+                                            // 'Looks like none of your trucks are stopped!',
                                             style: TextStyle(
                                                 fontSize: size_8, color: grey),
                                             textAlign: TextAlign.center,
@@ -503,6 +517,14 @@ class _MyTrucksState extends State<MyTrucks> {
                   ),
                 ]
               ),
+                Positioned(
+                  top: MediaQuery.of(context).size.height -kBottomNavigationBarHeight-230-2*space_6-30,
+                  left: (MediaQuery.of(context).size.width- 2*space_6)/2-60,
+                  child: Container(
+                 //     margin: EdgeInsets.only(bottom: space_2),
+                      child: AddTruckButton()),
+                ),
+              ]
             ),
 
             //--------------------------------------------------------------

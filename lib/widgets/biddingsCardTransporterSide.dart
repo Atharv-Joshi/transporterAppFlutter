@@ -121,9 +121,13 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                       ),
 
                       SizedBox(height: space_2,),
-                      NewRowTemplate(label: AppLocalizations.of(context)!.shipper, value: biddingModel.loadPosterCompanyName!.length > 24 ? biddingModel.loadPosterCompanyName!.substring(0,22) + '..' : biddingModel.loadPosterCompanyName , width: 98,),
+                      NewRowTemplate(label: 'shipper'.tr,
+                      // AppLocalizations.of(context)!.shipper,
+                        value: biddingModel.loadPosterCompanyName!.length > 24 ? biddingModel.loadPosterCompanyName!.substring(0,22) + '..' : biddingModel.loadPosterCompanyName , width: 98,),
                       biddingModel.previousBid != 'NA' ?  NewRowTemplate(label: ' Previous Bidding', value: 'Rs.${ biddingModel.previousBid}/${biddingModel.unitValue}') : Container(),
-                      NewRowTemplate(label: AppLocalizations.of(context)!.currentBidding, value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
+                      NewRowTemplate(label: 'currentBidding'.tr,
+                      // AppLocalizations.of(context)!.currentBidding,
+                          value: 'Rs.${biddingModel.currentBid}/${biddingModel.unitValue}'),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
                         child: Row(

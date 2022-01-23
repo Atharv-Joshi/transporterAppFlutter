@@ -43,7 +43,8 @@ class LoadConfirmationTemplate extends StatelessWidget {
                                       style: TextStyle(
                                           fontWeight: mediumBoldWeight,
                                           color: veryDarkGrey,
-                                          fontSize: size_6),
+                                          fontSize: size_6
+                                      ),
                                       scrollAxis: Axis.horizontal,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -60,13 +61,15 @@ class LoadConfirmationTemplate extends StatelessWidget {
                                   )
                                 ],
                               )
-                            : Text(
-                                ":  ${value!}",
-                                style: TextStyle(
-                                    fontWeight: mediumBoldWeight,
-                                    color: veryDarkGrey,
-                                    fontSize: size_6),
-                              ),
+                            : Expanded(
+                              child: Text(
+                                  ":  ${value!}",
+                                  style: TextStyle(
+                                      fontWeight: mediumBoldWeight,
+                                      color: veryDarkGrey,
+                                      fontSize: size_6),
+                                ),
+                            ),
                       ],
                     )),
               ],

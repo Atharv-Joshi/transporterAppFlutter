@@ -77,7 +77,10 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                         SizedBox(
                           width: space_3,
                         ),
-                        HeadingTextWidget("Find Load"),
+                        HeadingTextWidget(
+                        'findLoad'.tr
+                            // "Find Load"
+                        ),
                         // HelpButtonWidget(),
                       ],
                     ),
@@ -88,7 +91,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_5,
                 ),
                 AddressInputMMIWidget(
-                    hintText: "Loading Point",
+                    hintText: 'loadingPoint'.tr,
+                    // "Loading Point",
                     icon: LoadingPointImageIcon(
                       height: space_2 + 2,
                       width: space_2 + 2,
@@ -101,7 +105,8 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_4,
                 ),
                 AddressInputMMIWidget(
-                  hintText: "Unloading Point",
+                  hintText: 'unLoadingPoint'.tr,
+                  // "Unloading Point",
                   icon: UnloadingPointImageIcon(
                     height: space_2 + 2,
                     width: space_2 + 2,
