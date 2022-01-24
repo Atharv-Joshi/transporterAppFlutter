@@ -29,7 +29,8 @@ class ViewBidsButton extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 0 , horizontal: space_5),
           child:  Text(
-            'View Bids',
+            'viewBids'.tr,
+            // 'View Bids',
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

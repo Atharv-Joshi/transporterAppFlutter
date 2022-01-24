@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -27,14 +28,16 @@ class ReferAndEarnWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Refer And earn",
+            'refer'.tr,
+            // "Refer And earn",
             style: TextStyle(
-                fontSize: size_10, fontWeight: mediumBoldWeight, color: white),
+                fontSize: size_9, fontWeight: mediumBoldWeight, color: white),
           ),
           Row(
             children: [
               Text(
-                "Refer Liveasy to earn\npremium account",
+                "referUs".tr,
+                // "Refer Liveasy to earn\npremium account",
                 style: TextStyle(
                     fontSize: size_6, color: white, fontWeight: regularWeight),
               ),

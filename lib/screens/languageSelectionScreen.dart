@@ -10,6 +10,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/buttons/getStartedButton.dart';
@@ -24,7 +25,8 @@ class LanguageSelectionScreen extends StatefulWidget {
       _LanguageSelectionScreenState();
 }
 
-class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
+class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with AutomaticKeepAliveClientMixin<LanguageSelectionScreen>{
+  String currentItem = 'English'; //added this
   String? transporterId;
   bool _nextScreen = false;
   TransporterIdController transporterIdController =
@@ -33,6 +35,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   void initState() {
     super.initState();
     getData();
+    currentItem = LocalizationService().getCurrentLang();  //added this
   }
   Function? onTapNext(){
     Get.to(bottomProgressBarIndicatorWidget());
@@ -95,8 +98,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final provider = Provider.of<ProviderData>(context);
-    final currentItem = provider.languageItem;
+    // final provider = Provider.of<ProviderData>(context);
+    // final currentItem = provider.languageItem;
+    // currentItem = LocalizationService().getCurrentLang();  //added this
     return Scaffold(
       backgroundColor: white,
       body: Padding(
@@ -117,14 +121,16 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         child: Image(
                             image: AssetImage("assets/icons/welcomeIcon.png")),
                       ),
-                      Text(AppLocalizations.of(context)!.welcome,
+                      Text('welcome'.tr,  // changed this
+                        // AppLocalizations.of(context)!.welcome,
                         style: TextStyle(
                             fontSize: size_11, fontWeight: boldWeight),
                       ),
                       SizedBox(
                         height: space_6,
                       ),
-                      Text(AppLocalizations.of(context)!.selectLanguage,
+                      Text('selectLanguage'.tr, //changed this
+                        // AppLocalizations.of(context)!.selectLanguage,
                         style: TextStyle(
                             fontSize: size_10, fontWeight: normalWeight),
                       ),
@@ -137,14 +143,21 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                selectLanguageItem(context, LanguageItem.English);
-                                provider.setLocale(Locale('en'));
+                                // selectLanguageItem(context, LanguageItem.English);
+                                // provider.setLocale(Locale('en'));
+                                //change here
+                                setState(() {
+                                  var locale = Locale('en', 'US');
+                                  Get.updateLocale(locale);
+                                  currentItem = 'English';
+                                  LocalizationService().changeLocale(currentItem);
+                                });
                               },
                               child: Container(
                                 height: space_8,
                                 decoration: BoxDecoration(
                                     border: Border.all(width: 1,
-                                        color:currentItem == LanguageItem.English ? navy : darkGreyColor
+                                        color:currentItem == 'English' ? navy : darkGreyColor //change here
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(radius_1)),
@@ -155,12 +168,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                     Text(
                                       "English",
                                       style: TextStyle(
-                                          color: currentItem == LanguageItem.English ? navy : darkGreyColor,
+                                          color: currentItem == 'English' ? navy : darkGreyColor, //change here
                                           fontSize: size_9,
                                           fontWeight: normalWeight),
                                     ),
                                     Container(
-                                      child: currentItem == LanguageItem.English? Image(
+                                      child: currentItem == 'English' ? Image( //chenge here
                                         image: AssetImage("assets/icons/tick.png"),
                                         width: space_3,
                                         height: space_3,
@@ -177,15 +190,22 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                  selectLanguageItem(context, LanguageItem.Hindi);
-                                  provider.setLocale(Locale('hi'));
+                                  // selectLanguageItem(context, LanguageItem.Hindi);
+                                  // provider.setLocale(Locale('hi'));
+                                //change here
+                                setState(() {
+                                  var locale = Locale('hi', 'IN');
+                                  Get.updateLocale(locale);
+                                  currentItem = 'Hindi';
+                                  LocalizationService().changeLocale(currentItem);
+                                });
                               },
                               child: Container(
                                 height: space_8,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1,
-                                        color: currentItem == LanguageItem.Hindi ? navy : darkGreyColor
+                                        color: currentItem == 'Hindi' ? navy : darkGreyColor    //change here
                                     ),
                                     borderRadius:
                                         BorderRadius.circular(radius_1)),
@@ -194,14 +214,14 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                                   MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      "Hindi",
+                                      "हिन्दी",
                                       style: TextStyle(
-                                          color: currentItem == LanguageItem.Hindi ? navy : darkGreyColor,
+                                          color: currentItem == 'Hindi' ? navy : darkGreyColor,   //change here
                                           fontSize: size_9,
                                           fontWeight: normalWeight),
                                     ),
                                 Container(
-                                  child: currentItem == LanguageItem.Hindi ? Image(
+                                  child: currentItem == 'Hindi' ? Image(   //change here
                                     image: AssetImage("assets/icons/tick.png"),
                                     width: space_3,
                                     height: space_3,
@@ -239,4 +259,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
     final provider = Provider.of<ProviderData>(context, listen: false);
     provider.setLanguageItem(item);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

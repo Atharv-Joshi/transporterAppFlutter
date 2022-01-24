@@ -74,7 +74,8 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
                           width: 127,
                         ),
                         Text(
-                          'Looks like you have not added any Loads!',
+                          'noLoadAdded'.tr,
+                          // 'Looks like you have not added any Loads!',
                           style: TextStyle(fontSize: size_8, color: grey),
                           textAlign: TextAlign.center,
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -35,7 +36,8 @@ class FilterButtonWidget extends StatelessWidget {
                 width: space_1,
               ),
               Text(
-                AppLocalizations.of(context)!.filter,
+                'filter'.tr,
+                // AppLocalizations.of(context)!.filter,
                 style: TextStyle(fontSize: size_7, color: darkBlueColor),
               ),
             ],

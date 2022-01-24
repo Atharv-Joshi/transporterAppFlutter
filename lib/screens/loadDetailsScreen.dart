@@ -80,7 +80,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                             width: space_3,
                           ),
                           HeadingTextWidget(
-                              AppLocalizations.of(context)!.loadDetails),
+                            'loadDetails'.tr
+                              // AppLocalizations.of(context)!.loadDetails
+                          ),
                           // HelpButtonWidget(),
                         ],
                       ),

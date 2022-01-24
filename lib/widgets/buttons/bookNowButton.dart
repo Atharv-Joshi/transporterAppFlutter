@@ -77,7 +77,8 @@ class _BookNowButtonState extends State<BookNowButton> {
               borderRadius: BorderRadius.circular(radius_6)),
           child: Center(
             child: Text(
-              AppLocalizations.of(context)!.bookNow,
+              'bookNow'.tr,
+              // AppLocalizations.of(context)!.bookNow,
               style: TextStyle(
                   fontSize: size_8, fontWeight: mediumBoldWeight, color: white),
             ),

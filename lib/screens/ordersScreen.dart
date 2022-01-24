@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
@@ -32,24 +33,28 @@ class _OrdersScreenState extends State<OrdersScreen> {
             children: [
               Header(
                 reset: false,
-                text: AppLocalizations.of(context)!.order,
+                text: 'order'.tr,
+                // AppLocalizations.of(context)!.order,
                 backButton: false,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OrderScreenNavigationBarButton(
-                    text: AppLocalizations.of(context)!.bids,
+                    text: 'bids'.tr,
+                    // AppLocalizations.of(context)!.bids,
                     value: 0,
                     pageController: pageController,
                   ),
                   OrderScreenNavigationBarButton(
-                    text: AppLocalizations.of(context)!.on_going,
+                    text: 'on_going'.tr,
+                    // AppLocalizations.of(context)!.on_going,
                     value: 1,
                     pageController: pageController,
                   ),
                   OrderScreenNavigationBarButton(
-                    text: AppLocalizations.of(context)!.completed,
+                    text: 'completed'.tr,
+                    // AppLocalizations.of(context)!.completed,
                     value: 2,
                     pageController: pageController,
                   )

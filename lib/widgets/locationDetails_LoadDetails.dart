@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -32,7 +33,8 @@ class LocationDetailsLoadDetails extends StatelessWidget {
         ),
 
         Text(
-          AppLocalizations.of(context)!.loadDetails,
+          'loadDetails'.tr,
+          // AppLocalizations.of(context)!.loadDetails,
           style: TextStyle(
               fontWeight: mediumBoldWeight,
               fontSize: size_7),

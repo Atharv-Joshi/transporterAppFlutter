@@ -30,14 +30,15 @@ class BuyGpsLongWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Buy GPS",
+                  "buy_gps".tr,
                   style: TextStyle(
                       fontSize: size_10,
                       fontWeight: mediumBoldWeight,
                       color: white),
                 ),
                 Text(
-                  "Liveasy GPS system allows you\nto track your vehicles from the\napp.",
+                  'gpsTitleLong'.tr,
+                  // "Liveasy GPS system allows you\nto track your vehicles from the\napp.",
                   style: TextStyle(fontSize: size_6, color: white),
                 ),
               ],

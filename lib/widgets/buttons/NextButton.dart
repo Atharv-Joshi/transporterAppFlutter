@@ -28,7 +28,8 @@ class nextButton extends StatelessWidget {
                     : deactiveButtonColor,
               ),
               child: Text(
-                AppLocalizations.of(context)!.next,
+                'next'.tr,
+                // AppLocalizations.of(context)!.next,
                 style: TextStyle(
                   color: white,
                 ),

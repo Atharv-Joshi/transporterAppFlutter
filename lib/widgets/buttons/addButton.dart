@@ -58,7 +58,9 @@ class AddButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.add,
+
+            'add'.tr,
+            // AppLocalizations.of(context)!.add,
             style: TextStyle(
                 color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),

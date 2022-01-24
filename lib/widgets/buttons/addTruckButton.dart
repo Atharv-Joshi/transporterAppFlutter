@@ -30,7 +30,8 @@ class AddTruckButton extends StatelessWidget {
           Get.to(() => AddNewTruck());
         },
         child: Text(
-          AppLocalizations.of(context)!.addTruck,
+          'addTruck'.tr,
+          // AppLocalizations.of(context)!.addTruck,
           style: TextStyle(
             fontWeight: mediumBoldWeight,
             fontSize: size_9,

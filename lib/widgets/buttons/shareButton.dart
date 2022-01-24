@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -122,7 +123,8 @@ class _ShareButtonState extends State<ShareButton> {
               width: space_1 - 0.5,
             ),
             Text(
-              AppLocalizations.of(context)!.share,
+              'share'.tr,
+              // AppLocalizations.of(context)!.share,
               style: TextStyle(
                   fontSize: size_8, fontWeight: normalWeight, color: white),
             )

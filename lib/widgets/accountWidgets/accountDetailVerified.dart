@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:liveasy/constants/color.dart';
@@ -133,7 +134,7 @@ class AccountDetailVerified extends StatelessWidget {
                 image: AssetImage("assets/icons/verifiedButtonIcon.png"),
               ),
               Text(
-                "verified",
+                "verified".tr,
                 style:
                     TextStyle(fontWeight: normalWeight, fontSize: size_3 + 1),
               ),

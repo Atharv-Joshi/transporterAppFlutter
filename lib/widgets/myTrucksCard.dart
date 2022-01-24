@@ -233,7 +233,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)
                                           ),
-                                          Text("Status",
+                                          Text('status'.tr,
+                                              // "Status",
                                               style: TextStyle(
                                                   color: black,
                                                   fontSize: size_6,
@@ -298,14 +299,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                                                 SizedBox(
                                                                     width: 8
                                                                 ),
-                                                                Text("Truck Travelled : ",
+                                                                Text('truckTravelled'.tr,
+                                                                    // "Truck Travelled : ",
                                                                     softWrap: true,
                                                                     style: TextStyle(
                                                                         color: black,
                                                                         fontSize: size_6,
                                                                         fontStyle: FontStyle.normal,
                                                                         fontWeight: regularWeight)),
-                                                                Text("$totalDistance km Today",
+                                                                Text("$totalDistance " + 'kmToday'.tr,
+                                                                    // "km Today",
                                                                     softWrap: true,
                                                                     style: TextStyle(
                                                                         color: black,
@@ -330,20 +333,23 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                  width: 8,
                              ),
                 
-                              Text('Ignition  :',
+                              Text('ignition'.tr,
+                                  // 'Ignition  :',
                               style: TextStyle(
                                 color: black,
                                  fontSize: size_6,
                                  fontStyle: FontStyle.normal,
                                  fontWeight: regularWeight)),
                               (widget.gpsData.last.ignition)?
-                              Text( "ON",
+                              Text('on'.tr,
+                                  // "ON",
                               style: TextStyle(
                                 color: black,
                                  fontSize: size_6,
                                  fontStyle: FontStyle.normal,
                                  fontWeight: regularWeight)):
-                                 Text( "OFF",
+                                 Text('off'.tr,
+                                     // "OFF",
                               style: TextStyle(
                                 color: black,
                                  fontSize: size_6,
@@ -586,7 +592,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         },
                         child: Container(
                           
-                          child: Text('Add Driver',
+                          child: Text('addDriver'.tr,
+                            // 'Add Driver',
                           style: TextStyle(
                                 fontSize: 12,
                                 color: black,

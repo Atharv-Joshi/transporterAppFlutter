@@ -57,7 +57,8 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                           });
                         },
                         controller: controller,
-                        hintText: AppLocalizations.of(context)!.enterCityName,
+                        hintText: 'enterCityName'.tr
+                        // AppLocalizations.of(context)!.enterCityName,
                       ),
                     ),
                   ],

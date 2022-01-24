@@ -110,7 +110,8 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.MyAccount,
-                          text: AppLocalizations.of(context)!.my_account,
+                          text: 'my_account'.tr,
+                          // AppLocalizations.of(context)!.my_account,
                           image: 'assets/icons/person.png'),
                     ),
                     GestureDetector(
@@ -122,7 +123,8 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.Language,
-                          text: AppLocalizations.of(context)!.language,
+                          text: 'language'.tr,
+                          // AppLocalizations.of(context)!.language,
                           image: 'assets/icons/languageIcon.png'),
                     ),
                     GestureDetector(
@@ -136,7 +138,8 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.AddDriver,
-                          text: 'My Drivers',
+                          text: 'mydriver'.tr,
+                          // 'My Drivers',
                           image: 'assets/icons/driverHandle.png'),
                     ),
                     GestureDetector(
@@ -148,7 +151,8 @@ class DrawerWidget extends StatelessWidget {
                       child: drawerMenuItem(
                           context: context,
                           item: NavigationItem.BuyGps,
-                          text: AppLocalizations.of(context)!.buy_gps,
+                          text: 'buy_gps'.tr,
+                          // AppLocalizations.of(context)!.buy_gps,
                           image: 'assets/icons/gps.png'),
                     ),
                     SizedBox(
@@ -182,7 +186,8 @@ class DrawerWidget extends StatelessWidget {
                       child: ListTile(
                         title: Container(
                           margin: EdgeInsets.only(left: space_4),
-                          child: Text(AppLocalizations.of(context)!.contact_us,
+                          child: Text('contact_us'.tr,
+                              // AppLocalizations.of(context)!.contact_us,
                               style: TextStyle(
                                   color: darkBlueColor,
                                   fontSize: size_8,
@@ -219,7 +224,8 @@ class DrawerWidget extends StatelessWidget {
                             );
                       },
                       child: ListTile(
-                        title: Text(AppLocalizations.of(context)!.logout,
+                        title: Text('logout'.tr,
+                            // AppLocalizations.of(context)!.logout,
                             style: TextStyle(
                                 color: black,
                                 fontSize: size_8,

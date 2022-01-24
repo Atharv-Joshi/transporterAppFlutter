@@ -52,7 +52,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
               children: [
                 Header(
                   backButton: true,
-                  text: AppLocalizations.of(context)!.addTruck,
+                  text: 'addTruck'.tr,
+                  // AppLocalizations.of(context)!.addTruck,
                   reset: true,
                   resetFunction: () {
                     _controller.text = '';
@@ -63,7 +64,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 SizedBox(
                   height: space_2,
                 ),
-                AddTruckSubtitleText(text: AppLocalizations.of(context)!.truckNumber),
+                AddTruckSubtitleText(text: 'truckNumber'.tr
+                // AppLocalizations.of(context)!.truckNumber
+                ),
                 Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: space_6),
@@ -122,7 +125,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: MediumSizedButton(
-                        text: AppLocalizations.of(context)!.next,
+                        text: 'next'.tr,
+                        // AppLocalizations.of(context)!.next,
                         optional: false,
                         onPressedFunction: providerData.resetActive
                             ? () async {

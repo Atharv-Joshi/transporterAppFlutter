@@ -37,8 +37,8 @@ class ApplyButton extends StatelessWidget {
                       ? activeButtonColor
                       : deactiveButtonColor,
                 ),
-                child: Text(
-                  AppLocalizations.of(context)!.apply,
+                child: Text('apply'.tr,
+                  // AppLocalizations.of(context)!.apply,
                   style: TextStyle(
                     color: white,
                   ),

@@ -72,14 +72,14 @@ class TruckFilterVariables {
     'STANDARD_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
     'HIGH_CUBE_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22],
   };
-
-  Map<String, List<int>> truckLengthList = {
-    'OPEN_HALF_BODY': [40, 10],
-    'FLATBED': [10, 20, 50],
-    'OPEN_FULL_BODY': [60],
-    'FULL_BODY_TRAILER': [20, 40],
-    'HALF_BODY_TRAILER': [20, 40, 50],
-    'STANDARD_CONTAINER': [10, 60],
-    'HIGH_CUBE_CONTAINER': [40, 50, 60],
-  };
+  // chaged this-----------------------
+  // Map<String, List<int>> truckLengthList = {
+  //   'OPEN_HALF_BODY': [40, 10],
+  //   'FLATBED': [10, 20, 50],
+  //   'OPEN_FULL_BODY': [60],
+  //   'FULL_BODY_TRAILER': [20, 40],
+  //   'HALF_BODY_TRAILER': [20, 40, 50],
+  //   'STANDARD_CONTAINER': [10, 60],
+  //   'HIGH_CUBE_CONTAINER': [40, 50, 60],
+  // };
 }
