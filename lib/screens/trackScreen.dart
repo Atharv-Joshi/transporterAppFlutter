@@ -481,7 +481,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                           ),
                           Positioned(
                             right: 10,
-                            bottom: height/3+90,
+                            bottom: height/3+170,
                             child: SizedBox(
                               height: 40,
                               child: FloatingActionButton(
@@ -507,7 +507,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                           ),
                           Positioned(
                             right: 10,
-                            bottom: height/3+40,
+                            bottom: height/3+115,
                             child: SizedBox(
                               height: 40,
                               child: FloatingActionButton(

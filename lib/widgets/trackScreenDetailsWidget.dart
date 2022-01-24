@@ -96,7 +96,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
     return Container(
       height: height / 3 + 86,
       width: width,
-      padding: EdgeInsets.fromLTRB(0, 0, 0, space_4),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
       decoration: BoxDecoration(
           color: white,
           borderRadius: BorderRadius.only(
@@ -343,7 +343,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                               )
                             ],
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 0),
                         ] //
 
                     ),
