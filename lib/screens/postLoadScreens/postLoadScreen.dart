@@ -35,20 +35,25 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(reset: false, text: AppLocalizations.of(context)!.loads, backButton: false),
+              Header(reset: false, text: 'loads'.tr,
+              // AppLocalizations.of(context)!.loads,
+                  backButton: false),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OrderScreenNavigationBarButton(
-                      text: AppLocalizations.of(context)!.my_loads,
+                      text: 'my_loads'.tr,
+                      // AppLocalizations.of(context)!.my_loads,
                       value: 0,
                       pageController: pageController),
                   OrderScreenNavigationBarButton(
-                      text: AppLocalizations.of(context)!.on_going,
+                      text: 'on_going'.tr,
+                      // AppLocalizations.of(context)!.on_going,
                       value: 1,
                       pageController: pageController),
                   OrderScreenNavigationBarButton(
-                      text: AppLocalizations.of(context)!.completed,
+                      text: 'completed'.tr,
+                      // AppLocalizations.of(context)!.completed,
                       value: 2,
                       pageController: pageController)
                 ],

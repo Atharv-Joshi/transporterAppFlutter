@@ -29,7 +29,8 @@ class AddDriverButton extends StatelessWidget {
               },));
         },
         child: Text(
-          'Add Driver',
+          'addDriver'.tr,
+          // 'Add Driver',
           style: TextStyle(
             fontWeight: mediumBoldWeight,
             fontSize: size_9,

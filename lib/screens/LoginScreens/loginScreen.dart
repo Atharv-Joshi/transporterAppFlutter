@@ -92,7 +92,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: EdgeInsets.only(top: space_7),
                         child: Text(
-                          'Welcome To Liveasy',
+                          'welcomeTo'.tr,
+                          // 'Welcome To Liveasy',
                           style: TextStyle(
                             fontSize: size_10,
                             fontWeight: boldWeight,
@@ -104,7 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         margin: EdgeInsets.fromLTRB(
                             space_0, space_3, space_0, space_6),
                         child: Text(
-                          'A 6-digit OTP will be sent via SMS to verify \n your number',
+                          '6-digitOtp'.tr,
+                          // 'A 6-digit OTP will be sent via SMS to verify \n your number',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: regularWeight,
@@ -132,7 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 backgroundColor: providerData.buttonColor,
                               ),
                               child: Text(
-                                'Send OTP',
+                                'sendOtp'.tr,
+                                // 'Send OTP',
                                 style: TextStyle(
                                   color: white,
                                 ),

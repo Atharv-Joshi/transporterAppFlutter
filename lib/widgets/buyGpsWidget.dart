@@ -26,14 +26,16 @@ class BuyGpsWidget extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "Buy GPS",
+                  'buy_gps'.tr,
+                  // "Buy GPS",
                   style: TextStyle(
                       fontSize: size_10,
                       fontWeight: mediumBoldWeight,
                       color: white),
                 ),
                 Text(
-                  "Liveasy GPS system\nallows you to track\nyour vehicles from\nthe app",
+                  'gpsTitle'.tr,
+                  // "Liveasy GPS system\nallows you to track\nyour vehicles from\nthe app",
                   style: TextStyle(fontSize: size_5, color: white),
                 ),
               ],

@@ -103,7 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding:
                     EdgeInsets.fromLTRB(space_4, space_4, space_4, space_5),
                     child: SearchLoadWidget(
-                      hintText: AppLocalizations.of(context)!.search,
+                      hintText: 'search'.tr,
+                      // AppLocalizations.of(context)!.search,
                       onPressed: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         Get.to(() => FindLoadScreen());

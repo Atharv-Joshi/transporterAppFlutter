@@ -49,7 +49,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocalizations.of(context)!.driverName,
+            'driverName'.tr,
+            // AppLocalizations.of(context)!.driverName,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -74,7 +75,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       controller: driverNameController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "Type here",
+                        hintText: 'typeHere'.tr,
                         hintStyle: TextStyle(
                             color: textLightColor,
                             fontSize: size_8,
@@ -125,7 +126,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             height: space_2 + 2,
           ),
           Text(
-            AppLocalizations.of(context)!.driverNumber,
+            'driverNumber'.tr,
+            // AppLocalizations.of(context)!.driverNumber,
             style: TextStyle(
                 fontSize: size_9,
                 fontWeight: normalWeight,
@@ -149,7 +151,8 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 controller: driverNumberController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.typeHere,
+                  hintText: 'typeHere'.tr,
+                  // AppLocalizations.of(context)!.typeHere,
                   hintStyle: TextStyle(
                       color: textLightColor,
                       fontSize: size_8,
@@ -244,8 +247,12 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                     content: Container(
                       child: Column(
                         children: [
-                          Text(AppLocalizations.of(context)!.error +"!"),
-                          Text(AppLocalizations.of(context)!.enterValid10DigitNumber)
+                          Text('error'.tr +'!'
+                              // AppLocalizations.of(context)!.error +"!"
+                          ),
+                          Text('enterValid10DigitNumber'.tr
+                              // AppLocalizations.of(context)!.enterValid10DigitNumber
+                          )
                         ],
                       ),
                     ),

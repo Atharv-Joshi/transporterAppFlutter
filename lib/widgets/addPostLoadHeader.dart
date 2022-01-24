@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -31,7 +32,8 @@ class _AddPostLoadHeaderState extends State<AddPostLoadHeader> {
             Container(
                 margin: EdgeInsets.only(right: space_2),
                 child: BackButtonWidget()),
-            Text(AppLocalizations.of(context)!.postLoad,
+            Text('postLoad'.tr,
+                // AppLocalizations.of(context)!.postLoad,
                 style: TextStyle(
                   fontSize: size_10,
                   fontWeight: mediumBoldWeight,
@@ -42,7 +44,8 @@ class _AddPostLoadHeaderState extends State<AddPostLoadHeader> {
             ? TextButton(
                 onPressed:
                     providerData.resetActive ? widget.resetFunction : null,
-                child: Text(AppLocalizations.of(context)!.reset,
+                child: Text('reset'.tr,
+                    // AppLocalizations.of(context)!.reset,
                     style: TextStyle(
                       color:
                           providerData.resetActive ? truckGreen : unactiveReset,

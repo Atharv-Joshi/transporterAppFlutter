@@ -90,7 +90,9 @@ class _MyDriversState extends State<MyDrivers> {
                       SizedBox(
                         width: space_3,
                       ),
-                      HeadingTextWidget('My Drivers'),
+                      HeadingTextWidget('mydriver'.tr
+                          // 'My Drivers'
+                      ),
                       // HelpButtonWidget(),
                     ],
                   ),
@@ -100,7 +102,8 @@ class _MyDriversState extends State<MyDrivers> {
               Container(
                   margin: EdgeInsets.symmetric(vertical: space_3),
                   child: SearchLoadWidget(
-                    hintText: 'Search',
+                    hintText: 'search'.tr,
+                    // 'Search',
                     onPressed: () {
                       showDialog(
                           context: context,
@@ -119,7 +122,8 @@ class _MyDriversState extends State<MyDrivers> {
                             alignment: Alignment.center,
                             // margin: EdgeInsets.only(top: 153),
                             child:  Text(
-                                  'Looks like you have not added any Drivers!',
+                              'noDriver'.tr,
+                                  // 'Looks like you have not added any Drivers!',
                                   style: TextStyle(fontSize: size_8, color: grey),
                                   textAlign: TextAlign.center,
                                 ),

@@ -103,7 +103,8 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                             margin: EdgeInsets.fromLTRB(
                                 space_2, space_0, space_0, space_4),
                             child: Text(
-                              'OTP Verification',
+                              'OTPverify'.tr,
+                              // 'OTP Verification',
                               style: TextStyle(
                                 fontSize: size_10,
                                 fontWeight: boldWeight,
@@ -118,7 +119,8 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'OTP sent to',
+                                      'OTPsent'.tr,
+                                      // 'OTP sent to',
                                       style: TextStyle(
                                         fontSize: size_6,
                                         fontWeight: regularWeight,
@@ -136,7 +138,7 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                                         Get.back();
                                       },
                                       child: Text(
-                                        ' change',
+                                        'change'.tr,
                                         style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           fontSize: size_6,
@@ -177,7 +179,8 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                                       _verifyPhoneNumber();
                                     },
                                     child: Text(
-                                      'Resend OTP',
+                                      'Resendotp'.tr,
+                                      // 'Resend OTP',
                                       style: TextStyle(
                                         letterSpacing: 0.5,
                                         color: timerController
@@ -190,7 +193,8 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                                     )))
                                     : Obx(
                                       () => Text(
-                                    'Resend OTP in ${timerController.timeOnTimer}',
+                                    'Resendotp'.tr +'${timerController.timeOnTimer}',
+                                    // 'Resend OTP in ${timerController.timeOnTimer}',
                                     style: TextStyle(
                                       letterSpacing: 0.5,
                                       color: veryDarkGrey,

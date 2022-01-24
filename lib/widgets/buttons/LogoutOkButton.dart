@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -34,7 +35,7 @@ class LogoutOkButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            "Ok",
+            "ok".tr,
             style: TextStyle(
                 fontFamily: 'montserrat',
                 color: backgroundColor, fontWeight: mediumBoldWeight, fontSize: 13),

@@ -41,7 +41,8 @@ class PostButtonLoad extends StatelessWidget {
         },
         child: Container(
           child: Text(
-            AppLocalizations.of(context)!.postLoad,
+            'postLoad'.tr,
+            // AppLocalizations.of(context)!.postLoad,
             style: TextStyle(
               fontWeight: mediumBoldWeight,
               color: white,

@@ -54,8 +54,8 @@ class TruckApiCalls {
      truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
     truckModel.tyres = json["tyres"] != null ? json["tyres"].toString() : 'NA';
     truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
-    truckModel.truckLengthString =
-        json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
+    // truckModel.truckLengthString =
+    //     json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
     //driver data
     DriverModel driverModel =
         await getDriverByDriverId(driverId: truckModel.driverId);
@@ -122,7 +122,7 @@ class TruckApiCalls {
       required String truckType,
       required int totalTyres,
       required int passingWeight,
-      required int truckLength,
+      // required int truckLength,
       required String driverID}) async {
     //json map
     Map<String, dynamic> data = {
@@ -132,7 +132,7 @@ class TruckApiCalls {
       "transporterId": transporterIdController.transporterId.value,
       "truckApproved": false,
       "truckType": truckType == '' ? null : truckType,
-      "truckLength": truckLength == 0 ? null : truckLength,
+      // "truckLength": truckLength == 0 ? null : truckLength,
       "tyres": totalTyres == 0 ? null : totalTyres
     };
 

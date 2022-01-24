@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -20,7 +21,8 @@ class AdditionalDescriptionLoadDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context)!.additionalDescription,
+          'additionalDescription'.tr,
+          // AppLocalizations.of(context)!.additionalDescription,
           style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_7),
         ),
         SizedBox(

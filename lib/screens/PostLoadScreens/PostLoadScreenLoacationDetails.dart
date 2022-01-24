@@ -136,12 +136,14 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AddTruckSubtitleText(text: AppLocalizations.of(context)!.locationDetails),
+                          AddTruckSubtitleText(text: 'locationDetails'.tr
+                          // AppLocalizations.of(context)!.locationDetails
+                          ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
                             child: AddressInputGMapsWidget(
-                                hintText: "Loading point",
+                                hintText: "loadingPoint".tr,
                                 icon: LoadingPointImageIcon(
                                   height: size_6,
                                   width: size_6,
@@ -156,7 +158,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
                             child: AddressInputGMapsWidget(
-                              hintText: "Unloading point",
+                              hintText: "unLoadingPoint".tr,
                               icon: UnloadingPointImageIcon(
                                 height: size_6,
                                 width: size_6,
@@ -168,7 +170,9 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                             ),
                           ),
                           SizedBox(height: space_3),
-                          AddTruckSubtitleText(text: AppLocalizations.of(context)!.bookingDate),
+                          AddTruckSubtitleText(text: 'bookingDate'.tr
+                          // AppLocalizations.of(context)!.bookingDate
+                          ),
                           GridView.count(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,

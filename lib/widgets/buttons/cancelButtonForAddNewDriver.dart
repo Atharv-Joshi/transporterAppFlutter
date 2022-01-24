@@ -10,9 +10,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CancelButtonForAddNewDriver extends StatefulWidget {
 
 
-
-
-
   @override
   _CancelButtonForAddNewDriverState createState() => _CancelButtonForAddNewDriverState();
 }
@@ -22,7 +19,7 @@ class _CancelButtonForAddNewDriverState extends State<CancelButtonForAddNewDrive
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () =>Get.back(),
+      onTap: () => Get.back(),
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
@@ -32,7 +29,8 @@ class _CancelButtonForAddNewDriverState extends State<CancelButtonForAddNewDrive
             border: Border.all(color: darkBlueColor)),
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.cancel,
+            'cancel'.tr,
+            // AppLocalizations.of(context)!.cancel,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: normalWeight,

@@ -102,7 +102,9 @@ class OngoingCardOrders extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           LoadLabelValueRowTemplate(
-                              value: startedOn, label: AppLocalizations.of(context)!.bookingDate),
+                              value: startedOn, label: 'bookingDate'.tr
+                          // AppLocalizations.of(context)!.bookingDate
+                          ),
                           Icon(Icons.arrow_forward_ios)
                         ],
                       ),
@@ -130,11 +132,17 @@ class OngoingCardOrders extends StatelessWidget {
                         child: Column(
                           children: [
                             LoadLabelValueRowTemplate(
-                                value: vehicleNo, label: AppLocalizations.of(context)!.truckNumber),
+                                value: vehicleNo, label: 'truckNumber'.tr
+                            // AppLocalizations.of(context)!.truckNumber
+                            ),
                             LoadLabelValueRowTemplate(
-                                value: driverName, label: AppLocalizations.of(context)!.driverName),
+                                value: driverName, label: 'driverName'.tr
+                            // AppLocalizations.of(context)!.driverName
+                            ),
                             LoadLabelValueRowTemplate(
-                                value: "Rs.$rate/$unitValue", label: AppLocalizations.of(context)!.price),
+                                value: "Rs.$rate/$unitValue", label: 'price'.tr
+                            // AppLocalizations.of(context)!.price
+                            ),
                           ],
                         ),
                       ),

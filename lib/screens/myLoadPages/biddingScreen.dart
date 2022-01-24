@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
@@ -101,12 +102,17 @@ class _BiddingScreensState extends State<BiddingScreens> {
         margin: EdgeInsets.symmetric(vertical: space_4, horizontal: space_4),
         child: Column(
           children: [
-            Header(reset: false, text: 'Biddings', backButton: true),
+            Header(reset: false, text: 'bids'.tr,
+            // 'Biddings',
+                backButton: true),
             Container(
               margin: EdgeInsets.only(top: space_1),
               height: MediaQuery.of(context).size.height * 0.83,
               child: biddingModelList.isEmpty
-                  ? Text('No bids yet')
+                  ? Text(
+                'noBid'.tr,
+                  // 'No bids yet'
+              )
                   : ListView.builder(
                       controller: scrollController,
                       itemCount: biddingModelList.length,
