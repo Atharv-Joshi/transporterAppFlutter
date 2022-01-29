@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
@@ -10,6 +8,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/dynamicLink.dart';
 import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
+import 'package:liveasy/screens/truckAnalysisScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -64,12 +63,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   void initState() {
     super.initState();
     initFunction();
-    timer = Timer.periodic(
-        Duration(minutes: 0, seconds: 20), (Timer t) => initFunction());
   }
 
-  initFunction() async {
-    //  print("ppppp ${widget.totalRunningTime}");
+  initFunction() {
     setState(() {
       gpsData = widget.gpsData;
       gpsTruckRoute = widget.gpsTruckRoute;
@@ -81,14 +77,6 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       latitude = gpsData.last.latitude;
       longitude = gpsData.last.longitude;
     });
-
-    print("speed2 ${gpsData.last.speed}");
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
@@ -106,9 +94,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: height / 3 + 20,
+      height: height / 3 + 86,
       width: width,
-      padding: EdgeInsets.fromLTRB(0, 0, 0, space_4),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
       decoration: BoxDecoration(
           color: white,
           borderRadius: BorderRadius.only(
@@ -355,7 +343,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                               )
                             ],
                           ),
-                          SizedBox(height: 5),
+                          SizedBox(height: 0),
                         ] //
 
                         ),
@@ -365,15 +353,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       child: Column(
                         children: [
                           (widget.gpsData.last.speed > 2)
-                              ? Text(
-                                  "${(widget.gpsData.last.speed).round()} km/h",
+                              ? Text("${(gpsData.last.speed).round()} km/h",
                                   style: TextStyle(
                                       color: liveasyGreen,
                                       fontSize: size_10,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: regularWeight))
-                              : Text(
-                                  "${(widget.gpsData.last.speed).round()} km/h",
+                              : Text("${(gpsData.last.speed).round()} km/h",
                                   style: TextStyle(
                                       color: red,
                                       fontSize: size_10,
@@ -412,8 +398,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         foregroundColor: Colors.white,
                         child: const Icon(Icons.near_me_outlined, size: 30),
                         onPressed: () {
-                          openMap(
-                              gpsData.last.latitude, gpsData.last.longitude);
+                          openMap(gpsData.last.lat, gpsData.last.lng);
                         },
                       ),
                       SizedBox(
@@ -428,15 +413,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-                    SizedBox(
-                      height: space_5,
-                    ),
                     Column(children: [
                       DynamicLinkService(
-                        deviceId: widget.deviceId,
-                        truckId: widget.truckId,
-                        truckNo: widget.TruckNo,
-                      ),
+                          deviceId: widget.deviceId, truckId: widget.truckId),
                       SizedBox(
                         height: 8,
                       ),
@@ -449,9 +428,6 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-                    SizedBox(
-                      height: space_5,
-                    ),
                     Column(children: [
                       FloatingActionButton(
                         heroTag: "button3",
@@ -484,9 +460,6 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-                    SizedBox(
-                      height: space_5,
-                    ),
                     Column(children: [
                       FloatingActionButton(
                         heroTag: "button4",
@@ -509,6 +482,81 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                       Text(
                         "History",
+                        style: TextStyle(
+                            color: black,
+                            fontSize: size_6,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: mediumBoldWeight),
+                      ),
+                    ]),
+                  ],
+                )),
+            Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.fromLTRB(space_5, space_1, space_8, space_1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(children: [
+                      FloatingActionButton(
+                        heroTag: "button5",
+                        backgroundColor: bidBackground,
+                        foregroundColor: Colors.white,
+                        child: const Icon(Icons.local_gas_station, size: 30),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Petrol Pump",
+                        style: TextStyle(
+                            color: black,
+                            fontSize: size_6,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: mediumBoldWeight),
+                      ),
+                    ]),
+                    Column(children: [
+                      FloatingActionButton(
+                        heroTag: "button7",
+                        backgroundColor: bidBackground,
+                        foregroundColor: Colors.white,
+                        child: Image.asset(
+                          'assets/icons/truckAnalysis.png',
+                          scale: 2.5,
+                        ),
+                        onPressed: () {
+                          Get.to(truckAnalysisScreen(
+                            gpsStoppageHistory: widget.gpsStoppageHistory,
+                          ));
+                        },
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Truck Analysis",
+                        style: TextStyle(
+                            color: black,
+                            fontSize: size_6,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: mediumBoldWeight),
+                      ),
+                    ]),
+                    Column(children: [
+                      FloatingActionButton(
+                        heroTag: "button7",
+                        backgroundColor: bidBackground,
+                        foregroundColor: Colors.white,
+                        child: const Icon(Icons.lock_outlined, size: 30),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Lock",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
