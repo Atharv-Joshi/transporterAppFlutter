@@ -116,15 +116,17 @@ const Map<String, String> hiIN = {
 
   //Navigation drawer
   "mydriver": "मेरे ड्राइवर",
-  'noDriver':"आपके द्वारा कोई ड्राइवर नहीं जोड़ा गया",
+  'noDriver': "आपके द्वारा कोई ड्राइवर नहीं जोड़ा गया",
   // 'addDriver':"ड्राइवर जोडे",
 
   //Home
   // "search": "Search",
   "refer": "ग्राहक जोड़े और कमाए",
   "referUs": "लिवइज़ी में ग्राहक\nजोड़े और लाभ वाला\nखाता कमाएं",
-  "gpsTitle": "लिवइज़ी GPS की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
-  "gpsTitleLong": "लिवइज़ी GPS की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
+  "gpsTitle":
+      "लिवइज़ी GPS की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
+  "gpsTitleLong":
+      "लिवइज़ी GPS की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
   "bonus": "बोनस",
 
   //trucks
@@ -136,13 +138,12 @@ const Map<String, String> hiIN = {
   "notruckrunnning": "आपका कोई ट्रक नहीं चल रहा है",
   "notruckstopped": "आपका कोई भी ट्रक नही रुका है",
   'passingWeight': "वजन क्षमता (टन)",
-  'status':"स्थिति",
-  'truckTravelled':'ट्रक चला है : ',
-  'kmToday':'किमी आज',
-  'ignition':"इग्निशन :",
-  'on':"शुरु",
-  'off':'बंद',
-
+  'status': "स्थिति",
+  'truckTravelled': 'ट्रक चला है : ',
+  'kmToday': 'किमी आज',
+  'ignition': "इग्निशन :",
+  'on': "शुरु",
+  'off': 'बंद',
 
   //loads
   "noLoadAdded": "आपके द्वारा कोई भी लोड नहीं जोड़ा गया है",
@@ -160,16 +161,19 @@ const Map<String, String> hiIN = {
   'addDriver': 'ड्राइवर जोड़े',
 
   //my account
-  'verified':"जांच समाप्त",
-  'uploadDetails':'जानकरी डालना',
-  'provideDetails':'जानकरी प्रदान करें',
-  'waitForReview':'जांच की प्रतीक्षा',
-  'takeTime':'इसमें कुछ दिन लग सकते हैं',
-  'searchForLoads':'लोड की खोज',
+  'verified': "जांच समाप्त",
+  'uploadDetails': 'जानकरी डालना',
+  'provideDetails': 'जानकरी प्रदान करें',
+  'waitForReview': 'जांच की प्रतीक्षा',
+  'takeTime': 'इसमें कुछ दिन लग सकते हैं',
+  'searchForLoads': 'लोड की खोज',
 
   //logout
-  'ok':"हां",
-  'logoutDialog':'क्या आप लॉगआउट करना चाहते हैं?',
+  'ok': "हां",
+  'logoutDialog': 'क्या आप लॉगआउट करना चाहते हैं?',
 
-
+  //shareDialog
+  'linkExpired': 'लिंक की अवधि समाप्त',
+  'linkExpiredInstruction':
+      'आप जिस लिंक को खोलने का प्रयास कर रहे हैं वो अब उपलब्ध नहीं है',
 };
