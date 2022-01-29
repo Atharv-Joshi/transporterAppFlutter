@@ -38,30 +38,35 @@ class TruckApiCalls {
       if (jsonData.isEmpty) {
         break;
       }
-      
+
       for (var json in jsonData) {
         TruckModel truckModel = TruckModel();
-    truckModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
-    truckModel.transporterId =
-        json["transporterId"] != null ? json["transporterId"] : 'NA';
-    truckModel.truckNo = json["truckNo"] != null ? json["truckNo"] : 'NA';
-    truckModel.truckApproved =
-        json["truckApproved"] != null ? json["truckApproved"] : false;
-    truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
-    truckModel.passingWeightString =
-        json["passingWeight"] != null ? json["passingWeight"].toString() : 'NA';
-    truckModel.truckType = json["truckType"] != null ? json["truckType"] : 'NA';
-     truckModel.deviceId = json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
-    truckModel.tyres = json["tyres"] != null ? json["tyres"].toString() : 'NA';
-    truckModel.driverId = json["driverId"] != null ? json["driverId"] : 'NA';
-    // truckModel.truckLengthString =
-    //     json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
-    //driver data
-    DriverModel driverModel =
-        await getDriverByDriverId(driverId: truckModel.driverId);
-    truckModel.driverName = driverModel.driverName;
-    truckModel.driverNum = driverModel.phoneNum;
-    truckDataList.add(truckModel);
+        truckModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
+        truckModel.transporterId =
+            json["transporterId"] != null ? json["transporterId"] : 'NA';
+        truckModel.truckNo = json["truckNo"] != null ? json["truckNo"] : 'NA';
+        truckModel.truckApproved =
+            json["truckApproved"] != null ? json["truckApproved"] : false;
+        truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
+        truckModel.passingWeightString = json["passingWeight"] != null
+            ? json["passingWeight"].toString()
+            : 'NA';
+        truckModel.truckType =
+            json["truckType"] != null ? json["truckType"] : 'NA';
+        truckModel.deviceId =
+            json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
+        truckModel.tyres =
+            json["tyres"] != null ? json["tyres"].toString() : 'NA';
+        truckModel.driverId =
+            json["driverId"] != null ? json["driverId"] : 'NA';
+        // truckModel.truckLengthString =
+        //     json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
+        //driver data
+        DriverModel driverModel =
+            await getDriverByDriverId(driverId: truckModel.driverId);
+        truckModel.driverName = driverModel.driverName;
+        truckModel.driverNum = driverModel.phoneNum;
+        truckDataList.add(truckModel);
       }
     }
     return truckDataList; // list of truckModels
@@ -71,21 +76,28 @@ class TruckApiCalls {
   Future<Map> getDataByTruckId(String truckId) async {
     http.Response response = await http.get(Uri.parse('$truckApiUrl/$truckId'));
     var jsonData = json.decode(response.body);
-    if(response.statusCode == 200){
-    Map data = {
-      'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
-      'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
-      'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
-      'truckType': jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
-    };
-
-    return data;}
-    else{
+    if (response.statusCode == 200) {
       Map data = {
-        'driverId':'NA',
-        'truckNo':'NA',
+        'driverId': jsonData['driverId'] != null ? jsonData['driverId'] : 'NA',
+        'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
+        'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
+        'truckType':
+            jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
+        'deviceId': jsonData['deviceId'] != null ? jsonData['deviceId'] : 'NA',
+        'truckApproved': jsonData['truckApproved'] != null
+            ? jsonData['truckApproved']
+            : 'NA',
+      };
+
+      return data;
+    } else {
+      Map data = {
+        'driverId': 'NA',
+        'truckNo': 'NA',
         'imei': 'NA',
-        'truckType':'NA',
+        'truckType': 'NA',
+        'deviceId': 'NA',
+        'truckApproved': 'NA',
       };
       return data;
     }

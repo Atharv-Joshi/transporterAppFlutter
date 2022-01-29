@@ -14,6 +14,8 @@ getDriverDetailsFromDriverId(driverId) async {
 
     driverModel.driverName = jsonData["driverName"].toString();
 
+    driverModel.phoneNum = jsonData['phoneNum'].toString();
+
     return driverModel;
   } catch (e) {
     print(e);
