@@ -7,7 +7,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/widgets/buttons/expiryButton.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:flutter_config/flutter_config.dart';
@@ -40,8 +39,8 @@ class _WhatsappShareState extends State<WhatsappShare> {
 
   String? _stringUrl;
 
-  List<String> lst = ['1 Min', '2 Mins', '3 Mins'];
-  List<int> expiryHours = [1, 2, 3];
+  List<String> lst = ['1Day'.tr, '2Days'.tr, '7Days'.tr];
+  List<int> expiryHours = [24, 48, 168];
 
   Future<void> _createDynamicLink(bool short) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -82,7 +81,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
   @override
   Widget build(BuildContext context) {
     expiryTime = currentDate.add(
-        Duration(hours: 0, minutes: expiryHours[selectedIndex], seconds: 0));
+        Duration(hours: expiryHours[selectedIndex], minutes: 0, seconds: 0));
     print("SELECTED EXPIRY: ${expiryHours[selectedIndex]} hours");
     return Dialog(
       shape:
@@ -110,7 +109,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Whatsapp pe Share kare",
+                  'whatsappShare'.tr,
                   style: TextStyle(fontSize: size_10, fontWeight: boldWeight),
                   textAlign: TextAlign.center,
                 ),
@@ -118,7 +117,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
                   height: space_4,
                 ),
                 Text(
-                  "Expiry time set kare",
+                  'setExpiry'.tr,
                   style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
@@ -159,7 +158,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
                                       borderRadius: BorderRadius.circular(18.0),
                                       side: BorderSide(color: darkBlueColor)))),
                           child: Text(
-                            'Share',
+                            'share'.tr,
                             // AppLocalizations.of(context)!.next,
                             style: TextStyle(
                               color: white,
@@ -191,7 +190,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
                                       borderRadius: BorderRadius.circular(18.0),
                                       side: BorderSide(color: darkBlueColor)))),
                           child: Text(
-                            'Cancel',
+                            'cancel'.tr,
                             // AppLocalizations.of(context)!.next,
                             style: TextStyle(
                               color: darkBlueColor,

@@ -182,4 +182,9 @@ const Map<String, String> enUS = {
   'linkExpired': 'Link Expired',
   'linkExpiredInstruction':
       'The link you are trying to open is no longer available',
+  '1Day': '1 Day',
+  '2Days': '2 Days',
+  '7Days': '7 Days',
+  'whatsappShare': 'Share on Whatsapp',
+  'setExpiry': 'Set expiry time',
 };

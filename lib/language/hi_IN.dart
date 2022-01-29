@@ -176,4 +176,9 @@ const Map<String, String> hiIN = {
   'linkExpired': 'लिंक की अवधि समाप्त',
   'linkExpiredInstruction':
       'आप जिस लिंक को खोलने का प्रयास कर रहे हैं वो अब उपलब्ध नहीं है',
+  '1Day': '1 दिन',
+  '2Days': '2 दिन',
+  '7Days': '7 दिन',
+  'whatsappShare': 'व्हाट्सएप पर शेयर करें',
+  'setExpiry': 'लिंक की अवधि निर्धारित करे',
 };
