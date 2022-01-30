@@ -123,7 +123,7 @@ const Map<String, String> enUS = {
 
   //Navigation drawer
   "mydriver": "My Driver",
-  'noDriver':"Looks like you have not added any Drivers!",
+  'noDriver': "Looks like you have not added any Drivers!",
 
   //Home
   "search": "Search",
@@ -131,14 +131,15 @@ const Map<String, String> enUS = {
   "referUs": "Refer Liveasy to earn\npremium account",
   "gpsTitle":
       "Liveasy GPS system\nallows you to track\nyour vehicles from\nthe app",
-  "gpsTitleLong": "Liveasy GPS system allows you\n to track your vehicles from the app",
+  "gpsTitleLong":
+      "Liveasy GPS system allows you\n to track your vehicles from the app",
   "bonus": "Bonus",
-  'status':'Status',
-  'truckTravelled':'Truck Travelled : ',
-  'kmToday':'km Today',
-  'ignition':"Ignition :",
-  'on':"ON",
-  'off':'OFF',
+  'status': 'Status',
+  'truckTravelled': 'Truck Travelled : ',
+  'kmToday': 'km Today',
+  'ignition': "Ignition :",
+  'on': "ON",
+  'off': 'OFF',
 
   //trucks
   "all": "All",
@@ -166,15 +167,24 @@ const Map<String, String> enUS = {
   'addDriver': "Add Driver",
 
   //my account
-'verified':"verified",
-'uploadDetails':'Upload Details',
-'provideDetails':'Provide Details',
-'waitForReview':'Wait for review',
-'takeTime':'This might take a few days',
-  'searchForLoads':'Search For Loads',
+  'verified': "verified",
+  'uploadDetails': 'Upload Details',
+  'provideDetails': 'Provide Details',
+  'waitForReview': 'Wait for review',
+  'takeTime': 'This might take a few days',
+  'searchForLoads': 'Search For Loads',
 
   //logout
-  'ok':"Ok",
-  'logoutDialog':'Are you sure? You want to logout',
+  'ok': "Ok",
+  'logoutDialog': 'Are you sure? You want to logout',
 
+  //shareDialog
+  'linkExpired': 'Link Expired',
+  'linkExpiredInstruction':
+      'The link you are trying to open is no longer available',
+  '1Day': '1 Day',
+  '2Days': '2 Days',
+  '7Days': '7 Days',
+  'whatsappShare': 'Share on Whatsapp',
+  'setExpiry': 'Set expiry time',
 };

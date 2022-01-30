@@ -193,29 +193,29 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                   ),
                                   (gpsData.last.ignition)
                                       ? Container(
-                                    alignment: Alignment.centerLeft,
-                                    //    width: 217,
+                                          alignment: Alignment.centerLeft,
+                                          //    width: 217,
 
-                                    child: Text("ON",
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: 12,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold)),
-                                  )
+                                          child: Text("ON",
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                  color: black,
+                                                  fontSize: 12,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.bold)),
+                                        )
                                       : Container(
-                                    alignment: Alignment.centerLeft,
-                                    //    width: 217,
+                                          alignment: Alignment.centerLeft,
+                                          //    width: 217,
 
-                                    child: Text("OFF",
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: 12,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
+                                          child: Text("OFF",
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                  color: black,
+                                                  fontSize: 12,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
                                   SizedBox(),
                                 ]),
                           ),
@@ -249,23 +249,23 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                       color: liveasyGreen,
                                                       fontSize: size_6,
                                                       fontStyle:
-                                                      FontStyle.normal,
+                                                          FontStyle.normal,
                                                       fontWeight:
-                                                      regularWeight)),
+                                                          regularWeight)),
                                               Text("${widget.totalDistance} km",
                                                   softWrap: true,
                                                   style: TextStyle(
                                                       color: black,
                                                       fontSize: size_6,
                                                       fontStyle:
-                                                      FontStyle.normal,
+                                                          FontStyle.normal,
                                                       fontWeight:
-                                                      regularWeight)),
+                                                          regularWeight)),
                                             ],
                                           ),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                                MainAxisAlignment.start,
                                             children: [
                                               Text("$totalRunningTime ",
                                                   softWrap: true,
@@ -273,9 +273,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                       color: grey,
                                                       fontSize: size_4,
                                                       fontStyle:
-                                                      FontStyle.normal,
+                                                          FontStyle.normal,
                                                       fontWeight:
-                                                      regularWeight)),
+                                                          regularWeight)),
                                             ],
                                           )
                                         ],
@@ -323,7 +323,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text("$totalStoppedTime ",
                                               softWrap: true,
@@ -346,7 +346,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           SizedBox(height: 0),
                         ] //
 
-                    ),
+                        ),
                     Spacer(),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 0, 0, space_5),
@@ -354,17 +354,17 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         children: [
                           (widget.gpsData.last.speed > 2)
                               ? Text("${(gpsData.last.speed).round()} km/h",
-                              style: TextStyle(
-                                  color: liveasyGreen,
-                                  fontSize: size_10,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: regularWeight))
+                                  style: TextStyle(
+                                      color: liveasyGreen,
+                                      fontSize: size_10,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: regularWeight))
                               : Text("${(gpsData.last.speed).round()} km/h",
-                              style: TextStyle(
-                                  color: red,
-                                  fontSize: size_10,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: regularWeight)),
+                                  style: TextStyle(
+                                      color: red,
+                                      fontSize: size_10,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: regularWeight)),
                           Text("Status",
                               style: TextStyle(
                                   color: black,
