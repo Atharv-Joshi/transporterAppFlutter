@@ -44,7 +44,7 @@ class _SplashScreenToGetTransporterDataState
 
     runTransporterApiPost(mobileNum: widget.mobileNum);
     if (transporterId != null) {
-      Timer(Duration(milliseconds: 2000),
+      Timer(Duration(milliseconds: 1200),
           () => Get.off(() => NavigationScreen()));
     } else {
       setState(() {
