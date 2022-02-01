@@ -9,8 +9,8 @@ class DynamicLinkService extends StatefulWidget {
   String? truckNo;
   DynamicLinkService({
     required this.deviceId,
-    this.truckId,
-    this.truckNo,
+    required this.truckId,
+    required this.truckNo,
   });
 
   @override

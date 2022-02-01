@@ -415,7 +415,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     ]),
                     Column(children: [
                       DynamicLinkService(
-                          deviceId: widget.deviceId, truckId: widget.truckId),
+                        deviceId: widget.deviceId,
+                        truckId: widget.truckId,
+                        truckNo: widget.TruckNo,
+                      ),
                       SizedBox(
                         height: 8,
                       ),
