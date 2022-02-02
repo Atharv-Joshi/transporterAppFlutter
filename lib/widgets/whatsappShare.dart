@@ -17,8 +17,8 @@ class WhatsappShare extends StatefulWidget {
   String? truckNo;
   WhatsappShare({
     required this.deviceId,
-    this.truckId,
-    this.truckNo,
+    required this.truckId,
+    required this.truckNo,
   });
   @override
   _WhatsappShareState createState() => _WhatsappShareState();
