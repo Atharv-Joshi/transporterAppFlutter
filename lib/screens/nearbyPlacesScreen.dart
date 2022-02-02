@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +20,7 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/buttons/okButton.dart';
-import 'package:liveasy/widgets/nearbyPlacesDetailsWidget.dart';
+import 'package:liveasy/widgets/nearbyPlacesDetailsCard.dart';
 import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
@@ -38,9 +39,13 @@ class NearbyPlacesScreen extends StatefulWidget {
   final String? driverName;
   var gpsDataHistory;
   var truckId;
+  var placeOnTheMapTag;
+  var placeOnTheMapName;
 
   NearbyPlacesScreen(
       {required this.gpsData,
+      required this.placeOnTheMapTag,
+      required this.placeOnTheMapName,
       // required this.position,
       required this.gpsDataHistory,
       this.TruckNo,
@@ -118,49 +123,60 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
 
-  late PlacesNearbyData _placesNearbyData;
+  PlacesNearbyData _placesNearbyData = new PlacesNearbyData();
   late Timer timer;
-  var iconOnTheMap = 'assets/icons/gasstation';
-  var placeOnTheMap = "gas_station";
   List<Marker> customMarkersGasStation = [];
   List<Marker> customMarkersPolice = [];
+  final circleId =
+      CircleId('circle_id_${DateTime.now().millisecondsSinceEpoch}');
 
-  Future<void> callApi(String lat, String lon) async {
-    if (placeOnTheMap == "gas_station" && customMarkersGasStation.length != 0) {
-      print("RETRIEVED OLD DATA");
+  PolylinePoints polylinePointsForDistance = PolylinePoints();
+
+  Set<Marker> markersForDistance = Set(); //markers for google map
+  late LatLng startLocationForDistance;
+  late LatLng endLocationForDistance;
+
+  Future<void> callApi(double lat, double lon) async {
+    if (widget.placeOnTheMapTag == "gas_station" &&
+        customMarkersGasStation.length > 2) {
       customMarkers = customMarkersGasStation;
-    } else if (placeOnTheMap == "police" && customMarkersPolice.length != 0) {
-      print("RETRIEVED OLD DATA");
+    } else if (widget.placeOnTheMapTag == "police" &&
+        customMarkersPolice.length != 0) {
       customMarkers = customMarkersPolice;
     } else {
       var url = Uri.parse(
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-              lat +
+              lat.toString() +
               "," +
-              lon +
+              lon.toString() +
               "&radius=15000&types=" +
-              placeOnTheMap +
+              widget.placeOnTheMapTag +
               "&key=" +
               googleAPiKey);
-      var response = await http.get(url);
-      print("LOCATION API RESPONSE");
 
+      var response = await http.get(url);
       var body = response.body;
       _placesNearbyData = PlacesNearbyData.fromJson(jsonDecode(body));
-      print("FIRST LOCATOIN IDENTIFIED");
 
-      print(_placesNearbyData.results![1].name);
+      startLocationForDistance = LatLng(lat, lon);
 
       var logger = Logger();
       logger.i("in addstops function");
       FutureGroup futureGroup = FutureGroup();
-      for (int i = 0; i < _placesNearbyData.results!.length; i++) {
-        var future = markNearbyPlaces(_placesNearbyData.results![i], i);
-        futureGroup.add(future);
-      }
+      if (_placesNearbyData.results != null)
+        for (int i = 0; i < _placesNearbyData.results!.length; i++) {
+          var future = markNearbyPlaces(_placesNearbyData.results![i], i);
+
+          endLocationForDistance = LatLng(
+              _placesNearbyData.results![i].geometry!.location!.lat!.toDouble(),
+              _placesNearbyData.results![i].geometry!.location!.lng!
+                  .toDouble());
+          getDirections(i);
+
+          futureGroup.add(future);
+        }
       futureGroup.close();
       await futureGroup.future;
-      print("STOPS DONE __");
     }
   }
 
@@ -170,15 +186,23 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     WidgetsBinding.instance!.addObserver(this);
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
-
+    circles = Set.from([
+      Circle(
+        circleId: circleId,
+        center:
+            LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude),
+        radius: 1000,
+        fillColor: Color.fromRGBO(17, 255, 169, 0.28),
+        strokeColor: Color.fromRGBO(17, 255, 169, 0.28),
+        strokeWidth: 2,
+      )
+    ]);
     try {
       //initfunction();
       initfunction2();
       iconthenmarker();
-      getTruckHistory();
 
-      callApi(widget.gpsData.last.latitude.toString(),
-          widget.gpsData.last.longitude.toString());
+      callApi(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       logger.i("in init state function");
       lastlatLngMarker =
           LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
@@ -186,19 +210,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       print("PRINTING STOP LATLONG");
       print(widget.gpsData.last.latitude);
       print(widget.gpsData.last.longitude);
-      final circleId =
-          CircleId('circle_id_${DateTime.now().millisecondsSinceEpoch}');
-      circles = Set.from([
-        Circle(
-          circleId: circleId,
-          center: LatLng(
-              widget.gpsData.last.latitude, widget.gpsData.last.longitude),
-          radius: 1000,
-          fillColor: Color.fromRGBO(17, 255, 169, 0.28),
-          strokeColor: Color.fromRGBO(17, 255, 169, 0.28),
-          strokeWidth: 2,
-        )
-      ]);
+
       timer = Timer.periodic(
           Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
     } catch (e) {
@@ -225,53 +237,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     }
   }
   //function is called every one minute to get updated history
-
-  getTruckHistory() {
-    gpsDataHistory = widget.gpsDataHistory;
-    print("Gps data history length ${gpsDataHistory.length}");
-    // getStoppage(widget.gpsStoppageHistory);
-    polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
-    _getPolyline(polylineCoordinates);
-  }
-
-  getTruckHistoryAfter() {
-    var logger = Logger();
-    logger.i("in truck history after function");
-    // getStoppage(gpsStoppageHistory);
-    polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
-    _getPolyline(polylineCoordinates);
-  }
-
-  _getPolyline(List<LatLng> polylineCoordinates) async {
-    var logger = Logger();
-    logger.i("in polyline function");
-    PolylineId id = PolylineId('poly');
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: loadingWidgetColor,
-      points: polylineCoordinates,
-      width: 2,
-    );
-    setState(() {
-      polylines[id] = polyline;
-    });
-    _addPolyLine();
-  }
-
-  _addPolyLine() {
-    PolylineId id = PolylineId("poly");
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.blue,
-      width: 4,
-      points: polylineCoordinates,
-      visible: true,
-    );
-    setState(() {
-      polylines[id] = polyline;
-      _polyline.add(polyline);
-    });
-  }
 
   initfunction() {
     setState(() {
@@ -331,7 +296,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
               createmarker()
             });
     BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(16, 16)),
-            iconOnTheMap + "_rounded.png")
+            "assets/icons/" + widget.placeOnTheMapTag + "_rounded.png")
         .then((value) => {
               setState(() {
                 pinLocationIconPumps = value;
@@ -346,8 +311,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     initfunctionAfter();
     iconthenmarker();
     customMarkers = [];
-    callApi(widget.gpsData.last.latitude.toString(),
-        widget.gpsData.last.longitude.toString());
+    callApi(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
   }
 
   void createmarker() async {
@@ -373,9 +337,20 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
             rotation: direction));
       });
       controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(bearing: 0, target: lastlatLngMarker, zoom: 14.5),
+        CameraPosition(bearing: 0, target: lastlatLngMarker, zoom: 14),
       ));
-      this.zoom = 14.5;
+      this.zoom = 14;
+
+      circles = Set.from([
+        Circle(
+          circleId: circleId,
+          center: LatLng(newGPSData.last.latitude, newGPSData.last.longitude),
+          radius: 1000,
+          fillColor: Color.fromRGBO(17, 255, 169, 0.28),
+          strokeColor: Color.fromRGBO(17, 255, 169, 0.28),
+          strokeWidth: 2,
+        )
+      ]);
     } catch (e) {
       print("Exceptionis $e");
     }
@@ -407,6 +382,66 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     // }
   }
 
+  getDirections(int index) async {
+    List<LatLng> polylineCoordinates = [];
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleAPiKey,
+      PointLatLng(startLocationForDistance.latitude,
+          startLocationForDistance.longitude),
+      PointLatLng(
+          endLocationForDistance.latitude, endLocationForDistance.longitude),
+      travelMode: TravelMode.driving,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    } else {
+      print(result.errorMessage);
+    }
+
+    //polulineCoordinates is the List of longitute and latidtude.
+    double totalDistance = 0;
+    for (var i = 0; i < polylineCoordinates.length - 1; i++) {
+      totalDistance += calculateDistance(
+          polylineCoordinates[i].latitude,
+          polylineCoordinates[i].longitude,
+          polylineCoordinates[i + 1].latitude,
+          polylineCoordinates[i + 1].longitude);
+    }
+    print("TOTAL DISTANCE " + totalDistance.toString());
+
+    setState(() {
+      if (_placesNearbyData.results != null)
+        _placesNearbyData.results![index].distance = totalDistance;
+    });
+
+    //add to the list of poly line coordinates
+    addPolyLine(polylineCoordinates, index);
+  }
+
+  addPolyLine(List<LatLng> polylineCoordinates, int index) {
+    PolylineId id = PolylineId("poly" + index.toString());
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.5),
+      points: polylineCoordinates,
+      width: 4,
+    );
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - lat1) * p) / 2 +
+        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
   @override
   void dispose() {
     logger.i("Activity is disposed");
@@ -425,7 +460,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         body: GestureDetector(
           onTap: () {
             setState(() {
-              showBottomMenu = !showBottomMenu;
+              if (!showBottomMenu) showBottomMenu = !showBottomMenu;
             });
           },
           onPanEnd: (details) {
@@ -592,7 +627,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-                bottom: (showBottomMenu) ? 0 : -(height / 3) + 55,
+                bottom: (showBottomMenu) ? 0 : -(height / 3) + 36,
                 child: menuWidget(height, width),
               )
             ],
@@ -604,142 +639,114 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
 
   Container menuWidget(double height, double width) {
     return Container(
-      height: height / 3 + 86,
-      width: width,
-      padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
-      decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          boxShadow: [
-            BoxShadow(
-              color: darkShadow,
-              offset: const Offset(
-                0,
-                -5.0,
+        height: height / 3 + 24,
+        width: width,
+        decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: darkShadow,
+                offset: const Offset(
+                  0,
+                  -5.0,
+                ),
+                blurRadius: 15.0,
+                spreadRadius: 10.0,
               ),
-              blurRadius: 15.0,
-              spreadRadius: 10.0,
-            ),
-            BoxShadow(
-              color: white,
-              offset: const Offset(0, 1.0),
-              blurRadius: 0.0,
-              spreadRadius: 2.0,
-            ),
-          ]),
-      child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Divider(
-              color: const Color(0xFFCBCBCB),
-              // height: size_3,
-              thickness: 3,
-              indent: 150,
-              endIndent: 150,
-            ),
-            Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_5, space_4, space_8, space_1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              BoxShadow(
+                color: white,
+                offset: const Offset(0, 1.0),
+                blurRadius: 0.0,
+                spreadRadius: 2.0,
+              ),
+            ]),
+        child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              Column(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button5",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.local_gas_station, size: 30),
-                        onPressed: () {
-                          if (placeOnTheMap != "gas_station")
-                            setState(() {
-                              iconOnTheMap = 'assets/icons/gasstation';
-                              placeOnTheMap = "gas_station";
-                              customMarkersPolice = customMarkers;
-                              onActivityExecuted();
-                            });
-                        },
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Petrol Pump",
-                        style: TextStyle(
-                            color: black,
-                            fontSize: size_6,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: mediumBoldWeight),
-                      ),
-                    ]),
-                    Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: Image.asset(
-                          'assets/icons/policecap.png',
-                          scale: 3.5,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (placeOnTheMap != "police")
-                            setState(() {
-                              iconOnTheMap = 'assets/icons/policecap';
-                              placeOnTheMap = "police";
-                              customMarkersGasStation = customMarkers;
-                              onActivityExecuted();
-                            });
-                        },
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Police Station",
-                        style: TextStyle(
-                            color: black,
-                            fontSize: size_6,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: mediumBoldWeight),
-                      ),
-                    ]),
-                    Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.settings, size: 30),
-                        onPressed: () {
-                          Get.defaultDialog(
-                              content: Column(
-                                children: [
-                                  Text("Mechanic data coming soon\n"),
-                                  OkButton()
-                                ],
-                              ),
-                              title: "\nComing Soon",
-                              titleStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ));
-                        },
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Mechanic",
-                        style: TextStyle(
-                            color: black,
-                            fontSize: size_6,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: mediumBoldWeight),
-                      ),
-                    ]),
-                  ],
-                )),
-          ]),
-    );
+                    Divider(
+                      color: const Color(0xFFCBCBCB),
+                      // height: size_3,
+                      thickness: 3,
+                      indent: 150,
+                      endIndent: 150,
+                    ),
+                    Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(
+                            space_1, space_1, space_1, space_1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: 8,
+                            ),
+                            //Row for nearby location name and petrol prices
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/' +
+                                          widget.placeOnTheMapTag +
+                                          '.png',
+                                      height: size_14,
+                                      width: size_14,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      widget.placeOnTheMapName,
+                                      style: TextStyle(
+                                          fontSize: size_10,
+                                          fontWeight: boldWeight,
+                                          color: darkBlueColor),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            //Listview of Petrol Pumps nearby with their location
+                            Container(
+                                height: height / 4 + 24,
+                                margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: ClampingScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount:
+                                        (_placesNearbyData.results != null)
+                                            ? _placesNearbyData.results!.length
+                                            : 0,
+                                    itemBuilder: (context, index) {
+                                      Results here =
+                                          _placesNearbyData.results![index];
+                                      print("DISTANCE ABCD " +
+                                          here.distance.toString());
+                                      return NearbyPlacesDetailsCard(
+                                          placeName: here.name,
+                                          placeAddress: here.vicinity,
+                                          placeDistance: here.distance,
+                                          coordinates: here
+                                                  .geometry!.location!.lat
+                                                  .toString() +
+                                              ',' +
+                                              here.geometry!.location!.lng
+                                                  .toString());
+                                    })),
+                          ],
+                        )),
+                  ]),
+            ]));
   }
 }

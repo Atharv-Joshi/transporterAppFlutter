@@ -38,6 +38,7 @@ class Results {
   String? scope;
   List<String>? types;
   int? userRatingsTotal;
+  double? distance = 0;
   String? vicinity;
   OpeningHours? openingHours;
   List<Photos>? photos;
