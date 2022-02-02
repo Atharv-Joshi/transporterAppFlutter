@@ -159,10 +159,9 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                       dropDownValue = null;
                       providerData.updateResetActive(false);
                     }),
-                AddTruckSubtitleText(
-                    text: 'truckType'.tr
+                AddTruckSubtitleText(text: 'truckType'.tr
                     // AppLocalizations.of(context)!.truckType
-                ),
+                    ),
                 GridView.count(
                   shrinkWrap: true,
                   childAspectRatio: 4,
@@ -183,8 +182,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_3),
                         child: AddTruckSubtitleText(
-                            text: 'passingWeight'.tr,
-                            // 'Passing Weight (in tons.)'
+                          text: 'passingWeight'.tr,
+                          // 'Passing Weight (in tons.)'
                         )),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
@@ -198,21 +197,19 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                           children: truckFilterVariables
                               .passingWeightList[providerData.truckTypeValue]!
                               .map((e) => AddTruckCircularButtonTemplate(
-                                    value: e,
-                                    text: e != 0 ? e.toString() : "+",
-                                    category: 'weight',
-                                  ))
-                              .toList(),
+                                value: e,
+                                text: e != 0 ? e.toString() : "+",
+                                category: 'weight',
+                              )).toList(),
                         ),
                       ),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
                         margin: EdgeInsets.symmetric(vertical: space_2),
-                        child: AddTruckSubtitleText(
-                            text: 'totalTyres'.tr
+                        child: AddTruckSubtitleText(text: 'totalTyres'.tr
                             // 'Total Tyres (front & rear)'
-                        )),
+                            )),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(
@@ -225,11 +222,10 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                             children: truckFilterVariables
                                 .totalTyresList[providerData.truckTypeValue]!
                                 .map((e) => AddTruckCircularButtonTemplate(
-                                      value: e,
-                                      text: e != 0 ? e.toString() : "+",
-                                      category: 'tyres',
-                                    ))
-                                .toList()),
+                                  value: e,
+                                  text: e != 0 ? e.toString() : "+",
+                                  category: 'tyres',
+                                )).toList()),
                       ),
                 // changed here-----------------------------------
                 // providerData.truckTypeValue == ''
@@ -260,70 +256,70 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                 //till here----------------------------------------------------
 
                 // change of select driver from here---------------------------
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: space_2),
-                      child: AddTruckSubtitleText(text: 'Select A Driver'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) =>
-                                AddDriverAlertDialog(notifyParent: refresh));
-                      },
-                      child: Text('Add New Driver'),
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: space_1),
-                    width: 279,
-                    padding: EdgeInsets.all(space_2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border(
-                          top: BorderSide(width: 1, color: grey),
-                          right: BorderSide(width: 1, color: grey),
-                          left: BorderSide(width: 1, color: grey),
-                          bottom: BorderSide(width: 1, color: grey)),
-                    ),
-                    child: DropdownButton<String>(
-                      underline: SizedBox(),
-                      isDense: true,
-                      isExpanded: true,
-                      focusColor: Colors.blue,
-                      hint:
-                          Text('driverNameNumber'.tr
-                              // AppLocalizations.of(context)!.driverNameNumber
-                          ),
-                      value: dropDownValue,
-                      icon: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: darkBlueColor,
-                          ),
-                          child: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: white,
-                          )),
-                      onChanged: (String? newValue) {
-                        providerData.updateDriverDetailsValue(newValue);
-                        setState(() {
-                          dropDownValue = newValue!;
-                        });
-                      },
-                      items: dropDownList,
-                    ),
-                  ),
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Container(
+                //       margin: EdgeInsets.only(top: space_2),
+                //       child: AddTruckSubtitleText(text: 'Select A Driver'),
+                //     ),
+                //     TextButton(
+                //       onPressed: () {
+                //         showDialog(
+                //             context: context,
+                //             builder: (context) =>
+                //                 AddDriverAlertDialog(notifyParent: refresh));
+                //       },
+                //       child: Text('Add New Driver'),
+                //     ),
+                //   ],
+                // ),
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: Container(
+                //     margin: EdgeInsets.symmetric(vertical: space_1),
+                //     width: 279,
+                //     padding: EdgeInsets.all(space_2),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(50),
+                //       border: Border(
+                //           top: BorderSide(width: 1, color: grey),
+                //           right: BorderSide(width: 1, color: grey),
+                //           left: BorderSide(width: 1, color: grey),
+                //           bottom: BorderSide(width: 1, color: grey)),
+                //     ),
+                //     child: DropdownButton<String>(
+                //       underline: SizedBox(),
+                //       isDense: true,
+                //       isExpanded: true,
+                //       focusColor: Colors.blue,
+                //       hint:
+                //           Text('driverNameNumber'.tr
+                //               // AppLocalizations.of(context)!.driverNameNumber
+                //           ),
+                //       value: dropDownValue,
+                //       icon: Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(100),
+                //             color: darkBlueColor,
+                //           ),
+                //           child: const Icon(
+                //             Icons.keyboard_arrow_down,
+                //             color: white,
+                //           )),
+                //       onChanged: (String? newValue) {
+                //         providerData.updateDriverDetailsValue(newValue);
+                //         setState(() {
+                //           dropDownValue = newValue!;
+                //         });
+                //       },
+                //       items: dropDownList,
+                //     ),
+                //   ),
+                // ),
                 //till here-----------------------------------------
                 Align(
-                  alignment: Alignment.center,
+                  alignment: Alignment.bottomCenter,
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: space_2),
                     child: MediumSizedButton(
@@ -338,7 +334,8 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               truckNumber: widget.truckNumber,
                             ));
                       },
-                      text: 'Save',
+                      text: 'save'.tr,
+                      // 'Save',
                     ),
                   ),
                 ),

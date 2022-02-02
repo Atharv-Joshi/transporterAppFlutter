@@ -205,8 +205,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         ),
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: Text("Ignition ",
-                                      
+                            child: Text(
+                              "ignition".tr,
+                                // "Ignition ",
                                       softWrap: true,
                                       style: TextStyle(
                                       color: black,
@@ -220,7 +221,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             alignment: Alignment.centerLeft,
                         //    width: 217,
                         
-                            child: Text("ON",
+                            child: Text('on'.tr,
+                                // "ON",
                                       softWrap: true,
                                       style: TextStyle(
                                       color: black,
@@ -232,7 +234,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             alignment: Alignment.centerLeft,
                         //    width: 217,
                         
-                            child: Text("OFF",
+                            child: Text('off'.tr,
+                                // "OFF",
                                       softWrap: true,
                                       style: TextStyle(
                                       color: black,
@@ -272,14 +275,16 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          Text("Travelled ",
+                                                          Text(
+                                                            'truckTravelled'.tr,
+                                                              // "Travelled ",
                                                               softWrap: true,
                                                               style: TextStyle(
                                                                   color: liveasyGreen,
                                                                   fontSize: size_6,
                                                                   fontStyle: FontStyle.normal,
                                                                   fontWeight: regularWeight)),
-                                                          Text("${widget.totalDistance} km",
+                                                          Text("${widget.totalDistance} "+ "km".tr,
                                                               softWrap: true,
                                                               style: TextStyle(
                                                                   color: black,
@@ -338,7 +343,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                                   fontSize: size_6,
                                                                   fontStyle: FontStyle.normal,
                                                                   fontWeight: regularWeight)),
-                                                          Text("Stops",
+                                                          Text('stops'.tr,
+                                                              // "Stops",
                                                               softWrap: true,
                                                               style: TextStyle(
                                                                   color: red,
@@ -388,21 +394,22 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 
                                     children: [
                                       (widget.gpsData.last.speed>2)?
-                                      Text("${(widget.gpsData.last.speed).round()} km/h",
+                                      Text("${(widget.gpsData.last.speed).round()} "+ "km/h".tr,
                                           style: TextStyle(
                                               color: liveasyGreen,
                                               fontSize: size_10,
                                               fontStyle: FontStyle.normal,
                                               fontWeight: regularWeight)
                                       ):
-                                      Text("${(widget.gpsData.last.speed).round()} km/h",
+                                      Text("${(widget.gpsData.last.speed).round()} "+ "km/h".tr,
                                           style: TextStyle(
                                               color: red,
                                               fontSize: size_10,
                                               fontStyle: FontStyle.normal,
                                               fontWeight: regularWeight)
                                       ),
-                                      Text("Status",
+                                      Text('status'.tr,
+                                          // "Status",
                                           style: TextStyle(
                                               color: black,
                                               fontSize: size_6,
@@ -448,7 +455,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Navigate",
+                        'navigate'.tr,
+                        // "Navigate",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -469,7 +477,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Share",
+                        'share'.tr,
+                        // "Share",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -507,7 +516,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             height: 8,
                           ),
                           Text(
-                            "Play Trip",
+                            'playtrip'.tr,
+                            // "Play Trip",
                             style: TextStyle(
                                 color: black,
                                 fontSize: size_6,
@@ -543,7 +553,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             height: 8,
                           ),
                           Text(
-                            "History",
+                            'history'.tr,
+                            // "History",
                             style: TextStyle(
                                 color: black,
                                 fontSize: size_6,
