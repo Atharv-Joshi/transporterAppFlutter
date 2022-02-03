@@ -94,7 +94,7 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
             }
           },
           child: Text(
-            'OK',
+            'ok'.tr,
             style: TextStyle(
               fontSize: size_6,
             ),

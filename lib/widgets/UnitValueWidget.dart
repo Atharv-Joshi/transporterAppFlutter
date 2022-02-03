@@ -35,7 +35,9 @@ class UnitValueWidget extends StatelessWidget {
                     providerData.PerTruckTrue(true, false);
                     providerData.updateResetActive(true);
                     if (providerData.price == 0) {
-                        providerData.updateHintText("enter price");
+                        providerData.updateHintText('enterprice'.tr
+                            // "enter price"
+                        );
                         providerData.updateBorderColor(red);
                     }
                   }
@@ -73,7 +75,9 @@ class UnitValueWidget extends StatelessWidget {
                       providerData.PerTonTrue(true, false);
                       providerData.updateResetActive(true);
                       if (providerData.price == 0) {
-                          providerData.updateHintText("enter price");
+                          providerData.updateHintText('enterprice'.tr
+                              // "enter price"
+                          );
                           providerData.updateBorderColor(red);
                       }
                     }

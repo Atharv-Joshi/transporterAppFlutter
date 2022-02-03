@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
@@ -31,7 +32,8 @@ class _NextUpdateAlertDialogState extends State<NextUpdateAlertDialog> {
             width: MediaQuery.of(context).size.width,
           ),
           Text(
-            "You can use this feature",
+            'alertLine1'.tr,
+            // "You can use this feature",
             style: TextStyle(
               fontWeight: mediumBoldWeight,
               fontSize: size_9,
@@ -41,7 +43,8 @@ class _NextUpdateAlertDialogState extends State<NextUpdateAlertDialog> {
             height: 1,
           ),
           Text(
-            "in next update",
+            'alertLine2'.tr,
+            // "in next update",
             style: TextStyle(fontWeight: mediumBoldWeight, fontSize: size_9),
           ),
           SizedBox(

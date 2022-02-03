@@ -62,7 +62,7 @@ class MyLoadsCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Posted Date : ${loadDetailsScreenModel.postLoadDate}',
+                    'postedon'.tr +': ${loadDetailsScreenModel.postLoadDate}',
                     style: TextStyle(
                         fontSize: size_6,
                         color: veryDarkGrey,
@@ -114,7 +114,7 @@ class MyLoadsCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${loadDetailsScreenModel.truckType} | ${loadDetailsScreenModel.noOfTyres} tyres',
+                    '${loadDetailsScreenModel.truckType} | ${loadDetailsScreenModel.noOfTyres} ' +'tyres'.tr,
                     style: TextStyle(
                         fontSize: size_6, fontWeight: mediumBoldWeight),
                   ),
@@ -134,7 +134,7 @@ class MyLoadsCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${loadDetailsScreenModel.productType} | ${loadDetailsScreenModel.weight} tons',
+                    '${loadDetailsScreenModel.productType} | ${loadDetailsScreenModel.weight} ' +'tonne'.tr,
                     style: TextStyle(
                         fontSize: size_6, fontWeight: mediumBoldWeight),
                   ),
@@ -148,7 +148,8 @@ class MyLoadsCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Load Expired!",
+                          'loadexpired'.tr,
+                          // "Load Expired!",
                           style: TextStyle(
                             color: declineButtonRed,
                             fontSize: size_8,

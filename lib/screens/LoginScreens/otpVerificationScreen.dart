@@ -31,9 +31,11 @@ class NewOTPVerificationScreen extends StatefulWidget {
       _NewOTPVerificationScreenState();
 }
 
-class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerificationScreen>{
+class _NewOTPVerificationScreenState
+    extends VisibilityAwareState<NewOTPVerificationScreen> {
 //--------------------------------------------------------------------------------------------------------------------
-  late AppLifecycleState go =  AppLifecycleState.resumed;
+  late AppLifecycleState go = AppLifecycleState.resumed;
+
 //objects
   AuthService authService = AuthService();
 
@@ -49,14 +51,16 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
   TimerController timerController = Get.put(TimerController());
   HudController hudController = Get.put(HudController());
   IsOtpInvalidController isOtpInvalidController =
-  Get.put(IsOtpInvalidController());
+      Get.put(IsOtpInvalidController());
+
   //--------------------------------------------------------------------------------------------------------------------
   @override
   void onVisibilityChanged(WidgetVisibility visibility) {
     print('Visibility state : $visibility');
-   
+
     super.onVisibilityChanged(visibility);
   }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -116,116 +120,117 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
                             padding: EdgeInsets.only(bottom: space_5),
                             child: Container(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'OTPsent'.tr,
-                                      // 'OTP sent to',
-                                      style: TextStyle(
-                                        fontSize: size_6,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'OTPsent'.tr,
+                                  // 'OTP sent to',
+                                  style: TextStyle(
+                                    fontSize: size_6,
+                                    fontWeight: regularWeight,
+                                    color: darkCharcoal,
+                                  ),
+                                ),
+                                Text(' +91${widget.phoneNumber} ',
+                                    style: TextStyle(
+                                        fontSize: size_7,
                                         fontWeight: regularWeight,
-                                        color: darkCharcoal,
-                                      ),
+                                        color: black,
+                                        fontFamily: "Roboto")),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'change'.tr,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontSize: size_6,
+                                      fontWeight: regularWeight,
+                                      color: bidBackground,
                                     ),
-                                    Text(' +91${widget.phoneNumber} ',
-                                        style: TextStyle(
-                                            fontSize: size_7,
-                                            fontWeight: regularWeight,
-                                            color: black,
-                                            fontFamily: "Roboto")),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        'change'.tr,
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          fontSize: size_6,
-                                          fontWeight: regularWeight,
-                                          color: bidBackground,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                                  ),
+                                ),
+                              ],
+                            )),
                           ),
                           OTPInputField(_verificationCode),
                           Padding(
                               padding: EdgeInsets.only(top: space_3),
                               child: Obx(
-                                    () => Container(
+                                () => Container(
                                   child:
-                                  isOtpInvalidController.isOtpInvalid.value
-                                      ? Text(
-                                    'Wrong OTP. Try Again!',
-                                    style: TextStyle(
-                                      letterSpacing: 0.5,
-                                      color: red,
-                                    ),
-                                  )
-                                      : Text(""),
+                                      isOtpInvalidController.isOtpInvalid.value
+                                          ? Text(
+                                              'Wrong OTP. Try Again!',
+                                              style: TextStyle(
+                                                letterSpacing: 0.5,
+                                                color: red,
+                                              ),
+                                            )
+                                          : Text(""),
                                 ),
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: space_3),
                             child: Obx(
-                                  () => Container(
+                              () => Container(
                                 child: timerController.timeOnTimer.value == 0
                                     ? Obx(() => TextButton(
-                                    onPressed: () {
-                                      timerController.startTimer();
-                                      // hudController.updateHud(true);
-                                      _verifyPhoneNumber();
-                                    },
-                                    child: Text(
-                                      'Resendotp'.tr,
-                                      // 'Resend OTP',
-                                      style: TextStyle(
-                                        letterSpacing: 0.5,
-                                        color: timerController
-                                            .resendButton.value
-                                            ? navygreen
-                                            : unselectedGrey,
-                                        decoration:
-                                        TextDecoration.underline,
-                                      ),
-                                    )))
+                                        onPressed: () {
+                                          timerController.startTimer();
+                                          // hudController.updateHud(true);
+                                          _verifyPhoneNumber();
+                                        },
+                                        child: Text(
+                                          'Resendotp'.tr,
+                                          // 'Resend OTP',
+                                          style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: timerController
+                                                    .resendButton.value
+                                                ? navygreen
+                                                : unselectedGrey,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        )))
                                     : Obx(
-                                      () => Text(
-                                    'Resendotp'.tr +'${timerController.timeOnTimer}',
-                                    // 'Resend OTP in ${timerController.timeOnTimer}',
-                                    style: TextStyle(
-                                      letterSpacing: 0.5,
-                                      color: veryDarkGrey,
-                                    ),
-                                  ),
-                                ),
+                                        () => Text(
+                                          'Resendotp'.tr +
+                                              '${timerController.timeOnTimer}',
+                                          // 'Resend OTP in ${timerController.timeOnTimer}',
+                                          style: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: veryDarkGrey,
+                                          ),
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: space_5),
                               child: Obx(
-                                    () => Container(
+                                () => Container(
                                   child: hudController.showHud.value
                                       ? Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Text("Verifying OTP"),
-                                      SizedBox(
-                                        width: space_1,
-                                      ),
-                                      Container(
-                                          width: space_3,
-                                          height: space_3,
-                                          child:
-                                          CircularProgressIndicator(
-                                            strokeWidth: 1,
-                                          ))
-                                    ],
-                                  )
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("Verifying OTP"),
+                                            SizedBox(
+                                              width: space_1,
+                                            ),
+                                            Container(
+                                                width: space_3,
+                                                height: space_3,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 1,
+                                                ))
+                                          ],
+                                        )
                                       : Text(""),
                                 ),
                               )),
@@ -265,7 +270,7 @@ class _NewOTPVerificationScreenState extends VisibilityAwareState<NewOTPVerifica
     print(widget.phoneNumber);
     print(widget.phoneNumber.runtimeType);
     await FirebaseAuth.instance.verifyPhoneNumber(
-      //this value changes runtime
+        //this value changes runtime
         forceResendingToken: _forceResendingToken,
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {

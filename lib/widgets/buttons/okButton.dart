@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -24,7 +25,7 @@ class OkButton extends StatelessWidget {
             ]),
         child: Center(
           child: Text(
-            "Ok",
+            "ok1".tr,
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
           ),
