@@ -219,4 +219,7 @@ const Map<String, String> enUS = {
   '7Days': '7 Days',
   'whatsappShare': 'Share on Whatsapp',
   'setExpiry': 'Set expiry time',
+
+  //searchMytrucks
+  'searchTrucks': 'Search Trucks',
 };
