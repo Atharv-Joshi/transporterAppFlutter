@@ -433,7 +433,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   
                                   ),
                               ),
-                              Text(
+                           /*   Text(
                                 "timedate".tr,
                                 // 'time date ',
                                 style: TextStyle(
@@ -441,7 +441,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   color: black,
                                   ),
       
-                              ),
+                              ),*/
                           ],
                           ),
                           SizedBox(
@@ -461,15 +461,19 @@ class _MyTruckCardState extends State<MyTruckCard> {
                             SizedBox(
                                    width: 8
                                ),
-                            Text(
-                              'buyGPS'.tr,
-                              // 'Buy GPS to access live tracking',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF152968),
-                                fontSize: 12,
+                            Container(
+                              width: 200,
+                              child: Text(
+                                'buyGPS'.tr,
+                                maxLines: 2,
+                                // 'Buy GPS to access live tracking',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF152968),
+                                  fontSize: 12,
+                                ),
+                                
                               ),
-                              
                             ),
 
 

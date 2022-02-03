@@ -16,7 +16,8 @@ var endTimeParam;
 DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
 //List<LatLng> polylineCoordinates = [];
 List<LatLng> polylineCoordinates2 = [];
-String current_lang = LocalizationService().getCurrentLang();
+String ? current_lang ;
+
 //Date format functions---------------------------
 
 getFormattedDateForDisplay2(String date) {
@@ -316,7 +317,8 @@ getStoppageDuration(var gpsStoppageHistory) {
 getStoppageAddress(var gpsStoppageHistory) async {
   var stopAddress;
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
-  
+   current_lang = LocalizationService().getCurrentLang();
+  print(" current language is $current_lang");
   List<Placemark> placemarks;
   if (current_lang == 'Hindi') {
     placemarks =
@@ -343,7 +345,8 @@ getStoppageAddress(var gpsStoppageHistory) async {
 getStoppageAddressLatLong(var lat, var long) async {
   var stopAddress;
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
-  
+  current_lang = LocalizationService().getCurrentLang();
+  print(" current language is $current_lang");
   List<Placemark> placemarks ;
   if (current_lang == 'Hindi') {
     placemarks =

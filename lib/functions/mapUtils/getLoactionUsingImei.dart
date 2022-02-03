@@ -9,7 +9,7 @@ import 'package:geocoding/geocoding.dart';
 
 String traccarUser = FlutterConfig.get("traccarUser");
 String traccarPass = FlutterConfig.get("traccarPass");
-String current_lang = LocalizationService().getCurrentLang();
+String ?current_lang ;
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
   String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
@@ -47,7 +47,8 @@ class MapUtil {
           //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
-          List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
+          List<Placemark> newPlace ;
+          current_lang = LocalizationService().getCurrentLang();
           if (current_lang == 'Hindi') {
     newPlace =
         await placemarkFromCoordinates(latn, lngn, localeIdentifier: "hi_IN");

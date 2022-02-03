@@ -73,6 +73,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   void initState() {
     super.initState();
     initFunction();
+    timer = Timer.periodic(Duration(minutes: 0, seconds: 10),
+          (Timer t) => initFunction());
   }
 
   initFunction() {
@@ -98,13 +100,18 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       throw 'Could not open the map.';
     }
   }
-
+  @override
+  void dispose() {
+    
+    timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: height / 3 + 86,
+      height: height / 3 + 126,
       width: width,
       padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
       decoration: BoxDecoration(
@@ -405,7 +412,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         foregroundColor: Colors.white,
                         child: const Icon(Icons.near_me_outlined, size: 30),
                         onPressed: () {
-                          openMap(gpsData.last.lat, gpsData.last.lng);
+                          openMap(gpsData.last.latitude, gpsData.last.longitude);
                         },
                       ),
                       SizedBox(
