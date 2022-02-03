@@ -13,6 +13,7 @@ import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/mapAllTrucks.dart';
+import 'package:liveasy/screens/myTrucksSearchResultsScreen.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
@@ -34,7 +35,7 @@ class MyTrucks extends StatefulWidget {
 class _MyTrucksState extends State<MyTrucks> {
   //TransporterId controller
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
 
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
@@ -53,8 +54,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
   var gpsData;
   bool loading = false;
-  DateTime yesterday = DateTime.now().subtract(
-      Duration(days: 1, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
@@ -81,11 +82,16 @@ class _MyTrucksState extends State<MyTrucks> {
   var StoppedStat = [];
   var StoppedGps = [];
 
+  var items = [];
+
+  TextEditingController editingController = TextEditingController();
+
   @override
   void initState() {
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
     FutureGroup futureGroup = FutureGroup();
+
     super.initState();
     setState(() {
       loading = true;
@@ -118,438 +124,545 @@ class _MyTrucksState extends State<MyTrucks> {
     // providerData.resetTruckFilters();
     ProviderData providerData = Provider.of<ProviderData>(context);
     PageController pageController =
-    PageController(initialPage: providerData.upperNavigatorIndex);
+        PageController(initialPage: providerData.upperNavigatorIndex);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
-            height: MediaQuery
-                .of(context)
-                .size
-                .height -
-                kBottomNavigationBarHeight -
-                space_4,
-            child: Column(
+        padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+        height: MediaQuery.of(context).size.height -
+            kBottomNavigationBarHeight -
+            space_4,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        /*  SizedBox(
+                    /*  SizedBox(
                       width: space_3,
                     ),*/
-                        HeadingTextWidget(
-                            'my_truck'.tr
-                          // AppLocalizations.of(context)!.my_truck
+                    HeadingTextWidget('my_truck'.tr
+                        // AppLocalizations.of(context)!.my_truck
                         ),
-                        // HelpButtonWidget(),
-                      ],
-                    ),
-                    HelpButtonWidget(),
+                    // HelpButtonWidget(),
                   ],
                 ),
-                Container(
-                    margin: EdgeInsets.symmetric(vertical: space_3),
-                    child: SearchLoadWidget(
-                      hintText: 'search'.tr,
-                      // AppLocalizations.of(context)!.search,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => NextUpdateAlertDialog());
-                      },
-                    )),
+                HelpButtonWidget(),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: space_3),
+              child: Container(
+                height: space_8,
+                decoration: BoxDecoration(
+                  color: widgetBackGroundColor,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    width: 0.8,
+                    // color: borderBlueColor,
+                  ),
+                ),
+                child: TextField(
+                  onTap: () {
+                    Get.to(() => MyTrucksResult(
+                          gpsDataList: gpsDataList,
+                          truckDataList: truckDataList,
+                          truckAddressList: truckAddressList,
+                          status: status,
+                          items: items,
+                        ));
+                    print("Enterrr");
+                    print("THE ITEMS $items");
+                  },
+                  readOnly: true,
+                  textAlignVertical: TextAlignVertical.center,
+                  textAlign: TextAlign.start,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'search'.tr,
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: space_2),
+                      child: Icon(
+                        Icons.search,
+                        color: grey,
+                      ),
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: size_8,
+                      color: grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
-                //LIST OF TRUCK CARDS---------------------------------------------
-                Container(
-                  //    height: 26,
-                  //    width: 200,
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+            //LIST OF TRUCK CARDS---------------------------------------------
+            Container(
+              //    height: 26,
+              //    width: 200,
+              padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
 
-                  //    margin: EdgeInsets.symmetric(horizontal: space_2),
+              //    margin: EdgeInsets.symmetric(horizontal: space_2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF7F8FA),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEFEFEF),
+                    blurRadius: 9,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TruckScreenBarButton(
+                      text: 'all'.tr,
+                      // 'All',
+                      value: 0,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'running'.tr,
+                      // 'Running'
+                      value: 1,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'stopped'.tr,
+                      // 'Stopped',
+                      value: 2,
+                      pageController: pageController),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(MapAllTrucks(
+                  gpsDataList: gpsDataList,
+                  truckDataList: truckDataList,
+                  runningDataList: runningList,
+                  runningGpsDataList: runningGpsData,
+                  stoppedList: StoppedList,
+                  stoppedGpsList: StoppedGpsData,
+                ));
+              },
+              child: Container(
+
+                  //     margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
+                  padding:
+                      EdgeInsets.fromLTRB(space_5, space_2, space_2, space_2),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF7F8FA),
                     boxShadow: [
-                      BoxShadow(color: const Color(0xFFEFEFEF),
+                      BoxShadow(
+                        color: const Color(0xFFEFEFEF),
                         blurRadius: 9,
-                        offset: Offset(0, 2),),
+                        offset: Offset(0, 2),
+                      ),
                     ],
-
                   ),
-
                   child: Row(
-
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-
-                      TruckScreenBarButton(
-                          text: 'all'.tr,
-                          // 'All',
-                          value: 0, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
+                      Image.asset(
+                        'assets/icons/Vector (1).png',
+                        width: 17,
+                        height: 16,
+                      ),
+                      SizedBox(
+                        width: 18,
+                      ),
+                      Text(
+                        'seeAllTruckMap'.tr,
+                        // 'See All Trucks on Map',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Spacer(),
+                      Image.asset(
+                        'assets/icons/Vector (2).png',
+                        width: 7,
                         height: 15,
-                        color: const Color(0xFFC2C2C2),
                       ),
-                      TruckScreenBarButton(
-                          text: 'running'.tr,
-                          // 'Running'
-                          value: 1, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
-                        height: 15,
-                        color: const Color(0xFFC2C2C2),
-                      ),
-                      TruckScreenBarButton(
-                          text: 'stopped'.tr,
-                          // 'Stopped',
-                          value: 2, pageController: pageController),
-                    ],
-                  ),
-
-                ),
-                SizedBox(
-                  height: 6,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(MapAllTrucks(gpsDataList: gpsDataList,
-                      truckDataList: truckDataList,
-                      runningDataList: runningList,
-                      runningGpsDataList: runningGpsData,
-                      stoppedList: StoppedList,
-                      stoppedGpsList: StoppedGpsData,));
-                  },
-                  child: Container(
-
-                    //     margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
-                      padding: EdgeInsets.fromLTRB(
-                          space_5, space_2, space_2, space_2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF7F8FA),
-                        boxShadow: [
-
-                          BoxShadow(color: const Color(0xFFEFEFEF),
-                            blurRadius: 9,
-                            offset: Offset(0, 2),),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/icons/Vector (1).png',
-                            width: 17,
-                            height: 16,
-                          ),
-                          SizedBox(
-                            width: 18,
-                          ),
-                          Text(
-                            'seeAllTruckMap'.tr,
-                            // 'See All Trucks on Map',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          Spacer(),
-                          Image.asset('assets/icons/Vector (2).png',
-                            width: 7,
-                            height: 15,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          )
-                        ],
+                      SizedBox(
+                        width: 10,
                       )
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Expanded(
-                  child: Stack(
+                    ],
+                  )),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Expanded(
+              child: Stack(children: [
+                Container(
+                  //    margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
+                  height: MediaQuery.of(context).size.height -
+                      kBottomNavigationBarHeight -
+                      230 -
+                      space_4,
+                  child: PageView(
+                      controller: pageController,
+                      onPageChanged: (value) {
+                        setState(() {
+                          providerData.updateUpperNavigatorIndex(value);
+                        });
+                      },
                       children: [
-                        Container(
-                          //    margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height - kBottomNavigationBarHeight - 230 -
-                              space_4,
-                          child: PageView(
-                              controller: pageController,
-                              onPageChanged: (value) {
-                                setState(() {
-                                  providerData.updateUpperNavigatorIndex(value);
-                                });
-                              },
-                              children: [
-
-                                Stack(
-                                  alignment: Alignment.bottomCenter,
-
-                                  children: [
-                                    loading
-                                        ? TruckLoadingWidgets()
-                                        : truckDataList.isEmpty
-                                        ? Container(
-                                      // height: MediaQuery.of(context).size.height * 0.27,
-                                      margin: EdgeInsets.only(top: 153),
-                                      child: Column(
-                                        children: [
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/images/TruckListEmptyImage.png'),
-                                            height: 127,
-                                            width: 127,
-                                          ),
-                                          Text(
-                                            'notruckadded'.tr,
-                                            // 'Looks like you have not added any Trucks!',
-                                            style: TextStyle(
-                                                fontSize: size_8, color: grey),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            loading
+                                ? TruckLoadingWidgets()
+                                : truckDataList.isEmpty
+                                    ? Container(
+                                        // height: MediaQuery.of(context).size.height * 0.27,
+                                        margin: EdgeInsets.only(top: 153),
+                                        child: Column(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'assets/images/TruckListEmptyImage.png'),
+                                              height: 127,
+                                              width: 127,
+                                            ),
+                                            Text(
+                                              'notruckadded'.tr,
+                                              // 'Looks like you have not added any Trucks!',
+                                              style: TextStyle(
+                                                  fontSize: size_8,
+                                                  color: grey),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : RefreshIndicator(
+                                        color: lightNavyBlue,
+                                        onRefresh: () {
+                                          setState(() {
+                                            runningList.clear();
+                                            runningAddressList.clear();
+                                            runningGpsData.clear();
+                                            runningStatus.clear();
+                                            truckAddressList.clear();
+                                            gpsDataList.clear();
+                                            status.clear();
+                                            StoppedStatus.clear();
+                                            StoppedAddressList.clear();
+                                            StoppedGpsData.clear();
+                                            StoppedList.clear();
+                                            loading = true;
+                                          });
+                                          return refreshData(i);
+                                        },
+                                        child: ListView.builder(
+                                            physics: BouncingScrollPhysics(),
+                                            controller: scrollController,
+                                            scrollDirection: Axis.vertical,
+                                            padding: EdgeInsets.only(
+                                                bottom: space_15),
+                                            itemCount: truckDataList.length,
+                                            itemBuilder: (context, index) =>
+                                                index == truckDataList.length
+                                                    ? bottomProgressBarIndicatorWidget()
+                                                    : MyTruckCard(
+                                                        truckData:
+                                                            truckDataList[
+                                                                index],
+                                                        truckAddress:
+                                                            truckAddressList[
+                                                                index],
+                                                        status: status[index],
+                                                        gpsData:
+                                                            gpsDataList[index],
+                                                        // truckId: .truckId,
+                                                        // truckApproved:
+                                                        //     truckDataList[index].truckApproved,
+                                                        // truckNo: truckDataList[index].truckNo,
+                                                        // truckType: truckDataList[index].truckType,
+                                                        // tyres: truckDataList[index].tyresString,
+                                                        // driverName: truckDataList[index].driverName,
+                                                        // phoneNum: truckDataList[index].driverNum,
+                                                        // imei: truckDataList[index].imei,
+                                                      )),
                                       ),
-                                    )
-                                        : RefreshIndicator(
-                                      color: lightNavyBlue,
-                                      onRefresh: () {
-                                        setState(() {
-                                          runningList.clear();
-                                          runningAddressList.clear();
-                                          runningGpsData.clear();
-                                          runningStatus.clear();
-                                          truckAddressList.clear();
-                                          gpsDataList.clear();
-                                          status.clear();
-                                          StoppedStatus.clear();
-                                          StoppedAddressList.clear();
-                                          StoppedGpsData.clear();
-                                          StoppedList.clear();
-                                          loading = true;
-                                        });
-                                        return refreshData(i);
-                                      },
-                                      child: ListView.builder(
+                          ],
+                        ),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            loading
+                                ? TruckLoadingWidgets()
+                                : runningList.isEmpty
+                                    ? Container(
+                                        // height: MediaQuery.of(context).size.height * 0.27,
+                                        margin: EdgeInsets.only(top: 153),
+                                        child: Column(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'assets/images/TruckListEmptyImage.png'),
+                                              height: 127,
+                                              width: 127,
+                                            ),
+                                            SizedBox(height: 20),
+                                            Text(
+                                              'notruckrunning'.tr,
+                                              // 'Looks like none of your trucks are running!',
+                                              style: TextStyle(
+                                                  fontSize: size_8,
+                                                  color: grey),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : RefreshIndicator(
+                                        color: lightNavyBlue,
+                                        onRefresh: () {
+                                          setState(() {
+                                            runningList.clear();
+                                            runningAddressList.clear();
+                                            runningGpsData.clear();
+                                            runningStatus.clear();
+                                            truckAddressList.clear();
+                                            gpsDataList.clear();
+                                            status.clear();
+                                            StoppedStatus.clear();
+                                            StoppedAddressList.clear();
+                                            StoppedGpsData.clear();
+                                            StoppedList.clear();
+                                            loading = true;
+                                          });
+                                          return refreshData(i);
+                                        },
+                                        child: ListView.builder(
+                                            padding: EdgeInsets.only(
+                                                bottom: space_15),
+                                            physics: BouncingScrollPhysics(),
+                                            controller: scrollController,
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: truckDataList.length,
+                                            itemBuilder: (context, index) =>
+                                                index == truckDataList.length
+                                                    ? bottomProgressBarIndicatorWidget()
+                                                    : MyTruckCard(
+                                                        truckData:
+                                                            truckDataList[
+                                                                index],
+                                                        truckAddress:
+                                                            truckAddressList[
+                                                                index],
+                                                        status: status[index],
+                                                        gpsData:
+                                                            gpsDataList[index],
+                                                        // truckId: .truckId,
+                                                        // truckApproved:
+                                                        //     truckDataList[index].truckApproved,
+                                                        // truckNo: truckDataList[index].truckNo,
+                                                        // truckType: truckDataList[index].truckType,
+                                                        // tyres: truckDataList[index].tyresString,
+                                                        // driverName: truckDataList[index].driverName,
+                                                        // phoneNum: truckDataList[index].driverNum,
+                                                        // imei: truckDataList[index].imei,
+                                                      )),
+                                      ),
+                          ],
+                        ),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            loading
+                                ? TruckLoadingWidgets()
+                                : runningList.isEmpty
+                                    ? Container(
+                                        // height: MediaQuery.of(context).size.height * 0.27,
+                                        margin: EdgeInsets.only(top: 153),
+                                        child: Column(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'assets/images/TruckListEmptyImage.png'),
+                                              height: 127,
+                                              width: 127,
+                                            ),
+                                            SizedBox(height: 20),
+                                            Text(
+                                              'notruckrunnning'.tr,
+                                              // 'Looks like none of your trucks are running!',
+                                              style: TextStyle(
+                                                  fontSize: size_8,
+                                                  color: grey),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : RefreshIndicator(
+                                        color: lightNavyBlue,
+                                        onRefresh: () {
+                                          setState(() {
+                                            runningList.clear();
+                                            runningAddressList.clear();
+                                            runningGpsData.clear();
+                                            runningStatus.clear();
+                                            truckAddressList.clear();
+                                            gpsDataList.clear();
+                                            status.clear();
+                                            StoppedStatus.clear();
+                                            StoppedAddressList.clear();
+                                            StoppedGpsData.clear();
+                                            StoppedList.clear();
+                                            loading = true;
+                                          });
+                                          return refreshData(i);
+                                        },
+                                        child: ListView.builder(
+                                          padding:
+                                              EdgeInsets.only(bottom: space_15),
                                           physics: BouncingScrollPhysics(),
                                           controller: scrollController,
                                           scrollDirection: Axis.vertical,
-                                          padding: EdgeInsets.only(
-                                              bottom: space_15),
-
-                                          itemCount: truckDataList.length,
-                                          itemBuilder: (context, index) =>
-                                          index == truckDataList.length ?
-                                          bottomProgressBarIndicatorWidget() :
-                                          MyTruckCard(
-                                            truckData: truckDataList[index],
-                                            truckAddress: truckAddressList[index],
-                                            status: status[index],
-                                            gpsData: gpsDataList[index],
-                                            // truckId: .truckId,
-                                            // truckApproved:
-                                            //     truckDataList[index].truckApproved,
-                                            // truckNo: truckDataList[index].truckNo,
-                                            // truckType: truckDataList[index].truckType,
-                                            // tyres: truckDataList[index].tyresString,
-                                            // driverName: truckDataList[index].driverName,
-                                            // phoneNum: truckDataList[index].driverNum,
-                                            // imei: truckDataList[index].imei,
-                                          )
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Stack(
-                                  alignment: Alignment.bottomCenter,
-
-                                  children: [
-                                    loading
-                                        ? TruckLoadingWidgets()
-                                        : runningList.isEmpty
-                                        ? Container(
-                                      // height: MediaQuery.of(context).size.height * 0.27,
-                                      margin: EdgeInsets.only(top: 153),
-                                      child: Column(
-                                        children: [
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/images/TruckListEmptyImage.png'),
-                                            height: 127,
-                                            width: 127,
-                                          ),
-                                          SizedBox(
-                                              height: 20
-                                          ),
-                                          Text(
-                                            'notruckrunnning'.tr,
-                                            // 'Looks like none of your trucks are running!',
-                                            style: TextStyle(
-                                                fontSize: size_8, color: grey),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                        :
-
-                                    RefreshIndicator(
-                                      color: lightNavyBlue,
-                                      onRefresh: () {
-                                        setState(() {
-                                          runningList.clear();
-                                          runningAddressList.clear();
-                                          runningGpsData.clear();
-                                          runningStatus.clear();
-                                          truckAddressList.clear();
-                                          gpsDataList.clear();
-                                          status.clear();
-                                          StoppedStatus.clear();
-                                          StoppedAddressList.clear();
-                                          StoppedGpsData.clear();
-                                          StoppedList.clear();
-                                          loading = true;
-                                        });
-                                        return refreshData(i);
-                                      },
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.only(
-                                            bottom: space_15),
-                                        physics: BouncingScrollPhysics(),
-                                        controller: scrollController,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: runningList.length,
-                                        itemBuilder: (context, index) =>
-                                        index == runningList.length
-                                            ? bottomProgressBarIndicatorWidget()
-                                            :
-                                        MyTruckCard(
-                                          truckData: runningList[index],
-                                          truckAddress: runningAddressList[index],
-                                          status: runningStatus[index],
-                                          gpsData: runningGpsData[index],
-                                          // truckId: .truckId,
-                                          // truckApproved:
-                                          //     truckDataList[index].truckApproved,
-                                          // truckNo: truckDataList[index].truckNo,
-                                          // truckType: truckDataList[index].truckType,
-                                          // tyres: truckDataList[index].tyresString,
-                                          // driverName: truckDataList[index].driverName,
-                                          // phoneNum: truckDataList[index].driverNum,
-                                          // imei: truckDataList[index].imei,
+                                          itemCount: runningList.length,
+                                          itemBuilder: (context, index) => index ==
+                                                  runningList.length
+                                              ? bottomProgressBarIndicatorWidget()
+                                              : MyTruckCard(
+                                                  truckData: runningList[index],
+                                                  truckAddress:
+                                                      runningAddressList[index],
+                                                  status: runningStatus[index],
+                                                  gpsData:
+                                                      runningGpsData[index],
+                                                  // truckId: .truckId,
+                                                  // truckApproved:
+                                                  //     truckDataList[index].truckApproved,
+                                                  // truckNo: truckDataList[index].truckNo,
+                                                  // truckType: truckDataList[index].truckType,
+                                                  // tyres: truckDataList[index].tyresString,
+                                                  // driverName: truckDataList[index].driverName,
+                                                  // phoneNum: truckDataList[index].driverNum,
+                                                  // imei: truckDataList[index].imei,
+                                                ),
+                                        ),
+                                      )
+                          ],
+                        ),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            loading
+                                ? TruckLoadingWidgets()
+                                : StoppedList.isEmpty
+                                    ? Container(
+                                        // height: MediaQuery.of(context).size.height * 0.27,
+                                        margin: EdgeInsets.only(top: 153),
+                                        child: Column(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'assets/images/TruckListEmptyImage.png'),
+                                              height: 127,
+                                              width: 127,
+                                            ),
+                                            SizedBox(height: 20),
+                                            Text(
+                                              'notruckstopped'.tr,
+                                              // 'Looks like none of your trucks are stopped!',
+                                              style: TextStyle(
+                                                  fontSize: size_8,
+                                                  color: grey),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : RefreshIndicator(
+                                        color: lightNavyBlue,
+                                        onRefresh: () {
+                                          setState(() {
+                                            runningList.clear();
+                                            runningAddressList.clear();
+                                            runningGpsData.clear();
+                                            runningStatus.clear();
+                                            truckAddressList.clear();
+                                            gpsDataList.clear();
+                                            status.clear();
+                                            StoppedStatus.clear();
+                                            StoppedAddressList.clear();
+                                            StoppedGpsData.clear();
+                                            StoppedList.clear();
+                                            loading = true;
+                                          });
+                                          return refreshData(i);
+                                        },
+                                        child: ListView.builder(
+                                          padding:
+                                              EdgeInsets.only(bottom: space_15),
+                                          physics: BouncingScrollPhysics(),
+                                          controller: scrollController,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: StoppedList.length,
+                                          itemBuilder: (context, index) => index ==
+                                                  StoppedList.length
+                                              ? bottomProgressBarIndicatorWidget()
+                                              : MyTruckCard(
+                                                  truckData: StoppedList[index],
+                                                  truckAddress:
+                                                      StoppedAddressList[index],
+                                                  status: StoppedStatus[index],
+                                                  gpsData:
+                                                      StoppedGpsData[index],
+                                                  // truckId: .truckId,
+                                                  // truckApproved:
+                                                  //     truckDataList[index].truckApproved,
+                                                  // truckNo: truckDataList[index].truckNo,
+                                                  // truckType: truckDataList[index].truckType,
+                                                  // tyres: truckDataList[index].tyresString,
+                                                  // driverName: truckDataList[index].driverName,
+                                                  // phoneNum: truckDataList[index].driverNum,
+                                                  // imei: truckDataList[index].imei,
+                                                ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Stack(
-                                  alignment: Alignment.bottomCenter,
-
-                                  children: [
-                                    loading
-                                        ? TruckLoadingWidgets()
-                                        : StoppedList.isEmpty
-                                        ? Container(
-                                      // height: MediaQuery.of(context).size.height * 0.27,
-                                      margin: EdgeInsets.only(top: 153),
-                                      child: Column(
-                                        children: [
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/images/TruckListEmptyImage.png'),
-                                            height: 127,
-                                            width: 127,
-                                          ),
-                                          SizedBox(
-                                              height: 20
-                                          ),
-                                          Text(
-                                            'notruckstopped'.tr,
-                                            // 'Looks like none of your trucks are stopped!',
-                                            style: TextStyle(
-                                                fontSize: size_8, color: grey),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                        : RefreshIndicator(
-                                      color: lightNavyBlue,
-                                      onRefresh: () {
-                                        setState(() {
-                                          runningList.clear();
-                                          runningAddressList.clear();
-                                          runningGpsData.clear();
-                                          runningStatus.clear();
-                                          truckAddressList.clear();
-                                          gpsDataList.clear();
-                                          status.clear();
-                                          StoppedStatus.clear();
-                                          StoppedAddressList.clear();
-                                          StoppedGpsData.clear();
-                                          StoppedList.clear();
-                                          loading = true;
-                                        });
-                                        return refreshData(i);
-                                      },
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.only(
-                                            bottom: space_15),
-                                        physics: BouncingScrollPhysics(),
-                                        controller: scrollController,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: StoppedList.length,
-                                        itemBuilder: (context, index) =>
-                                        index == StoppedList.length
-                                            ? bottomProgressBarIndicatorWidget()
-                                            :
-                                        MyTruckCard(
-                                          truckData: StoppedList[index],
-                                          truckAddress: StoppedAddressList[index],
-                                          status: StoppedStatus[index],
-                                          gpsData: StoppedGpsData[index],
-                                          // truckId: .truckId,
-                                          // truckApproved:
-                                          //     truckDataList[index].truckApproved,
-                                          // truckNo: truckDataList[index].truckNo,
-                                          // truckType: truckDataList[index].truckType,
-                                          // tyres: truckDataList[index].tyresString,
-                                          // driverName: truckDataList[index].driverName,
-                                          // phoneNum: truckDataList[index].driverNum,
-                                          // imei: truckDataList[index].imei,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                              ]
-                          ),
+                          ],
                         ),
-                        Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height - kBottomNavigationBarHeight - 230 -
-                              2 * space_6 - 30,
-                          left: (MediaQuery
-                              .of(context)
-                              .size
-                              .width - 2 * space_6) / 2 - 60,
-                          child: Container(
-                            //     margin: EdgeInsets.only(bottom: space_2),
-                              child: AddTruckButton()),
-                        ),
-                      ]
-                  ),
+                      ]),
                 ),
-              ],
+                Positioned(
+                  top: MediaQuery.of(context).size.height -
+                      kBottomNavigationBarHeight -
+                      230 -
+                      2 * space_6 -
+                      30,
+                  left: (MediaQuery.of(context).size.width - 2 * space_6) / 2 -
+                      60,
+                  child: Container(
+                      //     margin: EdgeInsets.only(bottom: space_2),
+                      child: AddTruckButton()),
+                ),
+              ]),
             ),
-          )),
+          ],
+        ),
+      )),
     );
   } //build
 
@@ -568,6 +681,10 @@ class _MyTrucksState extends State<MyTrucks> {
     var truckDataListForPagevar = await truckApiCalls.getTruckData();
 
     print("Truck length ${truckDataListForPagevar.length}");
+
+    setState(() {
+      items = truckDataListForPagevar;
+    });
 
     //FIX LENGTH OF ALL LIST----------------------
     gpsList = List.filled(truckDataListForPagevar.length, null, growable: true);
@@ -645,10 +762,10 @@ class _MyTrucksState extends State<MyTrucks> {
     print("gpsData here $gpsData");
     print("truckData here ${truckData.deviceId}");
     getStoppedSince(gpsData, i);
-
+    print("GETTING DATA");
     if (truckData.truckApproved == true &&
         gpsData.last.speed >= 2) //For RUNNING Section
-        {
+    {
       running.removeAt(i);
       runningAddress.removeAt(i);
       runningGps.removeAt(i);
@@ -656,9 +773,8 @@ class _MyTrucksState extends State<MyTrucks> {
       running.insert(i, truckData);
       runningAddress.insert(i, "${gpsData.last.address}");
       runningGps.insert(i, gpsData);
-    }
-    else if (truckData.truckApproved == true &&
-        gpsData.last.speed < 2) { //For STOPPED section
+    } else if (truckData.truckApproved == true && gpsData.last.speed < 2) {
+      //For STOPPED section
 
       Stopped.removeAt(i);
       StoppedAddress.removeAt(i);
@@ -708,7 +824,6 @@ class _MyTrucksState extends State<MyTrucks> {
       gpsDataList = gpsList;
       truckAddressList = truckAddress;
       status = stat;
-
       runningList = running;
       runningAddressList = runningAddress;
       runningGpsData = runningGps;
@@ -748,8 +863,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
       stat.removeAt(i);
       stat.insert(i, "Stopped");
-    }
-    else {
+    } else {
       runningStat.removeAt(i);
       runningStat.insert(i, "Running");
 
@@ -757,7 +871,6 @@ class _MyTrucksState extends State<MyTrucks> {
       stat.insert(i, "Running");
     }
   }
-
 }
 
 //class
