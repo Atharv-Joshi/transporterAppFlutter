@@ -116,7 +116,7 @@ class _ShareButtonState extends State<ShareButton> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(
-                image: AssetImage("assets/icons/shareIcon.png"),
+                image: AssetImage("assets/icons/whatsappGreenIcon.png"),
                 height: size_9 - 1,
                 width: size_9 - 1),
             SizedBox(

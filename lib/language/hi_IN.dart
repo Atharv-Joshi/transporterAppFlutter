@@ -116,15 +116,17 @@ const Map<String, String> hiIN = {
 
   //Navigation drawer
   "mydriver": "मेरे ड्राइवर",
-  'noDriver':"आपके द्वारा कोई ड्राइवर नहीं जोड़ा गया",
+  'noDriver': "आपके द्वारा कोई ड्राइवर नहीं जोड़ा गया",
   // 'addDriver':"ड्राइवर जोडे",
 
   //Home
   // "search": "Search",
   "refer": "ग्राहक जोड़े और कमाए",
   "referUs": "लिवइज़ी में ग्राहक\nजोड़े और लाभ वाला\nखाता कमाएं",
-  "gpsTitle": "लिवइज़ी जीपीएस की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
-  "gpsTitleLong": "लिवइज़ी जीपीएस की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
+  "gpsTitle":
+      "लिवइज़ी जीपीएस की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
+  "gpsTitleLong":
+      "लिवइज़ी जीपीएस की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
   "bonus": "बोनस",
 
   //trucks
@@ -136,28 +138,28 @@ const Map<String, String> hiIN = {
   "notruckrunnning": "आपका कोई ट्रक नहीं चल रहा है",
   "notruckstopped": "आपका कोई भी ट्रक नही रुका है",
   'passingWeight': "वजन क्षमता (टन)",
-  'status':"स्थिति",
-  'truckTravelled':'ट्रक चला है : ',
-  'kmToday':'किमी आज',
-  'ignition':"इग्निशन :",
-  'on':"शुरु",
-  'off':'बंद',
-  'buyGPS':'लाइव ट्रैकिंग एक्सेस करने के लिए जीपीएस खरीदें',
-  'timedate':'समय दिनांक',
-  'km':'किमी',
-  "stops":"जगहों पर रुका",
-  'km/h':'किमी प्रति घंटे',
-  'navigate':'नेविगेट',
-  'playtrip':'यात्रा प्ले करे',
-  'history':'हिस्टरी',
-  'submit':'सबमिट',
+  'status': "स्थिति",
+  'truckTravelled': 'ट्रक चला है : ',
+  'kmToday': 'किमी आज',
+  'ignition': "इग्निशन :",
+  'on': "शुरु",
+  'off': 'बंद',
+  'buyGPS': 'लाइव ट्रैकिंग एक्सेस करने के लिए जीपीएस खरीदें',
+  'timedate': 'समय दिनांक',
+  'km': 'किमी',
+  "stops": "जगहों पर रुका",
+  'km/h': 'किमी प्रति घंटे',
+  'navigate': 'नेविगेट',
+  'playtrip': 'यात्रा प्ले करे',
+  'history': 'हिस्टरी',
+  'submit': 'सबमिट',
 
   //truck type
-  'openbody':'ओपन बॉडी',
-  'flatbed':'फ्लैटबेड',
-  'trailerbody':'ट्रेलर बॉडी',
-  'standardcontainer':'स्टैंडर्ड कंटेनर',
-  'highcontainer':'हाई क्यूब कंटेनर',
+  'openbody': 'ओपन बॉडी',
+  'flatbed': 'फ्लैटबेड',
+  'trailerbody': 'ट्रेलर बॉडी',
+  'standardcontainer': 'स्टैंडर्ड कंटेनर',
+  'highcontainer': 'हाई क्यूब कंटेनर',
 
   //loads
   "noLoadAdded": "आपके द्वारा कोई भी लोड नहीं जोड़ा गया है",
@@ -173,37 +175,42 @@ const Map<String, String> hiIN = {
   "findLoad": "माल ढूंढे",
   'bidPrice': "बोली का रेट",
   'addDriver': 'ड्राइवर जोड़े',
-  'weights':'वजन(टन)',
+  'weights': 'वजन(टन)',
   "chooseproductType": "माल का प्रकार चुनें",
-  'priceoptional':'रेट(ऑप्शनल)',
-  'enterprice':'रेट डाले',
-
-
-
+  'priceoptional': 'रेट(ऑप्शनल)',
+  'enterprice': 'रेट डाले',
 
   //my account
-  'verified':"जांच समाप्त",
-  'uploadDetails':'जानकरी डालना',
-  'provideDetails':'जानकरी प्रदान करें',
-  'waitForReview':'जांच की प्रतीक्षा',
-  'takeTime':'इसमें कुछ दिन लग सकते हैं',
-  'searchForLoads':'लोड की खोज',
+  'verified': "जांच समाप्त",
+  'uploadDetails': 'जानकरी डालना',
+  'provideDetails': 'जानकरी प्रदान करें',
+  'waitForReview': 'जांच की प्रतीक्षा',
+  'takeTime': 'इसमें कुछ दिन लग सकते हैं',
+  'searchForLoads': 'लोड की खोज',
 
   //logout
-  'ok':"हां",
-  'ok1':'ठीक है',
-  'logoutDialog':'क्या आप लॉगआउट करना चाहते हैं?',
+  'ok': "हां",
+  'ok1': 'ठीक है',
+  'logoutDialog': 'क्या आप लॉगआउट करना चाहते हैं?',
 
   //alert
-  'alertLine1':'आप अगले अपडेट में इस सुविधा ',
-  'alertLine2':'का उपयोग कर सकते हैं',
-
+  'alertLine1': 'आप अगले अपडेट में इस सुविधा ',
+  'alertLine2': 'का उपयोग कर सकते हैं',
 
   //posted on
-  'postedon':'डाला गया',
-  'repost':'पुनः पोस्ट करे',
-  'loadexpired':'माल एक्स्पायर्ड',
-  'bookingtitle':'अधिक कमाने के लिए\nलिवइज़ी का उपयोग\nकरके बुकिंग जारी रखें',
-  'enterproduct':'माल का'
+  'postedon': 'डाला गया',
+  'repost': 'पुनः पोस्ट करे',
+  'loadexpired': 'माल एक्स्पायर्ड',
+  'bookingtitle': 'अधिक कमाने के लिए\nलिवइज़ी का उपयोग\nकरके बुकिंग जारी रखें',
+  'enterproduct': 'माल का',
 
+  //shareDialog
+  'linkExpired': 'लिंक की अवधि समाप्त',
+  'linkExpiredInstruction':
+      'आप जिस लिंक को खोलने का प्रयास कर रहे हैं वो अब उपलब्ध नहीं है',
+  '1Day': '1 दिन',
+  '2Days': '2 दिन',
+  '7Days': '7 दिन',
+  'whatsappShare': 'व्हाट्सएप पर शेयर करें',
+  'setExpiry': 'लिंक की अवधि निर्धारित करे',
 };
