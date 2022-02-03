@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 import 'mapUtils/getLoactionUsingImei.dart';
+import 'dart:math';
 
 MapUtil mapUtil = MapUtil();
 var startTimeParam;
@@ -49,7 +51,6 @@ getISOtoIST(String date){
       var monthname  = DateFormat('MMM').format(DateTime(0, month));
       var ampm  = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
       var truckDate = "$day $monthname $year, $ampm";
-      print("ISO $truckDate");
       return truckDate;
 
 }
@@ -420,7 +421,7 @@ Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int 
   painter.layout();
   painter.paint(
       canvas,
-      Offset(190,
+      Offset(150,
           30));
   TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
   painter2.text = TextSpan(
@@ -430,9 +431,9 @@ Future<Uint8List> getBytesFromCanvas2(String time, String speed, int width, int 
   painter2.layout();
   painter2.paint(
       canvas,
-      Offset(190,
+      Offset(215,
           65));
-  final img = await pictureRecorder.endRecording().toImage(500, 250);
+  final img = await pictureRecorder.endRecording().toImage(530, 250);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();
 }
