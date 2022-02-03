@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [shadowGrey, white])),
-          padding: EdgeInsets.only(right: space_2,top: space_35),
+          padding: EdgeInsets.only(right: space_2, top: space_35),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
