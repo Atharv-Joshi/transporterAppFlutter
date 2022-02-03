@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -37,40 +38,41 @@ class TrackScreen extends StatefulWidget {
   final String? driverName;
   var truckId;
 
-  TrackScreen({
-    required this.gpsData,
-    required this.gpsDataHistory,
-    required this.gpsStoppageHistory,
-    required this.routeHistory,
-    // required this.position,
-    this.TruckNo,
-    this.driverName,
-    this.driverNum,
-    this.deviceId,
-    this.truckId});
+  TrackScreen(
+      {required this.gpsData,
+      required this.gpsDataHistory,
+      required this.gpsStoppageHistory,
+      required this.routeHistory,
+      // required this.position,
+      this.TruckNo,
+      this.driverName,
+      this.driverNum,
+      this.deviceId,
+      this.truckId});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
 }
-class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
+
+class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
-  late LatLng lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
+  late LatLng lastlatLngMarker =
+      LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
   late List<Placemark> placemarks;
   Iterable markers = [];
   ScreenshotController screenshotController = ScreenshotController();
   late BitmapDescriptor pinLocationIcon;
   late BitmapDescriptor pinLocationIconTruck;
-  late CameraPosition camPosition =  CameraPosition(
-      target: lastlatLngMarker,
-      zoom: 8);
+  late CameraPosition camPosition =
+      CameraPosition(target: lastlatLngMarker, zoom: 8);
   var logger = Logger();
   late Marker markernew;
   List<Marker> customMarkers = [];
   late Timer timer;
   Completer<GoogleMapController> _controller = Completer();
-  late List newGPSData=widget.gpsData;
+  late List newGPSData = widget.gpsData;
   late List reversedList;
   MapUtil mapUtil = MapUtil();
   List<LatLng> latlng = [];
@@ -92,17 +94,16 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   var stopAddress = [];
   String? Speed;
   String googleAPiKey = FlutterConfig.get("mapKey");
-  bool popUp=false;
+  bool popUp = false;
   List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
   var markerslist;
-  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
   bool isAnimation = false;
-  double mapHeight=600;
+  double mapHeight = 600;
   DateTimeRange selectedDate = DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 1)),
-      end: DateTime.now()
-  );
+      start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
   var direction;
   bool setDate = false;
   var selectedDateString = [];
@@ -112,7 +113,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   var totalRunningTime;
   var totalStoppedTime;
   var status;
-  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
@@ -131,13 +133,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       iconthenmarker();
 
       logger.i("in init state function");
-      lastlatLngMarker = LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
-      camPosition = CameraPosition(
-          target: lastlatLngMarker,
-          zoom: zoom
-      );
+      lastlatLngMarker =
+          LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
+      camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
 
-      timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
+      timer = Timer.periodic(
+          Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -162,9 +163,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   }
 
   getTruckHistory() {
-    gpsDataHistory=widget.gpsDataHistory;
+    gpsDataHistory = widget.gpsDataHistory;
     print("Gps data history length ${gpsDataHistory.length}");
-    gpsStoppageHistory=widget.gpsStoppageHistory;
+    gpsStoppageHistory = widget.gpsStoppageHistory;
     // getStoppage(widget.gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
     _getPolyline(polylineCoordinates);
@@ -178,15 +179,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     // getStoppage(gpsStoppageHistory);
     polylineCoordinates = getPoylineCoordinates(gpsDataHistory);
     _getPolyline(polylineCoordinates);
-
   }
 
-  addstops(var gpsStoppage) async{
+  addstops(var gpsStoppage) async {
     var logger = Logger();
     logger.i("in addstops function");
     FutureGroup futureGroup = FutureGroup();
-    for(int i=0; i<gpsStoppage.length; i++)
-    {
+    for (int i = 0; i < gpsStoppage.length; i++) {
       var future = getStoppage(gpsStoppage[i], i);
       futureGroup.add(future);
     }
@@ -210,7 +209,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     // print("STOPSS $stopAddress");
   }
 
-  getStoppage(var gpsStoppage, int i) async{
+  getStoppage(var gpsStoppage, int i) async {
     var stopAddress;
     var stoppageTime;
     var stoplatlong;
@@ -219,22 +218,22 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     LatLng? latlong;
 
     // for(var stop in gpsStoppage) {
-    latlong=LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
-    stoplatlong=latlong;
+    latlong = LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
+    stoplatlong = latlong;
     // }
     stoppageTime = getStoppageTime(gpsStoppage);
     // stopAddress = await getStoppageAddress(gpsStoppage);
     duration = getStoppageDuration(gpsStoppage);
 
     // for(int i=0; i<stoplatlong.length; i++){
-    markerIcon = await getBytesFromCanvas(i+1, 100, 100);
+    markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
     setState(() {
       customMarkers.add(Marker(
         markerId: MarkerId("Stop Mark $i"),
         position: stoplatlong,
         icon: BitmapDescriptor.fromBytes(markerIcon),
         //info window
-        onTap: () async{
+        onTap: () async {
           stopAddress = await getStoppageAddress(gpsStoppage);
 
           _customInfoWindowController.addInfoWindow!(
@@ -261,6 +260,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       _polyline.add(polyline);
     });
   }
+
   _getPolyline(List<LatLng> polylineCoordinates) async {
     var logger = Logger();
     logger.i("in polyline function");
@@ -277,10 +277,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     _addPolyLine();
   }
 
-  initfunction(){
+  initfunction() {
     setState(() {
       newGPSData = widget.gpsData;
-      newGPSRoute=widget.routeHistory;
+      newGPSRoute = widget.routeHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
 
       totalRunningTime = getTotalRunningTime(newGPSRoute);
@@ -293,7 +293,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
     addstops(gpsStoppageHistory);
   }
 
-
   Future<void> initfunction2() async {
     final GoogleMapController controller = await _controller.future;
     setState(() {
@@ -303,10 +302,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   void initfunctionAfter() async {
     logger.i("It is in init function after function");
-    var f1 = mapUtil.getTraccarPosition(deviceId : widget.deviceId);
-    var f =  getDataHistory(newGPSData.last.deviceId, from,  to);
-    var s = getStoppageHistory(newGPSData.last.deviceId, from,  to);
-    var t = getRouteStatusList(newGPSData.last.deviceId, from,  to);
+    var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    var f = getDataHistory(newGPSData.last.deviceId, from, to);
+    var s = getStoppageHistory(newGPSData.last.deviceId, from, to);
+    var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
 
     var gpsData = await f1;
     var gpsRoute = await t;
@@ -319,8 +318,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(
           start: DateTime.now().subtract(Duration(days: 1)),
-          end: DateTime.now()
-      );
+          end: DateTime.now());
       print("NEW ROute $newGPSRoute");
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
@@ -334,13 +332,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
   void iconthenmarker() {
     logger.i("in Icon maker function");
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-        'assets/icons/truckPin.png')
+            'assets/icons/truckPin.png')
         .then((value) => {
-      setState(() {
-        pinLocationIconTruck = value;
-      }),
-      createmarker()
-    });
+              setState(() {
+                pinLocationIconTruck = value;
+              }),
+              createmarker()
+            });
   }
 
   //function called every one minute
@@ -356,14 +354,15 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       print("rj");
       final GoogleMapController controller = await _controller.future;
       LatLng latLngMarker =
-      LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
+          LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
       print("Live location is ${newGPSData.last.latitude}");
       print("hh");
       print("id ${newGPSData.last.deviceId.toString()}");
       String? title = widget.TruckNo;
       setState(() {
         direction = 180 + newGPSData.last.course;
-        lastlatLngMarker = LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
+        lastlatLngMarker =
+            LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
         latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
             markerId: MarkerId(newGPSData.last.deviceId.toString()),
@@ -376,8 +375,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
             visible: true,
             points: polylineCoordinates,
             color: Colors.blue,
-            width: 2
-        ));
+            width: 2));
       });
       controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -400,24 +398,23 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
-    double height= MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height;
     double threshold = 100;
     return SafeArea(
       child: Scaffold(
         backgroundColor: statusBarColor,
         body: GestureDetector(
-          onTap: (){
+          onTap: () {
             setState(() {
               showBottomMenu = !showBottomMenu;
             });
           },
-          onPanEnd: (details){
-            if(details.velocity.pixelsPerSecond.dy > threshold) {
+          onPanEnd: (details) {
+            if (details.velocity.pixelsPerSecond.dy > threshold) {
               this.setState(() {
                 showBottomMenu = false;
               });
-            }
-            else if(details.velocity.pixelsPerSecond.dy < -threshold){
+            } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
               this.setState(() {
                 showBottomMenu = true;
               });
@@ -428,144 +425,185 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
               Positioned(
                 left: 0,
                 top: -100,
-                bottom: 0 ,
+                bottom: 0,
                 child: Container(
                     width: MediaQuery.of(context).size.width,
-                    child: Stack(
-                        children: <Widget>[
-                          GoogleMap(
-                            onTap: (position) {
-                              _customInfoWindowController.hideInfoWindow!();
-                            },
-                            onCameraMove: (position) {
-                              _customInfoWindowController.onCameraMove!();
-                            },
-                            markers: customMarkers.toSet(),
-                            polylines: Set.from(polylines.values),
-                            myLocationButtonEnabled: true,
-                            zoomControlsEnabled: false,
-                            initialCameraPosition: camPosition,
-                            compassEnabled: true,
-                            mapType: maptype,
-                            onMapCreated: (GoogleMapController controller) {
-                              _controller.complete(controller);
-                              _customInfoWindowController.googleMapController = controller;
-                            },
-                            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                              new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
-                            ].toSet(),
+                    child: Stack(children: <Widget>[
+                      GoogleMap(
+                        onTap: (position) {
+                          _customInfoWindowController.hideInfoWindow!();
+                        },
+                        onCameraMove: (position) {
+                          _customInfoWindowController.onCameraMove!();
+                        },
+                        markers: customMarkers.toSet(),
+                        polylines: Set.from(polylines.values),
+                        myLocationButtonEnabled: true,
+                        zoomControlsEnabled: false,
+                        initialCameraPosition: camPosition,
+                        compassEnabled: true,
+                        mapType: maptype,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                          _customInfoWindowController.googleMapController =
+                              controller;
+                        },
+                        gestureRecognizers:
+                            <Factory<OneSequenceGestureRecognizer>>[
+                          new Factory<OneSequenceGestureRecognizer>(
+                            () => new EagerGestureRecognizer(),
                           ),
-                          CustomInfoWindow(
-                            controller: _customInfoWindowController,
-                            height: 110,
-                            width: 275,
-                            offset: 30,
+                        ].toSet(),
+                      ),
+                      CustomInfoWindow(
+                        controller: _customInfoWindowController,
+                        height: 110,
+                        width: 275,
+                        offset: 30,
+                      ),
+                      Positioned(
+                        left: 10,
+                        top: 175,
+                        child: SizedBox(
+                          height: 40,
+                          child: FloatingActionButton(
+                            heroTag: "btn1",
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            child: const Icon(Icons.my_location,
+                                size: 22, color: Color(0xFF152968)),
+                            onPressed: () {
+                              setState(() {
+                                this.maptype = (this.maptype == MapType.normal)
+                                    ? MapType.satellite
+                                    : MapType.normal;
+                              });
+                            },
                           ),
-                          Positioned(
-                            left: 10,
-                            top: 175,
-                            child: SizedBox(
-                              height: 40,
-                              child: FloatingActionButton(
-                                heroTag: "btn1",
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                child: const Icon(Icons.my_location, size: 22, color: Color(0xFF152968) ),
-                                onPressed: () {
-                                  setState(() {
-                                    this.maptype=(this.maptype == MapType.normal) ? MapType.satellite : MapType.normal;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 10,
-                            bottom: height/3+170,
-                            child: SizedBox(
-                              height: 40,
-                              child: FloatingActionButton(
-                                heroTag: "btn2",
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                child: const Icon(Icons.zoom_in, size: 22,  color: Color(0xFF152968)),
-                                onPressed: () {
-                                  setState(() {
-                                    this.zoom = this.zoom + 0.5;
-                                  });
-                                  this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: height / 3 + 170,
+                        child: SizedBox(
+                          height: 40,
+                          child: FloatingActionButton(
+                            heroTag: "btn2",
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            child: const Icon(Icons.zoom_in,
+                                size: 22, color: Color(0xFF152968)),
+                            onPressed: () {
+                              setState(() {
+                                this.zoom = this.zoom + 0.5;
+                              });
+                              this
+                                  ._googleMapController
+                                  .animateCamera(CameraUpdate.newCameraPosition(
                                     CameraPosition(
                                       bearing: 0,
                                       target: lastlatLngMarker,
                                       zoom: this.zoom,
                                     ),
                                   ));
-
-                                },
-                              ),
-                            ),
+                            },
                           ),
-                          Positioned(
-                            right: 10,
-                            bottom: height/3+115,
-                            child: SizedBox(
-                              height: 40,
-                              child: FloatingActionButton(
-                                heroTag: "btn3",
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                child: const Icon(Icons.zoom_out, size:22,  color: Color(0xFF152968)),
-                                onPressed: () {
-                                  setState(() {
-                                    this.zoom = this.zoom - 0.5;
-                                  });
-                                  this._googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: height / 3 + 115,
+                        child: SizedBox(
+                          height: 40,
+                          child: FloatingActionButton(
+                            heroTag: "btn3",
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            child: const Icon(Icons.zoom_out,
+                                size: 22, color: Color(0xFF152968)),
+                            onPressed: () {
+                              setState(() {
+                                this.zoom = this.zoom - 0.5;
+                              });
+                              this
+                                  ._googleMapController
+                                  .animateCamera(CameraUpdate.newCameraPosition(
                                     CameraPosition(
                                       bearing: 0,
                                       target: lastlatLngMarker,
                                       zoom: this.zoom,
                                     ),
                                   ));
-                                },
-                              ),
-                            ),
+                            },
                           ),
-                        ]
-                    )
-                ),
+                        ),
+                      ),
+                    ])),
               ),
               Positioned(
                   top: 0,
                   child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: white,
-                      child: Column(
-                          children: [
-                            Container(
-                              // margin: EdgeInsets.only(bottom: space_10),
-                              width: MediaQuery.of(context).size.width,
-                              height: space_13,
-                              color: white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                                    child: Header(
-                                        reset: false,
-                                        text: "${widget.TruckNo}",
-                                        backButton: true
-                                    ),
-                                  ),
-                                  HelpButtonWidget()
-                                ],
+                      child: Column(children: [
+                        Container(
+                          // margin: EdgeInsets.only(bottom: space_10),
+                          width: MediaQuery.of(context).size.width,
+                          height: space_13,
+                          color: white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
+                                child: Header(
+                                    reset: false,
+                                    text: "${widget.TruckNo}",
+                                    backButton: true),
                               ),
-                            ),
-                          ]
-                      )
-                  )
-              ),
+                              HelpButtonWidget(),
+                              PopupMenuButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(radius_1 + 1))),
+                                  itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Image.asset(
+                                                "assets/icons/truckLockIcon.png",
+                                                height: space_2 + 3,
+                                                width: space_2 + 3,
+                                              ),
+                                              SizedBox(
+                                                width: space_1 + 1,
+                                              ),
+                                              Container(
+                                                  width: 100,
+                                                  child: Text(
+                                                    "Truck Lock",
+                                                    style: TextStyle(
+                                                        color:
+                                                            liveasyBlackColor),
+                                                  )),
+                                            ],
+                                          ),
+                                          value: 1,
+                                        ),
+                                        // PopupMenuItem(
+                                        //   child: Text("Second"),
+                                        //   value: 2,
+                                        // )
+                                      ])
+                            ],
+                          ),
+                        ),
+                      ]))),
               /*      Container(
                           margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
                           child: Row(
@@ -725,7 +763,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-                bottom: (showBottomMenu)? 0 : -(height/3)+ 55,
+                bottom: (showBottomMenu) ? 0 : -(height / 3) + 55,
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
                   // truckDate: truckDate,
@@ -742,7 +780,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
                   truckId: widget.truckId,
                   deviceId: widget.deviceId,
                   totalDistance: totalDistance,
-
                 ),
               )
             ],
@@ -751,5 +788,4 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver{
       ),
     );
   }
-
 }
