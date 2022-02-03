@@ -26,7 +26,7 @@ class RepostButton extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 0 , horizontal: space_5),
           child:  Text(
-            'Repost',
+            'repost'.tr,
             style: TextStyle(
               letterSpacing: 0.7,
               fontWeight: mediumBoldWeight,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -12,7 +13,7 @@ class PriceContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    unitValue = unitValue == 'PER_TON' ? 'tonne' : 'truck';
+    unitValue = unitValue == 'PER_TON' ? 'tonne'.tr : 'truck'.tr;
     return
      Center(
         child: Row(

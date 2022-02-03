@@ -91,7 +91,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_5,
                 ),
                 AddressInputMMIWidget(
-                    hintText: 'loadingPoint'.tr,
+                    hintText: "Loading Point",
                     // "Loading Point",
                     icon: LoadingPointImageIcon(
                       height: space_2 + 2,
@@ -105,7 +105,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_4,
                 ),
                 AddressInputMMIWidget(
-                  hintText: 'unLoadingPoint'.tr,
+                  hintText: "Unloading Point",
                   // "Unloading Point",
                   icon: UnloadingPointImageIcon(
                     height: space_2 + 2,

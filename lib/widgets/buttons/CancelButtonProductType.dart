@@ -25,7 +25,7 @@ class CancelButtonProductType extends StatelessWidget {
             controllerOthers.text = "";
           },
           child: Text(
-            'Cancel',
+            'cancel'.tr,
             style: TextStyle(
               fontSize: size_6,
               color: loadingPointTextColor,

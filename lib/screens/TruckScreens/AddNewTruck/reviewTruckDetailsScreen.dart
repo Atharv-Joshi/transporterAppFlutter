@@ -138,22 +138,22 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               ),
                               TruckReviewDetailsRow(
                                   value: providerData.passingWeightValue,
-                                  label: 'passingWeigth'.tr
+                                  label: 'passingWeight'.tr
                                   // AppLocalizations.of(context)!.passingWeigthInTons
                               ),
                              // Change here----------------------------
                              //  TruckReviewDetailsRow(
                              //      value: providerData.truckLengthValue,
                              //  //     label: AppLocalizations.of(context)!.truckLength),
-                              TruckReviewDetailsRow(
-                                  value: widget.driverId != ''
-                                      ?
-                                  '${driverModel.driverName}-${driverModel.phoneNum}'
-                                      :
-                                  '---',
-                                  label: 'driverDetails'.tr
-                                  // AppLocalizations.of(context)!.driverDetails
-                              ),
+                             //  TruckReviewDetailsRow(
+                             //      value: widget.driverId != ''
+                             //          ?
+                             //      '${driverModel.driverName}-${driverModel.phoneNum}'
+                             //          :
+                             //      '---',
+                             //      label: 'driverDetails'.tr
+                             //      // AppLocalizations.of(context)!.driverDetails
+                             //  ),
                             ],
                           ),
                         ),
@@ -218,7 +218,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               }
                             },
                             optional: true,
-                            text: 'Submit')
+                            text: 'submit'.tr
+                            // 'Submit'
+                        )
                       ],
                     ),
                   )

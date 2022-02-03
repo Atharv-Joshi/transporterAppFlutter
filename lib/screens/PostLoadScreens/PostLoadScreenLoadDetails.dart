@@ -31,12 +31,12 @@ class PostLoadScreenTwo extends StatefulWidget {
 TextEditingController controller = TextEditingController();
 TextEditingController controllerOthers = TextEditingController();
 
-List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22,0];
-List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30,0];
-TruckFilterVariablesForPostLoad truckFilterVariables = TruckFilterVariablesForPostLoad();
+List<int> numberOfTyresList = [6, 10, 12, 14, 16, 18, 22, 26];
+List<int> weightList = [6, 8, 12, 14, 18, 24, 26, 28, 30, 0];
+TruckFilterVariablesForPostLoad truckFilterVariables =
+    TruckFilterVariablesForPostLoad();
 
 class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
-
   @override
   Widget build(BuildContext context) {
     bool visible = false;
@@ -60,7 +60,7 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         controllerOthers.text = "";
                         providerData.resetTruckFilters();
                         providerData.updatePrice(0);
-                        providerData.PerTonTrue(false,false);
+                        providerData.PerTonTrue(false, false);
                         providerData.updateBorderColor(darkBlueColor);
                         providerData.updateTotalTyresValue(0);
                         providerData.resetOnNewType();
@@ -77,7 +77,9 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AddTruckSubtitleText(text: "Truck Type"),
+                        AddTruckSubtitleText(text: 'truckType'.tr
+                        // "Truck Type"
+                        ),
                         SizedBox(height: space_2),
                         GridView.count(
                           physics: NeverScrollableScrollPhysics(),
@@ -96,7 +98,9 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                               .toList(),
                         ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Tyres(chakka)"),
+                        AddTruckSubtitleText(text: 'tyres'.tr
+                        // "Tyres(chakka)"
+                        ),
                         SizedBox(height: space_2),
                         Padding(
                           padding: EdgeInsets.only(
@@ -122,7 +126,9 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                           ),
                         ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Weight(in tons)"),
+                        AddTruckSubtitleText(text: 'weights'.tr
+                        // "Weight(in tons)"
+                        ),
                         SizedBox(height: space_2),
                         providerData.truckTypeValue == ''
                             ? SizedBox()
@@ -147,12 +153,18 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                                 ),
                               ),
                         SizedBox(height: space_2),
-                        AddTruckSubtitleText(text: "Product Type"),
+                        AddTruckSubtitleText(text: 'productType'.tr
+                        // "Product Type"
+                        ),
                         SizedBox(height: space_2),
                         PostLoadScreenTwoSearch(
-                            hintText: "Choose Product Type"),
+                            hintText: 'chooseproductType'.tr
+                            // "Choose Product Type"
+                        ),
                         SizedBox(height: space_3),
-                        AddTruckSubtitleText(text: "Price(Optional)"),
+                        AddTruckSubtitleText(text: 'priceoptional'.tr
+                        // "Price(Optional)"
+                        ),
                         SizedBox(height: space_2),
                         UnitValueWidget(),
                         SizedBox(height: space_3),

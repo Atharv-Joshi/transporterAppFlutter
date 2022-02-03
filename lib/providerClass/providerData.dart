@@ -268,9 +268,10 @@ class ProviderData extends ChangeNotifier {
 
   void updateUnitValue() {
     if (perTruck) {
-      unitValue = "PER_TRUCK";
+      // unitValue = "PER_TRUCK";
+      unitValue = "perTruck".tr;
     } else if (perTon) {
-      unitValue = "PER_TON";
+      unitValue = "perTon".tr;
     } else if (unitValue == "") {
       return null;
     }

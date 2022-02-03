@@ -434,7 +434,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   ),
                               ),
                               Text(
-                                'time date ',
+                                "timedate".tr,
+                                // 'time date ',
                                 style: TextStyle(
                                   fontSize: 10,
                                   color: black,
@@ -461,7 +462,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                    width: 8
                                ),
                             Text(
-                              'Buy GPS to access live tracking',
+                              'buyGPS'.tr,
+                              // 'Buy GPS to access live tracking',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF152968),

@@ -6,19 +6,16 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
-import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/addressInputGMapsWidget.dart';
-import 'package:liveasy/widgets/addressInputMMIWidget.dart';
 import 'package:liveasy/widgets/buttons/NextButton.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLoadScreenOne extends StatefulWidget {
   const PostLoadScreenOne({Key? key}) : super(key: key);
@@ -143,7 +140,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
                             child: AddressInputGMapsWidget(
-                                hintText: "loadingPoint".tr,
+                                hintText: "Loading point",
                                 icon: LoadingPointImageIcon(
                                   height: size_6,
                                   width: size_6,
@@ -158,7 +155,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
                             child: AddressInputGMapsWidget(
-                              hintText: "unLoadingPoint".tr,
+                              hintText: "Unloading point",
                               icon: UnloadingPointImageIcon(
                                 height: size_6,
                                 width: size_6,

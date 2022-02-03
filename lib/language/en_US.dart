@@ -150,6 +150,22 @@ const Map<String, String> enUS = {
   "notruckrunnning": "Look like you do not have any truck running",
   "notruckstopped": "Look like you do not have any stopped truck",
   'passingWeight': "Passing Weight (in tons.)",
+  'buyGPS': 'Buy GPS to access live tracking',
+  'timedate': 'time date',
+  'km': 'km',
+  "stops": "Stops",
+  'km/h': 'km/h',
+  'navigate': 'Navigate',
+  'playtrip': 'Play Trip',
+  'history': 'History',
+  'submit': 'Submit',
+
+  //truck type
+  'openbody': 'Open Body',
+  'flatbed': 'Flatbed',
+  'trailerbody': 'Trailer Body',
+  'standardcontainer': 'Standard Container',
+  'highcontainer': 'High Cube Container',
 
   //loads
   "noLoadAdded": "Look like you have not added any load",
@@ -165,6 +181,10 @@ const Map<String, String> enUS = {
   "findLoad": "Find Load",
   'bidPrice': "Bid Price",
   'addDriver': "Add Driver",
+  'weights': 'Weight(in tons)',
+  "chooseproductType": "Choose Product Type",
+  'priceoptional': 'Price(Optional)',
+  'enterprice': 'enter price',
 
   //my account
   'verified': "verified",
@@ -176,7 +196,19 @@ const Map<String, String> enUS = {
 
   //logout
   'ok': "Ok",
+  'ok1': "Ok",
   'logoutDialog': 'Are you sure? You want to logout',
+
+  //alert
+  'alertLine1': 'You can use this feature',
+  'alertLine2': 'in next update',
+
+  //posted on
+  'postedon': 'Posted on',
+  'repost': 'Repost',
+  'loadexpired': 'Load Expired!',
+  'bookingtitle': 'Keep booking\nusing Liveasy to\nearn more',
+  'enterproduct': 'Enter the Product',
 
   //shareDialog
   'linkExpired': 'Link Expired',
