@@ -85,21 +85,6 @@ class _MyTrucksState extends State<MyTrucks> {
   var items = [];
 
   TextEditingController editingController = TextEditingController();
-  // _SearchListState() {
-  //   editingController.addListener(() {
-  //     if (editingController.text.isEmpty) {
-  //       setState(() {
-  //         _IsSearching = false;
-  //         _searchText = "";
-  //       });
-  //     } else {
-  //       setState(() {
-  //         _IsSearching = true;
-  //         _searchText = editingController.text;
-  //       });
-  //     }
-  //   });
-  // }
 
   @override
   void initState() {
@@ -181,10 +166,7 @@ class _MyTrucksState extends State<MyTrucks> {
                   ),
                 ),
                 child: TextField(
-                  //onTap: () => print("CLICK"),
-                  onTap: () async {
-                    //filterSearchResults(value);
-                    await refreshData(i);
+                  onTap: () {
                     Get.to(() => MyTrucksResult(
                           gpsDataList: gpsDataList,
                           truckDataList: truckDataList,
@@ -193,14 +175,9 @@ class _MyTrucksState extends State<MyTrucks> {
                           items: items,
                         ));
                     print("Enterrr");
-
                     print("THE ITEMS $items");
                   },
-                  //onTap: {},
-                  //autofocus: true,
-                  //keyboardType: ,
-                  //readOnly: true,
-                  //controller: editingController,
+                  readOnly: true,
                   textAlignVertical: TextAlignVertical.center,
                   textAlign: TextAlign.start,
                   decoration: InputDecoration(
@@ -220,15 +197,6 @@ class _MyTrucksState extends State<MyTrucks> {
                   ),
                 ),
               ),
-              // child: SearchLoadWidget(
-              //   hintText: 'search'.tr,
-              //   // AppLocalizations.of(context)!.search,
-              //   onPressed: () {
-              //     showDialog(
-              //         context: context,
-              //         builder: (context) => NextUpdateAlertDialog());
-              //   },
-              // )
             ),
 
             //LIST OF TRUCK CARDS---------------------------------------------
@@ -818,44 +786,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
       stat.removeAt(i);
       stat.insert(i, "Running");
-    }
-  }
-
-  void filterSearchResults(String query) {
-    print("LIST IS $truckDataList");
-
-    var dummySearchList = [];
-    dummySearchList = items;
-    if (query.isNotEmpty) {
-      var dummyListData = [];
-      dummySearchList.forEach((item) {
-        print("TRIALKK ${item.runtimeType}");
-        print("TRIALAA ${dummySearchList.runtimeType}");
-        if ((item.truckNo).contains(query)) {
-          print("INSIDE IF");
-          dummyListData.add(item);
-          print("DATATYPE${dummyListData.runtimeType}");
-        }
-      });
-      setState(() {
-        items = [];
-        items.addAll(dummyListData);
-        print("THE DUMMY $dummyListData");
-        Get.to(MyTrucksResult(
-          gpsDataList: gpsDataList,
-          truckDataList: truckDataList,
-          truckAddressList: truckAddressList,
-          status: status,
-          items: items,
-        ));
-      });
-      return;
-    } else {
-      setState(() {
-        items = [];
-        items.addAll(truckDataList);
-        print("THE ITEMS $items");
-      });
     }
   }
 }
