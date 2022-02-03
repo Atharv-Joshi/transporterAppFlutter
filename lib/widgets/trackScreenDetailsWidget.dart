@@ -12,6 +12,8 @@ import 'package:liveasy/screens/truckAnalysisScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../screens/nearbyPlacesScreen.dart';
+
 class TrackScreenDetails extends StatefulWidget {
   final String? driverNum;
   final String? TruckNo;
@@ -504,17 +506,42 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                 )),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_5, space_1, space_8, space_1),
+                margin: EdgeInsets.fromLTRB(space_5, space_1, space_5, space_1),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button5",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.local_gas_station, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button5",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/gas_station.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "gas_station",
+                                placeOnTheMapName: "Petrol Pumps",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -529,25 +556,43 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: Image.asset(
-                          'assets/icons/truckAnalysis.png',
-                          scale: 2.5,
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        onPressed: () {
-                          Get.to(truckAnalysisScreen(
-                            gpsStoppageHistory: widget.gpsStoppageHistory,
-                          ));
-                        },
+                        child: FloatingActionButton(
+                          heroTag: "button7",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/police.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "police",
+                                placeOnTheMapName: "Police Stations",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Truck Analysis",
+                        "Police Station",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -556,18 +601,32 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.lock_outlined, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button7",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/truckAnalysis.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(truckAnalysisScreen(
+                              gpsStoppageHistory: widget.gpsStoppageHistory,
+                            ));
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Lock",
+                        "Truck Analysis",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
