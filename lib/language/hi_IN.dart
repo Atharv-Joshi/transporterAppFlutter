@@ -181,4 +181,7 @@ const Map<String, String> hiIN = {
   '7Days': '7 दिन',
   'whatsappShare': 'व्हाट्सएप पर शेयर करें',
   'setExpiry': 'लिंक की अवधि निर्धारित करे',
+
+  //searchMytrucks
+  'searchTrucks': 'ट्रक खोजें',
 };
