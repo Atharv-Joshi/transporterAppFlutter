@@ -642,6 +642,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
   getGPSData(var truckData, int i) async {
     gpsData = await mapUtil.getTraccarPosition(deviceId: truckData.deviceId);
+    print("gpsData here $gpsData");
+    print("truckData here ${truckData.deviceId}");
     getStoppedSince(gpsData, i);
 
     if (truckData.truckApproved == true &&

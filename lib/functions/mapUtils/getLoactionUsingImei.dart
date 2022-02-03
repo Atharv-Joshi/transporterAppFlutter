@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
@@ -8,6 +9,7 @@ import 'package:geocoding/geocoding.dart';
 
 String traccarUser = FlutterConfig.get("traccarUser");
 String traccarPass = FlutterConfig.get("traccarPass");
+String current_lang = LocalizationService().getCurrentLang();
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
   String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
@@ -46,6 +48,13 @@ class MapUtil {
           var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
+          if (current_lang == 'Hindi') {
+    newPlace =
+        await placemarkFromCoordinates(latn, lngn, localeIdentifier: "hi_IN");
+  } else {
+    newPlace =
+        await placemarkFromCoordinates(latn, lngn, localeIdentifier: "en_US");
+  }
           var first = newPlace.first;
           String? addressstring;
           if(first.subLocality == "")
@@ -76,7 +85,8 @@ class MapUtil {
     print("$traccarApi");
     print("$deviceId");
     try {
-      http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth});;
+      
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth, 'Accept': 'application/json'}, );
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -152,7 +162,7 @@ class MapUtil {
     print("TO : $to");
 
     try {
-      http.Response response = await http.get(Uri.parse("$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth});
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth,'Accept': 'application/json'});
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);

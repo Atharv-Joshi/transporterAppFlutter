@@ -118,7 +118,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
             gpsDataHistory =  await f;
             gpsStoppageHistory =  await s;
             gpsRoute =  await t;
-            
+            print("{$widget.truckData.truckApproved}");
+            print(gpsRoute);
+            print(gpsDataHistory);
+            print(gpsStoppageHistory);
             if (gpsRoute!= null && gpsDataHistory!= null && gpsStoppageHistory!= null && widget.truckData.truckApproved == true) {
               EasyLoading.dismiss();
               Get.to(
