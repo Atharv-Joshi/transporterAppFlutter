@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -38,7 +39,7 @@ class LoadCardHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Posted Date : ${loadDetails.loadDate}',
+                'postedon'.tr +': ${loadDetails.loadDate}',
                 style: TextStyle(fontSize: size_6, color: veryDarkGrey),
               ),
               Icon(Icons.arrow_forward_ios_sharp)
@@ -74,7 +75,7 @@ class LoadCardHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '${loadDetails.truckType} | ${loadDetails.noOfTyres} tyres',
+                '${loadDetails.truckType} | ${loadDetails.noOfTyres} ' +'tyres'.tr,
                 style:
                     TextStyle(fontSize: size_6, fontWeight: mediumBoldWeight),
               ),
@@ -94,7 +95,7 @@ class LoadCardHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '${loadDetails.productType} | ${loadDetails.weight} tons',
+                '${loadDetails.productType} | ${loadDetails.weight} ' +'tonne'.tr,
                 style:
                     TextStyle(fontSize: size_6, fontWeight: mediumBoldWeight),
               ),

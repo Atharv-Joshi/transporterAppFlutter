@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -44,7 +45,9 @@ class PriceTextFieldWidget extends StatelessWidget {
             FocusScope.of(context).unfocus();
             if (providerData.perTon != providerData.perTruck) {
               if (providerData.price == 0) {
-                providerData.updateHintText("enter price");
+                providerData.updateHintText('enterprice'.tr
+                    // "enter price"
+                );
                 providerData.updateBorderColor(red);
               } else {
                 providerData.updateHintText("0");
@@ -57,7 +60,9 @@ class PriceTextFieldWidget extends StatelessWidget {
               providerData.updateResetActive(false);
               providerData.updatePrice(0);
               if (providerData.price == 0 && (providerData.unitValue != providerData.unitValue1)) {
-                providerData.updateHintText("enter price");
+                providerData.updateHintText('enterprice'.tr
+                    // "enter price"
+                );
                 providerData.updateBorderColor(red);
               } else if(providerData.unitValue == providerData.unitValue1) {
                 providerData.updateHintText("0");

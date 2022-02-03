@@ -62,7 +62,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Posted on : ${loadDetailsScreenModel.loadDate}',
+                  'postedon'.tr +' : ${loadDetailsScreenModel.loadDate}',
                   style: TextStyle(
                       fontSize: size_6,
                       color: veryDarkGrey,

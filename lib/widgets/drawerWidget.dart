@@ -156,7 +156,7 @@ class DrawerWidget extends StatelessWidget {
                           image: 'assets/icons/gps.png'),
                     ),
                     SizedBox(
-                      height: space_5,
+                      height: space_2,
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: space_4),
@@ -178,22 +178,30 @@ class DrawerWidget extends StatelessWidget {
                     //             fontWeight: regularWeight)),
                     //   ),
                     // ),
-                    GestureDetector(
-                      onTap: () {
-                        String url = 'tel:8290748131';
-                        UrlLauncher.launch(url);
-                      },
-                      child: ListTile(
-                        title: Container(
-                          margin: EdgeInsets.only(left: space_4),
-                          child: Text('contact_us'.tr,
-                              // AppLocalizations.of(context)!.contact_us,
-                              style: TextStyle(
+                    ListTile(
+                      title: Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(right: 0),
+                        margin: EdgeInsets.only(left: space_3),
+                        child: TextButton(
+                            // AppLocalizations.of(context)!.contact_us,
+                            onPressed: () {
+                              String url = 'tel:8290748131';
+                              UrlLauncher.launch(url);
+                            },
+                          style: ButtonStyle(
+                            fixedSize: MaterialStateProperty.resolveWith((states) { Size.fromWidth(300);Size.fromHeight(600);}),
+                            maximumSize: MaterialStateProperty.resolveWith((states) { Size.fromWidth(300);Size.fromHeight(600);}),
+                            overlayColor: MaterialStateProperty.resolveWith((states) => Colors.transparent)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 120.0),
+                              child: Text('contact_us'.tr, style: TextStyle(
                                   color: darkBlueColor,
                                   fontSize: size_8,
                                   fontFamily: 'montserrat',
-                                  fontWeight: regularWeight)),
-                        ),
+                                  fontWeight: regularWeight),textAlign: TextAlign.left,),
+                            ),),
                       ),
                     ),
                     SizedBox(

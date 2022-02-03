@@ -12,6 +12,8 @@ import 'package:liveasy/screens/truckAnalysisScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../screens/nearbyPlacesScreen.dart';
+
 class TrackScreenDetails extends StatefulWidget {
   final String? driverNum;
   final String? TruckNo;
@@ -183,7 +185,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                   SizedBox(width: 10),
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    child: Text("Ignition ",
+                                    child: Text('ignition'.tr,
                                         softWrap: true,
                                         style: TextStyle(
                                             color: black,
@@ -196,7 +198,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                           alignment: Alignment.centerLeft,
                                           //    width: 217,
 
-                                          child: Text("ON",
+                                          child: Text('on'.tr,
                                               softWrap: true,
                                               style: TextStyle(
                                                   color: black,
@@ -208,7 +210,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                           alignment: Alignment.centerLeft,
                                           //    width: 217,
 
-                                          child: Text("OFF",
+                                          child: Text("off".tr,
                                               softWrap: true,
                                               style: TextStyle(
                                                   color: black,
@@ -243,7 +245,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text("Travelled ",
+                                              Text('truckTravelled'.tr,
                                                   softWrap: true,
                                                   style: TextStyle(
                                                       color: liveasyGreen,
@@ -252,7 +254,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                           FontStyle.normal,
                                                       fontWeight:
                                                           regularWeight)),
-                                              Text("${widget.totalDistance} km",
+                                              Text(
+                                                  "${widget.totalDistance} " +
+                                                      "km".tr,
                                                   softWrap: true,
                                                   style: TextStyle(
                                                       color: black,
@@ -312,7 +316,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                                   fontSize: size_6,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)),
-                                          Text("Stops",
+                                          Text("stops".tr,
                                               softWrap: true,
                                               style: TextStyle(
                                                   color: red,
@@ -353,19 +357,23 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       child: Column(
                         children: [
                           (widget.gpsData.last.speed > 2)
-                              ? Text("${(gpsData.last.speed).round()} km/h",
+                              ? Text(
+                                  "${(gpsData.last.speed).round()} " +
+                                      "km/h".tr,
                                   style: TextStyle(
                                       color: liveasyGreen,
                                       fontSize: size_10,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: regularWeight))
-                              : Text("${(gpsData.last.speed).round()} km/h",
+                              : Text(
+                                  "${(gpsData.last.speed).round()} " +
+                                      "km/h".tr,
                                   style: TextStyle(
                                       color: red,
                                       fontSize: size_10,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: regularWeight)),
-                          Text("Status",
+                          Text("status".tr,
                               style: TextStyle(
                                   color: black,
                                   fontSize: size_6,
@@ -405,7 +413,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Navigate",
+                        'navigate'.tr,
+                        // "Navigate",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -423,7 +432,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Share",
+                        'share'.tr,
+                        // "Share",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -455,7 +465,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Play Trip",
+                        "playtrip".tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -484,7 +494,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "History",
+                        "history".tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -496,17 +506,42 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                 )),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_5, space_1, space_8, space_1),
+                margin: EdgeInsets.fromLTRB(space_5, space_1, space_5, space_1),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button5",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.local_gas_station, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button5",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/gas_station.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "gas_station",
+                                placeOnTheMapName: "Petrol Pumps",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -521,25 +556,43 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: Image.asset(
-                          'assets/icons/truckAnalysis.png',
-                          scale: 2.5,
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        onPressed: () {
-                          Get.to(truckAnalysisScreen(
-                            gpsStoppageHistory: widget.gpsStoppageHistory,
-                          ));
-                        },
+                        child: FloatingActionButton(
+                          heroTag: "button7",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/police.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "police",
+                                placeOnTheMapName: "Police Stations",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Truck Analysis",
+                        "Police Station",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -548,18 +601,32 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.lock_outlined, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button7",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/truckAnalysis.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(truckAnalysisScreen(
+                              gpsStoppageHistory: widget.gpsStoppageHistory,
+                            ));
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Lock",
+                        "Truck Analysis",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,

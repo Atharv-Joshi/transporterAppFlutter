@@ -3,7 +3,7 @@ const Map<String, String> hiIN = {
   "selectLanguage": "भाषा का चयन करें।",
   "home": "होम",
   "my_truck": "मेरे ट्रक",
-  "my_loads": "मेरे लोड",
+  "my_loads": "मेरा माल",
   "order": "ऑर्डर",
   "account": "खाता",
   "my_account": "मेरा खाता",
@@ -17,7 +17,7 @@ const Map<String, String> hiIN = {
   "alert": "सूचना",
   "error": "भूल",
   "enterValid10DigitNumber": "मान्य 10 अंकों की संख्या दर्ज करें",
-  "buy_gps": "GPS खरीदें",
+  "buy_gps": "जीपीएस खरीदें",
   "about_us": "परिचय",
   "contact_us": "संपर्क करें",
   "logout": "लॉग आउट",
@@ -29,7 +29,7 @@ const Map<String, String> hiIN = {
   "locationDetails": "स्थिति जानकारी",
   "bookNow": "अभी बुक करें",
   "share": "शेयर करें",
-  "suggestedLoad": "सुझाव लोड",
+  "suggestedLoad": "सुझाव माल",
   "search": "खोजें",
   "seeAll": "सभी",
   "help": "मदद",
@@ -44,18 +44,18 @@ const Map<String, String> hiIN = {
   "uploadTruckDetails": "ट्रक विवरण अपलोड करें।",
   "selectADriver": "एक ड्राइवर का चयन करें",
   "driverNameNumber": " ड्राइवर का नाम-संख्या",
-  "save": "Save",
+  "save": "सेव",
   "passingWeigthInTons": " वजन (टन में)",
   "totalTyres": "कुल चक्के (आगे और पीछे)",
   "truckLength": "ट्रक की लंबाई (फीट में)",
   "addNewDriver": "नया ड्राइवर जोड़ें",
   "driverDetails": "ड्राइवर का विवरण",
-  "loads": "लोड",
-  "on_going": "चालू लोड",
-  "completed": "सम्पूर्ण लोड",
+  "loads": "माल",
+  "on_going": "चालू माल",
+  "completed": "सम्पूर्ण माल",
   "tonne": "टन",
   "tonnes": "टन",
-  "postLoad": "लोड जोड़ें",
+  "postLoad": "माल जोड़ें",
   "bookingDate": "बुकिंग दिनांक",
   "setDate": "तारीख सेट करे",
   "next": "आगे",
@@ -82,7 +82,7 @@ const Map<String, String> hiIN = {
   "congratulations": "बधाई हो!",
   "youHaveCompletedYourOrder": "आपने अपना आदेश/ऑर्डर पूरा कर लिया है।",
   "youHaveSuccessfullyUpdateYourOrder":
-      "आपने लोड को सफलतापूर्वक अपडेट कर दिया है।",
+      "आपने माल को सफलतापूर्वक अपडेट कर दिया है।",
   "bids": "बोली",
   "biddingDate": "बिडिंग दिनांक",
   "shipper": "उत्पादक",
@@ -124,9 +124,9 @@ const Map<String, String> hiIN = {
   "refer": "ग्राहक जोड़े और कमाए",
   "referUs": "लिवइज़ी में ग्राहक\nजोड़े और लाभ वाला\nखाता कमाएं",
   "gpsTitle":
-      "लिवइज़ी GPS की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
+      "लिवइज़ी जीपीएस की व्यवस्था\nआपको अपने वाहन का पता\nजानने की अनुमति देता है",
   "gpsTitleLong":
-      "लिवइज़ी GPS की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
+      "लिवइज़ी जीपीएस की व्यवस्था आपको अपने\nवाहन का पता जानने की अनुमति देता है",
   "bonus": "बोनस",
 
   //trucks
@@ -144,6 +144,22 @@ const Map<String, String> hiIN = {
   'ignition': "इग्निशन :",
   'on': "शुरु",
   'off': 'बंद',
+  'buyGPS': 'लाइव ट्रैकिंग एक्सेस करने के लिए जीपीएस खरीदें',
+  'timedate': 'समय दिनांक',
+  'km': 'किमी',
+  "stops": "जगहों पर रुका",
+  'km/h': 'किमी प्रति घंटे',
+  'navigate': 'नेविगेट',
+  'playtrip': 'यात्रा प्ले करे',
+  'history': 'हिस्टरी',
+  'submit': 'सबमिट',
+
+  //truck type
+  'openbody': 'ओपन बॉडी',
+  'flatbed': 'फ्लैटबेड',
+  'trailerbody': 'ट्रेलर बॉडी',
+  'standardcontainer': 'स्टैंडर्ड कंटेनर',
+  'highcontainer': 'हाई क्यूब कंटेनर',
 
   //loads
   "noLoadAdded": "आपके द्वारा कोई भी लोड नहीं जोड़ा गया है",
@@ -156,9 +172,13 @@ const Map<String, String> hiIN = {
   "tyres": "चक्के",
   "loadingPoint": "लादने का स्थान",
   "unLoadingPoint": "उतराई का स्थान",
-  "findLoad": "लोड ढूंढे",
+  "findLoad": "माल ढूंढे",
   'bidPrice': "बोली का रेट",
   'addDriver': 'ड्राइवर जोड़े',
+  'weights': 'वजन(टन)',
+  "chooseproductType": "माल का प्रकार चुनें",
+  'priceoptional': 'रेट(ऑप्शनल)',
+  'enterprice': 'रेट डाले',
 
   //my account
   'verified': "जांच समाप्त",
@@ -170,7 +190,19 @@ const Map<String, String> hiIN = {
 
   //logout
   'ok': "हां",
+  'ok1': 'ठीक है',
   'logoutDialog': 'क्या आप लॉगआउट करना चाहते हैं?',
+
+  //alert
+  'alertLine1': 'आप अगले अपडेट में इस सुविधा ',
+  'alertLine2': 'का उपयोग कर सकते हैं',
+
+  //posted on
+  'postedon': 'डाला गया',
+  'repost': 'पुनः पोस्ट करे',
+  'loadexpired': 'माल एक्स्पायर्ड',
+  'bookingtitle': 'अधिक कमाने के लिए\nलिवइज़ी का उपयोग\nकरके बुकिंग जारी रखें',
+  'enterproduct': 'माल का',
 
   //shareDialog
   'linkExpired': 'लिंक की अवधि समाप्त',

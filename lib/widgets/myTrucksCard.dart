@@ -60,7 +60,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
   @override
   void initState() {
     super.initState();
-    print("TRUCKCARDINIT");
     if (widget.truckData.deviceId != 0 &&
         widget.truckData.truckApproved == true) {
       print("For ${widget.truckData.deviceId}");
@@ -412,7 +411,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                       ),
                                     ),
                                     Text(
-                                      'time date ',
+                                      "timedate".tr,
+                                      // 'time date ',
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: black,
@@ -438,7 +438,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    'Buy GPS to access live tracking',
+                                    'buyGPS'.tr,
+                                    // 'Buy GPS to access live tracking',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: const Color(0xFF152968),
