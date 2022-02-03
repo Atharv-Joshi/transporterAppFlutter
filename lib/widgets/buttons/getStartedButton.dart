@@ -13,7 +13,8 @@ import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.
 
 class GetStartedButton extends StatefulWidget {
   Function? onTapNext;
- GetStartedButton({Key? key,  required this.onTapNext}) : super(key: key);
+
+  GetStartedButton({Key? key, required this.onTapNext}) : super(key: key);
 
   @override
   _GetStartedButtonState createState() => _GetStartedButtonState();
@@ -22,24 +23,44 @@ class GetStartedButton extends StatefulWidget {
 class _GetStartedButtonState extends State<GetStartedButton> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        widget.onTapNext!();
-      },
-      child: Container(
-        height: space_8,
-        decoration: BoxDecoration(
+    return FlatButton(
+        highlightColor: Colors.transparent,
+        onPressed: () {
+          widget.onTapNext!();
+        },
+        child: Container(
+          height: space_8,
+          decoration: BoxDecoration(
             color: darkBlueColor,
-            borderRadius: BorderRadius.circular(radius_6)),
-        child: Center(
-          child: Text(
-            'getStarted'.tr,
-            // "Get Started",
-            style: TextStyle(
-                color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
+            borderRadius: BorderRadius.circular(radius_6),
           ),
-        ),
-      ),
-    );
+          child: Center(
+            child: Text(
+              'getStarted'.tr,
+              // "Get Started",
+              style: TextStyle(
+                  color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
+            ),
+          ),
+        ));
+    //   GestureDetector(
+    //   onTap: (){
+    //     widget.onTapNext!();
+    //   },
+    //   child: Container(
+    //     height: space_8,
+    //     decoration: BoxDecoration(
+    //         color: darkBlueColor,
+    //         borderRadius: BorderRadius.circular(radius_6)),
+    //     child: Center(
+    //       child: Text(
+    //         'getStarted'.tr,
+    //         // "Get Started",
+    //         style: TextStyle(
+    //             color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

@@ -1,24 +1,53 @@
+import 'package:get/get.dart';
+
 class TruckFilterVariablesForPostLoad {
   List truckTypeTextList = [
-    'Open Body',
-    'Flatbed',
-    'Trailer Dala Body',
-    'Standard Container',
-    'High Cube Container'
+    // 'Open Body',
+    'openbody'.tr,
+    // 'Flatbed',
+    'flatbed'.tr,
+    // 'Trailer Dala Body',
+    'trailerbody'.tr,
+    // 'Standard Container',
+    'standardcontainer'.tr,
+    // 'High Cube Container'
+    'highcontainer'.tr
   ];
 
   List truckTypeValueList = [
-    'OPEN_HALF_BODY',
+    // 'OPEN_HALF_BODY',
+    'OPEN_BODY',
     'FLATBED',
-    'HALF_BODY_TRAILER',
+    // 'HALF_BODY_TRAILER',
+    'TRAILER_BODY',
     'STANDARD_CONTAINER',
     'HIGH_CUBE_CONTAINER'
   ];
 
   Map<String, List<int>> passingWeightList = {
-    'OPEN_HALF_BODY': [7, 8, 9, 15, 16, 18, 19, 20, 21, 24, 25, 30, 0],
+    // 'OPEN_HALF_BODY': [7, 8, 9, 15, 16, 18, 19, 20, 21, 24, 25, 30, 0],
+    'OPEN_BODY': [7, 8, 9, 15, 16, 18, 19, 20, 21, 24, 25, 30,0],
     'FLATBED': [16, 21, 24, 30, 32, 33, 34, 40, 0],
-    'HALF_BODY_TRAILER': [
+    // 'HALF_BODY_TRAILER': [
+    //   27,
+    //   28,
+    //   29,
+    //   30,
+    //   31,
+    //   32,
+    //   33,
+    //   34,
+    //   35,
+    //   36,
+    //   37,
+    //   38,
+    //   39,
+    //   40,
+    //   41,
+    //   42,
+    //   0
+    // ],
+    'TRAILER_BODY': [
       27,
       28,
       29,
@@ -34,19 +63,20 @@ class TruckFilterVariablesForPostLoad {
       39,
       40,
       41,
-      42,
-      0
+      42,0
     ],
     'STANDARD_CONTAINER': [6, 7, 9, 15, 18, 0],
     'HIGH_CUBE_CONTAINER': [6, 7, 9, 15, 18, 0],
   };
 
   Map<String, List<int>> totalTyresList = {
-    'OPEN_HALF_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22, 0],
-    'FLATBED': [6, 8, 10, 12, 14, 16, 18, 20, 22, 0],
-    'HALF_BODY_TRAILER': [6, 8, 10, 12, 14, 16, 18, 20, 22, 0],
-    'STANDARD_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22, 0],
-    'HIGH_CUBE_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22, 0],
+    // 'OPEN_HALF_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    'OPEN_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    'FLATBED': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    // 'HALF_BODY_TRAILER': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    'TRAILER_BODY': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    'STANDARD_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
+    'HIGH_CUBE_CONTAINER': [6, 8, 10, 12, 14, 16, 18, 20, 22,],
   };
 
   Map<String, List<int>> truckLengthList = {

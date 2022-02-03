@@ -42,7 +42,8 @@ class BonusWidget extends StatelessWidget {
                   height: space_2,
                 ),
                 Text(
-                  "Keep booking\nusing Liveasy to\nearn more",
+                  'bookingtitle'.tr,
+                  // "Keep booking\nusing Liveasy to\nearn more",
                   style: TextStyle(fontSize: size_6, color: white),
                 ),
               ],
