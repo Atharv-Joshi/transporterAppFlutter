@@ -386,44 +386,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 )
       
       
-                    :   Container(
-                      padding: EdgeInsets.all(space_3),
-                      decoration: BoxDecoration(
-                    color: const Color(0xFFF7F8FA),
-            ),
-                      child: Column(
-                  children: [
-                      Row(
-                        children: [
-                          Image.asset('assets/icons/box-truck.png',
-                          width: 29,
-                          height: 29,
-                          ),
-                          SizedBox(
-                            width: 13,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                '${widget.truckData.truckNo}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: black,
-                                  
-                                  ),
-                              ),
-                           /*   Text(
-                                "timedate".tr,
-                                // 'time date ',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: black,
-                                  ),
-      
-                              ),*/
-                          ],
-                        ),
-                      )
+                   
                     : Container(
                         padding: EdgeInsets.all(space_3),
                         decoration: BoxDecoration(
@@ -450,14 +413,14 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         color: black,
                                       ),
                                     ),
-                                    Text(
+                                /*    Text(
                                       "timedate".tr,
                                       // 'time date ',
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: black,
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                                 SizedBox(
@@ -639,9 +602,12 @@ class _MyTruckCardState extends State<MyTruckCard> {
               ],
             ),
           ),
-        ),
+              ]),
       ),
+    )
+      )
     );
+  
   }
 
   initfunction() async {

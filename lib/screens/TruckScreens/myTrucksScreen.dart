@@ -342,89 +342,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                               height: 127,
                                               width: 127,
                                             ),
-                                            Text(
-                                              'notruckadded'.tr,
-                                              // 'Looks like you have not added any Trucks!',
-                                              style: TextStyle(
-                                                  fontSize: size_8,
-                                                  color: grey),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : RefreshIndicator(
-                                        color: lightNavyBlue,
-                                        onRefresh: () {
-                                          setState(() {
-                                            runningList.clear();
-                                            runningAddressList.clear();
-                                            runningGpsData.clear();
-                                            runningStatus.clear();
-                                            truckAddressList.clear();
-                                            gpsDataList.clear();
-                                            status.clear();
-                                            StoppedStatus.clear();
-                                            StoppedAddressList.clear();
-                                            StoppedGpsData.clear();
-                                            StoppedList.clear();
-                                            loading = true;
-                                          });
-                                          return refreshData(i);
-                                        },
-                                        child: ListView.builder(
-                                            physics: BouncingScrollPhysics(),
-                                            controller: scrollController,
-                                            scrollDirection: Axis.vertical,
-                                            padding: EdgeInsets.only(
-                                                bottom: space_15),
-                                            itemCount: truckDataList.length,
-                                            itemBuilder: (context, index) =>
-                                                index == truckDataList.length
-                                                    ? bottomProgressBarIndicatorWidget()
-                                                    : MyTruckCard(
-                                                        truckData:
-                                                            truckDataList[
-                                                                index],
-                                                        truckAddress:
-                                                            truckAddressList[
-                                                                index],
-                                                        status: status[index],
-                                                        gpsData:
-                                                            gpsDataList[index],
-                                                        // truckId: .truckId,
-                                                        // truckApproved:
-                                                        //     truckDataList[index].truckApproved,
-                                                        // truckNo: truckDataList[index].truckNo,
-                                                        // truckType: truckDataList[index].truckType,
-                                                        // tyres: truckDataList[index].tyresString,
-                                                        // driverName: truckDataList[index].driverName,
-                                                        // phoneNum: truckDataList[index].driverNum,
-                                                        // imei: truckDataList[index].imei,
-                                                      )),
-                                      ),
-                          ],
-                        ),
-                        Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            loading
-                                ? TruckLoadingWidgets()
-                                : runningList.isEmpty
-                                    ? Container(
-                                        // height: MediaQuery.of(context).size.height * 0.27,
-                                        margin: EdgeInsets.only(top: 153),
-                                        child: Column(
-                                          children: [
-                                            Image(
-                                              image: AssetImage(
-                                                  'assets/images/TruckListEmptyImage.png'),
-                                              height: 127,
-                                              width: 127,
-                                            ),
                                             SizedBox(height: 20),
                                             Text(
-                                              'notruckrunning'.tr,
+                                              'notruckadded'.tr,
                                               // 'Looks like none of your trucks are running!',
                                               style: TextStyle(
                                                   fontSize: size_8,
@@ -505,7 +425,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                             ),
                                             SizedBox(height: 20),
                                             Text(
-                                              'notruckrunnning'.tr,
+                                              'notruckrunning'.tr,
                                               // 'Looks like none of your trucks are running!',
                                               style: TextStyle(
                                                   fontSize: size_8,
