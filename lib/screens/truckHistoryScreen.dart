@@ -14,6 +14,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:liveasy/widgets/historyScreenMapWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/truckHistoryStatus.dart';
 
@@ -22,16 +23,23 @@ class TruckHistoryScreen extends StatefulWidget {
   String? truckNo;
   String? dateRange;
   int? deviceId;
+  var istDate1;
+  var istDate2;
+  // var gpsDataHistory;
+  String? selectedLocation;
 //  double latitude;
- // double longitude;
+  // double longitude;
   TruckHistoryScreen({
-      required this.gpsTruckRoute,
-      required this.truckNo,
-      required this.dateRange,
-      required this.deviceId,
- //     required this.latitude,
-  //    required this.longitude,
-
+    required this.gpsTruckRoute,
+    required this.truckNo,
+    required this.dateRange,
+    required this.deviceId,
+    //    required this.gpsDataHistory,
+    required this.selectedLocation,
+    required this.istDate1,
+    required this.istDate2,
+    //     required this.latitude,
+    //    required this.longitude,
   });
 
   @override
@@ -44,32 +52,57 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   MapUtil mapUtil = MapUtil();
   DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   var gpsRoute = [];
-  bool loading = false;
+  bool loading = true;
+  bool showBottomMenu = false;
   String? dateRange;
+  var threshold = 100;
+  var istDate1;
+  var istDate2;
+  var gpsHistory;
+  ScrollController scrollController = ScrollController();
   var selectedDateString = [];
-  
+  List<String> _locations = [
+    '24 hours',
+    '48 hours',
+    '7 days',
+    '14 days',
+    '30 days'
+  ];
+  String? _selectedLocation;
   DateTimeRange selectedDate = DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 1)),
-      end: DateTime.now()
-  );
+      start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
   var totalDistance;
   var gpsPosition;
   @override
   void initState() {
-
     super.initState();
-
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..maskColor = darkBlueColor
+      ..userInteractions = false
+      ..backgroundColor = darkBlueColor
+      ..dismissOnTap = false;
+    EasyLoading.show(
+      status: "Loading...",
+    );
     setState(() {
+      print("istdate1 here ${widget.istDate1}");
       gpsRoute = widget.gpsTruckRoute;
       dateRange = widget.dateRange;
       loading = true;
+      istDate1 = widget.istDate1;
+      istDate2 = widget.istDate2;
+      //  gpsHistory = widget.gpsDataHistory;
+      _selectedLocation = widget.selectedLocation;
     });
     getDateRange();
-    
+    getgpsDataHistory();
     // getStopList();
   }
 
-  getDateRange(){
+  getDateRange() {
     print("Date Range $dateRange");
     var now = dateFormat.format(DateTime.now()).split(" ");
     var timestamp = now[1].replaceAll(":", "");
@@ -80,13 +113,15 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     var splitted = dateRange!.split(" - ");
     var start1 = getFormattedDateForDisplay2(splitted[0]).split(", ");
     var end1 = getFormattedDateForDisplay2(splitted[1]).split(", ");
-    if(start1[1]=="12:00 AM") {
+    if (start1[1] == "12:00 AM") {
       start1[1] = ampm;
       end1[1] = ampm;
     }
     setState(() {
-      startTime = "${start1[0]}, ${start1[1]}";
-      endTime = "${end1[0]}, ${end1[1]}";
+      startTime = "${start1[0]}";
+      endTime = "${end1[0]}";
+      //   startTime = "${start1[0]}, ${start1[1]}";
+      //   endTime = "${end1[0]}, ${end1[1]}";
     });
   }
 
@@ -100,57 +135,52 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
             DateTime.now().month,
             DateTime.now().day - 1,
             DateTime.now().hour,
-        DateTime.now().minute,
+            DateTime.now().minute,
           ),
-          end: DateTime(DateTime.now().year, DateTime.now().month,
-              DateTime.now().day, DateTime.now().hour,
-        DateTime.now().minute,)
-      ),
+          end: DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            DateTime.now().hour,
+            DateTime.now().minute,
+          )),
       firstDate: DateTime(
         DateTime.now().year,
         DateTime.now().month,
-        DateTime.now().day - 5,
+        DateTime.now().day - 30,
         DateTime.now().hour,
         DateTime.now().minute,
       ),
       lastDate: DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, DateTime.now().hour,DateTime.now().minute ),
+          DateTime.now().day, DateTime.now().hour, DateTime.now().minute),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: darkBlueColor,
-            scaffoldBackgroundColor: white,
-        
-            accentColor: darkBlueColor,
-            unselectedWidgetColor: grey,
-        
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              //Selected dates background color
-              primary: darkBlueColor,
-              onSecondary: darkBlueColor,
-              //Month title and week days color
-              onSurface: Colors.black,
-              //Header elements and selected dates text color
-              // onPrimary: Colors.black,
-              onBackground: white
+            data: ThemeData.light().copyWith(
+              primaryColor: darkBlueColor,
+              scaffoldBackgroundColor: white,
+              accentColor: darkBlueColor,
+              unselectedWidgetColor: grey,
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                  //Selected dates background color
+                  primary: darkBlueColor,
+                  onSecondary: darkBlueColor,
+                  //Month title and week days color
+                  onSurface: Colors.black,
+                  //Header elements and selected dates text color
+                  // onPrimary: Colors.black,
+                  onBackground: const Color.fromRGBO(58, 57, 57, 0.16)),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
-            buttonTheme: ButtonThemeData(
-                textTheme: ButtonTextTheme.primary
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-            height: MediaQuery.of(context).size.height- 200,
-            alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(space_6, space_15, space_6, space_20),
-              child: child! ,
-              
-                    ),
-          )
-          
-          );
-        
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                height: MediaQuery.of(context).size.height - 200,
+                alignment: Alignment.center,
+                margin:
+                    EdgeInsets.fromLTRB(space_6, space_15, space_6, space_20),
+                child: child!,
+              ),
+            ));
       },
     );
 
@@ -161,9 +191,22 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         selectedDate = picked;
         print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
-        istDate1 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[0]).subtract(Duration(hours: 5, minutes: 30)).add(Duration(hours: DateTime.now().hour,minutes: DateTime.now().minute),);
-        istDate2 =  new DateFormat("yyyy-MM-dd hh:mm:ss").parse(selectedDateString[1]).subtract(Duration(hours: 5, minutes: 30)).add(Duration(hours: DateTime.now().hour,minutes: DateTime.now().minute),);
-        print("selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
+        istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
+            .parse(selectedDateString[0])
+            .subtract(Duration(hours: 5, minutes: 30))
+            .add(
+              Duration(
+                  hours: DateTime.now().hour, minutes: DateTime.now().minute),
+            );
+        istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
+            .parse(selectedDateString[1])
+            .subtract(Duration(hours: 5, minutes: 30))
+            .add(
+              Duration(
+                  hours: DateTime.now().hour, minutes: DateTime.now().minute),
+            );
+        print(
+            "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
       EasyLoading.instance
         ..indicatorType = EasyLoadingIndicatorType.ring
@@ -177,56 +220,292 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         status: "Loading...",
       );
       //get NEW ROUTE HISTORY using SELECTED DATE
-      var newRouteHistory = await getRouteStatusList(widget.deviceId, istDate1.toIso8601String(), istDate2.toIso8601String());
+      var newRouteHistory = await getRouteStatusList(widget.deviceId,
+          istDate1.toIso8601String(), istDate2.toIso8601String());
       print("AFter ${newRouteHistory.length}");
-      int i=0;
+      newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+      /*     int i=0;
       var start;
       var end;
       var duration;
-      while(i<newRouteHistory.length){
-        if(i==0) {
-          DateTime yesterday = istDate1;
-          start = getISOtoIST(istDate1.toIso8601String());
-          end = getISOtoIST(newRouteHistory[i].startTime);
-          duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
-          newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-        } else {
-          start = getISOtoIST(newRouteHistory[i - 1].endTime);
-          end = getISOtoIST(newRouteHistory[i].startTime);
-          duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
-          newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-        }
-        i = i+2;
+      int length = newRouteHistory.length;
+      DateTime now = istDate2;
+      DateTime yesterday = istDate1;
+      if(length > 0)
+  {
+      var latitude = newRouteHistory[length -1].endLat;
+  var longitude = newRouteHistory[length -1].endLon;
+  bool la = false;
+  var lastStop = newRouteHistory[length -1].endTime;
+  DateTime nowDateFormat=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
+      DateTime lastStopDateFormat =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[length -1].endTime);
+  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
+  {
+    la = true;
+  }    
+  print("GpsRoute Length ${length}");
+  while(i<newRouteHistory.length){
+    print("i $i");
+    if(i==0) {
+      DateTime st=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(yesterday.toIso8601String());
+      DateTime en =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[i].startTime);
+      print("from : $st and to : $en");
+
+      var diff = en.difference(st).inMinutes;
+      if(diff <=0)
+      {
+        i++;
+        start = getISOtoIST(newRouteHistory[i-1].endTime);
+        end = getISOtoIST(newRouteHistory[i].startTime);
+        duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
       }
-      print("With Stops $newRouteHistory");
-      if (newRouteHistory!= null) {
+          
+      else{
+        start = getISOtoIST(yesterday.toIso8601String());
+        
+      end = getISOtoIST(newRouteHistory[i].startTime);
+      
+      duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
+      }
+      
+      print("kk $duration");
+      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
+    } 
+    
+    else {
+      start = getISOtoIST(newRouteHistory[i - 1].endTime);
+      end = getISOtoIST(newRouteHistory[i].startTime);
+      duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
+      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
+    }
+    i = i+2;
+  }
+  
+  if(la)
+  {
+    start = getISOtoIST(lastStop);
+    end = getISOtoIST(now.toIso8601String());
+    duration = getStopDuration(lastStop, now.toIso8601String());
+    newRouteHistory.insert(newRouteHistory.length, ["stopped", start, end, duration,latitude,longitude]);
+  }
+  print("With Stops $newRouteHistory");
+ // gpsHistory = await getDataHistory(widget.deviceId, istDate1.toIso8601String(),  istDate2.toIso8601String());
+  }*/
+
+      if (newRouteHistory != null) {
         setState(() {
-        gpsRoute = newRouteHistory;
-        dateRange = selectedDate.toString();
-      });
+          gpsRoute = newRouteHistory;
+
+          dateRange = selectedDate.toString();
+        });
         Get.back();
         EasyLoading.dismiss();
         // getDateRange();
-        Get.to(TruckHistoryScreen(
-          truckNo: widget.truckNo,
-          gpsTruckRoute: gpsRoute,
-          dateRange: dateRange,
-          deviceId: widget.deviceId,
-      //    latitude: widget.latitude,
-      //    longitude: widget.longitude
-        ));
-      }
-      else{
+        Get.to(() => TruckHistoryScreen(
+              truckNo: widget.truckNo,
+              gpsTruckRoute: gpsRoute,
+              dateRange: dateRange,
+              deviceId: widget.deviceId,
+              istDate1: istDate1,
+              istDate2: istDate2,
+              //   gpsDataHistory: gpsHistory,
+              selectedLocation: widget.selectedLocation,
+              //    latitude: widget.latitude,
+              //    longitude: widget.longitude
+            ));
+      } else {
         EasyLoading.dismiss();
         showDialog(
-            context: context,
-            builder: (context) => InvalidDateCondition());
+            context: context, builder: (context) => InvalidDateCondition());
         print("gps route null");
       }
     }
   }
 
-  Widget status(int index){
+  customSelection(String? choice) async {
+    String startTime = DateTime.now().subtract(Duration(days: 1)).toString();
+    String endTime = DateTime.now().toString();
+    switch (choice) {
+      case '24 hours':
+        print("24");
+        setState(() {
+          endTime = DateTime.now().toString();
+          startTime = DateTime.now().subtract(Duration(days: 1)).toString();
+          print("NEW start $startTime and $endTime");
+        });
+        break;
+      case '48 hours':
+        print("48");
+        setState(() {
+          endTime = DateTime.now().toString();
+          startTime = DateTime.now().subtract(Duration(days: 2)).toString();
+          print("NEW start $startTime and $endTime");
+        });
+        break;
+      case '7 days':
+        print("7");
+        setState(() {
+          endTime = DateTime.now().toString();
+          startTime = DateTime.now().subtract(Duration(days: 7)).toString();
+          print("NEW start $startTime and $endTime");
+        });
+        break;
+      case '14 days':
+        print("14");
+        setState(() {
+          endTime = DateTime.now().toString();
+          startTime = DateTime.now().subtract(Duration(days: 14)).toString();
+          print("NEW start $startTime and $endTime");
+        });
+        break;
+      case '30 days':
+        print("30");
+        setState(() {
+          endTime = DateTime.now().toString();
+          startTime = DateTime.now().subtract(Duration(days: 30)).toString();
+          print("NEW start $startTime and $endTime");
+        });
+        break;
+    }
+    var istDate1;
+    var istDate2;
+
+    setState(() {
+      // bookingDateList[3] = (nextDay.MMMEd);
+      istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
+          .parse(startTime)
+          .subtract(Duration(hours: 5, minutes: 30));
+      istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
+          .parse(endTime)
+          .subtract(Duration(hours: 5, minutes: 30));
+      print(
+          "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
+    });
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..maskColor = darkBlueColor
+      ..userInteractions = false
+      ..backgroundColor = darkBlueColor
+      ..dismissOnTap = false;
+    EasyLoading.show(
+      status: "Loading...",
+    );
+
+    //Run all APIs using new Date Range
+    var newRouteHistory = await getRouteStatusList(widget.deviceId,
+        istDate1.toIso8601String(), istDate2.toIso8601String());
+
+    newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+    /*  int i=0;
+  var start;
+  var end;
+  var duration;
+  int length = newRouteHistory.length;
+  
+  DateTime yesterday = istDate1;
+  DateTime now = istDate2;
+  if(length > 0)
+  {
+      var latitude = newRouteHistory[length -1].endLat;
+  var longitude = newRouteHistory[length -1].endLon;
+  bool la = false;
+  var lastStop = newRouteHistory[length -1].endTime;
+  DateTime nowDateFormat=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
+      DateTime lastStopDateFormat =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[length -1].endTime);
+  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
+  {
+    la = true;
+  }    
+  print("GpsRoute Length ${length}");
+  while(i<newRouteHistory.length){
+    print("i $i");
+    if(i==0) {
+      DateTime st=
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(yesterday.toIso8601String());
+      DateTime en =
+      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[i].startTime);
+      print("from : $st and to : $en");
+
+      var diff = en.difference(st).inMinutes;
+      if(diff <=0)
+      {
+        i++;
+        start = getISOtoIST(newRouteHistory[i-1].endTime);
+        end = getISOtoIST(newRouteHistory[i].startTime);
+        duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
+      }
+          
+      else{
+        start = getISOtoIST(yesterday.toIso8601String());
+        
+      end = getISOtoIST(newRouteHistory[i].startTime);
+      
+      duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
+      }
+      
+      print("kk $duration");
+      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
+    } 
+    
+    else {
+      start = getISOtoIST(newRouteHistory[i - 1].endTime);
+      end = getISOtoIST(newRouteHistory[i].startTime);
+      duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
+      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
+    }
+    i = i+2;
+  }
+  
+  if(la)
+  {
+    start = getISOtoIST(lastStop);
+    end = getISOtoIST(now.toIso8601String());
+    duration = getStopDuration(lastStop, now.toIso8601String());
+    newRouteHistory.insert(newRouteHistory.length, ["stopped", start, end, duration,latitude,longitude]);
+  }
+  print("With Stops $newRouteHistory");
+  }*/
+    //   gpsHistory = await getDataHistory(widget.deviceId, istDate1.toIso8601String(),  istDate2.toIso8601String());
+    if (newRouteHistory != null) {
+      setState(() {
+        gpsRoute = newRouteHistory;
+        //   dateRange = selectedDate.toString();
+
+        // fromDate = yesterday.toString();
+        // toDate = today.toString();
+      });
+      // getLatLngList();
+      Get.back();
+      EasyLoading.dismiss();
+      Get.to(() => TruckHistoryScreen(
+            truckNo: widget.truckNo,
+            gpsTruckRoute: gpsRoute,
+            dateRange: dateRange,
+            deviceId: widget.deviceId,
+            istDate1: istDate1,
+            istDate2: istDate2,
+            //   gpsDataHistory: gpsHistory,
+            selectedLocation: _selectedLocation,
+            //    latitude: widget.latitude,
+            //    longitude: widget.longitude
+          ));
+    } else {
+      EasyLoading.dismiss();
+      showDialog(
+          context: context, builder: (context) => InvalidDateCondition());
+      print("gps route null");
+    }
+  }
+
+  Widget status(int index) {
     return TruckStatus(
       truckHistory: gpsRoute[index],
       deviceId: widget.deviceId,
@@ -239,183 +518,379 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   }
 
   @override
-   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: backgroundColor,
-        body: SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.fromLTRB(0, space_10, 0, 0),
+  Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: GestureDetector(
+              onTap: () {
+                setState(() {
+                  showBottomMenu = !showBottomMenu;
+                });
+              },
+              onPanEnd: (details) {
+                if (details.velocity.pixelsPerSecond.dy > threshold) {
+                  this.setState(() {
+                    showBottomMenu = false;
+                  });
+                } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
+                  this.setState(() {
+                    showBottomMenu = true;
+                  });
+                }
+              },
+              child: Container(
+                //  padding: EdgeInsets.fromLTRB(0, space_10, 0, 0),
                 height: MediaQuery.of(context).size.height,
-              //  color: backgroundColor,
-                child: Column(
-                    children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(space_3, 0, 0, space_3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // SizedBox(
-                        //   width: space_3,
-                        // ),
-                        Header(
-                            reset: false,
-                            text: "${widget.truckNo}",
-                            backButton: true),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: black,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text(
-                            "From:  ",
-                            style: TextStyle(
-                                color: black,
-                                fontSize: size_7,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: mediumBoldWeight),
-                          ),
-                          Row(
-                            children:[
-                              Container(
-                                width: 137,
-                                
-                                decoration: BoxDecoration(
-                                  color: white,
-                                  border:  Border.all(
-                                    color: const Color(0xFF404040),
-                                    width: 0.5,
-                                  ),
-
-                                  ),
-                                
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(9,5,0,5),
-                                  child: Text(
-                                  "$startTime",
-                                  style: TextStyle(
-                                      color: const Color(0xFF646464),
-                                      fontSize: size_7,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: boldWeight),
-                            ),
-                                ),
-                              ),
-                            SizedBox(
-                              width:9,
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                               _selectDate(context);
-                              },
-                              child: Icon(Icons.calendar_today_outlined,
-                              size: 16,
-                              ),
-                            )
-                            ] 
-                          ),
-                        ]),
-                        SizedBox(
-                          height: space_2,
+                //  color: backgroundColor,
+                child: Stack(children: <Widget>[
+                  (loading)
+                      ? Container()
+                      : HistoryScreenMapWidget(
+                          //    driverName: widget.driverName,
+                          // truckDate: truckDate,
+                          routeHistory: gpsRoute,
+                          gpsHistory: gpsHistory,
+                          truckNo: widget.truckNo,
+                          deviceId: widget.deviceId,
+                          selectedlocation: widget.selectedLocation,
+                          //     driverNum: widget.driverNum,
+                          //   gpsData: newGPSData,
+                          // dateRange: selectedDate.toString(),
+                          //       TruckNo: widget.TruckNo,
+                          //     gpsTruckRoute: newGPSRoute,
+                          //   gpsDataHistory: gpsDataHistory,
+                          //   gpsStoppageHistory: gpsStoppageHistory,
+                          //  stops: stoplatlong,
+                          // totalRunningTime: totalRunningTime,
+                          // totalStoppedTime: totalStoppedTime,
+                          // truckId: widget.truckId,
+                          // deviceId: widget.deviceId,
+                          // totalDistance: totalDistance,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Text(
-                            "To: ",
-                            style: TextStyle(
-                                color: black,
-                                fontSize: size_7,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: mediumBoldWeight),
+                  Positioned(
+                    top: 0,
+                    height: space_13,
+                    child: Container(
+                      color: backgroundColor,
+                      width: MediaQuery.of(context).size.width,
+                      height: space_13,
+                      child: Column(children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              space_3, space_4, 0, space_1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              // SizedBox(
+                              //   width: space_3,
+                              // ),
+                              Header(
+                                  reset: false,
+                                  text: "${widget.truckNo}",
+                                  backButton: true),
+                            ],
                           ),
-                          SizedBox(
-                            width: space_6,
-                          ),
-                          Row(
-                            children:[
-                              Container(
-                                width: 137,
-                                
-                                decoration: BoxDecoration(
-                                  color: white,
-                                  border:  Border.all(
-                                    color: const Color(0xFF404040),
-                                    width: 0.5,
-                                  ),
-
-                                  ),
-                                
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(9,5,0,5),
-                                  child: Text(
-                                  "$endTime",
-                                  style: TextStyle(
-                                      color: const Color(0xFF646464),
-                                      fontSize: size_7,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: boldWeight),
-                            ),
-                                ),
-                              ),
-                              SizedBox(
-                              width:9,
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                _selectDate(context);
-                              },
-                              child: Icon(Icons.calendar_today_outlined,
-                              size: 16,
-                              ),
-                            )
-                            ] 
-                          ),
-                        
-                          
-                        ])
-                      ],
+                        ),
+                        /*    Divider(
+                                                color: black,
+                                                indent: 20,
+                                                endIndent: 20,
+                                              ),*/
+                        /* Divider(
+                                                 color: black,
+                                                 indent: 20,
+                                                 endIndent: 20,
+                                               ),*/
+                      ]),
                     ),
                   ),
-                   Divider(
-                     color: black,
-                     indent: 20,
-                     endIndent: 20,
-                   ),
-                  
-                  Expanded(
-                     child: Container(
-                     width: MediaQuery.of(context).size.width,
-                     color: backgroundColor,
-                     alignment: Alignment.bottomCenter,
-                     child :
-                       // loading
-                       //   ? TruckLoadingWidgets()
-                        ListView.builder(
-                       //    padding: EdgeInsets.only(bottom: space_15),
-                           itemCount: gpsRoute.length,
-                           itemBuilder: (context, index) {
-                         return status(index);
-                           }
-                                                 )
-                     // ]
-                     )
+
+                  /*   Container(
+                      height: 20,
+                    ),
+                      */
+                  AnimatedPositioned(
+                    curve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 200),
+                    left: 0,
+                    bottom: (showBottomMenu) ? 0 : -(height) * 2 / 3 + 125,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: height - 105,
+                      decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: darkShadow,
+                              offset: const Offset(
+                                0,
+                                -5.0,
+                              ),
+                              blurRadius: 15.0,
+                              spreadRadius: 10.0,
+                            ),
+                            BoxShadow(
+                              color: white,
+                              offset: const Offset(0, 1.0),
+                              blurRadius: 0.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ]),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Divider(
+                              color: const Color(0xFFCBCBCB),
+                              // height: size_3,
+                              thickness: 3,
+                              indent: 150,
+                              endIndent: 150,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                  space_7, space_4, 0, space_1),
+                              child: Text(
+                                'Select Dates',
+                                style: TextStyle(
+                                  fontSize: size_7,
+                                  color: black,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  space_7, space_1, 0, space_2),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width /
+                                            4 +
+                                        40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffDFE3EF),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6)),
+                                    ),
+                                    child: Row(children: [
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                const EdgeInsets.fromLTRB(
+                                                    9, 5, 0, 0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4,
+                                              child: Text(
+                                                "From:  ",
+                                                style: TextStyle(
+                                                    color: const Color(
+                                                        0xff545454),
+                                                    fontSize: size_5,
+                                                    fontStyle:
+                                                        FontStyle.normal,
+                                                    fontWeight:
+                                                        mediumBoldWeight),
+                                              ),
+                                            ),
+                                            Row(children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+
+                                                /*   decoration: BoxDecoration(
+                                                       //     color: white,
+                                                            border:  Border.all(
+                                                              color: const Color(0xFF404040),
+                                                              width: 0.5,
+                                                            ),
+                                                                  
+                                                            ),*/
+
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .fromLTRB(9, 2, 0, 5),
+                                                  child: Text(
+                                                    "$startTime",
+                                                    style: TextStyle(
+                                                        color: const Color(
+                                                            0xff152968),
+                                                        fontSize: size_7,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                              /*   SizedBox(
+                                                        width:9,
+                                                      ),*/
+                                              /*  GestureDetector(
+                                                        onTap: (){
+                                                         _selectDate(context);
+                                                        },
+                                                        child: Icon(Icons.calendar_today_outlined,
+                                                        size: 16,
+                                                        ),
+                                                      )*/
+                                            ]),
+                                          ]),
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _selectDate(context);
+                                        },
+                                        child: Icon(
+                                          Icons.calendar_today_outlined,
+                                          size: 16,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                    ]),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width /
+                                            4 +
+                                        40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffDFE3EF),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6)),
+                                    ),
+                                    child: Row(children: [
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                const EdgeInsets.fromLTRB(
+                                                    9.0, 5, 0, 0),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4,
+                                              child: Text(
+                                                "To: ",
+                                                style: TextStyle(
+                                                    color: const Color(
+                                                        0xff545454),
+                                                    fontSize: size_5,
+                                                    fontStyle:
+                                                        FontStyle.normal,
+                                                    fontWeight:
+                                                        mediumBoldWeight),
+                                              ),
+                                            ),
+                                            Row(children: [
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4,
+
+                                                /*   decoration: BoxDecoration(
+                                                       //     color: white,
+                                                            border:  Border.all(
+                                                              color: const Color(0xFF404040),
+                                                              width: 0.5,
+                                                            ),
+                                                                  
+                                                            ),*/
+
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .fromLTRB(9, 2, 0, 5),
+                                                  child: Text(
+                                                    "$endTime",
+                                                    style: TextStyle(
+                                                        color: const Color(
+                                                            0xff152968),
+                                                        fontSize: size_7,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                          ]),
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _selectDate(context);
+                                        },
+                                        child: Icon(
+                                          Icons.calendar_today_outlined,
+                                          size: 16,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                    ]),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    space_7, space_2, 0, space_2),
+                                child: Text(
+                                  "History",
+                                  style: TextStyle(
+                                    fontSize: size_7,
+                                    color: black,
+                                  ),
+                                )),
+                            Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: height - 280,
+                                //    color: backgroundColor,
+                                alignment: Alignment.bottomCenter,
+                                child:
+                                    // loading
+                                    //   ? TruckLoadingWidgets()
+                                    ListView.builder(
+                                        //    padding: EdgeInsets.only(bottom: space_15),
+                                        itemCount: gpsRoute.length,
+                                        physics: BouncingScrollPhysics(),
+                                        controller: scrollController,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, index) {
+                                          return status(index);
+                                        })
+                                // ]
+                                ),
+                          ]),
+                    ),
                   )
-                    
-                ]
-                )
-            )
-        )
+                ]),
+              ))),
     );
   }
 
+  void getgpsDataHistory() async {
+    print("date here ${istDate1.toIso8601String()}");
+    var gpsHistory1 = await getDataHistory(widget.deviceId,
+        istDate1.toIso8601String(), istDate2.toIso8601String());
+    setState(() {
+      loading = false;
+      gpsHistory = gpsHistory1;
+    });
+    EasyLoading.dismiss();
+  }
 }

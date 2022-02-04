@@ -381,9 +381,12 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                       */
-                          ],
-                        ),
-                      )
+                    ],
+                  ),
+                )
+      
+      
+                   
                     : Container(
                         padding: EdgeInsets.all(space_3),
                         decoration: BoxDecoration(
@@ -410,14 +413,14 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         color: black,
                                       ),
                                     ),
-                                    Text(
+                                /*    Text(
                                       "timedate".tr,
                                       // 'time date ',
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: black,
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                                 SizedBox(
@@ -434,19 +437,22 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                     'assets/icons/circle-outline-with-a-central-dot.png',
                                     color: const Color(0xFFCDCDCD),
                                     width: 12,
-                                    height: 12,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'buyGPS'.tr,
-                                    // 'Buy GPS to access live tracking',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF152968),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                                    height: 12,),
+                            SizedBox(
+                                   width: 8
+                               ),
+                            Container(
+                              width: 200,
+                              child: Text(
+                                'buyGPS'.tr,
+                                maxLines: 2,
+                                // 'Buy GPS to access live tracking',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF152968),
+                                  fontSize: 12,
+                                ),
+                                
                               ),
                             ),
                             /*            Row(
@@ -596,9 +602,12 @@ class _MyTruckCardState extends State<MyTruckCard> {
               ],
             ),
           ),
-        ),
+              ]),
       ),
+    )
+      )
     );
+  
   }
 
   initfunction() async {
