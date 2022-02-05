@@ -6,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 import 'mapUtils/getLoactionUsingImei.dart';
@@ -321,52 +322,123 @@ getStoppageAddress(var gpsStoppageHistory) async{
   return stopAddress;
 }
 
-getStopList(var newGPSRoute){
-  int i=0;
+getStoppageAddressLatLong(var lat, var long) async {
+  var stopAddress;
+  // for(int i=0; i<gpsStoppageHistory.length; i++) {
+  current_lang = LocalizationService().getCurrentLang();
+  print(" current language is $current_lang");
+  List<Placemark> placemarks ;
+  if (current_lang == 'Hindi') {
+    placemarks =
+    await placemarkFromCoordinates(lat, long, localeIdentifier: "hi_IN");
+  } else {
+    placemarks =
+    await placemarkFromCoordinates(lat, long, localeIdentifier: "en_US");
+  }
+  var first = placemarks.first;
+  print(
+      "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+
+  if (first.subLocality == "")
+    stopAddress =
+    "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+  else
+    stopAddress =
+    "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+
+  // }
+  return stopAddress;
+}
+getStopList(var newGPSRoute, var istDate1, var istDate2) {
+  int i = 0;
   var start;
   var end;
   var duration;
-  bool last = false;
-  var lastStop = newGPSRoute[newGPSRoute.length -1].endTime;
-  DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
-
-  DateTime nowDateFormat=
-  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
-  DateTime lastStopDateFormat =
-  new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newGPSRoute[newGPSRoute.length -1].endTime);
-  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)    //Check if end time of last trip is less than current time, if yes, then add stop at end
-  {
-    last = true;
-  }
-
   int length = newGPSRoute.length;
-  print("GpsRoute Length ${length}");
-  while(i<newGPSRoute.length){
-    print("i $i");
-    if(i==0) {
-      DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-      start = getISOtoIST(yesterday.toIso8601String());
-      end = getISOtoIST(newGPSRoute[i].startTime);
-      
-      duration = getStopDuration(yesterday.toIso8601String(), newGPSRoute[i].startTime);
-      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
-    } else {
-      start = getISOtoIST(newGPSRoute[i - 1].endTime);
-      end = getISOtoIST(newGPSRoute[i].startTime);
-      duration = getStopDuration(newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
-      newGPSRoute.insert(i, ["stopped", start, end, duration,newGPSRoute[i].latitude,newGPSRoute[i].longitude]);
+  if (length > 0) {
+    bool last = false;
+    var lastStop = newGPSRoute[newGPSRoute.length - 1].endTime;
+    // DateTime now = DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
+    //  DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+    DateTime nowDateFormat =
+    new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(istDate2.toIso8601String());
+    DateTime lastStopDateFormat = new DateFormat("yyyy-MM-ddTHH:mm:ss")
+        .parse(newGPSRoute[newGPSRoute.length - 1].endTime);
+    if (lastStopDateFormat.compareTo(nowDateFormat) <=
+        0) //Check if end time of last trip is less than current time, if yes, then add stop at end
+        {
+      last = true;
     }
-    i = i+2;
-  }
 
-  if(last)         //to add stop at end
-  {
-    start = getISOtoIST(lastStop);
-    end = getISOtoIST(now.toIso8601String());
-    duration = getStopDuration(lastStop, now.toIso8601String());
-    newGPSRoute.add(["stopped", start, end, duration, newGPSRoute.last.endLat, newGPSRoute.last.endLon]);
+    int length = newGPSRoute.length;
+    print("GpsRoute Length ${length}");
+    while (i < newGPSRoute.length) {
+      print("i $i");
+      if (i == 0) {
+        DateTime st = new DateFormat("yyyy-MM-ddTHH:mm:ss")
+            .parse(istDate1.toIso8601String());
+        DateTime en = new DateFormat("yyyy-MM-ddTHH:mm:ss")
+            .parse(newGPSRoute[i].startTime);
+        print("from : $st and to : $en");
+
+        var diff = en.difference(st).inMinutes;
+        if (diff <= 0) {
+          i++;
+          start = getISOtoIST(newGPSRoute[i - 1].endTime);
+          end = getISOtoIST(newGPSRoute[i].startTime);
+          duration = getStopDuration(
+              newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
+        } else {
+          start = getISOtoIST(istDate1.toIso8601String());
+
+          end = getISOtoIST(newGPSRoute[i].startTime);
+
+          duration = getStopDuration(
+              istDate1.toIso8601String(), newGPSRoute[i].startTime);
+        }
+
+        print("kk $duration");
+        newGPSRoute.insert(i, [
+          "stopped",
+          start,
+          end,
+          duration,
+          newGPSRoute[i].latitude,
+          newGPSRoute[i].longitude
+        ]);
+      } else {
+        start = getISOtoIST(newGPSRoute[i - 1].endTime);
+        end = getISOtoIST(newGPSRoute[i].startTime);
+        duration = getStopDuration(
+            newGPSRoute[i - 1].endTime, newGPSRoute[i].startTime);
+        newGPSRoute.insert(i, [
+          "stopped",
+          start,
+          end,
+          duration,
+          newGPSRoute[i].latitude,
+          newGPSRoute[i].longitude
+        ]);
+      }
+      i = i + 2;
+    }
+
+    if (last) //to add stop at end
+        {
+      start = getISOtoIST(lastStop);
+      end = getISOtoIST(istDate2.toIso8601String());
+      duration = getStopDuration(lastStop, istDate2.toIso8601String());
+      newGPSRoute.add([
+        "stopped",
+        start,
+        end,
+        duration,
+        newGPSRoute.last.endLat,
+        newGPSRoute.last.endLon
+      ]);
+    }
+    print("With Stops $newGPSRoute");
   }
-  print("With Stops $newGPSRoute");
   return newGPSRoute;
 }
 
