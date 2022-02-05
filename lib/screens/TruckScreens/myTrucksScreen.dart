@@ -26,6 +26,8 @@ import 'package:liveasy/widgets/truckScreenBarButton.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
+import '../myTrucksSearchResultsScreen.dart';
+
 class MyTrucks extends StatefulWidget {
   @override
   _MyTrucksState createState() => _MyTrucksState();
