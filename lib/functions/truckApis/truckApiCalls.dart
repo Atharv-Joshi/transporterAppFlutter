@@ -83,10 +83,9 @@ class TruckApiCalls {
         'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
         'truckType':
             jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
-        'deviceId': jsonData['deviceId'] != null ? jsonData['deviceId'] : 'NA',
         'truckApproved': jsonData['truckApproved'] != null
-            ? jsonData['truckApproved']
-            : 'NA',
+            ? jsonData["truckApproved"]
+            : false,
       };
 
       return data;
@@ -96,8 +95,7 @@ class TruckApiCalls {
         'truckNo': 'NA',
         'imei': 'NA',
         'truckType': 'NA',
-        'deviceId': 'NA',
-        'truckApproved': 'NA',
+        'truckApproved': false
       };
       return data;
     }

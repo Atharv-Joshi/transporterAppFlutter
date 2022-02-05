@@ -246,7 +246,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       totalDistance = getTotalDistance(newGPSRoute);
       print("kya $to");
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute);
+      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
     });
   }
 
@@ -281,7 +281,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute);
+      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
     });
   }
 
