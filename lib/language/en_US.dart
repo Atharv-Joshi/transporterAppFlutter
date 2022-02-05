@@ -147,7 +147,7 @@ const Map<String, String> enUS = {
   "stopped": "Stopped",
   "seeAllTruckMap": "See All Trucks on Map",
   "notruckadded": "Look like you have not added any truck",
-  "notruckrunnning": "Look like you do not have any truck running",
+  "notruckrunning": "Look like you do not have any truck running",
   "notruckstopped": "Look like you do not have any stopped truck",
   'passingWeight': "Passing Weight (in tons.)",
   'buyGPS': 'Buy GPS to access live tracking',
@@ -219,4 +219,7 @@ const Map<String, String> enUS = {
   '7Days': '7 Days',
   'whatsappShare': 'Share on Whatsapp',
   'setExpiry': 'Set expiry time',
+
+  //searchMytrucks
+  'searchTrucks': 'Search Trucks',
 };

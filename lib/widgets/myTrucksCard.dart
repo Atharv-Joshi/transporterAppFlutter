@@ -150,6 +150,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+      
               children: [
                 verified!
                     ? Container(
@@ -170,7 +171,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-
+                          
                           Text(
                             AppLocalizations.of(context)!.offline,
                             style: TextStyle(
@@ -225,7 +226,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                           : Text(
                                               "${(widget.gpsData.last.speed).round()} km/h",
                                               style: TextStyle(
+
                                                   color: red,
+                                                  
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)),

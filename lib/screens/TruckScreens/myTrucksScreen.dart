@@ -43,6 +43,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
   // Truck Model List used to  create cards
   var truckDataList = [];
+  var truckAddressList = [];
   var status = [];
   var gpsDataList = [];
   var gpsStoppageHistory = [];
@@ -52,8 +53,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
   var gpsData;
   bool loading = false;
-  DateTime yesterday = DateTime.now().subtract(
-      Duration(days: 1, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
@@ -74,6 +75,10 @@ class _MyTrucksState extends State<MyTrucks> {
   var Stopped = [];
   var StoppedStat = [];
   var StoppedGps = [];
+
+  var items = [];
+
+  TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
@@ -112,7 +117,7 @@ class _MyTrucksState extends State<MyTrucks> {
     // providerData.resetTruckFilters();
     ProviderData providerData = Provider.of<ProviderData>(context);
     PageController pageController =
-    PageController(initialPage: providerData.upperNavigatorIndex);
+        PageController(initialPage: providerData.upperNavigatorIndex);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -135,91 +140,127 @@ class _MyTrucksState extends State<MyTrucks> {
                         /*  SizedBox(
                       width: space_3,
                     ),*/
-                        HeadingTextWidget(
-                            'my_truck'.tr
-                          // AppLocalizations.of(context)!.my_truck
+                    HeadingTextWidget('my_truck'.tr
+                        // AppLocalizations.of(context)!.my_truck
                         ),
-                        // HelpButtonWidget(),
-                      ],
-                    ),
-                    HelpButtonWidget(),
+                    // HelpButtonWidget(),
                   ],
                 ),
-                Container(
-                    margin: EdgeInsets.symmetric(vertical: space_3),
-                    child: SearchLoadWidget(
-                      hintText: 'search'.tr,
-                      // AppLocalizations.of(context)!.search,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => NextUpdateAlertDialog());
-                      },
-                    )),
-
-                //LIST OF TRUCK CARDS---------------------------------------------
-                Container(
-                  //    height: 26,
-                  //    width: 200,
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-
-                  //    margin: EdgeInsets.symmetric(horizontal: space_2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F8FA),
-                    boxShadow: [
-                      BoxShadow(color: const Color(0xFFEFEFEF),
-                        blurRadius: 9,
-                        offset: Offset(0, 2),),
-                    ],
-
+                HelpButtonWidget(),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: space_3),
+              child: Container(
+                height: space_8,
+                decoration: BoxDecoration(
+                  color: widgetBackGroundColor,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    width: 0.8,
+                    // color: borderBlueColor,
                   ),
-
-                  child: Row(
-
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-
-                      TruckScreenBarButton(
-                          text: 'all'.tr,
-                          // 'All',
-                          value: 0, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
-                        height: 15,
-                        color: const Color(0xFFC2C2C2),
-                      ),
-                      TruckScreenBarButton(
-                          text: 'running'.tr,
-                          // 'Running'
-                          value: 1, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
-                        height: 15,
-                        color: const Color(0xFFC2C2C2),
-                      ),
-                      TruckScreenBarButton(
-                          text: 'stopped'.tr,
-                          // 'Stopped',
-                          value: 2, pageController: pageController),
-                    ],
-                  ),
-
                 ),
-                SizedBox(
-                  height: 6,
-                ),
-                GestureDetector(
+                child: TextField(
                   onTap: () {
-                    Get.to(MapAllTrucks(gpsDataList: gpsDataList,
-                      truckDataList: truckDataList,
-                      runningDataList: runningList,
-                      runningGpsDataList: runningGpsData,
-                      stoppedList: StoppedList,
-                      stoppedGpsList: StoppedGpsData,));
+                    Get.to(() => MyTrucksResult(
+                          gpsDataList: gpsDataList,
+                          truckDataList: truckDataList,
+                          truckAddressList: truckAddressList,
+                          status: status,
+                          items: items,
+                        ));
+                    print("Enterrr");
+                    print("THE ITEMS $items");
                   },
-                  child: Container(
+                  readOnly: true,
+                  textAlignVertical: TextAlignVertical.center,
+                  textAlign: TextAlign.start,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'search'.tr,
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: space_2),
+                      child: Icon(
+                        Icons.search,
+                        color: grey,
+                      ),
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: size_8,
+                      color: grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            //LIST OF TRUCK CARDS---------------------------------------------
+            Container(
+              //    height: 26,
+              //    width: 200,
+              padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+
+              //    margin: EdgeInsets.symmetric(horizontal: space_2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF7F8FA),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEFEFEF),
+                    blurRadius: 9,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TruckScreenBarButton(
+                      text: 'all'.tr,
+                      // 'All',
+                      value: 0,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'running'.tr,
+                      // 'Running'
+                      value: 1,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'stopped'.tr,
+                      // 'Stopped',
+                      value: 2,
+                      pageController: pageController),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(MapAllTrucks(
+                  gpsDataList: gpsDataList,
+                  truckDataList: truckDataList,
+                  runningDataList: runningList,
+                  runningGpsDataList: runningGpsData,
+                  stoppedList: StoppedList,
+                  stoppedGpsList: StoppedGpsData,
+                ));
+              },
+              child: Container(
 
                     //     margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
                       padding: EdgeInsets.fromLTRB(
@@ -551,6 +592,10 @@ class _MyTrucksState extends State<MyTrucks> {
 
     print("Truck length ${truckDataListForPagevar.length}");
 
+    setState(() {
+      items = truckDataListForPagevar;
+    });
+
     //FIX LENGTH OF ALL LIST----------------------
     gpsList = List.filled(truckDataListForPagevar.length, null, growable: true);
     stat = List.filled(truckDataListForPagevar.length, "", growable: true);
@@ -622,9 +667,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
       running.insert(i, truckData);
       runningGps.insert(i, gpsData);
-    }
-    else if (truckData.truckApproved == true &&
-        gpsData.last.speed < 2) { //For STOPPED section
+    } else if (truckData.truckApproved == true && gpsData.last.speed < 2) {
+      //For STOPPED section
 
       Stopped.removeAt(i);
       StoppedGps.removeAt(i);
@@ -710,7 +754,6 @@ class _MyTrucksState extends State<MyTrucks> {
       stat.insert(i, "Running");
     }
   }
-
 }
 
 //class

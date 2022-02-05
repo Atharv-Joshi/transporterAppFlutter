@@ -135,7 +135,7 @@ const Map<String, String> hiIN = {
   "stopped": "रुके हुए हैं",
   "seeAllTruckMap": "नक्शा के द्वारा ट्रक देखे",
   "notruckadded": "आपके द्वारा कोई ट्रक नहीं जोड़ा गया",
-  "notruckrunnning": "आपका कोई ट्रक नहीं चल रहा है",
+  "notruckrunning": "आपका कोई ट्रक नहीं चल रहा है",
   "notruckstopped": "आपका कोई भी ट्रक नही रुका है",
   'passingWeight': "वजन क्षमता (टन)",
   'status': "स्थिति",
@@ -213,4 +213,7 @@ const Map<String, String> hiIN = {
   '7Days': '7 दिन',
   'whatsappShare': 'व्हाट्सएप पर शेयर करें',
   'setExpiry': 'लिंक की अवधि निर्धारित करे',
+
+  //searchMytrucks
+  'searchTrucks': 'ट्रक खोजें',
 };
