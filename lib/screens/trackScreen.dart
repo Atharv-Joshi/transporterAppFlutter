@@ -8,11 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-<<<<<<< HEAD
-import 'package:get/get.dart';
-=======
 import 'package:intl/intl.dart';
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -76,11 +72,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   ScreenshotController screenshotController = ScreenshotController();
   late BitmapDescriptor pinLocationIcon;
   late BitmapDescriptor pinLocationIconTruck;
-<<<<<<< HEAD
-=======
   CustomInfoWindowController _customDetailsInfoWindowController =
       CustomInfoWindowController();
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
   late CameraPosition camPosition =
       CameraPosition(target: lastlatLngMarker, zoom: 8);
   var logger = Logger();
@@ -163,18 +156,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       lastlatLngMarker =
           LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
-<<<<<<< HEAD
-
-      timer = Timer.periodic(
-          Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
-=======
       //To make the truck look running and for the speed to change in every 10 seconds
       timer = Timer.periodic(Duration(minutes: 0, seconds: 10),
           (Timer t) => onActivityExecuted2());
       //To update the trackscreen fully
       timer2 = Timer.periodic(
           Duration(minutes: 5, seconds: 0), (Timer t) => onActivityExecuted());
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -227,8 +214,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         getPoylineCoordinates(gpsDataHistory, polylineCoordinates);
 
     _getPolyline(polylineCoordinates);
-<<<<<<< HEAD
-=======
   }
 
   // function is called to make the truck look running
@@ -241,7 +226,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     polylineCoordinates
         .add(LatLng(newGPSData.last.latitude, newGPSData.last.longitude));
     _getPolyline(polylineCoordinates);
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
   }
 
   addstops(var gpsStoppage) async {
@@ -482,7 +466,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         customMarkers.add(Marker(
             markerId: MarkerId(newGPSData.last.deviceId.toString()),
             position: latLngMarker,
-         //   infoWindow: InfoWindow(title: title),
+            //   infoWindow: InfoWindow(title: title),
             icon: pinLocationIconTruck,
             onTap: () {
               _customDetailsInfoWindowController.addInfoWindow!(
@@ -616,33 +600,20 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
             children: <Widget>[
               Positioned(
                 left: 0,
-<<<<<<< HEAD
-                top: -100,
-                bottom: 0,
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-=======
                 top: -250,
                 bottom: 0,
                 child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: height,
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                     child: Stack(children: <Widget>[
                       GoogleMap(
                         onTap: (position) {
                           _customInfoWindowController.hideInfoWindow!();
-<<<<<<< HEAD
-                        },
-                        onCameraMove: (position) {
-                          _customInfoWindowController.onCameraMove!();
-=======
                           _customDetailsInfoWindowController.hideInfoWindow!();
                         },
                         onCameraMove: (position) {
                           _customInfoWindowController.onCameraMove!();
                           _customDetailsInfoWindowController.onCameraMove!();
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                         },
                         markers: customMarkers.toSet(),
                         polylines: Set.from(polylines.values),
@@ -655,11 +626,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                           _controller.complete(controller);
                           _customInfoWindowController.googleMapController =
                               controller;
-<<<<<<< HEAD
-=======
                           _customDetailsInfoWindowController
                               .googleMapController = controller;
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                         },
                         gestureRecognizers:
                             <Factory<OneSequenceGestureRecognizer>>[
@@ -674,15 +642,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                         width: 275,
                         offset: 30,
                       ),
-<<<<<<< HEAD
-=======
                       CustomInfoWindow(
                         controller: _customDetailsInfoWindowController,
                         height: 140,
                         width: 300,
                         offset: 0,
                       ),
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                       Positioned(
                         left: 10,
                         top: 175,
@@ -706,11 +671,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                       Positioned(
                         right: 10,
-<<<<<<< HEAD
-                        bottom: height / 3 + 170,
-=======
                         bottom: height / 2 + 90,
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                         child: SizedBox(
                           height: 40,
                           child: FloatingActionButton(
@@ -738,11 +699,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                       Positioned(
                         right: 10,
-<<<<<<< HEAD
-                        bottom: height / 3 + 115,
-=======
                         bottom: height / 2 + 40,
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                         child: SizedBox(
                           height: 40,
                           child: FloatingActionButton(
@@ -765,8 +722,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                     ),
                                   ));
                             },
-<<<<<<< HEAD
-=======
                           ),
                         ),
                       ),
@@ -843,7 +798,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                 value: location,
                               );
                             }).toList(),
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                           ),
                         ),
                       ),
@@ -860,7 +814,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                           width: MediaQuery.of(context).size.width,
                           height: space_13,
                           color: white,
-<<<<<<< HEAD
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -940,11 +893,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                             ],
                           ),
                         ),
-                      ]))),
+                      ])))
               /*      Container(
                           margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
-=======
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -966,11 +917,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-<<<<<<< HEAD
-                bottom: (showBottomMenu) ? 0 : -(height / 3) + 55,
-=======
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 24,
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
                   // truckDate: truckDate,
@@ -987,13 +934,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   truckId: widget.truckId,
                   deviceId: widget.deviceId,
                   totalDistance: totalDistance,
-<<<<<<< HEAD
-=======
                   //    timer2: timer2,
                   //  timer3: timer,
->>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
                 ),
-              )
+              )*/
             ],
           ),
         ),
