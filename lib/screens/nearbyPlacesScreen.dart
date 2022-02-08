@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:http/http.dart' as http;
@@ -17,27 +16,20 @@ import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/placesNearbyDataModel.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
-import 'package:liveasy/widgets/buttons/okButton.dart';
+import 'package:liveasy/widgets/nearbyPlaceScreenDetailsWidget.dart';
 import 'package:liveasy/widgets/nearbyPlacesDetailsCard.dart';
-import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 import '../constants/fontSize.dart';
 import '../constants/fontWeights.dart';
-import '../widgets/stoppageInfoWindow.dart';
 
 class NearbyPlacesScreen extends StatefulWidget {
   final List gpsData;
   final String? TruckNo;
   final int? deviceId;
-  final String? driverNum;
-  final String? driverName;
-  var gpsDataHistory;
   var truckId;
   var placeOnTheMapTag;
   var placeOnTheMapName;
@@ -47,10 +39,7 @@ class NearbyPlacesScreen extends StatefulWidget {
       required this.placeOnTheMapTag,
       required this.placeOnTheMapName,
       // required this.position,
-      required this.gpsDataHistory,
       this.TruckNo,
-      this.driverName,
-      this.driverNum,
       this.deviceId,
       this.truckId});
 
@@ -60,124 +49,76 @@ class NearbyPlacesScreen extends StatefulWidget {
 
 class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     with WidgetsBindingObserver {
-  final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
   late LatLng lastlatLngMarker =
       LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
-  late List<Placemark> placemarks;
-  Iterable markers = [];
-  ScreenshotController screenshotController = ScreenshotController();
-  late BitmapDescriptor pinLocationIcon;
   late BitmapDescriptor pinLocationIconTruck;
-  late BitmapDescriptor pinLocationIconPumps;
+  late BitmapDescriptor pinLocationIconPlace;
   late CameraPosition camPosition =
       CameraPosition(target: lastlatLngMarker, zoom: 8);
   var logger = Logger();
-  late Marker markernew;
   List<Marker> customMarkers = [];
   Completer<GoogleMapController> _controller = Completer();
   late List newGPSData = widget.gpsData;
-  late List reversedList;
   MapUtil mapUtil = MapUtil();
-  List<LatLng> latlng = [];
-  late Set<Circle> circles;
-  List<LatLng> polylineCoordinates = [];
-  List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
-  late PointLatLng start;
-  late PointLatLng end;
-  String? truckAddress;
-  String? truckDate;
-  var gpsDataHistory;
-  var gpsStoppageHistory;
-  var newGPSRoute;
-  var totalDistance;
-  var stoppageTime = [];
-  List<LatLng> stoplatlong = [];
-  var duration = [];
-  var stopAddress = [];
   String googleAPiKey = FlutterConfig.get("mapKey");
-  bool popUp = false;
-  List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
-  var markerslist;
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
-  bool isAnimation = false;
-  double mapHeight = 600;
   DateTimeRange selectedDate = DateTimeRange(
       start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
   var direction;
-  bool setDate = false;
-  var selectedDateString = [];
   var maptype = MapType.normal;
   double zoom = 10;
   bool showBottomMenu = false;
-  var totalRunningTime;
-  var totalStoppedTime;
-  var status;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
-
+  late Set<Circle> circles;
   PlacesNearbyData _placesNearbyData = new PlacesNearbyData();
   late Timer timer;
-  List<Marker> customMarkersGasStation = [];
-  List<Marker> customMarkersPolice = [];
   final circleId =
       CircleId('circle_id_${DateTime.now().millisecondsSinceEpoch}');
-
   PolylinePoints polylinePointsForDistance = PolylinePoints();
-
-  Set<Marker> markersForDistance = Set(); //markers for google map
+  Set<Marker> markersForDistance = Set();
   late LatLng startLocationForDistance;
   late LatLng endLocationForDistance;
 
   Future<void> callApi(double lat, double lon) async {
-    if (widget.placeOnTheMapTag == "gas_station" &&
-        customMarkersGasStation.length > 2) {
-      customMarkers = customMarkersGasStation;
-    } else if (widget.placeOnTheMapTag == "police" &&
-        customMarkersPolice.length != 0) {
-      customMarkers = customMarkersPolice;
-    } else {
-      var url = Uri.parse(
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-              lat.toString() +
-              "," +
-              lon.toString() +
-              "&radius=15000&types=" +
-              widget.placeOnTheMapTag +
-              "&key=" +
-              googleAPiKey);
+    var url = Uri.parse(
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
+            lat.toString() +
+            "," +
+            lon.toString() +
+            "&radius=15000&types=" +
+            widget.placeOnTheMapTag +
+            "&key=" +
+            googleAPiKey);
 
-      var response = await http.get(url);
-      var body = response.body;
-      _placesNearbyData = PlacesNearbyData.fromJson(jsonDecode(body));
+    var response = await http.get(url);
+    var body = response.body;
+    _placesNearbyData = PlacesNearbyData.fromJson(jsonDecode(body));
 
-      startLocationForDistance = LatLng(lat, lon);
+    startLocationForDistance = LatLng(lat, lon);
 
-      var logger = Logger();
-      logger.i("in addstops function");
-      FutureGroup futureGroup = FutureGroup();
-      if (_placesNearbyData.results != null)
-        for (int i = 0; i < _placesNearbyData.results!.length; i++) {
-          var future = markNearbyPlaces(_placesNearbyData.results![i], i);
+    FutureGroup futureGroup = FutureGroup();
+    if (_placesNearbyData.results != null)
+      for (int i = 0; i < _placesNearbyData.results!.length; i++) {
+        var future = markNearbyPlaces(_placesNearbyData.results![i], i);
+        endLocationForDistance = LatLng(
+            _placesNearbyData.results![i].geometry!.location!.lat!.toDouble(),
+            _placesNearbyData.results![i].geometry!.location!.lng!.toDouble());
+        getDirections(i);
 
-          endLocationForDistance = LatLng(
-              _placesNearbyData.results![i].geometry!.location!.lat!.toDouble(),
-              _placesNearbyData.results![i].geometry!.location!.lng!
-                  .toDouble());
-          getDirections(i);
+        futureGroup.add(future);
+      }
 
-          futureGroup.add(future);
-        }
-      futureGroup.close();
-      await futureGroup.future;
-    }
+    futureGroup.close();
+    await futureGroup.future;
   }
 
   @override
@@ -198,24 +139,18 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       )
     ]);
     try {
-      //initfunction();
       initfunction2();
       iconthenmarker();
 
       callApi(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
-      logger.i("in init state function");
       lastlatLngMarker =
           LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
-      print("PRINTING STOP LATLONG");
-      print(widget.gpsData.last.latitude);
-      print(widget.gpsData.last.longitude);
 
       timer = Timer.periodic(
           Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
     } catch (e) {
       logger.e("Error is $e");
-      print("FSFSDFSDF SDFSDF");
     }
   }
 
@@ -234,21 +169,11 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         onMapCreated(controller);
         print('appLifeCycleState resumed');
         break;
+      default:
+        break;
     }
   }
   //function is called every one minute to get updated history
-
-  initfunction() {
-    setState(() {
-      newGPSData = widget.gpsData;
-      totalRunningTime = getTotalRunningTime(newGPSRoute);
-      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      totalDistance = getTotalDistance(newGPSRoute);
-      print("kya $to");
-      status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
-    });
-  }
 
   Future<void> initfunction2() async {
     final GoogleMapController controller = await _controller.future;
@@ -258,30 +183,15 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   }
 
   void initfunctionAfter() async {
-    logger.i("It is in init function after function");
+    //It is in init function after function
     var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getDataHistory(newGPSData.last.deviceId, from, to);
-    var s = getStoppageHistory(newGPSData.last.deviceId, from, to);
-    var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
-
     var gpsData = await f1;
-    var gpsRoute = await t;
-    var newGpsDataHistory = await f;
-    var newGpsStoppageHistory = await s;
+
     setState(() {
       newGPSData = gpsData;
-      newGPSRoute = gpsRoute;
-      gpsDataHistory = newGpsDataHistory;
-      gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(
           start: DateTime.now().subtract(Duration(days: 1)),
           end: DateTime.now());
-      print("NEW ROute $newGPSRoute");
-      totalRunningTime = getTotalRunningTime(newGPSRoute);
-      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      totalDistance = getTotalDistance(newGPSRoute);
-      status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
     });
   }
 
@@ -299,7 +209,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
             "assets/icons/" + widget.placeOnTheMapTag + "_rounded.png")
         .then((value) => {
               setState(() {
-                pinLocationIconPumps = value;
+                pinLocationIconPlace = value;
               }),
               createmarker()
             });
@@ -307,7 +217,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
 
   //function called every one minute
   void onActivityExecuted() {
-    logger.i("It is in Activity Executed function");
+    //It is in Activity Executed function
     initfunctionAfter();
     iconthenmarker();
     customMarkers = [];
@@ -316,19 +226,14 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
 
   void createmarker() async {
     try {
-      print("rj");
       final GoogleMapController controller = await _controller.future;
       LatLng latLngMarker =
           LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
-      print("Live location is ${newGPSData.last.latitude}");
-      print("hh");
-      print("id ${newGPSData.last.deviceId.toString()}");
       String? title = widget.TruckNo;
       setState(() {
         direction = 180 + newGPSData.last.course;
         lastlatLngMarker =
             LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
-        latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
             markerId: MarkerId(newGPSData.last.deviceId.toString()),
             position: latLngMarker,
@@ -359,27 +264,18 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   markNearbyPlaces(Results nearbyPlaces, int i) async {
     LatLng latlong;
 
-    // for(var stop in gpsStoppage) {
     latlong = LatLng(nearbyPlaces.geometry!.location!.lat ?? 0,
         nearbyPlaces.geometry!.location!.lng ?? 0);
 
-    // for(int i=0; i<stoplatlong.length; i++){
     markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
     setState(() {
       customMarkers.add(Marker(
         markerId: MarkerId("Stop Mark $i"),
         position: latlong,
-        icon: pinLocationIconPumps,
+        icon: pinLocationIconPlace,
         infoWindow: InfoWindow(title: nearbyPlaces.name),
-        // onTap: () async {
-        //   _customInfoWindowController.addInfoWindow!(
-        //     getInfoWindow(duration, stoppageTime, stopAddress),
-        //     latlong,
-        //   );
-        // },
       ));
     });
-    // }
   }
 
   getDirections(int index) async {
@@ -411,7 +307,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
           polylineCoordinates[i + 1].latitude,
           polylineCoordinates[i + 1].longitude);
     }
-    print("TOTAL DISTANCE " + totalDistance.toString());
 
     setState(() {
       if (_placesNearbyData.results != null)
@@ -628,125 +523,19 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                 duration: Duration(milliseconds: 200),
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 36,
-                child: menuWidget(height, width),
+                child: NearbyPlacesDetails(
+                  height: height,
+                  width: width,
+                  placeOnTheMapName: widget.placeOnTheMapName,
+                  placeOnTheMapTag: widget.placeOnTheMapTag,
+                  placesNearbyData: _placesNearbyData,
+                ),
+                //child: menuWidget(height, width),
               )
             ],
           ),
         ),
       ),
     );
-  }
-
-  Container menuWidget(double height, double width) {
-    return Container(
-        height: height / 3 + 24,
-        width: width,
-        decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: darkShadow,
-                offset: const Offset(
-                  0,
-                  -5.0,
-                ),
-                blurRadius: 15.0,
-                spreadRadius: 10.0,
-              ),
-              BoxShadow(
-                color: white,
-                offset: const Offset(0, 1.0),
-                blurRadius: 0.0,
-                spreadRadius: 2.0,
-              ),
-            ]),
-        child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Column(
-                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Divider(
-                      color: const Color(0xFFCBCBCB),
-                      // height: size_3,
-                      thickness: 3,
-                      indent: 150,
-                      endIndent: 150,
-                    ),
-                    Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.fromLTRB(
-                            space_1, space_1, space_1, space_1),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              width: 8,
-                            ),
-                            //Row for nearby location name and petrol prices
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/' +
-                                          widget.placeOnTheMapTag +
-                                          '.png',
-                                      height: size_14,
-                                      width: size_14,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      widget.placeOnTheMapName,
-                                      style: TextStyle(
-                                          fontSize: size_10,
-                                          fontWeight: boldWeight,
-                                          color: darkBlueColor),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            //Listview of Petrol Pumps nearby with their location
-                            Container(
-                                height: height / 4 + 24,
-                                margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount:
-                                        (_placesNearbyData.results != null)
-                                            ? _placesNearbyData.results!.length
-                                            : 0,
-                                    itemBuilder: (context, index) {
-                                      Results here =
-                                          _placesNearbyData.results![index];
-                                      print("DISTANCE ABCD " +
-                                          here.distance.toString());
-                                      return NearbyPlacesDetailsCard(
-                                          placeName: here.name,
-                                          placeAddress: here.vicinity,
-                                          placeDistance: here.distance,
-                                          coordinates: here
-                                                  .geometry!.location!.lat
-                                                  .toString() +
-                                              ',' +
-                                              here.geometry!.location!.lng
-                                                  .toString());
-                                    })),
-                          ],
-                        )),
-                  ]),
-            ]));
   }
 }

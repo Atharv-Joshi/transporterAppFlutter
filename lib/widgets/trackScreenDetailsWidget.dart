@@ -73,8 +73,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   void initState() {
     super.initState();
     initFunction();
-    timer = Timer.periodic(Duration(minutes: 0, seconds: 10),
-          (Timer t) => initFunction());
+    timer = Timer.periodic(
+        Duration(minutes: 0, seconds: 10), (Timer t) => initFunction());
   }
 
   initFunction() {
@@ -100,12 +100,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       throw 'Could not open the map.';
     }
   }
+
   @override
   void dispose() {
-    
     timer.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -406,14 +407,22 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button1",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.near_me_outlined, size: 30),
-                        onPressed: () {
-                          openMap(gpsData.last.latitude, gpsData.last.longitude);
-                        },
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button1",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: const Icon(Icons.near_me_outlined, size: 40),
+                          onPressed: () {
+                            openMap(
+                                gpsData.last.latitude, gpsData.last.longitude);
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -448,24 +457,32 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button3",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.play_circle_outline, size: 30),
-                        onPressed: () {
-                          Get.to(PlayRouteHistory(
-                            gpsTruckHistory: gpsDataHistory,
-                            truckNo: widget.TruckNo,
-                            //    routeHistory: gpsTruckRoute,
-                            gpsData: gpsData,
-                            dateRange: widget.dateRange,
-                            gpsStoppageHistory: gpsStoppageHistory,
-                            //   totalDistance: totalDistance,
-                            totalRunningTime: totalRunningTime,
-                            totalStoppedTime: totalStoppedTime,
-                          ));
-                        },
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button3",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child:
+                              const Icon(Icons.play_circle_outline, size: 40),
+                          onPressed: () {
+                            Get.to(PlayRouteHistory(
+                              gpsTruckHistory: gpsDataHistory,
+                              truckNo: widget.TruckNo,
+                              //    routeHistory: gpsTruckRoute,
+                              gpsData: gpsData,
+                              dateRange: widget.dateRange,
+                              gpsStoppageHistory: gpsStoppageHistory,
+                              //   totalDistance: totalDistance,
+                              totalRunningTime: totalRunningTime,
+                              totalStoppedTime: totalStoppedTime,
+                            ));
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -480,24 +497,31 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button4",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.history, size: 30),
-                        onPressed: () {
-                          Get.to(TruckHistoryScreen(
-                            truckNo: widget.TruckNo,
-                            gpsTruckRoute: widget.gpsTruckRoute,
-                            dateRange: widget.dateRange,
-                            deviceId: widget.deviceId,
-                            selectedLocation: selectedLocation,
-                            istDate1: yesterday,
-                            istDate2: now,
-                            //     latitude: latitude,
-                            //      longitude: longitude,
-                          ));
-                        },
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button4",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: const Icon(Icons.history, size: 40),
+                          onPressed: () {
+                            Get.to(TruckHistoryScreen(
+                              truckNo: widget.TruckNo,
+                              gpsTruckRoute: widget.gpsTruckRoute,
+                              dateRange: widget.dateRange,
+                              deviceId: widget.deviceId,
+                              selectedLocation: selectedLocation,
+                              istDate1: yesterday,
+                              istDate2: now,
+                              //     latitude: latitude,
+                              //      longitude: longitude,
+                            ));
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -543,10 +567,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "Petrol Pumps",
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
                                 truckId: widget.truckId,
-                                gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
@@ -588,10 +609,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "Police Stations",
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
                                 truckId: widget.truckId,
-                                gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
