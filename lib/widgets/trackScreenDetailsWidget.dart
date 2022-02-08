@@ -447,8 +447,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        'share'.tr,
-                        // "Share",
+                        "Share",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -593,7 +592,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           shape: BoxShape.circle,
                         ),
                         child: FloatingActionButton(
-                          heroTag: "button7",
+                          heroTag: "button6",
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
                           child: Image.asset(

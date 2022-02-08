@@ -27,12 +27,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyTruckCard extends StatefulWidget {
   TruckModel truckData;
   var gpsData;
-  String truckAddress;
   String status;
 
   MyTruckCard({
     required this.truckData,
-    required this.truckAddress,
     required this.status,
     this.gpsData,
   });
@@ -57,6 +55,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   late String from = yesterday.toIso8601String();
   late String to = now.toIso8601String();
+
   @override
   void initState() {
     super.initState();
@@ -95,6 +94,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
+      
       child: GestureDetector(
         onTap: () async {
           // if (loading) {
@@ -150,6 +150,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+      
               children: [
                 verified!
                     ? Container(
@@ -206,7 +207,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   fontSize: 10,
                                   color: black,
                                   ),
-                      
+
                               ),*/
                                   ],
                                 ),
@@ -225,11 +226,13 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                           : Text(
                                               "${(widget.gpsData.last.speed).round()} km/h",
                                               style: TextStyle(
+
                                                   color: red,
+                                                  
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)),
-                                      Text('status'.tr,
+                                      Text("${widget.status}",
                                           // "Status",
                                           style: TextStyle(
                                               color: black,
@@ -386,76 +389,74 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 )
       
       
-                   
-                    : Container(
-                        padding: EdgeInsets.all(space_3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF7F8FA),
-                        ),
-                        child: Column(
+                    :   Container(
+                      padding: EdgeInsets.all(space_3),
+                      decoration: BoxDecoration(
+                    color: const Color(0xFFF7F8FA),
+            ),
+                      child: Column(
+                  children: [
+                      Row(
+                        children: [
+                          Image.asset('assets/icons/box-truck.png',
+                          width: 29,
+                          height: 29,
+                          ),
+                          SizedBox(
+                            width: 13,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '${widget.truckData.truckNo}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: black,
+                                  
+                                  ),
+                              ),
+                              Text(
+                                'time date ',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: black,
+                                  ),
+      
+                              ),
+                          ],
+                          ),
+                          SizedBox(
+                            width: 23,
+                          ),
+                          
+                      ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(27.00,20.00,20.00,0.00),
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/box-truck.png',
-                                  width: 29,
-                                  height: 29,
-                                ),
-                                SizedBox(
-                                  width: 13,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '${widget.truckData.truckNo}',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: black,
-                                      ),
-                                    ),
-                                /*    Text(
-                                      "timedate".tr,
-                                      // 'time date ',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: black,
-                                      ),
-                                    ),*/
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 23,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  27.00, 20.00, 20.00, 0.00),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/circle-outline-with-a-central-dot.png',
+                            Image.asset('assets/icons/circle-outline-with-a-central-dot.png',
                                     color: const Color(0xFFCDCDCD),
                                     width: 12,
                                     height: 12,),
                             SizedBox(
                                    width: 8
                                ),
-                            Container(
-                              width: 200,
-                              child: Text(
-                                'buyGPS'.tr,
-                                maxLines: 2,
-                                // 'Buy GPS to access live tracking',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF152968),
-                                  fontSize: 12,
-                                ),
-                                
+                            Text(
+                              'Buy GPS to access live tracking',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF152968),
+                                fontSize: 12,
                               ),
+                              
                             ),
-                            /*            Row(
+
+
+                          ],
+                        ),
+                      ),
+        /*            Row(
                         children: [
                           Image(
                               height: 16 ,
@@ -521,8 +522,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ),
                         ),
                       )
-      
-      
+
+
                 */
                           ],
                         ),
@@ -600,22 +601,19 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
               ],
+            
             ),
           ),
-              ]),
+        ),
       ),
-    )
-      )
     );
-  
   }
 
   initfunction() async {
-    var gpsRoute1 =
-        await getRouteStatusList(widget.truckData.deviceId, from, to);
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: widget.truckData.deviceId, from: from, to: to);
     setState(() {
-      gpsRoute = gpsRoute1;
-      totalDistance = getTotalDistance(gpsRoute);
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
     });
   }
 }
