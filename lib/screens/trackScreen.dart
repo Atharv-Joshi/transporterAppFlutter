@@ -329,7 +329,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
-      print("kya $to");
       status = getStatus(newGPSData, gpsStoppageHistory);
       newGPSRoute = getStopList(newGPSRoute, yesterday, now);
     });
@@ -445,7 +444,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
   void createmarker() async {
     try {
-      print("rj");
       final GoogleMapController controller = await _controller.future;
       LatLng latLngMarker =
           LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
