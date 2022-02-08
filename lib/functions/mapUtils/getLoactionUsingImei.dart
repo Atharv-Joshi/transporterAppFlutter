@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
@@ -8,7 +9,11 @@ import 'package:geocoding/geocoding.dart';
 
 String traccarUser = FlutterConfig.get("traccarUser");
 String traccarPass = FlutterConfig.get("traccarPass");
+<<<<<<< HEAD
 
+=======
+String ?current_lang ;
+>>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
   String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
@@ -62,11 +67,25 @@ class MapUtil {
           gpsDataModel.fixTime =
               json["fixTime"] != null ? json["fixTime"] : 'NA';
           //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
+<<<<<<< HEAD
           var latn = gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude =
               json["longitude"] != null ? json["longitude"] : 0;
           List<Placemark> newPlace = await placemarkFromCoordinates(latn, lngn);
+=======
+          var latn = gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
+          var lngn = gpsDataModel.longitude = json["longitude"] != null ? json["longitude"] : 0;
+          List<Placemark> newPlace ;
+          current_lang = LocalizationService().getCurrentLang();
+          if (current_lang == 'Hindi') {
+    newPlace =
+        await placemarkFromCoordinates(latn, lngn, localeIdentifier: "hi_IN");
+  } else {
+    newPlace =
+        await placemarkFromCoordinates(latn, lngn, localeIdentifier: "en_US");
+  }
+>>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
           var first = newPlace.first;
           String? addressstring;
           if (first.subLocality == "")
@@ -105,6 +124,7 @@ class MapUtil {
     print("$traccarApi");
     print("$deviceId");
     try {
+<<<<<<< HEAD
       http.Response response = await http.get(
           Uri.parse(
               "$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"),
@@ -113,6 +133,10 @@ class MapUtil {
             'Accept': 'application/json'
           });
       ;
+=======
+      
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/route?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth, 'Accept': 'application/json'}, );
+>>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
@@ -211,6 +235,7 @@ class MapUtil {
     print("TO : $to");
 
     try {
+<<<<<<< HEAD
       http.Response response = await http.get(
           Uri.parse(
               "$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"),
@@ -218,6 +243,9 @@ class MapUtil {
             'authorization': basicAuth,
             'Accept': 'application/json'
           });
+=======
+      http.Response response = await http.get(Uri.parse("$traccarApi/reports/trips?deviceId=$deviceId&from=${from}Z&to=${to}Z"),headers: <String, String>{'authorization': basicAuth,'Accept': 'application/json'});
+>>>>>>> 83e53b2ce2b9626e14176a7727c2460edb996103
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
