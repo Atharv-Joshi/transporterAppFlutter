@@ -821,20 +821,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                               Container(
                                 margin:
                                     EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => MyTrucks());
-                                      },
-                                      child: Icon(Icons.arrow_back_ios_rounded),
-                                    ),
-                                    Header(
-                                        reset: false,
-                                        text: "${widget.TruckNo}",
-                                        backButton: false),
-                                  ],
-                                ),
+                                child: Header(
+                                    reset: false,
+                                    text: "${widget.TruckNo}",
+                                    backButton: true),
                               ),
                               //HelpButtonWidget(),
                               PopupMenuButton(
@@ -893,25 +883,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                             ],
                           ),
                         ),
-                      ])))
-              /*      Container(
-                          margin: EdgeInsets.fromLTRB(space_7, space_1, 0, space_2),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                                child: Header(
-                                    reset: false,
-                                    text: "${widget.TruckNo}",
-                                    backButton: true),
-                              ),
-                              HelpButtonWidget()
-                            ],
-                          ),
-                        ),
                       ]))),
               AnimatedPositioned(
                 curve: Curves.easeInOut,
@@ -937,7 +908,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   //    timer2: timer2,
                   //  timer3: timer,
                 ),
-              )*/
+              )
             ],
           ),
         ),
