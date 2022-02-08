@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:async/async.dart';
+import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +103,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       getTruckHistory();
       getDateRange();
       getInfoWindow();
-      getStops();
       check();
       print("PLAY ROUTE HISTORY DONE ------");
 
@@ -112,9 +113,9 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       setState(() {
         camPosition = CameraPosition(
             target: LatLng(gpsTruckHistory[0].latitude, gpsTruckHistory[0].longitude),
-            zoom: 11.5
+            zoom: 12.5
         );
-        stream = Stream.periodic(Duration(milliseconds: 350), (count) => Locations[count])
+        stream = Stream.periodic(Duration(milliseconds: 470), (count) => Locations[count])
             .take(Locations.length);
       });
 
@@ -133,6 +134,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       // fromDate = widget.fromDate;
       // toDate = widget.toDate;
     });
+    addstops(gpsStoppageHistory);
     getLatLngList();
   }
 
@@ -173,10 +175,12 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     int c=0;
     for(int i=0; i<gpsTruckHistory.length ; i++){
       c=a+10;
-      var time = getISOtoIST(gpsTruckHistory[a].deviceTime);
-      routeTime.add("$time");
-      routeSpeed.add("${(gpsTruckHistory[a].speed).toStringAsFixed(2)} km/h");
-
+      if(gpsTruckHistory[a].speed >= 2) {
+          var time = getISOtoIST(gpsTruckHistory[a].deviceTime);
+          routeTime.add("$time");
+          routeSpeed
+              .add("${(gpsTruckHistory[a].speed).toStringAsFixed(2)} km/h");
+      }
       a=c;
       if(a>=gpsTruckHistory.length){
         break;
@@ -186,8 +190,20 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     print("Route speed ${routeSpeed}");
 
   }
+  addstops(var gpsStoppage) async {
+    var logger = Logger();
+    logger.i("in addstops function");
+    FutureGroup futureGroup = FutureGroup();
+    for (int i = 0; i < gpsStoppage.length; i++) {
+      var future = getStops(gpsStoppage[i], i);
+      futureGroup.add(future);
+    }
+    futureGroup.close();
+    await futureGroup.future;
+    print("STOPS DONE __");
+  }
 
-  getStops() async {
+  getStops(var gpsStoppage, int i) async {
     var logger = Logger();
     logger.i("in getStops function");
     stops = [];
@@ -220,7 +236,8 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     int c=0;
     for(int i=0; i<gpsTruckHistory.length ; i++){
       c=a+10;
-      Locations.add(LatLng(gpsTruckHistory[a].latitude, gpsTruckHistory[a].longitude));
+      if(gpsTruckHistory[a].speed >= 2)
+        Locations.add(LatLng(gpsTruckHistory[a].latitude, gpsTruckHistory[a].longitude));
       a=c;
       if(a>=gpsTruckHistory.length){
         break;
@@ -230,7 +247,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
 
   //New location when truck moves
   void newLocationUpdate(LatLng latLng) async{
-    markerIcon = await getBytesFromCanvas2(routeTime[i].toString(),routeSpeed[i].toString(), 350, 150);
+    markerIcon = await getBytesFromCanvas2(routeTime[i].toString(),routeSpeed[i].toString(), 600, 150);
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
         'assets/icons/playHistoryPin.png')
         .then((value) => {
@@ -245,6 +262,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                         markerId: kMarkerId,
                         position: latLng,
                         icon: pinLocationIconTruck,
+                        anchor: const Offset(0.5, 0.5),
                         rotation: 180,
                         onTap: () {
                           print("Tapped");
@@ -356,9 +374,9 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                   Animarker(
                                     curve: Curves.easeIn,
                                     angleThreshold: 30,
-                                    zoom: 11.5,
+                                    zoom: 12.5,
                                     useRotation: true,
-                                    duration: Duration(milliseconds: 380 ),
+                                    duration: Duration(milliseconds: 500 ),
                                     mapId: controller.future
                                         .then<int>((value) => value.mapId), //Grab Google Map Id
                                     markers: markers.values.toSet(),

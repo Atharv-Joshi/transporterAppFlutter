@@ -27,12 +27,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MyTruckCard extends StatefulWidget {
   TruckModel truckData;
   var gpsData;
-  String truckAddress;
   String status;
 
   MyTruckCard({
     required this.truckData,
-    required this.truckAddress,
     required this.status,
     this.gpsData,
   });
@@ -57,6 +55,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   late String from = yesterday.toIso8601String();
   late String to = now.toIso8601String();
+
   @override
   void initState() {
     super.initState();
@@ -93,6 +92,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
+<<<<<<< HEAD
         color: Color(0xffF7F8FA),
         margin: EdgeInsets.only(bottom: space_2),
         child: GestureDetector(
@@ -110,6 +110,26 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 status: "Loading...",
               );
               // getTruckHistory();
+=======
+      color: Color(0xffF7F8FA),
+      margin: EdgeInsets.only(bottom: space_2),
+      
+      child: GestureDetector(
+        onTap: () async {
+          // if (loading) {
+          EasyLoading.instance
+            ..indicatorType = EasyLoadingIndicatorType.ring
+            ..indicatorSize = 45.0
+            ..radius = 10.0
+            ..maskColor = darkBlueColor
+            ..userInteractions = false
+            ..backgroundColor = darkBlueColor
+            ..dismissOnTap = false;
+          EasyLoading.show(
+            status: "Loading...",
+          );
+          // getTruckHistory();
+>>>>>>> b0022e48cfc7ff55dae28f7f2420e6cf7f72b80f
 
               print(widget.truckData.deviceId);
 
@@ -121,6 +141,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
               gpsStoppageHistory = await s;
               gpsRoute = await t;
 
+<<<<<<< HEAD
               if (gpsRoute != null &&
                   gpsDataHistory != null &&
                   gpsStoppageHistory != null &&
@@ -160,6 +181,48 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               child: Column(
                                 children: [
                                   /*    Row(
+=======
+          if (gpsRoute != null &&
+              gpsDataHistory != null &&
+              gpsStoppageHistory != null &&
+              widget.truckData.truckApproved == true) {
+            EasyLoading.dismiss();
+            Get.to(
+              TrackScreen(
+                deviceId: widget.truckData.deviceId,
+                gpsData: widget.gpsData,
+                // position: position,
+                TruckNo: widget.truckData.truckNo,
+                driverName: widget.truckData.driverName,
+                driverNum: widget.truckData.driverNum,
+                gpsDataHistory: gpsDataHistory,
+                gpsStoppageHistory: gpsStoppageHistory,
+                routeHistory: gpsRoute,
+                truckId: widget.truckData.truckId,
+              ),
+            );
+          } else {
+            EasyLoading.dismiss();
+            print("gpsData null or truck not approved");
+          }
+        },
+        child: Card(
+          elevation: 5,
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+      
+              children: [
+                verified!
+                    ? Container(
+                        padding: EdgeInsets.all(space_3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF7F8FA),
+                        ),
+                        child: Column(
+                          children: [
+                            /*    Row(
+>>>>>>> b0022e48cfc7ff55dae28f7f2420e6cf7f72b80f
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(0, 0, space_2, 0),
@@ -206,7 +269,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   fontSize: 10,
                                   color: black,
                                   ),
-                      
+
                               ),*/
                                         ],
                                       ),
@@ -267,6 +330,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                               "${widget.gpsData.last.address}",
                                               maxLines: 3,
                                               style: TextStyle(
+<<<<<<< HEAD
                                                   color: black,
                                                   fontSize: 12,
                                                   fontStyle: FontStyle.normal,
@@ -274,6 +338,22 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                             ),
                                           ),
                                         ]),
+=======
+
+                                                  color: red,
+                                                  
+                                                  fontSize: size_10,
+                                                  fontStyle: FontStyle.normal,
+                                                  fontWeight: regularWeight)),
+                                      Text("${widget.status}",
+                                          // "Status",
+                                          style: TextStyle(
+                                              color: black,
+                                              fontSize: size_6,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight))
+                                    ],
+>>>>>>> b0022e48cfc7ff55dae28f7f2420e6cf7f72b80f
                                   ),
                                   SizedBox(
                                     height: 6,
@@ -389,6 +469,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                       */
+<<<<<<< HEAD
                                 ],
                               ),
                             )
@@ -459,6 +540,81 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                           ),
                                         ),
                                         /*            Row(
+=======
+                    ],
+                  ),
+                )
+      
+      
+                    :   Container(
+                      padding: EdgeInsets.all(space_3),
+                      decoration: BoxDecoration(
+                    color: const Color(0xFFF7F8FA),
+            ),
+                      child: Column(
+                  children: [
+                      Row(
+                        children: [
+                          Image.asset('assets/icons/box-truck.png',
+                          width: 29,
+                          height: 29,
+                          ),
+                          SizedBox(
+                            width: 13,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '${widget.truckData.truckNo}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: black,
+                                  
+                                  ),
+                              ),
+                              Text(
+                                'time date ',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: black,
+                                  ),
+      
+                              ),
+                          ],
+                          ),
+                          SizedBox(
+                            width: 23,
+                          ),
+                          
+                      ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(27.00,20.00,20.00,0.00),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/icons/circle-outline-with-a-central-dot.png',
+                                    color: const Color(0xFFCDCDCD),
+                                    width: 12,
+                                    height: 12,),
+                            SizedBox(
+                                   width: 8
+                               ),
+                            Text(
+                              'Buy GPS to access live tracking',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF152968),
+                                fontSize: 12,
+                              ),
+                              
+                            ),
+
+
+                          ],
+                        ),
+                      ),
+        /*            Row(
+>>>>>>> b0022e48cfc7ff55dae28f7f2420e6cf7f72b80f
                         children: [
                           Image(
                               height: 16 ,
@@ -524,12 +680,13 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ),
                         ),
                       )
-      
-      
+
+
                 */
                                       ],
                                     ),
                                   ),
+<<<<<<< HEAD
                                   driver
                                       ? Container(
                                           padding:
@@ -618,14 +775,26 @@ class _MyTruckCardState extends State<MyTruckCard> {
                     ]),
               ),
             )));
+=======
+                                )),
+                          ],
+                        ),
+                      ),
+              ],
+            
+            ),
+          ),
+        ),
+      ),
+    );
+>>>>>>> b0022e48cfc7ff55dae28f7f2420e6cf7f72b80f
   }
 
   initfunction() async {
-    var gpsRoute1 =
-        await getRouteStatusList(widget.truckData.deviceId, from, to);
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: widget.truckData.deviceId, from: from, to: to);
     setState(() {
-      gpsRoute = gpsRoute1;
-      totalDistance = getTotalDistance(gpsRoute);
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
     });
   }
 }

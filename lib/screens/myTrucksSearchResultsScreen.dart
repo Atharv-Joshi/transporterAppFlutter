@@ -153,7 +153,6 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                           ? bottomProgressBarIndicatorWidget()
                           : MyTruckCard(
                               truckData: items[index],
-                              truckAddress: truckAddressList[index],
                               status: status[index],
                               gpsData: gpsDataList[index],
                             )),
