@@ -22,6 +22,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/truckLockScreen.dart';
+import 'package:liveasy/screens/truckUnlockScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/stoppageInfoWindow.dart';
@@ -33,6 +34,7 @@ import 'package:screenshot/screenshot.dart';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:get/get.dart';
 
 class TrackScreen extends StatefulWidget {
   final List gpsData;
@@ -137,7 +139,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
 
-  var Get;
+  //var Get;
 
   @override
   void initState() {
@@ -833,6 +835,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                         PopupMenuItem(
                                           child: GestureDetector(
                                             onTap: () {
+                                              print("CHECKKK");
                                               Get.to(() => TruckLockScreen(
                                                   deviceId: widget.deviceId,
                                                   gpsData: widget.gpsData,
