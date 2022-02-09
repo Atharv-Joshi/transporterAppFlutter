@@ -17,11 +17,13 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/placesNearbyDataModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/nearbyPlaceInfoCard.dart';
 import 'package:liveasy/widgets/nearbyPlaceScreenDetailsWidget.dart';
 import 'package:liveasy/widgets/nearbyPlacesDetailsCard.dart';
 import 'package:logger/logger.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/fontSize.dart';
 import '../constants/fontWeights.dart';
@@ -88,6 +90,9 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   late LatLng startLocationForDistance;
   late LatLng endLocationForDistance;
 
+  double pinPillPosition = -100;
+  int placesIndex = 0;
+
   Future<void> callApi(double lat, double lon) async {
     var url = Uri.parse(
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
@@ -112,9 +117,8 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         endLocationForDistance = LatLng(
             _placesNearbyData.results![i].geometry!.location!.lat!.toDouble(),
             _placesNearbyData.results![i].geometry!.location!.lng!.toDouble());
-        getDirections(i);
-
         futureGroup.add(future);
+        getDirections(i);
       }
 
     futureGroup.close();
@@ -270,11 +274,18 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
     setState(() {
       customMarkers.add(Marker(
-        markerId: MarkerId("Stop Mark $i"),
-        position: latlong,
-        icon: pinLocationIconPlace,
-        infoWindow: InfoWindow(title: nearbyPlaces.name),
-      ));
+          markerId: MarkerId("Stop Mark $i"),
+          position: latlong,
+          icon: pinLocationIconPlace,
+          infoWindow: InfoWindow(title: nearbyPlaces.name),
+          onTap: () {
+            setState(() {
+              pinPillPosition = 64;
+              placesIndex = i;
+              showBottomMenu = false;
+              addPolyLineForTarget(i);
+            });
+          }));
     });
   }
 
@@ -323,7 +334,40 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       polylineId: id,
       color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.5),
       points: polylineCoordinates,
-      width: 4,
+      width: 2,
+    );
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  addPolyLineForTarget(int index) async {
+    List<LatLng> polylineCoordinates = [];
+    LatLng endLocationForDistanceForTarget = LatLng(
+        _placesNearbyData.results![index].geometry!.location!.lat!.toDouble(),
+        _placesNearbyData.results![index].geometry!.location!.lng!.toDouble());
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleAPiKey,
+      PointLatLng(startLocationForDistance.latitude,
+          startLocationForDistance.longitude),
+      PointLatLng(endLocationForDistanceForTarget.latitude,
+          endLocationForDistanceForTarget.longitude),
+      travelMode: TravelMode.driving,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    } else {
+      print(result.errorMessage);
+    }
+
+    PolylineId id = PolylineId("polytarget");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      points: polylineCoordinates,
+      width: 8,
     );
     polylines[id] = polyline;
     setState(() {});
@@ -381,6 +425,9 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                       GoogleMap(
                         onTap: (position) {
                           _customInfoWindowController.hideInfoWindow!();
+                          setState(() {
+                            pinPillPosition = -100;
+                          });
                         },
                         onCameraMove: (position) {
                           _customInfoWindowController.onCameraMove!();
@@ -488,6 +535,11 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                           ),
                         ),
                       ),
+                      NearbyPlaceInfoCard(
+                          pinPillPosition: pinPillPosition,
+                          placesIndex: placesIndex,
+                          placeOnTheMapTag: widget.placeOnTheMapTag,
+                          placesNearbyData: _placesNearbyData),
                     ])),
               ),
               Positioned(
@@ -530,7 +582,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                   placeOnTheMapTag: widget.placeOnTheMapTag,
                   placesNearbyData: _placesNearbyData,
                 ),
-                //child: menuWidget(height, width),
               )
             ],
           ),

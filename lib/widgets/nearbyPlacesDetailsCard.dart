@@ -23,7 +23,7 @@ class NearbyPlacesDetailsCard extends StatefulWidget {
 }
 
 class _NearbyPlacesDetailsCardState extends State<NearbyPlacesDetailsCard> {
-  static Future<void> openMap(String coordinates) async {
+  Future<void> openMap(String coordinates) async {
     String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$coordinates';
     if (await canLaunch(googleUrl)) {
