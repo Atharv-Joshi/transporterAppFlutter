@@ -94,7 +94,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
-      
       child: GestureDetector(
         onTap: () async {
           // if (loading) {
@@ -150,7 +149,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-      
               children: [
                 verified!
                     ? Container(
@@ -226,9 +224,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                           : Text(
                                               "${(widget.gpsData.last.speed).round()} km/h",
                                               style: TextStyle(
-
                                                   color: red,
-                                                  
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)),
@@ -384,79 +380,73 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                       */
-                    ],
-                  ),
-                )
-      
-      
-                    :   Container(
-                      padding: EdgeInsets.all(space_3),
-                      decoration: BoxDecoration(
-                    color: const Color(0xFFF7F8FA),
-            ),
-                      child: Column(
-                  children: [
-                      Row(
-                        children: [
-                          Image.asset('assets/icons/box-truck.png',
-                          width: 29,
-                          height: 29,
-                          ),
-                          SizedBox(
-                            width: 13,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                '${widget.truckData.truckNo}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: black,
-                                  
-                                  ),
-                              ),
-                              Text(
-                                'time date ',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: black,
-                                  ),
-      
-                              ),
-                          ],
-                          ),
-                          SizedBox(
-                            width: 23,
-                          ),
-                          
-                      ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(27.00,20.00,20.00,0.00),
-                        child: Row(
-                          children: [
-                            Image.asset('assets/icons/circle-outline-with-a-central-dot.png',
-                                    color: const Color(0xFFCDCDCD),
-                                    width: 12,
-                                    height: 12,),
-                            SizedBox(
-                                   width: 8
-                               ),
-                            Text(
-                              'Buy GPS to access live tracking',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF152968),
-                                fontSize: 12,
-                              ),
-                              
-                            ),
-
-
                           ],
                         ),
-                      ),
-        /*            Row(
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(space_3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF7F8FA),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/box-truck.png',
+                                  width: 29,
+                                  height: 29,
+                                ),
+                                SizedBox(
+                                  width: 13,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      '${widget.truckData.truckNo}',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: black,
+                                      ),
+                                    ),
+                                    Text(
+                                      'time date ',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 23,
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  27.00, 20.00, 20.00, 0.00),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/circle-outline-with-a-central-dot.png',
+                                    color: const Color(0xFFCDCDCD),
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Buy GPS to access live tracking',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF152968),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            /*            Row(
                         children: [
                           Image(
                               height: 16 ,
@@ -601,7 +591,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
               ],
-            
             ),
           ),
         ),
