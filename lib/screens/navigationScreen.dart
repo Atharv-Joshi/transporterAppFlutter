@@ -262,3 +262,4 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ));
   }
 }
+//http://traccar.dev.truckseasy.com:8082/reports/route?from=2022-02-02T19:37:31Z&deviceId=1&to=2022-02-03T19:37:31Z
