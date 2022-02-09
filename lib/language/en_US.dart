@@ -123,7 +123,7 @@ const Map<String, String> enUS = {
 
   //Navigation drawer
   "mydriver": "My Driver",
-  'noDriver':"Looks like you have not added any Drivers!",
+  'noDriver': "Looks like you have not added any Drivers!",
 
   //Home
   "search": "Search",
@@ -131,14 +131,15 @@ const Map<String, String> enUS = {
   "referUs": "Refer Liveasy to earn\npremium account",
   "gpsTitle":
       "Liveasy GPS system\nallows you to track\nyour vehicles from\nthe app",
-  "gpsTitleLong": "Liveasy GPS system allows you\n to track your vehicles from the app",
+  "gpsTitleLong":
+      "Liveasy GPS system allows you\n to track your vehicles from the app",
   "bonus": "Bonus",
-  'status':'Status',
-  'truckTravelled':'Truck Travelled : ',
-  'kmToday':'km Today',
-  'ignition':"Ignition :",
-  'on':"ON",
-  'off':'OFF',
+  'status': 'Status',
+  'truckTravelled': 'Truck Travelled : ',
+  'kmToday': 'km Today',
+  'ignition': "Ignition :",
+  'on': "ON",
+  'off': 'OFF',
 
   //trucks
   "all": "All",
@@ -149,23 +150,22 @@ const Map<String, String> enUS = {
   "notruckrunnning": "Look like you do not have any truck running",
   "notruckstopped": "Look like you do not have any stopped truck",
   'passingWeight': "Passing Weight (in tons.)",
-  'buyGPS':'Buy GPS to access live tracking',
-  'timedate':'time date',
-  'km':'km',
-  "stops":"Stops",
-  'km/h':'km/h',
-  'navigate':'Navigate',
-  'playtrip':'Play Trip',
-  'history':'History',
-  'submit':'Submit',
-
+  'buyGPS': 'Buy GPS to access live tracking',
+  'timedate': 'time date',
+  'km': 'km',
+  "stops": "Stops",
+  'km/h': 'km/h',
+  'navigate': 'Navigate',
+  'playtrip': 'Play Trip',
+  'history': 'History',
+  'submit': 'Submit',
 
   //truck type
-  'openbody':'Open Body',
-  'flatbed':'Flatbed',
-  'trailerbody':'Trailer Body',
-  'standardcontainer':'Standard Container',
-  'highcontainer':'High Cube Container',
+  'openbody': 'Open Body',
+  'flatbed': 'Flatbed',
+  'trailerbody': 'Trailer Body',
+  'standardcontainer': 'Standard Container',
+  'highcontainer': 'High Cube Container',
 
   //loads
   "noLoadAdded": "Look like you have not added any load",
@@ -181,35 +181,45 @@ const Map<String, String> enUS = {
   "findLoad": "Find Load",
   'bidPrice': "Bid Price",
   'addDriver': "Add Driver",
-  'weights':'Weight(in tons)',
+  'weights': 'Weight(in tons)',
   "chooseproductType": "Choose Product Type",
-  'priceoptional':'Price(Optional)',
-  'enterprice':'enter price',
-
+  'priceoptional': 'Price(Optional)',
+  'enterprice': 'enter price',
 
   //my account
-'verified':"verified",
-'uploadDetails':'Upload Details',
-'provideDetails':'Provide Details',
-'waitForReview':'Wait for review',
-'takeTime':'This might take a few days',
-  'searchForLoads':'Search For Loads',
+  'verified': "verified",
+  'uploadDetails': 'Upload Details',
+  'provideDetails': 'Provide Details',
+  'waitForReview': 'Wait for review',
+  'takeTime': 'This might take a few days',
+  'searchForLoads': 'Search For Loads',
 
   //logout
-  'ok':"Ok",
-  'ok1':"Ok",
-  'logoutDialog':'Are you sure? You want to logout',
+  'ok': "Ok",
+  'ok1': "Ok",
+  'logoutDialog': 'Are you sure? You want to logout',
 
   //alert
-  'alertLine1':'You can use this feature',
-  'alertLine2':'in next update',
-
+  'alertLine1': 'You can use this feature',
+  'alertLine2': 'in next update',
 
   //posted on
-  'postedon':'Posted on',
-  'repost':'Repost',
-  'loadexpired':'Load Expired!',
-  'bookingtitle':'Keep booking\nusing Liveasy to\nearn more',
-  'enterproduct':'Enter the Product'
+  'postedon': 'Posted on',
+  'repost': 'Repost',
+  'loadexpired': 'Load Expired!',
+  'bookingtitle': 'Keep booking\nusing Liveasy to\nearn more',
+  'enterproduct': 'Enter the Product',
 
+  //shareDialog
+  'linkExpired': 'Link Expired',
+  'linkExpiredInstruction':
+      'The link you are trying to open is no longer available',
+  '1Day': '1 Day',
+  '2Days': '2 Days',
+  '7Days': '7 Days',
+  'whatsappShare': 'Share on Whatsapp',
+  'setExpiry': 'Set expiry time',
+
+  //searchMytrucks
+  'searchTrucks': 'Search Trucks',
 };

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
@@ -11,6 +13,8 @@ import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:liveasy/screens/truckAnalysisScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../screens/nearbyPlacesScreen.dart';
 
 class TrackScreenDetails extends StatefulWidget {
   final String? driverNum;
@@ -59,10 +63,18 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var totalStoppedTime;
   var latitude;
   var longitude;
+  late Timer timer;
+  DateTime now =
+      DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  String selectedLocation = '24 hours';
   @override
   void initState() {
     super.initState();
     initFunction();
+    timer = Timer.periodic(Duration(minutes: 0, seconds: 10),
+          (Timer t) => initFunction());
   }
 
   initFunction() {
@@ -88,13 +100,18 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       throw 'Could not open the map.';
     }
   }
-
+  @override
+  void dispose() {
+    
+    timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: height / 3 + 86,
+      height: height / 3 + 126,
       width: width,
       padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
       decoration: BoxDecoration(
@@ -134,254 +151,245 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
 
               padding: EdgeInsets.fromLTRB(size_10, size_3, 0, space_3),
 
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.place_outlined,
-                                  color: bidBackground,
-                                  size: 15,
-                                ),
-                                SizedBox(width: 8),
-                                Container(
-                                  width: width / 2 + 10,
-                                  child: Text(
-                                    "${gpsData.last.address}",
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        color: black,
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: normalWeight),
-                                  ),
-                                ),
-                              ]),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
-                            child: Row(
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                //  textDirection:
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    'assets/icons/circle-outline-with-a-central-dot.png',
+                                  Icon(
+                                    Icons.place_outlined,
                                     color: bidBackground,
-                                    width: 11,
-                                    height: 11,
+                                    size: 15,
                                   ),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 8),
                                   Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('ignition'.tr,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: 12,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: regularWeight)),
+                                    width: width / 2 + 10,
+                                    child: Text(
+                                      "${gpsData.last.address}",
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          color: black,
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: normalWeight),
+                                    ),
                                   ),
-                                  (gpsData.last.ignition)
-                                      ? Container(
-                                          alignment: Alignment.centerLeft,
-                                          //    width: 217,
-
-                                          child: Text('on'.tr,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontSize: 12,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.bold)),
-                                        )
-                                      : Container(
-                                          alignment: Alignment.centerLeft,
-                                          //    width: 217,
-
-                                          child: Text("off".tr,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontSize: 12,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                  SizedBox(),
                                 ]),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Row(
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                              child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
+                                  //  textDirection:
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/icons/distanceCovered.png'),
-                                      height: 14,
-                                      width: 14,
+                                    Image.asset(
+                                      'assets/icons/circle-outline-with-a-central-dot.png',
+                                      color: bidBackground,
+                                      width: 11,
+                                      height: 11,
                                     ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
+                                    SizedBox(width: 10),
                                     Container(
                                       alignment: Alignment.centerLeft,
-                                      //      width: 103,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text('truckTravelled'.tr,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                      color: liveasyGreen,
-                                                      fontSize: size_6,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          regularWeight)),
-                                              Text(
-                                                  "${widget.totalDistance} " +
-                                                      "km".tr,
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                      color: black,
-                                                      fontSize: size_6,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          regularWeight)),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text("$totalRunningTime ",
-                                                  softWrap: true,
-                                                  style: TextStyle(
-                                                      color: grey,
-                                                      fontSize: size_4,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          regularWeight)),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                      child: Text('ignition'.tr,
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              color: black,
+                                              fontSize: 12,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)),
                                     ),
-                                  ]),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                width: 1,
-                                height: 20,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Row(children: [
-                                Icon(Icons.pause, size: 20),
-                                SizedBox(
-                                  width: space_1,
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  //    width: 103,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("${gpsStoppageHistory.length} ",
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontSize: size_6,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)),
-                                          Text("stops".tr,
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                  color: red,
-                                                  fontSize: size_6,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text("$totalStoppedTime ",
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                  color: grey,
-                                                  fontSize: size_4,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                              SizedBox(
-                                height: space_1,
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 0),
-                        ] //
+                                    (gpsData.last.ignition)
+                                        ? Container(
+                                            alignment: Alignment.centerLeft,
+                                            //    width: 217,
 
+                                            child: Text('on'.tr,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    color: black,
+                                                    fontSize: 12,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          )
+                                        : Container(
+                                            alignment: Alignment.centerLeft,
+                                            //    width: 217,
+
+                                            child: Text("off".tr,
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                    color: black,
+                                                    fontSize: 12,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                    SizedBox(),
+                                  ]),
+                            ),
+                          ] //
+
+                          ),
+                      Spacer(),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, space_5),
+                        child: Column(
+                          children: [
+                            (widget.gpsData.last.speed > 2)
+                                ? Text(
+                                    "${(gpsData.last.speed).round()} " +
+                                        "km/h".tr,
+                                    style: TextStyle(
+                                        color: liveasyGreen,
+                                        fontSize: size_10,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight))
+                                : Text(
+                                    "${(gpsData.last.speed).round()} " +
+                                        "km/h".tr,
+                                    style: TextStyle(
+                                        color: red,
+                                        fontSize: size_10,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                            Text("status".tr,
+                                style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: regularWeight))
+                          ],
                         ),
-                    Spacer(),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, space_5),
-                      child: Column(
-                        children: [
-                          (widget.gpsData.last.speed > 2)
-                              ? Text(
-                                  "${(gpsData.last.speed).round()} " +
-                                      "km/h".tr,
-                                  style: TextStyle(
-                                      color: liveasyGreen,
-                                      fontSize: size_10,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: regularWeight))
-                              : Text(
-                                  "${(gpsData.last.speed).round()} " +
-                                      "km/h".tr,
-                                  style: TextStyle(
-                                      color: red,
-                                      fontSize: size_10,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: regularWeight)),
-                          Text("status".tr,
-                              style: TextStyle(
-                                  color: black,
-                                  fontSize: size_6,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: regularWeight))
-                        ],
                       ),
+                      Spacer(),
+                    ]),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Image(
+                        image: AssetImage('assets/icons/distanceCovered.png'),
+                        height: 14,
+                        width: 14,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        //      width: 103,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text('truckTravelled'.tr,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: liveasyGreen,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                                Text("${widget.totalDistance} " + "km".tr,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("$totalRunningTime ",
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: grey,
+                                        fontSize: size_4,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ]),
+                    SizedBox(
+                      width: 10,
                     ),
-                    Spacer(),
-                  ]),
+                    Container(
+                      width: 1,
+                      height: 20,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Row(children: [
+                      Icon(Icons.pause, size: 20),
+                      SizedBox(
+                        width: space_1,
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        //    width: 103,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text("${gpsStoppageHistory.length} ",
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                                Text("stops".tr,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: red,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("$totalStoppedTime ",
+                                    softWrap: true,
+                                    style: TextStyle(
+                                        color: grey,
+                                        fontSize: size_4,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ]),
+                    SizedBox(
+                      height: space_1,
+                    )
+                  ],
+                ),
+                SizedBox(height: 0),
+              ]),
             ),
             Divider(
               color: black,
@@ -404,7 +412,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         foregroundColor: Colors.white,
                         child: const Icon(Icons.near_me_outlined, size: 30),
                         onPressed: () {
-                          openMap(gpsData.last.lat, gpsData.last.lng);
+                          openMap(gpsData.last.latitude, gpsData.last.longitude);
                         },
                       ),
                       SizedBox(
@@ -481,6 +489,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             gpsTruckRoute: widget.gpsTruckRoute,
                             dateRange: widget.dateRange,
                             deviceId: widget.deviceId,
+                            selectedLocation: selectedLocation,
+                            istDate1: yesterday,
+                            istDate2: now,
                             //     latitude: latitude,
                             //      longitude: longitude,
                           ));
@@ -502,17 +513,42 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                 )),
             Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_5, space_1, space_8, space_1),
+                margin: EdgeInsets.fromLTRB(space_5, space_1, space_5, space_1),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button5",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.local_gas_station, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button5",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/gas_station.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "gas_station",
+                                placeOnTheMapName: "Petrol Pumps",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -527,25 +563,43 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: Image.asset(
-                          'assets/icons/truckAnalysis.png',
-                          scale: 2.5,
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        onPressed: () {
-                          Get.to(truckAnalysisScreen(
-                            gpsStoppageHistory: widget.gpsStoppageHistory,
-                          ));
-                        },
+                        child: FloatingActionButton(
+                          heroTag: "button6",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/police.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(
+                              NearbyPlacesScreen(
+                                deviceId: widget.deviceId,
+                                gpsData: widget.gpsData,
+                                placeOnTheMapTag: "police",
+                                placeOnTheMapName: "Police Stations",
+                                // position: position,
+                                TruckNo: widget.TruckNo,
+                                driverName: widget.driverName,
+                                driverNum: widget.driverNum,
+                                truckId: widget.truckId,
+                                gpsDataHistory: widget.gpsDataHistory,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Truck Analysis",
+                        "Police Station",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -554,18 +608,32 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                       ),
                     ]),
                     Column(children: [
-                      FloatingActionButton(
-                        heroTag: "button7",
-                        backgroundColor: bidBackground,
-                        foregroundColor: Colors.white,
-                        child: const Icon(Icons.lock_outlined, size: 30),
-                        onPressed: () {},
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: bidBackground, width: 4),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: "button7",
+                          backgroundColor: Colors.white,
+                          foregroundColor: bidBackground,
+                          child: Image.asset(
+                            'assets/icons/truckAnalysis.png',
+                            scale: 2.5,
+                          ),
+                          onPressed: () {
+                            Get.to(truckAnalysisScreen(
+                              gpsStoppageHistory: widget.gpsStoppageHistory,
+                            ));
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 8,
                       ),
                       Text(
-                        "Lock",
+                        "Truck Analysis",
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,

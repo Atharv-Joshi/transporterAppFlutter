@@ -29,6 +29,8 @@ import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
+import 'package:liveasy/widgets/truckInfoWindow.dart';
+import 'package:liveasy/widgets/trucknoInfoWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,6 +61,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       target: lastlatLngMarker,
       zoom: 4.5);
   var logger = Logger();
+  bool showdetails = false;
   late Marker markernew;
   List<Marker> customMarkers = [];
   late Timer timer;
@@ -73,6 +76,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  CustomInfoWindowController _customDetailsInfoWindowController = CustomInfoWindowController();
   bool isAnimation = false;
   double mapHeight=600;
   var direction;
@@ -103,6 +107,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
     _controller.complete(controller);
     
     _customInfoWindowController.googleMapController = controller;
+     _customDetailsInfoWindowController.googleMapController = controller;
   }
 
   @override
@@ -144,6 +149,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       print("hello ${widget.gpsDataList.length}"),
       for(int i =0;i<widget.gpsDataList.length;i++)
     {
+      if(widget.gpsDataList[i] != null)
       createmarker(widget.gpsDataList[i],widget.truckDataList[i]),
     }
       
@@ -160,24 +166,53 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       print(gpsData.last.deviceId.toString());
       String title = truckData.truckNo!;
       markerIcon = await getBytesFromCanvas3(truckData.truckNo!, 100, 100);
+      var address =  await getAddress(gpsData);
       setState(() {
         direction = 180 + gpsData.last.course;
         lastlatLngMarker = LatLng(gpsData.last.latitude, gpsData.last.longitude);
         latlng.add(lastlatLngMarker);
+         _customDetailsInfoWindowController.hideInfoWindow!();
+         _customInfoWindowController.addInfoWindow!(
+                            trucknoInfoWindow(truckData.truckNo),
+                            lastlatLngMarker,
+                          );
+          showdetails = false;
         customMarkers.add(Marker(
             markerId: MarkerId(gpsData.last.deviceId.toString()),
             position: latLngMarker,
+            onTap: ()
+            {
+              if(!showdetails)
+                {
+                  _customInfoWindowController.hideInfoWindow!();
+                  _customDetailsInfoWindowController.addInfoWindow!(
+                            truckInfoWindow(truckData.truckNo,address),
+                            lastlatLngMarker,
+                          );
+                  showdetails = true;
+                }
+                else{
+                  _customDetailsInfoWindowController.hideInfoWindow!();
+                  _customInfoWindowController.addInfoWindow!(
+                            trucknoInfoWindow(truckData.truckNo),
+                            lastlatLngMarker,
+                          );
+                  showdetails = false;
+                }
+            },
             infoWindow: InfoWindow(
            //   title: title,
-              onTap: (){}),
+              onTap: (){
+                
+              }),
             icon: pinLocationIconTruck,
         rotation: direction));
-        print("here i am");
+     /*   print("here i am");
         customMarkers.add(Marker(
             markerId: MarkerId("Details of ${gpsData.last.deviceId.toString()}"),
             position: latLngMarker,
             icon: BitmapDescriptor.fromBytes(markerIcon),
-        rotation: 0.0));
+        rotation: 0.0));*/
 
         
       });
@@ -213,11 +248,13 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       body: Stack(
                               children: <Widget>[
                                 GoogleMap(
-                            onTap: (position) {
+                         /*   onTap: (position) {
                               _customInfoWindowController.hideInfoWindow!();
-                            },
+                              _customDetailsInfoWindowController.hideInfoWindow!();
+                            },*/
                             onCameraMove: (position) {
                               _customInfoWindowController.onCameraMove!();
+                              _customDetailsInfoWindowController.onCameraMove!();
                             },
                             markers: customMarkers.toSet(),
                   
@@ -229,6 +266,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
                               _customInfoWindowController.googleMapController = controller;
+                              _customDetailsInfoWindowController.googleMapController = controller;
                             },
                             gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                                     new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
@@ -238,9 +276,15 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
                                 controller: _customInfoWindowController,
                                 height: 110,
                                 width: 275,
-                                offset: 30,
+                                offset: 0,
                               ),
-                                Positioned(
+                              CustomInfoWindow(
+                                controller: _customDetailsInfoWindowController,
+                                height: 140,
+                                width: 300,
+                                offset: 0,
+                              ),
+                         /*       Positioned(
                                   left: 10,
                                   top: 275,
                                   child: SizedBox(
@@ -257,7 +301,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
                                       },
                                     ),
                                   ),
-                                ),
+                                ),*/
                                 Positioned(
                                   right: 10,
                                   bottom: height/3+140,
@@ -316,5 +360,11 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
      
      );
   }
-
+  getAddress(var gpsData) async{
+    var address = await getStoppageAddressLatLong(gpsData.last.latitude, gpsData.last.longitude);
+    
+  
+    return address;
+  }
+  
 }

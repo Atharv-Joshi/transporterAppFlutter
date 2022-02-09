@@ -26,6 +26,8 @@ import 'package:liveasy/widgets/truckScreenBarButton.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
+import '../myTrucksSearchResultsScreen.dart';
+
 class MyTrucks extends StatefulWidget {
   @override
   _MyTrucksState createState() => _MyTrucksState();
@@ -53,33 +55,32 @@ class _MyTrucksState extends State<MyTrucks> {
 
   var gpsData;
   bool loading = false;
-  DateTime yesterday = DateTime.now().subtract(
-      Duration(days: 1, hours: 5, minutes: 30));
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   var runningList = [];
-  var runningAddressList = [];
   var runningStatus = [];
   var runningGpsData = [];
   int i = 0;
   var StoppedList = [];
-  var StoppedAddressList = [];
   var StoppedStatus = [];
   var StoppedGpsData = [];
   var truckDataListForPage = [];
 
   var gpsList = [];
-  var truckAddress = [];
   var stat = [];
   var running = [];
-  var runningAddress = [];
   var runningStat = [];
   var runningGps = [];
   var Stopped = [];
-  var StoppedAddress = [];
   var StoppedStat = [];
   var StoppedGps = [];
+
+  var items = [];
+
+  TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
@@ -118,7 +119,7 @@ class _MyTrucksState extends State<MyTrucks> {
     // providerData.resetTruckFilters();
     ProviderData providerData = Provider.of<ProviderData>(context);
     PageController pageController =
-    PageController(initialPage: providerData.upperNavigatorIndex);
+        PageController(initialPage: providerData.upperNavigatorIndex);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -141,91 +142,127 @@ class _MyTrucksState extends State<MyTrucks> {
                         /*  SizedBox(
                       width: space_3,
                     ),*/
-                        HeadingTextWidget(
-                            'my_truck'.tr
-                          // AppLocalizations.of(context)!.my_truck
+                    HeadingTextWidget('my_truck'.tr
+                        // AppLocalizations.of(context)!.my_truck
                         ),
-                        // HelpButtonWidget(),
-                      ],
-                    ),
-                    HelpButtonWidget(),
+                    // HelpButtonWidget(),
                   ],
                 ),
-                Container(
-                    margin: EdgeInsets.symmetric(vertical: space_3),
-                    child: SearchLoadWidget(
-                      hintText: 'search'.tr,
-                      // AppLocalizations.of(context)!.search,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => NextUpdateAlertDialog());
-                      },
-                    )),
-
-                //LIST OF TRUCK CARDS---------------------------------------------
-                Container(
-                  //    height: 26,
-                  //    width: 200,
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-
-                  //    margin: EdgeInsets.symmetric(horizontal: space_2),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F8FA),
-                    boxShadow: [
-                      BoxShadow(color: const Color(0xFFEFEFEF),
-                        blurRadius: 9,
-                        offset: Offset(0, 2),),
-                    ],
-
+                HelpButtonWidget(),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: space_3),
+              child: Container(
+                height: space_8,
+                decoration: BoxDecoration(
+                  color: widgetBackGroundColor,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    width: 0.8,
+                    // color: borderBlueColor,
                   ),
-
-                  child: Row(
-
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-
-                      TruckScreenBarButton(
-                          text: 'all'.tr,
-                          // 'All',
-                          value: 0, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
-                        height: 15,
-                        color: const Color(0xFFC2C2C2),
-                      ),
-                      TruckScreenBarButton(
-                          text: 'running'.tr,
-                          // 'Running'
-                          value: 1, pageController: pageController),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        width: 1,
-                        height: 15,
-                        color: const Color(0xFFC2C2C2),
-                      ),
-                      TruckScreenBarButton(
-                          text: 'stopped'.tr,
-                          // 'Stopped',
-                          value: 2, pageController: pageController),
-                    ],
-                  ),
-
                 ),
-                SizedBox(
-                  height: 6,
-                ),
-                GestureDetector(
+                child: TextField(
                   onTap: () {
-                    Get.to(MapAllTrucks(gpsDataList: gpsDataList,
-                      truckDataList: truckDataList,
-                      runningDataList: runningList,
-                      runningGpsDataList: runningGpsData,
-                      stoppedList: StoppedList,
-                      stoppedGpsList: StoppedGpsData,));
+                    Get.to(() => MyTrucksResult(
+                          gpsDataList: gpsDataList,
+                          truckDataList: truckDataList,
+                          truckAddressList: truckAddressList,
+                          status: status,
+                          items: items,
+                        ));
+                    print("Enterrr");
+                    print("THE ITEMS $items");
                   },
-                  child: Container(
+                  readOnly: true,
+                  textAlignVertical: TextAlignVertical.center,
+                  textAlign: TextAlign.start,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'search'.tr,
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: space_2),
+                      child: Icon(
+                        Icons.search,
+                        color: grey,
+                      ),
+                    ),
+                    hintStyle: TextStyle(
+                      fontSize: size_8,
+                      color: grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            //LIST OF TRUCK CARDS---------------------------------------------
+            Container(
+              //    height: 26,
+              //    width: 200,
+              padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+
+              //    margin: EdgeInsets.symmetric(horizontal: space_2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF7F8FA),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEFEFEF),
+                    blurRadius: 9,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TruckScreenBarButton(
+                      text: 'all'.tr,
+                      // 'All',
+                      value: 0,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'running'.tr,
+                      // 'Running'
+                      value: 1,
+                      pageController: pageController),
+                  Container(
+                    padding: EdgeInsets.all(0),
+                    width: 1,
+                    height: 15,
+                    color: const Color(0xFFC2C2C2),
+                  ),
+                  TruckScreenBarButton(
+                      text: 'stopped'.tr,
+                      // 'Stopped',
+                      value: 2,
+                      pageController: pageController),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(MapAllTrucks(
+                  gpsDataList: gpsDataList,
+                  truckDataList: truckDataList,
+                  runningDataList: runningList,
+                  runningGpsDataList: runningGpsData,
+                  stoppedList: StoppedList,
+                  stoppedGpsList: StoppedGpsData,
+                ));
+              },
+              child: Container(
 
                     //     margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
                       padding: EdgeInsets.fromLTRB(
@@ -320,14 +357,11 @@ class _MyTrucksState extends State<MyTrucks> {
                                       onRefresh: () {
                                         setState(() {
                                           runningList.clear();
-                                          runningAddressList.clear();
                                           runningGpsData.clear();
                                           runningStatus.clear();
-                                          truckAddressList.clear();
                                           gpsDataList.clear();
                                           status.clear();
                                           StoppedStatus.clear();
-                                          StoppedAddressList.clear();
                                           StoppedGpsData.clear();
                                           StoppedList.clear();
                                           loading = true;
@@ -347,7 +381,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                           bottomProgressBarIndicatorWidget() :
                                           MyTruckCard(
                                             truckData: truckDataList[index],
-                                            truckAddress: truckAddressList[index],
                                             status: status[index],
                                             gpsData: gpsDataList[index],
                                             // truckId: .truckId,
@@ -402,14 +435,11 @@ class _MyTrucksState extends State<MyTrucks> {
                                       onRefresh: () {
                                         setState(() {
                                           runningList.clear();
-                                          runningAddressList.clear();
                                           runningGpsData.clear();
                                           runningStatus.clear();
-                                          truckAddressList.clear();
                                           gpsDataList.clear();
                                           status.clear();
                                           StoppedStatus.clear();
-                                          StoppedAddressList.clear();
                                           StoppedGpsData.clear();
                                           StoppedList.clear();
                                           loading = true;
@@ -429,7 +459,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                             :
                                         MyTruckCard(
                                           truckData: runningList[index],
-                                          truckAddress: runningAddressList[index],
                                           status: runningStatus[index],
                                           gpsData: runningGpsData[index],
                                           // truckId: .truckId,
@@ -482,14 +511,11 @@ class _MyTrucksState extends State<MyTrucks> {
                                       onRefresh: () {
                                         setState(() {
                                           runningList.clear();
-                                          runningAddressList.clear();
                                           runningGpsData.clear();
                                           runningStatus.clear();
-                                          truckAddressList.clear();
                                           gpsDataList.clear();
                                           status.clear();
                                           StoppedStatus.clear();
-                                          StoppedAddressList.clear();
                                           StoppedGpsData.clear();
                                           StoppedList.clear();
                                           loading = true;
@@ -509,7 +535,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                             :
                                         MyTruckCard(
                                           truckData: StoppedList[index],
-                                          truckAddress: StoppedAddressList[index],
                                           status: StoppedStatus[index],
                                           gpsData: StoppedGpsData[index],
                                           // truckId: .truckId,
@@ -569,21 +594,19 @@ class _MyTrucksState extends State<MyTrucks> {
 
     print("Truck length ${truckDataListForPagevar.length}");
 
+    setState(() {
+      items = truckDataListForPagevar;
+    });
+
     //FIX LENGTH OF ALL LIST----------------------
     gpsList = List.filled(truckDataListForPagevar.length, null, growable: true);
-    truckAddress =
-        List.filled(truckDataListForPagevar.length, "", growable: true);
     stat = List.filled(truckDataListForPagevar.length, "", growable: true);
     running = List.filled(truckDataListForPagevar.length, null, growable: true);
-    runningAddress =
-        List.filled(truckDataListForPagevar.length, "", growable: true);
     runningStat =
         List.filled(truckDataListForPagevar.length, "", growable: true);
     runningGps =
         List.filled(truckDataListForPagevar.length, null, growable: true);
     Stopped = List.filled(truckDataListForPagevar.length, null, growable: true);
-    StoppedAddress =
-        List.filled(truckDataListForPagevar.length, "", growable: true);
     StoppedStat =
         List.filled(truckDataListForPagevar.length, "", growable: true);
     StoppedGps =
@@ -592,7 +615,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
     //START ADDING DATA-------------------------------
     for (int i = 0; i < truckDataListForPagevar.length; i++) {
-      print("DeviceId is ${truckDataListForPagevar[i].deviceId}");
+      print("DeviceId is ${truckDataListForPagevar[i].deviceId} for ${truckDataListForPagevar[i].truckId}");
 
       if (truckDataListForPagevar[i].deviceId != 0 &&
           truckDataListForPagevar[i].truckApproved == true) {
@@ -605,16 +628,13 @@ class _MyTrucksState extends State<MyTrucks> {
 
     setState(() {
       gpsDataList = gpsList;
-      truckAddressList = truckAddress;
       status = stat;
 
       runningList = running;
-      runningAddressList = runningAddress;
       runningGpsData = runningGps;
       runningStatus = runningStat;
 
       StoppedList = Stopped;
-      StoppedAddressList = StoppedAddress;
       StoppedGpsData = StoppedGps;
       StoppedStatus = StoppedStat;
     });
@@ -623,16 +643,13 @@ class _MyTrucksState extends State<MyTrucks> {
 
     runningList.removeWhere((item) => item == null);
     runningGpsData.removeWhere((item) => item == null);
-    runningAddressList.removeWhere((item) => item == "");
     runningStatus.removeWhere((item) => item == "");
 
     StoppedList.removeWhere((item) => item == null);
     StoppedGpsData.removeWhere((item) => item == null);
-    StoppedAddressList.removeWhere((item) => item == "");
-    StoppedAddressList.removeWhere((item) => item == "");
+    StoppedStatus.removeWhere((item) => item == "");
 
     print("ALL $status");
-    print("ALL $truckAddressList");
     print("ALL $gpsDataList");
     print("--TRUCK SCREEN DONE--");
     setState(() {
@@ -648,29 +665,22 @@ class _MyTrucksState extends State<MyTrucks> {
         gpsData.last.speed >= 2) //For RUNNING Section
         {
       running.removeAt(i);
-      runningAddress.removeAt(i);
       runningGps.removeAt(i);
 
       running.insert(i, truckData);
-      runningAddress.insert(i, "${gpsData.last.address}");
       runningGps.insert(i, gpsData);
-    }
-    else if (truckData.truckApproved == true &&
-        gpsData.last.speed < 2) { //For STOPPED section
+    } else if (truckData.truckApproved == true && gpsData.last.speed < 2) {
+      //For STOPPED section
 
       Stopped.removeAt(i);
-      StoppedAddress.removeAt(i);
       StoppedGps.removeAt(i);
 
       Stopped.insert(i, truckData);
-      StoppedAddress.insert(i, "${gpsData.last.address}");
       StoppedGps.insert(i, gpsData);
     }
     gpsList.removeAt(i);
-    truckAddress.removeAt(i);
 
     gpsList.insert(i, gpsData);
-    truckAddress.insert(i, "${gpsData.last.address}");
     print("DONE ONE PART");
   }
 
@@ -679,14 +689,11 @@ class _MyTrucksState extends State<MyTrucks> {
     print("Trcuk dat $truckDataList");
     //FIX LENGTH OF ALL LIST----------------------
     gpsList = List.filled(truckDataList.length, null, growable: true);
-    truckAddress = List.filled(truckDataList.length, "", growable: true);
     stat = List.filled(truckDataList.length, "", growable: true);
     running = List.filled(truckDataList.length, null, growable: true);
-    runningAddress = List.filled(truckDataList.length, "", growable: true);
     runningStat = List.filled(truckDataList.length, "", growable: true);
     runningGps = List.filled(truckDataList.length, null, growable: true);
     Stopped = List.filled(truckDataList.length, null, growable: true);
-    StoppedAddress = List.filled(truckDataList.length, "", growable: true);
     StoppedStat = List.filled(truckDataList.length, "", growable: true);
     StoppedGps = List.filled(truckDataList.length, null, growable: true);
     //------------------------------------------------
@@ -704,16 +711,13 @@ class _MyTrucksState extends State<MyTrucks> {
 
     setState(() {
       gpsDataList = gpsList;
-      truckAddressList = truckAddress;
       status = stat;
 
       runningList = running;
-      runningAddressList = runningAddress;
       runningGpsData = runningGps;
       runningStatus = runningStat;
 
       StoppedList = Stopped;
-      StoppedAddressList = StoppedAddress;
       StoppedGpsData = StoppedGps;
       StoppedStatus = StoppedStat;
     });
@@ -722,16 +726,13 @@ class _MyTrucksState extends State<MyTrucks> {
 
     runningList.removeWhere((item) => item == null);
     runningGpsData.removeWhere((item) => item == null);
-    runningAddressList.removeWhere((item) => item == "");
     runningStatus.removeWhere((item) => item == "");
 
     StoppedList.removeWhere((item) => item == null);
     StoppedGpsData.removeWhere((item) => item == null);
-    StoppedAddressList.removeWhere((item) => item == "");
-    StoppedAddressList.removeWhere((item) => item == "");
+    StoppedStatus.removeWhere((item) => item == "");
 
     print("ALL $status");
-    print("ALL $truckAddressList");
     print("ALL $gpsDataList");
     print("--TRUCK SCREEN DONE--");
     setState(() {
@@ -755,7 +756,6 @@ class _MyTrucksState extends State<MyTrucks> {
       stat.insert(i, "Running");
     }
   }
-
 }
 
 //class
