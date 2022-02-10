@@ -75,7 +75,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
   bool popUp=false;
   late Uint8List markerIcon;
   var markerslist;
-  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  //CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
   CustomInfoWindowController _customDetailsInfoWindowController = CustomInfoWindowController();
   bool isAnimation = false;
   double mapHeight=600;
@@ -106,7 +106,7 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
     
     _controller.complete(controller);
     
-    _customInfoWindowController.googleMapController = controller;
+   // _customInfoWindowController.googleMapController = controller;
      _customDetailsInfoWindowController.googleMapController = controller;
   }
 
@@ -165,40 +165,23 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       print("hh");
       print(gpsData.last.deviceId.toString());
       String title = truckData.truckNo!;
-      markerIcon = await getBytesFromCanvas3(truckData.truckNo!, 100, 100);
+      var markerIcons = await getBytesFromCanvas3(truckData.truckNo!, 100, 100);
       var address =  await getAddress(gpsData);
+      var trucklatlong = latLngMarker;
       setState(() {
         direction = 180 + gpsData.last.course;
         lastlatLngMarker = LatLng(gpsData.last.latitude, gpsData.last.longitude);
         latlng.add(lastlatLngMarker);
-         _customDetailsInfoWindowController.hideInfoWindow!();
-         _customInfoWindowController.addInfoWindow!(
-                            trucknoInfoWindow(truckData.truckNo),
-                            lastlatLngMarker,
-                          );
-          showdetails = false;
         customMarkers.add(Marker(
             markerId: MarkerId(gpsData.last.deviceId.toString()),
-            position: latLngMarker,
+            position: trucklatlong,
             onTap: ()
             {
-              if(!showdetails)
-                {
-                  _customInfoWindowController.hideInfoWindow!();
-                  _customDetailsInfoWindowController.addInfoWindow!(
+              _customDetailsInfoWindowController.addInfoWindow!(
                             truckInfoWindow(truckData.truckNo,address),
-                            lastlatLngMarker,
+                            trucklatlong,
                           );
-                  showdetails = true;
-                }
-                else{
-                  _customDetailsInfoWindowController.hideInfoWindow!();
-                  _customInfoWindowController.addInfoWindow!(
-                            trucknoInfoWindow(truckData.truckNo),
-                            lastlatLngMarker,
-                          );
-                  showdetails = false;
-                }
+                
             },
             infoWindow: InfoWindow(
            //   title: title,
@@ -207,12 +190,12 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
               }),
             icon: pinLocationIconTruck,
         rotation: direction));
-     /*   print("here i am");
+        print("here i am");
         customMarkers.add(Marker(
             markerId: MarkerId("Details of ${gpsData.last.deviceId.toString()}"),
             position: latLngMarker,
-            icon: BitmapDescriptor.fromBytes(markerIcon),
-        rotation: 0.0));*/
+            icon: BitmapDescriptor.fromBytes(markerIcons),
+        rotation: 0.0));
 
         
       });
@@ -248,12 +231,12 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
       body: Stack(
                               children: <Widget>[
                                 GoogleMap(
-                         /*   onTap: (position) {
-                              _customInfoWindowController.hideInfoWindow!();
+                            onTap: (position) {
+                           //   _customInfoWindowController.hideInfoWindow!();
                               _customDetailsInfoWindowController.hideInfoWindow!();
-                            },*/
+                            },
                             onCameraMove: (position) {
-                              _customInfoWindowController.onCameraMove!();
+                           //   _customInfoWindowController.onCameraMove!();
                               _customDetailsInfoWindowController.onCameraMove!();
                             },
                             markers: customMarkers.toSet(),
@@ -265,19 +248,19 @@ class _AllMapWidgetState extends State<AllMapWidget> with WidgetsBindingObserver
                             mapType: maptype,
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
-                              _customInfoWindowController.googleMapController = controller;
+                           //   _customInfoWindowController.googleMapController = controller;
                               _customDetailsInfoWindowController.googleMapController = controller;
                             },
                             gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                                     new Factory<OneSequenceGestureRecognizer>(() => new EagerGestureRecognizer(),),
                                   ].toSet(),
                           ),
-                              CustomInfoWindow(
+                            /*  CustomInfoWindow(
                                 controller: _customInfoWindowController,
                                 height: 110,
                                 width: 275,
                                 offset: 0,
-                              ),
+                              ),*/
                               CustomInfoWindow(
                                 controller: _customDetailsInfoWindowController,
                                 height: 140,

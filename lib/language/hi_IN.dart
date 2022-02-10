@@ -153,6 +153,8 @@ const Map<String, String> hiIN = {
   'playtrip': 'यात्रा प्ले करे',
   'history': 'हिस्टरी',
   'submit': 'सबमिट',
+  'petrol_pump': 'पेट्रोल पंप',
+  'police_station': 'पुलिस स्टेशन',
 
   //truck type
   'openbody': 'ओपन बॉडी',

@@ -21,11 +21,21 @@ class DynamicLink extends State<DynamicLinkService> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        border: Border.all(color: bidBackground, width: 4),
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
       child: FloatingActionButton(
         heroTag: "button2",
-        backgroundColor: bidBackground,
-        foregroundColor: Colors.white,
-        child: const Icon(Icons.share_outlined, size: 30),
+        backgroundColor: Colors.white,
+        foregroundColor: bidBackground,
+        child: Image.asset(
+          'assets/icons/share-2.png',
+          scale: 2.5,
+        ),
         onPressed: () async {
           showDialog(
               context: context,
