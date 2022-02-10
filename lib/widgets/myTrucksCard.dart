@@ -409,13 +409,13 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         color: black,
                                       ),
                                     ),
-                                    Text(
+                                  /*  Text(
                                       'time date ',
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: black,
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                                 SizedBox(
@@ -435,12 +435,16 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                     height: 12,
                                   ),
                                   SizedBox(width: 8),
-                                  Text(
-                                    'Buy GPS to access live tracking',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF152968),
-                                      fontSize: 12,
+                                  Container(
+                                    width: 200,
+                                    child: Text(
+                                      'buyGPS'.tr,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xFF152968),
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -518,7 +522,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ],
                         ),
                       ),
-                driver
+              /*  driver
                     ? Container(
                         padding: EdgeInsets.fromLTRB(23, 0, 7, 0),
                         child: Row(
@@ -589,7 +593,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 )),
                           ],
                         ),
-                      ),
+                      ),*/
               ],
             ),
           ),

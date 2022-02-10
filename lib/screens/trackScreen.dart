@@ -890,7 +890,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
-                bottom: (showBottomMenu) ? 0 : -(height / 3) + 24,
+                bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
                 child: TrackScreenDetails(
                   driverName: widget.driverName,
                   // truckDate: truckDate,

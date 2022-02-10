@@ -49,7 +49,7 @@ class _TruckStatusState extends State<TruckStatus> {
     return (widget.truckHistory.runtimeType != GpsDataModel)
         ? Container(
             //  color: backgroundColor,
-            height: 122,
+            height: 132,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class _TruckStatusState extends State<TruckStatus> {
                           dashColor: Colors.black,
                         )*/
                         Container(
-                          height: 98,
+                          height: 108,
                           width: 2,
                           color: const Color.fromRGBO(21, 41, 104, 0.2)
                         )

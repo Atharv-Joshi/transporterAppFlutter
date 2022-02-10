@@ -27,6 +27,7 @@ class TruckHistoryScreen extends StatefulWidget {
   var istDate2;
   // var gpsDataHistory;
   String? selectedLocation;
+  var totalDistance;
 //  double latitude;
   // double longitude;
   TruckHistoryScreen({
@@ -38,6 +39,7 @@ class TruckHistoryScreen extends StatefulWidget {
     required this.selectedLocation,
     required this.istDate1,
     required this.istDate2,
+    required this.totalDistance,
     //     required this.latitude,
     //    required this.longitude,
   });
@@ -96,6 +98,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       istDate2 = widget.istDate2;
       //  gpsHistory = widget.gpsDataHistory;
       _selectedLocation = widget.selectedLocation;
+      totalDistance = widget.totalDistance;
     });
     getDateRange();
     getgpsDataHistory();
@@ -223,6 +226,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       var newRouteHistory = await getRouteStatusList(widget.deviceId,
           istDate1.toIso8601String(), istDate2.toIso8601String());
       print("AFter ${newRouteHistory.length}");
+      totalDistance = getTotalDistance(newRouteHistory);
       newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
       /*     int i=0;
       var start;
@@ -314,6 +318,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
               istDate2: istDate2,
               //   gpsDataHistory: gpsHistory,
               selectedLocation: widget.selectedLocation,
+              totalDistance: totalDistance,
               //    latitude: widget.latitude,
               //    longitude: widget.longitude
             ));
@@ -400,8 +405,9 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     //Run all APIs using new Date Range
     var newRouteHistory = await getRouteStatusList(widget.deviceId,
         istDate1.toIso8601String(), istDate2.toIso8601String());
-
+    totalDistance = getTotalDistance(newRouteHistory);
     newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+    
     /*  int i=0;
   var start;
   var end;
@@ -494,6 +500,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
             istDate2: istDate2,
             //   gpsDataHistory: gpsHistory,
             selectedLocation: _selectedLocation,
+            totalDistance: totalDistance,
             //    latitude: widget.latitude,
             //    longitude: widget.longitude
           ));
@@ -847,6 +854,28 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                               ),
                             ),
                             Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                    space_7, space_1, 0, space_1),
+                              child: Row(
+                                children: [
+                                  Text('Distance Covered',
+                                  style: TextStyle(
+                                    fontSize: size_6,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xff656565),
+                                  ),
+                                  ),
+                                  SizedBox(width: space_1,),
+                                  Text('$totalDistance km',
+                                  style: TextStyle(
+                                    fontSize: size_6,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xff656565),
+                                  ),),
+                                ],
+                              ),
+                            ),
+                            Padding(
                                 padding: EdgeInsets.fromLTRB(
                                     space_7, space_2, 0, space_2),
                                 child: Text(
@@ -858,7 +887,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                 )),
                             Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: height - 280,
+                                height: height - 300,
                                 //    color: backgroundColor,
                                 alignment: Alignment.bottomCenter,
                                 child:
