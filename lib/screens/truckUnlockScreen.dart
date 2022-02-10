@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/screens/trackScreen.dart';
 import 'package:liveasy/widgets/alertDialog/truckLockDialog.dart';
 
@@ -50,8 +51,30 @@ class _TruckUnlockScreenState extends State<TruckUnlockScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                // margin: EdgeInsets.only(bottom: space_10),
+                width: MediaQuery.of(context).size.width,
+                height: space_13,
+                color: white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => NavigationScreen());
+                        },
+                        child: Icon(Icons.arrow_back_ios_rounded),
+                      ),
+                    ),
+                    //HelpButtonWidget(),
+                  ],
+                ),
+              ),
+              Container(
                 margin:
-                    EdgeInsets.fromLTRB(space_18, space_26, space_18, space_0),
+                    EdgeInsets.fromLTRB(space_18, space_14, space_18, space_0),
                 child: Text.rich(
                   TextSpan(
                       text: "Abhi aapka truck ",
@@ -160,7 +183,9 @@ class _TruckUnlockScreenState extends State<TruckUnlockScreen> {
                         //       routeHistory: widget.routeHistory,
                         //       truckId: widget.truckId,
                         //     ));
-                        Get.to(() => MyTrucks());
+                        //Get.to(() => MyTrucks());
+                        //Get.back();
+                        Get.to(() => NavigationScreen());
                       }),
                 ],
               ),

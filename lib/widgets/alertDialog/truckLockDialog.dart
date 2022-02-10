@@ -9,14 +9,14 @@ import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class TruckLockDialog extends StatefulWidget {
   final List gpsData;
-  var gpsDataHistory;
-  var gpsStoppageHistory;
-  var routeHistory;
+  final List gpsDataHistory;
+  final List gpsStoppageHistory;
+  final List routeHistory;
   final String? TruckNo;
-  int? deviceId;
+  final int? deviceId;
   final String? driverNum;
   final String? driverName;
-  var truckId;
+  final String? truckId;
   String? value;
 
   TruckLockDialog(

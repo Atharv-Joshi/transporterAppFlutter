@@ -38,14 +38,14 @@ import 'package:get/get.dart';
 
 class TrackScreen extends StatefulWidget {
   final List gpsData;
-  var gpsDataHistory;
-  var gpsStoppageHistory;
-  var routeHistory;
+  final List gpsDataHistory;
+  final List gpsStoppageHistory;
+  final List routeHistory;
   final String? TruckNo;
-  int? deviceId;
+  final int? deviceId;
   final String? driverNum;
   final String? driverName;
-  var truckId;
+  final String? truckId;
 
   TrackScreen(
       {required this.gpsData,
@@ -53,11 +53,11 @@ class TrackScreen extends StatefulWidget {
       required this.gpsStoppageHistory,
       required this.routeHistory,
       // required this.position,
-      this.TruckNo,
+      required this.TruckNo,
       this.driverName,
       this.driverNum,
-      this.deviceId,
-      this.truckId});
+      required this.deviceId,
+      required this.truckId});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -828,53 +828,54 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                               ),
                               //HelpButtonWidget(),
                               PopupMenuButton(
+                                  onSelected: (value) => {
+                                        if (value == 1)
+                                          {
+                                            print("THE DATA ${widget.truckId}"),
+                                            Get.to(() => TruckLockScreen(
+                                                deviceId: widget.deviceId,
+                                                gpsData: widget.gpsData,
+                                                // position: position,
+                                                TruckNo: widget.TruckNo,
+                                                driverName: widget.driverName,
+                                                driverNum: widget.driverNum,
+                                                gpsDataHistory:
+                                                    widget.gpsDataHistory,
+                                                gpsStoppageHistory:
+                                                    widget.gpsStoppageHistory,
+                                                routeHistory:
+                                                    widget.routeHistory,
+                                                truckId: widget.truckId))
+                                          }
+                                      },
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(radius_1 + 1))),
                                   itemBuilder: (context) => [
                                         PopupMenuItem(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              print("CHECKKK");
-                                              Get.to(() => TruckLockScreen(
-                                                  deviceId: widget.deviceId,
-                                                  gpsData: widget.gpsData,
-                                                  // position: position,
-                                                  TruckNo: widget.TruckNo,
-                                                  driverName: widget.driverName,
-                                                  driverNum: widget.driverNum,
-                                                  gpsDataHistory:
-                                                      widget.gpsDataHistory,
-                                                  gpsStoppageHistory:
-                                                      widget.gpsStoppageHistory,
-                                                  routeHistory:
-                                                      widget.routeHistory,
-                                                  truckId: widget.truckId));
-                                            },
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Image.asset(
-                                                  "assets/icons/truckLockIcon.png",
-                                                  height: space_2 + 3,
-                                                  width: space_2 + 3,
-                                                ),
-                                                SizedBox(
-                                                  width: space_1 + 1,
-                                                ),
-                                                Container(
-                                                    //width: 100,
-                                                    child: Text(
-                                                  "Truck Lock",
-                                                  style: TextStyle(
-                                                      color: liveasyBlackColor),
-                                                )),
-                                              ],
-                                            ),
+                                          value: 1,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Image.asset(
+                                                "assets/icons/truckLockIcon.png",
+                                                height: space_2 + 3,
+                                                width: space_2 + 3,
+                                              ),
+                                              SizedBox(
+                                                width: space_1 + 1,
+                                              ),
+                                              Container(
+                                                  //width: 100,
+                                                  child: Text(
+                                                "Truck Lock",
+                                                style: TextStyle(
+                                                    color: liveasyBlackColor),
+                                              )),
+                                            ],
                                           ),
-                                          //value: 1,
                                         ),
                                         // PopupMenuItem(
                                         //   child: Text("Second"),
