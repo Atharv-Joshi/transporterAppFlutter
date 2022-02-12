@@ -30,19 +30,14 @@ import 'package:provider/provider.dart';
 class MyTrucksResult extends StatefulWidget {
   List gpsDataList;
   List truckDataList;
-  List truckAddressList;
   List status;
   List items;
-  // List stoppedGpsList;
+
   MyTrucksResult(
       {required this.gpsDataList,
       required this.truckDataList,
-      required this.truckAddressList,
       required this.status,
-      required this.items
-      // required this.stoppedGpsList,
-      // required this.stoppedList,
-      });
+      required this.items});
   @override
   _MyTrucksResultState createState() => _MyTrucksResultState();
 }
@@ -53,7 +48,6 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
   var dummySearchList = [];
   var gpsDataList = [];
   var truckDataList = [];
-  var truckAddressList = [];
   var status = [];
   var items = [];
   @override
@@ -61,9 +55,9 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
     dummySearchList = widget.items;
     items = widget.items;
     gpsDataList = widget.gpsDataList;
-    truckAddressList = widget.truckAddressList;
     status = widget.status;
     truckDataList = widget.truckDataList;
+    print("CHECK Init${status}");
   }
 
   @override
@@ -116,7 +110,6 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                         print("EnteRRR");
                         print(gpsDataList);
                         print(status);
-                        print(truckAddressList);
                         //print("THE ITEMS $items");
                       },
                       autofocus: true,
@@ -172,7 +165,6 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
     if (query.isNotEmpty) {
       //print("DUMMYSEARCH${dummySearchList}");
       var dummyListData = [];
-      var dummyAddressData = [];
       var dummyGpsData = [];
       var dummyStatusData = [];
       for (var i = 0; i < dummySearchList.length; i++) {
@@ -180,9 +172,9 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
         if ((dummySearchList[i].truckNo.replaceAll(' ', '')).contains(query) ||
             (dummySearchList[i].truckNo).contains(query)) {
           print("INSIDE IF");
+          print("${dummySearchList[i]}");
           dummyListData.add(dummySearchList[i]);
           dummyGpsData.add(widget.gpsDataList[i]);
-          dummyAddressData.add(widget.truckAddressList[i]);
           dummyStatusData.add(widget.status[i]);
           //print("DATATYPE${dummyListData.runtimeType}");
         }
@@ -190,11 +182,10 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
       setState(() {
         items = [];
         gpsDataList = [];
-        truckAddressList = [];
+
         status = [];
         items.addAll(dummyListData);
         gpsDataList.addAll(dummyGpsData);
-        truckAddressList.addAll(dummyAddressData);
         status.addAll(dummyStatusData);
         //print("THE DUMY $dummyListData");
       });
@@ -204,11 +195,9 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
       setState(() {
         items = [];
         gpsDataList = [];
-        truckAddressList = [];
         status = [];
         items.addAll(widget.truckDataList);
         gpsDataList.addAll(widget.gpsDataList);
-        truckAddressList.addAll(widget.truckAddressList);
         status.addAll(widget.status);
         //print("THE ITEMSS ${items}");
       });
