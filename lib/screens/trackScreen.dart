@@ -8,6 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -22,6 +23,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/truckLockScreen.dart';
+import 'package:liveasy/screens/truckLockUnlockScreen.dart';
 import 'package:liveasy/screens/truckUnlockScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
@@ -139,6 +141,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
 
+  final lockStorage = GetStorage();
+  var lockState;
   //var Get;
 
   @override
@@ -167,6 +171,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     } catch (e) {
       logger.e("Error is $e");
     }
+
+    lockState = lockStorage.read('lockState');
+    if (lockState == null) {
+      lockState = false;
+      lockStorage.write('lockState', lockState);
+    }
+    print("lock STATE is $lockState");
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -832,7 +843,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                         if (value == 1)
                                           {
                                             print("THE DATA ${widget.truckId}"),
-                                            Get.to(() => TruckLockScreen(
+                                            Get.to(TruckLockUnlock(
                                                 deviceId: widget.deviceId,
                                                 gpsData: widget.gpsData,
                                                 // position: position,
@@ -846,6 +857,42 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                                 routeHistory:
                                                     widget.routeHistory,
                                                 truckId: widget.truckId))
+                                            //   if (lockState == false)
+                                            //     {
+                                            //       Get.to(() => TruckLockScreen(
+                                            //           deviceId: widget.deviceId,
+                                            //           gpsData: widget.gpsData,
+                                            //           // position: position,
+                                            //           TruckNo: widget.TruckNo,
+                                            //           driverName:
+                                            //               widget.driverName,
+                                            //           driverNum: widget.driverNum,
+                                            //           gpsDataHistory:
+                                            //               widget.gpsDataHistory,
+                                            //           gpsStoppageHistory: widget
+                                            //               .gpsStoppageHistory,
+                                            //           routeHistory:
+                                            //               widget.routeHistory,
+                                            //           truckId: widget.truckId))
+                                            //     }
+                                            //   else
+                                            //     {
+                                            //       Get.to(() => TruckUnlockScreen(
+                                            //           deviceId: widget.deviceId,
+                                            //           gpsData: widget.gpsData,
+                                            //           // position: position,
+                                            //           TruckNo: widget.TruckNo,
+                                            //           driverName:
+                                            //               widget.driverName,
+                                            //           driverNum: widget.driverNum,
+                                            //           gpsDataHistory:
+                                            //               widget.gpsDataHistory,
+                                            //           gpsStoppageHistory: widget
+                                            //               .gpsStoppageHistory,
+                                            //           routeHistory:
+                                            //               widget.routeHistory,
+                                            //           truckId: widget.truckId))
+                                            //     }
                                           }
                                       },
                                   shape: RoundedRectangleBorder(
