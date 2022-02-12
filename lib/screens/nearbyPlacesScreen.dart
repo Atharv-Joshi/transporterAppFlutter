@@ -74,7 +74,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   var direction;
   var maptype = MapType.normal;
   double zoom = 10;
-  bool showBottomMenu = false;
+  bool showBottomMenu = true;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
