@@ -419,7 +419,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                               height: 20
                                           ),
                                           Text(
-                                            'notruckrunnning'.tr,
+                                            'notruckrunning'.tr,
                                             // 'Looks like none of your trucks are running!',
                                             style: TextStyle(
                                                 fontSize: size_8, color: grey),

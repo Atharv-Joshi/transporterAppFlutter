@@ -159,6 +159,8 @@ const Map<String, String> enUS = {
   'playtrip': 'Play Trip',
   'history': 'History',
   'submit': 'Submit',
+  'petrol_pump': 'Petrol Pump',
+  'police_station': 'Police Station',
 
   //truck type
   'openbody': 'Open Body',

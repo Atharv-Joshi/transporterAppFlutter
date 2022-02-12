@@ -21,31 +21,31 @@ class DynamicLink extends State<DynamicLinkService> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: bidBackground, width: 4),
-          color: Colors.white,
-          shape: BoxShape.circle,
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        border: Border.all(color: bidBackground, width: 4),
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+      child: FloatingActionButton(
+        heroTag: "button2",
+        backgroundColor: Colors.white,
+        foregroundColor: bidBackground,
+        child: Image.asset(
+          'assets/icons/share-2.png',
+          scale: 2.5,
         ),
-        child: FloatingActionButton(
-          heroTag: "button2",
-          backgroundColor: Colors.white,
-          foregroundColor: bidBackground,
-          child: Image.asset(
-            'assets/icons/share.png',
-            scale: 2.5,
-          ),
-          onPressed: () async {
-            showDialog(
-                context: context,
-                builder: (context) => WhatsappShare(
-                      deviceId: widget.deviceId,
-                      truckId: widget.truckId,
-                      truckNo: widget.truckNo,
-                    ));
-            print(MediaQuery.of(context).size.width);
-          },
-        ),
+        onPressed: () async {
+          showDialog(
+              context: context,
+              builder: (context) => WhatsappShare(
+                    deviceId: widget.deviceId,
+                    truckId: widget.truckId,
+                    truckNo: widget.truckNo,
+                  ));
+          print(MediaQuery.of(context).size.width);
+        },
       ),
     );
   }

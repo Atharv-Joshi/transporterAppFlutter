@@ -112,7 +112,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      height: height / 3 + 126,
+      height: height / 3 + 106,
       width: width,
       padding: EdgeInsets.fromLTRB(0, 0, 0, space_3),
       decoration: BoxDecoration(
@@ -245,32 +245,52 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           ),
                       Spacer(),
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, space_5),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Column(
                           children: [
+                            Image.asset('assets/icons/speed_status.png',
+                                width: 35, height: 35),
                             (widget.gpsData.last.speed > 2)
-                                ? Text(
-                                    "${(gpsData.last.speed).round()} " +
-                                        "km/h".tr,
-                                    style: TextStyle(
-                                        color: liveasyGreen,
-                                        fontSize: size_10,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: regularWeight))
-                                : Text(
-                                    "${(gpsData.last.speed).round()} " +
-                                        "km/h".tr,
-                                    style: TextStyle(
-                                        color: red,
-                                        fontSize: size_10,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: regularWeight)),
-                            Text("status".tr,
+                                ? Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                        Text("${(gpsData.last.speed).round()} ",
+                                            style: TextStyle(
+                                                color: liveasyGreen,
+                                                fontSize: size_10,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                        Text("km/h".tr,
+                                            style: TextStyle(
+                                                color: liveasyGreen,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                      ])
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                        Text("${(gpsData.last.speed).round()} ",
+                                            style: TextStyle(
+                                                color: red,
+                                                fontSize: size_10,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                        Text("km/h".tr,
+                                            style: TextStyle(
+                                                color: red,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                      ]),
+                            /*    Text("status".tr,
                                 style: TextStyle(
                                     color: black,
                                     fontSize: size_6,
                                     fontStyle: FontStyle.normal,
-                                    fontWeight: regularWeight))
+                                    fontWeight: regularWeight))*/
                           ],
                         ),
                       ),
@@ -408,6 +428,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                   children: [
                     Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -417,7 +439,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           heroTag: "button1",
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
-                          child: const Icon(Icons.near_me_outlined, size: 40),
+                          child: Image.asset(
+                            'assets/icons/navigate2.png',
+                            scale: 2.5,
+                          ),
                           onPressed: () {
                             openMap(
                                 gpsData.last.latitude, gpsData.last.longitude);
@@ -457,6 +482,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     ]),
                     Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -467,7 +494,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
                           child:
-                              const Icon(Icons.play_circle_outline, size: 40),
+                              const Icon(Icons.play_circle_outline, size: 30),
                           onPressed: () {
                             Get.to(PlayRouteHistory(
                               gpsTruckHistory: gpsDataHistory,
@@ -497,6 +524,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     ]),
                     Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -506,7 +535,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           heroTag: "button4",
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
-                          child: const Icon(Icons.history, size: 40),
+                          child: const Icon(Icons.history, size: 30),
                           onPressed: () {
                             Get.to(TruckHistoryScreen(
                               truckNo: widget.TruckNo,
@@ -516,6 +545,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                               selectedLocation: selectedLocation,
                               istDate1: yesterday,
                               istDate2: now,
+                              totalDistance: widget.totalDistance,
                               //     latitude: latitude,
                               //      longitude: longitude,
                             ));
@@ -544,6 +574,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                   children: [
                     Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -576,7 +608,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Petrol Pump",
+                        'petrol_pump'.tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -586,6 +618,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     ]),
                     Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -618,7 +652,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Police Station",
+                        'police_station'.tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -626,8 +660,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-                    Column(children: [
+                    /*      Column(children: [
                       Container(
+                        width: 50,
+                        height: 50,
                         decoration: BoxDecoration(
                           border: Border.all(color: bidBackground, width: 4),
                           color: Colors.white,
@@ -659,7 +695,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontStyle: FontStyle.normal,
                             fontWeight: mediumBoldWeight),
                       ),
-                    ]),
+                    ]),*/
                   ],
                 ))
           ]),

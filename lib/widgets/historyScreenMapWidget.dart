@@ -479,6 +479,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     var newRouteHistory = await getRouteStatusList(widget.deviceId,
           istDate1.toIso8601String(), istDate2.toIso8601String());
       print("AFter ${newRouteHistory.length}");
+      totalDistance = getTotalDistance(newRouteHistory);
       newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
     //Run all APIs using new Date Range
     customMarkers = [];
@@ -495,6 +496,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
           istDate2: istDate2,
           //   gpsDataHistory: gpsHistory,
           selectedLocation: _selectedLocation,
+          totalDistance: totalDistance,
           //    latitude: widget.latitude,
           //    longitude: widget.longitude
         ));
@@ -681,7 +683,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                                   ),
                                 ),
                                 child: const Icon(Icons.keyboard_arrow_down,
-                                    size: 15, color: white),
+                                    size: 20, color: white),
                               ),
                             ),
                           ]),
