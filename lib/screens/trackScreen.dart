@@ -6,34 +6,23 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
-import 'package:liveasy/screens/TruckScreens/myTrucksScreen.dart';
-import 'package:liveasy/screens/buyGpsScreen.dart';
-import 'package:liveasy/screens/truckLockScreen.dart';
 import 'package:liveasy/screens/truckLockUnlockScreen.dart';
-import 'package:liveasy/screens/truckUnlockScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/stoppageInfoWindow.dart';
-import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:liveasy/widgets/truckInfoWindow.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
-import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
@@ -143,6 +132,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
   final lockStorage = GetStorage();
   var lockState;
+
   //var Get;
 
   @override
@@ -196,6 +186,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         onMapCreated(controller);
         print('appLifeCycleState resumed');
         break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
     }
   }
 
@@ -216,6 +212,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
     return address;
   }
+
   //function is called every five minute to get updated history
 
   getTruckHistoryAfter() {
@@ -792,8 +789,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                 color: const Color(0xff3A3A3A),
                                 fontSize: size_6,
                                 fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight
-                                    .w400), // Not necessary for Option 1
+                                fontWeight: FontWeight.w400),
+                            // Not necessary for Option 1
                             value: _selectedLocation,
                             onChanged: (newValue) {
                               setState(() {

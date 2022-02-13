@@ -9,7 +9,6 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bidButtonAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class BidButton extends StatefulWidget {

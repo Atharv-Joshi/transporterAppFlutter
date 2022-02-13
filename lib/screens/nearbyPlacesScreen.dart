@@ -234,8 +234,15 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         onMapCreated(controller);
         print('appLifeCycleState resumed');
         break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
     }
   }
+
   //function is called every one minute to get updated history
 
   initfunction() {
@@ -246,7 +253,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       totalDistance = getTotalDistance(newGPSRoute);
       print("kya $to");
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
+      newGPSRoute = getStopList(newGPSRoute, yesterday, now);
     });
   }
 
@@ -281,7 +288,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = getTotalDistance(newGPSRoute);
       status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute,yesterday,now);
+      newGPSRoute = getStopList(newGPSRoute, yesterday, now);
     });
   }
 

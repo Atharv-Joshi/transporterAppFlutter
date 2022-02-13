@@ -9,19 +9,15 @@ import 'package:get/get.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
-import 'package:liveasy/translations/l10n.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
-
 import 'language/localization_service.dart';
 
 var firebase;
@@ -135,7 +131,7 @@ class _MyAppState extends State<MyApp> {
                       theme: ThemeData(fontFamily: "montserrat"),
                       translations: LocalizationService(),
                       locale: LocalizationService().getCurrentLocale(),
-                      fallbackLocale: Locale('en','US'),
+                      fallbackLocale: Locale('en', 'US'),
                       // locale: provider.locale,
                       // supportedLocales: L10n.all,
                       // localizationsDelegates: [
@@ -156,7 +152,7 @@ class _MyAppState extends State<MyApp> {
                               iconTheme: IconThemeData(color: grey))),
                       translations: LocalizationService(),
                       locale: LocalizationService().getCurrentLocale(),
-                      fallbackLocale: Locale('en','US'),
+                      fallbackLocale: Locale('en', 'US'),
                       // locale: provider.locale,
                       // supportedLocales: L10n.all,
                       // localizationsDelegates: [

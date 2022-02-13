@@ -24,10 +24,10 @@ import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'TruckScreens/myTrucksScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationScreen extends StatefulWidget {
   var initScreen;
+
   NavigationScreen({this.initScreen});
 
   @override

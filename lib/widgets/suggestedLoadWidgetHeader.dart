@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/screens/SuggestedLoadsScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuggestedLoadWidgetHeader extends StatelessWidget {
   const SuggestedLoadWidgetHeader({Key? key}) : super(key: key);
@@ -13,7 +12,8 @@ class SuggestedLoadWidgetHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('suggestedLoad'.tr,
+        Text(
+          'suggestedLoad'.tr,
           // AppLocalizations.of(context)!.suggestedLoad,
           style: TextStyle(
               color: liveasyBlackColor,
@@ -27,7 +27,8 @@ class SuggestedLoadWidgetHeader extends StatelessWidget {
             FocusScope.of(context).requestFocus(FocusNode());
             Get.to(() => SuggestedLoadScreen());
           },
-          child: Text('seeAll'.tr,
+          child: Text(
+            'seeAll'.tr,
             // AppLocalizations.of(context)!.seeAll,
             style: TextStyle(
                 color: liveasyGreen,

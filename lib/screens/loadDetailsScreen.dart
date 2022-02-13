@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -19,7 +17,6 @@ import 'package:liveasy/widgets/loadingWidgets/loadDetailsLoadingWidget.dart';
 import 'package:liveasy/widgets/locationDetails_LoadDetails.dart';
 import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
@@ -38,6 +35,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
   bool loading = false;
   SelectedDriverController selectedDriverController =
       Get.put(SelectedDriverController());
+
   runGetDetailsByPostLoadID() async {
     widgetLoadDetailsScreenModel = await getLoadDetailsByPostLoadID(
         loadPosterId: widget.loadDetailsScreenModel.postLoadId.toString());
@@ -79,10 +77,9 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                           SizedBox(
                             width: space_3,
                           ),
-                          HeadingTextWidget(
-                            'loadDetails'.tr
+                          HeadingTextWidget('loadDetails'.tr
                               // AppLocalizations.of(context)!.loadDetails
-                          ),
+                              ),
                           // HelpButtonWidget(),
                         ],
                       ),

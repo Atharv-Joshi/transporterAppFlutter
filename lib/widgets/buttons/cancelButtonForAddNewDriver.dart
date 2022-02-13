@@ -4,20 +4,17 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class CancelButtonForAddNewDriver extends StatefulWidget {
-
-
   @override
-  _CancelButtonForAddNewDriverState createState() => _CancelButtonForAddNewDriverState();
+  _CancelButtonForAddNewDriverState createState() =>
+      _CancelButtonForAddNewDriverState();
 }
 
-class _CancelButtonForAddNewDriverState extends State<CancelButtonForAddNewDriver> {
+class _CancelButtonForAddNewDriverState
+    extends State<CancelButtonForAddNewDriver> {
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () => Get.back(),
       child: Container(

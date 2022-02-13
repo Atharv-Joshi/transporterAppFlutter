@@ -4,7 +4,6 @@ import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
-import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart';
 
 String traccarUser = FlutterConfig.get("traccarUser");
@@ -23,7 +22,7 @@ class MapUtil {
   getTraccarPosition({int? deviceId}) async {
     try {
       http.Response response = await http.get(
-          Uri.parse("${traccarApi}/positions?deviceId=$deviceId"),
+          Uri.parse("$traccarApi/positions?deviceId=$deviceId"),
           headers: <String, String>{
             'authorization': basicAuth,
             'Accept': 'application/json'

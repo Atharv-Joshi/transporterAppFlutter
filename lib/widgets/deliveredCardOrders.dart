@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/textOverFlow.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'linePainter.dart';
 import 'loadLabelValueRowTemplate.dart';
 import '../screens/shipperDetailsScreen.dart';
 import 'package:get/get.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeliveredCardOrders extends StatelessWidget {
   final String loadingPoint;
@@ -18,6 +15,7 @@ class DeliveredCardOrders extends StatelessWidget {
   final String endedOn;
   final String truckNo;
   final String companyName;
+
   // final String phoneNum;
   final String driverName;
   final String transporterPhoneNumber;
@@ -56,7 +54,7 @@ class DeliveredCardOrders extends StatelessWidget {
       required this.truckType,
       required this.noOfTrucks,
       required this.productType,
-        required this.bookingId,
+      required this.bookingId,
       required this.unitValue});
 
   @override
@@ -97,11 +95,10 @@ class DeliveredCardOrders extends StatelessWidget {
                       children: [
                         LoadLabelValueRowTemplate(
                             value: endedOn, label: 'completedDate'.tr
-                        // AppLocalizations.of(context)!.completedDate
-                        ),
+                            // AppLocalizations.of(context)!.completedDate
+                            ),
                         Icon(Icons.arrow_forward_ios)
                       ],
-
                     ),
                     SizedBox(
                       height: space_2,
@@ -111,8 +108,8 @@ class DeliveredCardOrders extends StatelessWidget {
                       children: [
                         LoadEndPointTemplate(
                             text: loadingPoint, endPointType: 'location'.tr
-                        // AppLocalizations.of(context)!.location
-                        ),
+                            // AppLocalizations.of(context)!.location
+                            ),
                         Container(
                             padding: EdgeInsets.only(left: 2),
                             height: space_6,
@@ -130,12 +127,12 @@ class DeliveredCardOrders extends StatelessWidget {
                         children: [
                           LoadLabelValueRowTemplate(
                               value: startedOn, label: 'bookingDate'.tr
-                          // AppLocalizations.of(context)!.bookingDate
-                          ),
+                              // AppLocalizations.of(context)!.bookingDate
+                              ),
                           LoadLabelValueRowTemplate(
                               value: "Rs.$rate/$unitValue", label: 'price'.tr
-                          // AppLocalizations.of(context)!.price
-                          ),
+                              // AppLocalizations.of(context)!.price
+                              ),
                         ],
                       ),
                     ),
