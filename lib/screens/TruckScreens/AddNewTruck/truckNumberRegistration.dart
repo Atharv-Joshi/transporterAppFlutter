@@ -14,7 +14,6 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
@@ -65,8 +64,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   height: space_2,
                 ),
                 AddTruckSubtitleText(text: 'truckNumber'.tr
-                // AppLocalizations.of(context)!.truckNumber
-                ),
+                    // AppLocalizations.of(context)!.truckNumber
+                    ),
                 Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: space_6),

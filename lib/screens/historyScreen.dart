@@ -1,12 +1,8 @@
 import 'dart:async';
-
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
@@ -51,10 +47,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void getHistory(var endtime) async {
     print("IMei is ${widget.imei}");
     var gpsDataInitial = await mapUtil.getLocationHistoryByImei(
-      imei: widget.imei,
-      starttime: sendTime,
-      endtime: endtime
-    );
+        imei: widget.imei, starttime: sendTime, endtime: endtime);
     setState(() {
       newGPSData = gpsDataInitial;
     });
@@ -88,8 +81,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       child: Header(
                           reset: false,
                           text: 'Location History',
-                          backButton: true
-                      ),
+                          backButton: true),
                     ),
                     HelpButtonWidget()
                   ],
@@ -192,17 +184,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     // } else {
                     //   getHistory();
                     // }
-                    if (dayscontroller.text == "" || hourscontroller.text == "" || minutescontroller.text == "") {
+                    if (dayscontroller.text == "" ||
+                        hourscontroller.text == "" ||
+                        minutescontroller.text == "") {
                       print("One of it is null");
                     } else {
                       var lastdays = int.parse(dayscontroller.text);
                       var lastminutes = int.parse(minutescontroller.text);
                       var lasthours = int.parse(hourscontroller.text);
-                      final hoursago = DateTime(now.year, now.month, now.day, now.hour - lasthours, now.minute, now.second);
-                      final minutesago = DateTime(now.year, now.month, now.day, now.hour, now.minute - lastminutes, now.second);
-                      final daysago = DateTime(now.year, now.month, now.day - lastdays, now.hour, now.minute, now.second);
-                      final hourreplacing = hoursago.toString().replaceAll("-", "").replaceAll(" ", "").replaceAll(":", "").replaceAll(".000", "");
-                      final finalhour = hourreplacing.substring(0, 7) + ":" + hourreplacing.substring(8, 14);
+                      final hoursago = DateTime(now.year, now.month, now.day,
+                          now.hour - lasthours, now.minute, now.second);
+                      final minutesago = DateTime(now.year, now.month, now.day,
+                          now.hour, now.minute - lastminutes, now.second);
+                      final daysago = DateTime(now.year, now.month,
+                          now.day - lastdays, now.hour, now.minute, now.second);
+                      final hourreplacing = hoursago
+                          .toString()
+                          .replaceAll("-", "")
+                          .replaceAll(" ", "")
+                          .replaceAll(":", "")
+                          .replaceAll(".000", "");
+                      final finalhour = hourreplacing.substring(0, 7) +
+                          ":" +
+                          hourreplacing.substring(8, 14);
 
                       print("now is $now");
                       var nowtime = DateFormat('yyyyMMdd:HHmmss').format(now);
@@ -235,18 +239,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     //     }
                     // );
                   },
-                  child: Text("Get Truck History")
-              ),
+                  child: Text("Get Truck History")),
               SizedBox(
                 height: 10,
               ),
               TextButton(
                   onPressed: () {
-                    final yesterday = DateTime(now.year, now.month, now.day - 1, now.hour, now.minute, now.second);
+                    final yesterday = DateTime(now.year, now.month, now.day - 1,
+                        now.hour, now.minute, now.second);
                     print("yesterday is $yesterday");
                   },
-                  child: Text("YesterDay")
-              ),
+                  child: Text("YesterDay")),
               SizedBox(
                 height: 10,
               ),
@@ -256,7 +259,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 children: [
                   Text("Last"),
                   DropdownButton<int>(
-                    items: <int>[1, 2, 3,4].map((int value) {
+                    items: <int>[1, 2, 3, 4].map((int value) {
                       return DropdownMenuItem<int>(
                         value: value,
                         child: Text("$value"),
@@ -265,8 +268,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         },
                       );
                     }).toList(),
-                    onChanged: (_) {
-                    },
+                    onChanged: (_) {},
                   ),
                   Text("Days"),
                   TextButton(
@@ -283,8 +285,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         // print("Days are $finaldays");
                         // getHistory(sendTime, finaldays);
                       },
-                      child: Text("Go")
-                  )
+                      child: Text("Go"))
                 ],
               ),
               SizedBox(
@@ -298,9 +299,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   Container(
                     width: 60,
                     child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "hours"
-                      ),
+                      decoration: InputDecoration(hintText: "hours"),
                       controller: hourscontroller,
                     ),
                   ),
@@ -310,13 +309,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         final now = DateTime.now();
                         print("Send time is $sendTime");
                         var lasthours = int.parse(hourscontroller.text);
-                        final hoursago = DateTime(now.year, now.month, now.day, now.hour - lasthours, now.minute, now.second);
-                        final hoursreplacing = hoursago.toString().replaceAll("-", "").replaceAll(" ", "").replaceAll(":", "").replaceAll(".000", "");
-                        final finalhours = hoursreplacing.substring(0, 7) + ":" + hoursreplacing.substring(8, 14);
+                        final hoursago = DateTime(now.year, now.month, now.day,
+                            now.hour - lasthours, now.minute, now.second);
+                        final hoursreplacing = hoursago
+                            .toString()
+                            .replaceAll("-", "")
+                            .replaceAll(" ", "")
+                            .replaceAll(":", "")
+                            .replaceAll(".000", "");
+                        final finalhours = hoursreplacing.substring(0, 7) +
+                            ":" +
+                            hoursreplacing.substring(8, 14);
                         print("Hours are $finalhours");
                       },
-                      child: Text("Go")
-                  )
+                      child: Text("Go"))
                 ],
               ),
               SizedBox(
@@ -330,9 +336,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   Container(
                     width: 80,
                     child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "minutes"
-                      ),
+                      decoration: InputDecoration(hintText: "minutes"),
                       controller: minutescontroller,
                     ),
                   ),
@@ -342,13 +346,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         final now = DateTime.now();
                         print("Send time is $sendTime");
                         var lastminutes = int.parse(minutescontroller.text);
-                        final minutesago = DateTime(now.year, now.month, now.day, now.hour, now.minute - lastminutes, now.second);
-                        final minutesreplacing = minutesago.toString().replaceAll("-", "").replaceAll(" ", "").replaceAll(":", "").replaceAll(".000", "");
-                        final finalminutes = minutesreplacing.substring(0, 7) + ":" + minutesreplacing.substring(8, 14);
+                        final minutesago = DateTime(
+                            now.year,
+                            now.month,
+                            now.day,
+                            now.hour,
+                            now.minute - lastminutes,
+                            now.second);
+                        final minutesreplacing = minutesago
+                            .toString()
+                            .replaceAll("-", "")
+                            .replaceAll(" ", "")
+                            .replaceAll(":", "")
+                            .replaceAll(".000", "");
+                        final finalminutes = minutesreplacing.substring(0, 7) +
+                            ":" +
+                            minutesreplacing.substring(8, 14);
                         print("Minutes are $finalminutes");
                       },
-                      child: Text("Go")
-                  )
+                      child: Text("Go"))
                 ],
               ),
               Divider(
@@ -369,7 +385,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
               //       }),
               // )
               //     : Text("No data available"),
-
             ],
           ),
         ),

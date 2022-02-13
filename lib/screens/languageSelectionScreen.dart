@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -25,22 +23,26 @@ class LanguageSelectionScreen extends StatefulWidget {
       _LanguageSelectionScreenState();
 }
 
-class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with AutomaticKeepAliveClientMixin<LanguageSelectionScreen>{
+class _LanguageSelectionScreenState extends State<LanguageSelectionScreen>
+    with AutomaticKeepAliveClientMixin<LanguageSelectionScreen> {
   String currentItem = 'English'; //added this
   String? transporterId;
   bool _nextScreen = false;
   TransporterIdController transporterIdController =
-  Get.put(TransporterIdController(), permanent: true);
+      Get.put(TransporterIdController(), permanent: true);
+
   @override
   void initState() {
     super.initState();
     getData();
-    currentItem = LocalizationService().getCurrentLang();  //added this
+    currentItem = LocalizationService().getCurrentLang(); //added this
   }
-  Function? onTapNext(){
+
+  Function? onTapNext() {
     Get.to(bottomProgressBarIndicatorWidget());
     Get.off(() => NavigationScreen());
   }
+
   getData() async {
     bool? transporterApproved;
     bool? companyApproved;
@@ -51,24 +53,23 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
     String? companyName;
 
     transporterId = await runTransporterApiPost(
-      mobileNum: FirebaseAuth
-        .instance.currentUser!.phoneNumber
-        .toString()
-        .substring(3, 13),
+      mobileNum: FirebaseAuth.instance.currentUser!.phoneNumber
+          .toString()
+          .substring(3, 13),
     );
 
-    if (transporterId != null){
+    if (transporterId != null) {
       setState(() {
-        _nextScreen=true;
+        _nextScreen = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         transporterId = tidstorage.read("transporterId");
         transporterApproved = tidstorage.read("transporterApproved");
         companyApproved = tidstorage.read("companyApproved");
         mobileNum = tidstorage.read("mobileNum");
-        accountVerificationInProgress = tidstorage.read("accountVerificationInProgress");
+        accountVerificationInProgress =
+            tidstorage.read("accountVerificationInProgress");
         transporterLocation = tidstorage.read("transporterLocation");
         name = tidstorage.read("name");
         companyName = tidstorage.read("companyName");
@@ -82,22 +83,21 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
         transporterIdController.updateTransporterApproved(transporterApproved!);
         transporterIdController.updateCompanyApproved(companyApproved!);
         transporterIdController.updateMobileNum(mobileNum!);
-        transporterIdController
-            .updateAccountVerificationInProgress(accountVerificationInProgress!);
+        transporterIdController.updateAccountVerificationInProgress(
+            accountVerificationInProgress!);
         transporterIdController.updateTransporterLocation(transporterLocation!);
         transporterIdController.updateName(name!);
         transporterIdController.updateCompanyName(companyName!);
         print("transporterID is $transporterId");
       }
       setState(() {
-        _nextScreen=true;
+        _nextScreen = true;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     // final provider = Provider.of<ProviderData>(context);
     // final currentItem = provider.languageItem;
     // currentItem = LocalizationService().getCurrentLang();  //added this
@@ -113,7 +113,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                 height: MediaQuery.of(context).size.height / 1.5,
                 child: Padding(
                   padding:
-                  EdgeInsets.fromLTRB(space_5, space_8, space_5, space_0),
+                      EdgeInsets.fromLTRB(space_5, space_8, space_5, space_0),
                   child: Column(
                     children: [
                       Padding(
@@ -121,7 +121,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                         child: Image(
                             image: AssetImage("assets/icons/welcomeIcon.png")),
                       ),
-                      Text('welcome'.tr,  // changed this
+                      Text(
+                        'welcome'.tr, // changed this
                         // AppLocalizations.of(context)!.welcome,
                         style: TextStyle(
                             fontSize: size_11, fontWeight: boldWeight),
@@ -129,7 +130,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                       SizedBox(
                         height: space_6,
                       ),
-                      Text('selectLanguage'.tr, //changed this
+                      Text(
+                        'selectLanguage'.tr, //changed this
                         // AppLocalizations.of(context)!.selectLanguage,
                         style: TextStyle(
                             fontSize: size_10, fontWeight: normalWeight),
@@ -150,15 +152,19 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                   var locale = Locale('en', 'US');
                                   Get.updateLocale(locale);
                                   currentItem = 'English';
-                                  LocalizationService().changeLocale(currentItem);
+                                  LocalizationService()
+                                      .changeLocale(currentItem);
                                 });
                               },
                               child: Container(
                                 height: space_8,
                                 decoration: BoxDecoration(
-                                    border: Border.all(width: 1,
-                                        color:currentItem == 'English' ? navy : darkGreyColor //change here
-                                    ),
+                                    border: Border.all(
+                                        width: 1,
+                                        color: currentItem == 'English'
+                                            ? navy
+                                            : darkGreyColor //change here
+                                        ),
                                     borderRadius:
                                         BorderRadius.circular(radius_1)),
                                 child: Row(
@@ -168,16 +174,22 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                     Text(
                                       "English",
                                       style: TextStyle(
-                                          color: currentItem == 'English' ? navy : darkGreyColor, //change here
+                                          color: currentItem == 'English'
+                                              ? navy
+                                              : darkGreyColor, //change here
                                           fontSize: size_9,
                                           fontWeight: normalWeight),
                                     ),
                                     Container(
-                                      child: currentItem == 'English' ? Image( //chenge here
-                                        image: AssetImage("assets/icons/tick.png"),
-                                        width: space_3,
-                                        height: space_3,
-                                      ): Container(),
+                                      child: currentItem == 'English'
+                                          ? Image(
+                                              //chenge here
+                                              image: AssetImage(
+                                                  "assets/icons/tick.png"),
+                                              width: space_3,
+                                              height: space_3,
+                                            )
+                                          : Container(),
                                     )
                                   ],
                                 ),
@@ -190,14 +202,15 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                  // selectLanguageItem(context, LanguageItem.Hindi);
-                                  // provider.setLocale(Locale('hi'));
+                                // selectLanguageItem(context, LanguageItem.Hindi);
+                                // provider.setLocale(Locale('hi'));
                                 //change here
                                 setState(() {
                                   var locale = Locale('hi', 'IN');
                                   Get.updateLocale(locale);
                                   currentItem = 'Hindi';
-                                  LocalizationService().changeLocale(currentItem);
+                                  LocalizationService()
+                                      .changeLocale(currentItem);
                                 });
                               },
                               child: Container(
@@ -205,27 +218,36 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1,
-                                        color: currentItem == 'Hindi' ? navy : darkGreyColor    //change here
-                                    ),
+                                        color: currentItem == 'Hindi'
+                                            ? navy
+                                            : darkGreyColor //change here
+                                        ),
                                     borderRadius:
                                         BorderRadius.circular(radius_1)),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
                                       "हिन्दी",
                                       style: TextStyle(
-                                          color: currentItem == 'Hindi' ? navy : darkGreyColor,   //change here
+                                          color: currentItem == 'Hindi'
+                                              ? navy
+                                              : darkGreyColor, //change here
                                           fontSize: size_9,
                                           fontWeight: normalWeight),
                                     ),
-                                Container(
-                                  child: currentItem == 'Hindi' ? Image(   //change here
-                                    image: AssetImage("assets/icons/tick.png"),
-                                    width: space_3,
-                                    height: space_3,
-                                  ): Container(),),
+                                    Container(
+                                      child: currentItem == 'Hindi'
+                                          ? Image(
+                                              //change here
+                                              image: AssetImage(
+                                                  "assets/icons/tick.png"),
+                                              width: space_3,
+                                              height: space_3,
+                                            )
+                                          : Container(),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -236,10 +258,13 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                       SizedBox(
                         height: space_5,
                       ),
-                      _nextScreen?
-                      GetStartedButton(onTapNext: this.onTapNext,) : GetStartedButton(onTapNext: (){
-                      },)
-
+                      _nextScreen
+                          ? GetStartedButton(
+                              onTapNext: this.onTapNext,
+                            )
+                          : GetStartedButton(
+                              onTapNext: () {},
+                            )
                     ],
                   ),
                 ),

@@ -7,7 +7,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddPostLoadHeader extends StatefulWidget {
   dynamic resetFunction;

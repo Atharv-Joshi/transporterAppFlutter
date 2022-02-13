@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,21 +6,12 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
-import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
-import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/screens/trackScreen.dart';
-import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
-import 'package:liveasy/widgets/newRowTemplate.dart';
-import 'package:location_permissions/location_permissions.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -169,7 +159,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          
+
                           Text(
                             AppLocalizations.of(context)!.offline,
                             style: TextStyle(
@@ -409,7 +399,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         color: black,
                                       ),
                                     ),
-                                  /*  Text(
+                                    /*  Text(
                                       'time date ',
                                       style: TextStyle(
                                         fontSize: 10,
@@ -481,7 +471,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ),
                         ),
                       ),
-      
+
                       Center(
                         child: Container(
                           margin: EdgeInsets.only(top: space_5),
@@ -522,7 +512,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ],
                         ),
                       ),
-              /*  driver
+                /*  driver
                     ? Container(
                         padding: EdgeInsets.fromLTRB(23, 0, 7, 0),
                         child: Row(

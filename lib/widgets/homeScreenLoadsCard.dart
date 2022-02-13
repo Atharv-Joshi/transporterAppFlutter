@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
@@ -12,8 +11,6 @@ import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
-
-import 'alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'alertDialog/verifyAccountNotifyAlertDialogWithCall.dart';
 
 // ignore: must_be_immutable
@@ -50,7 +47,8 @@ class HomeScreenLoadsCard extends StatelessWidget {
                 {
                   showDialog(
                       context: context,
-                      builder: (context) => VerifyAccountNotifyAlertDialogWithCall())
+                      builder: (context) =>
+                          VerifyAccountNotifyAlertDialogWithCall())
                 }
             },
         child: Card(
@@ -62,7 +60,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'postedon'.tr +' : ${loadDetailsScreenModel.loadDate}',
+                  'postedon'.tr + ' : ${loadDetailsScreenModel.loadDate}',
                   style: TextStyle(
                       fontSize: size_6,
                       color: veryDarkGrey,
@@ -101,7 +99,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "${loadDetailsScreenModel.weight} $tonnes",
-                                // "${AppLocalizations.of(context)!.tonnes}",
+                            // "${AppLocalizations.of(context)!.tonnes}",
                             style: TextStyle(
                                 fontFamily: 'montserrat',
                                 color: bidBackground,

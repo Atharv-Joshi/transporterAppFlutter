@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
@@ -14,7 +12,6 @@ import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/widgets/alertDialog/LogOutDialogue.dart';
 import 'package:liveasy/screens/myDriversScreen.dart';
-import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -184,24 +181,37 @@ class DrawerWidget extends StatelessWidget {
                         padding: EdgeInsets.only(right: 0),
                         margin: EdgeInsets.only(left: space_3),
                         child: TextButton(
-                            // AppLocalizations.of(context)!.contact_us,
-                            onPressed: () {
-                              String url = 'tel:8290748131';
-                              UrlLauncher.launch(url);
-                            },
+                          // AppLocalizations.of(context)!.contact_us,
+                          onPressed: () {
+                            String url = 'tel:8290748131';
+                            UrlLauncher.launch(url);
+                          },
                           style: ButtonStyle(
-                            fixedSize: MaterialStateProperty.resolveWith((states) { Size.fromWidth(300);Size.fromHeight(600);}),
-                            maximumSize: MaterialStateProperty.resolveWith((states) { Size.fromWidth(300);Size.fromHeight(600);}),
-                            overlayColor: MaterialStateProperty.resolveWith((states) => Colors.transparent)
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 120.0),
-                              child: Text('contact_us'.tr, style: TextStyle(
+                              fixedSize:
+                                  MaterialStateProperty.resolveWith((states) {
+                                Size.fromWidth(300);
+                                Size.fromHeight(600);
+                              }),
+                              maximumSize:
+                                  MaterialStateProperty.resolveWith((states) {
+                                Size.fromWidth(300);
+                                Size.fromHeight(600);
+                              }),
+                              overlayColor: MaterialStateProperty.resolveWith(
+                                  (states) => Colors.transparent)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 120.0),
+                            child: Text(
+                              'contact_us'.tr,
+                              style: TextStyle(
                                   color: darkBlueColor,
                                   fontSize: size_8,
                                   fontFamily: 'montserrat',
-                                  fontWeight: regularWeight),textAlign: TextAlign.left,),
-                            ),),
+                                  fontWeight: regularWeight),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(

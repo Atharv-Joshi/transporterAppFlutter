@@ -6,7 +6,6 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/widgets/alertDialog/completedOrdersAlertDialog.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompletedButtonOrders extends StatelessWidget {
   final String bookingId;

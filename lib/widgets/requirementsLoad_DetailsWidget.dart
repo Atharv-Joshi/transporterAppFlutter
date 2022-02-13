@@ -3,9 +3,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -74,11 +73,11 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: 'congratulations'.tr,
-                // AppLocalizations.of(context)!.congratulations,
-                lowerDialogText: 'youHaveCompletedYourOrder'.tr
-                    // AppLocalizations.of(context)!.youHaveCompletedYourOrder,
-              );
+                  upperDialogText: 'congratulations'.tr,
+                  // AppLocalizations.of(context)!.congratulations,
+                  lowerDialogText: 'youHaveCompletedYourOrder'.tr
+                  // AppLocalizations.of(context)!.youHaveCompletedYourOrder,
+                  );
             },
           );
           Timer(
@@ -126,11 +125,11 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return completedDialog(
-                upperDialogText: 'congratulations'.tr,
-                // AppLocalizations.of(context)!.congratulations,
-                lowerDialogText: 'youHaveSuccessfullyUpdateYourOrder'.tr
-                // AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
-              );
+                  upperDialogText: 'congratulations'.tr,
+                  // AppLocalizations.of(context)!.congratulations,
+                  lowerDialogText: 'youHaveSuccessfullyUpdateYourOrder'.tr
+                  // AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
+                  );
             },
           );
           Timer(

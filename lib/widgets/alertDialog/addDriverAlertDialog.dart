@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,20 +7,16 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'CompletedDialog.dart';
 import 'conflictDialog.dart';
 import 'loadingAlertDialog.dart';
@@ -31,7 +25,10 @@ import 'orderFailedAlertDialog.dart';
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
   final Function() notifyParent;
-  AddDriverAlertDialog({Key? key, required this.notifyParent}) : super(key: key);
+
+  AddDriverAlertDialog({Key? key, required this.notifyParent})
+      : super(key: key);
+
   @override
   _AddDriverAlertDialogState createState() => _AddDriverAlertDialogState();
 }
@@ -169,94 +166,98 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             AddButton(
-              name: driverNameController.text,
-              number: driverNumberController.text,
-              onTap: () async {
-                if (driverNumberController.text.length == 10 &&
-                    (driverNumberController.text
-                        .startsWith(RegExp(r'[6-9]')))) {
-                  TransporterIdController tIdController =
-                      Get.find<TransporterIdController>();
-                  String transporterId = '${tIdController.transporterId}';
-                  String? driverAdded = "";
-                  if (driverAdded == "") {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return LoadingAlertDialog();
-                      },
-                    );
-                  }
-                  ResponseModel? response = await driverApiCalls.postDriverApi(
-                      driverNameController.text,
-                      driverNumberController.text,
-                      transporterId);
-                  if (response != null) {
-                    if (response.statusCode == 201 && response.id != null) {
-                      // driver added successfully8
+                name: driverNameController.text,
+                number: driverNumberController.text,
+                onTap: () async {
+                  if (driverNumberController.text.length == 10 &&
+                      (driverNumberController.text
+                          .startsWith(RegExp(r'[6-9]')))) {
+                    TransporterIdController tIdController =
+                        Get.find<TransporterIdController>();
+                    String transporterId = '${tIdController.transporterId}';
+                    String? driverAdded = "";
+                    if (driverAdded == "") {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return completedDialog(
-                            upperDialogText: "Driver successfully Added !",
-                            lowerDialogText: "",
-                          );
-                        },
-                      );
-                      Timer(Duration(seconds: 3),
-                          () => {
-                            Get.back(), Get.back(), Get.back(),
-                            widget.notifyParent()
-                         });
-
-                      //For Book Now Alert Dialog
-                      await getTruckDetailsFromTruckApi(context);
-                      await getDriverDetailsFromDriverApi(context);
-
-                      print(
-                          "response id of driver ----->>${returnResponse.id}");
-
-                      // providerData.updateDropDownValue(
-                      //     );
-                    } else if (response.statusCode == 409) {
-                      // most likely user trying to add same number again
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ConflictDialog(
-                              dialog: 'This driver is already added');
+                          return LoadingAlertDialog();
                         },
                       );
                     }
+                    ResponseModel? response =
+                        await driverApiCalls.postDriverApi(
+                            driverNameController.text,
+                            driverNumberController.text,
+                            transporterId);
+                    if (response != null) {
+                      if (response.statusCode == 201 && response.id != null) {
+                        // driver added successfully8
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return completedDialog(
+                              upperDialogText: "Driver successfully Added !",
+                              lowerDialogText: "",
+                            );
+                          },
+                        );
+                        Timer(
+                            Duration(seconds: 3),
+                            () => {
+                                  Get.back(),
+                                  Get.back(),
+                                  Get.back(),
+                                  widget.notifyParent()
+                                });
+
+                        //For Book Now Alert Dialog
+                        await getTruckDetailsFromTruckApi(context);
+                        await getDriverDetailsFromDriverApi(context);
+
+                        print(
+                            "response id of driver ----->>${returnResponse.id}");
+
+                        // providerData.updateDropDownValue(
+                        //     );
+                      } else if (response.statusCode == 409) {
+                        // most likely user trying to add same number again
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ConflictDialog(
+                                dialog: 'This driver is already added');
+                          },
+                        );
+                      }
+                    } else {
+                      //response is null so error with api
+                      Get.defaultDialog(
+                        content: Container(
+                          child: Column(
+                            children: [
+                              Text("Oops!! Error!"),
+                              Text("Please Try Again Later")
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                   } else {
-                    //response is null so error with api
+                    //user entered an invalid mobile number
                     Get.defaultDialog(
                       content: Container(
                         child: Column(
                           children: [
-                            Text("Oops!! Error!"),
-                            Text("Please Try Again Later")
+                            Text('error'.tr + '!'
+                                // AppLocalizations.of(context)!.error +"!"
+                                ),
+                            Text('enterValid10DigitNumber'.tr
+                                // AppLocalizations.of(context)!.enterValid10DigitNumber
+                                )
                           ],
                         ),
                       ),
                     );
-                  }
-                } else {
-                  //user entered an invalid mobile number
-                  Get.defaultDialog(
-                    content: Container(
-                      child: Column(
-                        children: [
-                          Text('error'.tr +'!'
-                              // AppLocalizations.of(context)!.error +"!"
-                          ),
-                          Text('enterValid10DigitNumber'.tr
-                              // AppLocalizations.of(context)!.enterValid10DigitNumber
-                          )
-                        ],
-                      ),
-                    ),
-                  );
                     //user entered an invalid mobile number
                     showDialog(
                       context: context,
@@ -265,8 +266,7 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                       },
                     );
                   }
-                }
-            ),
+                }),
             CancelButtonForAddNewDriver()
           ],
         )

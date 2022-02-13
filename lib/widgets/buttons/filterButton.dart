@@ -5,7 +5,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterButtonWidget extends StatelessWidget {
   @override

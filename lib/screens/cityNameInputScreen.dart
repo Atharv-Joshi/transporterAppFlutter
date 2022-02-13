@@ -8,7 +8,6 @@ import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/textFieldWidget.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CityNameInputScreen extends StatefulWidget {
   final String valueType;
@@ -25,6 +24,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
     super.initState();
     getMMIToken();
   }
+
   var locationCard;
   TextEditingController controller = TextEditingController();
 
@@ -51,15 +51,15 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                     ),
                     Expanded(
                       child: TextFieldWidget(
-                        onChanged: (String value) {
-                          setState(() {
-                            locationCard = fillCityName(value);
-                          });
-                        },
-                        controller: controller,
-                        hintText: 'enterCityName'.tr
-                        // AppLocalizations.of(context)!.enterCityName,
-                      ),
+                          onChanged: (String value) {
+                            setState(() {
+                              locationCard = fillCityName(value);
+                            });
+                          },
+                          controller: controller,
+                          hintText: 'enterCityName'.tr
+                          // AppLocalizations.of(context)!.enterCityName,
+                          ),
                     ),
                   ],
                 ),

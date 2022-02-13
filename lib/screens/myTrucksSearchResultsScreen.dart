@@ -1,31 +1,12 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
-import 'package:liveasy/functions/truckApis/getTruckDataWithPageNo.dart';
-import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/mapAllTrucks.dart';
-import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
-import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
-import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
-import 'package:liveasy/widgets/searchLoadWidget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:liveasy/widgets/truckScreenBarButton.dart';
-import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 
 class MyTrucksResult extends StatefulWidget {
   List gpsDataList;
@@ -38,6 +19,7 @@ class MyTrucksResult extends StatefulWidget {
       required this.truckDataList,
       required this.status,
       required this.items});
+
   @override
   _MyTrucksResultState createState() => _MyTrucksResultState();
 }
@@ -50,6 +32,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
   var truckDataList = [];
   var status = [];
   var items = [];
+
   @override
   void initState() {
     dummySearchList = widget.items;

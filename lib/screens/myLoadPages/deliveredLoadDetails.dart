@@ -8,7 +8,7 @@ import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/loadPosterDetails.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class DeliveredLoadDetails extends StatelessWidget {
   final DeliveredCardModel loadALlDataModel;
@@ -24,10 +24,7 @@ class DeliveredLoadDetails extends StatelessWidget {
         margin: EdgeInsets.all(space_4),
         child: Column(
           children: [
-            Header(
-                reset: false,
-                text: AppLocalizations.of(context)!.orderDetails,
-                backButton: true),
+            Header(reset: false, text: "orderDetails".tr, backButton: true),
             Container(
               margin: EdgeInsets.only(top: space_4),
               child: Stack(
@@ -79,23 +76,23 @@ class DeliveredLoadDetails extends StatelessWidget {
                 child: Column(
                   children: [
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.location,
+                        label: "location".tr,
                         value:
                             '${loadALlDataModel.loadingPointCity} - ${loadALlDataModel.unloadingPointCity}'),
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.truckNumber,
+                        label: "truckNumber".tr,
                         value: loadALlDataModel.truckNo),
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.truckType,
+                        label: "truckType".tr,
                         value: loadALlDataModel.truckType),
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.numberOfTrucks,
+                        label: "numberOfTrucks".tr,
                         value: loadALlDataModel.noOfTrucks),
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.productType,
+                        label: "productType".tr,
                         value: loadALlDataModel.productType),
                     NewRowTemplate(
-                        label: AppLocalizations.of(context)!.price,
+                        label: "price".tr,
                         value:
                             '${loadALlDataModel.rate}/${loadALlDataModel.unitValue}'),
                   ],
