@@ -44,35 +44,33 @@ Future<String> postCommandsApi(
     if (response.statusCode == 200 || response.statusCode == 202) {
       print(response.body);
       Get.back();
-      // if (type == "engineResume") {
-      //   Get.back();
-      //   Get.to(() => TruckUnlockScreen(
-      //         deviceId: deviceId,
-      //         gpsData: gpsData,
-      //         // position: position,
-      //         TruckNo: TruckNo,
-      //         driverName: driverName,
-      //         driverNum: driverNum,
-      //         gpsDataHistory: gpsDataHistory,
-      //         gpsStoppageHistory: gpsStoppageHistory,
-      //         routeHistory: routeHistory,
-      //         truckId: truckId,
-      //       ));
-      // } else if (type == "engineStop") {
-      //   Get.back();
-      //   Get.to(() => TruckLockScreen(
-      //         deviceId: deviceId,
-      //         gpsData: gpsData,
-      //         // position: position,
-      //         TruckNo: TruckNo,
-      //         driverName: driverName,
-      //         driverNum: driverNum,
-      //         gpsDataHistory: gpsDataHistory,
-      //         gpsStoppageHistory: gpsStoppageHistory,
-      //         routeHistory: routeHistory,
-      //         truckId: truckId,
-      //       ));
-      // }
+      /*   if (type == "engineResume") {
+        Get.to(() => TruckUnlockScreen(
+              deviceId: deviceId,
+              gpsData: gpsData,
+              // position: position,
+              TruckNo: TruckNo,
+              driverName: driverName,
+              driverNum: driverNum,
+              gpsDataHistory: gpsDataHistory,
+              gpsStoppageHistory: gpsStoppageHistory,
+              routeHistory: routeHistory,
+              truckId: truckId,
+            ));
+      } else if (type == "engineStop") {
+        Get.to(() => TruckLockScreen(
+              deviceId: deviceId,
+              gpsData: gpsData,
+              // position: position,
+              TruckNo: TruckNo,
+              driverName: driverName,
+              driverNum: driverNum,
+              gpsDataHistory: gpsDataHistory,
+              gpsStoppageHistory: gpsStoppageHistory,
+              routeHistory: routeHistory,
+              truckId: truckId,
+            ));
+      }*/
       return "Success";
     } else {
       return "Error ${response.statusCode} \n Printing Response ${response.body}";

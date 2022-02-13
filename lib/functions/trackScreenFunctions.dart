@@ -307,7 +307,7 @@ getStoppageDuration(var gpsStoppageHistory){
   }
 
 getStoppageAddress(var gpsStoppageHistory) async{
-  var stopAddress;
+  var stopAddress = "";
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
     List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
     var first = placemarks.first;
@@ -323,7 +323,7 @@ getStoppageAddress(var gpsStoppageHistory) async{
 }
 
 getStoppageAddressLatLong(var lat, var long) async {
-  var stopAddress;
+  var stopAddress = "";
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
   current_lang = LocalizationService().getCurrentLang();
   print(" current language is $current_lang");
