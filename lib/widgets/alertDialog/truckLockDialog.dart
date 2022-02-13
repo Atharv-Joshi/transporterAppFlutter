@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/truckApis/truckLockApiCalls.dart';
@@ -10,14 +9,14 @@ import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class TruckLockDialog extends StatefulWidget {
   final List gpsData;
-  final List gpsDataHistory;
-  final List gpsStoppageHistory;
-  final List routeHistory;
+  var gpsDataHistory;
+  var gpsStoppageHistory;
+  var routeHistory;
   final String? TruckNo;
-  final int? deviceId;
+  int? deviceId;
   final String? driverNum;
   final String? driverName;
-  final String? truckId;
+  var truckId;
   String? value;
 
   TruckLockDialog(
@@ -38,8 +37,6 @@ class TruckLockDialog extends StatefulWidget {
 }
 
 class _TruckLockDialogState extends State<TruckLockDialog> {
-  final lockStorage = GetStorage();
-  var lockState;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -117,8 +114,6 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                   .then((uploadstatus) async {
                                 if (uploadstatus == "Success") {
                                   print("SENT UNLOCK TO DEVICE");
-                                  lockState = true;
-                                  lockStorage.write('lockState', lockState);
                                 } else {
                                   print("PROBLEM IN SENDING TO DEVICE");
                                 }
@@ -139,8 +134,6 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                   .then((uploadstatus) async {
                                 if (uploadstatus == "Success") {
                                   print("SENT LOCK TO DEVICE");
-                                  lockState = false;
-                                  lockStorage.write('lockState', lockState);
                                 } else {
                                   print("PROBLEM IN SENDING TO DEVICE");
                                 }

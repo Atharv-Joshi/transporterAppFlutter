@@ -157,7 +157,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       initfunction2();
       getTruckHistory();
       iconthenmarker();
-
+      zoomin();
       logger.i("in init state function");
       lastlatLngMarker =
           LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
@@ -167,7 +167,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
           (Timer t) => onActivityExecuted2());
       //To update the trackscreen fully
       timer2 = Timer.periodic(
-          Duration(minutes: 5, seconds: 0), (Timer t) => onActivityExecuted());
+          Duration(minutes: 45, seconds: 0), (Timer t) => onActivityExecuted());
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -446,6 +446,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     initfunctionAfter();
     getTruckHistoryAfter();
     iconthenmarker();
+    zoomin();
   }
 
   //function used to change the speed of truck after 10 seconds and to make the truck look running
@@ -457,6 +458,19 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     });
     getTruckHistoryForSpeed();
     iconthenmarker();
+  }
+
+  void zoomin() async {
+    final GoogleMapController controller = await _controller.future;
+    LatLng lastlatLngMarker =
+        LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        bearing: 0,
+        target: lastlatLngMarker,
+        zoom: zoom,
+      ),
+    ));
   }
 
   void createmarker() async {
@@ -493,13 +507,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
             color: Colors.blue,
             width: 2));
       });
-      controller.animateCamera(CameraUpdate.newCameraPosition(
+      /*   controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0,
           target: lastlatLngMarker,
           zoom: zoom,
         ),
-      ));
+      ));*/
     } catch (e) {
       print("Exceptionis $e");
     }

@@ -55,7 +55,7 @@ class MapUtil {
           gpsDataModel.ignition = json["attributes"]["ignition"] != null
               ? json["attributes"]["ignition"]
               : false;
-          gpsDataModel.speed = json["speed"] != null ? json["speed"] : 'NA';
+          gpsDataModel.speed = json["speed"] != null ? json["speed"]*1.85 : 'NA';
           gpsDataModel.course = json["course"] != null ? json["course"] : 'NA';
           gpsDataModel.deviceTime =
               json["deviceTime"] != null ? json["deviceTime"] : 'NA';
@@ -68,6 +68,9 @@ class MapUtil {
               json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude =
               json["longitude"] != null ? json["longitude"] : 0;
+              String? addressstring;
+              try
+              {
           List<Placemark> newPlace;
           current_lang = LocalizationService().getCurrentLang();
           if (current_lang == 'Hindi') {
@@ -78,7 +81,7 @@ class MapUtil {
                 localeIdentifier: "en_US");
           }
           var first = newPlace.first;
-          String? addressstring;
+          
           if (first.subLocality == "")
             addressstring =
                 "${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
@@ -92,6 +95,12 @@ class MapUtil {
             addressstring =
                 "${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
           print("ADD $addressstring");
+              }
+              catch(e)
+              {
+                print(e);
+                addressstring = "";
+              }
           gpsDataModel.address = "$addressstring";
           LatLongList.add(gpsDataModel);
         }
