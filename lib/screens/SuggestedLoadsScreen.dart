@@ -8,7 +8,6 @@ import 'package:liveasy/widgets/buttons/filterButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/suggestedLoadsCard.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class SuggestedLoadScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
   //API CALL--------------------------------------------------------------------
   runSuggestedLoadApi(int i) async {
     var suggestedLoadDataList = await runSuggestedLoadApiWithPageNo(i);
-    for (var suggestedLoadData in suggestedLoadDataList){
+    for (var suggestedLoadData in suggestedLoadDataList) {
       setState(() {
         data.add(suggestedLoadData);
       });
@@ -39,6 +38,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
       loading = false;
     });
   }
+
   //API CALL--------------------------------------------------------------------
 
   @override
@@ -63,6 +63,7 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
     scrollController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -95,25 +96,29 @@ class _SuggestedLoadScreenState extends State<SuggestedLoadScreen> {
                 child: loading == true
                     ? OnGoingLoadingWidgets()
                     : RefreshIndicator(
-                  color: lightNavyBlue,
-                  onRefresh: () {
-                    setState(() {
-                      data.clear();
-                      loading = true;
-                    });
-                    return runSuggestedLoadApi(0);
-                  },
-                      child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                        color: lightNavyBlue,
+                        onRefresh: () {
+                          setState(() {
+                            data.clear();
+                            loading = true;
+                          });
+                          return runSuggestedLoadApi(0);
+                        },
+                        child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           controller: scrollController,
-                          itemCount: data.length+1,
-                          itemBuilder: (BuildContext context, index) => index == data.length
-                              ? Container(child: bottomProgressBarIndicatorWidget(),
-                                    margin: EdgeInsets.only(bottom: space_2),)
-                              : SuggestedLoadsCard(loadDetailsScreenModel: data[index],
-                          ),
+                          itemCount: data.length + 1,
+                          itemBuilder: (BuildContext context, index) =>
+                              index == data.length
+                                  ? Container(
+                                      child: bottomProgressBarIndicatorWidget(),
+                                      margin: EdgeInsets.only(bottom: space_2),
+                                    )
+                                  : SuggestedLoadsCard(
+                                      loadDetailsScreenModel: data[index],
+                                    ),
                         ),
-                    ),
+                      ),
               ),
             ]),
           ),

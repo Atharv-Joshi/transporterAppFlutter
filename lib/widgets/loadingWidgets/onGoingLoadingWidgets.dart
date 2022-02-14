@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:shimmer/shimmer.dart';
@@ -16,13 +15,16 @@ class _OnGoingLoadingWidgetsState extends State<OnGoingLoadingWidgets> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
-      child: Column( children:[
-        onGoingLoadingCard(),
-        onGoingLoadingCard(),
-        onGoingLoadingCard()
-      ],),
+      child: Column(
+        children: [
+          onGoingLoadingCard(),
+          onGoingLoadingCard(),
+          onGoingLoadingCard()
+        ],
+      ),
     );
   }
+
 //TODO: change the design of this card
   Card onGoingLoadingCard() {
     return Card(

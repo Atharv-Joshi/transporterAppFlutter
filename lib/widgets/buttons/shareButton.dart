@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -14,7 +13,6 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/shareImageWidget.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_config/flutter_config.dart';
 

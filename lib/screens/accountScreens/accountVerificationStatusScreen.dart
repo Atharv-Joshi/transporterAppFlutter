@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/widgets/accountWidgets/accountDetailVerificationPending.dart';
@@ -11,7 +10,6 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/buyGpsLongWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:get/get.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountVerificationStatusScreen extends StatelessWidget {
   @override
@@ -35,10 +33,9 @@ class AccountVerificationStatusScreen extends StatelessWidget {
                       SizedBox(
                         width: space_2,
                       ),
-                      HeadingTextWidget(
-                        'my_account'.tr
+                      HeadingTextWidget('my_account'.tr
                           // AppLocalizations.of(context)!.my_account
-                      ),
+                          ),
                     ],
                   ),
                   HelpButtonWidget(),

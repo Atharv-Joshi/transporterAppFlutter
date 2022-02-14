@@ -11,7 +11,6 @@ import 'package:liveasy/widgets/buttons/loadConfirmationScreenButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoadConfirmation extends StatefulWidget {
   const LoadConfirmation({Key? key}) : super(key: key);
@@ -56,10 +55,9 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                             SizedBox(
                               width: space_3,
                             ),
-                            HeadingTextWidget(
-                              'loadConfirmation'.tr
+                            HeadingTextWidget('loadConfirmation'.tr
                                 // AppLocalizations.of(context)!.loadConfirmation
-                            ),
+                                ),
                             // HelpButtonWidget(),
                           ],
                         ),
@@ -96,45 +94,46 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                       label: 'location'.tr
                                       // AppLocalizations.of(context)!
                                       //     .location
-                                  ),
+                                      ),
                                 ),
                                 LoadConfirmationTemplate(
                                     value: postLoadVariables.bookingDate.value,
                                     label: 'date'.tr
                                     // AppLocalizations.of(context)!.date
-                                ),
+                                    ),
                                 LoadConfirmationTemplate(
                                     value: providerData.truckTypeValue,
                                     label: 'truckType'.tr
                                     // AppLocalizations.of(context)!
                                     //     .truckType
-                                ),
+                                    ),
                                 LoadConfirmationTemplate(
                                     value:
                                         providerData.totalTyresValue.toString(),
                                     label: 'tyre'.tr
                                     // AppLocalizations.of(context)!.tyre
-                                ),
+                                    ),
                                 LoadConfirmationTemplate(
                                     value: providerData.passingWeightValue
                                         .toString(),
-                                    label:'weight'.tr
-                                        // AppLocalizations.of(context)!.weight
-                                ),
+                                    label: 'weight'.tr
+                                    // AppLocalizations.of(context)!.weight
+                                    ),
                                 LoadConfirmationTemplate(
-                                    value: providerData.productType + 'tonne'.tr,
+                                    value:
+                                        providerData.productType + 'tonne'.tr,
                                     label: 'productType'.tr
                                     // AppLocalizations.of(context)!.productType
-                                ),
+                                    ),
                                 LoadConfirmationTemplate(
                                     value: providerData.price == 0
                                         ? 'priceNotGiven'.tr
-                                    // AppLocalizations.of(context)!
-                                    //         .priceNotGiven
+                                        // AppLocalizations.of(context)!
+                                        //         .priceNotGiven
                                         : "Rs.${providerData.price}/${providerData.unitValue}",
                                     label: 'price'.tr
                                     // AppLocalizations.of(context)!.price
-                                ),
+                                    ),
                               ],
                             ),
                           ),
@@ -150,18 +149,18 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Expanded(
-                              child: LoadConfirmationScreenButton(
-                                  title: 'edit'.tr
-                                  // AppLocalizations.of(context)!.edit
-                              )),
+                              child:
+                                  LoadConfirmationScreenButton(title: 'edit'.tr
+                                      // AppLocalizations.of(context)!.edit
+                                      )),
                           SizedBox(
                             width: space_10,
                           ),
                           Expanded(
                               child: LoadConfirmationScreenButton(
                                   title: 'confirm'.tr
-                                      // AppLocalizations.of(context)!.confirm
-                              )),
+                                  // AppLocalizations.of(context)!.confirm
+                                  )),
                         ],
                       ),
                     ),

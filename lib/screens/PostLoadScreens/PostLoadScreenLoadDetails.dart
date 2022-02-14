@@ -1,15 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-
 import 'package:liveasy/constants/spaces.dart';
-
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:liveasy/variables/truckFilterVariablesForPostLoad.dart';
 import 'package:liveasy/widgets/PostLoadScreenTwoSearch.dart';
 import 'package:liveasy/widgets/PriceTextFieldWidget.dart';
@@ -78,8 +71,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AddTruckSubtitleText(text: 'truckType'.tr
-                        // "Truck Type"
-                        ),
+                            // "Truck Type"
+                            ),
                         SizedBox(height: space_2),
                         GridView.count(
                           physics: NeverScrollableScrollPhysics(),
@@ -99,8 +92,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                         SizedBox(height: space_3),
                         AddTruckSubtitleText(text: 'tyres'.tr
-                        // "Tyres(chakka)"
-                        ),
+                            // "Tyres(chakka)"
+                            ),
                         SizedBox(height: space_2),
                         Padding(
                           padding: EdgeInsets.only(
@@ -127,8 +120,8 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                         ),
                         SizedBox(height: space_3),
                         AddTruckSubtitleText(text: 'weights'.tr
-                        // "Weight(in tons)"
-                        ),
+                            // "Weight(in tons)"
+                            ),
                         SizedBox(height: space_2),
                         providerData.truckTypeValue == ''
                             ? SizedBox()
@@ -154,17 +147,16 @@ class _PostLoadScreenTwoState extends State<PostLoadScreenTwo> {
                               ),
                         SizedBox(height: space_2),
                         AddTruckSubtitleText(text: 'productType'.tr
-                        // "Product Type"
-                        ),
+                            // "Product Type"
+                            ),
                         SizedBox(height: space_2),
-                        PostLoadScreenTwoSearch(
-                            hintText: 'chooseproductType'.tr
+                        PostLoadScreenTwoSearch(hintText: 'chooseproductType'.tr
                             // "Choose Product Type"
-                        ),
+                            ),
                         SizedBox(height: space_3),
                         AddTruckSubtitleText(text: 'priceoptional'.tr
-                        // "Price(Optional)"
-                        ),
+                            // "Price(Optional)"
+                            ),
                         SizedBox(height: space_2),
                         UnitValueWidget(),
                         SizedBox(height: space_3),

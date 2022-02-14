@@ -1,16 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
-import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
-import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +12,7 @@ class addRectangularButtonProductType extends StatelessWidget {
   final String text;
   final String value;
   bool selected = false;
+
   addRectangularButtonProductType({required this.value, required this.text});
 
   @override
@@ -65,7 +60,9 @@ class addRectangularButtonProductType extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return ProductTypeEnterAlertDialog(
-                      heading: 'Enter The Product Type', category: "Type",);
+                    heading: 'Enter The Product Type',
+                    category: "Type",
+                  );
                 },
               );
             } else {

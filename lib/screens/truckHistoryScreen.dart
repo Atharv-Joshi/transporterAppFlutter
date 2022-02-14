@@ -5,17 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/historyScreenMapWidget.dart';
-import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/truckHistoryStatus.dart';
 
 class TruckHistoryScreen extends StatefulWidget {
@@ -25,8 +20,11 @@ class TruckHistoryScreen extends StatefulWidget {
   int? deviceId;
   var istDate1;
   var istDate2;
+
   // var gpsDataHistory;
   String? selectedLocation;
+  var totalDistance;
+
 //  double latitude;
   // double longitude;
   TruckHistoryScreen({
@@ -38,6 +36,7 @@ class TruckHistoryScreen extends StatefulWidget {
     required this.selectedLocation,
     required this.istDate1,
     required this.istDate2,
+    required this.totalDistance,
     //     required this.latitude,
     //    required this.longitude,
   });
@@ -73,6 +72,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
   var totalDistance;
   var gpsPosition;
+
   @override
   void initState() {
     super.initState();
@@ -96,6 +96,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       istDate2 = widget.istDate2;
       //  gpsHistory = widget.gpsDataHistory;
       _selectedLocation = widget.selectedLocation;
+      totalDistance = widget.totalDistance;
     });
     getDateRange();
     getgpsDataHistory();
@@ -223,6 +224,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       var newRouteHistory = await getRouteStatusList(widget.deviceId,
           istDate1.toIso8601String(), istDate2.toIso8601String());
       print("AFter ${newRouteHistory.length}");
+      totalDistance = getTotalDistance(newRouteHistory);
       newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
       /*     int i=0;
       var start;
@@ -244,7 +246,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
   {
     la = true;
-  }    
+  }
   print("GpsRoute Length ${length}");
   while(i<newRouteHistory.length){
     print("i $i");
@@ -263,19 +265,19 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         end = getISOtoIST(newRouteHistory[i].startTime);
         duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
       }
-          
+
       else{
         start = getISOtoIST(yesterday.toIso8601String());
-        
+
       end = getISOtoIST(newRouteHistory[i].startTime);
-      
+
       duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
       }
-      
+
       print("kk $duration");
       newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    } 
-    
+    }
+
     else {
       start = getISOtoIST(newRouteHistory[i - 1].endTime);
       end = getISOtoIST(newRouteHistory[i].startTime);
@@ -284,7 +286,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     }
     i = i+2;
   }
-  
+
   if(la)
   {
     start = getISOtoIST(lastStop);
@@ -314,6 +316,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
               istDate2: istDate2,
               //   gpsDataHistory: gpsHistory,
               selectedLocation: widget.selectedLocation,
+              totalDistance: totalDistance,
               //    latitude: widget.latitude,
               //    longitude: widget.longitude
             ));
@@ -400,14 +403,15 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     //Run all APIs using new Date Range
     var newRouteHistory = await getRouteStatusList(widget.deviceId,
         istDate1.toIso8601String(), istDate2.toIso8601String());
-
+    totalDistance = getTotalDistance(newRouteHistory);
     newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+
     /*  int i=0;
   var start;
   var end;
   var duration;
   int length = newRouteHistory.length;
-  
+
   DateTime yesterday = istDate1;
   DateTime now = istDate2;
   if(length > 0)
@@ -423,7 +427,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
   {
     la = true;
-  }    
+  }
   print("GpsRoute Length ${length}");
   while(i<newRouteHistory.length){
     print("i $i");
@@ -442,19 +446,19 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         end = getISOtoIST(newRouteHistory[i].startTime);
         duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
       }
-          
+
       else{
         start = getISOtoIST(yesterday.toIso8601String());
-        
+
       end = getISOtoIST(newRouteHistory[i].startTime);
-      
+
       duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
       }
-      
+
       print("kk $duration");
       newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    } 
-    
+    }
+
     else {
       start = getISOtoIST(newRouteHistory[i - 1].endTime);
       end = getISOtoIST(newRouteHistory[i].startTime);
@@ -463,7 +467,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     }
     i = i+2;
   }
-  
+
   if(la)
   {
     start = getISOtoIST(lastStop);
@@ -494,6 +498,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
             istDate2: istDate2,
             //   gpsDataHistory: gpsHistory,
             selectedLocation: _selectedLocation,
+            totalDistance: totalDistance,
             //    latitude: widget.latitude,
             //    longitude: widget.longitude
           ));
@@ -578,8 +583,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                       height: space_13,
                       child: Column(children: [
                         Container(
-                          margin: EdgeInsets.fromLTRB(
-                              space_3, space_4, 0, space_1),
+                          margin:
+                              EdgeInsets.fromLTRB(space_3, space_4, 0, space_1),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -669,13 +674,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width /
-                                            4 +
-                                        40,
+                                    width:
+                                        MediaQuery.of(context).size.width / 4 +
+                                            40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xffDFE3EF),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(6)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
                                     ),
                                     child: Row(children: [
                                       Column(
@@ -684,8 +689,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                           children: [
                                             Container(
                                               padding:
-                                                const EdgeInsets.fromLTRB(
-                                                    9, 5, 0, 0),
+                                                  const EdgeInsets.fromLTRB(
+                                                      9, 5, 0, 0),
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
@@ -693,11 +698,10 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                               child: Text(
                                                 "From:  ",
                                                 style: TextStyle(
-                                                    color: const Color(
-                                                        0xff545454),
+                                                    color:
+                                                        const Color(0xff545454),
                                                     fontSize: size_5,
-                                                    fontStyle:
-                                                        FontStyle.normal,
+                                                    fontStyle: FontStyle.normal,
                                                     fontWeight:
                                                         mediumBoldWeight),
                                               ),
@@ -715,12 +719,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                                               color: const Color(0xFF404040),
                                                               width: 0.5,
                                                             ),
-                                                                  
+
                                                             ),*/
 
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .fromLTRB(9, 2, 0, 5),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          9, 2, 0, 5),
                                                   child: Text(
                                                     "$startTime",
                                                     style: TextStyle(
@@ -762,13 +767,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                   ),
                                   Spacer(),
                                   Container(
-                                    width: MediaQuery.of(context).size.width /
-                                            4 +
-                                        40,
+                                    width:
+                                        MediaQuery.of(context).size.width / 4 +
+                                            40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xffDFE3EF),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(6)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
                                     ),
                                     child: Row(children: [
                                       Column(
@@ -777,8 +782,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                           children: [
                                             Container(
                                               padding:
-                                                const EdgeInsets.fromLTRB(
-                                                    9.0, 5, 0, 0),
+                                                  const EdgeInsets.fromLTRB(
+                                                      9.0, 5, 0, 0),
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
@@ -786,11 +791,10 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                               child: Text(
                                                 "To: ",
                                                 style: TextStyle(
-                                                    color: const Color(
-                                                        0xff545454),
+                                                    color:
+                                                        const Color(0xff545454),
                                                     fontSize: size_5,
-                                                    fontStyle:
-                                                        FontStyle.normal,
+                                                    fontStyle: FontStyle.normal,
                                                     fontWeight:
                                                         mediumBoldWeight),
                                               ),
@@ -808,12 +812,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                                               color: const Color(0xFF404040),
                                                               width: 0.5,
                                                             ),
-                                                                  
+
                                                             ),*/
 
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .fromLTRB(9, 2, 0, 5),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          9, 2, 0, 5),
                                                   child: Text(
                                                     "$endTime",
                                                     style: TextStyle(
@@ -847,6 +852,33 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                               ),
                             ),
                             Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                  space_7, space_1, 0, space_1),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Distance Covered',
+                                    style: TextStyle(
+                                      fontSize: size_6,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xff656565),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: space_1,
+                                  ),
+                                  Text(
+                                    '$totalDistance km',
+                                    style: TextStyle(
+                                      fontSize: size_6,
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color(0xff656565),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
                                 padding: EdgeInsets.fromLTRB(
                                     space_7, space_2, 0, space_2),
                                 child: Text(
@@ -858,7 +890,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                 )),
                             Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: height - 280,
+                                height: height - 300,
                                 //    color: backgroundColor,
                                 alignment: Alignment.bottomCenter,
                                 child:

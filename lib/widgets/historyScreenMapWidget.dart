@@ -6,28 +6,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
-import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/stoppageInfoWindow.dart';
-import 'package:liveasy/widgets/buttons/helpButton.dart';
-import 'package:liveasy/widgets/trackScreenDetailsWidget.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
-import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -38,6 +29,7 @@ class HistoryScreenMapWidget extends StatefulWidget {
   var truckNo;
   var deviceId;
   var selectedlocation;
+
   HistoryScreenMapWidget({
     //  required this.gpsData,
     required this.routeHistory,
@@ -69,6 +61,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   List<Marker> customMarkers = [];
   late Timer timer;
   Completer<GoogleMapController> _controller = Completer();
+
   // late List newGPSData=widget.gpsData;
   late List reversedList;
   MapUtil mapUtil = MapUtil();
@@ -157,7 +150,6 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     } catch (e) {
       logger.e("Error is $e");
     }
-    
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -182,11 +174,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     setState(() {
       gpsHistory = widget.gpsHistory;
     });
-    
+
     print("Gps data history length ${gpsHistory.length}");
     // gpsStoppageHistory=widget.gpsStoppageHistory;
     // getStoppage(widget.gpsStoppageHistory);
-    polylineCoordinates1 = getPoylineCoordinates(gpsHistory,polylineCoordinates1);
+    polylineCoordinates1 =
+        getPoylineCoordinates(gpsHistory, polylineCoordinates1);
     _getPolyline(polylineCoordinates1);
   }
 
@@ -196,7 +189,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     var logger = Logger();
     logger.i("in truck history after function");
     // getStoppage(gpsStoppageHistory);
-    polylineCoordinates1 = getPoylineCoordinates(gpsHistory,polylineCoordinates1);
+    polylineCoordinates1 =
+        getPoylineCoordinates(gpsHistory, polylineCoordinates1);
     _getPolyline(polylineCoordinates1);
   }
 
@@ -381,7 +375,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       LatLng latLngMarker =
       LatLng(widget.routeHistory[0].latitude, widget.routeHistory[0].longitude);
       print("Live location is ${widget.routeHistory[0].latitude}");
-      
+
     //  print("id ${newGPSData.last.deviceId.toString()}");
     //  String? title = widget.TruckNo;
       setState(() {
@@ -477,9 +471,10 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       status: "Loading...",
     );
     var newRouteHistory = await getRouteStatusList(widget.deviceId,
-          istDate1.toIso8601String(), istDate2.toIso8601String());
-      print("AFter ${newRouteHistory.length}");
-      newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+        istDate1.toIso8601String(), istDate2.toIso8601String());
+    print("AFter ${newRouteHistory.length}");
+    totalDistance = getTotalDistance(newRouteHistory);
+    newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
     //Run all APIs using new Date Range
     customMarkers = [];
     from = istDate1.toIso8601String();
@@ -495,6 +490,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
           istDate2: istDate2,
           //   gpsDataHistory: gpsHistory,
           selectedLocation: _selectedLocation,
+          totalDistance: totalDistance,
           //    latitude: widget.latitude,
           //    longitude: widget.longitude
         ));
@@ -544,8 +540,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                       _customInfoWindowController.googleMapController =
                           controller;
                     },
-                    gestureRecognizers:
-                        <Factory<OneSequenceGestureRecognizer>>[
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                       new Factory<OneSequenceGestureRecognizer>(
                         () => new EagerGestureRecognizer(),
                       ),
@@ -681,7 +676,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                                   ),
                                 ),
                                 child: const Icon(Icons.keyboard_arrow_down,
-                                    size: 15, color: white),
+                                    size: 20, color: white),
                               ),
                             ),
                           ]),
@@ -690,8 +685,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                             color: const Color(0xff3A3A3A),
                             fontSize: size_6,
                             fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight
-                                .w400), // Not necessary for Option 1
+                            fontWeight: FontWeight.w400),
+                        // Not necessary for Option 1
                         value: _selectedLocation,
                         onChanged: (newValue) {
                           setState(() {

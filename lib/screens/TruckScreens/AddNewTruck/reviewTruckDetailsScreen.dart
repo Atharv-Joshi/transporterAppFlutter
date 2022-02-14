@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -17,14 +16,16 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/controller/truckIdController.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewTruckDetails extends StatefulWidget {
   final String truckId;
   final String truckNumber;
   final String driverId;
 
-  ReviewTruckDetails({required this.truckId, required this.driverId , required this.truckNumber});
+  ReviewTruckDetails(
+      {required this.truckId,
+      required this.driverId,
+      required this.truckNumber});
 
   @override
   _ReviewTruckDetailsState createState() => _ReviewTruckDetailsState();
@@ -32,6 +33,7 @@ class ReviewTruckDetails extends StatefulWidget {
 
 class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   TruckApiCalls truckApiCalls = TruckApiCalls();
+
   //
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
@@ -76,8 +78,9 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
               .indexOf(providerData.truckTypeValue)];
     }
 
-      // driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
-    NavigationIndexController navigationIndexController = Get.find<NavigationIndexController>();
+    // driverModel.driverName = driverModel.driverName!.length > 11 ? driverModel.driverName!.substring(0 , 9) + '..' : driverModel.driverName ;
+    NavigationIndexController navigationIndexController =
+        Get.find<NavigationIndexController>();
 
     return Scaffold(
       body: SafeArea(
@@ -87,14 +90,14 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
             children: [
               Header(
                 backButton: true,
-                  text: 'addTruck'.tr,
-                  // AppLocalizations.of(context)!.addTruck,
-                  reset: false,
-                  // resetFunction: () {
-                  //   providerData.resetTruckFilters();
-                  //   Get.back();
-                  // }
-                  ),
+                text: 'addTruck'.tr,
+                // AppLocalizations.of(context)!.addTruck,
+                reset: false,
+                // resetFunction: () {
+                //   providerData.resetTruckFilters();
+                //   Get.back();
+                // }
+              ),
               Container(
                 margin: EdgeInsets.only(top: space_2),
                 child: Row(
@@ -129,38 +132,41 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                             children: [
                               TruckReviewDetailsRow(
                                   value: truckTypeText, label: 'truckType'.tr
-                              // AppLocalizations.of(context)!.truckType
-                              ),
+                                  // AppLocalizations.of(context)!.truckType
+                                  ),
                               TruckReviewDetailsRow(
                                   value: providerData.totalTyresValue,
                                   label: 'totalTyres'.tr
                                   // AppLocalizations.of(context)!.totalTyres
-                              ),
+                                  ),
                               TruckReviewDetailsRow(
                                   value: providerData.passingWeightValue,
                                   label: 'passingWeight'.tr
                                   // AppLocalizations.of(context)!.passingWeigthInTons
-                              ),
-                             // Change here----------------------------
-                             //  TruckReviewDetailsRow(
-                             //      value: providerData.truckLengthValue,
-                             //  //     label: AppLocalizations.of(context)!.truckLength),
-                             //  TruckReviewDetailsRow(
-                             //      value: widget.driverId != ''
-                             //          ?
-                             //      '${driverModel.driverName}-${driverModel.phoneNum}'
-                             //          :
-                             //      '---',
-                             //      label: 'driverDetails'.tr
-                             //      // AppLocalizations.of(context)!.driverDetails
-                             //  ),
+                                  ),
+                              // Change here----------------------------
+                              //  TruckReviewDetailsRow(
+                              //      value: providerData.truckLengthValue,
+                              //  //     label: AppLocalizations.of(context)!.truckLength),
+                              //  TruckReviewDetailsRow(
+                              //      value: widget.driverId != ''
+                              //          ?
+                              //      '${driverModel.driverName}-${driverModel.phoneNum}'
+                              //          :
+                              //      '---',
+                              //      label: 'driverDetails'.tr
+                              //      // AppLocalizations.of(context)!.driverDetails
+                              //  ),
                             ],
                           ),
                         ),
                       ),
-                      loading ? Container(
-                        margin: EdgeInsets.fromLTRB(space_3 , space_20 , space_3 ,0),
-                          child: LoadingWidget()) : Container(),
+                      loading
+                          ? Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  space_3, space_20, space_3, 0),
+                              child: LoadingWidget())
+                          : Container(),
                     ],
                   ),
                   Container(
@@ -180,7 +186,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                             optional: true,
                             text: 'edit'.tr
                             // AppLocalizations.of(context)!.edit
-                        ),
+                            ),
                         MediumSizedButton(
                             onPressedFunction: () async {
                               setState(() {
@@ -201,13 +207,16 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                                   loading = false;
                                 });
 
-                                if(providerData.isAddTruckSrcDropDown){
+                                if (providerData.isAddTruckSrcDropDown) {
                                   navigationIndexController.updateIndex(3);
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
-                                }
-                                else{
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          NavigationScreen()));
+                                } else {
                                   navigationIndexController.updateIndex(1);
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NavigationScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          NavigationScreen()));
                                 }
                                 providerData.resetTruckFilters();
                               } else {
@@ -220,7 +229,7 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                             optional: true,
                             text: 'submit'.tr
                             // 'Submit'
-                        )
+                            )
                       ],
                     ),
                   )

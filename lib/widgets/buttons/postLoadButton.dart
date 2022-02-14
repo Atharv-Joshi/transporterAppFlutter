@@ -9,15 +9,15 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class PostButtonLoad extends StatelessWidget {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
+
   @override
   Widget build(BuildContext context) {
-    ProviderData providerData = Provider.of<ProviderData>(context );
+    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       height: space_8,
       width: space_33,
@@ -35,7 +35,7 @@ class PostButtonLoad extends StatelessWidget {
           providerData.updateEditLoad(false, "");
           transporterIdController.companyApproved.value
               ? Get.to(() => PostLoadScreenOne())
-           : showDialog(
+              : showDialog(
                   context: context,
                   builder: (context) => VerifyAccountNotifyAlertDialog());
         },

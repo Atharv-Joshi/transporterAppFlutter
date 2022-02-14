@@ -307,7 +307,7 @@ getStoppageDuration(var gpsStoppageHistory){
   }
 
 getStoppageAddress(var gpsStoppageHistory) async{
-  var stopAddress;
+  var stopAddress = "";
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
     List<Placemark> placemarks = await placemarkFromCoordinates(gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
     var first = placemarks.first;
@@ -323,7 +323,7 @@ getStoppageAddress(var gpsStoppageHistory) async{
 }
 
 getStoppageAddressLatLong(var lat, var long) async {
-  var stopAddress;
+  var stopAddress = "";
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
   current_lang = LocalizationService().getCurrentLang();
   print(" current language is $current_lang");
@@ -479,19 +479,19 @@ Future<Uint8List> getBytesFromCanvas3(
     String truckNo, int width, int height) async {
   final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
   final Canvas canvas = Canvas(pictureRecorder);
-  final Paint paint = Paint()..color = Colors.black.withAlpha(100);
+  final Paint paint = Paint()..color = Color(0xff152968);
   final Radius radius = Radius.circular(10);
-  canvas.drawRect(Offset(100, -100) & const Size(500, 250), paint);
+  canvas.drawRect(Offset(300, 200) & const Size(175, 50), paint);
 
   TextPainter painter = TextPainter(textDirection: ui.TextDirection.ltr);
 
   TextPainter painter2 = TextPainter(textDirection: ui.TextDirection.ltr);
   painter2.text = TextSpan(
     text: truckNo, // your custom number here
-    style: TextStyle(fontSize: 34.0, color: Colors.white),
+    style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.w700),
   );
   painter2.layout();
-  painter2.paint(canvas, Offset(190, 65));
+  painter2.paint(canvas, Offset(320, 215));
   final img = await pictureRecorder.endRecording().toImage(500, 250);
   final data = await img.toByteData(format: ui.ImageByteFormat.png);
   return data!.buffer.asUint8List();

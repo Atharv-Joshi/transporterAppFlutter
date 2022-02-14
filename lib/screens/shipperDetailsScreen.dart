@@ -11,7 +11,7 @@ import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 import 'package:liveasy/widgets/shipperPosterDetails.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class ShipperDetails extends StatefulWidget {
   String? loadingPoint;
@@ -79,7 +79,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                   SizedBox(
                     width: space_3,
                   ),
-                  HeadingTextWidget(AppLocalizations.of(context)!.orderDetails),
+                  HeadingTextWidget("orderDetails".tr),
                   // HelpButtonWidget(),
                 ],
               ),
@@ -137,19 +137,20 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                     children: [
                       LoadLabelValueRowTemplate(
                           value: textOverflowEllipsis(
-                              "${widget.loadingPoint}-${widget.unloadingPoint}",20
-                          ),
-                          label: AppLocalizations.of(context)!.location),
+                              "${widget.loadingPoint}-${widget.unloadingPoint}",
+                              20),
+                          label: "location".tr),
                       LoadLabelValueRowTemplate(
-                          value: widget.vehicleNo, label: AppLocalizations.of(context)!.truckNumber),
+                          value: widget.vehicleNo, label: "truckNumber".tr),
                       LoadLabelValueRowTemplate(
-                          value: widget.truckType, label: AppLocalizations.of(context)!.truckType),
+                          value: widget.truckType, label: "truckType".tr),
                       LoadLabelValueRowTemplate(
-                          value: widget.noOfTrucks, label: AppLocalizations.of(context)!.numberOfTrucks),
+                          value: widget.noOfTrucks, label: "numberOfTrucks".tr),
                       LoadLabelValueRowTemplate(
-                          value: widget.productType, label: AppLocalizations.of(context)!.productType),
+                          value: widget.productType, label: "productType".tr),
                       LoadLabelValueRowTemplate(
-                          value: "Rs.${widget.rate}/${AppLocalizations.of(context)!.tonne}", label: AppLocalizations.of(context)!.price),
+                          value: "Rs.${widget.rate}/${"tonne".tr}",
+                          label: "price".tr),
                     ],
                   ),
                 ),
@@ -157,11 +158,12 @@ class _ShipperDetailsState extends State<ShipperDetails> {
               SizedBox(
                 height: space_2,
               ),
-              widget.trackApproved == false ? Container()
-                  :CompletedButtonOrders(
-                bookingId: widget.bookingId,
-                fontSize: size_9,
-              )
+              widget.trackApproved == false
+                  ? Container()
+                  : CompletedButtonOrders(
+                      bookingId: widget.bookingId,
+                      fontSize: size_9,
+                    )
             ],
           ),
         ),

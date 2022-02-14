@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,21 +6,12 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
-import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
-import 'package:liveasy/screens/myDriversScreen.dart';
 import 'package:liveasy/screens/trackScreen.dart';
-import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
-import 'package:liveasy/widgets/buttons/callButton.dart';
-import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/variables/truckFilterVariables.dart';
-import 'package:liveasy/widgets/newRowTemplate.dart';
-import 'package:location_permissions/location_permissions.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
@@ -94,7 +84,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
-      
       child: GestureDetector(
         onTap: () async {
           // if (loading) {
@@ -150,7 +139,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-      
               children: [
                 verified!
                     ? Container(
@@ -171,7 +159,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          
+
                           Text(
                             AppLocalizations.of(context)!.offline,
                             style: TextStyle(
@@ -226,9 +214,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                           : Text(
                                               "${(widget.gpsData.last.speed).round()} km/h",
                                               style: TextStyle(
-
                                                   color: red,
-                                                  
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)),
@@ -384,79 +370,77 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                       */
-                    ],
-                  ),
-                )
-      
-      
-                    :   Container(
-                      padding: EdgeInsets.all(space_3),
-                      decoration: BoxDecoration(
-                    color: const Color(0xFFF7F8FA),
-            ),
-                      child: Column(
-                  children: [
-                      Row(
-                        children: [
-                          Image.asset('assets/icons/box-truck.png',
-                          width: 29,
-                          height: 29,
-                          ),
-                          SizedBox(
-                            width: 13,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                '${widget.truckData.truckNo}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: black,
-                                  
-                                  ),
-                              ),
-                              Text(
-                                'time date ',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: black,
-                                  ),
-      
-                              ),
-                          ],
-                          ),
-                          SizedBox(
-                            width: 23,
-                          ),
-                          
-                      ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(27.00,20.00,20.00,0.00),
-                        child: Row(
-                          children: [
-                            Image.asset('assets/icons/circle-outline-with-a-central-dot.png',
-                                    color: const Color(0xFFCDCDCD),
-                                    width: 12,
-                                    height: 12,),
-                            SizedBox(
-                                   width: 8
-                               ),
-                            Text(
-                              'Buy GPS to access live tracking',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF152968),
-                                fontSize: 12,
-                              ),
-                              
-                            ),
-
-
                           ],
                         ),
-                      ),
-        /*            Row(
+                      )
+                    : Container(
+                        padding: EdgeInsets.all(space_3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF7F8FA),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/box-truck.png',
+                                  width: 29,
+                                  height: 29,
+                                ),
+                                SizedBox(
+                                  width: 13,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      '${widget.truckData.truckNo}',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: black,
+                                      ),
+                                    ),
+                                    /*  Text(
+                                      'time date ',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: black,
+                                      ),
+                                    ),*/
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 23,
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  27.00, 20.00, 20.00, 0.00),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/circle-outline-with-a-central-dot.png',
+                                    color: const Color(0xFFCDCDCD),
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Container(
+                                    width: 200,
+                                    child: Text(
+                                      'buyGPS'.tr,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xFF152968),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            /*            Row(
                         children: [
                           Image(
                               height: 16 ,
@@ -487,7 +471,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ),
                         ),
                       ),
-      
+
                       Center(
                         child: Container(
                           margin: EdgeInsets.only(top: space_5),
@@ -528,7 +512,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ],
                         ),
                       ),
-                driver
+                /*  driver
                     ? Container(
                         padding: EdgeInsets.fromLTRB(23, 0, 7, 0),
                         child: Row(
@@ -599,9 +583,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 )),
                           ],
                         ),
-                      ),
+                      ),*/
               ],
-            
             ),
           ),
         ),
