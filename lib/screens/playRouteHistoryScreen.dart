@@ -6,6 +6,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animarker/flutter_map_marker_animation.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -454,7 +455,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            Text("Travelled ",
+                                                            Text("travelled".tr+" ",
                                                                 softWrap: true,
                                                                 style: TextStyle(
                                                                     color: liveasyGreen,
@@ -512,7 +513,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                                                     fontSize: size_6,
                                                                     fontStyle: FontStyle.normal,
                                                                     fontWeight: regularWeight)),
-                                                            Text("Stops",
+                                                            Text("stops".tr,
                                                                 softWrap: true,
                                                                 style: TextStyle(
                                                                     color: red,
@@ -544,19 +545,19 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                                         )
                                     ),
                                     SizedBox(
-                                        width: space_2
+                                        width: space_1
                                     ),
                                     Container(
                                       child: Column(
                                         children: [
-                                          Text("${(gpsData.last.speed).toStringAsFixed(2)} km/h",
+                                          Text("${(gpsData.last.speed).toStringAsFixed(2)}" +"km/h".tr,
                                               style: TextStyle(
                                                   color: liveasyGreen,
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
                                                   fontWeight: regularWeight)
                                           ),
-                                          Text("Status",
+                                          Text("status".tr,
                                               style: TextStyle(
                                                   color: black,
                                                   fontSize: size_6,

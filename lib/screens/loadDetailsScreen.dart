@@ -145,21 +145,21 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                                     "loadDate":
                                         widget.loadDetailsScreenModel.loadDate,
                                     "loadingPoint": widget
-                                        .loadDetailsScreenModel.loadingPoint,
+                                        .loadDetailsScreenModel.loadingPoint?.tr,
                                     "loadingPointCity": widget
                                         .loadDetailsScreenModel
-                                        .loadingPointCity,
+                                        .loadingPointCity?.tr,
                                     "loadingPointState": widget
                                         .loadDetailsScreenModel
-                                        .loadingPointState,
+                                        .loadingPointState?.tr,
                                     "unloadingPoint": widget
                                         .loadDetailsScreenModel.unloadingPoint,
                                     "unloadingPointCity": widget
                                         .loadDetailsScreenModel
-                                        .unloadingPointCity,
+                                        .unloadingPointCity?.tr,
                                     "unloadingPointState": widget
                                         .loadDetailsScreenModel
-                                        .unloadingPointState,
+                                        .unloadingPointState?.tr,
                                   },
                                 ),
                               ),
@@ -175,16 +175,16 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                                 child: RequirementsLoadDetails(
                                   loadDetails: {
                                     "truckType":
-                                        widget.loadDetailsScreenModel.truckType,
+                                        widget.loadDetailsScreenModel.truckType?.tr,
                                     "noOfTyres":
                                         widget.loadDetailsScreenModel.noOfTyres,
                                     "weight":
-                                        widget.loadDetailsScreenModel.weight,
+                                        widget.loadDetailsScreenModel.weight?.tr,
                                     "productType": widget
-                                        .loadDetailsScreenModel.productType,
+                                        .loadDetailsScreenModel.productType?.tr,
                                     "rate": widget.loadDetailsScreenModel.rate,
                                     "unitValue":
-                                        widget.loadDetailsScreenModel.unitValue,
+                                        widget.loadDetailsScreenModel.unitValue?.tr,
                                   },
                                 ),
                               ),

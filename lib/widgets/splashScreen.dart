@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/screens/languageSelectionScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () => Get.off(() => LoginScreen()));
+    Timer(Duration(seconds: 3), () => Get.off(() => LanguageSelectionScreen()));
 
     super.initState();
   }

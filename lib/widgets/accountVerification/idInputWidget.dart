@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getImageFromCamera.dart';
+import 'package:liveasy/image_display.dart';
 import 'package:liveasy/widgets/accountVerification/roundedImageDisplay.dart';
 
 // ignore: must_be_immutable
@@ -25,14 +27,14 @@ class IdInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Add Address Proof",
+                "addAddressProof".tr,
                 style: TextStyle(
                   fontWeight: mediumBoldWeight,
                   fontSize: size_8,
                 ),
               ),
               Text(
-                "(Aadhaar Card/Driving License/Ration Card\n/Voter ID/Electricity/GST)",
+                "docsExample".tr,
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
               SizedBox(
@@ -42,7 +44,7 @@ class IdInputWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RoundedImageDisplay(
-                    text: "Id Front",
+                    text: "idFront".tr,
                     onPressed: () async {
                       showPicker(
                           providerData.updateAddressProofFrontPhoto,
@@ -53,7 +55,7 @@ class IdInputWidget extends StatelessWidget {
                     imageFile: providerData.addressProofFrontPhotoFile,
                   ),
                   RoundedImageDisplay(
-                    text: "Id Back",
+                    text: "idBack".tr,
                     onPressed: () async {
                       showPicker(
                           providerData.updateAddressProofBackPhoto,
@@ -69,14 +71,14 @@ class IdInputWidget extends StatelessWidget {
                 height: space_3,
               ),
               Text(
-                "Add ID Proof",
+                "addId".tr,
                 style: TextStyle(
                     fontSize: size_8,
                     color: veryDarkGrey,
                     fontWeight: mediumBoldWeight),
               ),
               Text(
-                "(Upload Front of PAN Card)",
+                "addIdExample".tr,
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
               SizedBox(
@@ -84,7 +86,7 @@ class IdInputWidget extends StatelessWidget {
               ),
               Center(
                 child: RoundedImageDisplay(
-                  text: "Pan Front",
+                  text: "panFront".tr,
                   onPressed: () async {
                     showPicker(
                         providerData.updatePanFrontPhoto,

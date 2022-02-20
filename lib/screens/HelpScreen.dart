@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -53,7 +54,7 @@ class _HelpScreenState extends State<HelpScreen> {
                       padding: EdgeInsets.only(right: space_4),
                       child: Header(
                           reset: false,
-                          text: 'Help and Support',
+                          text: 'Help and Support'.tr,
                           backButton: true),
                     )
                   ],
@@ -65,7 +66,7 @@ class _HelpScreenState extends State<HelpScreen> {
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: space_6),
               child: Text(
-                'What\'s your question?',
+                'What\'s your question?'.tr,
                 style: TextStyle(fontSize: size_8, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.left,
               ),
@@ -87,7 +88,7 @@ class _HelpScreenState extends State<HelpScreen> {
             Container(
               margin: EdgeInsets.only(top: space_5),
               child: SearchLoadWidget(
-                hintText: 'Search',
+                hintText: 'search'.tr,
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -104,7 +105,7 @@ class _HelpScreenState extends State<HelpScreen> {
                         ? Column(children: [
                             // returning the CardWidget passing only title
                             HelpCardWidget(
-                                title: questions[index], index: index),
+                                title: questions[index].tr, index: index),
                           ])
                         : GestureDetector(
                             onTap: () {
@@ -121,7 +122,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                     child: Column(children: [
                                       ListTile(
                                         title: Text(
-                                          'Ask a question',
+                                          'Ask a question'.tr,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontSize: size_7),
@@ -167,7 +168,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                                             border:
                                                                 OutlineInputBorder(),
                                                             hintText:
-                                                                'Please write to us, we will get in touch with you.',
+                                                                'Please write to us, we will get in touch with you.'.tr,
                                                             hintStyle: TextStyle(
                                                                 fontSize: size_6,
                                                                 fontWeight:
@@ -201,7 +202,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                                         },
                                                         child: Container(
                                                           child: Text(
-                                                            'Submit',
+                                                            'submit'.tr,
                                                             style: TextStyle(
                                                               letterSpacing:
                                                                   0.7,

@@ -816,7 +816,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                               return DropdownMenuItem(
                                 child: Container(
                                     //  width: 74,
-                                    child: new Text(location)),
+                                    child: new Text(location.tr)),
                                 value: location,
                               );
                             }).toList(),
@@ -928,7 +928,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                               Container(
                                                   //width: 100,
                                                   child: Text(
-                                                "Truck Lock",
+                                                "Truck Lock".tr,
                                                 style: TextStyle(
                                                     color: liveasyBlackColor),
                                               )),

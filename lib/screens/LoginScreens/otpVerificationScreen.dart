@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -180,6 +181,7 @@ class _NewOTPVerificationScreenState
                                         onPressed: () {
                                           timerController.startTimer();
                                           // hudController.updateHud(true);
+
                                           _verifyPhoneNumber();
                                         },
                                         child: Text(
@@ -280,8 +282,8 @@ class _NewOTPVerificationScreenState
           await FirebaseAuth.instance.signInWithCredential(credential);
 
           timerController.cancelTimer();
-          Get.offAll(() => LanguageSelectionScreen());
-          runTransporterApiPost(mobileNum: widget.phoneNumber);
+          await runTransporterApiPost(mobileNum: widget.phoneNumber);
+          Get.offAll(() => NavigationScreen());
         },
         verificationFailed: (FirebaseAuthException e) {
           print('in verification failed');

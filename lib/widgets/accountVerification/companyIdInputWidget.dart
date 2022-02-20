@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -25,14 +26,14 @@ class CompanyIdInputWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Company ID Proof",
+                "companyId".tr,
                 style: TextStyle(
                     fontSize: size_8,
                     color: veryDarkGrey,
                     fontWeight: mediumBoldWeight),
               ),
               Text(
-                "GST Certificate/Company PAN Card/Visiting\nCard/Rental Agreement",
+                "companyIdExample".tr,
                 style: TextStyle(fontSize: size_6, color: grey),
               ),
               SizedBox(
