@@ -37,7 +37,7 @@ class TrackScreen extends StatefulWidget {
   final String? driverNum;
   final String? driverName;
   final String? truckId;
-
+  var totalDistance;
   TrackScreen(
       {required this.gpsData,
       required this.gpsDataHistory,
@@ -48,7 +48,8 @@ class TrackScreen extends StatefulWidget {
       this.driverName,
       this.driverNum,
       required this.deviceId,
-      required this.truckId});
+      required this.truckId,
+      required this.totalDistance});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -342,7 +343,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      totalDistance = getTotalDistance(newGPSRoute);
+      totalDistance = widget.totalDistance;
       status = getStatus(newGPSData, gpsStoppageHistory);
       newGPSRoute = getStopList(newGPSRoute, yesterday, now);
     });
@@ -389,7 +390,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     EasyLoading.dismiss();
   }
 
-  // function called every 5 minuts to get updated
+  // function called every 45 minuts to get updated
   void initfunctionAfter() async {
     logger.i("It is in init function after function");
     var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
