@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -11,7 +10,6 @@ import 'package:liveasy/screens/myLoadPages/onGoingScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/buttons/postLoadButton.dart';
-//import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PostLoadScreen extends StatefulWidget {
