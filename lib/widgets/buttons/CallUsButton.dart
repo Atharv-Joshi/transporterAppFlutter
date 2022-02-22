@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -44,7 +45,8 @@ class CallUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "Call Us",
+                'callUs'.tr,
+                // "Call Us",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   letterSpacing: 0.7,

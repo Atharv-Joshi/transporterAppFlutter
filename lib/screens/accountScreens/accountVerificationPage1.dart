@@ -14,6 +14,8 @@ import 'package:liveasy/widgets/accountVerification/profilePhoto.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../../image_display.dart';
+
 class AccountVerificationPage1 extends StatefulWidget {
   @override
   _AccountVerificationPage1State createState() =>
@@ -42,7 +44,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    HeadingTextWidget("My Account"),
+                    HeadingTextWidget("my_account".tr),
                     HelpButtonWidget(),
                   ],
                 ),
@@ -72,7 +74,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
                       providerData.addressProofFrontPhoto64 != null &&
                       providerData.addressProofBackPhoto64 != null &&
                       providerData.panFrontPhoto64 != null,
-                  text: "Next",
+                  text: "next".tr,
                   onPressedConditionTrue: () {
                     Get.to(() => AccountVerificationPage2());
                   }),

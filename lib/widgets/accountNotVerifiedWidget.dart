@@ -51,7 +51,8 @@ class AccountNotVerifiedWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Account details pending!",
+                        'accountPending'.tr,
+                        // "Account details pending!",
                         style: TextStyle(
                             fontSize: size_5,
                             color: Color(0xFF212121),
@@ -59,7 +60,8 @@ class AccountNotVerifiedWidget extends StatelessWidget {
                             fontWeight: mediumBoldWeight),
                       ),
                       Text(
-                        "Get your account verified to proceed further",
+                        'getVerified'.tr,
+                        // "Get your account verified to proceed further",
                         style: TextStyle(
                             fontSize: size_4,
                             color: darkGreyColor,

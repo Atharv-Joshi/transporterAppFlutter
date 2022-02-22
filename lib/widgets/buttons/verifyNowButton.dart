@@ -29,7 +29,8 @@ class VerifyNowButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_6)),
         child: Center(
           child: Text(
-            "Verify Now",
+            'verifyButton'.tr,
+            // "Verify Now",
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_8),
           ),

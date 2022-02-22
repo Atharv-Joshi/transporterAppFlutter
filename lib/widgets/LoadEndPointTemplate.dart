@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -28,7 +29,7 @@ class LoadEndPointTemplate extends StatelessWidget {
                   : AssetImage('assets/icons/redSemiFilledCircleIcon.png')),
         ),
         Text(
-          '$text',
+          '$text'.tr,
           style: TextStyle(
             color: liveasyBlackColor,
             fontWeight: mediumBoldWeight,

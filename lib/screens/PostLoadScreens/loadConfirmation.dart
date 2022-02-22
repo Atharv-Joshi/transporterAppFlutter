@@ -121,7 +121,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                     ),
                                 LoadConfirmationTemplate(
                                     value:
-                                        providerData.productType + 'tonne'.tr,
+                                        providerData.productType.tr ,
                                     label: 'productType'.tr
                                     // AppLocalizations.of(context)!.productType
                                     ),

@@ -20,7 +20,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(bottom: space_3),
           child: Text(
-            "Posted on : ${loadDetails['loadDate']}",
+            "postedon".tr +" : ${loadDetails['loadDate']}",
             style: TextStyle(
                 fontWeight: regularWeight,
                 fontSize: size_6,
@@ -51,7 +51,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "${loadDetails['loadingPoint']}",
+                        "${loadDetails['loadingPointCity'.tr]}, ${loadDetails['loadingPointState'.tr]}",
                         style: TextStyle(
                             fontWeight: normalWeight, fontSize: size_6),
                       ),
@@ -79,7 +79,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "${loadDetails['unloadingPoint']}",
+                      "${loadDetails['unloadingPointCity'.tr]}, ${loadDetails['unloadingPointState'.tr]}",
                       style:
                           TextStyle(fontWeight: normalWeight, fontSize: size_6),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -14,7 +15,7 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     loadDetails['unitValue'] =
-        loadDetails['unitValue'] == 'PER_TON' ? 'tonne' : 'truck';
+        loadDetails['unitValue'] == 'PER_TON' ? 'tonne'.tr : 'truck'.tr;
     return Column(
       children: [
         Padding(
@@ -23,7 +24,7 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Requirements",
+                "requirement".tr,
                 style: TextStyle(
                     fontSize: size_7,
                     fontWeight: mediumBoldWeight,
@@ -41,14 +42,14 @@ class ShareRequirementsLoadDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               shareNewRowTemplate(
-                  label: 'Truck Type', value: loadDetails['truckType']),
+                  label: 'truckType'.tr, value: loadDetails['truckType']),
               shareNewRowTemplate(
-                  label: 'Weight', value: "${loadDetails['weight']} tonnes"),
+                  label: 'weight'.tr, value: "${loadDetails['weight']}" +"tonnes".tr),
               shareNewRowTemplate(
-                  label: 'Product Type', value: loadDetails['productType']),
+                  label: 'productType'.tr, value: loadDetails['productType']),
               shareNewRowTemplate(
-                  label: 'Bid Price',
-                  value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
+                  label: 'bidPrice'.tr,
+                  value: "${loadDetails['rate']}/${loadDetails['unitValue'.tr]}"),
             ],
           ),
         ),

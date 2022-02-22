@@ -95,7 +95,7 @@ class LoadCardHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '${loadDetails.productType} | ${loadDetails.weight} ' +'tonne'.tr,
+                '${loadDetails.productType}'.tr +' | ${loadDetails.weight} ' +'tonne'.tr,
                 style:
                     TextStyle(fontSize: size_6, fontWeight: mediumBoldWeight),
               ),
