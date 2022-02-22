@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getImageFromCamera.dart';
-import 'package:liveasy/image_display.dart';
 import 'package:liveasy/widgets/accountVerification/roundedImageDisplay.dart';
 
 // ignore: must_be_immutable
@@ -49,19 +47,15 @@ class IdInputWidget extends StatelessWidget {
                       showPicker(
                           providerData.updateAddressProofFrontPhoto,
                           providerData.updateAddressProofFrontPhotoStr,
-                          context
-                      );
+                          context);
                     },
                     imageFile: providerData.addressProofFrontPhotoFile,
                   ),
                   RoundedImageDisplay(
                     text: "idBack".tr,
                     onPressed: () async {
-                      showPicker(
-                          providerData.updateAddressProofBackPhoto,
-                          providerData.updateAddressProofBackPhotoStr,
-                          context
-                      );
+                      showPicker(providerData.updateAddressProofBackPhoto,
+                          providerData.updateAddressProofBackPhotoStr, context);
                     },
                     imageFile: providerData.addressProofBackPhotoFile,
                   ),
@@ -88,11 +82,8 @@ class IdInputWidget extends StatelessWidget {
                 child: RoundedImageDisplay(
                   text: "panFront".tr,
                   onPressed: () async {
-                    showPicker(
-                        providerData.updatePanFrontPhoto,
-                        providerData.updatePanFrontPhotoStr,
-                        context
-                    );
+                    showPicker(providerData.updatePanFrontPhoto,
+                        providerData.updatePanFrontPhotoStr, context);
                   },
                   imageFile: providerData.panFrontPhotoFile,
                 ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -13,8 +12,6 @@ import 'package:liveasy/widgets/accountVerification/idInputWidget.dart';
 import 'package:liveasy/widgets/accountVerification/profilePhoto.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
-import '../../image_display.dart';
 
 class AccountVerificationPage1 extends StatefulWidget {
   @override
