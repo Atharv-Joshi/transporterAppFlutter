@@ -63,7 +63,7 @@ class _TrackButtonState extends State<TrackButton> {
   bool loading=false;
   late String from;
   late String to;
-
+  var totalDistance;
   @override
   void initState() {
     super.initState();
@@ -122,6 +122,7 @@ class _TrackButtonState extends State<TrackButton> {
                   gpsStoppageHistory: gpsStoppageHistory,
                   routeHistory: gpsRoute,
                   truckId: truckData.truckId,
+                  totalDistance: totalDistance,
                 ),
               );
             }

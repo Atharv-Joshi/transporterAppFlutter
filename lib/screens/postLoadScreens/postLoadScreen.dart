@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -21,7 +20,8 @@ class PostLoadScreen extends StatefulWidget {
 class _PostLoadScreenState extends State<PostLoadScreen> {
   //Page Controller
   PageController pageController = PageController(initialPage: 0);
-  PostLoadVariablesController postLoadVariables = Get.put(PostLoadVariablesController());
+  PostLoadVariablesController postLoadVariables =
+      Get.put(PostLoadVariablesController());
   int currentPage = 0;
 
   @override
@@ -34,8 +34,10 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
           padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
           child: Column(
             children: [
-              Header(reset: false, text: 'loads'.tr,
-              // AppLocalizations.of(context)!.loads,
+              Header(
+                  reset: false,
+                  text: 'loads'.tr,
+                  // AppLocalizations.of(context)!.loads,
                   backButton: false),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

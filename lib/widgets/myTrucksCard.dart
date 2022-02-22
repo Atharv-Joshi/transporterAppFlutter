@@ -127,6 +127,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 gpsStoppageHistory: gpsStoppageHistory,
                 routeHistory: gpsRoute,
                 truckId: widget.truckData.truckId,
+                totalDistance: totalDistance,
               ),
             );
           } else {
