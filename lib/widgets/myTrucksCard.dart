@@ -18,11 +18,13 @@ class MyTruckCard extends StatefulWidget {
   TruckModel truckData;
   var gpsData;
   String status;
+  var imei;
 
   MyTruckCard({
     required this.truckData,
     required this.status,
     this.gpsData,
+    this.imei
   });
 
   @override
@@ -128,6 +130,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                 routeHistory: gpsRoute,
                 truckId: widget.truckData.truckId,
                 totalDistance: totalDistance,
+                imei: widget.imei,
               ),
             );
           } else {

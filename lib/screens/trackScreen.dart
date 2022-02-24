@@ -38,6 +38,7 @@ class TrackScreen extends StatefulWidget {
   final String? driverName;
   final String? truckId;
   var totalDistance;
+  var imei;
   TrackScreen(
       {required this.gpsData,
       required this.gpsDataHistory,
@@ -49,7 +50,8 @@ class TrackScreen extends StatefulWidget {
       this.driverNum,
       required this.deviceId,
       required this.truckId,
-      required this.totalDistance});
+      required this.totalDistance,
+      this.imei});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -340,7 +342,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       newGPSData = widget.gpsData;
       newGPSRoute = widget.routeHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
-
       totalRunningTime = getTotalRunningTime(newGPSRoute);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalDistance = widget.totalDistance;
@@ -966,6 +967,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   truckId: widget.truckId,
                   deviceId: widget.deviceId,
                   totalDistance: totalDistance,
+                  recentStops: widget.gpsStoppageHistory,
+                  imei: widget.imei,
                   //    timer2: timer2,
                   //  timer3: timer,
                 ),
