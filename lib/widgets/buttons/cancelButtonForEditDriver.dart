@@ -4,21 +4,18 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class CancelButtonForEditDriver extends StatefulWidget {
-
   @override
-  _CancelButtonForEditDriverState createState() => _CancelButtonForEditDriverState();
+  _CancelButtonForEditDriverState createState() =>
+      _CancelButtonForEditDriverState();
 }
 
 class _CancelButtonForEditDriverState extends State<CancelButtonForEditDriver> {
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
-      onTap: () =>Get.back(),
+      onTap: () => Get.back(),
       child: Container(
         margin: EdgeInsets.only(right: space_3),
         height: space_6 + 1,
@@ -28,7 +25,7 @@ class _CancelButtonForEditDriverState extends State<CancelButtonForEditDriver> {
             border: Border.all(color: darkBlueColor)),
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.cancel,
+            "cancel".tr,
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: normalWeight,

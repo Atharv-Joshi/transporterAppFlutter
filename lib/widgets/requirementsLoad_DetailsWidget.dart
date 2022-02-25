@@ -3,9 +3,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class RequirementsLoadDetails extends StatelessWidget {
@@ -43,7 +41,7 @@ class RequirementsLoadDetails extends StatelessWidget {
               NewRowTemplate(
                   label: 'weight'.tr,
                   // AppLocalizations.of(context)!.weight,
-                  value: "${loadDetails['weight']} tonnes"),
+                  value: "${loadDetails['weight']} " +"tonnes".tr),
               NewRowTemplate(
                   label: 'productType'.tr,
                   // AppLocalizations.of(context)!.productType,
@@ -51,7 +49,7 @@ class RequirementsLoadDetails extends StatelessWidget {
               NewRowTemplate(
                   label: 'bidPrice'.tr,
                   // 'Bid Price',
-                  value: "${loadDetails['rate']}/${loadDetails['unitValue']}"),
+                  value: "${loadDetails['rate']}/"+"${loadDetails['unitValue']}".tr),
             ],
           ),
         ),

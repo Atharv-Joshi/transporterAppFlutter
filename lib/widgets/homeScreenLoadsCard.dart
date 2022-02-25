@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
@@ -62,7 +61,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'postedon'.tr +' : ${loadDetailsScreenModel.loadDate}',
+                  'postedon'.tr +' : ' +'${loadDetailsScreenModel.loadDate}'.tr,
                   style: TextStyle(
                       fontSize: size_6,
                       color: veryDarkGrey,
@@ -80,8 +79,8 @@ class HomeScreenLoadsCard extends StatelessWidget {
                         ),
                         Text(
                           loadDetailsScreenModel.loadingPointCity!.length > 20
-                              ? "${loadDetailsScreenModel.loadingPointCity!.substring(0, 19)}..."
-                              : loadDetailsScreenModel.loadingPointCity!,
+                              ? "${loadDetailsScreenModel.loadingPointCity!.substring(0, 19)}...".tr
+                              : loadDetailsScreenModel.loadingPointCity!.tr,
                           style: TextStyle(
                               fontFamily: 'montserrat',
                               fontWeight: FontWeight.bold,
@@ -132,8 +131,8 @@ class HomeScreenLoadsCard extends StatelessWidget {
                         ),
                         Text(
                           loadDetailsScreenModel.unloadingPointCity!.length > 20
-                              ? "${loadDetailsScreenModel.unloadingPointCity!.substring(0, 19)}..."
-                              : loadDetailsScreenModel.unloadingPointCity!,
+                              ? "${loadDetailsScreenModel.unloadingPointCity!.substring(0, 19)}...".tr
+                              : loadDetailsScreenModel.unloadingPointCity!.tr,
                           style: TextStyle(
                               fontFamily: 'montserrat',
                               fontWeight: FontWeight.bold,

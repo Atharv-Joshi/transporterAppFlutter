@@ -453,8 +453,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        'navigate'.tr,
-                        // "Navigate",
+                        "navigate".tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -472,7 +471,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Share",
+                        "share".tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
@@ -595,7 +594,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 deviceId: widget.deviceId,
                                 gpsData: widget.gpsData,
                                 placeOnTheMapTag: "gas_station",
-                                placeOnTheMapName: "Petrol Pumps",
+                                placeOnTheMapName: "petrol_pump".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
                                 truckId: widget.truckId,
@@ -639,7 +638,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 deviceId: widget.deviceId,
                                 gpsData: widget.gpsData,
                                 placeOnTheMapTag: "police",
-                                placeOnTheMapName: "Police Stations",
+                                placeOnTheMapName: "police_station".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
                                 truckId: widget.truckId,

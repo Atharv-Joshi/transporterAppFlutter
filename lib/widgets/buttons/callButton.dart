@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -28,8 +27,7 @@ class CallButton extends StatelessWidget {
       this.phoneNum});
 
   _makingPhoneCall() async {
-    if(phoneNum != null)
-    {
+    if (phoneNum != null) {
       String url = 'tel:$phoneNum';
       UrlLauncher.launch(url);
     }

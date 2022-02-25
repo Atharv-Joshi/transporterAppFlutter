@@ -6,6 +6,7 @@ enum NavigationItem{
   Language,
   AddDriver,
   BuyGps,
+  ContactUs,
   Default
 }
 

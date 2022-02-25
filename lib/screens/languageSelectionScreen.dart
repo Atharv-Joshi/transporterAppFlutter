@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -16,6 +15,8 @@ import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/buttons/getStartedButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:provider/provider.dart';
+
+import 'LoginScreens/loginScreen.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   LanguageSelectionScreen({Key? key}) : super(key: key);
@@ -238,6 +239,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                       ),
                       _nextScreen?
                       GetStartedButton(onTapNext: this.onTapNext,) : GetStartedButton(onTapNext: (){
+                        Get.off(LoginScreen());
                       },)
 
                     ],

@@ -43,7 +43,8 @@ Future<String> postCommandsApi(
 
     if (response.statusCode == 200 || response.statusCode == 202) {
       print(response.body);
-      if (type == "engineResume") {
+      Get.back();
+      /*   if (type == "engineResume") {
         Get.to(() => TruckUnlockScreen(
               deviceId: deviceId,
               gpsData: gpsData,
@@ -69,7 +70,7 @@ Future<String> postCommandsApi(
               routeHistory: routeHistory,
               truckId: truckId,
             ));
-      }
+      }*/
       return "Success";
     } else {
       return "Error ${response.statusCode} \n Printing Response ${response.body}";

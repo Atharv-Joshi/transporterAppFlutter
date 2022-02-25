@@ -4,14 +4,14 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/bidApiCalls.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+
 // ignore: must_be_immutable
 class ConfirmOrderButton extends StatefulWidget {
   BiddingModel biddingModel;
@@ -56,45 +56,43 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
       height: 31,
       child: TextButton(
         child: Text(
-          AppLocalizations.of(context)!.confirm,
+          "confirm".tr,
           style: TextStyle(
               letterSpacing: 1,
               fontSize: size_6 + 1,
               color: white,
               fontWeight: mediumBoldWeight),
         ),
-        onPressed:
-        (widget.shipperApproval == false && widget.transporterApproval == true)
-        ? null
-        :
-            () async {
-          if(widget.shipperApproval == true && widget.transporterApproval == false){
-            // putBidForAccept(bidId);
-          }
-           showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return BookLoadAlertDialogBox(
-                  truckModelList: truckDetailsList,
-                  driverModelList: driverDetailsList,
-                  postLoadId: widget.postLoadId,
-                  biddingModel: widget.biddingModel,
-                  directBooking: false);
-            }
-          );
-        },
+        onPressed: (widget.shipperApproval == false &&
+                widget.transporterApproval == true)
+            ? null
+            : () async {
+                if (widget.shipperApproval == true &&
+                    widget.transporterApproval == false) {
+                  // putBidForAccept(bidId);
+                }
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return BookLoadAlertDialogBox(
+                          truckModelList: truckDetailsList,
+                          driverModelList: driverDetailsList,
+                          postLoadId: widget.postLoadId,
+                          biddingModel: widget.biddingModel,
+                          directBooking: false);
+                    });
+              },
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius_6),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(
-              (widget.shipperApproval == false && widget.transporterApproval == true)
-              ? unselectedGrey
-              :
-              liveasyGreen
-          ),
+              (widget.shipperApproval == false &&
+                      widget.transporterApproval == true)
+                  ? unselectedGrey
+                  : liveasyGreen),
         ),
       ),
     );

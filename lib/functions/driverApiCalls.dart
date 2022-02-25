@@ -63,37 +63,37 @@ class DriverApiCalls {
       http.Response response =
           await http.get(Uri.parse('$driverApiUrl/$driverId'));
       print(response.body);
-      if(response.statusCode == 200){
-      Map jsonData = json.decode(response.body);
-      DriverModel driverModel = DriverModel();
-      driverModel.driverId =
-          jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
-      driverModel.transporterId =
-          jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
-      driverModel.phoneNum =
-          jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
-      driverModel.driverName =
-          jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
-      driverModel.truckId =
-          jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
-      return driverModel;
-      }
-      else{
+      if (response.statusCode == 200) {
+        Map jsonData = json.decode(response.body);
+        DriverModel driverModel = DriverModel();
+        driverModel.driverId =
+            jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+        driverModel.transporterId = jsonData["transporterId"] != null
+            ? jsonData["transporterId"]
+            : 'NA';
+        driverModel.phoneNum =
+            jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
+        driverModel.driverName =
+            jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+        driverModel.truckId =
+            jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+        return driverModel;
+      } else {
         //case when server returns status code like 404, driver not found
         DriverModel driverModel = DriverModel();
-        driverModel.driverId =  'NA';
-        driverModel.transporterId =  'NA';
-        driverModel.phoneNum =  'NA';
-        driverModel.driverName =  'NA';
-        driverModel.truckId =  'NA';
+        driverModel.driverId = 'NA';
+        driverModel.transporterId = 'NA';
+        driverModel.phoneNum = 'NA';
+        driverModel.driverName = 'NA';
+        driverModel.truckId = 'NA';
       }
     } else {
       DriverModel driverModel = DriverModel();
-      driverModel.driverId =  'NA';
-      driverModel.transporterId =  'NA';
-      driverModel.phoneNum =  'NA';
-      driverModel.driverName =  'NA';
-      driverModel.truckId =  'NA';
+      driverModel.driverId = 'NA';
+      driverModel.transporterId = 'NA';
+      driverModel.phoneNum = 'NA';
+      driverModel.driverName = 'NA';
+      driverModel.truckId = 'NA';
       return driverModel;
     }
   }
@@ -151,8 +151,7 @@ class DriverApiCalls {
     }
   }
 
-  Future<dynamic> editDriver({String? driverId,String? driverName}) async {
-
+  Future<dynamic> editDriver({String? driverId, String? driverName}) async {
     Map data = {
       "driverName": driverName,
     };
@@ -161,24 +160,19 @@ class DriverApiCalls {
     final String driverApiUrl = FlutterConfig.get("driverApiUrl");
 
     final response = await http.put(Uri.parse("$driverApiUrl/$driverId"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: body
-    );
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
 
     ResponseModel returnResponse = ResponseModel();
     var decodedData = json.decode(response.body);
 
     returnResponse.statusCode = response.statusCode;
-    returnResponse.message =decodedData['message'];
+    returnResponse.message = decodedData['message'];
 
     return returnResponse;
-
-    print("updated driverId ====== $driverApiUrl/$driverId ");
-    print("updated driver data ${response.body}");
   }
-
 }
 
 //This function gets the details of a single driver by using the  driverId
@@ -188,53 +182,53 @@ Future<DriverModel> getDriverByDriverId(
   final String driverApiUrl = FlutterConfig.get('driverApiUrl');
   if (driverId != 'NA') {
     http.Response response =
-    await http.get(Uri.parse('$driverApiUrl/$driverId'));
+        await http.get(Uri.parse('$driverApiUrl/$driverId'));
     print(response.body);
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
       driverModel.driverId =
-      jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+          jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
       driverModel.transporterId =
-      jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+          jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
       driverModel.phoneNum =
-      jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
+          jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
       driverModel.driverName =
-      jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+          jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
       driverModel.truckId =
-      jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+          jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
       return driverModel;
-    }
-    else{
+    } else {
       //case when server returns status code like 404, driver not found
       DriverModel driverModel = DriverModel();
-      driverModel.driverId =  'NA';
-      driverModel.transporterId =  'NA';
-      driverModel.phoneNum =  'NA';
-      driverModel.driverName =  'NA';
-      driverModel.truckId =  'NA';
+      driverModel.driverId = 'NA';
+      driverModel.transporterId = 'NA';
+      driverModel.phoneNum = 'NA';
+      driverModel.driverName = 'NA';
+      driverModel.truckId = 'NA';
       return driverModel;
     }
   } else {
     DriverModel driverModel = DriverModel();
-    driverModel.driverId =  'NA';
-    driverModel.transporterId =  'NA';
-    driverModel.phoneNum =  'NA';
-    driverModel.driverName =  'NA';
-    driverModel.truckId =  'NA';
+    driverModel.driverId = 'NA';
+    driverModel.transporterId = 'NA';
+    driverModel.phoneNum = 'NA';
+    driverModel.driverName = 'NA';
+    driverModel.truckId = 'NA';
     return driverModel;
   }
 }
-Future<void> disableActionOnDriver({String? driverId}) async {
 
+Future<void> disableActionOnDriver({String? driverId}) async {
   final String driverApiUrl = FlutterConfig.get("driverApiUrl");
 
-  final response = await http.delete(Uri.parse("$driverApiUrl/$driverId"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+  final response = await http.delete(
+    Uri.parse("$driverApiUrl/$driverId"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
   );
 
   print("driverId ====== $driverApiUrl/$driverId ");
   print("Response of disable data ${response.body}");
-}//class end
+} //class end

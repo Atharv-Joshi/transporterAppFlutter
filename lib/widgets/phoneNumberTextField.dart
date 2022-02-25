@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -85,7 +83,7 @@ class _PhoneNumberTextFieldState extends State<PhoneNumberTextField> {
                 maxLength: 10,
                 validator: (value) =>
                     value!.length == 10 ? null : 'EnterPhoneNumber'.tr,
-                    // 'Enter a valid Phone Number',
+                // 'Enter a valid Phone Number',
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   counterText: "",

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -36,7 +37,8 @@ class _VerifyAccountNotifyAlertDialogWithCallState
             height: space_2,
           ),
           Text(
-            "Your Account is not Verified",
+            'accountNotVerified'.tr,
+            // "Your Account is not Verified",
             style: TextStyle(
                 fontWeight: normalWeight,
                 fontSize: size_9,
@@ -46,7 +48,8 @@ class _VerifyAccountNotifyAlertDialogWithCallState
             height: 1,
           ),
           Text(
-            "Upload details and get it verified to book loads",
+            'verifiedDialog'.tr,
+            // "Upload details and get it verified to book loads",
             style: TextStyle(
                 fontWeight: normalWeight, fontSize: size_9, color: black),
             textAlign: TextAlign.center,

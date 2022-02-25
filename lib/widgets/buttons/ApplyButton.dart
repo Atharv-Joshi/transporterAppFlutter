@@ -1,15 +1,10 @@
-import 'dart:async';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/PostLoadApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/PostLoadScreens/loadConfirmation.dart';
-import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:provider/provider.dart';
 
 class ApplyButton extends StatelessWidget {
@@ -37,7 +32,8 @@ class ApplyButton extends StatelessWidget {
                       ? activeButtonColor
                       : deactiveButtonColor,
                 ),
-                child: Text('apply'.tr,
+                child: Text(
+                  'apply'.tr,
                   // AppLocalizations.of(context)!.apply,
                   style: TextStyle(
                     color: white,
@@ -51,7 +47,7 @@ class ApplyButton extends StatelessWidget {
                   print(providerData.price.toString());
                   print(providerData.truckNumber.toString());
                   if (providerData.postLoadScreenTwoButton()) {
-                    Get.to(() =>LoadConfirmation());
+                    Get.to(() => LoadConfirmation());
                   } else {
                     return null;
                   }

@@ -24,10 +24,10 @@ import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'TruckScreens/myTrucksScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationScreen extends StatefulWidget {
   var initScreen;
+
   NavigationScreen({this.initScreen});
 
   @override
@@ -43,6 +43,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   var gpsStoppageHistory;
   var gpsData;
   var gpsRoute;
+  var totalDistance;
   var truckData;
   var currentDate = DateTime.now();
   DateTime yesterday =
@@ -85,7 +86,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
       print(e);
     }
   }
-
+  initfunction() async {
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: truckData.deviceId, from: from, to: to);
+    setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+    });
+  }
   void _handleDynamicLink(PendingDynamicLinkData? dataLink) async {
     final Uri? deepLink = dataLink?.link;
 
@@ -126,7 +133,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         var f = getDataHistory(deviceId, from, to);
         var s = getStoppageHistory(deviceId, from, to);
         var t = getRouteStatusList(deviceId, from, to);
-
+        initfunction();
         gpsData = await f1;
         gpsDataHistory = await f;
         gpsStoppageHistory = await s;
@@ -150,6 +157,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               gpsStoppageHistory: gpsStoppageHistory,
               routeHistory: gpsRoute,
               truckId: truckData['truckId'],
+              totalDistance: totalDistance,
             ),
           );
         } else {

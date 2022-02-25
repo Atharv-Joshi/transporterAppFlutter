@@ -177,6 +177,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         break;
     }
   }
+
   //function is called every one minute to get updated history
 
   Future<void> initfunction2() async {

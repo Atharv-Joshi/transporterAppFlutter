@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/textOverFlow.dart';
+import 'package:liveasy/screens/shipperDetailsScreen.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:get/get.dart';
 import 'buttons/callButton.dart';
@@ -12,8 +12,6 @@ import 'buttons/completedButton.dart';
 import 'buttons/trackButton.dart';
 import 'linePainter.dart';
 import 'loadLabelValueRowTemplate.dart';
-import '../screens/shipperDetailsScreen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OngoingCardOrders extends StatelessWidget {
   //variables
@@ -103,8 +101,8 @@ class OngoingCardOrders extends StatelessWidget {
                         children: [
                           LoadLabelValueRowTemplate(
                               value: startedOn, label: 'bookingDate'.tr
-                          // AppLocalizations.of(context)!.bookingDate
-                          ),
+                              // AppLocalizations.of(context)!.bookingDate
+                              ),
                           Icon(Icons.arrow_forward_ios)
                         ],
                       ),
@@ -133,16 +131,16 @@ class OngoingCardOrders extends StatelessWidget {
                           children: [
                             LoadLabelValueRowTemplate(
                                 value: vehicleNo, label: 'truckNumber'.tr
-                            // AppLocalizations.of(context)!.truckNumber
-                            ),
+                                // AppLocalizations.of(context)!.truckNumber
+                                ),
                             LoadLabelValueRowTemplate(
                                 value: driverName, label: 'driverName'.tr
-                            // AppLocalizations.of(context)!.driverName
-                            ),
+                                // AppLocalizations.of(context)!.driverName
+                                ),
                             LoadLabelValueRowTemplate(
                                 value: "Rs.$rate/$unitValue", label: 'price'.tr
-                            // AppLocalizations.of(context)!.price
-                            ),
+                                // AppLocalizations.of(context)!.price
+                                ),
                           ],
                         ),
                       ),

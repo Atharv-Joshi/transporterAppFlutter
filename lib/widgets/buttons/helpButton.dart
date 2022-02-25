@@ -3,7 +3,6 @@ import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/HelpScreen.dart';
 
@@ -37,7 +36,8 @@ class HelpButtonWidget extends StatelessWidget {
               SizedBox(
                 width: space_1,
               ),
-              Text('help'.tr,
+              Text(
+                'help'.tr,
                 // AppLocalizations.of(context)!.help,
                 style: TextStyle(fontSize: size_7, color: darkBlueColor),
               ),

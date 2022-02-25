@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -29,7 +29,7 @@ class EditButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.edit,
+            'edit'.tr,
             style: TextStyle(
                 color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
           ),

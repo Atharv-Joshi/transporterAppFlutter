@@ -40,9 +40,9 @@ class MyLoadsCard extends StatelessWidget {
     }
 
     if (loadDetailsScreenModel.unitValue == 'PER_TON') {
-      loadDetailsScreenModel.unitValue = 'tonne';
+      loadDetailsScreenModel.unitValue = 'tonne'.tr;
     } else if (loadDetailsScreenModel.unitValue == 'PER_TRUCK') {
-      loadDetailsScreenModel.unitValue = 'truck';
+      loadDetailsScreenModel.unitValue = 'truck'.tr;
     }
 
     return Container(
@@ -87,7 +87,7 @@ class MyLoadsCard extends StatelessWidget {
                 ],
               ),
               LoadEndPointTemplate(
-                  text: loadDetailsScreenModel.loadingPointCity,
+                  text: "${loadDetailsScreenModel.loadingPointCity}".tr,
                   endPointType: 'loading'),
               Container(
                 height: space_4 + 2,
@@ -97,7 +97,7 @@ class MyLoadsCard extends StatelessWidget {
                 ),
               ),
               LoadEndPointTemplate(
-                  text: loadDetailsScreenModel.unloadingPointCity,
+                  text: "${loadDetailsScreenModel.unloadingPointCity}".tr,
                   endPointType: 'unloading'),
               SizedBox(
                 height: space_1,
@@ -114,7 +114,7 @@ class MyLoadsCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${loadDetailsScreenModel.truckType} | ${loadDetailsScreenModel.noOfTyres} ' +'tyres'.tr,
+                    '${loadDetailsScreenModel.truckType}'.tr +'|''${loadDetailsScreenModel.noOfTyres} ' +'tyres'.tr,
                     style: TextStyle(
                         fontSize: size_6, fontWeight: mediumBoldWeight),
                   ),
@@ -134,7 +134,7 @@ class MyLoadsCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${loadDetailsScreenModel.productType} | ${loadDetailsScreenModel.weight} ' +'tonne'.tr,
+                    '${loadDetailsScreenModel.productType}'.tr +'| ${loadDetailsScreenModel.weight} ' +'tonne'.tr,
                     style: TextStyle(
                         fontSize: size_6, fontWeight: mediumBoldWeight),
                   ),

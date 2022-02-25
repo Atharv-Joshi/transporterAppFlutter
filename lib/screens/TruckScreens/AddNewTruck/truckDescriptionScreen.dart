@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -12,11 +11,9 @@ import 'package:liveasy/widgets/addTruckCircularButtonTemplate.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/addTruckRectangularButtontemplate.dart';
-import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
@@ -197,10 +194,11 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                           children: truckFilterVariables
                               .passingWeightList[providerData.truckTypeValue]!
                               .map((e) => AddTruckCircularButtonTemplate(
-                                value: e,
-                                text: e != 0 ? e.toString() : "+",
-                                category: 'weight',
-                              )).toList(),
+                                    value: e,
+                                    text: e != 0 ? e.toString() : "+",
+                                    category: 'weight',
+                                  ))
+                              .toList(),
                         ),
                       ),
                 providerData.truckTypeValue == ''
@@ -222,10 +220,11 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                             children: truckFilterVariables
                                 .totalTyresList[providerData.truckTypeValue]!
                                 .map((e) => AddTruckCircularButtonTemplate(
-                                  value: e,
-                                  text: e != 0 ? e.toString() : "+",
-                                  category: 'tyres',
-                                )).toList()),
+                                      value: e,
+                                      text: e != 0 ? e.toString() : "+",
+                                      category: 'tyres',
+                                    ))
+                                .toList()),
                       ),
                 // changed here-----------------------------------
                 // providerData.truckTypeValue == ''

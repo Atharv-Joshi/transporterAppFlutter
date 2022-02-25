@@ -5,12 +5,9 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
-import 'package:liveasy/functions/postDriverApi.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class AddButton extends StatelessWidget {
@@ -21,15 +18,13 @@ class AddButton extends StatelessWidget {
   //Instance  for DriverApiCalls
   DriverApiCalls driverApiCalls = DriverApiCalls();
 
-  AddButton(
-      {this.onTap,
-      required this.name,
-      required this.number});
+  AddButton({this.onTap, required this.name, required this.number});
 
   List listDisplayContact = [];
   var driverName;
   var phoneNum;
   var transporterId;
+
   // var truckId;
   // TransporterIdController tIdController = Get.find<TransporterIdController>();
 
@@ -58,7 +53,6 @@ class AddButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(
           child: Text(
-
             'add'.tr,
             // AppLocalizations.of(context)!.add,
             style: TextStyle(
