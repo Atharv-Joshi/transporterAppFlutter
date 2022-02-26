@@ -5,8 +5,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/analysisDataController.dart';
-import 'package:liveasy/functions/trackScreenFunctions.dart';
-import 'package:liveasy/main.dart';
 import 'package:liveasy/models/analysisData.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -25,6 +23,7 @@ class _truckAnalysisDoughnutState extends State<truckAnalysisDoughnut> {
     super.initState();
   }
 
+  /// Actual Data that is passed in the dougnut.
   List<analysisData> getChartData() {
     final List<analysisData> chartData = [
       analysisData('loading', analysisDataController.loadingPointData.value, Color.fromRGBO(75, 134, 184, 1)),
@@ -37,6 +36,7 @@ class _truckAnalysisDoughnutState extends State<truckAnalysisDoughnut> {
     return chartData;
   }
 
+  /// Custom Get Duration.
   getDuration(int time) {
     var formatted;
     var time2Dateformat = new Duration(

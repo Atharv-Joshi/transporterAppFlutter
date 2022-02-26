@@ -33,6 +33,10 @@ class truckanalysisCard extends StatefulWidget {
 }
 
 class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKeepAliveClientMixin{
+
+  @override
+  bool get wantKeepAlive => true;
+
   var validStop;
   var validAddress;
   var TruckNo;
@@ -41,60 +45,89 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
   var truckStatus;
   var stopStatus;
 
-  @override
-  bool get wantKeepAlive => true;
 
-  // Change text in card.
   String textHolder = 'What is this Location?';
-  changeText() {
-    setState(() {
-      textHolder = 'You marked this Location as?';
-    });
-  }
 
-  // Disable card.
-  bool buttonIsClickable = true;
-  disable() => setState(() {
-        buttonIsClickable = false;
-      });
-
+  /// Bools to set state once button is clicked.
   bool _disableButtonOne = false;
   bool _disableButtonTwo = false;
   bool _disableButtonThree = false;
   bool _disableButtonFour = false;
+  bool buttonIsClickable = true;
 
-
-  colorDisabledOne(){
-    setState(() {
-      _disableButtonOne = true;
-    });
-  }
-
-  colorDisabledTwo(){
-    setState(() {
-      _disableButtonTwo = true;
-    });
-  }
-
-  colorDisabledThree(){
-    setState(() {
-      _disableButtonThree = true;
-    });
-  }
-
-
-  colorDisabledFour(){
-    setState(() {
-      _disableButtonFour = true;
-    });
-  }
-
-  // Change color of button when request is made.
+  /// Initially all are set to false so that when we receive
+  /// the given data we set the appropriate one to true.
   bool _colorButtonOne = false;
   bool _colorButtonTwo = false;
   bool _colorButtonThree = false;
   bool _colorButtonFour = false;
 
+
+  /// Function to make a post request to the routeData Api
+  postRouteData(
+      String stopAddress, String stoppageStatus, var validStop) async {
+    Map<String, dynamic> data = {
+      "stopageAddress": stopAddress,
+      "stopageStatus": stoppageStatus,
+      "truckNo": TruckNo.toString(),
+      "truckId": truckId.toString(),
+      "duration": validStop.duration.toString(),
+      "latitude": validStop.latitude,
+      "longitude": validStop.longitude,
+      "imei": imei,
+      "deviceId": validStop.deviceId.toString()
+    };
+    String body = json.encode(data);
+    http.Response response = await http.post(
+        Uri.parse("http://load.dev.truckseasy.com:8080/routedata"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body);
+    var returnData = json.decode(response.body);
+    print(returnData);
+  }
+
+  /// To set color of button to green Once its Clicked.
+  colorDisabledOne(){
+    setState(() {
+      _disableButtonOne = true;
+      /// Change text in card when Post is made.
+      textHolder = 'You marked this Location as?';
+      /// Disable all buttons.
+      buttonIsClickable = false;
+    });
+  }
+  colorDisabledTwo(){
+    setState(() {
+      _disableButtonTwo = true;
+      /// Change text in card when Post is made.
+      textHolder = 'You marked this Location as?';
+      /// Disable all buttons.
+      buttonIsClickable = false;
+    });
+  }
+  colorDisabledThree(){
+    setState(() {
+      _disableButtonThree = true;
+      /// Change text in card when Post is made.
+      textHolder = 'You marked this Location as?';
+      /// Disable all buttons.
+      buttonIsClickable = false;
+    });
+  }
+  colorDisabledFour(){
+    setState(() {
+      _disableButtonFour = true;
+      /// Change text in card when Post is made.
+      textHolder = 'You marked this Location as?';
+      /// Disable all buttons.
+      buttonIsClickable = false;
+    });
+  }
+
+
+  /// To determine which button to enable when stop is already defined.
   enableCorrectButton() {
     if (stopStatus == "Loading_Point") {
       setState(() {
@@ -137,32 +170,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
     initFunction();
   }
 
-  // Function to make a post request to the routeData Api
-  postRouteData(
-      String stopAddress, String stoppageStatus, var validStop) async {
-    Map<String, dynamic> data = {
-      "stopageAddress": stopAddress,
-      "stopageStatus": stoppageStatus,
-      "truckNo": TruckNo.toString(),
-      "truckId": truckId.toString(),
-      "duration": validStop.duration.toString(),
-      "latitude": validStop.latitude,
-      "longitude": validStop.longitude,
-      "imei": imei,
-      "deviceId": validStop.deviceId.toString()
-    };
-    String body = json.encode(data);
-
-    http.Response response = await http.post(
-        Uri.parse("http://load.dev.truckseasy.com:8080/routedata"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
-    print("HEY HEY HEY HEY HEY HEY");
-    var returnData = json.decode(response.body);
-    print(returnData);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +227,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
                                               "Loading_Point",
                                               validStop,
                                             );
-                                            changeText();
-                                            disable();
                                             colorDisabledOne();
                                           } : null,
                                     style: ButtonStyle(
@@ -233,7 +238,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
                                         (Set<MaterialState> states) {
                                           if (states.contains(MaterialState.disabled))
                                             return _disableButtonOne ? Color.fromRGBO(9, 183, 120, 1) : Color.fromRGBO(205, 205, 205, 1);
-
                                           return bidBackground;
                                         },
                                       ),
@@ -253,8 +257,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
                                         ? () {
                                             postRouteData("$validAddress",
                                                 "Unloading_Point", validStop);
-                                            changeText();
-                                            disable();
                                             colorDisabledTwo();
                                           }
                                         : null,
@@ -288,8 +290,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
                                                 "${validAddress}",
                                                 "Parking",
                                                 validStop);
-                                                changeText();
-                                                disable();
                                                 colorDisabledThree();
                                           } : null,
                                     style: ButtonStyle(
@@ -323,8 +323,6 @@ class _truckanalysisCardState extends State<truckanalysisCard> with AutomaticKee
                                                 "${validAddress}",
                                                 "Maintenance",
                                                 validStop);
-                                                changeText();
-                                                disable();
                                                 colorDisabledFour();
                                           } : null,
                                     style: ButtonStyle(

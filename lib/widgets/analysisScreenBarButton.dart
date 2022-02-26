@@ -36,12 +36,6 @@ class AnalysisScreenBarButton extends StatelessWidget {
                   color: Color.fromRGBO(21, 41, 104, 1),
                   thickness: 4,
                 ): null
-              // TextDecoration.underline: null,
-              // decorationColor: Color.fromRGBO(21, 41, 104, 1),
-              // decorationStyle: TextDecorationStyle.solid,
-              // decorationThickness: 5,
-              // color: black,
-              // fontWeight: normalWeight,
               ),
             ),
           ),

@@ -88,7 +88,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
   var parkingNav = 0;
   var maintenanceNav = 0;
 
-  // Date picker
+  /// Date picker Code
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -102,6 +102,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
       });
   }
 
+  /// Api called when Date is selected
   dateBasedApiCall({required var picked}) {
     print("DATE PICKER");
     print(picked.toString());
@@ -161,7 +162,8 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
 
   // Function to fetch the address
   validStoppages() async {
-    // To empty the lists to avoid overlap of Data.
+
+    /// To empty the lists to avoid overlap of Data.
     validStoppageList = [];
     truckStatusList = [];
     stopStatusList = [];
@@ -172,6 +174,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     parkingNav = 0;
     maintenanceNav = 0;
 
+    /// Filter out stops more than 2 hours and populate lists.
     for (var gp in recentStops) {
       if (gp.duration >= 7200000) {
         print(gp.latitude);
@@ -180,10 +183,15 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
         validStoppageList.add(gp);
         truckStatusList.add(true);
         stopStatusList.add("null");
+        // For analysisScreenBar
         allNav = allNav + 1;
       }
     }
+    await getValidAddresses();
+  }
 
+  // To get valid Addresses
+  getValidAddresses() async{
     for (var stopInstance in validStoppageList) {
       var n = await getStoppageAddress(stopInstance);
       validAddressList.add(n);
@@ -191,14 +199,19 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     await getRouteData();
   }
 
-  // Function to fetch already posted routeData
+  /// Function to fetch already posted routeData and compare it with specified
+  /// range data and iterate over the list to rectify the lists and determine
+  /// if the stop has already been defined.
   getRouteData() async {
     try {
+
+      /// Call for route Data Api
       http.Response response =
           await http.get(Uri.parse("${routeDataApi}?devideId=1"));
       var returnData = await json.decode(response.body);
 
       if (response.statusCode == 200) {
+        /// Check to verify if the stop has already been defined.
         for (int i = 0; i < validStoppageList.length; i++) {
           for (var json in returnData) {
             if (json["latitude"] == validStoppageList[i].latitude &&
@@ -210,6 +223,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
           }
         }
 
+        /// To know what kind of stoppage the defined Stop is.
         for (int i = 0; i < validStoppageList.length; i++) {
           for (var json in returnData) {
             if (json["latitude"] == validStoppageList[i].latitude &&
@@ -221,56 +235,68 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
           }
         }
 
-        for (var stop in stopStatusList) {
-          stop == "Loading_Point" ? loadingNav++ : null;
-          stop == "Unloading_Point" ? unLoadingNav++ : null;
-          stop == "Parking" ? parkingNav++ : null;
-          stop == "Maintenance" ? maintenanceNav++ : null;
-        }
-
-        for (int i = 0; i < validStoppageList.length; i++) {
-          for (var json in returnData) {
-            if (json["latitude"] == validStoppageList[i].latitude &&
-                json["longitude"] == validStoppageList[i].longitude &&
-                json["duration"] == validStoppageList[i].duration.toString()) {
-              if (json["stopageStatus"] == "Loading_Point") {
-                analysisDataController.loadingPointData.value =
-                    validStoppageList[i].duration +
-                        analysisDataController.loadingPointData.value;
-                break;
-              } else if (json["stopageStatus"] == "Unloading_Point") {
-                analysisDataController.unLoadingPointData.value =
-                    validStoppageList[i].duration +
-                        analysisDataController.unLoadingPointData.value;
-                break;
-              } else if (json["stopageStatus"] == "Parking") {
-                analysisDataController.parkingData.value =
-                    validStoppageList[i].duration +
-                        analysisDataController.parkingData.value;
-                break;
-              } else {
-                analysisDataController.maintenanceData.value =
-                    validStoppageList[i].duration +
-                        analysisDataController.maintenanceData.value;
-                break;
-              }
-            }
-          }
-        }
-
+        calculateDoughnutData(returnData);
+        calculateAnalysisBarValues();
         calculateUnknownStopData();
+
         EasyLoading.dismiss();
         setState(() {
           loading = false;
         });
       }
-    } catch (e) {
+    }
+    catch (e) {
       print(e);
       EasyLoading.dismiss();
+    }
+
+  }
+
+  void calculateDoughnutData(var returnData){
+    /// Calculates the Data for the Analysis Doughnut
+    for (int i = 0; i < validStoppageList.length; i++) {
+      for (var json in returnData) {
+        if (json["latitude"] == validStoppageList[i].latitude &&
+            json["longitude"] == validStoppageList[i].longitude &&
+            json["duration"] == validStoppageList[i].duration.toString()) {
+          if (json["stopageStatus"] == "Loading_Point") {
+            analysisDataController.loadingPointData.value =
+                validStoppageList[i].duration +
+                    analysisDataController.loadingPointData.value;
+            break;
+          } else if (json["stopageStatus"] == "Unloading_Point") {
+            analysisDataController.unLoadingPointData.value =
+                validStoppageList[i].duration +
+                    analysisDataController.unLoadingPointData.value;
+            break;
+          } else if (json["stopageStatus"] == "Parking") {
+            analysisDataController.parkingData.value =
+                validStoppageList[i].duration +
+                    analysisDataController.parkingData.value;
+            break;
+          } else {
+            analysisDataController.maintenanceData.value =
+                validStoppageList[i].duration +
+                    analysisDataController.maintenanceData.value;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  void calculateAnalysisBarValues(){
+    /// To calculate the Analysis Bar Values.
+    for (var stop in stopStatusList) {
+      stop == "Loading_Point" ? loadingNav++ : null;
+      stop == "Unloading_Point" ? unLoadingNav++ : null;
+      stop == "Parking" ? parkingNav++ : null;
+      stop == "Maintenance" ? maintenanceNav++ : null;
     }
   }
 
   void calculateUnknownStopData() {
+    /// To calculate the Unknown Stop Values.
     var totalStopTime = analysisDataController.loadingPointData.value +
         analysisDataController.unLoadingPointData.value +
         analysisDataController.parkingData.value +
@@ -286,8 +312,6 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     for (var instance in routeHistory) {
       duration += (instance.duration) as int;
     }
-    print("HEY HEY DURATION");
-    print(duration);
     return duration;
   }
 
@@ -424,7 +448,6 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     EasyLoading.show(
       status: "Loading...",
     );
-
     analysisDataController.runningTimeData.value = getRunningTime(gpsRoute);
     validStoppages();
   }
