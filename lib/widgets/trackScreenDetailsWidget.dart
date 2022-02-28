@@ -31,6 +31,9 @@ class TrackScreenDetails extends StatefulWidget {
   var deviceId;
   var truckId;
   var totalDistance;
+  var imei;
+  var recentStops;
+
 
   TrackScreenDetails({
     required this.gpsData,
@@ -47,6 +50,9 @@ class TrackScreenDetails extends StatefulWidget {
     required this.deviceId,
     required this.truckId,
     required this.totalDistance,
+    this.imei,
+    this.recentStops,
+
   });
 
   @override
@@ -63,6 +69,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var totalStoppedTime;
   var latitude;
   var longitude;
+  var recentStops;
   late Timer timer;
   DateTime now =
       DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
@@ -79,6 +86,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
 
   initFunction() {
     setState(() {
+      recentStops = widget.recentStops;
       gpsData = widget.gpsData;
       gpsTruckRoute = widget.gpsTruckRoute;
       gpsDataHistory = widget.gpsDataHistory;
@@ -667,7 +675,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-              /*      Column(children: [
+                    Column(children: [
                       Container(
                         width: 50,
                         height: 50,
@@ -686,7 +694,11 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           ),
                           onPressed: () {
                             Get.to(truckAnalysisScreen(
-                              gpsStoppageHistory: widget.gpsStoppageHistory,
+                              recentStops: recentStops,
+                              truckId: widget.truckId,
+                              TruckNo: widget.TruckNo,
+                              imei: widget.imei,
+                              deviceId: widget.deviceId
                             ));
                           },
                         ),
@@ -702,7 +714,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontStyle: FontStyle.normal,
                             fontWeight: mediumBoldWeight),
                       ),
-                    ]),*/
+                    ]),
                   ],
                 ))
           ]),
