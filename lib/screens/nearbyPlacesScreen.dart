@@ -14,6 +14,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/placesNearbyDataModel.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
@@ -23,8 +24,8 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants/fontSize.dart';
-import '../constants/fontWeights.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 
 class NearbyPlacesScreen extends StatefulWidget {
   final List gpsData;
@@ -90,6 +91,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
 
   double pinPillPosition = -100;
   int placesIndex = 0;
+  String currentLanguage = "en";
 
   Future<void> callApi(double lat, double lon) async {
     var url = Uri.parse(
@@ -99,6 +101,8 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
             lon.toString() +
             "&radius=15000&types=" +
             widget.placeOnTheMapTag +
+            "&language=" +
+            currentLanguage +
             "&key=" +
             googleAPiKey);
 
@@ -158,7 +162,12 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       initfunction2();
       iconthenmarker();
 
-      callApi(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
+      currentLanguage =
+          (LocalizationService().getCurrentLang() == 'Hindi') ? "hi" : "en";
+      callApi(
+        widget.gpsData.last.latitude,
+        widget.gpsData.last.longitude,
+      );
       lastlatLngMarker =
           LatLng(widget.gpsData.last.latitude, widget.gpsData.last.longitude);
       camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
