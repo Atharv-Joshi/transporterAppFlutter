@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/functions/nearbySearchFunctions.dart';
 import 'package:liveasy/models/placesNearbyDataModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,16 +25,6 @@ class NearbyPlaceInfoCard extends StatefulWidget {
 }
 
 class _NearbyPlaceInfoCardState extends State<NearbyPlaceInfoCard> {
-  Future<void> openMap(String coordinates) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$coordinates';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
-    } else {
-      throw 'Could not open the map.';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedPositioned(
