@@ -12,6 +12,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:liveasy/functions/nearbySearchFunctions.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/language/localization_service.dart';
@@ -288,6 +289,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   }
 
   markNearbyPlaces(Results nearbyPlaces, int i) async {
+    double height = MediaQuery.of(context).size.height;
     LatLng latlong;
 
     latlong = LatLng(nearbyPlaces.geometry!.location!.lat ?? 0,
@@ -302,9 +304,8 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
           infoWindow: InfoWindow(title: nearbyPlaces.name),
           onTap: () {
             setState(() {
-              pinPillPosition = 64;
+              pinPillPosition = height / 3 + 24;
               placesIndex = i;
-              showBottomMenu = false;
               addPolyLineForTarget(i);
             });
           }));
@@ -395,14 +396,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
     setState(() {});
   }
 
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var a = 0.5 -
-        cos((lat2 - lat1) * p) / 2 +
-        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
   @override
   void dispose() {
     logger.i("Activity is disposed");
@@ -419,22 +412,22 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       child: Scaffold(
         backgroundColor: statusBarColor,
         body: GestureDetector(
-          onTap: () {
-            setState(() {
-              if (!showBottomMenu) showBottomMenu = !showBottomMenu;
-            });
-          },
-          onPanEnd: (details) {
-            if (details.velocity.pixelsPerSecond.dy > threshold) {
-              this.setState(() {
-                showBottomMenu = false;
-              });
-            } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
-              this.setState(() {
-                showBottomMenu = true;
-              });
-            }
-          },
+          // onTap: () {
+          //   setState(() {
+          //     if (!showBottomMenu) showBottomMenu = !showBottomMenu;
+          //   });
+          // },
+          // onPanEnd: (details) {
+          //   if (details.velocity.pixelsPerSecond.dy > threshold) {
+          //     this.setState(() {
+          //       showBottomMenu = false;
+          //     });
+          //   } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
+          //     this.setState(() {
+          //       showBottomMenu = true;
+          //     });
+          //   }
+          // },
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -573,7 +566,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                       color: white,
                       child: Column(children: [
                         Container(
-                          // margin: EdgeInsets.only(bottom: space_10),
                           width: MediaQuery.of(context).size.width,
                           height: space_13,
                           color: white,
@@ -600,13 +592,6 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 36,
                 child: nearbyPlacesList(height, width),
-                // child: NearbyPlacesDetails(
-                //   height: height,
-                //   width: width,
-                //   placeOnTheMapName: widget.placeOnTheMapName,
-                //   placeOnTheMapTag: widget.placeOnTheMapTag,
-                //   placesNearbyData: _placesNearbyData,
-                // ),
               )
             ],
           ),
@@ -700,7 +685,8 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                             margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
+                                physics: BouncingScrollPhysics(
+                                    parent: AlwaysScrollableScrollPhysics()),
                                 scrollDirection: Axis.vertical,
                                 itemCount: (_placesNearbyData.results != null)
                                     ? _placesNearbyData.results?.length
@@ -776,15 +762,5 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                     )),
               ]),
         ]));
-  }
-
-  Future<void> openMap(String coordinates) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$coordinates';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
-    } else {
-      throw 'Could not open the map.';
-    }
   }
 }
