@@ -31,6 +31,8 @@ class TrackScreenDetails extends StatefulWidget {
   var deviceId;
   var truckId;
   var totalDistance;
+  var imei;
+  var recentStops;
 
   TrackScreenDetails({
     required this.gpsData,
@@ -47,6 +49,8 @@ class TrackScreenDetails extends StatefulWidget {
     required this.deviceId,
     required this.truckId,
     required this.totalDistance,
+    this.imei,
+    this.recentStops,
   });
 
   @override
@@ -63,6 +67,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var totalStoppedTime;
   var latitude;
   var longitude;
+  var recentStops;
   late Timer timer;
   DateTime now =
       DateTime.now().subtract(Duration(days: 0, hours: 5, minutes: 30));
@@ -73,12 +78,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   void initState() {
     super.initState();
     initFunction();
-    timer = Timer.periodic(Duration(minutes: 0, seconds: 10),
-          (Timer t) => initFunction());
+    timer = Timer.periodic(
+        Duration(minutes: 0, seconds: 10), (Timer t) => initFunction());
   }
 
   initFunction() {
     setState(() {
+      recentStops = widget.recentStops;
       gpsData = widget.gpsData;
       gpsTruckRoute = widget.gpsTruckRoute;
       gpsDataHistory = widget.gpsDataHistory;
@@ -100,12 +106,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       throw 'Could not open the map.';
     }
   }
+
   @override
   void dispose() {
-    
     timer.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -247,51 +254,44 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Column(
                           children: [
-                            Image.asset('assets/icons/speed_status.png',width:35,height: 35),
+                            Image.asset('assets/icons/speed_status.png',
+                                width: 35, height: 35),
                             (widget.gpsData.last.speed > 2)
                                 ? Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: 
-                                  [Text(
-                                      "${(gpsData.last.speed).round()} " ,
-                                      style: TextStyle(
-                                          color: liveasyGreen,
-                                          fontSize: size_10,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                    Text(
-                                      
-                                          "km/h".tr,
-                                      style: TextStyle(
-                                          color: liveasyGreen,
-                                          fontSize: size_6,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                  ]
-                                )
-                                  
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                        Text("${(gpsData.last.speed).round()} ",
+                                            style: TextStyle(
+                                                color: liveasyGreen,
+                                                fontSize: size_10,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                        Text("km/h".tr,
+                                            style: TextStyle(
+                                                color: liveasyGreen,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                      ])
                                 : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "${(gpsData.last.speed).round()} " ,
-                                         
-                                      style: TextStyle(
-                                          color: red,
-                                          fontSize: size_10,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                    Text(
-                                      
-                                          "km/h".tr,
-                                      style: TextStyle(
-                                          color: red,
-                                          fontSize: size_6,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                  ]
-                                ),
-                        /*    Text("status".tr,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                        Text("${(gpsData.last.speed).round()} ",
+                                            style: TextStyle(
+                                                color: red,
+                                                fontSize: size_10,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                        Text("km/h".tr,
+                                            style: TextStyle(
+                                                color: red,
+                                                fontSize: size_6,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                      ]),
+                            /*    Text("status".tr,
                                 style: TextStyle(
                                     color: black,
                                     fontSize: size_6,
@@ -445,10 +445,13 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           heroTag: "button1",
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
-                          child: Image.asset('assets/icons/navigate2.png',
-                          scale: 2.5,),
+                          child: Image.asset(
+                            'assets/icons/navigate2.png',
+                            scale: 2.5,
+                          ),
                           onPressed: () {
-                            openMap(gpsData.last.latitude, gpsData.last.longitude);
+                            openMap(
+                                gpsData.last.latitude, gpsData.last.longitude);
                           },
                         ),
                       ),
@@ -495,7 +498,8 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           heroTag: "button3",
                           backgroundColor: Colors.white,
                           foregroundColor: bidBackground,
-                          child: const Icon(Icons.play_circle_outline, size: 30),
+                          child:
+                              const Icon(Icons.play_circle_outline, size: 30),
                           onPressed: () {
                             Get.to(PlayRouteHistory(
                               gpsTruckHistory: gpsDataHistory,
@@ -599,10 +603,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "petrol_pump".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
                                 truckId: widget.truckId,
-                                gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
@@ -646,10 +647,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "police_station".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
                                 truckId: widget.truckId,
-                                gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
@@ -667,7 +665,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontWeight: mediumBoldWeight),
                       ),
                     ]),
-              /*      Column(children: [
+                    Column(children: [
                       Container(
                         width: 50,
                         height: 50,
@@ -686,8 +684,11 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           ),
                           onPressed: () {
                             Get.to(truckAnalysisScreen(
-                              gpsStoppageHistory: widget.gpsStoppageHistory,
-                            ));
+                                recentStops: recentStops,
+                                truckId: widget.truckId,
+                                TruckNo: widget.TruckNo,
+                                imei: widget.imei,
+                                deviceId: widget.deviceId));
                           },
                         ),
                       ),
@@ -702,7 +703,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             fontStyle: FontStyle.normal,
                             fontWeight: mediumBoldWeight),
                       ),
-                    ]),*/
+                    ]),
                   ],
                 ))
           ]),
