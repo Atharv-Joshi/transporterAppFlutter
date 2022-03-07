@@ -202,7 +202,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                                   MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      'Select date',
+                                      'selectDates'.tr,
                                       style: TextStyle(
                                           color: black,
                                           fontSize: size_7,

@@ -91,7 +91,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
                                 child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(answers[widget.index],
+                                      Text(answers[widget.index].tr,
                                           style: TextStyle(fontFamily: 'montserrat', fontWeight: FontWeight.w600, fontSize: 12, color: Colors.grey ),
                                           textAlign: TextAlign.left
                                       ),
@@ -106,7 +106,7 @@ class _HelpCardWidgetState extends State<HelpCardWidget> {
                                               mainAxisSize: MainAxisSize.min,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children :[
-                                                Text(redirect[widget.index],
+                                                Text(redirect[widget.index].tr,
                                                   style: TextStyle(fontFamily: 'montserrat', fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff09B778) ),
                                                   textAlign: TextAlign.left
                                               ),

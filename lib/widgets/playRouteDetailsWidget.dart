@@ -393,7 +393,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
                     margin: EdgeInsets.fromLTRB(0, space_5, 0, 0),
                     width: 117,
                     alignment: Alignment.centerLeft,
-                    child: Text("From",
+                    child: Text("from".tr,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             color: black,
@@ -438,7 +438,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
                     margin: EdgeInsets.fromLTRB(0, space_2, 0, 0),
                     width: 117,
                     alignment: Alignment.centerLeft,
-                    child: Text("To",
+                    child: Text("to".tr,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             color: black,
@@ -486,7 +486,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.fromLTRB(space_10, space_5, 0, 0),
                 child: DropdownButton(
-                  hint: Text('Custom'),
+                  hint: Text('custom'.tr),
                   style: TextStyle(
                       color: grey,
                       fontSize: size_7,

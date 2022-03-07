@@ -88,15 +88,15 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                             space_18, space_14, space_18, space_0),
                         child: Text.rich(
                           TextSpan(
-                              text: "Abhi aapka truck ",
+                              text: "Abhi aapka truck ".tr,
                               style: TextStyle(fontSize: 20),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: "unlocked",
+                                    text: "unlocked".tr,
                                     style: TextStyle(
                                         fontWeight: boldWeight, fontSize: 20)),
                                 TextSpan(
-                                    text: " Hai",
+                                    text: " Hai".tr,
                                     style: TextStyle(fontSize: 20)),
                               ]),
                           textAlign: TextAlign.center,
@@ -116,14 +116,14 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                             space_16, space_0, space_16, space_0),
                         child: Text.rich(
                           TextSpan(
-                              text: "Truck ",
+                              text: "Truck ".tr,
                               style: TextStyle(fontSize: 18),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: "Lock",
+                                    text: "Lock".tr,
                                     style: TextStyle(fontWeight: boldWeight)),
                                 TextSpan(
-                                    text: " krne ke liye button press kijiye!",
+                                    text: " krne ke liye button press kijiye!".tr,
                                     style: TextStyle(fontSize: 18)),
                               ]),
                           textAlign: TextAlign.center,
@@ -141,15 +141,15 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                             space_18, space_14, space_18, space_0),
                         child: Text.rich(
                           TextSpan(
-                              text: "Abhi aapka truck ",
+                              text: "Abhi aapka truck ".tr,
                               style: TextStyle(fontSize: 20),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: "Locked",
+                                    text: "Locked".tr,
                                     style: TextStyle(
                                         fontWeight: boldWeight, fontSize: 20)),
                                 TextSpan(
-                                    text: " Hai",
+                                    text: " Hai".tr,
                                     style: TextStyle(fontSize: 20)),
                               ]),
                           textAlign: TextAlign.center,
@@ -169,14 +169,14 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                             space_16, space_0, space_16, space_0),
                         child: Text.rich(
                           TextSpan(
-                              text: "Truck ",
+                              text: "Truck ".tr,
                               style: TextStyle(fontSize: 18),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: "unlock",
+                                    text: "unlock".tr,
                                     style: TextStyle(fontWeight: boldWeight)),
                                 TextSpan(
-                                    text: " krne ke liye button press kijiye!",
+                                    text: " krne ke liye button press kijiye!".tr,
                                     style: TextStyle(fontSize: 18)),
                               ]),
                           textAlign: TextAlign.center,
@@ -200,7 +200,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                       borderRadius: BorderRadius.circular(15.0),
                                       side: BorderSide(color: darkBlueColor)))),
                           child: Text(
-                            "Lock Kijiye",
+                            "Lock Kijiye".tr,
                             style: TextStyle(
                               color: white,
                             ),
@@ -239,7 +239,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                     borderRadius: BorderRadius.circular(15.0),
                                     side: BorderSide(color: darkBlueColor)))),
                         child: Text(
-                          "Unlock Kijiye",
+                          "Unlock Kijiye".tr,
                           style: TextStyle(
                             color: darkBlueColor,
                           ),
@@ -260,7 +260,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                       borderRadius: BorderRadius.circular(15.0),
                                       side: BorderSide(color: darkBlueColor)))),
                           child: Text(
-                            "Lock Kijiye",
+                            "Lock Kijiye".tr,
                             style: TextStyle(
                               color: darkBlueColor,
                             ),
@@ -275,7 +275,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                     borderRadius: BorderRadius.circular(15.0),
                                     side: BorderSide(color: darkBlueColor)))),
                         child: Text(
-                          "Unlock Kijiye",
+                          "Unlock Kijiye".tr,
                           style: TextStyle(
                             color: white,
                           ),

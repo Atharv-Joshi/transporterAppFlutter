@@ -56,7 +56,7 @@ class AccountVerificationPage2 extends StatelessWidget {
                           SizedBox(
                             width: space_3,
                           ),
-                          HeadingTextWidget("My Account"),
+                          HeadingTextWidget("my_account".tr),
                         ],
                       ),
                       HelpButtonWidget(),
@@ -68,14 +68,14 @@ class AccountVerificationPage2 extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "For Posting Load ",
+                        "forPostingLoad".tr,
                         style: TextStyle(
                             fontSize: size_9,
                             color: liveasyBlackColor,
                             fontWeight: mediumBoldWeight),
                       ),
                       Text(
-                        "(Optional)",
+                        "optional".tr,
                         style: TextStyle(
                             fontSize: size_9, color: liveasyBlackColor),
                       ),
@@ -89,7 +89,7 @@ class AccountVerificationPage2 extends StatelessWidget {
                   ),
                   ElevatedButtonWidget(
                       condition: true,
-                      text: "Verify",
+                      text: "verify".tr,
                       onPressedConditionTrue: () async {
                         hudController.updateHud(true);
                         await postAccountVerificationDocuments(

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/isOtpInvalidController.dart';
@@ -6,6 +7,8 @@ import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
 class AuthService {
   HudController hudController = Get.put(HudController());
@@ -35,9 +38,11 @@ class AuthService {
           hudController.updateHud(false);
           timerController.cancelTimer();
 
-          Get.offAll(() => LanguageSelectionScreen());
-          runTransporterApiPost(
+          await runTransporterApiPost(
               mobileNum: value.user!.phoneNumber!.toString().substring(3, 13));
+
+          Get.offAll(() => NavigationScreen());
+
         }
       });
     } catch (e) {

@@ -660,7 +660,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                               padding: EdgeInsets.fromLTRB(
                                   space_7, space_4, 0, space_1),
                               child: Text(
-                                'Select Dates',
+                                'selectDates'.tr,
                                 style: TextStyle(
                                   fontSize: size_7,
                                   color: black,
@@ -696,7 +696,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                                       .width /
                                                   4,
                                               child: Text(
-                                                "From:  ",
+                                                "from".tr +":  ",
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xff545454),
@@ -789,7 +789,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                                       .width /
                                                   4,
                                               child: Text(
-                                                "To: ",
+                                                "to".tr +": ",
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xff545454),
@@ -857,7 +857,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Distance Covered',
+                                    'distanceCovered'.tr,
                                     style: TextStyle(
                                       fontSize: size_6,
                                       fontWeight: FontWeight.w400,
@@ -868,7 +868,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                     width: space_1,
                                   ),
                                   Text(
-                                    '$totalDistance km',
+                                    '$totalDistance' +' km'.tr,
                                     style: TextStyle(
                                       fontSize: size_6,
                                       fontWeight: FontWeight.w700,
@@ -882,7 +882,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                 padding: EdgeInsets.fromLTRB(
                                     space_7, space_2, 0, space_2),
                                 child: Text(
-                                  "History",
+                                  "history".tr,
                                   style: TextStyle(
                                     fontSize: size_7,
                                     color: black,

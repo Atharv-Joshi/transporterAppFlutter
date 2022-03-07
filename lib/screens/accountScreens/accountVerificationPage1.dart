@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -42,7 +41,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    HeadingTextWidget("My Account"),
+                    HeadingTextWidget("my_account".tr),
                     HelpButtonWidget(),
                   ],
                 ),
@@ -72,7 +71,7 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
                       providerData.addressProofFrontPhoto64 != null &&
                       providerData.addressProofBackPhoto64 != null &&
                       providerData.panFrontPhoto64 != null,
-                  text: "Next",
+                  text: "next".tr,
                   onPressedConditionTrue: () {
                     Get.to(() => AccountVerificationPage2());
                   }),

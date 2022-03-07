@@ -1,6 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -123,7 +124,7 @@ class _TruckStatusState extends State<TruckStatus> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Stopped for  ",
+                                      "stoppedFor".tr +"  ",
                                       maxLines: 2,
                                       style: TextStyle(
                                         color: const Color(0xff333333),
@@ -246,7 +247,7 @@ class _TruckStatusState extends State<TruckStatus> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Travelled for   ",
+                                      "travelledFor".tr +"   ",
                                       maxLines: 2,
                                       style: TextStyle(
                                         color: const Color(0xff333333),
@@ -277,7 +278,7 @@ class _TruckStatusState extends State<TruckStatus> {
                                     space_3, 0, space_1, space_1),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Travelled ${(widget.truckHistory.distance / 1000).toStringAsFixed(2)} kms",
+                                  "travelled".tr +"  ${(widget.truckHistory.distance / 1000).toStringAsFixed(2)} kms",
                                   maxLines: 3,
                                   style: TextStyle(
                                     color: const Color(0xff333333),

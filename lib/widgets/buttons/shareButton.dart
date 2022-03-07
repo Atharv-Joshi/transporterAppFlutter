@@ -98,7 +98,7 @@ class _ShareButtonState extends State<ShareButton> {
                   sharePopupTitle: 'share',
                   subject: 'This is subject',
                   text:
-                      "*🚛Aapke truck ke liye load uplabdh hai🚛*\n\nJaldi se iss load ko book karne ke liye iss link per click kare👇🏻\n$_stringUrl\n\nya iss number per call kare ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n*Aur load pane ke liye Liveasy app download kare*",
+                      "loadAvailable".tr +"\n$_stringUrl\n\n" +"callonthisnum".tr +" ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n"+ "moreLoad".tr,
                   fileName: 'share.png',
                   mimeType: 'image/png',
                   bytesOfFile: pngBytes)

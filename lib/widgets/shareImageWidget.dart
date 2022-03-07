@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -30,12 +31,12 @@ class shareImageWidget extends StatelessWidget {
             height: space_2,
           ),
           Text(
-            "Welcome to LIVEASY",
+            "welcomeTo".tr,
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_9),
           ),
           Text(
-            "bookings that made your life easy",
+            "bookings that made your life easy".tr,
             style: TextStyle(
                 color: white, fontWeight: mediumBoldWeight, fontSize: size_7),
           ),
@@ -51,7 +52,7 @@ class shareImageWidget extends StatelessWidget {
                 width: space_2 - 1,
               ),
               Text(
-                "Chalo iss load ko book\nkaren",
+                "Chalo iss load ko book\nkaren".tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: white,
@@ -81,13 +82,13 @@ class shareImageWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${loadDetails.loadingPointCity}",
+                "${loadDetails.loadingPointCity}".tr,
                 style: TextStyle(
                     color: white, fontSize: size_10, fontWeight: boldWeight),
               ),
               SizedBox(width: (space_1 - 2)),
               Text(
-                "(${loadDetails.loadingPointState})",
+                "("+ "${loadDetails.loadingPointState}".tr +")",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
@@ -125,13 +126,13 @@ class shareImageWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${loadDetails.unloadingPointCity}",
+                "${loadDetails.unloadingPointCity}".tr,
                 style: TextStyle(
                     color: white, fontSize: size_10, fontWeight: boldWeight),
               ),
               SizedBox(width: (space_1 - 2)),
               Text(
-                "(${loadDetails.unloadingPointState})",
+                "("+"${loadDetails.unloadingPointState}".tr +")",
                 style: TextStyle(
                     color: white, fontWeight: regularWeight, fontSize: size_9),
               )
@@ -142,18 +143,18 @@ class shareImageWidget extends StatelessWidget {
           ),
           ShareRequirementsLoadDetails(
             loadDetails: {
-              "truckType": loadDetails.truckType,
-              "weight": loadDetails.weight,
-              "productType": loadDetails.productType,
-              "rate": loadDetails.rate,
-              "unitValue": loadDetails.unitValue,
+              "truckType": loadDetails.truckType?.tr,
+              "weight": loadDetails.weight?.tr,
+              "productType": loadDetails.productType?.tr,
+              "rate": loadDetails.rate?.tr,
+              "unitValue": loadDetails.unitValue?.tr,
             },
           ),
           SizedBox(
             height: space_4,
           ),
           Text(
-            "Hurry up and book this load for your truck!!!",
+            "Hurry up and book this load for your truck!!!".tr,
             style: TextStyle(
                 color: white, fontSize: size_6, fontWeight: fontWeight500),
           ),
@@ -171,7 +172,7 @@ class shareImageWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 9, right: 9),
                 child: Text(
-                  "For bookings and more details click\nthe link below",
+                  "For bookings and more details click\nthe link below".tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/borderWidth.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -50,7 +51,7 @@ class PostLoadScreenTwoSearch extends StatelessWidget {
                   crossAxisCount: 2,
                   children: productTypeList
                       .map((e) =>
-                          addRectangularButtonProductType(value: e, text: e))
+                          addRectangularButtonProductType(value: e, text: e.tr))
                       .toList(),
                 ),
               ),
