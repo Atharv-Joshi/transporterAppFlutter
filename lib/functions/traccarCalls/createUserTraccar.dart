@@ -12,7 +12,7 @@ Future<String?> createUserTraccar(String? token, String? mobileNum) async {
 
   Map data = {
     "name": mobileNum,
-    "password": mobileNum,
+    "password": traccarPass,
     "email": mobileNum,
     "phone": mobileNum,
     "attributes": {"notificationTokens": "$token", "timezone": "Asia/Kolkata"}
@@ -48,7 +48,7 @@ Future<String?> createUserTraccar(String? token, String? mobileNum) async {
         data = {
           "id": id,
           "name": mobileNum,
-          "password": mobileNum,
+          "password": traccarPass,
           "email": mobileNum,
           "phone": mobileNum,
           "attributes": {
