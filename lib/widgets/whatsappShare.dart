@@ -13,11 +13,11 @@ import 'package:flutter_config/flutter_config.dart';
 
 class WhatsappShare extends StatefulWidget {
   int deviceId;
-  String? truckId;
+ // String? truckId;
   String? truckNo;
   WhatsappShare({
     required this.deviceId,
-    required this.truckId,
+   // required this.truckId,
     required this.truckNo,
   });
   @override
@@ -52,7 +52,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
         uriPrefix: shareUrl,
         link: Uri.parse(
-            '$shareUrl/track?deviceId=${widget.deviceId}&truckId=${widget.truckId}&duration=${expiryTime}'),
+            '$shareUrl/track?deviceId=${widget.deviceId}&truckno=${widget.truckNo}&duration=${expiryTime}'),
         androidParameters: AndroidParameters(
           packageName: packageName,
           minimumVersion: 0,
