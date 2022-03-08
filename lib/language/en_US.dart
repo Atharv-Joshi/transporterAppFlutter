@@ -152,7 +152,11 @@ const Map<String, String> enUS = {
   'buyGPS':'Buy GPS to access live tracking',
   'timedate':'time date',
   'km':'km',
+  'online':'Online',
+  'lastupdated': 'Last updated',
+  'ago': 'ago',
   "stops":"Stops",
+  'truckanalysis':'Truck Analysis',
   'km/h':'km/h',
   'navigate':'Navigate',
   'playtrip':'Play Trip',
@@ -1505,6 +1509,10 @@ const Map<String, String> enUS = {
   "from":"From",
   "to":"To",
   "hours":"hours",
+  "day": "day",
+  "hr" :"hr",
+  "min" : "min",
+  "sec" : "sec",
   'custom':'Custom',
 
   //verification screen 1
