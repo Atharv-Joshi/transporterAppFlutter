@@ -37,15 +37,18 @@ class _MyTrucksState extends State<MyTrucks> {
   TruckApiCalls truckApiCalls = TruckApiCalls();
 
   // Truck Model List used to  create cards
-  var truckDataList = [];
-  var truckAddressList = [];
+  // var truckDataList = [];
+  var devicelist = [];
+  var trucklist = [];
+  // var truckAddressList = [];
   var status = [];
   var gpsDataList = [];
   var gpsStoppageHistory = [];
   MapUtil mapUtil = MapUtil();
   late List<Placemark> placemarks;
   late String date;
-
+  var runningdevicelist = [];
+  var stoppeddevicelist = [];
   var gpsData;
   bool loading = false;
   DateTime yesterday =
@@ -84,8 +87,8 @@ class _MyTrucksState extends State<MyTrucks> {
     setState(() {
       loading = true;
     });
-    var f1 = getTruckAddress();
-    var f2 = getTruckData(i);
+    var f1 = getMyTruckPosition();
+    var f2 = getMyDevices(i);
 
     futureGroup.add(f1);
     futureGroup.add(f2);
@@ -95,7 +98,7 @@ class _MyTrucksState extends State<MyTrucks> {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         i = i + 1;
-        getTruckData(i);
+        getMyDevices(i);
       }
     });
   }
@@ -157,7 +160,7 @@ class _MyTrucksState extends State<MyTrucks> {
                   onTap: () {
                     Get.to(() => MyTrucksResult(
                           gpsDataList: gpsDataList,
-                          truckDataList: truckDataList,
+                          deviceList: devicelist,
                           //truckAddressList: truckAddressList,
                           status: status,
                           items: items,
@@ -245,7 +248,7 @@ class _MyTrucksState extends State<MyTrucks> {
               onTap: () {
                 Get.to(MapAllTrucks(
                   gpsDataList: gpsDataList,
-                  truckDataList: truckDataList,
+                  deviceList: trucklist,
                   runningDataList: runningList,
                   runningGpsDataList: runningGpsData,
                   stoppedList: StoppedList,
@@ -318,7 +321,7 @@ class _MyTrucksState extends State<MyTrucks> {
                           children: [
                             loading
                                 ? TruckLoadingWidgets()
-                                : truckDataList.isEmpty
+                                : trucklist.isEmpty
                                     ? Container(
                                         // height: MediaQuery.of(context).size.height * 0.27,
                                         margin: EdgeInsets.only(top: 153),
@@ -353,27 +356,31 @@ class _MyTrucksState extends State<MyTrucks> {
                                             StoppedStatus.clear();
                                             StoppedGpsData.clear();
                                             StoppedList.clear();
+                                            runningdevicelist.clear();
+                                            stoppeddevicelist.clear();
+
                                             loading = true;
                                           });
                                           return refreshData(i);
                                         },
                                         child: ListView.builder(
-                                            physics: BouncingScrollPhysics(),
+                                            physics: AlwaysScrollableScrollPhysics(),
                                             controller: scrollController,
                                             scrollDirection: Axis.vertical,
                                             padding: EdgeInsets.only(
                                                 bottom: space_15),
-                                            itemCount: truckDataList.length,
+                                            itemCount: trucklist.length,
                                             itemBuilder: (context, index) =>
-                                                index == truckDataList.length
+                                                index == trucklist.length
                                                     ? bottomProgressBarIndicatorWidget()
                                                     : MyTruckCard(
-                                                        truckData:
-                                                            truckDataList[
-                                                                index],
+                                                        truckno:
+                                                            trucklist[index],
                                                         status: status[index],
                                                         gpsData:
                                                             gpsDataList[index],
+                                                        device:
+                                                            devicelist[index],
                                                         // truckId: .truckId,
                                                         // truckApproved:
                                                         //     truckDataList[index].truckApproved,
@@ -382,7 +389,9 @@ class _MyTrucksState extends State<MyTrucks> {
                                                         // tyres: truckDataList[index].tyresString,
                                                         // driverName: truckDataList[index].driverName,
                                                         // phoneNum: truckDataList[index].driverNum,
-                                                        imei: truckDataList[index].imei,
+                                                        /*  imei:
+                                                            truckDataList[index]
+                                                                .imei,*/
                                                       )),
                                       ),
                           ],
@@ -428,6 +437,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             StoppedStatus.clear();
                                             StoppedGpsData.clear();
                                             StoppedList.clear();
+                                            runningdevicelist.clear();
+                                            stoppeddevicelist.clear();
                                             loading = true;
                                           });
                                           return refreshData(i);
@@ -435,7 +446,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         child: ListView.builder(
                                           padding:
                                               EdgeInsets.only(bottom: space_15),
-                                          physics: BouncingScrollPhysics(),
+                                          physics: AlwaysScrollableScrollPhysics(),
                                           controller: scrollController,
                                           scrollDirection: Axis.vertical,
                                           itemCount: runningList.length,
@@ -443,10 +454,12 @@ class _MyTrucksState extends State<MyTrucks> {
                                                   runningList.length
                                               ? bottomProgressBarIndicatorWidget()
                                               : MyTruckCard(
-                                                  truckData: runningList[index],
+                                                  truckno: runningList[index],
                                                   status: runningStatus[index],
                                                   gpsData:
                                                       runningGpsData[index],
+                                                  device:
+                                                      runningdevicelist[index],
                                                   // truckId: .truckId,
                                                   // truckApproved:
                                                   //     truckDataList[index].truckApproved,
@@ -455,7 +468,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                                   // tyres: truckDataList[index].tyresString,
                                                   // driverName: truckDataList[index].driverName,
                                                   // phoneNum: truckDataList[index].driverNum,
-                                                  imei: truckDataList[index].imei,
+                                                  /*   imei:
+                                                      truckDataList[index].imei,*/
                                                 ),
                                         ),
                                       ),
@@ -502,6 +516,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                             StoppedStatus.clear();
                                             StoppedGpsData.clear();
                                             StoppedList.clear();
+                                            runningdevicelist.clear();
+                                            stoppeddevicelist.clear();
                                             loading = true;
                                           });
                                           return refreshData(i);
@@ -509,7 +525,7 @@ class _MyTrucksState extends State<MyTrucks> {
                                         child: ListView.builder(
                                           padding:
                                               EdgeInsets.only(bottom: space_15),
-                                          physics: BouncingScrollPhysics(),
+                                          physics: AlwaysScrollableScrollPhysics(),
                                           controller: scrollController,
                                           scrollDirection: Axis.vertical,
                                           itemCount: StoppedList.length,
@@ -517,10 +533,12 @@ class _MyTrucksState extends State<MyTrucks> {
                                                   StoppedList.length
                                               ? bottomProgressBarIndicatorWidget()
                                               : MyTruckCard(
-                                                  truckData: StoppedList[index],
+                                                  truckno: StoppedList[index],
                                                   status: StoppedStatus[index],
                                                   gpsData:
                                                       StoppedGpsData[index],
+                                                  device:
+                                                      stoppeddevicelist[index],
                                                   // truckId: .truckId,
                                                   // truckApproved:
                                                   //     truckDataList[index].truckApproved,
@@ -529,7 +547,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                                   // tyres: truckDataList[index].tyresString,
                                                   // driverName: truckDataList[index].driverName,
                                                   // phoneNum: truckDataList[index].driverNum,
-                                                  imei: truckDataList[index].imei,
+                                                  /*     imei:
+                                                      truckDataList[index].imei,*/
                                                 ),
                                         ),
                                       ),
@@ -557,54 +576,61 @@ class _MyTrucksState extends State<MyTrucks> {
     );
   } //build
 
-  getTruckData(int i) async {
-    var truckDataListForPagei = await getTruckDataWithPageNo(i);
-    for (var truckData in truckDataListForPagei) {
+  getMyDevices(int i) async {
+    var devices = await mapUtil.getDevices();
+    trucklist.clear();
+    devicelist.clear();
+    for (var device in devices) {
       setState(() {
-        truckDataList.add(truckData);
+        trucklist.add(device.truckno);
+        devicelist.add(device);
       });
     }
   }
 
-  getTruckAddress() async {
-    FutureGroup futureGroup = FutureGroup();
+  getMyTruckPosition() async {
+    //   FutureGroup futureGroup = FutureGroup();
 
-    var truckDataListForPagevar = await truckApiCalls.getTruckData();
+    var devices = await mapUtil.getDevices();
 
-    print("Truck length ${truckDataListForPagevar.length}");
+    print("total devices for me are ${devices.length}");
 
     setState(() {
-      items = truckDataListForPagevar;
+      items = devices;
     });
 
     //FIX LENGTH OF ALL LIST----------------------
-    gpsList = List.filled(truckDataListForPagevar.length, null, growable: true);
-    stat = List.filled(truckDataListForPagevar.length, "", growable: true);
-    running = List.filled(truckDataListForPagevar.length, null, growable: true);
-    runningStat =
-        List.filled(truckDataListForPagevar.length, "", growable: true);
-    runningGps =
-        List.filled(truckDataListForPagevar.length, null, growable: true);
-    Stopped = List.filled(truckDataListForPagevar.length, null, growable: true);
-    StoppedStat =
-        List.filled(truckDataListForPagevar.length, "", growable: true);
-    StoppedGps =
-        List.filled(truckDataListForPagevar.length, null, growable: true);
+    gpsList = List.filled(devices.length, null, growable: true);
+    stat = List.filled(devices.length, "", growable: true);
+    running = List.filled(devices.length, null, growable: true);
+    runningStat = List.filled(devices.length, "", growable: true);
+    runningGps = List.filled(devices.length, null, growable: true);
+    Stopped = List.filled(devices.length, null, growable: true);
+    StoppedStat = List.filled(devices.length, "", growable: true);
+    StoppedGps = List.filled(devices.length, null, growable: true);
+    runningdevicelist = List.filled(devices.length, null, growable: true);
+    stoppeddevicelist = List.filled(devices.length, null, growable: true);
     //------------------------------------------------
 
     //START ADDING DATA-------------------------------
-    for (int i = 0; i < truckDataListForPagevar.length; i++) {
+    /*for (int i = 0; i < devices.length; i++) {
       print(
-          "DeviceId is ${truckDataListForPagevar[i].deviceId} for ${truckDataListForPagevar[i].truckId}");
+          "DeviceId is ${devices[i].deviceId} for ${devices[i].truckno}");
 
-      if (truckDataListForPagevar[i].deviceId != 0 &&
-          truckDataListForPagevar[i].truckApproved == true) {
-        var future = getGPSData(truckDataListForPagevar[i], i);
+      
+        var future = getGPSData(devices[i], i);
         futureGroup.add(future);
-      }
+      
     }
     futureGroup.close();
-    await futureGroup.future; //Fire all APIs at once (not one after the other)
+    await futureGroup.future; */ //Fire all APIs at once (not one after the other)
+
+    var gpsDataAll = await mapUtil.getTraccarPositionforAll();
+    for (int i = 0; i < gpsDataAll.length; i++) {
+      print("DeviceId is ${devices[i].deviceId} for ${devices[i].truckno}");
+
+      getGPSData(gpsDataAll[i], i, devices[i].truckno, devices[i]);
+    }
 
     setState(() {
       gpsDataList = gpsList;
@@ -624,38 +650,43 @@ class _MyTrucksState extends State<MyTrucks> {
     runningList.removeWhere((item) => item == null);
     runningGpsData.removeWhere((item) => item == null);
     runningStatus.removeWhere((item) => item == "");
-
+    runningdevicelist.removeWhere((item) => item == null);
+    stoppeddevicelist.removeWhere((item) => item == null);
     StoppedList.removeWhere((item) => item == null);
     StoppedGpsData.removeWhere((item) => item == null);
     StoppedStatus.removeWhere((item) => item == "");
 
     print("ALL $status");
     print("ALL $gpsDataList");
+    print("ALL RUNNING $runningList");
+    print("ALL STOPPED $StoppedList");
+    print("ALL STOPPED $StoppedGpsData ");
+    print("ALL STOPPED $StoppedStatus");
     print("--TRUCK SCREEN DONE--");
     setState(() {
       loading = false;
     });
   }
 
-  getGPSData(var truckData, int i) async {
-    gpsData = await mapUtil.getTraccarPosition(deviceId: truckData.deviceId);
-    getStoppedSince(gpsData, i);
-
-    if (truckData.truckApproved == true &&
-        gpsData.last.speed >= 2) //For RUNNING Section
+  getGPSData(var gpsData, int i, var truckno, var device) async {
+    getStoppedSince(gpsData, i, device);
+    print('get stopped done');
+    if (gpsData.speed >= 2) //For RUNNING Section
     {
       running.removeAt(i);
       runningGps.removeAt(i);
-
-      running.insert(i, truckData);
+      runningdevicelist.removeAt(i);
+      running.insert(i, truckno);
+      runningdevicelist.insert(i, device);
       runningGps.insert(i, gpsData);
-    } else if (truckData.truckApproved == true && gpsData.last.speed < 2) {
+    } else if (gpsData.speed < 2) {
       //For STOPPED section
 
       Stopped.removeAt(i);
       StoppedGps.removeAt(i);
-
-      Stopped.insert(i, truckData);
+      stoppeddevicelist.removeAt(i);
+      stoppeddevicelist.insert(i, device);
+      Stopped.insert(i, truckno);
       StoppedGps.insert(i, gpsData);
     }
     gpsList.removeAt(i);
@@ -666,29 +697,27 @@ class _MyTrucksState extends State<MyTrucks> {
 
   refreshData(int i) async {
     FutureGroup futureGroup = FutureGroup();
-    print("Trcuk dat $truckDataList");
+    print("device list $devicelist");
     //FIX LENGTH OF ALL LIST----------------------
-    gpsList = List.filled(truckDataList.length, null, growable: true);
-    stat = List.filled(truckDataList.length, "", growable: true);
-    running = List.filled(truckDataList.length, null, growable: true);
-    runningStat = List.filled(truckDataList.length, "", growable: true);
-    runningGps = List.filled(truckDataList.length, null, growable: true);
-    Stopped = List.filled(truckDataList.length, null, growable: true);
-    StoppedStat = List.filled(truckDataList.length, "", growable: true);
-    StoppedGps = List.filled(truckDataList.length, null, growable: true);
+    gpsList = List.filled(devicelist.length, null, growable: true);
+    stat = List.filled(devicelist.length, "", growable: true);
+    running = List.filled(devicelist.length, null, growable: true);
+    runningStat = List.filled(devicelist.length, "", growable: true);
+    runningGps = List.filled(devicelist.length, null, growable: true);
+    Stopped = List.filled(devicelist.length, null, growable: true);
+    StoppedStat = List.filled(devicelist.length, "", growable: true);
+    StoppedGps = List.filled(devicelist.length, null, growable: true);
+    runningdevicelist = List.filled(devicelist.length, null, growable: true);
+    stoppeddevicelist = List.filled(devicelist.length, null, growable: true);
     //------------------------------------------------
-    for (int i = 0; i < truckDataList.length; i++) {
-      print("DeviceId is ${truckDataList[i].deviceId}");
+    //Fire all APIs at once (not one after the other)
+    var gpsDataAll = await mapUtil.getTraccarPositionforAll();
+    for (int i = 0; i < gpsDataAll.length; i++) {
+      print(
+          "DeviceId is ${devicelist[i].deviceId} for ${devicelist[i].truckno}");
 
-      if (truckDataList[i].deviceId != 0 &&
-          truckDataList[i].truckApproved == true) {
-        var future = getGPSData(truckDataList[i], i);
-        futureGroup.add(future);
-      }
+      getGPSData(gpsDataAll[i], i, devicelist[i].truckno, devicelist[i]);
     }
-    futureGroup.close();
-    await futureGroup.future; //Fire all APIs at once (not one after the other)
-
     setState(() {
       gpsDataList = gpsList;
       status = stat;
@@ -707,7 +736,8 @@ class _MyTrucksState extends State<MyTrucks> {
     runningList.removeWhere((item) => item == null);
     runningGpsData.removeWhere((item) => item == null);
     runningStatus.removeWhere((item) => item == "");
-
+    runningdevicelist.removeWhere((item) => item == null);
+    stoppeddevicelist.removeWhere((item) => item == null);
     StoppedList.removeWhere((item) => item == null);
     StoppedGpsData.removeWhere((item) => item == null);
     StoppedStatus.removeWhere((item) => item == "");
@@ -720,8 +750,27 @@ class _MyTrucksState extends State<MyTrucks> {
     });
   }
 
-  getStoppedSince(var gpsData, int i) async {
-    if (gpsData.last.motion == false) {
+  getStoppedSince(var gpsData, int i, var device) async {
+    if (device.status == 'offline') {
+      StoppedStat.removeAt(i);
+      StoppedStat.insert(i, "Offline");
+
+      runningStat.removeAt(i);
+      runningStat.insert(i, "Offline");
+
+      stat.removeAt(i);
+      stat.insert(i, "Offline");
+    } else {
+      StoppedStat.removeAt(i);
+      StoppedStat.insert(i, "Online");
+
+      runningStat.removeAt(i);
+      runningStat.insert(i, "Online");
+
+      stat.removeAt(i);
+      stat.insert(i, "Online");
+    }
+    /*   if (gpsData.motion == false) {
       StoppedStat.removeAt(i);
       StoppedStat.insert(i, "Stopped");
 
@@ -733,7 +782,7 @@ class _MyTrucksState extends State<MyTrucks> {
 
       stat.removeAt(i);
       stat.insert(i, "Running");
-    }
+    }*/
   }
 }
 

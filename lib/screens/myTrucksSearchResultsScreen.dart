@@ -10,13 +10,13 @@ import 'package:liveasy/widgets/myTrucksCard.dart';
 
 class MyTrucksResult extends StatefulWidget {
   List gpsDataList;
-  List truckDataList;
+  List deviceList;
   List status;
   List items;
 
   MyTrucksResult(
       {required this.gpsDataList,
-      required this.truckDataList,
+      required this.deviceList,
       required this.status,
       required this.items});
 
@@ -29,7 +29,8 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
   TextEditingController editingController = TextEditingController();
   var dummySearchList = [];
   var gpsDataList = [];
-  var truckDataList = [];
+ // var truckDataList = [];
+ var deviceList = [];
   var status = [];
   var items = [];
 
@@ -39,7 +40,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
     items = widget.items;
     gpsDataList = widget.gpsDataList;
     status = widget.status;
-    truckDataList = widget.truckDataList;
+    deviceList = widget.deviceList;
     print("CHECK Init${status}");
   }
 
@@ -128,9 +129,10 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                       itemBuilder: (context, index) => index == items.length
                           ? bottomProgressBarIndicatorWidget()
                           : MyTruckCard(
-                              truckData: items[index],
+                              truckno: deviceList[index].truckno,
                               status: status[index],
                               gpsData: gpsDataList[index],
+                              device: deviceList[index],
                             )),
                 ),
               ],
@@ -142,7 +144,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
   }
 
   void filterSearchResults(String query) {
-    print("LIST IS $truckDataList");
+    print("LIST IS $deviceList");
     print("$query");
 
     if (query.isNotEmpty) {
@@ -179,7 +181,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
         items = [];
         gpsDataList = [];
         status = [];
-        items.addAll(widget.truckDataList);
+        items.addAll(widget.deviceList);
         gpsDataList.addAll(widget.gpsDataList);
         status.addAll(widget.status);
         //print("THE ITEMSS ${items}");
