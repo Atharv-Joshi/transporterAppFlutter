@@ -23,7 +23,7 @@ String routeDataApi = FlutterConfig.get("routeDataApiUrl");
 
 class truckAnalysisScreen extends StatefulWidget {
   var recentStops;
-  var truckId;
+ // var truckId;
   var TruckNo;
   var imei;
   var deviceId;
@@ -31,7 +31,7 @@ class truckAnalysisScreen extends StatefulWidget {
 
   truckAnalysisScreen(
       {required this.recentStops,
-      required this.truckId,
+   //   required this.truckId,
       required this.TruckNo,
       required this.imei,
       this.deviceId,
@@ -44,7 +44,7 @@ class truckAnalysisScreen extends StatefulWidget {
 class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     with AutomaticKeepAliveClientMixin {
   var recentStops;
-  var truckId;
+  var truckId = 0;
   var TruckNo;
   var imei;
   var gpsStoppage;
@@ -421,7 +421,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
   void initFunction() async {
     setState(() {
       recentStops = widget.recentStops;
-      truckId = widget.truckId;
+    //  truckId = widget.truckId;
       TruckNo = widget.TruckNo;
       imei = widget.imei;
       deviceId = widget.deviceId;
@@ -435,7 +435,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     late String end = now.toIso8601String();
     var t = getRouteStatusList(deviceId, today, end);
     var gpsRoute = await t;
-
+    print("ok");
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
       ..indicatorSize = 45.0

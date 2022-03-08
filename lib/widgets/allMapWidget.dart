@@ -5,6 +5,8 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:liveasy/models/deviceModel.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
@@ -139,30 +141,30 @@ class _AllMapWidgetState extends State<AllMapWidget>
             });
   }
 
-  void createmarker(List gpsData, TruckModel truckData) async {
+  void createmarker(GpsDataModel gpsData, var truck) async {
     try {
       final GoogleMapController controller = await _controller.future;
 
       LatLng latLngMarker =
-          LatLng(gpsData.last.latitude, gpsData.last.longitude);
-      print("Live location is  ${gpsData.last.latitude}");
+          LatLng(gpsData.latitude!, gpsData.longitude!);
+      print("Live location is  ${gpsData.latitude}");
       print("hh");
-      print(gpsData.last.deviceId.toString());
-      String title = truckData.truckNo!;
-      var markerIcons = await getBytesFromCanvas3(truckData.truckNo!, 100, 100);
+      print(gpsData.deviceId.toString());
+      String? title = truck;
+      var markerIcons = await getBytesFromCanvas3(truck!, 100, 100);
       var address = await getAddress(gpsData);
       var trucklatlong = latLngMarker;
       setState(() {
-        direction = 180 + gpsData.last.course;
+        direction = 180 + gpsData.course!;
         lastlatLngMarker =
-            LatLng(gpsData.last.latitude, gpsData.last.longitude);
+            LatLng(gpsData.latitude!, gpsData.longitude!);
         latlng.add(lastlatLngMarker);
         customMarkers.add(Marker(
-            markerId: MarkerId(gpsData.last.deviceId.toString()),
+            markerId: MarkerId(gpsData.deviceId.toString()),
             position: trucklatlong,
             onTap: () {
               _customDetailsInfoWindowController.addInfoWindow!(
-                truckInfoWindow(truckData.truckNo, address),
+                truckInfoWindow(truck, address),
                 trucklatlong,
               );
             },
@@ -174,7 +176,7 @@ class _AllMapWidgetState extends State<AllMapWidget>
         print("here i am");
         customMarkers.add(Marker(
             markerId:
-                MarkerId("Details of ${gpsData.last.deviceId.toString()}"),
+                MarkerId("Details of ${gpsData.deviceId.toString()}"),
             position: latLngMarker,
             icon: BitmapDescriptor.fromBytes(markerIcons),
             rotation: 0.0));
@@ -329,7 +331,7 @@ class _AllMapWidgetState extends State<AllMapWidget>
 
   getAddress(var gpsData) async {
     var address = await getStoppageAddressLatLong(
-        gpsData.last.latitude, gpsData.last.longitude);
+        gpsData.latitude, gpsData.longitude);
 
     return address;
   }

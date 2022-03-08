@@ -240,7 +240,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     // }
     stoppageTime = "${gpsStoppage[1]} - ${gpsStoppage[2]}";
     // stopAddress = await getStoppageAddress(gpsStoppage);
-    duration = gpsStoppage[2];
+    duration = gpsStoppage[3];
 
     // for(int i=0; i<stoplatlong.length; i++){
     markerIcon = await getBytesFromCanvas(i + 1, 100, 100);

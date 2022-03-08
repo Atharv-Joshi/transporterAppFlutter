@@ -17,9 +17,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../screens/nearbyPlacesScreen.dart';
 
 class TrackScreenDetails extends StatefulWidget {
-  final String? driverNum;
+ // final String? driverNum;
   final String? TruckNo;
-  final String? driverName;
+//  final String? driverName;
   String? dateRange;
   var gpsData;
   var gpsTruckRoute;
@@ -29,7 +29,7 @@ class TrackScreenDetails extends StatefulWidget {
   var totalRunningTime;
   var totalStoppedTime;
   var deviceId;
-  var truckId;
+  //var truckId;
   var totalDistance;
   var imei;
   var recentStops;
@@ -40,15 +40,15 @@ class TrackScreenDetails extends StatefulWidget {
     required this.gpsTruckRoute,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
-    required this.driverNum,
+  //  required this.driverNum,
     required this.dateRange,
     required this.TruckNo,
-    required this.driverName,
+  //  required this.driverName,
     required this.stops,
     required this.totalRunningTime,
     required this.totalStoppedTime,
     required this.deviceId,
-    required this.truckId,
+    //required this.truckId,
     required this.totalDistance,
     this.imei,
     this.recentStops,
@@ -338,6 +338,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                         fontSize: size_6,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: regularWeight)),
+
                                 Text("${widget.totalDistance} " + "km".tr,
                                     softWrap: true,
                                     style: TextStyle(
@@ -475,7 +476,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     Column(children: [
                       DynamicLinkService(
                         deviceId: widget.deviceId,
-                        truckId: widget.truckId,
+                       // truckId: widget.truckId,
                         truckNo: widget.TruckNo,
                       ),
                       SizedBox(
@@ -607,9 +608,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "petrol_pump".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
-                                truckId: widget.truckId,
+                               // driverName: widget.driverName,
+                              //  driverNum: widget.driverNum,
+                             //   truckId: widget.truckId,
                                 gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
@@ -654,9 +655,9 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "police_station".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                                driverName: widget.driverName,
-                                driverNum: widget.driverNum,
-                                truckId: widget.truckId,
+                              //  driverName: widget.driverName,
+                             //   driverNum: widget.driverNum,
+                              //  truckId: widget.truckId,
                                 gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
@@ -695,7 +696,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           onPressed: () {
                             Get.to(truckAnalysisScreen(
                               recentStops: recentStops,
-                              truckId: widget.truckId,
+                           //   truckId: widget.truckId,
                               TruckNo: widget.TruckNo,
                               imei: widget.imei,
                               deviceId: widget.deviceId
@@ -707,7 +708,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                         height: 8,
                       ),
                       Text(
-                        "Truck Analysis",
+                        "truckanalysis".tr,
                         style: TextStyle(
                             color: black,
                             fontSize: size_6,
