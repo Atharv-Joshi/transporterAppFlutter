@@ -19,7 +19,7 @@ import 'package:flutter_config/flutter_config.dart';
 
 class MapAllTrucks extends StatefulWidget {
   List gpsDataList;
-  List truckDataList;
+  List deviceList;
   List runningDataList;
   List runningGpsDataList;
   List stoppedList;
@@ -27,7 +27,7 @@ class MapAllTrucks extends StatefulWidget {
 
   MapAllTrucks({
     required this.gpsDataList,
-    required this.truckDataList,
+    required this.deviceList,
     required this.runningDataList,
     required this.runningGpsDataList,
     required this.stoppedGpsList,
@@ -261,7 +261,7 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                     children: [
                       AllMapWidget(
                           gpsDataList: widget.gpsDataList,
-                          truckDataList: widget.truckDataList),
+                          truckDataList: widget.deviceList),
                       AllMapWidget(
                           gpsDataList: widget.runningGpsDataList,
                           truckDataList: widget.runningDataList),

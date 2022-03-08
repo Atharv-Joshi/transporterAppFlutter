@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/language/localization_service.dart';
@@ -78,26 +79,26 @@ getStopDuration(String from, String to) {
   var duration;
   if (days == 0) {
     if (hour == 0 && second == 0)
-      duration = "$minute min";
+      duration = "$minute ${"min".tr}";
     else if (minute == 0)
-      duration = "$second sec";
+      duration = "$second ${"sec".tr}";
     else if (second == 0)
-      duration = "$hour hr $minute min";
+      duration = "$hour ${"hr".tr} $minute min";
     else if (hour == 0)
-      duration = "$minute min $second sec";
+      duration = "$minute  ${"min".tr} $second  ${"sec".tr}";
     else
-      duration = "$hour hr $minute min $second sec";
+      duration = "$hour ${"hr".tr} $minute  ${"min".tr} $second  ${"sec".tr}";
   } else {
     if (hour == 0 && second == 0)
-      duration = "$days day $minute min";
+      duration = "$days ${"day".tr} $minute  ${"min".tr}";
     else if (minute == 0)
-      duration = "$days day $second sec";
+      duration = "$days ${"day".tr} $second  ${"sec".tr}";
     else if (second == 0)
-      duration = "$days day $hour hr $minute min";
+      duration = "$days ${"day".tr} $hour ${"hr".tr} $minute  ${"min".tr}";
     else if (hour == 0)
-      duration = "$days day $minute min $second sec";
+      duration = "$days ${"day".tr} $minute  ${"min".tr} $second  ${"sec".tr}";
     else
-      duration = "$days day $hour hr $minute min $second sec";
+      duration = "$days ${"day".tr} $hour ${"hr".tr} $minute  ${"min".tr} $second  ${"sec".tr}";
   }
   print("Stop DUR is $duration");
 

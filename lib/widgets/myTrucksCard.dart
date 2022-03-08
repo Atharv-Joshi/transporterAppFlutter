@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
+import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/trackScreen.dart';
@@ -15,17 +16,17 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MyTruckCard extends StatefulWidget {
-  TruckModel truckData;
+  var truckno;
   var gpsData;
   String status;
   var imei;
-
-  MyTruckCard({
-    required this.truckData,
-    required this.status,
-    this.gpsData,
-    this.imei
-  });
+  DeviceModel device;
+  MyTruckCard(
+      {required this.truckno,
+      required this.status,
+      this.gpsData,
+      this.imei,
+      required this.device});
 
   @override
   _MyTruckCardState createState() => _MyTruckCardState();
@@ -34,13 +35,14 @@ class MyTruckCard extends StatefulWidget {
 class _MyTruckCardState extends State<MyTruckCard> {
   TruckFilterVariables truckFilterVariables = TruckFilterVariables();
 
-  bool? verified;
+  bool online = true;
   Position? userLocation;
   bool driver = false;
   var gpsDataHistory;
   var gpsStoppageHistory;
   var gpsRoute;
   var totalDistance;
+  var lastupdated;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
 
@@ -51,36 +53,40 @@ class _MyTruckCardState extends State<MyTruckCard> {
   @override
   void initState() {
     super.initState();
-    if (widget.truckData.deviceId != 0 &&
-        widget.truckData.truckApproved == true) {
-      print("For ${widget.truckData.deviceId}");
-      try {
-        initfunction();
-      } catch (e) {}
-    }
+
+    try {
+      initfunction();
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    driver = widget.truckData.driverName != 'NA' ? true : false;
-    String truckType = truckFilterVariables.truckTypeValueList
+    // driver = widget.truckData.driverName != 'NA' ? true : false;
+    /*   String truckType = truckFilterVariables.truckTypeValueList
             .contains(widget.truckData.truckType)
         ? truckFilterVariables.truckTypeTextList[truckFilterVariables
             .truckTypeValueList
             .indexOf(widget.truckData.truckType)]
         : 'NA';
-
+*/
     Map<String, Color> statusColor = {
       'Available': liveasyGreen,
       'Busy': Colors.red,
       'Offline': unselectedGrey,
     };
 
-    verified = widget.truckData.truckApproved;
-    if (driver && widget.truckData.driverName!.length > 15) {
+    if (widget.status == 'Online') {
+      online = true;
+    } else {
+      online = false;
+    }
+    lastupdated =
+        getStopDuration(widget.device.lastUpdate!, now.toIso8601String());
+    /*   if (driver && widget.truckData.driverName!.length > 15) {
       widget.truckData.driverName =
           widget.truckData.driverName!.substring(0, 14) + '..';
     }
+    */
 
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
@@ -101,34 +107,37 @@ class _MyTruckCardState extends State<MyTruckCard> {
             status: "Loading...",
           );
           // getTruckHistory();
+          print("clicked");
+          print(widget.gpsData.deviceId);
 
-          print(widget.truckData.deviceId);
-
-          var f = getDataHistory(widget.truckData.deviceId, from, to);
-          var s = getStoppageHistory(widget.truckData.deviceId, from, to);
-          var t = getRouteStatusList(widget.truckData.deviceId, from, to);
+          var f = getDataHistory(widget.gpsData.deviceId, from, to);
+          var s = getStoppageHistory(widget.gpsData.deviceId, from, to);
+          var t = getRouteStatusList(widget.gpsData.deviceId, from, to);
 
           gpsDataHistory = await f;
           gpsStoppageHistory = await s;
           gpsRoute = await t;
-
+          print("done api");
+          print(gpsRoute);
+          print(gpsDataHistory);
+          print(gpsStoppageHistory);
           if (gpsRoute != null &&
               gpsDataHistory != null &&
-              gpsStoppageHistory != null &&
-              widget.truckData.truckApproved == true) {
+              gpsStoppageHistory != null) {
             EasyLoading.dismiss();
+            print('here no');
             Get.to(
               TrackScreen(
-                deviceId: widget.truckData.deviceId,
+                deviceId: widget.gpsData.deviceId,
                 gpsData: widget.gpsData,
                 // position: position,
-                TruckNo: widget.truckData.truckNo,
-                driverName: widget.truckData.driverName,
-                driverNum: widget.truckData.driverNum,
+                TruckNo: widget.truckno,
+                //   driverName: widget.truckData.driverName,
+                //  driverNum: widget.truckData.driverNum,
                 gpsDataHistory: gpsDataHistory,
                 gpsStoppageHistory: gpsStoppageHistory,
                 routeHistory: gpsRoute,
-                truckId: widget.truckData.truckId,
+                //    truckId: widget.truckData.truckId,
                 totalDistance: totalDistance,
                 imei: widget.imei,
               ),
@@ -144,15 +153,80 @@ class _MyTruckCardState extends State<MyTruckCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                verified!
-                    ? Container(
-                        padding: EdgeInsets.all(space_3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF7F8FA),
-                        ),
-                        child: Column(
-                          children: [
-                            /*    Row(
+                Container(
+                  padding: EdgeInsets.all(space_3),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF7F8FA),
+                  ),
+                  child: Column(
+                    children: [
+                      online
+                          ? Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(0,5,5,5),
+                                    child: Icon(
+                                      Icons.circle,
+                                      color: const Color(0xff09B778),
+                                      size: 6,
+                                    ),
+                                  ),
+                                  Text(
+                                    'online'.tr,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width -
+                                        space_28,
+                                    child: Text(
+                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})',
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5, 5, 5),
+                                    child: Icon(
+                                      Icons.circle,
+                                      color: const Color(0xffFF4D55),
+                                      size: 6,
+                                    ),
+                                  ),
+                                  Text(
+                                    'offline'.tr,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width -
+                                        space_28,
+                                    child: Text(
+                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})',
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                      /*    Row(
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(0, 0, space_2, 0),
@@ -171,29 +245,29 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ),
                         ],
                       ), */
-                            /*   SizedBox(height: space_2,),
+                      /*   SizedBox(height: space_2,),
                       NewRowTemplate(label: AppLocalizations.of(context)!.vehicleNumber , value: widget.truckData.truckNo),
                       SizedBox(height: space_2,),*/
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/box-truck.png',
-                                  width: 29,
-                                  height: 29,
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/box-truck.png',
+                            width: 29,
+                            height: 29,
+                          ),
+                          SizedBox(
+                            width: 13,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '${widget.truckno}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: black,
                                 ),
-                                SizedBox(
-                                  width: 13,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '${widget.truckData.truckNo}',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: black,
-                                      ),
-                                    ),
-                                    /*   Text(
+                              ),
+                              /*   Text(
                                 'time date ',
                                 style: TextStyle(
                                   fontSize: 10,
@@ -201,28 +275,21 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   ),
 
                               ),*/
-                                  ],
-                                ),
-                                Spacer(),
-                                Container(
+                            ],
+                          ),
+                          Spacer(),
+                          (widget.gpsData.speed > 2)
+                              ? Container(
                                   child: Column(
                                     children: [
-                                      (widget.gpsData.last.speed > 2)
-                                          ? Text(
-                                              "${(widget.gpsData.last.speed).round()} km/h",
-                                              style: TextStyle(
-                                                  color: liveasyGreen,
-                                                  fontSize: size_10,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight))
-                                          : Text(
-                                              "${(widget.gpsData.last.speed).round()} km/h",
-                                              style: TextStyle(
-                                                  color: red,
-                                                  fontSize: size_10,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)),
-                                      Text("${widget.status}",
+                                      Text(
+                                          "${(widget.gpsData.speed).round()} km/h",
+                                          style: TextStyle(
+                                              color: liveasyGreen,
+                                              fontSize: size_10,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)),
+                                      Text('running'.tr,
                                           // "Status",
                                           style: TextStyle(
                                               color: black,
@@ -231,112 +298,132 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                               fontWeight: regularWeight))
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 11,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.place_outlined,
-                                      color: const Color(0xFFCDCDCD),
-                                      size: 16,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Container(
-                                      width: 200,
-                                      child: Text(
-                                        "${widget.gpsData.last.address}",
-                                        maxLines: 3,
-                                        style: TextStyle(
-                                            color: black,
-                                            fontSize: 12,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: normalWeight),
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.info_outline,
-                                    size: 14,
-                                    color: const Color(0xFFCDCDCD),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text('truckTravelled'.tr,
-                                      // "Truck Travelled : ",
-                                      softWrap: true,
-                                      style: TextStyle(
-                                          color: black,
-                                          fontSize: size_6,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                  Text("$totalDistance " + 'kmToday'.tr,
-                                      // "km Today",
-                                      softWrap: true,
-                                      style: TextStyle(
-                                          color: black,
-                                          fontSize: size_6,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(26, 0, 0, 0),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/circle-outline-with-a-central-dot.png',
-                                    color: const Color(0xFFCDCDCD),
-                                    width: 12,
-                                    height: 12,
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text('ignition'.tr,
-                                      // 'Ignition  :',
-                                      style: TextStyle(
-                                          color: black,
-                                          fontSize: size_6,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: regularWeight)),
-                                  (widget.gpsData.last.ignition)
-                                      ? Text('on'.tr,
-                                          // "ON",
+                                )
+                              : Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          "${(widget.gpsData.speed).round()} km/h",
+                                          style: TextStyle(
+                                              color: red,
+                                              fontSize: size_10,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: regularWeight)),
+                                      Text('stopped'.tr,
+                                          // "Status",
                                           style: TextStyle(
                                               color: black,
                                               fontSize: size_6,
                                               fontStyle: FontStyle.normal,
                                               fontWeight: regularWeight))
-                                      : Text('off'.tr,
-                                          // "OFF",
-                                          style: TextStyle(
-                                              color: black,
-                                              fontSize: size_6,
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: regularWeight)),
-                                ],
+                                    ],
+                                  ),
+                                )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 11,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.place_outlined,
+                                color: const Color(0xFFCDCDCD),
+                                size: 16,
                               ),
+                              SizedBox(width: 8),
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  "${widget.gpsData.address}",
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      color: black,
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: normalWeight),
+                                ),
+                              ),
+                            ]),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.info_outline,
+                              size: 14,
+                              color: const Color(0xFFCDCDCD),
                             ),
+                            SizedBox(width: 8),
+                            Text('truckTravelled'.tr,
+                                // "Truck Travelled : ",
+                                softWrap: true,
+                                style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: regularWeight)),
+                            Text("$totalDistance " + 'kmToday'.tr,
+                                // "km Today",
+                                softWrap: true,
+                                style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: regularWeight)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(26, 0, 0, 0),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/circle-outline-with-a-central-dot.png',
+                              color: const Color(0xFFCDCDCD),
+                              width: 12,
+                              height: 12,
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text('ignition'.tr,
+                                // 'Ignition  :',
+                                style: TextStyle(
+                                    color: black,
+                                    fontSize: size_6,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: regularWeight)),
+                            (widget.gpsData.ignition)
+                                ? Text('on'.tr,
+                                    // "ON",
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight))
+                                : Text('off'.tr,
+                                    // "OFF",
+                                    style: TextStyle(
+                                        color: black,
+                                        fontSize: size_6,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: regularWeight)),
+                          ],
+                        ),
+                      ),
 
-                            /*       SizedBox(height: space_2,),
+                      /*       SizedBox(height: space_2,),
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -374,10 +461,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
                         ),
                       ),
                       */
-                          ],
-                        ),
-                      )
-                    : Container(
+                    ],
+                  ),
+                )
+                /*             : Container(
                         padding: EdgeInsets.all(space_3),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF7F8FA),
@@ -397,7 +484,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 Column(
                                   children: [
                                     Text(
-                                      '${widget.truckData.truckNo}',
+                                      '${widget.truckno}',
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: black,
@@ -432,7 +519,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   Container(
                                     width: 200,
                                     child: Text(
-                                      'buyGPS'.tr,
+                                    //  'buyGPS'.tr,
+                                    'Device is Offline',
                                       maxLines: 2,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
@@ -516,7 +604,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                           ],
                         ),
                       ),
-                /*  driver
+           */ /*  driver
                     ? Container(
                         padding: EdgeInsets.fromLTRB(23, 0, 7, 0),
                         child: Row(
@@ -598,9 +686,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   initfunction() async {
     var gpsRoute1 = await mapUtil.getTraccarSummary(
-        deviceId: widget.truckData.deviceId, from: from, to: to);
+        deviceId: widget.gpsData.deviceId, from: from, to: to);
     setState(() {
       totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
     });
+    print('in init');
   }
 }
