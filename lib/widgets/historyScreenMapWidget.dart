@@ -548,7 +548,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                   ),
                   CustomInfoWindow(
                     controller: _customInfoWindowController,
-                    height: 110,
+                    height: 120,
                     width: 275,
                     offset: 30,
                   ),
