@@ -32,10 +32,10 @@ Future<String?> runTransporterApiPost(
         : {"phoneNo": mobileNum};
     String body = json.encode(data);
     final response = await http.post(Uri.parse(transporterApiUrl),
-        // headers: <String, String>{
-        //   'Content-Type': 'application/json; charset=UTF-8',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
         // HttpHeaders.authorizationHeader: firebaseToken!
-        // },
+        },
         body: body);
 
     FirebaseMessaging.instance.getToken().then((value) {
