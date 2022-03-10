@@ -97,7 +97,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                         //print("THE ITEMS $items");
                       },
                       autofocus: true,
-                      //keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.number,
                       controller: editingController,
                       textAlignVertical: TextAlignVertical.center,
                       textAlign: TextAlign.start,
