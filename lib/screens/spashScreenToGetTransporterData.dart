@@ -10,6 +10,7 @@ import 'package:liveasy/screens/navigationScreen.dart';
 
 class SplashScreenToGetTransporterData extends StatefulWidget {
   final String mobileNum;
+
   SplashScreenToGetTransporterData({required this.mobileNum});
 
   @override
@@ -22,6 +23,7 @@ class _SplashScreenToGetTransporterDataState
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
   TransporterIdController transporterIdController =
       Get.put(TransporterIdController(), permanent: true);
+
   @override
   void initState() {
     super.initState();
@@ -37,12 +39,12 @@ class _SplashScreenToGetTransporterDataState
     String? name;
     String? companyName;
 
-    // String? transporterId =
-    //     await runTransporterApiPost(mobileNum: widget.mobileNum);
-    //old method commented
-    String? transporterId = tidstorage.read("transporterId");
+    String? transporterId =
+        await runTransporterApiPost(mobileNum: widget.mobileNum);
 
-    runTransporterApiPost(mobileNum: widget.mobileNum);
+    // String? transporterId = tidstorage.read("transporterId");
+    // runTransporterApiPost(mobileNum: widget.mobileNum);
+
     if (transporterId != null) {
       Timer(Duration(milliseconds: 1200),
           () => Get.off(() => NavigationScreen()));
