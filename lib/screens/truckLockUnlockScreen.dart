@@ -48,7 +48,6 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
     // TODO: implement initState
     super.initState();
     lockState = lockStorage.read('lockState');
-    print("YASH");
   }
 
   @override
@@ -123,7 +122,8 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                     text: "Lock".tr,
                                     style: TextStyle(fontWeight: boldWeight)),
                                 TextSpan(
-                                    text: " krne ke liye button press kijiye!".tr,
+                                    text:
+                                        " krne ke liye button press kijiye!".tr,
                                     style: TextStyle(fontSize: 18)),
                               ]),
                           textAlign: TextAlign.center,
@@ -176,7 +176,8 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                     text: "unlock".tr,
                                     style: TextStyle(fontWeight: boldWeight)),
                                 TextSpan(
-                                    text: " krne ke liye button press kijiye!".tr,
+                                    text:
+                                        " krne ke liye button press kijiye!".tr,
                                     style: TextStyle(fontSize: 18)),
                               ]),
                           textAlign: TextAlign.center,
