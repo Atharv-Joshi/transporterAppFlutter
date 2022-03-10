@@ -1,23 +1,26 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/traccarCalls/createTraccarUserAndNotifications.dart';
 
 GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
 Future<String?> runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
   try {
-    var mUser = FirebaseAuth.instance.currentUser;
-    String? firebaseToken;
-    await mUser!.getIdToken(true).then((value) {
-      // log(value);
-      firebaseToken = value;
-    });
+    // var mUser = FirebaseAuth.instance.currentUser;
+    // String? firebaseToken;
+    // await mUser!.getIdToken(true).then((value) {
+    //   // log(value);
+    //   firebaseToken = value;
+    // });
 
     TransporterIdController transporterIdController =
         Get.put(TransporterIdController(), permanent: true);
@@ -31,12 +34,17 @@ Future<String?> runTransporterApiPost(
     final response = await http.post(Uri.parse(transporterApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          HttpHeaders.authorizationHeader: firebaseToken!
+        // HttpHeaders.authorizationHeader: firebaseToken!
         },
         body: body);
-    print("Url is $transporterApiUrl");
-    print("Body is $body");
-    print(response.body);
+
+    FirebaseMessaging.instance.getToken().then((value) {
+      if (value != null) {
+        log("firebase registration token =========> " + value);
+      }
+      createTraccarUserAndNotifications(value, mobileNum);
+    });
+
     if (response.statusCode == 201) {
       var decodedResponse = json.decode(response.body);
       if (decodedResponse["transporterId"] != null) {
