@@ -81,3 +81,46 @@ Future<String> postCommandsApi(
     return "Error Occurred";
   }
 }
+
+Future<String> getCommandsResultApi(
+  int? deviceId,
+  var timeNow,
+) async {
+  var timeCurrent = DateTime.now().toIso8601String();
+  print("Current time $timeNow");
+  print("TO time $timeCurrent");
+  try {
+    http.Response response = await http.get(
+      Uri.parse(
+          "$traccarApi/reports/events?from=${timeNow}Z&to=${timeCurrent}Z&deviceId=$deviceId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': basicAuth,
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    var jsonData = await jsonDecode(response.body);
+    print("The DATA FROM EVENTS $jsonData");
+    var store;
+    if (response.statusCode == 200) {
+      print(response.body);
+      for (var json in jsonData) {
+        store = json["attributes"]["result"];
+      }
+      print("THE STORE IS $store");
+      if (store == "Restore fuel supply:Success!") {
+        print("Restore fuel success");
+      } else if (store == "Cut off the fuel supply: Success!") {
+        print("Cutoff supply successful");
+      }
+      return "Success";
+    } else {
+      return "null";
+    }
+  } catch (e) {
+    print("Error is $e");
+    Get.snackbar("Error", "$e", snackPosition: SnackPosition.BOTTOM);
+    return "Error Occurred";
+  }
+}
