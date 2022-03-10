@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
@@ -118,25 +115,6 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                   .then((uploadstatus) async {
                                 if (uploadstatus == "Success") {
                                   print("SENT UNLOCK TO DEVICE");
-                                  EasyLoading.instance
-                                    ..indicatorType =
-                                        EasyLoadingIndicatorType.ring
-                                    ..indicatorSize = 45.0
-                                    ..radius = 10.0
-                                    ..maskColor = darkBlueColor
-                                    ..userInteractions = false
-                                    ..backgroundColor = darkBlueColor
-                                    ..dismissOnTap = false;
-                                  EasyLoading.show(
-                                    status: "Loading...",
-                                  );
-                                  var timeNow =
-                                      DateTime.now().toIso8601String();
-                                  Timer(Duration(seconds: 15), () {
-                                    getCommandsResultApi(
-                                        widget.deviceId, timeNow);
-                                    EasyLoading.dismiss();
-                                  });
                                   lockState = true;
                                   lockStorage.write('lockState', lockState);
                                 } else {

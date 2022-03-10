@@ -29,8 +29,8 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
   TextEditingController editingController = TextEditingController();
   var dummySearchList = [];
   var gpsDataList = [];
- // var truckDataList = [];
- var deviceList = [];
+  // var truckDataList = [];
+  var deviceList = [];
   var status = [];
   var items = [];
 
@@ -97,7 +97,7 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                         //print("THE ITEMS $items");
                       },
                       autofocus: true,
-                      keyboardType: TextInputType.number,
+                      //keyboardType: TextInputType.number,
                       controller: editingController,
                       textAlignVertical: TextAlignVertical.center,
                       textAlign: TextAlign.start,
@@ -129,10 +129,10 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
                       itemBuilder: (context, index) => index == items.length
                           ? bottomProgressBarIndicatorWidget()
                           : MyTruckCard(
-                              truckno: deviceList[index].truckno,
+                              truckno: items[index].truckno,
                               status: status[index],
                               gpsData: gpsDataList[index],
-                              device: deviceList[index],
+                              device: items[index],
                             )),
                 ),
               ],
@@ -153,11 +153,11 @@ class _MyTrucksResultState extends State<MyTrucksResult> {
       var dummyGpsData = [];
       var dummyStatusData = [];
       for (var i = 0; i < dummySearchList.length; i++) {
-        //print("FOREACH");
-        if ((dummySearchList[i].truckNo.replaceAll(' ', '')).contains(query) ||
-            (dummySearchList[i].truckNo).contains(query)) {
+        print("FOREACH ${dummySearchList[i].truckno}");
+        if ((dummySearchList[i].truckno.replaceAll(' ', '')).contains(query) ||
+            (dummySearchList[i].truckno).contains(query)) {
           print("INSIDE IF");
-          print("${dummySearchList[i]}");
+          print("THE SEARCHHH IS ${dummySearchList[i].truckno}");
           dummyListData.add(dummySearchList[i]);
           dummyGpsData.add(widget.gpsDataList[i]);
           dummyStatusData.add(widget.status[i]);
