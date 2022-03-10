@@ -751,16 +751,7 @@ class _MyTrucksState extends State<MyTrucks> {
   }
 
   getStoppedSince(var gpsData, int i, var device) async {
-    if (device.status == 'offline') {
-      StoppedStat.removeAt(i);
-      StoppedStat.insert(i, "Offline");
-
-      runningStat.removeAt(i);
-      runningStat.insert(i, "Offline");
-
-      stat.removeAt(i);
-      stat.insert(i, "Offline");
-    } else {
+    if (device.status == 'online') {
       StoppedStat.removeAt(i);
       StoppedStat.insert(i, "Online");
 
@@ -769,6 +760,17 @@ class _MyTrucksState extends State<MyTrucks> {
 
       stat.removeAt(i);
       stat.insert(i, "Online");
+     
+      
+    } else {
+      StoppedStat.removeAt(i);
+      StoppedStat.insert(i, "Offline");
+
+      runningStat.removeAt(i);
+      runningStat.insert(i, "Offline");
+
+      stat.removeAt(i);
+      stat.insert(i, "Offline");
     }
     /*   if (gpsData.motion == false) {
       StoppedStat.removeAt(i);
