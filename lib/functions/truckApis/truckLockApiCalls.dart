@@ -12,7 +12,7 @@ import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart';
 
 TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+    Get.find<TransporterIdController>();
 String? traccarUser = transporterIdController.mobileNum.value;
 String traccarPass = FlutterConfig.get("traccarPass");
 String traccarApi = FlutterConfig.get("traccarApi");
