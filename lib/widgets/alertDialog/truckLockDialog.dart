@@ -65,14 +65,14 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text("Kya aap pakka truck ko ${widget.value} karna chahte hai?",
+                Text("Kya aap pakka truck ko ${widget.value} karna chahte hai?".tr,
                     style: TextStyle(fontSize: 20, fontWeight: boldWeight),
                     textAlign: TextAlign.center),
                 SizedBox(
                   height: 15,
                 ),
                 Text(
-                  "Aapke lock karne tak truck unlock hi rahega",
+                  "Aapke lock karne tak truck unlock hi rahega".tr,
                   style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
@@ -92,7 +92,7 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                       borderRadius: BorderRadius.circular(18.0),
                                       side: BorderSide(color: darkBlueColor)))),
                           child: Text(
-                            "${widget.value}",
+                            "${widget.value}".tr,
                             // AppLocalizations.of(context)!.next,
                             style: TextStyle(
                               color: white,
