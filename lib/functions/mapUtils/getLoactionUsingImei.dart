@@ -10,20 +10,17 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
 import 'package:geocoding/geocoding.dart';
 
-
 String traccarPass = FlutterConfig.get("traccarPass");
 String? current_lang;
 TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+    Get.find<TransporterIdController>();
 String? traccarUser = transporterIdController.mobileNum.value;
-
 
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
   String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
   String traccarApi = FlutterConfig.get("traccarApi");
-  
-  
+
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 
@@ -34,8 +31,7 @@ class MapUtil {
     try {
       print("inside device");
       print(traccarUser);
-      http.Response response = await http.get(
-          Uri.parse("$traccarApi/devices"),
+      http.Response response = await http.get(Uri.parse("$traccarApi/devices"),
           headers: <String, String>{
             'authorization': basicAuth,
             'Accept': 'application/json'
@@ -49,16 +45,13 @@ class MapUtil {
         for (var json in jsonData) {
           DeviceModel devicemodel = new DeviceModel();
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
-          devicemodel.deviceId =
-              json["id"] != null ? json["id"] : 0;
-          devicemodel.truckno =
-              json["name"] != null ? json["name"] : 'NA';
-          devicemodel.imei =
-              json["uniqueId"] != null ? json["uniqueId"] : 'NA';
+          devicemodel.deviceId = json["id"] != null ? json["id"] : 0;
+          devicemodel.truckno = json["name"] != null ? json["name"] : 'NA';
+          devicemodel.imei = json["uniqueId"] != null ? json["uniqueId"] : 'NA';
           devicemodel.status = json["status"] != null ? json["status"] : 'NA';
-          devicemodel.lastUpdate = json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
-          
-              
+          devicemodel.lastUpdate =
+              json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
+
           devicesList.add(devicemodel);
         }
         return devicesList;
@@ -70,20 +63,19 @@ class MapUtil {
       return null;
     }
   }
-  
+
   getTraccarPositionforAll() async {
     try {
       print(traccarUser);
-      http.Response response = await http.get(
-          Uri.parse("$traccarApi/positions"),
-          headers: <String, String>{
-            'authorization': basicAuth,
-            'Accept': 'application/json'
-          });
+      http.Response response = await http
+          .get(Uri.parse("$traccarApi/positions"), headers: <String, String>{
+        'authorization': basicAuth,
+        'Accept': 'application/json'
+      });
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
-      print(response.body);
+      print("BODY IS${response.body}");
       var LatLongList = [];
       if (response.statusCode == 200) {
         for (var json in jsonData) {
@@ -91,6 +83,9 @@ class MapUtil {
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
           gpsDataModel.deviceId =
               json["deviceId"] != null ? json["deviceId"] : 'NA';
+          gpsDataModel.rssi = json["attributes"]["rssi"] != null
+              ? json["attributes"]["rssi"]
+              : 0;
           gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           gpsDataModel.longitude =
@@ -107,7 +102,8 @@ class MapUtil {
           gpsDataModel.ignition = json["attributes"]["ignition"] != null
               ? json["attributes"]["ignition"]
               : false;
-          gpsDataModel.speed = json["speed"] != null ? json["speed"]*1.85 : 'NA';
+          gpsDataModel.speed =
+              json["speed"] != null ? json["speed"] * 1.85 : 'NA';
           gpsDataModel.course = json["course"] != null ? json["course"] : 'NA';
           gpsDataModel.deviceTime =
               json["deviceTime"] != null ? json["deviceTime"] : 'NA';
@@ -120,39 +116,36 @@ class MapUtil {
               json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude =
               json["longitude"] != null ? json["longitude"] : 0;
-              String? addressstring;
-              try
-              {
-          List<Placemark> newPlace;
-          current_lang = LocalizationService().getCurrentLang();
-          if (current_lang == 'Hindi') {
-            newPlace = await placemarkFromCoordinates(latn, lngn,
-                localeIdentifier: "hi_IN");
-          } else {
-            newPlace = await placemarkFromCoordinates(latn, lngn,
-                localeIdentifier: "en_US");
+          String? addressstring;
+          try {
+            List<Placemark> newPlace;
+            current_lang = LocalizationService().getCurrentLang();
+            if (current_lang == 'Hindi') {
+              newPlace = await placemarkFromCoordinates(latn, lngn,
+                  localeIdentifier: "hi_IN");
+            } else {
+              newPlace = await placemarkFromCoordinates(latn, lngn,
+                  localeIdentifier: "en_US");
+            }
+            var first = newPlace.first;
+
+            if (first.subLocality == "")
+              addressstring =
+                  " ${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            else if (first.locality == "")
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            else if (first.administrativeArea == "")
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
+            else
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            print("ADD $addressstring");
+          } catch (e) {
+            print(e);
+            addressstring = "";
           }
-          var first = newPlace.first;
-          
-          if (first.subLocality == "")
-            addressstring =
-                " ${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          else if (first.locality == "")
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          else if (first.administrativeArea == "")
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
-          else
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          print("ADD $addressstring");
-              }
-              catch(e)
-              {
-                print(e);
-                addressstring = "";
-              }
           gpsDataModel.address = "$addressstring";
           LatLongList.add(gpsDataModel);
         }
@@ -175,7 +168,7 @@ class MapUtil {
             'Accept': 'application/json'
           });
       print(response.statusCode);
-      print(response.body);
+      print("BODY IS${response.body}");
       var jsonData = await jsonDecode(response.body);
       print(response.body);
       var LatLongList = [];
@@ -185,6 +178,9 @@ class MapUtil {
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
           gpsDataModel.deviceId =
               json["deviceId"] != null ? json["deviceId"] : 'NA';
+          gpsDataModel.rssi = json["attributes"]["rssi"] != null
+              ? json["attributes"]["rssi"]
+              : 0;
           gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           gpsDataModel.longitude =
@@ -201,7 +197,8 @@ class MapUtil {
           gpsDataModel.ignition = json["attributes"]["ignition"] != null
               ? json["attributes"]["ignition"]
               : false;
-          gpsDataModel.speed = json["speed"] != null ? json["speed"]*1.85 : 'NA';
+          gpsDataModel.speed =
+              json["speed"] != null ? json["speed"] * 1.85 : 'NA';
           gpsDataModel.course = json["course"] != null ? json["course"] : 'NA';
           gpsDataModel.deviceTime =
               json["deviceTime"] != null ? json["deviceTime"] : 'NA';
@@ -214,39 +211,36 @@ class MapUtil {
               json["latitude"] != null ? json["latitude"] : 0;
           var lngn = gpsDataModel.longitude =
               json["longitude"] != null ? json["longitude"] : 0;
-              String? addressstring;
-              try
-              {
-          List<Placemark> newPlace;
-          current_lang = LocalizationService().getCurrentLang();
-          if (current_lang == 'Hindi') {
-            newPlace = await placemarkFromCoordinates(latn, lngn,
-                localeIdentifier: "hi_IN");
-          } else {
-            newPlace = await placemarkFromCoordinates(latn, lngn,
-                localeIdentifier: "en_US");
+          String? addressstring;
+          try {
+            List<Placemark> newPlace;
+            current_lang = LocalizationService().getCurrentLang();
+            if (current_lang == 'Hindi') {
+              newPlace = await placemarkFromCoordinates(latn, lngn,
+                  localeIdentifier: "hi_IN");
+            } else {
+              newPlace = await placemarkFromCoordinates(latn, lngn,
+                  localeIdentifier: "en_US");
+            }
+            var first = newPlace.first;
+
+            if (first.subLocality == "")
+              addressstring =
+                  "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            else if (first.locality == "")
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            else if (first.administrativeArea == "")
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
+            else
+              addressstring =
+                  "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+            print("ADD $addressstring");
+          } catch (e) {
+            print(e);
+            addressstring = "";
           }
-          var first = newPlace.first;
-          
-          if (first.subLocality == "")
-            addressstring =
-                "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          else if (first.locality == "")
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          else if (first.administrativeArea == "")
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
-          else
-            addressstring =
-                "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          print("ADD $addressstring");
-              }
-              catch(e)
-              {
-                print(e);
-                addressstring = "";
-              }
           gpsDataModel.address = "$addressstring";
           LatLongList.add(gpsDataModel);
         }
@@ -289,6 +283,7 @@ class MapUtil {
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
           gpsDataModel.deviceId =
               json["deviceId"] != null ? json["deviceId"] : 'NA';
+
           gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           gpsDataModel.longitude =

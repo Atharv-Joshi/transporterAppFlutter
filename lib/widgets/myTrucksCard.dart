@@ -61,6 +61,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   @override
   Widget build(BuildContext context) {
+    var rssi;
     // driver = widget.truckData.driverName != 'NA' ? true : false;
     /*   String truckType = truckFilterVariables.truckTypeValueList
             .contains(widget.truckData.truckType)
@@ -74,6 +75,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
       'Busy': Colors.red,
       'Offline': unselectedGrey,
     };
+
+    if (widget.gpsData.rssi != null) {
+      rssi = widget.gpsData.rssi;
+    }
 
     if (widget.status == 'Online') {
       online = true;
@@ -166,7 +171,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0,5,5,5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5, 5, 5),
                                     child: Icon(
                                       Icons.circle,
                                       color: const Color(0xff09B778),
@@ -419,6 +425,47 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         fontSize: size_6,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: regularWeight)),
+                            Spacer(),
+                            Container(
+                                height: 30,
+                                width: 30,
+                                alignment: Alignment.centerLeft,
+                                child: (widget.gpsData.rssi == 0)
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        child: Text("-",
+                                            style: TextStyle(
+                                                color: red,
+                                                fontSize: 30,
+                                                fontStyle: FontStyle.normal,
+                                                fontWeight: regularWeight)),
+                                      )
+                                    : (widget.gpsData.rssi == 1 ||
+                                            widget.gpsData.rssi == 2)
+                                        ? Image(
+                                            image: AssetImage(
+                                                "assets/icons/signalIconOne.png"),
+                                          )
+                                        : (widget.gpsData.rssi == 3)
+                                            ? Image(
+                                                image: AssetImage(
+                                                    "assets/icons/signalIconTwo.png"),
+                                              )
+                                            : (widget.gpsData.rssi == 4 ||
+                                                    widget.gpsData.rssi == 5)
+                                                ? Image(
+                                                    image: AssetImage(
+                                                        "assets/icons/signalIconThree.png"),
+                                                  )
+                                                : Container())
+                            //print(" ");
+
+                            // Text("${widget.gpsData.rssi}",
+                            //     style: TextStyle(
+                            //         color: red,
+                            //         fontSize: size_10,
+                            //         fontStyle: FontStyle.normal,
+                            //         fontWeight: regularWeight)),
                           ],
                         ),
                       ),
