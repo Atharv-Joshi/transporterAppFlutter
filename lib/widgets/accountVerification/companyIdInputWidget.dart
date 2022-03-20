@@ -8,11 +8,26 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getImageFromCamera.dart';
 import 'package:liveasy/widgets/accountVerification/roundedImageDisplay.dart';
 
+import '../../constants/radius.dart';
+import 'image_display.dart';
+
 // ignore: must_be_immutable
-class CompanyIdInputWidget extends StatelessWidget {
+class CompanyIdInputWidget extends StatefulWidget {
   var providerData;
 
   CompanyIdInputWidget({this.providerData});
+
+  @override
+  State<CompanyIdInputWidget> createState() => _CompanyIdInputWidgetState();
+}
+
+class _CompanyIdInputWidgetState extends State<CompanyIdInputWidget> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +54,54 @@ class CompanyIdInputWidget extends StatelessWidget {
               SizedBox(
                 height: space_4,
               ),
-              Center(
-                child: RoundedImageDisplay(
-                  text: "",
-                  onPressed: () {
-                    showPicker(
-                        providerData.updateCompanyIdProofPhoto,
-                        providerData.updateCompanyIdProofPhotoStr,
-                        context
-                    );
-                  },
-                  imageFile: providerData.companyIdProofPhotoFile,
-                ),
+              Stack(
+                children: [
+                  Center(
+                    child: RoundedImageDisplay(
+                      text: "",
+                      onPressed: () {
+                        widget.providerData.companyIdProofPhotoFile!=null?
+                        Get.to(ImageDisplay(providerData: widget.providerData.companyIdProofPhotoFile,imageName: 'companyIdProofPhoto64',))
+                            :showPicker(
+                            widget.providerData.updateCompanyIdProofPhoto,
+                            widget.providerData.updateCompanyIdProofPhotoStr,
+                            context
+                        );
+                      },
+                      imageFile: widget.providerData.companyIdProofPhotoFile,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: widget.providerData.companyIdProofPhotoFile!=null?
+                    Container(
+                      margin: EdgeInsets.fromLTRB(space_22, 0, 0, space_1),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(radius_10),
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              widget.providerData.updateCompanyIdProofPhoto(null);
+                              widget.providerData.updateCompanyIdProofPhotoStr(null);
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(shape: BoxShape.rectangle),
+                            height: space_5,
+                            width: space_5,
+                            child: Center(
+                              child: Icon(
+                                Icons.clear,
+                                color: darkBlueColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ):Container(),
+                  ),
+
+                ],
               ),
             ],
           ),
