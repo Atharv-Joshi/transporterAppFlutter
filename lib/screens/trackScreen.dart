@@ -30,27 +30,27 @@ import 'package:get/get.dart';
 
 class TrackScreen extends StatefulWidget {
   final GpsDataModel gpsData;
-  final List gpsDataHistory;
-  final List gpsStoppageHistory;
-  final List routeHistory;
+//  final List gpsDataHistory;
+  // final List gpsStoppageHistory;
+//  final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
- // final String? driverNum;
- // final String? driverName;
- // final String? truckId;
+  // final String? driverNum;
+  // final String? driverName;
+  // final String? truckId;
   var totalDistance;
   var imei;
   TrackScreen(
       {required this.gpsData,
-      required this.gpsDataHistory,
-      required this.gpsStoppageHistory,
-      required this.routeHistory,
+      //  required this.gpsDataHistory,
+      //  required this.gpsStoppageHistory,
+      //  required this.routeHistory,
       // required this.position,
       required this.TruckNo,
-   //   this.driverName,
-    //  this.driverNum,
+      //   this.driverName,
+      //  this.driverNum,
       required this.deviceId,
-    //  required this.truckId,
+      //  required this.truckId,
       required this.totalDistance,
       this.imei});
 
@@ -91,7 +91,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   late List reversedList;
   MapUtil mapUtil = MapUtil();
   List<LatLng> latlng = [];
-
+  var istDate1;
+  var istDate2;
   List<LatLng> polylineCoordinates = [];
   List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
@@ -124,10 +125,14 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var selectedDateString = [];
   var maptype = MapType.normal;
   double zoom = 15;
+  bool zoombutton = false;
   bool showBottomMenu = true;
-  var totalRunningTime;
-  var totalStoppedTime;
+  var totalRunningTime = "";
+  double averagelat = 0;
+  double averagelon = 0;
+  var totalStoppedTime = "";
   var status;
+  bool loading = false;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
@@ -136,7 +141,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
   final lockStorage = GetStorage();
   var lockState;
-
+  var col1 = Color(0xff878787);
+  var col2 = Color(0xffFF5C00);
   //var Get;
 
   @override
@@ -144,15 +150,17 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
     from = yesterday.toIso8601String();
+    istDate1 = yesterday;
+    istDate2 = now;
+    loading = false;
     to = now.toIso8601String();
     print("device ID ${widget.deviceId}");
     newGPSData.add(widget.gpsData);
     try {
       initfunction();
+
       initfunction2();
-      getTruckHistory();
-      iconthenmarker();
-      zoomin();
+      EasyLoading.dismiss();
       logger.i("in init state function");
       lastlatLngMarker =
           LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
@@ -202,9 +210,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
   //function is called at the starting
   getTruckHistory() {
-    gpsDataHistory = widget.gpsDataHistory;
-    print("Gps data history length ${gpsDataHistory.length}");
-    gpsStoppageHistory = widget.gpsStoppageHistory;
+    // gpsDataHistory = widget.gpsDataHistory;
+
+    //  gpsStoppageHistory = widget.gpsStoppageHistory;
     // getStoppage(widget.gpsStoppageHistory);
     polylineCoordinates =
         getPoylineCoordinates(gpsDataHistory, polylineCoordinates);
@@ -246,11 +254,18 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   addstops(var gpsStoppage) async {
     var logger = Logger();
     logger.i("in addstops function");
+    averagelat = 0;
+    averagelon = 0;
     FutureGroup futureGroup = FutureGroup();
     for (int i = 0; i < gpsStoppage.length; i++) {
       var future = getStoppage(gpsStoppage[i], i);
+      averagelat += gpsStoppage[i].latitude as double;
+      averagelon += gpsStoppage[i].longitude as double;
       futureGroup.add(future);
     }
+    averagelat = averagelat / gpsStoppage.length;
+    averagelon = averagelon / gpsStoppage.length;
+
     futureGroup.close();
     await futureGroup.future;
     print("STOPS DONE __");
@@ -283,9 +298,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     latlong = LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
     stoplatlong = latlong;
     // }
-    stoppageTime = getStoppageTime(gpsStoppage);
-    // stopAddress = await getStoppageAddress(gpsStoppage);
-    duration = getStoppageDuration(gpsStoppage);
 
     // for(int i=0; i<stoplatlong.length; i++){
     markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
@@ -297,7 +309,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         //info window
         onTap: () async {
           stopAddress = await getStoppageAddress(gpsStoppage);
-
+          stoppageTime = getStoppageTime(gpsStoppage);
+          duration = getStoppageDuration(gpsStoppage);
           _customInfoWindowController.addInfoWindow!(
             getInfoWindow(duration, stoppageTime, stopAddress),
             stoplatlong,
@@ -339,18 +352,53 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     _addPolyLine();
   }
 
-  initfunction() {
+  initfunction() async {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..maskColor = darkBlueColor
+      ..userInteractions = false
+      ..backgroundColor = darkBlueColor
+      ..dismissOnTap = false;
+    EasyLoading.show(
+      status: "Loading...",
+    );
+    logger.i("It is in init function");
+    // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    var f = getDataHistory(widget.deviceId, from, to);
+    var s = getStoppageHistory(widget.deviceId, from, to);
+    //  var t = getRouteStatusList(widget.deviceId, from, to);
+    //   var gpsRoute = await t;
+    var newGpsDataHistory = await f;
+    var newGpsStoppageHistory = await s;
+    print("newGpsDataHistory $newGpsDataHistory");
+    print("newGpsStoppageHistory $newGpsStoppageHistory");
     setState(() {
-    //  newGPSData = widget.gpsData;
-      newGPSRoute = widget.routeHistory;
-      gpsStoppageHistory = widget.gpsStoppageHistory;
-      totalRunningTime = getTotalRunningTime(newGPSRoute);
-      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      newGPSData.add(widget.gpsData);
+      // newGPSRoute = gpsRoute;
+      gpsDataHistory = newGpsDataHistory;
+      gpsStoppageHistory = newGpsStoppageHistory;
+      selectedDate = DateTimeRange(start: istDate1, end: istDate2);
+      //  print("NEW ROute $newGPSRoute");
       totalDistance = widget.totalDistance;
-      status = getStatus(newGPSData, gpsStoppageHistory);
-      newGPSRoute = getStopList(newGPSRoute, yesterday, now);
+      //totalDistance = getTotalDistance(gpsRoute);
+      //  newGPSRoute = getStopList(newGPSRoute);
+      totalRunningTime =
+          getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
+      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
     });
+
     addstops(gpsStoppageHistory);
+
+    getTruckHistory();
+    iconthenmarker();
+    zoomin();
+    setState(() {
+      loading = true;
+    });
+
+    EasyLoading.dismiss();
   }
 
   Future<void> initfunction2() async {
@@ -363,68 +411,40 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   //called when clicked on custom button
   void initfunctionAfterChange() async {
     logger.i("It is in init function after change function");
-    var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
     var f = getDataHistory(newGPSData.last.deviceId, from, to);
     var s = getStoppageHistory(newGPSData.last.deviceId, from, to);
-    var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
-    distancecalculation(from,to);
-    var gpsData = await f1;
-    var gpsRoute = await t;
+    // var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
+    //  distancecalculation(from,to);
+    // var gpsData = await f1;
+    // var gpsRoute = await t;
     var newGpsDataHistory = await f;
     var newGpsStoppageHistory = await s;
     setState(() {
-      newGPSData = gpsData;
+      //  newGPSData = gpsData;
       // newGPSRoute = gpsRoute;
       gpsDataHistory = newGpsDataHistory;
       gpsStoppageHistory = newGpsStoppageHistory;
-      selectedDate = DateTimeRange(
-          start: DateTime.now().subtract(Duration(days: 1)),
-          end: DateTime.now());
-      print("NEW ROute $newGPSRoute");
+      selectedDate = DateTimeRange(start: istDate1, end: istDate2);
+      //   print("NEW ROute $newGPSRoute");
 
-      totalRunningTime = getTotalRunningTime(gpsRoute);
-      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      //  totalRunningTime = getTotalRunningTime(gpsRoute);
+      // totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       //totalDistance = getTotalDistance(gpsRoute);
       //  newGPSRoute = getStopList(newGPSRoute);
-      status = getStatus(newGPSData, gpsStoppageHistory);
+      // status = getStatus(newGPSData, gpsStoppageHistory);
     });
     addstops(gpsStoppageHistory);
     getTruckHistoryAfter();
+    iconthenmarker();
+    zoomin();
+    setState(() {
+      loading = true;
+    });
     EasyLoading.dismiss();
   }
 
   // function called every 45 minuts to get updated
-  void initfunctionAfter() async {
-    logger.i("It is in init function after function");
-    var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getDataHistory(newGPSData.last.deviceId, from, to);
-    var s = getStoppageHistory(newGPSData.last.deviceId, from, to);
-    var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
-    
-    var gpsData = await f1;
-    var gpsRoute = await t;
-    var newGpsDataHistory = await f;
-    var newGpsStoppageHistory = await s;
-    _selectedLocation = '24 hours';
-    setState(() {
-      newGPSData = gpsData;
-      newGPSRoute = gpsRoute;
-      gpsDataHistory = newGpsDataHistory;
-      gpsStoppageHistory = newGpsStoppageHistory;
-      selectedDate = DateTimeRange(
-          start: DateTime.now().subtract(Duration(days: 1)),
-          end: DateTime.now());
-      print("NEW ROute $newGPSRoute");
-
-      totalRunningTime = getTotalRunningTime(newGPSRoute);
-      totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-     // totalDistance = getTotalDistance(newGPSRoute);
-      newGPSRoute = getStopList(newGPSRoute, yesterday, now);
-      status = getStatus(newGPSData, gpsStoppageHistory);
-    });
-    distancecalculation(from,to);
-    addstops(gpsStoppageHistory);
-  }
 
   void iconthenmarker() {
     logger.i("in Icon maker function");
@@ -438,14 +458,14 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
             });
   }
 
-  //function called every five minute
+  //function called every forty five minute
   void onActivityExecuted() {
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
     customMarkers = [];
     polylines = {};
     logger.i("It is in Activity Executed function");
-    initfunctionAfter();
+    initfunctionAfterChange();
     getTruckHistoryAfter();
     iconthenmarker();
     zoomin();
@@ -481,7 +501,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       LatLng latLngMarker =
           LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
       print("Live location is ${newGPSData.last.latitude}");
-      print("hh");
+
       print("id ${newGPSData.last.deviceId.toString()}");
       String? title = widget.TruckNo;
       truckAddress = await getAddress(newGPSData);
@@ -520,14 +540,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       print("Exceptionis $e");
     }
   }
-  distancecalculation(String from,String to) async {
-    var gpsRoute1 = await mapUtil.getTraccarSummary(
-        deviceId: widget.gpsData.deviceId, from: from, to: to);
-    setState(() {
-      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
-    });
-    print('in init');
-  }
+
   customSelection(String? choice) async {
     String startTime = DateTime.now().subtract(Duration(days: 1)).toString();
     String endTime = DateTime.now().toString();
@@ -565,11 +578,10 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         });
         break;
     }
-    var istDate1;
-    var istDate2;
 
     setState(() {
       // bookingDateList[3] = (nextDay.MMMEd);
+      loading = false;
       istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(startTime)
           .subtract(Duration(hours: 5, minutes: 30));
@@ -640,6 +652,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     width: MediaQuery.of(context).size.width,
                     height: height,
                     child: Stack(children: <Widget>[
+                      // loading?
                       GoogleMap(
                         onTap: (position) {
                           _customInfoWindowController.hideInfoWindow!();
@@ -670,6 +683,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                           ),
                         ].toSet(),
                       ),
+                      //   :Container(),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
                         height: 110,
@@ -684,10 +698,72 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                       Positioned(
                         left: 10,
-                        top: MediaQuery.of(context).size.height/2,
-                        child: SizedBox(
-                          height: 40,
-                          child: FloatingActionButton(
+                        top: MediaQuery.of(context).size.height / 2,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 0.25,
+                              ),
+                            ),
+                            //  height: 40,
+                            child: Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: col2,
+                                      borderRadius: BorderRadius.horizontal(
+                                          left: Radius.circular(5)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color.fromRGBO(
+                                              0, 0, 0, 0.25),
+                                          offset: const Offset(
+                                            0,
+                                            4,
+                                          ),
+                                          blurRadius: 4,
+                                          spreadRadius: 0.0,
+                                        ),
+                                      ]),
+                                  child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          this.maptype = MapType.normal;
+                                          col1 = Color(0xff878787);
+                                          col2 = Color(0xffFF5C00);
+                                        });
+                                      },
+                                      child: Text(
+                                        'Map',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: col1,
+                                    borderRadius: BorderRadius.horizontal(
+                                        right: Radius.circular(5)),
+                                    //  border: Border.all(color: Colors.black),
+                                  ),
+                                  child: TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          this.maptype = MapType.satellite;
+                                          col2 = Color(0xff878787);
+                                          col1 = Color(0xffFF5C00);
+                                        });
+                                      },
+                                      child: Text('Satellite',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ))),
+                                )
+                              ],
+                            )
+                            /*        FloatingActionButton(
                             heroTag: "btn1",
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black,
@@ -701,7 +777,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                               });
                             },
                           ),
-                        ),
+                   */
+                            ),
                       ),
                       Positioned(
                         right: 10,
@@ -755,6 +832,56 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                       zoom: this.zoom,
                                     ),
                                   ));
+                            },
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        bottom: height / 2 + 150,
+                        child: SizedBox(
+                          height: 40,
+                          child: FloatingActionButton(
+                            heroTag: "btn4",
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            child: Container(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(
+                                'assets/icons/layers.png',
+                                width: 20,
+                                height: 20,
+                              ),
+                            )),
+                            onPressed: () {
+                              if (zoombutton) {
+                                setState(() {
+                                  this.zoom = 15;
+                                  zoombutton = false;
+                                });
+                                this._googleMapController.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        bearing: 0,
+                                        target: lastlatLngMarker,
+                                        zoom: this.zoom,
+                                      ),
+                                    ));
+                              } else {
+                                setState(() {
+                                  this.zoom = 12;
+                                  zoombutton = true;
+                                });
+                                this._googleMapController.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        bearing: 0,
+                                        target: LatLng(averagelat, averagelon),
+                                        zoom: this.zoom,
+                                      ),
+                                    ));
+                              }
                             },
                           ),
                         ),
@@ -837,6 +964,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                     ])),
               ),
+
               Positioned(
                   top: 0,
                   child: Container(
@@ -865,21 +993,20 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                   onSelected: (value) => {
                                         if (value == 1)
                                           {
-                                         //   print("THE DATA ${widget.truckId}"),
+                                            //   print("THE DATA ${widget.truckId}"),
                                             Get.to(TruckLockUnlock(
                                                 deviceId: widget.deviceId,
                                                 gpsData: newGPSData,
                                                 // position: position,
                                                 TruckNo: widget.TruckNo,
-                                             //   driverName: widget.driverName,
-                                             //   driverNum: widget.driverNum,
-                                                gpsDataHistory:
-                                                    widget.gpsDataHistory,
+                                                //   driverName: widget.driverName,
+                                                //   driverNum: widget.driverNum,
+                                                gpsDataHistory: gpsDataHistory,
                                                 gpsStoppageHistory:
-                                                    widget.gpsStoppageHistory,
-                                                routeHistory:
-                                                    widget.routeHistory))
-                                               // truckId: widget.truckId))
+                                                    gpsStoppageHistory))
+                                            //    routeHistory:
+                                            //       widget.routeHistory))
+                                            // truckId: widget.truckId))
                                             //   if (lockState == false)
                                             //     {
                                             //       Get.to(() => TruckLockScreen(
@@ -956,33 +1083,35 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                           ),
                         ),
                       ]))),
+              //   loading?
               AnimatedPositioned(
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
                 child: TrackScreenDetails(
-               //   driverName: widget.driverName,
+                  //   driverName: widget.driverName,
                   // truckDate: truckDate,
-                //  driverNum: widget.driverNum,
+                  //  driverNum: widget.driverNum,
                   gpsData: newGPSData,
-                  dateRange: selectedDate.toString(),
+                  dateRange: selectedDate,
                   TruckNo: widget.TruckNo,
-                  gpsTruckRoute: newGPSRoute,
+                  //  gpsTruckRoute: newGPSRoute,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
                   stops: stoplatlong,
                   totalRunningTime: totalRunningTime,
                   totalStoppedTime: totalStoppedTime,
-                //  truckId: widget.truckId,
+                  //  truckId: widget.truckId,
                   deviceId: widget.deviceId,
-                  totalDistance: totalDistance,
-                  recentStops: widget.gpsStoppageHistory,
+                  // totalDistance: totalDistance,
+                  recentStops: gpsStoppageHistory,
                   imei: widget.imei,
                   //    timer2: timer2,
                   //  timer3: timer,
                 ),
               )
+              //   :Container(),
             ],
           ),
         ),

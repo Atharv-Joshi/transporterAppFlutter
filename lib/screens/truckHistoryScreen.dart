@@ -14,21 +14,21 @@ import 'package:liveasy/widgets/historyScreenMapWidget.dart';
 import 'package:liveasy/widgets/truckHistoryStatus.dart';
 
 class TruckHistoryScreen extends StatefulWidget {
-  var gpsTruckRoute;
+//  var gpsTruckRoute;
   String? truckNo;
   String? dateRange;
   int? deviceId;
   var istDate1;
   var istDate2;
-
-  // var gpsDataHistory;
+  var gpsStoppageHistory;
+  var gpsDataHistory;
   String? selectedLocation;
   var totalDistance;
 
 //  double latitude;
   // double longitude;
   TruckHistoryScreen({
-    required this.gpsTruckRoute,
+    // required this.gpsTruckRoute,
     required this.truckNo,
     required this.dateRange,
     required this.deviceId,
@@ -37,6 +37,8 @@ class TruckHistoryScreen extends StatefulWidget {
     required this.istDate1,
     required this.istDate2,
     required this.totalDistance,
+    required this.gpsDataHistory,
+    required this.gpsStoppageHistory,
     //     required this.latitude,
     //    required this.longitude,
   });
@@ -48,6 +50,8 @@ class TruckHistoryScreen extends StatefulWidget {
 class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   var startTime;
   var endTime;
+  var gpsStoppageHistory;
+  var gpsDataHistory;
   MapUtil mapUtil = MapUtil();
   DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
   var gpsRoute = [];
@@ -87,9 +91,11 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     EasyLoading.show(
       status: "Loading...",
     );
+
+    // getgpsRoute();
     setState(() {
       print("istdate1 here ${widget.istDate1}");
-      gpsRoute = widget.gpsTruckRoute;
+      // gpsRoute = widget.gpsTruckRoute;
       dateRange = widget.dateRange;
       loading = true;
       istDate1 = widget.istDate1;
@@ -97,9 +103,14 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       //  gpsHistory = widget.gpsDataHistory;
       _selectedLocation = widget.selectedLocation;
       totalDistance = widget.totalDistance;
+      gpsDataHistory = widget.gpsDataHistory;
+      gpsStoppageHistory = widget.gpsStoppageHistory;
     });
+
+    initfunction();
     getDateRange();
-    getgpsDataHistory();
+    EasyLoading.dismiss();
+    // getgpsDataHistory();
     // getStopList();
   }
 
@@ -221,87 +232,19 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         status: "Loading...",
       );
       //get NEW ROUTE HISTORY using SELECTED DATE
-      var newRouteHistory = await getRouteStatusList(widget.deviceId,
-          istDate1.toIso8601String(), istDate2.toIso8601String());
-      print("AFter ${newRouteHistory.length}");
-      totalDistance = getTotalDistance(newRouteHistory);
-      newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
-      /*     int i=0;
-      var start;
-      var end;
-      var duration;
-      int length = newRouteHistory.length;
-      DateTime now = istDate2;
-      DateTime yesterday = istDate1;
-      if(length > 0)
-  {
-      var latitude = newRouteHistory[length -1].endLat;
-  var longitude = newRouteHistory[length -1].endLon;
-  bool la = false;
-  var lastStop = newRouteHistory[length -1].endTime;
-  DateTime nowDateFormat=
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
-      DateTime lastStopDateFormat =
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[length -1].endTime);
-  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
-  {
-    la = true;
-  }
-  print("GpsRoute Length ${length}");
-  while(i<newRouteHistory.length){
-    print("i $i");
-    if(i==0) {
-      DateTime st=
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(yesterday.toIso8601String());
-      DateTime en =
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[i].startTime);
-      print("from : $st and to : $en");
+      var a = getStoppageHistory(widget.deviceId, istDate1.toIso8601String(),
+          istDate2.toIso8601String());
+      var b = getDataHistory(widget.deviceId, istDate1.toIso8601String(),
+          istDate2.toIso8601String());
 
-      var diff = en.difference(st).inMinutes;
-      if(diff <=0)
-      {
-        i++;
-        start = getISOtoIST(newRouteHistory[i-1].endTime);
-        end = getISOtoIST(newRouteHistory[i].startTime);
-        duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
-      }
-
-      else{
-        start = getISOtoIST(yesterday.toIso8601String());
-
-      end = getISOtoIST(newRouteHistory[i].startTime);
-
-      duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
-      }
-
-      print("kk $duration");
-      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    }
-
-    else {
-      start = getISOtoIST(newRouteHistory[i - 1].endTime);
-      end = getISOtoIST(newRouteHistory[i].startTime);
-      duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
-      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    }
-    i = i+2;
-  }
-
-  if(la)
-  {
-    start = getISOtoIST(lastStop);
-    end = getISOtoIST(now.toIso8601String());
-    duration = getStopDuration(lastStop, now.toIso8601String());
-    newRouteHistory.insert(newRouteHistory.length, ["stopped", start, end, duration,latitude,longitude]);
-  }
-  print("With Stops $newRouteHistory");
- // gpsHistory = await getDataHistory(widget.deviceId, istDate1.toIso8601String(),  istDate2.toIso8601String());
-  }*/
-
-      if (newRouteHistory != null) {
+      var gpsDataHistory1 = await b;
+      var gpsStoppageHistory1 = await a;
+      distancecalculation(istDate1.toIso8601String(),
+          istDate2.toIso8601String());
+      if (gpsStoppageHistory != null) {
         setState(() {
-          gpsRoute = newRouteHistory;
-
+          gpsStoppageHistory = gpsStoppageHistory1;
+          gpsDataHistory = gpsDataHistory1;
           dateRange = selectedDate.toString();
         });
         Get.back();
@@ -309,7 +252,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         // getDateRange();
         Get.to(() => TruckHistoryScreen(
               truckNo: widget.truckNo,
-              gpsTruckRoute: gpsRoute,
+              //  gpsTruckRoute: gpsRoute,
               dateRange: dateRange,
               deviceId: widget.deviceId,
               istDate1: istDate1,
@@ -317,6 +260,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
               //   gpsDataHistory: gpsHistory,
               selectedLocation: widget.selectedLocation,
               totalDistance: totalDistance,
+              gpsDataHistory: gpsDataHistory,
+              gpsStoppageHistory: gpsStoppageHistory,
               //    latitude: widget.latitude,
               //    longitude: widget.longitude
             ));
@@ -326,187 +271,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
             context: context, builder: (context) => InvalidDateCondition());
         print("gps route null");
       }
-    }
-  }
-
-  customSelection(String? choice) async {
-    String startTime = DateTime.now().subtract(Duration(days: 1)).toString();
-    String endTime = DateTime.now().toString();
-    switch (choice) {
-      case '24 hours':
-        print("24");
-        setState(() {
-          endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 1)).toString();
-          print("NEW start $startTime and $endTime");
-        });
-        break;
-      case '48 hours':
-        print("48");
-        setState(() {
-          endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 2)).toString();
-          print("NEW start $startTime and $endTime");
-        });
-        break;
-      case '7 days':
-        print("7");
-        setState(() {
-          endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 7)).toString();
-          print("NEW start $startTime and $endTime");
-        });
-        break;
-      case '14 days':
-        print("14");
-        setState(() {
-          endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 14)).toString();
-          print("NEW start $startTime and $endTime");
-        });
-        break;
-      case '30 days':
-        print("30");
-        setState(() {
-          endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 30)).toString();
-          print("NEW start $startTime and $endTime");
-        });
-        break;
-    }
-    var istDate1;
-    var istDate2;
-
-    setState(() {
-      // bookingDateList[3] = (nextDay.MMMEd);
-      istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
-          .parse(startTime)
-          .subtract(Duration(hours: 5, minutes: 30));
-      istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
-          .parse(endTime)
-          .subtract(Duration(hours: 5, minutes: 30));
-      print(
-          "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
-    });
-    EasyLoading.instance
-      ..indicatorType = EasyLoadingIndicatorType.ring
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..maskColor = darkBlueColor
-      ..userInteractions = false
-      ..backgroundColor = darkBlueColor
-      ..dismissOnTap = false;
-    EasyLoading.show(
-      status: "Loading...",
-    );
-
-    //Run all APIs using new Date Range
-    var newRouteHistory = await getRouteStatusList(widget.deviceId,
-        istDate1.toIso8601String(), istDate2.toIso8601String());
-    totalDistance = getTotalDistance(newRouteHistory);
-    newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
-
-    /*  int i=0;
-  var start;
-  var end;
-  var duration;
-  int length = newRouteHistory.length;
-
-  DateTime yesterday = istDate1;
-  DateTime now = istDate2;
-  if(length > 0)
-  {
-      var latitude = newRouteHistory[length -1].endLat;
-  var longitude = newRouteHistory[length -1].endLon;
-  bool la = false;
-  var lastStop = newRouteHistory[length -1].endTime;
-  DateTime nowDateFormat=
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(now.toIso8601String());
-      DateTime lastStopDateFormat =
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[length -1].endTime);
-  if(lastStopDateFormat.compareTo(nowDateFormat) <=0)
-  {
-    la = true;
-  }
-  print("GpsRoute Length ${length}");
-  while(i<newRouteHistory.length){
-    print("i $i");
-    if(i==0) {
-      DateTime st=
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(yesterday.toIso8601String());
-      DateTime en =
-      new DateFormat("yyyy-MM-ddTHH:mm:ss").parse(newRouteHistory[i].startTime);
-      print("from : $st and to : $en");
-
-      var diff = en.difference(st).inMinutes;
-      if(diff <=0)
-      {
-        i++;
-        start = getISOtoIST(newRouteHistory[i-1].endTime);
-        end = getISOtoIST(newRouteHistory[i].startTime);
-        duration = getStopDuration(newRouteHistory[i-1].endTime, newRouteHistory[i].startTime);
-      }
-
-      else{
-        start = getISOtoIST(yesterday.toIso8601String());
-
-      end = getISOtoIST(newRouteHistory[i].startTime);
-
-      duration = getStopDuration(yesterday.toIso8601String(), newRouteHistory[i].startTime);
-      }
-
-      print("kk $duration");
-      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    }
-
-    else {
-      start = getISOtoIST(newRouteHistory[i - 1].endTime);
-      end = getISOtoIST(newRouteHistory[i].startTime);
-      duration = getStopDuration(newRouteHistory[i - 1].endTime, newRouteHistory[i].startTime);
-      newRouteHistory.insert(i, ["stopped", start, end, duration,newRouteHistory[i].latitude,newRouteHistory[i].longitude]);
-    }
-    i = i+2;
-  }
-
-  if(la)
-  {
-    start = getISOtoIST(lastStop);
-    end = getISOtoIST(now.toIso8601String());
-    duration = getStopDuration(lastStop, now.toIso8601String());
-    newRouteHistory.insert(newRouteHistory.length, ["stopped", start, end, duration,latitude,longitude]);
-  }
-  print("With Stops $newRouteHistory");
-  }*/
-    //   gpsHistory = await getDataHistory(widget.deviceId, istDate1.toIso8601String(),  istDate2.toIso8601String());
-    if (newRouteHistory != null) {
-      setState(() {
-        gpsRoute = newRouteHistory;
-        //   dateRange = selectedDate.toString();
-
-        // fromDate = yesterday.toString();
-        // toDate = today.toString();
-      });
-      // getLatLngList();
-      Get.back();
-      EasyLoading.dismiss();
-      Get.to(() => TruckHistoryScreen(
-            truckNo: widget.truckNo,
-            gpsTruckRoute: gpsRoute,
-            dateRange: dateRange,
-            deviceId: widget.deviceId,
-            istDate1: istDate1,
-            istDate2: istDate2,
-            //   gpsDataHistory: gpsHistory,
-            selectedLocation: _selectedLocation,
-            totalDistance: totalDistance,
-            //    latitude: widget.latitude,
-            //    longitude: widget.longitude
-          ));
-    } else {
-      EasyLoading.dismiss();
-      showDialog(
-          context: context, builder: (context) => InvalidDateCondition());
-      print("gps route null");
     }
   }
 
@@ -521,7 +285,13 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   void dispose() {
     super.dispose();
   }
-
+  distancecalculation(String from, String to) async {
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: widget.deviceId, from: from, to: to);
+    setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -556,10 +326,12 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                           //    driverName: widget.driverName,
                           // truckDate: truckDate,
                           routeHistory: gpsRoute,
-                          gpsHistory: gpsHistory,
+                          //  gpsHistory: gpsHistory,
                           truckNo: widget.truckNo,
                           deviceId: widget.deviceId,
                           selectedlocation: widget.selectedLocation,
+                          gpsDataHistory: widget.gpsDataHistory,
+                          gpsStoppageHistory: widget.gpsStoppageHistory,
                           //     driverNum: widget.driverNum,
                           //   gpsData: newGPSData,
                           // dateRange: selectedDate.toString(),
@@ -673,179 +445,179 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 4 +
-                                            40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffDFE3EF),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(6)),
-                                    ),
-                                    child: Row(children: [
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      9, 5, 0, 0),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  4,
-                                              child: Text(
-                                                "from".tr +":  ",
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xff545454),
-                                                    fontSize: size_5,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight:
-                                                        mediumBoldWeight),
-                                              ),
-                                            ),
-                                            Row(children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _selectDate(context);
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width /
+                                              4 +
+                                          40,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xffDFE3EF),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6)),
+                                      ),
+                                      child: Row(children: [
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
                                               Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        9, 5, 0, 0),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /
                                                     4,
-
-                                                /*   decoration: BoxDecoration(
-                                                       //     color: white,
-                                                            border:  Border.all(
-                                                              color: const Color(0xFF404040),
-                                                              width: 0.5,
-                                                            ),
-
-                                                            ),*/
-
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          9, 2, 0, 5),
-                                                  child: Text(
-                                                    "$startTime",
-                                                    style: TextStyle(
-                                                        color: const Color(
-                                                            0xff152968),
-                                                        fontSize: size_7,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
+                                                child: Text(
+                                                  "from".tr + ":  ",
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                          0xff545454),
+                                                      fontSize: size_5,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          mediumBoldWeight),
                                                 ),
                                               ),
-                                              /*   SizedBox(
-                                                        width:9,
-                                                      ),*/
-                                              /*  GestureDetector(
-                                                        onTap: (){
-                                                         _selectDate(context);
-                                                        },
-                                                        child: Icon(Icons.calendar_today_outlined,
-                                                        size: 16,
-                                                        ),
-                                                      )*/
+                                              Row(children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4,
+
+                                                  /*   decoration: BoxDecoration(
+                                                         //     color: white,
+                                                              border:  Border.all(
+                                                                color: const Color(0xFF404040),
+                                                                width: 0.5,
+                                                              ),
+                                  
+                                                              ),*/
+
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(9, 2, 0, 5),
+                                                    child: Text(
+                                                      "$startTime",
+                                                      style: TextStyle(
+                                                          color: const Color(
+                                                              0xff152968),
+                                                          fontSize: size_7,
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                                /*   SizedBox(
+                                                          width:9,
+                                                        ),*/
+                                                /*  GestureDetector(
+                                                          onTap: (){
+                                                           _selectDate(context);
+                                                          },
+                                                          child: Icon(Icons.calendar_today_outlined,
+                                                          size: 16,
+                                                          ),
+                                                        )*/
+                                              ]),
                                             ]),
-                                          ]),
-                                      Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _selectDate(context);
-                                        },
-                                        child: Icon(
+                                        Spacer(),
+                                        Icon(
                                           Icons.calendar_today_outlined,
                                           size: 16,
                                         ),
-                                      ),
-                                      Spacer(),
-                                    ]),
+                                        Spacer(),
+                                      ]),
+                                    ),
                                   ),
                                   Spacer(),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 4 +
-                                            40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffDFE3EF),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(6)),
-                                    ),
-                                    child: Row(children: [
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      9.0, 5, 0, 0),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  4,
-                                              child: Text(
-                                                "to".tr +": ",
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xff545454),
-                                                    fontSize: size_5,
-                                                    fontStyle: FontStyle.normal,
-                                                    fontWeight:
-                                                        mediumBoldWeight),
-                                              ),
-                                            ),
-                                            Row(children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      _selectDate(context);
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width /
+                                              4 +
+                                          40,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xffDFE3EF),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6)),
+                                      ),
+                                      child: Row(children: [
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
                                               Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        9.0, 5, 0, 0),
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /
                                                     4,
-
-                                                /*   decoration: BoxDecoration(
-                                                       //     color: white,
-                                                            border:  Border.all(
-                                                              color: const Color(0xFF404040),
-                                                              width: 0.5,
-                                                            ),
-
-                                                            ),*/
-
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          9, 2, 0, 5),
-                                                  child: Text(
-                                                    "$endTime",
-                                                    style: TextStyle(
-                                                        color: const Color(
-                                                            0xff152968),
-                                                        fontSize: size_7,
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
+                                                child: Text(
+                                                  "to".tr + ": ",
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                          0xff545454),
+                                                      fontSize: size_5,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontWeight:
+                                                          mediumBoldWeight),
                                                 ),
                                               ),
+                                              Row(children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4,
+
+                                                  /*   decoration: BoxDecoration(
+                                                         //     color: white,
+                                                              border:  Border.all(
+                                                                color: const Color(0xFF404040),
+                                                                width: 0.5,
+                                                              ),
+                                  
+                                                              ),*/
+
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(9, 2, 0, 5),
+                                                    child: Text(
+                                                      "$endTime",
+                                                      style: TextStyle(
+                                                          color: const Color(
+                                                              0xff152968),
+                                                          fontSize: size_7,
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
                                             ]),
-                                          ]),
-                                      Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _selectDate(context);
-                                        },
-                                        child: Icon(
+                                        Spacer(),
+                                        Icon(
                                           Icons.calendar_today_outlined,
                                           size: 16,
                                         ),
-                                      ),
-                                      Spacer(),
-                                    ]),
+                                        Spacer(),
+                                      ]),
+                                    ),
                                   ),
                                   Spacer(),
                                 ],
@@ -868,7 +640,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                                     width: space_1,
                                   ),
                                   Text(
-                                    '$totalDistance' +' km'.tr,
+                                    '$totalDistance' + ' km'.tr,
                                     style: TextStyle(
                                       fontSize: size_6,
                                       fontWeight: FontWeight.w700,
@@ -915,14 +687,19 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     );
   }
 
-  void getgpsDataHistory() async {
-    print("date here ${istDate1.toIso8601String()}");
-    var gpsHistory1 = await getDataHistory(widget.deviceId,
-        istDate1.toIso8601String(), istDate2.toIso8601String());
+  void initfunction() async {
+    var b = getRouteStatusList(widget.deviceId, istDate1.toIso8601String(),
+        istDate2.toIso8601String());
+    var gpsRoute2 = await b;
+  //  totalDistance = getTotalDistance(gpsRoute2);
+    gpsRoute2 = getStopList(gpsRoute2,gpsStoppageHistory, istDate1, istDate2);
+
     setState(() {
-      loading = false;
-      gpsHistory = gpsHistory1;
+      setState(() {
+        loading = false;
+        gpsRoute = gpsRoute2;
+      });
+      EasyLoading.dismiss();
     });
-    EasyLoading.dismiss();
   }
 }

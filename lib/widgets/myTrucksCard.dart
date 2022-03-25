@@ -43,6 +43,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   var gpsRoute;
   var totalDistance;
   var lastupdated;
+  var no_stoppages;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
 
@@ -94,58 +95,27 @@ class _MyTruckCardState extends State<MyTruckCard> {
       margin: EdgeInsets.only(bottom: space_2),
       child: GestureDetector(
         onTap: () async {
-          // if (loading) {
-          EasyLoading.instance
-            ..indicatorType = EasyLoadingIndicatorType.ring
-            ..indicatorSize = 45.0
-            ..radius = 10.0
-            ..maskColor = darkBlueColor
-            ..userInteractions = false
-            ..backgroundColor = darkBlueColor
-            ..dismissOnTap = false;
-          EasyLoading.show(
-            status: "Loading...",
-          );
-          // getTruckHistory();
-          print("clicked");
-          print(widget.gpsData.deviceId);
-
-          var f = getDataHistory(widget.gpsData.deviceId, from, to);
-          var s = getStoppageHistory(widget.gpsData.deviceId, from, to);
-          var t = getRouteStatusList(widget.gpsData.deviceId, from, to);
-
-          gpsDataHistory = await f;
-          gpsStoppageHistory = await s;
-          gpsRoute = await t;
-          print("done api");
-          print(gpsRoute);
-          print(gpsDataHistory);
-          print(gpsStoppageHistory);
-          if (gpsRoute != null &&
-              gpsDataHistory != null &&
-              gpsStoppageHistory != null) {
-            EasyLoading.dismiss();
-            print('here no');
+          
+          
             Get.to(
               TrackScreen(
                 deviceId: widget.gpsData.deviceId,
                 gpsData: widget.gpsData,
                 // position: position,
                 TruckNo: widget.truckno,
+              //  no_stoppages: no_stoppages,
                 //   driverName: widget.truckData.driverName,
                 //  driverNum: widget.truckData.driverNum,
-                gpsDataHistory: gpsDataHistory,
-                gpsStoppageHistory: gpsStoppageHistory,
-                routeHistory: gpsRoute,
+              //  gpsDataHistory: gpsDataHistory,
+              //  gpsStoppageHistory: gpsStoppageHistory,
+               // gpsRoute: gpsRoute,
+             //   routeHistory: gpsRoute,
                 //    truckId: widget.truckData.truckId,
                 totalDistance: totalDistance,
                 imei: widget.imei,
               ),
             );
-          } else {
-            EasyLoading.dismiss();
-            print("gpsData null or truck not approved");
-          }
+          
         },
         child: Card(
           elevation: 5,
@@ -166,7 +136,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0,5,5,5),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5, 5, 5),
                                     child: Icon(
                                       Icons.circle,
                                       color: const Color(0xff09B778),
@@ -278,7 +249,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                             ],
                           ),
                           Spacer(),
-                          (widget.gpsData.speed > 2)
+                          (widget.gpsData.speed > 5)
                               ? Container(
                                   child: Column(
                                     children: [
@@ -303,7 +274,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                   child: Column(
                                     children: [
                                       Text(
-                                          "${(widget.gpsData.speed).round()} km/h",
+                                          "0 km/h",
                                           style: TextStyle(
                                               color: red,
                                               fontSize: size_10,

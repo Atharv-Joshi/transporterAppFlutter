@@ -15,7 +15,7 @@ String traccarPass = FlutterConfig.get("traccarPass");
 String? current_lang;
 TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-String? traccarUser = transporterIdController.mobileNum.value;
+String traccarUser = transporterIdController.mobileNum.value;
 
 
 class MapUtil {

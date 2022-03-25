@@ -82,25 +82,22 @@ class _MyTrucksState extends State<MyTrucks> {
   void initState() {
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
-    FutureGroup futureGroup = FutureGroup();
+   // FutureGroup futureGroup = FutureGroup();
     super.initState();
     setState(() {
       loading = true;
     });
-    var f1 = getMyTruckPosition();
-    var f2 = getMyDevices(i);
+    getMyTruckPosition();
+   // var f2 = getMyDevices(i);
 
-    futureGroup.add(f1);
-    futureGroup.add(f2);
-
-    futureGroup.close();
-    scrollController.addListener(() {
+    
+   /* scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         i = i + 1;
         getMyDevices(i);
       }
-    });
+    });*/
   }
 
   @override
@@ -576,7 +573,7 @@ class _MyTrucksState extends State<MyTrucks> {
     );
   } //build
 
-  getMyDevices(int i) async {
+ /* getMyDevices(int i) async {
     var devices = await mapUtil.getDevices();
     trucklist.clear();
     devicelist.clear();
@@ -587,12 +584,22 @@ class _MyTrucksState extends State<MyTrucks> {
       });
     }
   }
-
+*/
   getMyTruckPosition() async {
     //   FutureGroup futureGroup = FutureGroup();
 
-    var devices = await mapUtil.getDevices();
-
+    var a =  mapUtil.getDevices();
+    var b =  mapUtil.getTraccarPositionforAll();
+    var devices = await a;
+    var  gpsDataAll = await b;
+    trucklist.clear();
+    devicelist.clear();
+    for (var device in devices) {
+      setState(() {
+        trucklist.add(device.truckno);
+        devicelist.add(device);
+      });
+    }
     print("total devices for me are ${devices.length}");
 
     setState(() {
@@ -625,7 +632,7 @@ class _MyTrucksState extends State<MyTrucks> {
     futureGroup.close();
     await futureGroup.future; */ //Fire all APIs at once (not one after the other)
 
-    var gpsDataAll = await mapUtil.getTraccarPositionforAll();
+    
     for (int i = 0; i < gpsDataAll.length; i++) {
       print("DeviceId is ${devices[i].deviceId} for ${devices[i].truckno}");
 
