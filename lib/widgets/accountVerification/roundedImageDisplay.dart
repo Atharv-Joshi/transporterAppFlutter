@@ -57,7 +57,7 @@ class RoundedImageDisplay extends StatelessWidget {
                 )
               : Center(
                   child: Text(
-                    "Tap to refresh",
+                    "Tap to Open",
                     style: TextStyle(fontSize: size_6, color: liveasyGreen),
                   ),
                 ),

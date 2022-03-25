@@ -13,6 +13,8 @@ import 'package:liveasy/widgets/accountVerification/profilePhoto.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/accountVerification/image_display.dart';
+
 class AccountVerificationPage1 extends StatefulWidget {
   @override
   _AccountVerificationPage1State createState() =>
@@ -52,7 +54,9 @@ class _AccountVerificationPage1State extends State<AccountVerificationPage1> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
-                    showPicker(providerData.updateProfilePhoto,
+                    providerData.profilePhotoFile!=null?
+                    Get.to(ImageDisplay(providerData: providerData.profilePhotoFile,imageName: "profilePhoto64"))
+                        :showPicker(providerData.updateProfilePhoto,
                         providerData.updateProfilePhotoStr, context);
                   },
                   child: ProfilePhotoWidget(

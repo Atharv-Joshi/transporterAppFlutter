@@ -429,6 +429,7 @@ const Map<String, String> hiIN = {
   "Firozpur": "फिरोजपुर",
   "Forbesganj": "फोर्ब्सगंज",
   "Gadwal": "गडवाल",
+  "Ghaziabad":"गाज़ियाबाद",
   "Gandhinagar": "गांधीनगर",
   "Gangarampur": "गंगारामपुर",
   "Ganjbasoda": "गंजबासोदा",
@@ -497,6 +498,8 @@ const Map<String, String> hiIN = {
   "Jind": "जींद",
   "Jodhpur": "जोधपुर",
   "Jorhat": "जोरहाट",
+  "Julana":"जुलाना",
+  "Kandla":"कांडला",
   "Kadapa": "कडपा",
   "Kadi": "कड़ी",
   "Kadiri": "कादिरी",
@@ -730,6 +733,7 @@ const Map<String, String> hiIN = {
   "Mussoorie": "मसूरी",
   "Muvattupuzha": "Muvattupuzha",
   "Muzaffarpur": "मुजफ्फरपुर",
+  "Muzaffarnagar": "मुजफ्फरनगर",
   "Mysore": "मैसूर",
   "Nabadwip": "Nabadwip",
   "Nabarangapur": "Nabarangapur",
@@ -891,6 +895,7 @@ const Map<String, String> hiIN = {
   "Pathri": "Pathri",
   "Patiala": "पटियाला",
   "Patna": "पटना",
+  "Paonta Sahib": "पांवटा साहिब",
   "Patratu": "पतरातु",
   "Pattamundai": "पट्टमुंडई",
   "Patti": "पट्टी",
@@ -1623,9 +1628,14 @@ const Map<String, String> hiIN = {
 "Lock":"लॉक",
 " krne ke liye button press kijiye!":" करने के लिए बटन दबाएं!",
 "Locked":'लॉक्ड',
+"Unlock":'अनलॉक',
 "unlock":'अनलॉक',
 "Lock Kijiye":"लॉक किजिये",
 "Unlock Kijiye":"अनलॉक किजिये",
-  "Truck Lock":"ट्रक लॉक"
+  "Truck Lock":"ट्रक लॉक",
+  "Aapke lock karne tak truck unlock hi rahega":"आपके लॉक करने तक ट्रक अनलॉक ही रहेगा",
+  "Kya aap pakka truck ko Lock karna chahte hai?":"क्या आप पक्का ट्रक को लॉक करना चाहते हैं?",
+  "Kya aap pakka truck ko Unlock karna chahte hai?":"क्या आप पक्का ट्रक को अनलॉक करना चाहते हैं?",
+
 
 };

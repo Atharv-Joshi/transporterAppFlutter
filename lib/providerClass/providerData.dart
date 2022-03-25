@@ -201,52 +201,52 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateProfilePhoto(File newFile) {
+  updateProfilePhoto(File? newFile) {
     profilePhotoFile = newFile;
     notifyListeners();
   }
 
-  updateProfilePhotoStr(String newStr) {
+  updateProfilePhotoStr(String? newStr) {
     profilePhoto64 = newStr;
     notifyListeners();
   }
 
-  updateAddressProofFrontPhoto(File newFile) {
+  updateAddressProofFrontPhoto(File? newFile) {
     addressProofFrontPhotoFile = newFile;
     notifyListeners();
   }
 
-  updateAddressProofFrontPhotoStr(String newStr) {
+  updateAddressProofFrontPhotoStr(String? newStr) {
     addressProofFrontPhoto64 = newStr;
     notifyListeners();
   }
 
-  updateAddressProofBackPhoto(File newFile) {
+  updateAddressProofBackPhoto(File? newFile) {
     addressProofBackPhotoFile = newFile;
     notifyListeners();
   }
 
-  updateAddressProofBackPhotoStr(String newStr) {
+  updateAddressProofBackPhotoStr(String? newStr) {
     addressProofBackPhoto64 = newStr;
     notifyListeners();
   }
 
-  updatePanFrontPhoto(File newFile) {
+  updatePanFrontPhoto(File? newFile) {
     panFrontPhotoFile = newFile;
     notifyListeners();
   }
 
-  updatePanFrontPhotoStr(String newStr) {
+  updatePanFrontPhotoStr(String? newStr) {
     panFrontPhoto64 = newStr;
     notifyListeners();
   }
 
-  updateCompanyIdProofPhoto(File newFile) {
+  updateCompanyIdProofPhoto(File? newFile) {
     companyIdProofPhotoFile = newFile;
     notifyListeners();
   }
 
-  updateCompanyIdProofPhotoStr(String newStr) {
+  updateCompanyIdProofPhotoStr(String? newStr) {
     companyIdProofPhoto64 = newStr;
     notifyListeners();
   }
