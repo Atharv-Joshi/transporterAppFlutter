@@ -11,6 +11,7 @@ import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
@@ -86,6 +87,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       print(e);
     }
   }
+
   initfunction() async {
     var gpsRoute1 = await mapUtil.getTraccarSummary(
         deviceId: truckData.deviceId, from: from, to: to);
@@ -93,6 +95,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
     });
   }
+
   void _handleDynamicLink(PendingDynamicLinkData? dataLink) async {
     final Uri? deepLink = dataLink?.link;
 
@@ -112,51 +115,34 @@ class _NavigationScreenState extends State<NavigationScreen> {
         int deviceId = int.parse(deepLink.queryParameters['deviceId']!);
         print("DeviceID rec ${deviceId}");
 
-        String? truckId = deepLink.queryParameters['truckId'];
-        print("truckId rec ${truckId}");
+        String? truckno = deepLink.queryParameters['truckno'];
+        print("truckno rec ${truckno}");
 
         var expiryDuration =
             DateTime.parse(deepLink.queryParameters['duration']!);
         var durationDiff = expiryDuration.difference(currentDate).inMinutes;
         print("Duration Differrence is ${durationDiff}");
-        truckData = await _truckApiCalls.getDataByTruckId(truckId!);
-        print(truckData);
-        String driverId = truckData['driverId'];
-        //var devicesId = int.parse(truckData['deviceId']);
-        var truckApproved = truckData['truckApproved'];
-        print("1st pass");
-        print(driverId);
-        DriverModel driverModel = await getDriverDetailsFromDriverId(driverId);
-        print("2nd pass");
 
         var f1 = mapUtil.getTraccarPosition(deviceId: deviceId);
-        var f = getDataHistory(deviceId, from, to);
-        var s = getStoppageHistory(deviceId, from, to);
-        var t = getRouteStatusList(deviceId, from, to);
+
         initfunction();
         gpsData = await f1;
-        gpsDataHistory = await f;
-        gpsStoppageHistory = await s;
-        gpsRoute = await t;
 
-        if (gpsRoute != null &&
-            gpsDataHistory != null &&
-            gpsStoppageHistory != null &&
-            truckApproved == true &&
-            durationDiff > 0) {
+        GpsDataModel gpsDatamodel = gpsData[0];
+        if (gpsDatamodel != null && durationDiff > 0) {
           EasyLoading.dismiss();
           Get.to(
             TrackScreen(
               deviceId: deviceId,
-              gpsData: gpsData,
+              gpsData: gpsDatamodel,
               // position: position,
-              TruckNo: truckData['truckNo'],
-            //  driverName: driverModel.driverName,
-           //   driverNum: driverModel.phoneNum,
-              gpsDataHistory: gpsDataHistory,
-              gpsStoppageHistory: gpsStoppageHistory,
-              routeHistory: gpsRoute,
-            //  truckId: truckData['truckId'],
+              TruckNo: truckno,
+              //  driverName: driverModel.driverName,
+              //   driverNum: driverModel.phoneNum,
+              //   gpsDataHistory: gpsDataHistory,
+              //   gpsStoppageHistory: gpsStoppageHistory,
+              //  routeHistory: gpsRoute,
+              //  truckId: truckData['truckId'],
               totalDistance: totalDistance,
             ),
           );

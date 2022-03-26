@@ -9,6 +9,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/dynamicLink.dart';
 import 'package:liveasy/functions/BackgroundAndLocation.dart';
+import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'package:liveasy/screens/truckAnalysisScreen.dart';
 import 'package:liveasy/screens/truckHistoryScreen.dart';
@@ -17,12 +18,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../screens/nearbyPlacesScreen.dart';
 
 class TrackScreenDetails extends StatefulWidget {
- // final String? driverNum;
+  // final String? driverNum;
   final String? TruckNo;
 //  final String? driverName;
-  String? dateRange;
+  DateTimeRange? dateRange;
   var gpsData;
-  var gpsTruckRoute;
+  // var gpsTruckRoute;
   var gpsDataHistory;
   var gpsStoppageHistory;
   var stops;
@@ -30,25 +31,25 @@ class TrackScreenDetails extends StatefulWidget {
   var totalStoppedTime;
   var deviceId;
   //var truckId;
-  var totalDistance;
+  // var totalDistance;
   var imei;
   var recentStops;
 
   TrackScreenDetails({
     required this.gpsData,
-    required this.gpsTruckRoute,
+    // required this.gpsTruckRoute,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
-  //  required this.driverNum,
+    //  required this.driverNum,
     required this.dateRange,
     required this.TruckNo,
-  //  required this.driverName,
+    //  required this.driverName,
     required this.stops,
     required this.totalRunningTime,
     required this.totalStoppedTime,
     required this.deviceId,
     //required this.truckId,
-    required this.totalDistance,
+    // required this.totalDistance,
     this.imei,
     this.recentStops,
   });
@@ -59,14 +60,15 @@ class TrackScreenDetails extends StatefulWidget {
 
 class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var gpsData;
-  var gpsTruckRoute;
+//  var gpsTruckRoute;
   var gpsDataHistory;
   var gpsStoppageHistory;
   var stops;
-  var totalRunningTime;
-  var totalStoppedTime;
+  var totalRunningTime = "";
+  var totalStoppedTime = "";
   var latitude;
   var longitude;
+  var totalDistance;
   var recentStops;
   late Timer timer;
   DateTime now =
@@ -77,16 +79,28 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   @override
   void initState() {
     super.initState();
+    initFunction2();
     initFunction();
+
     timer = Timer.periodic(
-        Duration(minutes: 0, seconds: 10), (Timer t) => initFunction());
+        Duration(minutes: 0, seconds: 10), (Timer t) => initFunction2());
   }
 
-  initFunction() {
+  distancecalculation(String from, String to) async {
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: widget.gpsData.last.deviceId, from: from, to: to);
     setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+    });
+  }
+
+  initFunction2() {
+    setState(() {
+      gpsStoppageHistory = widget.gpsStoppageHistory;
+
       recentStops = widget.recentStops;
       gpsData = widget.gpsData;
-      gpsTruckRoute = widget.gpsTruckRoute;
+      // gpsTruckRoute = widget.gpsTruckRoute;
       gpsDataHistory = widget.gpsDataHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
       stops = widget.stops;
@@ -94,7 +108,15 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
       totalStoppedTime = widget.totalStoppedTime;
       latitude = gpsData.last.latitude;
       longitude = gpsData.last.longitude;
+
+      //  status = getStatus(newGPSData, gpsStoppageHistory);
+      //  gpsTruckRoute = getStopList(gpsTruckRoute, yesterday, now);
     });
+  }
+
+  initFunction() {
+    distancecalculation(widget.dateRange!.start.toIso8601String(),
+        widget.dateRange!.end.toIso8601String());
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
@@ -330,8 +352,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                         fontSize: size_6,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: regularWeight)),
-
-                                Text("${widget.totalDistance} " + "km".tr,
+                                Text("$totalDistance " + "km".tr,
                                     softWrap: true,
                                     style: TextStyle(
                                         color: black,
@@ -343,7 +364,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("$totalRunningTime ",
+                                Text("${widget.totalRunningTime} ",
                                     softWrap: true,
                                     style: TextStyle(
                                         color: grey,
@@ -379,13 +400,21 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           children: [
                             Row(
                               children: [
-                                Text("${gpsStoppageHistory.length} ",
-                                    softWrap: true,
-                                    style: TextStyle(
-                                        color: black,
-                                        fontSize: size_6,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: regularWeight)),
+                                gpsStoppageHistory != null
+                                    ? Text("${gpsStoppageHistory.length} ",
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            color: black,
+                                            fontSize: size_6,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: regularWeight))
+                                    : Text(" ",
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            color: black,
+                                            fontSize: size_6,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: regularWeight)),
                                 Text("stops".tr,
                                     softWrap: true,
                                     style: TextStyle(
@@ -398,7 +427,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("$totalStoppedTime ",
+                                Text("${widget.totalStoppedTime}",
                                     softWrap: true,
                                     style: TextStyle(
                                         color: grey,
@@ -471,7 +500,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                     Column(children: [
                       DynamicLinkService(
                         deviceId: widget.deviceId,
-                       // truckId: widget.truckId,
+                        // truckId: widget.truckId,
                         truckNo: widget.TruckNo,
                       ),
                       SizedBox(
@@ -507,7 +536,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                               truckNo: widget.TruckNo,
                               //    routeHistory: gpsTruckRoute,
                               gpsData: gpsData,
-                              dateRange: widget.dateRange,
+                              dateRange: widget.dateRange.toString(),
                               gpsStoppageHistory: gpsStoppageHistory,
                               //   totalDistance: totalDistance,
                               totalRunningTime: totalRunningTime,
@@ -545,13 +574,15 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           onPressed: () {
                             Get.to(TruckHistoryScreen(
                               truckNo: widget.TruckNo,
-                              gpsTruckRoute: widget.gpsTruckRoute,
-                              dateRange: widget.dateRange,
+                              //   gpsTruckRoute: widget.gpsTruckRoute,
+                              dateRange: widget.dateRange.toString(),
                               deviceId: widget.deviceId,
                               selectedLocation: selectedLocation,
                               istDate1: yesterday,
                               istDate2: now,
-                              totalDistance: widget.totalDistance,
+                              totalDistance: totalDistance,
+                              gpsDataHistory: widget.gpsDataHistory,
+                              gpsStoppageHistory: widget.gpsStoppageHistory,
                               //     latitude: latitude,
                               //      longitude: longitude,
                             ));
@@ -604,10 +635,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "petrol_pump".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                               // driverName: widget.driverName,
-                              //  driverNum: widget.driverNum,
-                             //   truckId: widget.truckId,
-                            //    gpsDataHistory: widget.gpsDataHistory,
+                                // driverName: widget.driverName,
+                                //  driverNum: widget.driverNum,
+                                //   truckId: widget.truckId,
+                                //    gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
@@ -651,10 +682,10 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                 placeOnTheMapName: "police_station".tr,
                                 // position: position,
                                 TruckNo: widget.TruckNo,
-                              //  driverName: widget.driverName,
-                             //   driverNum: widget.driverNum,
-                              //  truckId: widget.truckId,
-                               // gpsDataHistory: widget.gpsDataHistory,
+                                //  driverName: widget.driverName,
+                                //   driverNum: widget.driverNum,
+                                //  truckId: widget.truckId,
+                                // gpsDataHistory: widget.gpsDataHistory,
                               ),
                             );
                           },
@@ -691,12 +722,11 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           ),
                           onPressed: () {
                             Get.to(truckAnalysisScreen(
-                              recentStops: recentStops,
-                           //   truckId: widget.truckId,
-                              TruckNo: widget.TruckNo,
-                              imei: widget.imei,
-                              deviceId: widget.deviceId
-                            ));
+                                recentStops: recentStops,
+                                //   truckId: widget.truckId,
+                                TruckNo: widget.TruckNo,
+                                imei: widget.imei,
+                                deviceId: widget.deviceId));
                           },
                         ),
                       ),

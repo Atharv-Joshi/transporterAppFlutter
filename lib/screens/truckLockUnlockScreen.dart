@@ -16,7 +16,7 @@ class TruckLockUnlock extends StatefulWidget {
   final List gpsData;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  var routeHistory;
+ // var routeHistory;
   final String? TruckNo;
   final String? driverNum;
   final String? driverName;
@@ -26,7 +26,7 @@ class TruckLockUnlock extends StatefulWidget {
     required this.gpsData,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
-    required this.routeHistory,
+  //  required this.routeHistory,
     // required this.position,
     this.TruckNo,
     this.driverName,
@@ -223,7 +223,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                       gpsDataHistory: widget.gpsDataHistory,
                                       gpsStoppageHistory:
                                           widget.gpsStoppageHistory,
-                                      routeHistory: widget.routeHistory,
+                                    //  routeHistory: widget.routeHistory,
                                       truckId: widget.truckId,
                                       value: value[1],
                                     )).whenComplete(() => setState(() {
@@ -298,7 +298,7 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                     gpsDataHistory: widget.gpsDataHistory,
                                     gpsStoppageHistory:
                                         widget.gpsStoppageHistory,
-                                    routeHistory: widget.routeHistory,
+                                  //  routeHistory: widget.routeHistory,
                                     truckId: widget.truckId,
                                     value: value[0],
                                   )).whenComplete(() => setState(() {
