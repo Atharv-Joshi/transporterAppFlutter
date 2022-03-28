@@ -62,9 +62,9 @@ getStopDuration(String from, String to) {
   print("from : $start and to : $end");
 
   var diff2 = end.difference(start);
-   if(diff2 < Duration())
+   if(diff2.compareTo(Duration()) <0)
    {
-     return "0 sec";
+     return "0 ${"sec".tr}";
    }
   var days = diff2.inDays;
   var diff = diff2.toString();
@@ -85,7 +85,7 @@ getStopDuration(String from, String to) {
     if (hour == 0 && second == 0)
       duration = "$minute ${"min".tr}";
     else if (minute == 0)
-      duration = "$second ${"sec".tr}";
+      duration = "$hour ${"hr".tr} $second ${"sec".tr}";
     else if (second == 0)
       duration = "$hour ${"hr".tr} $minute min";
     else if (hour == 0)
@@ -96,7 +96,7 @@ getStopDuration(String from, String to) {
     if (hour == 0 && second == 0)
       duration = "$days ${"day".tr} $minute  ${"min".tr}";
     else if (minute == 0)
-      duration = "$days ${"day".tr} $second  ${"sec".tr}";
+      duration = "$days ${"day".tr} $hour ${"hr".tr} $second  ${"sec".tr}";
     else if (second == 0)
       duration = "$days ${"day".tr} $hour ${"hr".tr} $minute  ${"min".tr}";
     else if (hour == 0)
