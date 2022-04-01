@@ -440,24 +440,29 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                                 fontStyle: FontStyle.normal,
                                                 fontWeight: regularWeight)),
                                       )
-                                    : (widget.gpsData.rssi == 1 ||
-                                            widget.gpsData.rssi == 2)
+                                    : (widget.gpsData.rssi == 1)
                                         ? Image(
                                             image: AssetImage(
                                                 "assets/icons/signalIconOne.png"),
                                           )
-                                        : (widget.gpsData.rssi == 3)
+                                        : (widget.gpsData.rssi == 2)
                                             ? Image(
                                                 image: AssetImage(
                                                     "assets/icons/signalIconTwo.png"),
                                               )
-                                            : (widget.gpsData.rssi == 4 ||
-                                                    widget.gpsData.rssi == 5)
+                                            : (widget.gpsData.rssi == 3)
                                                 ? Image(
                                                     image: AssetImage(
                                                         "assets/icons/signalIconThree.png"),
                                                   )
-                                                : Container())
+                                                : (widget.gpsData.rssi == 4 ||
+                                                        widget.gpsData.rssi ==
+                                                            5)
+                                                    ? Image(
+                                                        image: AssetImage(
+                                                            "assets/icons/signalIconFour.png"),
+                                                      )
+                                                    : Container())
                             //print(" ");
 
                             // Text("${widget.gpsData.rssi}",
