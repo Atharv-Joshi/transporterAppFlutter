@@ -62,6 +62,10 @@ getStopDuration(String from, String to) {
   print("from : $start and to : $end");
 
   var diff2 = end.difference(start);
+   if(diff2.compareTo(Duration()) <0)
+   {
+     return "0 ${"sec".tr}";
+   }
   var days = diff2.inDays;
   var diff = diff2.toString();
   print("diff is $diff");
@@ -81,7 +85,7 @@ getStopDuration(String from, String to) {
     if (hour == 0 && second == 0)
       duration = "$minute ${"min".tr}";
     else if (minute == 0)
-      duration = "$second ${"sec".tr}";
+      duration = "$hour ${"hr".tr} $second ${"sec".tr}";
     else if (second == 0)
       duration = "$hour ${"hr".tr} $minute min";
     else if (hour == 0)
@@ -92,7 +96,7 @@ getStopDuration(String from, String to) {
     if (hour == 0 && second == 0)
       duration = "$days ${"day".tr} $minute  ${"min".tr}";
     else if (minute == 0)
-      duration = "$days ${"day".tr} $second  ${"sec".tr}";
+      duration = "$days ${"day".tr} $hour ${"hr".tr} $second  ${"sec".tr}";
     else if (second == 0)
       duration = "$days ${"day".tr} $hour ${"hr".tr} $minute  ${"min".tr}";
     else if (hour == 0)
@@ -350,7 +354,7 @@ getStoppageAddressLatLong(var lat, var long) async {
   // }
   return stopAddress;
 }
-getStopList(var newGPSRoute, var istDate1, var istDate2) {
+getStopList(var newGPSRoute,var gpsStoppageHistory, var istDate1, var istDate2) {
   int i = 0;
   var start;
   var end;
@@ -373,6 +377,7 @@ getStopList(var newGPSRoute, var istDate1, var istDate2) {
 
     int length = newGPSRoute.length;
     print("GpsRoute Length ${length}");
+    int j =0;
     while (i < newGPSRoute.length) {
       print("i $i");
       if (i == 0) {
@@ -417,11 +422,12 @@ getStopList(var newGPSRoute, var istDate1, var istDate2) {
           start,
           end,
           duration,
-          newGPSRoute[i].latitude,
-          newGPSRoute[i].longitude
+          gpsStoppageHistory[j].latitude,
+          gpsStoppageHistory[j].longitude
         ]);
       }
       i = i + 2;
+      j = j+1;
     }
 
     if (last) //to add stop at end
@@ -533,7 +539,7 @@ Future<Uint8List> getBytesFromCanvas2(
 }
 
 //Display data on TRACK SCREEN -----------
-getTotalRunningTime(var routeHistory){
+getTotalRunningTime(var routeHistory,DateTime start,DateTime end){
   var totalRunning;
   var duration = 0;
   print("route history length ${routeHistory.length}");
@@ -541,7 +547,10 @@ getTotalRunningTime(var routeHistory){
     print("Duration : ${instance.duration}");
     duration += (instance.duration) as int;
   }
-  totalRunning = convertMillisecondsToDuration(duration);
+  var totaldur = end.difference(start);
+  int dur = totaldur.inMilliseconds;
+  int time = dur - duration;
+  totalRunning = convertMillisecondsToDuration(time);
   print("Total running $totalRunning");
   return totalRunning;
 }

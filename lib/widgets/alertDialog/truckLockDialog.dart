@@ -14,7 +14,7 @@ class TruckLockDialog extends StatefulWidget {
   final List gpsData;
   final List gpsDataHistory;
   final List gpsStoppageHistory;
-  final List routeHistory;
+ // final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
   final String? driverNum;
@@ -26,7 +26,7 @@ class TruckLockDialog extends StatefulWidget {
       {required this.gpsData,
       required this.gpsDataHistory,
       required this.gpsStoppageHistory,
-      required this.routeHistory,
+    //  required this.routeHistory,
       // required this.position,
       this.TruckNo,
       this.driverName,
@@ -42,7 +42,11 @@ class TruckLockDialog extends StatefulWidget {
 class _TruckLockDialogState extends State<TruckLockDialog> {
   final lockStorage = GetStorage();
   var lockState;
+<<<<<<< HEAD
   LockUnlockController lockUnlockController = Get.find<LockUnlockController>();
+=======
+  var routeHistory;
+>>>>>>> 51a3e5d461309fbe1e6483945de6a788e63b8a57
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -109,7 +113,7 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                       widget.gpsData,
                                       widget.gpsDataHistory,
                                       widget.gpsStoppageHistory,
-                                      widget.routeHistory,
+                                      routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
                                       widget.driverName,
@@ -193,7 +197,7 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                       widget.gpsData,
                                       widget.gpsDataHistory,
                                       widget.gpsStoppageHistory,
-                                      widget.routeHistory,
+                                      routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
                                       widget.driverName,

@@ -126,7 +126,7 @@ class _TruckLockScreenState extends State<TruckLockScreen> {
                                   driverNum: widget.driverNum,
                                   gpsDataHistory: widget.gpsDataHistory,
                                   gpsStoppageHistory: widget.gpsStoppageHistory,
-                                  routeHistory: widget.routeHistory,
+                                //  routeHistory: widget.routeHistory,
                                   truckId: widget.truckId,
                                   value: value[0],
                                 ));

@@ -163,8 +163,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
           routeHistory = newRouteHistory;
           dateRange = selectedDate.toString();
         });
-        totalRunningTime = getTotalRunningTime(routeHistory);
-        totalStoppedTime = getTotalStoppageTime(routeHistory);
+        totalRunningTime = getTotalRunningTime(gpsStoppageHistory,istDate1,istDate2);
+        totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
 
         int i = 0;
         var start;
@@ -191,7 +191,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
         Get.back();
         EasyLoading.dismiss();
-        Get.to(PlayRouteHistory(
+  /*      Get.to(PlayRouteHistory(
           gpsTruckHistory: gpsTruckHistory,
           truckNo: widget.truckNo,
           gpsData: widget.gpsData,
@@ -201,7 +201,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
           totalRunningTime: totalRunningTime,
           // locations: Locations,
         ));
-      } else {
+    */  } else {
         EasyLoading.dismiss();
         showDialog(
             context: context, builder: (context) => InvalidDateCondition());
@@ -280,8 +280,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     var newGpsTruckHistory = await f;
     var newGpsStoppageHistory = await s;
     var newRouteHistory = await t;
-    var newTotalRunningTime = getTotalRunningTime(newRouteHistory);
-    var newTotalStoppedTime = getTotalStoppageTime(newRouteHistory);
+    var newTotalRunningTime = getTotalRunningTime(newGpsStoppageHistory,istDate1,istDate2);
+    var newTotalStoppedTime = getTotalStoppageTime(newGpsStoppageHistory);
     print("AFter $newGpsTruckHistory");
     print("AFter $newGpsStoppageHistory");
     print("AFter $newRouteHistory");
@@ -323,7 +323,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       // getLatLngList();
       Get.back();
       EasyLoading.dismiss();
-      Get.to(PlayRouteHistory(
+  /*    Get.to(PlayRouteHistory(
         gpsTruckHistory: gpsTruckHistory,
         truckNo: widget.truckNo,
         gpsData: widget.gpsData,
@@ -333,7 +333,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         totalRunningTime: totalRunningTime,
         // locations: Locations,
       ));
-    } else {
+ */   } else {
       EasyLoading.dismiss();
       showDialog(
           context: context, builder: (context) => InvalidDateCondition());

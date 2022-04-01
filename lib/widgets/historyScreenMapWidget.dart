@@ -25,18 +25,21 @@ import 'package:flutter_config/flutter_config.dart';
 class HistoryScreenMapWidget extends StatefulWidget {
   // final List gpsData;
   final routeHistory;
-  final gpsHistory;
+  //final gpsHistory;
   var truckNo;
   var deviceId;
   var selectedlocation;
-
+  var gpsDataHistory;
+  var gpsStoppageHistory;
   HistoryScreenMapWidget({
     //  required this.gpsData,
     required this.routeHistory,
-    required this.gpsHistory,
+    //required this.gpsHistory,
     required this.deviceId,
     required this.truckNo,
     required this.selectedlocation,
+    required this.gpsDataHistory,
+    required this.gpsStoppageHistory,
   });
 
   @override
@@ -73,8 +76,11 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   late PointLatLng start;
   late PointLatLng end;
   String? truckAddress;
+  double averagelat = 0;
+  double averagelon = 0;
   String? truckDate;
-  var gpsHistory;
+  bool zoombutton = false;
+  var gpsDataHistory;
   var gpsStoppageHistory;
   var newGPSRoute;
   var totalDistance;
@@ -111,6 +117,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   var totalRunningTime;
   var totalStoppedTime;
   var status;
+  var col1 = Color(0xff878787);
+  var col2 = Color(0xffFF5C00);
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
@@ -128,23 +136,17 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     });
     try {
       initfunction();
+      print("1st");
       initfunction2();
+      print("2nd");
       getTruckHistory();
+      print("3rd");
       //   iconthenmarker();
 
       logger.i("in init state function");
-      if (widget.routeHistory[widget.routeHistory.length - 1].runtimeType !=
-          GpsDataModel) {
-        lastlatLngMarker = LatLng(
-            widget.routeHistory[widget.routeHistory.length - 1][4],
-            widget.routeHistory[widget.routeHistory.length - 1][5]);
-        camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
-      } else {
-        lastlatLngMarker = LatLng(
-            widget.routeHistory[widget.routeHistory.length - 1].latitude,
-            widget.routeHistory[widget.routeHistory.length - 1].longitude);
-        camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
-      }
+      lastlatLngMarker = LatLng(
+          gpsStoppageHistory[0].latitude, gpsStoppageHistory[0].longitude);
+      camPosition = CameraPosition(target: lastlatLngMarker, zoom: zoom);
 
       //   timer = Timer.periodic(Duration(minutes: 1, seconds: 10), (Timer t) => onActivityExecuted());
     } catch (e) {
@@ -172,14 +174,14 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
 
   getTruckHistory() {
     setState(() {
-      gpsHistory = widget.gpsHistory;
+      gpsDataHistory = widget.gpsDataHistory;
     });
 
-    print("Gps data history length ${gpsHistory.length}");
+    print("Gps data history length ${gpsDataHistory.length}");
     // gpsStoppageHistory=widget.gpsStoppageHistory;
     // getStoppage(widget.gpsStoppageHistory);
     polylineCoordinates1 =
-        getPoylineCoordinates(gpsHistory, polylineCoordinates1);
+        getPoylineCoordinates(gpsDataHistory, polylineCoordinates1);
     _getPolyline(polylineCoordinates1);
   }
 
@@ -190,22 +192,29 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     logger.i("in truck history after function");
     // getStoppage(gpsStoppageHistory);
     polylineCoordinates1 =
-        getPoylineCoordinates(gpsHistory, polylineCoordinates1);
+        getPoylineCoordinates(gpsDataHistory, polylineCoordinates1);
     _getPolyline(polylineCoordinates1);
   }
 
-  addstops(var gpsStoppage) async {
+  addstops(var gpsStoppagehistory) async {
     var logger = Logger();
     logger.i("in addstops function");
     FutureGroup futureGroup = FutureGroup();
-    int j = 0;
-    for (int i = 0; i < gpsStoppage.length; i++) {
-      if (gpsStoppage[i].runtimeType != GpsDataModel) {
-        var future = getStoppage(gpsStoppage[i], j);
-        futureGroup.add(future);
-        j++;
-      }
+    averagelat = 0;
+    averagelon = 0;
+    print("here only error");
+    print("length of stoppages is ${gpsStoppagehistory.length}");
+    for (int i = 0; i < gpsStoppagehistory.length; i++) {
+      print(i);
+      var future = getStoppage(gpsStoppagehistory[i], i);
+      averagelat += gpsStoppagehistory[i].latitude as double;
+      averagelon += gpsStoppagehistory[i].longitude as double;
+      futureGroup.add(future);
     }
+    print("length of stoppages after  is ${gpsStoppagehistory.length}");
+    averagelat = averagelat / gpsStoppagehistory.length;
+    averagelon = averagelon / gpsStoppagehistory.length;
+
     futureGroup.close();
     await futureGroup.future;
     print("STOPS DONE __");
@@ -231,16 +240,13 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     var stoppageTime;
     var stoplatlong;
     var duration;
-    print("Stop length ${gpsStoppage}");
+    print("Stop length $gpsStoppage");
     LatLng? latlong;
 
     // for(var stop in gpsStoppage) {
-    latlong = LatLng(gpsStoppage[4], gpsStoppage[5]);
+    latlong = LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
     stoplatlong = latlong;
     // }
-    stoppageTime = "${gpsStoppage[1]} - ${gpsStoppage[2]}";
-    // stopAddress = await getStoppageAddress(gpsStoppage);
-    duration = gpsStoppage[3];
 
     // for(int i=0; i<stoplatlong.length; i++){
     markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
@@ -251,9 +257,9 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
         icon: BitmapDescriptor.fromBytes(markerIcon),
         //info window
         onTap: () async {
-          stopAddress =
-              await getStoppageAddressLatLong(gpsStoppage[4], gpsStoppage[5]);
-
+          stopAddress = await getStoppageAddress(gpsStoppage);
+          stoppageTime = getStoppageTime(gpsStoppage);
+          duration = getStoppageDuration(gpsStoppage);
           _customInfoWindowController.addInfoWindow!(
             getInfoWindow(duration, stoppageTime, stopAddress),
             stoplatlong,
@@ -262,6 +268,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       ));
     });
     // }
+    print("working?");
   }
 
   _addPolyLine() {
@@ -299,6 +306,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     setState(() {
       //  newGPSData = widget.gpsData;
       newGPSRoute = widget.routeHistory;
+      gpsDataHistory = widget.gpsDataHistory;
+      gpsStoppageHistory = widget.gpsStoppageHistory;
       //   gpsStoppageHistory = widget.gpsStoppageHistory;
 
       //  totalRunningTime = getTotalRunningTime(newGPSRoute);
@@ -308,7 +317,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       //  status = getStatus(newGPSData, gpsStoppageHistory);
       //  newGPSRoute = getStopList(newGPSRoute);
     });
-    addstops(newGPSRoute);
+    print(gpsStoppageHistory);
+    addstops(gpsStoppageHistory);
   }
 
   Future<void> initfunction2() async {
@@ -470,20 +480,23 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     EasyLoading.show(
       status: "Loading...",
     );
-    var newRouteHistory = await getRouteStatusList(widget.deviceId,
-        istDate1.toIso8601String(), istDate2.toIso8601String());
-    print("AFter ${newRouteHistory.length}");
-    totalDistance = getTotalDistance(newRouteHistory);
-    newRouteHistory = getStopList(newRouteHistory, istDate1, istDate2);
+    var a = getStoppageHistory(widget.deviceId, istDate1.toIso8601String(),
+        istDate2.toIso8601String());
+    var b = getDataHistory(widget.deviceId, istDate1.toIso8601String(),
+        istDate2.toIso8601String());
+
+    gpsDataHistory = await b;
+    gpsStoppageHistory = await a;
     //Run all APIs using new Date Range
     customMarkers = [];
     from = istDate1.toIso8601String();
     to = istDate2.toIso8601String();
+    distancecalculation(from, to);
     Get.back();
     EasyLoading.dismiss();
     Get.to(() => TruckHistoryScreen(
           truckNo: widget.truckNo,
-          gpsTruckRoute: newRouteHistory,
+          //   gpsTruckRoute: newRouteHistory,
           dateRange: selectedDate.toString(),
           deviceId: widget.deviceId,
           istDate1: istDate1,
@@ -491,9 +504,19 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
           //   gpsDataHistory: gpsHistory,
           selectedLocation: _selectedLocation,
           totalDistance: totalDistance,
+          gpsDataHistory: gpsDataHistory,
+          gpsStoppageHistory: gpsStoppageHistory,
           //    latitude: widget.latitude,
           //    longitude: widget.longitude
         ));
+  }
+
+  distancecalculation(String from, String to) async {
+    var gpsRoute1 = await mapUtil.getTraccarSummary(
+        deviceId: widget.deviceId, from: from, to: to);
+    setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+    });
   }
 
   @override
@@ -554,28 +577,91 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                   ),
                   Positioned(
                     left: 10,
-                    top: 175,
-                    child: SizedBox(
-                      height: 40,
-                      child: FloatingActionButton(
-                        heroTag: "btn1",
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black,
-                        child: const Icon(Icons.my_location,
-                            size: 22, color: Color(0xFF152968)),
-                        onPressed: () {
-                          setState(() {
-                            this.maptype = (this.maptype == MapType.normal)
-                                ? MapType.satellite
-                                : MapType.normal;
-                          });
-                        },
-                      ),
-                    ),
+                    top: MediaQuery.of(context).size.height / 4 + 20,
+                    child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 0.25,
+                          ),
+                        ),
+                        //  height: 40,
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: col2,
+                                  borderRadius: BorderRadius.horizontal(
+                                      left: Radius.circular(5)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          const Color.fromRGBO(0, 0, 0, 0.25),
+                                      offset: const Offset(
+                                        0,
+                                        4,
+                                      ),
+                                      blurRadius: 4,
+                                      spreadRadius: 0.0,
+                                    ),
+                                  ]),
+                              child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      this.maptype = MapType.normal;
+                                      col1 = Color(0xff878787);
+                                      col2 = Color(0xffFF5C00);
+                                    });
+                                  },
+                                  child: Text(
+                                    'Map',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: col1,
+                                borderRadius: BorderRadius.horizontal(
+                                    right: Radius.circular(5)),
+                                //  border: Border.all(color: Colors.black),
+                              ),
+                              child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      this.maptype = MapType.satellite;
+                                      col2 = Color(0xff878787);
+                                      col1 = Color(0xffFF5C00);
+                                    });
+                                  },
+                                  child: Text('Satellite',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ))),
+                            )
+                          ],
+                        )
+                        /*        FloatingActionButton(
+                            heroTag: "btn1",
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            child: const Icon(Icons.my_location,
+                                size: 22, color: Color(0xFF152968)),
+                            onPressed: () {
+                              setState(() {
+                                this.maptype = (this.maptype == MapType.normal)
+                                    ? MapType.satellite
+                                    : MapType.normal;
+                              });
+                            },
+                          ),
+                   */
+                        ),
                   ),
                   Positioned(
                     right: 10,
-                    bottom: height / 3 + 130,
+                    bottom: height / 2 + 100,
                     child: SizedBox(
                       height: 40,
                       child: FloatingActionButton(
@@ -603,7 +689,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                   ),
                   Positioned(
                     right: 10,
-                    bottom: height / 3 + 80,
+                    bottom: height / 2 + 50,
                     child: SizedBox(
                       height: 40,
                       child: FloatingActionButton(
@@ -625,6 +711,58 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                                   zoom: this.zoom,
                                 ),
                               ));
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    bottom: height / 2 + 150,
+                    child: SizedBox(
+                      height: 40,
+                      child: FloatingActionButton(
+                        heroTag: "btn4",
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        child: Container(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/icons/layers.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                        )),
+                        onPressed: () {
+                          if (zoombutton) {
+                            setState(() {
+                              this.zoom = 15;
+                              zoombutton = false;
+                            });
+                            this
+                                ._googleMapController
+                                .animateCamera(CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    bearing: 0,
+                                    target: lastlatLngMarker,
+                                    zoom: this.zoom,
+                                  ),
+                                ));
+                          } else {
+                            setState(() {
+                              this.zoom = 12;
+                              zoombutton = true;
+                            });
+                            this
+                                ._googleMapController
+                                .animateCamera(CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    bearing: 0,
+                                    target: LatLng(averagelat, averagelon),
+                                    zoom: this.zoom,
+                                  ),
+                                ));
+                          }
                         },
                       ),
                     ),
