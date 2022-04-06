@@ -283,71 +283,72 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                 ],
               ),
             ),
-            Obx(
-              () => Container(
-                  height: MediaQuery.of(context).size.height - 125,
-                  child: PageView(
-                      controller: pageController,
-                      onPageChanged: (value) {
-                        setState(() {
-                          providerData.updateUpperNavigatorIndex(value);
-                          print("IN TRUEE PAGE PAGE");
-                        });
-                      },
-                      children: [
-                        AllMapWidget(
-                            gpsDataList: widget.gpsDataList,
-                            truckDataList: widget.deviceList),
-                        AllMapWidget(
-                            gpsDataList: widget.runningGpsDataList,
-                            truckDataList: widget.runningDataList),
-                        AllMapWidget(
-                            gpsDataList: widget.stoppedGpsList,
-                            truckDataList: widget.stoppedList),
-                      ])
-                  // trucksNearUserController.nearStatus.value
-                  //     ? PageView(
-                  //         controller: pageController,
-                  //         onPageChanged: (value) {
-                  //           setState(() {
-                  //             providerData.updateUpperNavigatorIndex(value);
-                  //             print("IN TRUEE PAGE PAGE");
-                  //           });
-                  //         },
-                  //         children: [
-                  //             AllMapWidget(
-                  //                 gpsDataList: widget.gpsDataList,
-                  //                 truckDataList: widget.deviceList),
-                  //             AllMapWidget(
-                  //                 gpsDataList: widget.runningGpsDataList,
-                  //                 truckDataList: widget.runningDataList),
-                  //             AllMapWidget(
-                  //                 gpsDataList: widget.stoppedGpsList,
-                  //                 truckDataList: widget.stoppedList),
-                  //           ])
-                  //     // : Container()
-                  //     : PageView(
-                  //         controller: pageController,
-                  //         onPageChanged: (value) {
-                  //           setState(() {
-                  //             providerData.updateUpperNavigatorIndex(value);
-                  //             print("INTO THE SELECTION  . .");
-                  //             mapAllTrucksNearUser();
-                  //           });
-                  //         },
-                  //         children: [
-                  //             AllMapWidget(
-                  //                 gpsDataList: customGpsDataList,
-                  //                 truckDataList: customDeviceList),
-                  //             AllMapWidget(
-                  //                 gpsDataList: customRunningGpsDataList,
-                  //                 truckDataList: customRunningDataList),
-                  //             AllMapWidget(
-                  //                 gpsDataList: customStoppedGpsList,
-                  //                 truckDataList: customStoppedList),
-                  //           ])
-                  ),
-            ),
+            // Obx(
+            //   () =>
+            Container(
+                height: MediaQuery.of(context).size.height - 125,
+                child: PageView(
+                    controller: pageController,
+                    onPageChanged: (value) {
+                      setState(() {
+                        providerData.updateUpperNavigatorIndex(value);
+                        print("IN TRUEE PAGE PAGE");
+                      });
+                    },
+                    children: [
+                      AllMapWidget(
+                          gpsDataList: widget.gpsDataList,
+                          truckDataList: widget.deviceList),
+                      AllMapWidget(
+                          gpsDataList: widget.runningGpsDataList,
+                          truckDataList: widget.runningDataList),
+                      AllMapWidget(
+                          gpsDataList: widget.stoppedGpsList,
+                          truckDataList: widget.stoppedList),
+                    ])
+                // trucksNearUserController.nearStatus.value
+                //     ? PageView(
+                //         controller: pageController,
+                //         onPageChanged: (value) {
+                //           setState(() {
+                //             providerData.updateUpperNavigatorIndex(value);
+                //             print("IN TRUEE PAGE PAGE");
+                //           });
+                //         },
+                //         children: [
+                //             AllMapWidget(
+                //                 gpsDataList: widget.gpsDataList,
+                //                 truckDataList: widget.deviceList),
+                //             AllMapWidget(
+                //                 gpsDataList: widget.runningGpsDataList,
+                //                 truckDataList: widget.runningDataList),
+                //             AllMapWidget(
+                //                 gpsDataList: widget.stoppedGpsList,
+                //                 truckDataList: widget.stoppedList),
+                //           ])
+                //     // : Container()
+                //     : PageView(
+                //         controller: pageController,
+                //         onPageChanged: (value) {
+                //           setState(() {
+                //             providerData.updateUpperNavigatorIndex(value);
+                //             print("INTO THE SELECTION  . .");
+                //             mapAllTrucksNearUser();
+                //           });
+                //         },
+                //         children: [
+                //             AllMapWidget(
+                //                 gpsDataList: customGpsDataList,
+                //                 truckDataList: customDeviceList),
+                //             AllMapWidget(
+                //                 gpsDataList: customRunningGpsDataList,
+                //                 truckDataList: customRunningDataList),
+                //             AllMapWidget(
+                //                 gpsDataList: customStoppedGpsList,
+                //                 truckDataList: customStoppedList),
+                //           ])
+                ),
+            //),
           ]),
           //)
         ),

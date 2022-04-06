@@ -70,8 +70,8 @@ class _AllMapWidgetState extends State<AllMapWidget>
   var maptype = MapType.normal;
   double zoom = 4.5;
 
-  TrucksNearUserController trucksNearUserController =
-      Get.find<TrucksNearUserController>();
+  // TrucksNearUserController trucksNearUserController =
+  //     Get.find<TrucksNearUserController>();
 
   @override
   void initState() {
