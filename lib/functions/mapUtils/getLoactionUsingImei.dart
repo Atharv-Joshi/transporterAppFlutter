@@ -13,13 +13,8 @@ import 'package:geocoding/geocoding.dart';
 String traccarPass = FlutterConfig.get("traccarPass");
 String? current_lang;
 TransporterIdController transporterIdController =
-<<<<<<< HEAD
     Get.find<TransporterIdController>();
-String? traccarUser = transporterIdController.mobileNum.value;
-=======
-      Get.find<TransporterIdController>();
 String traccarUser = transporterIdController.mobileNum.value;
->>>>>>> 51a3e5d461309fbe1e6483945de6a788e63b8a57
 
 class MapUtil {
   String gpsApiUrl = FlutterConfig.get("gpsApiUrl");

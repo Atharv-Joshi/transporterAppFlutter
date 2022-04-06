@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -82,16 +83,15 @@ class _MyTrucksState extends State<MyTrucks> {
   void initState() {
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
-   // FutureGroup futureGroup = FutureGroup();
+    // FutureGroup futureGroup = FutureGroup();
     super.initState();
     setState(() {
       loading = true;
     });
     getMyTruckPosition();
-   // var f2 = getMyDevices(i);
+    // var f2 = getMyDevices(i);
 
-    
-   /* scrollController.addListener(() {
+    /* scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         i = i + 1;
@@ -361,7 +361,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                           return refreshData(i);
                                         },
                                         child: ListView.builder(
-                                            physics: AlwaysScrollableScrollPhysics(),
+                                            physics:
+                                                AlwaysScrollableScrollPhysics(),
                                             controller: scrollController,
                                             scrollDirection: Axis.vertical,
                                             padding: EdgeInsets.only(
@@ -443,7 +444,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                         child: ListView.builder(
                                           padding:
                                               EdgeInsets.only(bottom: space_15),
-                                          physics: AlwaysScrollableScrollPhysics(),
+                                          physics:
+                                              AlwaysScrollableScrollPhysics(),
                                           controller: scrollController,
                                           scrollDirection: Axis.vertical,
                                           itemCount: runningList.length,
@@ -522,7 +524,8 @@ class _MyTrucksState extends State<MyTrucks> {
                                         child: ListView.builder(
                                           padding:
                                               EdgeInsets.only(bottom: space_15),
-                                          physics: AlwaysScrollableScrollPhysics(),
+                                          physics:
+                                              AlwaysScrollableScrollPhysics(),
                                           controller: scrollController,
                                           scrollDirection: Axis.vertical,
                                           itemCount: StoppedList.length,
@@ -573,7 +576,7 @@ class _MyTrucksState extends State<MyTrucks> {
     );
   } //build
 
- /* getMyDevices(int i) async {
+  /* getMyDevices(int i) async {
     var devices = await mapUtil.getDevices();
     trucklist.clear();
     devicelist.clear();
@@ -588,10 +591,10 @@ class _MyTrucksState extends State<MyTrucks> {
   getMyTruckPosition() async {
     //   FutureGroup futureGroup = FutureGroup();
 
-    var a =  mapUtil.getDevices();
-    var b =  mapUtil.getTraccarPositionforAll();
+    var a = mapUtil.getDevices();
+    var b = mapUtil.getTraccarPositionforAll();
     var devices = await a;
-    var  gpsDataAll = await b;
+    var gpsDataAll = await b;
     trucklist.clear();
     devicelist.clear();
     for (var device in devices) {
@@ -632,7 +635,6 @@ class _MyTrucksState extends State<MyTrucks> {
     futureGroup.close();
     await futureGroup.future; */ //Fire all APIs at once (not one after the other)
 
-    
     for (int i = 0; i < gpsDataAll.length; i++) {
       print("DeviceId is ${devices[i].deviceId} for ${devices[i].truckno}");
 
@@ -767,8 +769,6 @@ class _MyTrucksState extends State<MyTrucks> {
 
       stat.removeAt(i);
       stat.insert(i, "Online");
-     
-      
     } else {
       StoppedStat.removeAt(i);
       StoppedStat.insert(i, "Offline");

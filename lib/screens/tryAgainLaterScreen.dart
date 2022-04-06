@@ -13,7 +13,7 @@ class TryAgainLaterScreen extends StatefulWidget {
   final List gpsData;
   final List gpsDataHistory;
   final List gpsStoppageHistory;
-  final List routeHistory;
+  //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
   final String? driverNum;
@@ -24,7 +24,7 @@ class TryAgainLaterScreen extends StatefulWidget {
       {required this.gpsData,
       required this.gpsDataHistory,
       required this.gpsStoppageHistory,
-      required this.routeHistory,
+      //required this.routeHistory,
       // required this.position,
       this.TruckNo,
       this.driverName,

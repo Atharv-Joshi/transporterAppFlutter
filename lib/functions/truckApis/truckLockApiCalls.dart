@@ -29,7 +29,7 @@ Future<String> postCommandsApi(
   final List gpsData,
   var gpsDataHistory,
   var gpsStoppageHistory,
-  var routeHistory,
+  //var routeHistory,
   final String? TruckNo,
   final String? driverNum,
   final String? driverName,

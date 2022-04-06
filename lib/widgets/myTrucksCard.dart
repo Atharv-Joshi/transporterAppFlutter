@@ -100,27 +100,24 @@ class _MyTruckCardState extends State<MyTruckCard> {
       margin: EdgeInsets.only(bottom: space_2),
       child: GestureDetector(
         onTap: () async {
-          
-          
-            Get.to(
-              TrackScreen(
-                deviceId: widget.gpsData.deviceId,
-                gpsData: widget.gpsData,
-                // position: position,
-                TruckNo: widget.truckno,
+          Get.to(
+            TrackScreen(
+              deviceId: widget.gpsData.deviceId,
+              gpsData: widget.gpsData,
+              // position: position,
+              TruckNo: widget.truckno,
               //  no_stoppages: no_stoppages,
-                //   driverName: widget.truckData.driverName,
-                //  driverNum: widget.truckData.driverNum,
+              //   driverName: widget.truckData.driverName,
+              //  driverNum: widget.truckData.driverNum,
               //  gpsDataHistory: gpsDataHistory,
               //  gpsStoppageHistory: gpsStoppageHistory,
-               // gpsRoute: gpsRoute,
-             //   routeHistory: gpsRoute,
-                //    truckId: widget.truckData.truckId,
-                totalDistance: totalDistance,
-                imei: widget.imei,
-              ),
-            );
-          
+              // gpsRoute: gpsRoute,
+              //routeHistory: gpsRoute,
+              //    truckId: widget.truckData.truckId,
+              totalDistance: totalDistance,
+              imei: widget.imei,
+            ),
+          );
         },
         child: Card(
           elevation: 5,
@@ -278,8 +275,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                               : Container(
                                   child: Column(
                                     children: [
-                                      Text(
-                                          "0 km/h",
+                                      Text("0 km/h",
                                           style: TextStyle(
                                               color: red,
                                               fontSize: size_10,

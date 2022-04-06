@@ -336,38 +336,38 @@ class _AllMapWidgetState extends State<AllMapWidget>
               ),
             ),
           ),
-          Positioned(
-            right: 10,
-            bottom: height / 3 + 40,
-            child: SizedBox(
-              height: 40,
-              child: FloatingActionButton(
-                heroTag: "btn3",
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                child: const Icon(Icons.my_location,
-                    size: 22, color: Color(0xFF152968)),
-                onPressed: () {
-                  //mapAllTrucksNearUser(20);
-                  setState(() {
-                    trucksNearUserController.updateDistanceRadiusData(16000);
-                    trucksNearUserController.updateNearStatusData(false);
+          // Positioned(
+          //   right: 10,
+          //   bottom: height / 3 + 40,
+          //   child: SizedBox(
+          //     height: 40,
+          //     child: FloatingActionButton(
+          //       heroTag: "btn3",
+          //       backgroundColor: Colors.white,
+          //       foregroundColor: Colors.black,
+          //       child: const Icon(Icons.my_location,
+          //           size: 22, color: Color(0xFF152968)),
+          //       onPressed: () {
+          //         //mapAllTrucksNearUser(20);
+          //         setState(() {
+          //           //trucksNearUserController.updateDistanceRadiusData(16000);
+          //           trucksNearUserController.updateNearStatusData(false);
 
-                    showDialog(
-                            context: context,
-                            builder: (context) => UserNearLocationSelection())
-                        .then((value) {
-                      if (value) {
-                        setState(() {});
-                      }
-                    });
-                    print(" kkkkkk ");
-                    print(trucksNearUserController.nearStatus.value);
-                  });
-                },
-              ),
-            ),
-          ),
+          //           showDialog(
+          //                   context: context,
+          //                   builder: (context) => UserNearLocationSelection())
+          //               .then((value) {
+          //             if (value) {
+          //               setState(() {});
+          //             }
+          //           });
+          //           print(" kkkkkk ");
+          //           print(trucksNearUserController.nearStatus.value);
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // ),
         ]),
       ),
     );
