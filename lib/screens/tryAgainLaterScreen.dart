@@ -10,9 +10,9 @@ import '../constants/fontSize.dart';
 import '../constants/fontWeights.dart';
 
 class TryAgainLaterScreen extends StatefulWidget {
-  final List gpsData;
-  final List gpsDataHistory;
-  final List gpsStoppageHistory;
+  //final List gpsData;
+  //final List gpsDataHistory;
+  //final List gpsStoppageHistory;
   //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
@@ -21,9 +21,10 @@ class TryAgainLaterScreen extends StatefulWidget {
   final String? truckId;
 
   TryAgainLaterScreen(
-      {required this.gpsData,
-      required this.gpsDataHistory,
-      required this.gpsStoppageHistory,
+      {
+      //required this.gpsData,
+      //required this.gpsDataHistory,
+      //required this.gpsStoppageHistory,
       //required this.routeHistory,
       // required this.position,
       this.TruckNo,

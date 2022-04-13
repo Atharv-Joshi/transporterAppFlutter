@@ -397,14 +397,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 width: 30,
                                 alignment: Alignment.centerLeft,
                                 child: (widget.gpsData.rssi == 0)
-                                    ? Container(
-                                        alignment: Alignment.center,
-                                        child: Text("-",
-                                            style: TextStyle(
-                                                color: red,
-                                                fontSize: 30,
-                                                fontStyle: FontStyle.normal,
-                                                fontWeight: regularWeight)),
+                                    ? Image(
+                                        image: AssetImage(
+                                            "assets/icons/signalIconZero.png"),
                                       )
                                     : (widget.gpsData.rssi == 1)
                                         ? Image(

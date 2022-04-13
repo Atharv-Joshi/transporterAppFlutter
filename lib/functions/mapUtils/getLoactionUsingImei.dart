@@ -75,7 +75,7 @@ class MapUtil {
       print(response.statusCode);
       print(response.body);
       var jsonData = await jsonDecode(response.body);
-      print("BODY IS${response.body}");
+      print("Positions BODY IS${response.body}");
       var LatLongList = [];
       if (response.statusCode == 200) {
         for (var json in jsonData) {
@@ -86,6 +86,9 @@ class MapUtil {
           gpsDataModel.rssi = json["attributes"]["rssi"] != null
               ? json["attributes"]["rssi"]
               : 0;
+          gpsDataModel.result = json["attributes"]["result"] != null
+              ? json["attributes"]["result"]
+              : 'NA';
           gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           gpsDataModel.longitude =
@@ -144,6 +147,7 @@ class MapUtil {
             print("ADD $addressstring");
           } catch (e) {
             print(e);
+
             addressstring = "";
           }
           gpsDataModel.address = "$addressstring";
@@ -181,6 +185,9 @@ class MapUtil {
           gpsDataModel.rssi = json["attributes"]["rssi"] != null
               ? json["attributes"]["rssi"]
               : 0;
+          gpsDataModel.result = json["attributes"]["result"] != null
+              ? json["attributes"]["result"]
+              : 'NA';
           gpsDataModel.latitude =
               json["latitude"] != null ? json["latitude"] : 0;
           gpsDataModel.longitude =

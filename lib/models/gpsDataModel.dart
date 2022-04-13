@@ -20,6 +20,7 @@ class GpsDataModel {
   String? startTime;
   String? endTime;
   bool? motion;
+  String? result;
 
   GpsDataModel({
     this.speed,
@@ -41,5 +42,6 @@ class GpsDataModel {
     this.endTime,
     this.motion,
     this.ignition,
+    this.result,
   });
 }

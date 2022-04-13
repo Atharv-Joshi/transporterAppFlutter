@@ -14,9 +14,9 @@ import 'package:liveasy/widgets/alertDialog/truckLockDialog.dart';
 
 class TruckLockUnlock extends StatefulWidget {
   final int? deviceId;
-  final List gpsData;
-  var gpsDataHistory;
-  var gpsStoppageHistory;
+  var gpsData;
+  //var gpsDataHistory;
+  //var gpsStoppageHistory;
   //var routeHistory;
   final String? TruckNo;
   final String? driverNum;
@@ -25,8 +25,8 @@ class TruckLockUnlock extends StatefulWidget {
 
   TruckLockUnlock({
     required this.gpsData,
-    required this.gpsDataHistory,
-    required this.gpsStoppageHistory,
+    //required this.gpsDataHistory,
+    //required this.gpsStoppageHistory,
     //required this.routeHistory,
     // required this.position,
     this.TruckNo,
@@ -51,9 +51,11 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    lockState = lockStorage.read('lockState');
-    lockUnlockController.updateLockUnlockStatus(lockState);
+    //lockState = lockStorage.read('lockState');
+    //lockUnlockController.updateLockUnlockStatus(lockState);
     //lockState = lockUnlockController.lockUnlockStatus.value;
+    print("THE VALUE OF RESULT ${widget.gpsData.result}");
+    parseResult();
     print("INSIDE INIT OF LOCK");
     print(
         "THE CONTROLLER VALUE IS ${lockUnlockController.lockUnlockStatus.value}");
@@ -231,14 +233,14 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                   context: context,
                                   builder: (context) => TruckLockDialog(
                                         deviceId: widget.deviceId,
-                                        gpsData: widget.gpsData,
+                                        //gpsData: widget.gpsData,
                                         // position: position,
                                         TruckNo: widget.TruckNo,
                                         driverName: widget.driverName,
                                         driverNum: widget.driverNum,
-                                        gpsDataHistory: widget.gpsDataHistory,
-                                        gpsStoppageHistory:
-                                            widget.gpsStoppageHistory,
+                                        //gpsDataHistory: widget.gpsDataHistory,
+                                        //gpsStoppageHistory:
+                                        //widget.gpsStoppageHistory,
                                         //routeHistory: widget.routeHistory,
                                         truckId: widget.truckId,
                                         value: value[1],
@@ -316,14 +318,14 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                 context: context,
                                 builder: (context) => TruckLockDialog(
                                       deviceId: widget.deviceId,
-                                      gpsData: widget.gpsData,
+                                      //gpsData: widget.gpsData,
                                       // position: position,
                                       TruckNo: widget.TruckNo,
                                       driverName: widget.driverName,
                                       driverNum: widget.driverNum,
-                                      gpsDataHistory: widget.gpsDataHistory,
-                                      gpsStoppageHistory:
-                                          widget.gpsStoppageHistory,
+                                      //gpsDataHistory: widget.gpsDataHistory,
+                                      //gpsStoppageHistory:
+                                      //widget.gpsStoppageHistory,
                                       //routeHistory: widget.routeHistory,
                                       truckId: widget.truckId,
                                       value: value[0],
@@ -346,5 +348,41 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
         ),
       ),
     ));
+  }
+
+  void parseResult() {
+    print("INTO PARSING ${widget.gpsData.result}");
+    if (widget.gpsData.result == "Restore fuel supply:Success!") {
+      lockState = true;
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      // print("Restore fuel success");
+      // lockStorage.write('lockState', true);
+      // lockUnlockController.lockUnlockStatus.value = true;
+      // lockUnlockController.updateLockUnlockStatus(true);
+
+    } else if (widget.gpsData.result == "Cut off the fuel supply: Success!") {
+      lockState = false;
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      // print("Cutoff supply successful");
+      // lockStorage.write('lockState', false);
+      // lockUnlockController.lockUnlockStatus.value = false;
+      // lockUnlockController.updateLockUnlockStatus(false);
+    } else if (widget.gpsData.result ==
+        "Already in the state of  fuel supply cut off, the command is not running!") {
+      lockState = false;
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      // lockStorage.write('lockState', false);
+      // lockUnlockController.lockUnlockStatus.value = false;
+      // lockUnlockController.updateLockUnlockStatus(false);
+    } else if (widget.gpsData.result ==
+        "Already in the state of fuel supply to resume,the command is not running!") {
+      lockState = true;
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      // lockStorage.write('lockState', true);
+      // lockUnlockController.lockUnlockStatus.value = true;
+      // lockUnlockController.updateLockUnlockStatus(true);
+    } else {
+      lockState = true;
+    }
   }
 }
