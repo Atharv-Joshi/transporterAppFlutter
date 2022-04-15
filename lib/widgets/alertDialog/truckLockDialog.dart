@@ -11,9 +11,9 @@ import 'package:liveasy/screens/tryAgainLaterScreen.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class TruckLockDialog extends StatefulWidget {
-  //final List gpsData;
-  //final List gpsDataHistory;
-  //final List gpsStoppageHistory;
+  final List gpsData;
+  final List gpsDataHistory;
+  final List gpsStoppageHistory;
   //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
@@ -23,10 +23,9 @@ class TruckLockDialog extends StatefulWidget {
   String? value;
 
   TruckLockDialog(
-      {
-      //required this.gpsData,
-      //required this.gpsDataHistory,
-      //required this.gpsStoppageHistory,
+      {required this.gpsData,
+      required this.gpsDataHistory,
+      required this.gpsStoppageHistory,
       //required this.routeHistory,
       // required this.position,
       this.TruckNo,
@@ -42,6 +41,7 @@ class TruckLockDialog extends StatefulWidget {
 
 class _TruckLockDialogState extends State<TruckLockDialog> {
   final lockStorage = GetStorage();
+  LockUnlockController lockUnlockController = Get.find<LockUnlockController>();
   var lockState;
   var routeHistory;
   @override
@@ -109,9 +109,9 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                           onPressed: () async {
                             if (widget.value == "Unlock") {
                               await postCommandsApi(
-                                      //widget.gpsData,
-                                      //widget.gpsDataHistory,
-                                      //widget.gpsStoppageHistory,
+                                      widget.gpsData,
+                                      widget.gpsDataHistory,
+                                      widget.gpsStoppageHistory,
                                       //routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
@@ -168,15 +168,15 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                         //         NextUpdateAlertDialog());
                                         Get.to(() => TryAgainLaterScreen(
                                             deviceId: widget.deviceId,
-                                            //gpsData: widget.gpsData,
+                                            gpsData: widget.gpsData,
                                             // position: position,
                                             TruckNo: widget.TruckNo,
                                             driverName: widget.driverName,
                                             driverNum: widget.driverNum,
-                                            //gpsDataHistory:
-                                            //widget.gpsDataHistory,
-                                            //gpsStoppageHistory:
-                                            //widget.gpsStoppageHistory,
+                                            gpsDataHistory:
+                                                widget.gpsDataHistory,
+                                            gpsStoppageHistory:
+                                                widget.gpsStoppageHistory,
                                             //routeHistory: widget.routeHistory,
                                             truckId: widget.truckId));
                                       }
@@ -193,9 +193,9 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                             } else if (widget.value == "Lock") {
                               // setState(() {});
                               await postCommandsApi(
-                                      //widget.gpsData,
-                                      //widget.gpsDataHistory,
-                                      //widget.gpsStoppageHistory,
+                                      widget.gpsData,
+                                      widget.gpsDataHistory,
+                                      widget.gpsStoppageHistory,
                                       //routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
@@ -251,15 +251,15 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                         //         NextUpdateAlertDialog());
                                         Get.to(() => TryAgainLaterScreen(
                                             deviceId: widget.deviceId,
-                                            //gpsData: widget.gpsData,
+                                            gpsData: widget.gpsData,
                                             // position: position,
                                             TruckNo: widget.TruckNo,
                                             driverName: widget.driverName,
                                             driverNum: widget.driverNum,
-                                            //gpsDataHistory:
-                                            //widget.gpsDataHistory,
-                                            //gpsStoppageHistory:
-                                            //widget.gpsStoppageHistory,
+                                            gpsDataHistory:
+                                                widget.gpsDataHistory,
+                                            gpsStoppageHistory:
+                                                widget.gpsStoppageHistory,
                                             //routeHistory: widget.routeHistory,
                                             truckId: widget.truckId));
                                       }

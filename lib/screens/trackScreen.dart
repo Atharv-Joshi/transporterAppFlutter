@@ -998,16 +998,15 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                           {
                                             //   print("THE DATA ${widget.truckId}"),
                                             Get.to(TruckLockUnlock(
-                                              deviceId: widget.deviceId,
-                                              gpsData: widget.gpsData,
-                                              // position: position,
-                                              TruckNo: widget.TruckNo,
-                                              //   driverName: widget.driverName,
-                                              //   driverNum: widget.driverNum,
-                                              //gpsDataHistory: gpsDataHistory,
-                                              //gpsStoppageHistory:
-                                              //gpsStoppageHistory
-                                            ))
+                                                deviceId: widget.deviceId,
+                                                gpsData: newGPSData,
+                                                // position: position,
+                                                TruckNo: widget.TruckNo,
+                                                //   driverName: widget.driverName,
+                                                //   driverNum: widget.driverNum,
+                                                gpsDataHistory: gpsDataHistory,
+                                                gpsStoppageHistory:
+                                                    gpsStoppageHistory))
                                             // routeHistory:
                                             //     widget.routeHistory))
                                             // truckId: widget.truckId))

@@ -26,9 +26,9 @@ LockUnlockController lockUnlockController = Get.find<LockUnlockController>();
 
 //TRACCAR API CALLS------------------------------------------------------------
 Future<String> postCommandsApi(
-  //final List gpsData,
-  //var gpsDataHistory,
-  //var gpsStoppageHistory,
+  final List gpsData,
+  var gpsDataHistory,
+  var gpsStoppageHistory,
   //var routeHistory,
   final String? TruckNo,
   final String? driverNum,
