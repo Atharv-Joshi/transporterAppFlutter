@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/trucksNearUserController.dart';
+import 'package:liveasy/functions/truckApis/truckLockApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/MapScreenBarButton.dart';
@@ -71,10 +76,36 @@ class _MapAllTrucksState extends State<MapAllTrucks>
   var maptype = MapType.normal;
   double zoom = 8;
 
+  // var _currentPosition;
+  // var customGpsDataList = [];
+  // var customDeviceList = [];
+  // var customRunningDataList = [];
+  // var customRunningGpsDataList = [];
+  // var customStoppedList = [];
+  // var customStoppedGpsList = [];
+  // var rangeDistance;
+  // //bool nearStatus = true;
+
+  // TrucksNearUserController trucksNearUserController =
+  //     Get.put(TrucksNearUserController());
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
+    // customGpsDataList = widget.gpsDataList;
+    // customDeviceList = widget.deviceList;
+    // customRunningDataList = widget.runningDataList;
+    // customRunningGpsDataList = widget.runningGpsDataList;
+    // customStoppedList = widget.stoppedList;
+    // customStoppedGpsList = widget.stoppedGpsList;
+    // customGpsDataList = [];
+    // customDeviceList = [];
+    // customRunningDataList = [];
+    // customRunningGpsDataList = [];
+    // customStoppedList = [];
+    // customStoppedGpsList = [];
+    //_getCurrentLocation();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -176,7 +207,10 @@ class _MapAllTrucksState extends State<MapAllTrucks>
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          child: Column(children: [
+          child:
+              // Obx(
+              //   () =>
+              Column(children: [
             Row(children: [
               GestureDetector(
                 onTap: () {
@@ -249,6 +283,8 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                 ],
               ),
             ),
+            // Obx(
+            //   () =>
             Container(
                 height: MediaQuery.of(context).size.height - 125,
                 child: PageView(
@@ -256,6 +292,7 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                     onPageChanged: (value) {
                       setState(() {
                         providerData.updateUpperNavigatorIndex(value);
+                        print("IN TRUEE PAGE PAGE");
                       });
                     },
                     children: [
@@ -268,10 +305,220 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                       AllMapWidget(
                           gpsDataList: widget.stoppedGpsList,
                           truckDataList: widget.stoppedList),
-                    ])),
+                    ])
+                // trucksNearUserController.nearStatus.value
+                //     ? PageView(
+                //         controller: pageController,
+                //         onPageChanged: (value) {
+                //           setState(() {
+                //             providerData.updateUpperNavigatorIndex(value);
+                //             print("IN TRUEE PAGE PAGE");
+                //           });
+                //         },
+                //         children: [
+                //             AllMapWidget(
+                //                 gpsDataList: widget.gpsDataList,
+                //                 truckDataList: widget.deviceList),
+                //             AllMapWidget(
+                //                 gpsDataList: widget.runningGpsDataList,
+                //                 truckDataList: widget.runningDataList),
+                //             AllMapWidget(
+                //                 gpsDataList: widget.stoppedGpsList,
+                //                 truckDataList: widget.stoppedList),
+                //           ])
+                //     // : Container()
+                //     : PageView(
+                //         controller: pageController,
+                //         onPageChanged: (value) {
+                //           setState(() {
+                //             providerData.updateUpperNavigatorIndex(value);
+                //             print("INTO THE SELECTION  . .");
+                //             mapAllTrucksNearUser();
+                //           });
+                //         },
+                //         children: [
+                //             AllMapWidget(
+                //                 gpsDataList: customGpsDataList,
+                //                 truckDataList: customDeviceList),
+                //             AllMapWidget(
+                //                 gpsDataList: customRunningGpsDataList,
+                //                 truckDataList: customRunningDataList),
+                //             AllMapWidget(
+                //                 gpsDataList: customStoppedGpsList,
+                //                 truckDataList: customStoppedList),
+                //           ])
+                ),
+            //),
           ]),
+          //)
         ),
       ),
     );
   }
+
+  // _getCurrentLocation() {
+  //   Geolocator.getCurrentPosition(
+  //           desiredAccuracy: LocationAccuracy.best,
+  //           forceAndroidLocationManager: true)
+  //       .then((Position position) {
+  //     setState(() {
+  //       _currentPosition = position;
+  //       print(
+  //           "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${_currentPosition.longitude}");
+  //       //widget.gpsDataList[1].latitude
+  //       print(
+  //           "CURRENT LOCATION IS ${widget.gpsDataList[1].latitude} AND ${widget.gpsDataList[1].longitude}");
+  //     });
+  //   }).catchError((e) {
+  //     print(e);
+  //   });
+  // }
+
+  // void mapAllTrucksNearUser() {
+  //   // customGpsDataList = [];
+  //   // customDeviceList = [];
+  //   // customRunningDataList = [];
+  //   // customRunningGpsDataList = [];
+  //   // customStoppedList = [];
+  //   // customStoppedGpsList = [];
+
+  //   var customGpsDataListDummy = [];
+  //   var customDeviceListDummy = [];
+  //   var customRunningDataListDummy = [];
+  //   var customRunningGpsDataListDummy = [];
+  //   var customStoppedListDummy = [];
+  //   var customStoppedGpsListDummy = [];
+
+  //   print("INSIDE THE MAP_ALLFUNCTION");
+  //   print(trucksNearUserController.distanceRadius.value);
+  //   print(
+  //       "THE CONTENT IS ${widget.gpsDataList[0]} and the lenght is ${widget.gpsDataList.length}");
+  //   //var j = 0;
+  //   for (var i = 0; i < widget.gpsDataList.length; i++) {
+  //     print(widget.gpsDataList[i]);
+  //     var distanceStore = Geolocator.distanceBetween(
+  //             widget.gpsDataList[i].latitude,
+  //             widget.gpsDataList[i].longitude,
+  //             _currentPosition.latitude,
+  //             _currentPosition.longitude) /
+  //         1000;
+  //     print(distanceStore);
+  //     print("THE CODE VALUE ${trucksNearUserController.distanceRadius.value}");
+  //     if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+  //       print("TRYINGGGGGG");
+  //       customGpsDataListDummy.add(widget.gpsDataList[i]);
+  //       customDeviceListDummy.add(widget.deviceList[i]);
+  //       // customRunningDataListDummy.add(widget.runningDataList[i]);
+  //       // customRunningGpsDataListDummy.add(widget.runningGpsDataList[i]);
+  //       // customStoppedListDummy.add(widget.stoppedList[i]);
+  //       // customStoppedGpsListDummy.add(widget.stoppedGpsList[i]);
+  //     }
+  //     // else {
+  //     //   print("STILL TRYINGGGGGG");
+  //     //   print(distanceStore);
+  //     //   customGpsDataList[i] = [];
+  //     //   customDeviceList[i] = [];
+  //     //   customRunningDataList[i] = [];
+  //     //   customRunningGpsDataList[i] = [];
+  //     //   customStoppedList[i] = [];
+  //     //   customStoppedGpsList[i] = [];
+  //     // }
+  //   }
+
+  //   // if (widget.runningDataList[0] != null) {
+  //   //   for (var i = 0; i < widget.runningDataList.length; i++) {
+  //   //     print(widget.runningDataList[i]);
+  //   //     var distanceStore = Geolocator.distanceBetween(
+  //   //             widget.runningDataList[i].latitude,
+  //   //             widget.runningDataList[i].longitude,
+  //   //             _currentPosition.latitude,
+  //   //             _currentPosition.longitude) /
+  //   //         1000;
+  //   //     print(distanceStore);
+  //   //     print(
+  //   //         "THE RUNNING CODE VALUE ${trucksNearUserController.distanceRadius.value}");
+  //   //     if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+  //   //       print("TRYINGGGGGG IN RUNNING");
+  //   //       // customGpsDataListDummy.add(widget.gpsDataList[i]);
+  //   //       // customDeviceListDummy.add(widget.deviceList[i]);
+  //   //       customRunningDataListDummy.add(widget.runningDataList[i]);
+  //   //       customRunningGpsDataListDummy.add(widget.runningGpsDataList[i]);
+  //   //       // customStoppedListDummy.add(widget.stoppedList[i]);
+  //   //       // customStoppedGpsListDummy.add(widget.stoppedGpsList[i]);
+  //   //     }
+  //   //   }
+  //   // }
+
+  //   // for (var i = 0; i < widget.runningDataList.length; i++) {
+  //   //   print(widget.runningDataList[i]);
+  //   //   var distanceStore = Geolocator.distanceBetween(
+  //   //           widget.runningDataList[i].latitude,
+  //   //           widget.runningDataList[i].longitude,
+  //   //           _currentPosition.latitude,
+  //   //           _currentPosition.longitude) /
+  //   //       1000;
+  //   //   print(distanceStore);
+  //   //   print("THE CODE VALUE ${trucksNearUserController.distanceRadius.value}");
+  //   //   if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+  //   //     print("TRYINGGGGGG");
+  //   //     // customGpsDataListDummy.add(widget.gpsDataList[i]);
+  //   //     // customDeviceListDummy.add(widget.deviceList[i]);
+  //   //     customRunningDataListDummy.add(widget.runningDataList[i]);
+  //   //     customRunningGpsDataListDummy.add(widget.runningGpsDataList[i]);
+  //   //     // customStoppedListDummy.add(widget.stoppedList[i]);
+  //   //     // customStoppedGpsListDummy.add(widget.stoppedGpsList[i]);
+  //   //   }
+  //   // }
+
+  //   // for (var i = 0; i < widget.stoppedList.length; i++) {
+  //   //   print(widget.stoppedList[i]);
+  //   //   var distanceStore = Geolocator.distanceBetween(
+  //   //           widget.stoppedList[i].latitude,
+  //   //           widget.stoppedList[i].longitude,
+  //   //           _currentPosition.latitude,
+  //   //           _currentPosition.longitude) /
+  //   //       1000;
+  //   //   print(distanceStore);
+  //   //   print("THE CODE VALUE ${trucksNearUserController.distanceRadius.value}");
+  //   //   if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+  //   //     print("TRYINGGGGGG");
+  //   //     // customGpsDataListDummy.add(widget.gpsDataList[i]);
+  //   //     // customDeviceListDummy.add(widget.deviceList[i]);
+  //   //     // customRunningDataListDummy.add(widget.runningDataList[i]);
+  //   //     // customRunningGpsDataListDummy.add(widget.runningGpsDataList[i]);
+  //   //     customStoppedListDummy.add(widget.stoppedList[i]);
+  //   //     customStoppedGpsListDummy.add(widget.stoppedGpsList[i]);
+  //   //   }
+  //   // }
+
+  //   setState(() {
+  //     customGpsDataList = [];
+  //     customDeviceList = [];
+  //     customRunningDataList = [];
+  //     customRunningGpsDataList = [];
+  //     customStoppedList = [];
+  //     customStoppedGpsList = [];
+
+  //     customGpsDataList.addAll(customGpsDataListDummy);
+  //     customDeviceList.addAll(customDeviceListDummy);
+  //     customRunningDataList.addAll(customRunningDataListDummy);
+  //     customRunningGpsDataList.addAll(customRunningGpsDataListDummy);
+  //     customStoppedList.addAll(customStoppedListDummy);
+  //     customStoppedGpsList.addAll(customStoppedGpsListDummy);
+  //     print("THE NEW LIST HAS ${customGpsDataList}");
+  //     AllMapWidget(
+  //         gpsDataList: customGpsDataList, truckDataList: customGpsDataList);
+  //   });
+  //   //print("OUT OF FORRRR");
+  //   return;
+  // }
+
+  // double calculateDistance(lat1, lon1, lat2, lon2) {
+  //   var p = 0.017453292519943295;
+  //   var c = cos;
+  //   var a = 0.5 -
+  //       c((lat2 - lat1) * p) / 2 +
+  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  //   return 12742 * asin(sqrt(a));
+  // }
 }

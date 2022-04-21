@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
@@ -171,3 +171,4 @@ class _TruckLockScreenState extends State<TruckLockScreen> {
     );
   }
 }
+ */

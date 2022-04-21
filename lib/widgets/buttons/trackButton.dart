@@ -23,7 +23,6 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/screens/trackScreen.dart';
 import 'package:logger/logger.dart';
 
-
 // ignore: must_be_immutable
 class TrackButton extends StatefulWidget {
   bool truckApproved = false;
@@ -34,15 +33,14 @@ class TrackButton extends StatefulWidget {
   String? DriverName;
   var gpsData;
   // TrackButton({required this.truckApproved, this.phoneNo, this.userLocation, this.TruckNo, this.imei});
-  TrackButton({
-    required this.truckApproved,
-    this.gpsData,
-    this.phoneNo,
-    this.userLocation,
-    this.TruckNo,
-    this.DriverName,
-    this.imei
-  });
+  TrackButton(
+      {required this.truckApproved,
+      this.gpsData,
+      this.phoneNo,
+      this.userLocation,
+      this.TruckNo,
+      this.DriverName,
+      this.imei});
 
   @override
   _TrackButtonState createState() => _TrackButtonState();
@@ -60,23 +58,24 @@ class _TrackButtonState extends State<TrackButton> {
   var endTimeParam;
   var startTimeParam;
   MapUtil mapUtil = MapUtil();
-  bool loading=false;
+  bool loading = false;
   late String from;
   late String to;
   var totalDistance;
   @override
   void initState() {
     super.initState();
-    DateTime yesterday = DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30)); //from param
+    DateTime yesterday = DateTime.now()
+        .subtract(Duration(days: 1, hours: 5, minutes: 30)); //from param
     from = yesterday.toIso8601String();
-    DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30)); //to param
+    DateTime now =
+        DateTime.now().subtract(Duration(hours: 5, minutes: 30)); //to param
     to = now.toIso8601String();
 
     setState(() {
       loading = true;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,44 +91,46 @@ class _TrackButtonState extends State<TrackButton> {
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
-        onPressed: () async{
-            EasyLoading.instance
-              ..indicatorType = EasyLoadingIndicatorType.ring
-              ..indicatorSize = 45.0
-              ..radius = 10.0
-              ..maskColor = darkBlueColor
-              ..userInteractions = false
-              ..backgroundColor = darkBlueColor
-              ..dismissOnTap = false;
-            EasyLoading.show(
-              status: "Loading...",
-            );
-            gpsDataHistory = await getDataHistory(widget.gpsData.last.deviceId, from , to);
-            gpsStoppageHistory = await getStoppageHistory(widget.gpsData.last.deviceId, from , to);
-            gpsRoute = await getRouteStatusList(widget.gpsData.last.deviceId, from , to);
+        onPressed: () async {
+          EasyLoading.instance
+            ..indicatorType = EasyLoadingIndicatorType.ring
+            ..indicatorSize = 45.0
+            ..radius = 10.0
+            ..maskColor = darkBlueColor
+            ..userInteractions = false
+            ..backgroundColor = darkBlueColor
+            ..dismissOnTap = false;
+          EasyLoading.show(
+            status: "Loading...",
+          );
+          gpsDataHistory =
+              await getDataHistory(widget.gpsData.last.deviceId, from, to);
+          gpsStoppageHistory =
+              await getStoppageHistory(widget.gpsData.last.deviceId, from, to);
+          gpsRoute =
+              await getRouteStatusList(widget.gpsData.last.deviceId, from, to);
 
-            if (gpsRoute!= null) {
-              EasyLoading.dismiss();
-              Get.to(
-                TrackScreen(
-                  deviceId:  truckData.deviceId,
-                  gpsData: widget.gpsData,
-                  // position: position,
-                  TruckNo:  truckData.truckNo,
+          if (gpsRoute != null) {
+            EasyLoading.dismiss();
+            Get.to(
+              TrackScreen(
+                deviceId: truckData.deviceId,
+                gpsData: widget.gpsData,
+                // position: position,
+                TruckNo: truckData.truckNo,
                 //  driverName: truckData.driverName,
                 //  driverNum: truckData.driverNum,
-               //   gpsDataHistory: gpsDataHistory,
+                //   gpsDataHistory: gpsDataHistory,
                 //  gpsStoppageHistory: gpsStoppageHistory,
-                //  routeHistory: gpsRoute,
+                //routeHistory: gpsRoute,
                 //  truckId: truckData.truckId,
-                  totalDistance: totalDistance,
-                ),
-              );
-            }
-            else{
-              EasyLoading.dismiss();
-              print("gpsData null");
-            }
+                totalDistance: totalDistance,
+              ),
+            );
+          } else {
+            EasyLoading.dismiss();
+            print("gpsData null");
+          }
         },
         child: Container(
           margin: EdgeInsets.only(left: space_2),

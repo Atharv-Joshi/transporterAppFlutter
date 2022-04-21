@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/controller/lockUnlockController.dart';
 import 'package:liveasy/functions/truckApis/truckLockApiCalls.dart';
+import 'package:liveasy/screens/tryAgainLaterScreen.dart';
+import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 
 class TruckLockDialog extends StatefulWidget {
   final List gpsData;
   final List gpsDataHistory;
   final List gpsStoppageHistory;
- // final List routeHistory;
+  //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
   final String? driverNum;
@@ -21,7 +26,7 @@ class TruckLockDialog extends StatefulWidget {
       {required this.gpsData,
       required this.gpsDataHistory,
       required this.gpsStoppageHistory,
-    //  required this.routeHistory,
+      //required this.routeHistory,
       // required this.position,
       this.TruckNo,
       this.driverName,
@@ -36,6 +41,7 @@ class TruckLockDialog extends StatefulWidget {
 
 class _TruckLockDialogState extends State<TruckLockDialog> {
   final lockStorage = GetStorage();
+  LockUnlockController lockUnlockController = Get.find<LockUnlockController>();
   var lockState;
   var routeHistory;
   @override
@@ -65,7 +71,9 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text("Kya aap pakka truck ko ${widget.value} karna chahte hai?".tr,
+                Text(
+                    "Kya aap pakka truck ko ${widget.value} karna chahte hai?"
+                        .tr,
                     style: TextStyle(fontSize: 20, fontWeight: boldWeight),
                     textAlign: TextAlign.center),
                 SizedBox(
@@ -104,7 +112,7 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                       widget.gpsData,
                                       widget.gpsDataHistory,
                                       widget.gpsStoppageHistory,
-                                      routeHistory,
+                                      //routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
                                       widget.driverName,
@@ -113,20 +121,82 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                       "engineResume",
                                       "sendingUnlock")
                                   .then((uploadstatus) async {
+                                // setState(() {});
                                 if (uploadstatus == "Success") {
                                   print("SENT UNLOCK TO DEVICE");
-                                  lockState = true;
-                                  lockStorage.write('lockState', lockState);
+                                  EasyLoading.instance
+                                    ..indicatorType =
+                                        EasyLoadingIndicatorType.ring
+                                    ..indicatorSize = 45.0
+                                    ..radius = 10.0
+                                    ..maskColor = darkBlueColor
+                                    ..userInteractions = false
+                                    ..backgroundColor = darkBlueColor
+                                    ..dismissOnTap = false;
+                                  EasyLoading.show(
+                                    status: "Loading...",
+                                  );
+                                  var timeNow = DateTime.now()
+                                      .subtract(Duration(hours: 5, minutes: 30))
+                                      .toIso8601String();
+                                  Timer(Duration(seconds: 15), () {
+                                    getCommandsResultApi(
+                                            widget.deviceId, timeNow)
+                                        .then((lockStatus) {
+                                      if (lockStatus == "unlock") {
+                                        EasyLoading.dismiss();
+                                        print("THE COMMAND WENT PROPERLY");
+                                        setState(() {
+                                          lockState = true;
+                                          lockStorage.write(
+                                              'lockState', lockState);
+                                          lockUnlockController
+                                              .lockUnlockStatus.value = true;
+                                          lockUnlockController
+                                              .updateLockUnlockStatus(true);
+                                        });
+                                        // lockState = true;
+                                        // lockStorage.write(
+                                        //     'lockState', lockState);
+                                      } else if (lockStatus == "null") {
+                                        print("THE COMMAND WENT NULL");
+                                        Get.back();
+                                        print("HERE");
+                                        // showDialog(
+                                        //     context: context,
+                                        //     builder: (dialogcontext) =>
+                                        //         NextUpdateAlertDialog());
+                                        Get.to(() => TryAgainLaterScreen(
+                                            deviceId: widget.deviceId,
+                                            gpsData: widget.gpsData,
+                                            // position: position,
+                                            TruckNo: widget.TruckNo,
+                                            driverName: widget.driverName,
+                                            driverNum: widget.driverNum,
+                                            gpsDataHistory:
+                                                widget.gpsDataHistory,
+                                            gpsStoppageHistory:
+                                                widget.gpsStoppageHistory,
+                                            //routeHistory: widget.routeHistory,
+                                            truckId: widget.truckId));
+                                      }
+                                    });
+                                    EasyLoading.dismiss();
+                                    Navigator.pop(context, true);
+                                  });
+                                  //lockState = true;
+                                  //lockStorage.write('lockState', lockState);
                                 } else {
                                   print("PROBLEM IN SENDING TO DEVICE");
                                 }
                               });
                             } else if (widget.value == "Lock") {
+                              // setState(() {});
                               await postCommandsApi(
                                       widget.gpsData,
                                       widget.gpsDataHistory,
                                       widget.gpsStoppageHistory,
-                                      routeHistory,
+                                      //routeHistory,
                                       widget.driverNum,
                                       widget.TruckNo,
                                       widget.driverName,
@@ -137,13 +207,74 @@ class _TruckLockDialogState extends State<TruckLockDialog> {
                                   .then((uploadstatus) async {
                                 if (uploadstatus == "Success") {
                                   print("SENT LOCK TO DEVICE");
-                                  lockState = false;
-                                  lockStorage.write('lockState', lockState);
+                                  EasyLoading.instance
+                                    ..indicatorType =
+                                        EasyLoadingIndicatorType.ring
+                                    ..indicatorSize = 45.0
+                                    ..radius = 10.0
+                                    ..maskColor = darkBlueColor
+                                    ..userInteractions = false
+                                    ..backgroundColor = darkBlueColor
+                                    ..dismissOnTap = false;
+                                  EasyLoading.show(
+                                    status: "Loading...",
+                                  );
+                                  var timeNow = DateTime.now()
+                                      .subtract(Duration(hours: 5, minutes: 30))
+                                      .toIso8601String();
+                                  Timer(Duration(seconds: 15), () {
+                                    getCommandsResultApi(
+                                            widget.deviceId, timeNow)
+                                        .then((lockStatus) {
+                                      if (lockStatus == "lock") {
+                                        EasyLoading.dismiss();
+                                        print("THE COMMAND WENT PROPERLY");
+                                        setState(() {
+                                          lockState = false;
+                                          lockStorage.write(
+                                              'lockState', lockState);
+                                          lockUnlockController
+                                              .lockUnlockStatus.value = false;
+                                          lockUnlockController
+                                              .updateLockUnlockStatus(false);
+                                        });
+                                        // lockState = false;
+                                        // lockStorage.write(
+                                        //     'lockState', lockState);
+                                      } else if (lockStatus == "null") {
+                                        print("THE COMMAND WENT NULL");
+                                        Get.back();
+                                        print("HERE");
+                                        // showDialog(
+                                        //     context: context,
+                                        //     builder: (dialogcontext) =>
+                                        //         NextUpdateAlertDialog());
+                                        Get.to(() => TryAgainLaterScreen(
+                                            deviceId: widget.deviceId,
+                                            gpsData: widget.gpsData,
+                                            // position: position,
+                                            TruckNo: widget.TruckNo,
+                                            driverName: widget.driverName,
+                                            driverNum: widget.driverNum,
+                                            gpsDataHistory:
+                                                widget.gpsDataHistory,
+                                            gpsStoppageHistory:
+                                                widget.gpsStoppageHistory,
+                                            //routeHistory: widget.routeHistory,
+                                            truckId: widget.truckId));
+                                      }
+                                    });
+                                    EasyLoading.dismiss();
+                                    Navigator.pop(context, true);
+                                  });
+                                  //lockState = false;
+                                  //lockStorage.write('lockState', lockState);
                                 } else {
                                   print("PROBLEM IN SENDING TO DEVICE");
                                 }
                               });
                             }
+                            // Navigator.pop(context, true);
                           }),
                       ElevatedButton(
                           style: ButtonStyle(

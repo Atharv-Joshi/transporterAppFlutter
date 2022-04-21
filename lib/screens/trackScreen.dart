@@ -32,7 +32,7 @@ class TrackScreen extends StatefulWidget {
   final GpsDataModel gpsData;
 //  final List gpsDataHistory;
   // final List gpsStoppageHistory;
-//  final List routeHistory;
+  //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
   // final String? driverNum;
@@ -44,7 +44,7 @@ class TrackScreen extends StatefulWidget {
       {required this.gpsData,
       //  required this.gpsDataHistory,
       //  required this.gpsStoppageHistory,
-      //  required this.routeHistory,
+      //required this.routeHistory,
       // required this.position,
       required this.TruckNo,
       //   this.driverName,
@@ -174,13 +174,14 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     } catch (e) {
       logger.e("Error is $e");
     }
-
-    lockState = lockStorage.read('lockState');
-    if (lockState == null) {
-      lockState = false;
-      lockStorage.write('lockState', lockState);
-    }
-    print("lock STATE is $lockState");
+    print("THE VALUE OF RESULT ${widget.gpsData.result}");
+    //lockState = lockStorage.read('lockState');
+    // print("THE CACHE LOCKSTATE IS ${lockState}");
+    // if (lockState == null) {
+    //   lockState = false;
+    //   lockStorage.write('lockState', lockState);
+    // }
+    // print("lock STATE is $lockState");
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -698,7 +699,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                       Positioned(
                         left: 10,
-                        top: MediaQuery.of(context).size.height / 2,
+                        top: 325,
                         child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -710,6 +711,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                             child: Row(
                               children: [
                                 Container(
+                                  height: 40,
                                   decoration: BoxDecoration(
                                       color: col2,
                                       borderRadius: BorderRadius.horizontal(
@@ -742,6 +744,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                       )),
                                 ),
                                 Container(
+                                  height: 40,
                                   decoration: BoxDecoration(
                                     color: col1,
                                     borderRadius: BorderRadius.horizontal(
@@ -1004,8 +1007,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                                 gpsDataHistory: gpsDataHistory,
                                                 gpsStoppageHistory:
                                                     gpsStoppageHistory))
-                                            //    routeHistory:
-                                            //       widget.routeHistory))
+                                            // routeHistory:
+                                            //     widget.routeHistory))
                                             // truckId: widget.truckId))
                                             //   if (lockState == false)
                                             //     {

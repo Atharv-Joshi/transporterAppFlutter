@@ -141,7 +141,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               //   driverNum: driverModel.phoneNum,
               //   gpsDataHistory: gpsDataHistory,
               //   gpsStoppageHistory: gpsStoppageHistory,
-              //  routeHistory: gpsRoute,
+              //routeHistory: gpsRoute,
               //  truckId: truckData['truckId'],
               totalDistance: totalDistance,
             ),
