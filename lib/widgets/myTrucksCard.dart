@@ -394,25 +394,29 @@ class _MyTruckCardState extends State<MyTruckCard> {
                             Spacer(),
                             Container(
                                 height: 30,
-                                width: 30,
+                                width: 40,
                                 alignment: Alignment.centerLeft,
                                 child: (widget.gpsData.rssi == 0)
                                     ? Image(
+                                        width: 40,
                                         image: AssetImage(
                                             "assets/icons/signalIconZero.png"),
                                       )
                                     : (widget.gpsData.rssi == 1)
                                         ? Image(
+                                            width: 30,
                                             image: AssetImage(
                                                 "assets/icons/signalIconOne.png"),
                                           )
                                         : (widget.gpsData.rssi == 2)
                                             ? Image(
+                                                width: 30,
                                                 image: AssetImage(
                                                     "assets/icons/signalIconTwo.png"),
                                               )
                                             : (widget.gpsData.rssi == 3)
                                                 ? Image(
+                                                    width: 30,
                                                     image: AssetImage(
                                                         "assets/icons/signalIconThree.png"),
                                                   )
@@ -420,6 +424,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                                         widget.gpsData.rssi ==
                                                             5)
                                                     ? Image(
+                                                        width: 30,
                                                         image: AssetImage(
                                                             "assets/icons/signalIconFour.png"),
                                                       )

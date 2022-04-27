@@ -174,7 +174,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     } catch (e) {
       logger.e("Error is $e");
     }
-    print("THE VALUE OF RESULT ${widget.gpsData.result}");
+    print("THE VALUE OF RESULT ISSSS${widget.gpsData.result}");
     //lockState = lockStorage.read('lockState');
     // print("THE CACHE LOCKSTATE IS ${lockState}");
     // if (lockState == null) {
@@ -998,15 +998,17 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                           {
                                             //   print("THE DATA ${widget.truckId}"),
                                             Get.to(TruckLockUnlock(
-                                                deviceId: widget.deviceId,
-                                                gpsData: newGPSData,
-                                                // position: position,
-                                                TruckNo: widget.TruckNo,
-                                                //   driverName: widget.driverName,
-                                                //   driverNum: widget.driverNum,
-                                                gpsDataHistory: gpsDataHistory,
-                                                gpsStoppageHistory:
-                                                    gpsStoppageHistory))
+                                              deviceId: widget.deviceId,
+                                              gpsData: newGPSData,
+                                              lockStatus: widget.gpsData.result,
+                                              // position: position,
+                                              TruckNo: widget.TruckNo,
+                                              //   driverName: widget.driverName,
+                                              //   driverNum: widget.driverNum,
+                                              gpsDataHistory: gpsDataHistory,
+                                              gpsStoppageHistory:
+                                                  gpsStoppageHistory,
+                                            ))
                                             // routeHistory:
                                             //     widget.routeHistory))
                                             // truckId: widget.truckId))
