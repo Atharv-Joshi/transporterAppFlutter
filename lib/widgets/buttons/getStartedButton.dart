@@ -23,8 +23,8 @@ class GetStartedButton extends StatefulWidget {
 class _GetStartedButtonState extends State<GetStartedButton> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        //highlightColor: Colors.transparent,
+    return FlatButton(
+        highlightColor: Colors.transparent,
         onPressed: () {
           widget.onTapNext!();
         },

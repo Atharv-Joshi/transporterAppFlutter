@@ -442,7 +442,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                       ),
 
                       /*       SizedBox(height: space_2,),
-                      Container(
+                      Container( 
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '${widget.status}',
