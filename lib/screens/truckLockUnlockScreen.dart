@@ -17,23 +17,23 @@ class TruckLockUnlock extends StatefulWidget {
   final List gpsData;
   var gpsDataHistory;
   var gpsStoppageHistory;
-  //var routeHistory;
+  var lockStatus;
   final String? TruckNo;
-  final String? driverNum;
-  final String? driverName;
-  var truckId;
+  //final String? driverNum;
+  //final String? driverName;
+  //var truckId;
 
   TruckLockUnlock({
     required this.gpsData,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
     //required this.routeHistory,
-    // required this.position,
+    required this.lockStatus,
     this.TruckNo,
-    this.driverName,
-    this.driverNum,
+    //this.driverName,
+    //this.driverNum,
     this.deviceId,
-    this.truckId,
+    //this.truckId,
   });
 
   @override
@@ -51,8 +51,24 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    lockState = lockStorage.read('lockState');
-    lockUnlockController.updateLockUnlockStatus(lockState);
+    //lockState = parseResult();
+    //lockState = true;
+    print("THE STATUS IS ${lockStorage.read('lockState')}");
+    //lockState = lockStorage.read('lockState');
+    if (lockStorage.read('lockState') == null) {
+      //lockState = parseResult();
+      lockState = true;
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      lockStorage.write('lockState', lockState);
+      print("object");
+    } else {
+      lockState = lockStorage.read('lockState');
+      lockUnlockController.updateLockUnlockStatus(lockState);
+      lockStorage.write('lockState', lockState);
+    }
+    print(lockState);
+
+    ///lockUnlockController.updateLockUnlockStatus(lockState);
     //lockState = lockUnlockController.lockUnlockStatus.value;
     print("INSIDE INIT OF LOCK");
     print(
@@ -234,13 +250,13 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                         gpsData: widget.gpsData,
                                         // position: position,
                                         TruckNo: widget.TruckNo,
-                                        driverName: widget.driverName,
-                                        driverNum: widget.driverNum,
+                                        //driverName: widget.driverName,
+                                        //driverNum: widget.driverNum,
                                         gpsDataHistory: widget.gpsDataHistory,
                                         gpsStoppageHistory:
                                             widget.gpsStoppageHistory,
                                         //routeHistory: widget.routeHistory,
-                                        truckId: widget.truckId,
+                                        //truckId: widget.truckId,
                                         value: value[1],
                                       )).then((value) {
                                 if (value) {
@@ -319,13 +335,13 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
                                       gpsData: widget.gpsData,
                                       // position: position,
                                       TruckNo: widget.TruckNo,
-                                      driverName: widget.driverName,
-                                      driverNum: widget.driverNum,
+                                      //driverName: widget.driverName,
+                                      //driverNum: widget.driverNum,
                                       gpsDataHistory: widget.gpsDataHistory,
                                       gpsStoppageHistory:
                                           widget.gpsStoppageHistory,
                                       //routeHistory: widget.routeHistory,
-                                      truckId: widget.truckId,
+                                      //truckId: widget.truckId,
                                       value: value[0],
                                     )).then((value) {
                               if (value) {
@@ -346,5 +362,46 @@ class _TruckLockUnlockState extends State<TruckLockUnlock> {
         ),
       ),
     ));
+  }
+
+  bool parseResult() {
+    print("INTO PARSING ${widget.lockStatus}");
+    if (widget.lockStatus == "Restore fuel supply:Success!") {
+      return true;
+      // lockState = true;
+      // lockUnlockController.updateLockUnlockStatus(lockState);
+      // print("Restore fuel success");
+      // lockStorage.write('lockState', true);
+      // lockUnlockController.lockUnlockStatus.value = true;
+      // lockUnlockController.updateLockUnlockStatus(true);
+
+    } else if (widget.lockStatus == "Cut off the fuel supply: Success!") {
+      return false;
+      // lockState = false;
+      // lockUnlockController.updateLockUnlockStatus(lockState);
+      // print("Cutoff supply successful");
+      // lockStorage.write('lockState', false);
+      // lockUnlockController.lockUnlockStatus.value = false;
+      // lockUnlockController.updateLockUnlockStatus(false);
+    } else if (widget.lockStatus ==
+        "Already in the state of  fuel supply cut off, the command is not running!") {
+      return false;
+      // lockState = false;
+      // lockUnlockController.updateLockUnlockStatus(lockState);
+      // lockStorage.write('lockState', false);
+      // lockUnlockController.lockUnlockStatus.value = false;
+      // lockUnlockController.updateLockUnlockStatus(false);
+    } else if (widget.lockStatus ==
+        "Already in the state of fuel supply to resume,the command is not running!") {
+      return true;
+      // lockState = true;
+      // lockUnlockController.updateLockUnlockStatus(lockState);
+      // lockStorage.write('lockState', true);
+      // lockUnlockController.lockUnlockStatus.value = true;
+      // lockUnlockController.updateLockUnlockStatus(true);
+    } else {
+      return true;
+      //lockState = true;
+    }
   }
 }
