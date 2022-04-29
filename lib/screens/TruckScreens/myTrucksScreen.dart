@@ -13,6 +13,7 @@ import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/mapAllTrucks.dart';
 import 'package:liveasy/screens/myTrucksSearchResultsScreen.dart';
+import 'package:liveasy/screens/nearbyTrucksScreen.dart';
 import 'package:liveasy/widgets/buttons/addTruckButton.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
@@ -139,6 +140,33 @@ class _MyTrucksState extends State<MyTrucks> {
                   ],
                 ),
                 HelpButtonWidget(),
+                // FloatingActionButton(
+                //   heroTag: "btn3",
+                //   backgroundColor: Colors.white,
+                //   foregroundColor: Colors.black,
+                //   child: const Icon(Icons.my_location,
+                //       size: 22, color: Color(0xFF152968)),
+                //   onPressed: () {
+                //     //mapAllTrucksNearUser(20);
+                //     setState(() {
+                //       //trucksNearUserController.updateDistanceRadiusData(16000);
+                //       //trucksNearUserController.updateNearStatusData(false);
+                //       // Get.to(() => nearbyTrucksScreen(
+                //       //     gpsDataList: gpsDataList, truckDataList: trucklist));
+
+                //       // showDialog(
+                //       //         context: context,
+                //       //         builder: (context) => UserNearLocationSelection())
+                //       //     .then((value) {
+                //       //   if (value) {
+                //       //     setState(() {});
+                //       //   }
+                //       // });
+                //       //print(" kkkkkk ");
+                //       //print(trucksNearUserController.nearStatus.value);
+                //     });
+                //   },
+                // ),
               ],
             ),
             Container(

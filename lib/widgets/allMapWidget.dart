@@ -350,7 +350,7 @@ class _AllMapWidgetState extends State<AllMapWidget>
           //       onPressed: () {
           //         //mapAllTrucksNearUser(20);
           //         setState(() {
-          //           //trucksNearUserController.updateDistanceRadiusData(16000);
+          //           //trucksNearUser Controller.updateDistanceRadiusData(16000);
           //           trucksNearUserController.updateNearStatusData(false);
 
           //           showDialog(

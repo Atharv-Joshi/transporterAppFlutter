@@ -396,39 +396,47 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 height: 30,
                                 width: 40,
                                 alignment: Alignment.centerLeft,
-                                child: (widget.gpsData.rssi == 0)
+                                child: (widget.gpsData.rssi == -1)
                                     ? Image(
-                                        width: 40,
+                                        width: 30,
                                         image: AssetImage(
-                                            "assets/icons/signalIconZero.png"),
+                                            "assets/icons/signalIconNothing.png"),
                                       )
-                                    : (widget.gpsData.rssi == 1)
+                                    : (widget.gpsData.rssi == 0)
                                         ? Image(
-                                            width: 30,
+                                            width: 40,
                                             image: AssetImage(
-                                                "assets/icons/signalIconOne.png"),
+                                                "assets/icons/signalIconZero.png"),
                                           )
-                                        : (widget.gpsData.rssi == 2)
+                                        : (widget.gpsData.rssi == 1)
                                             ? Image(
                                                 width: 30,
                                                 image: AssetImage(
-                                                    "assets/icons/signalIconTwo.png"),
+                                                    "assets/icons/signalIconOne.png"),
                                               )
-                                            : (widget.gpsData.rssi == 3)
+                                            : (widget.gpsData.rssi == 2)
                                                 ? Image(
                                                     width: 30,
                                                     image: AssetImage(
-                                                        "assets/icons/signalIconThree.png"),
+                                                        "assets/icons/signalIconTwo.png"),
                                                   )
-                                                : (widget.gpsData.rssi == 4 ||
-                                                        widget.gpsData.rssi ==
-                                                            5)
+                                                : (widget.gpsData.rssi == 3)
                                                     ? Image(
                                                         width: 30,
                                                         image: AssetImage(
-                                                            "assets/icons/signalIconFour.png"),
+                                                            "assets/icons/signalIconThree.png"),
                                                       )
-                                                    : Container())
+                                                    : (widget.gpsData.rssi ==
+                                                                4 ||
+                                                            widget.gpsData
+                                                                    .rssi ==
+                                                                5)
+                                                        ? Image(
+                                                            width: 30,
+                                                            image: AssetImage(
+                                                                "assets/icons/signalIconFour.png"),
+                                                          )
+                                                        : Container())
                             //print(" ");
 
                             // Text("${widget.gpsData.rssi}",

@@ -85,7 +85,7 @@ class MapUtil {
               json["deviceId"] != null ? json["deviceId"] : 'NA';
           gpsDataModel.rssi = json["attributes"]["rssi"] != null
               ? json["attributes"]["rssi"]
-              : 0;
+              : -1;
           gpsDataModel.result = json["attributes"]["result"] != null
               ? json["attributes"]["result"]
               : 'NA';
@@ -184,7 +184,7 @@ class MapUtil {
               json["deviceId"] != null ? json["deviceId"] : 'NA';
           gpsDataModel.rssi = json["attributes"]["rssi"] != null
               ? json["attributes"]["rssi"]
-              : 0;
+              : -1;
           gpsDataModel.result = json["attributes"]["result"] != null
               ? json["attributes"]["result"]
               : 'NA';
