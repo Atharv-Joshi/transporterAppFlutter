@@ -1,8 +1,316 @@
-// import 'dart:math';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/trucksNearUserController.dart';
+import 'package:liveasy/widgets/headingTextWidget.dart';
+import 'package:liveasy/widgets/buttons/helpButton.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
+import 'package:liveasy/widgets/myTrucksCard.dart';
+
+class NearbyTrucksResult extends StatefulWidget {
+  List gpsDataList;
+  List deviceList;
+  List status;
+  List items;
+
+  NearbyTrucksResult(
+      {required this.gpsDataList,
+      required this.deviceList,
+      required this.status,
+      required this.items});
+
+  @override
+  _NearbyTrucksResultState createState() => _NearbyTrucksResultState();
+}
+
+class _NearbyTrucksResultState extends State<NearbyTrucksResult> {
+  ScrollController scrollController = ScrollController();
+  TextEditingController editingController = TextEditingController();
+  var _currentPosition;
+  var customGpsDataList = [];
+  var customDeviceList = [];
+  var customRunningDataList = [];
+  var customRunningGpsDataList = [];
+  var customStoppedList = [];
+  var customStoppedGpsList = [];
+  var rangeDistance;
+  // var truckDataList = [];
+  var deviceList = [];
+  var status = [];
+  var items = [];
+
+  TrucksNearUserController trucksNearUserController =
+      Get.put(TrucksNearUserController());
+
+  @override
+  void initState() {
+    customGpsDataList = widget.gpsDataList;
+    customDeviceList = widget.deviceList;
+    // customRunningDataList = widget.runningDataList;
+    // customRunningGpsDataList = widget.runningGpsDataList;
+    // customStoppedList = widget.stoppedList;
+    // customStoppedGpsList = widget.stoppedGpsList;
+    _getCurrentLocation();
+    status = widget.status;
+    deviceList = widget.deviceList;
+    print("CHECK Init${status}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: SingleChildScrollView(
+          child: Container(
+            //color: darkBlueColor,
+            padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+            height: MediaQuery.of(context).size.height -
+                kBottomNavigationBarHeight -
+                space_4,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        /*  SizedBox(
+                      width: space_3,
+                    ),*/
+                        HeadingTextWidget('searchTrucks'.tr
+                            // AppLocalizations.of(context)!.my_truck
+                            ),
+                      ],
+                    ),
+                    HelpButtonWidget(),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: space_3),
+                  child: Container(
+                    height: space_8,
+                    decoration: BoxDecoration(
+                      color: widgetBackGroundColor,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        width: 0.8,
+                        // color: borderBlueColor,
+                      ),
+                    ),
+                    child: TextField(
+                      textCapitalization: TextCapitalization.characters,
+                      onChanged: (value) {
+                        mapAllTrucksNearUser(value);
+                        print("EnteRRR");
+                        print(customGpsDataList);
+                        print(status);
+                        //print("THE ITEMS $items");
+                      },
+                      autofocus: true,
+                      keyboardType: TextInputType.number,
+                      controller: editingController,
+                      textAlignVertical: TextAlignVertical.center,
+                      textAlign: TextAlign.start,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'search'.tr,
+                        icon: Padding(
+                          padding: EdgeInsets.only(left: space_2),
+                          child: Icon(
+                            Icons.search,
+                            color: grey,
+                          ),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: size_8,
+                          color: grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      controller: scrollController,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.only(bottom: space_15),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) => index == items.length
+                          ? bottomProgressBarIndicatorWidget()
+                          : MyTruckCard(
+                              truckno: items[index].truckno,
+                              status: status[index],
+                              gpsData: customGpsDataList[index],
+                              device: items[index],
+                            )),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        print(
+            "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${_currentPosition.longitude}");
+        //widget.gpsDataList[1].latitude
+        print(
+            "CURRENT LOCATION IS ${widget.gpsDataList[1].latitude} AND ${widget.gpsDataList[1].longitude}");
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  void mapAllTrucksNearUser(var value) {
+    // customGpsDataList = [];
+    // customDeviceList = [];
+    // customRunningDataList = [];
+    // customRunningGpsDataList = [];
+    // customStoppedList = [];
+    // customStoppedGpsList = [];
+
+    var customGpsDataListDummy = [];
+    var customDeviceListDummy = [];
+    // var customRunningDataListDummy = [];
+    // var customRunningGpsDataListDummy = [];
+    // var customStoppedListDummy = [];
+    // var customStoppedGpsListDummy = [];
+
+    print("INSIDE THE MAP_ALLFUNCTION");
+    print(trucksNearUserController.distanceRadius.value);
+    print(
+        "THE CONTENT IS ${widget.gpsDataList[0]} and the lenght is ${widget.gpsDataList.length}");
+    //var j = 0;
+    for (var i = 0; i < widget.gpsDataList.length; i++) {
+      print(widget.gpsDataList[i]);
+      var distanceStore = Geolocator.distanceBetween(
+              widget.gpsDataList[i].latitude,
+              widget.gpsDataList[i].longitude,
+              _currentPosition.latitude,
+              _currentPosition.longitude) /
+          1000;
+      print(distanceStore);
+      print("THE CODE VALUE ${trucksNearUserController.distanceRadius.value}");
+      if (distanceStore <= int.parse(value)) {
+        print("TRYINGGGGGG");
+        customGpsDataListDummy.add(widget.gpsDataList[i]);
+        customDeviceListDummy.add(widget.deviceList[i]);
+        // customRunningDataListDummy.add(widget.runningDataList[i]);
+        // customRunningGpsDataListDummy.add(widget.runningGpsDataList[i]);
+        // customStoppedListDummy.add(widget.stoppedList[i]);
+        // customStoppedGpsListDummy.add(widget.stoppedGpsList[i]);
+      }
+      // else {
+      //   print("STILL TRYINGGGGGG");
+      //   print(distanceStore);
+      //   customGpsDataList[i] = [];
+      //   customDeviceList[i] = [];
+      //   customRunningDataList[i] = [];
+      //   customRunningGpsDataList[i] = [];
+      //   customStoppedList[i] = [];
+      //   customStoppedGpsList[i] = [];
+      // }
+    }
+
+    setState(() {
+      customGpsDataList = [];
+      customDeviceList = [];
+      // customRunningDataList = [];
+      // customRunningGpsDataList = [];
+      // customStoppedList = [];
+      // customStoppedGpsList = [];
+
+      customGpsDataList.addAll(customGpsDataListDummy);
+      customDeviceList.addAll(customDeviceListDummy);
+      // customRunningDataList.addAll(customRunningDataListDummy);
+      // customRunningGpsDataList.addAll(customRunningGpsDataListDummy);
+      // customStoppedList.addAll(customStoppedListDummy);
+      // customStoppedGpsList.addAll(customStoppedGpsListDummy);
+      print("THE NEW LIST HAS ${customGpsDataList}");
+      // AllMapWidget(
+      //     gpsDataList: customGpsDataList, truckDataList: customGpsDataList);
+    });
+    //print("OUT OF FORRRR");
+    return;
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  // void filterSearchResults(String query) {
+  //   print("LIST IS $deviceList");
+  //   print("$query");
+
+  //   if (query.isNotEmpty) {
+  //     //print("DUMMYSEARCH${dummySearchList}");
+  //     var dummyListData = [];
+  //     var dummyGpsData = [];
+  //     var dummyStatusData = [];
+  //     for (var i = 0; i < dummySearchList.length; i++) {
+  //       print("FOREACH ${dummySearchList[i].truckno}");
+  //       if ((dummySearchList[i].truckno.replaceAll(' ', '')).contains(query) ||
+  //           (dummySearchList[i].truckno).contains(query)) {
+  //         print("INSIDE IF");
+  //         print("THE SEARCHHH IS ${dummySearchList[i].truckno}");
+  //         dummyListData.add(dummySearchList[i]);
+  //         dummyGpsData.add(widget.gpsDataList[i]);
+  //         dummyStatusData.add(widget.status[i]);
+  //         //print("DATATYPE${dummyListData.runtimeType}");
+  //       }
+  //     }
+  //     setState(() {
+  //       items = [];
+  //       gpsDataList = [];
+
+  //       status = [];
+  //       items.addAll(dummyListData);
+  //       gpsDataList.addAll(dummyGpsData);
+  //       status.addAll(dummyStatusData);
+  //       //print("THE DUMY $dummyListData");
+  //     });
+  //     return;
+  //   } else {
+  //     print("QUERY EMPTY?");
+  //     setState(() {
+  //       items = [];
+  //       gpsDataList = [];
+  //       status = [];
+  //       items.addAll(widget.deviceList);
+  //       gpsDataList.addAll(widget.gpsDataList);
+  //       status.addAll(widget.status);
+  //       //print("THE ITEMSS ${items}");
+  //     });
+  //   }
+  // }
+}
+
+
+// import 'dart:math';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
+// //import 'package:geolocator/geolocator.dart';
 // import 'package:get/get.dart';
 // import 'package:get/get_core/src/get_main.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,6 +331,7 @@
 // import 'package:screenshot/screenshot.dart';
 // import 'package:custom_info_window/custom_info_window.dart';
 // import 'package:flutter_config/flutter_config.dart';
+// import 'package:location/location.dart' as geo;
 
 // class nearbyTrucksScreen extends StatefulWidget {
 //   List gpsDataList;
@@ -63,6 +372,8 @@
 //   late Uint8List markerIcon;
 //   var markerslist;
 
+//   geo.Location locations = geo.Location();
+//   late geo.LocationData _locationData;
 //   //CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
 //   CustomInfoWindowController _customDetailsInfoWindowController =
 //       CustomInfoWindowController();
@@ -82,6 +393,7 @@
 //   @override
 //   void initState() {
 //     super.initState();
+//     _getCurrentLocation();
 //     WidgetsBinding.instance!.addObserver(this);
 //     iconthenmarker();
 //     initfunction2();
@@ -91,6 +403,7 @@
 //     } catch (e) {
 //       logger.e("Error is $e");
 //     }
+
 //     print("THE GPS DATALIST IS ${widget.gpsDataList}");
 //     //var _currentPosition;
 //     customGpsDataList = widget.gpsDataList;
@@ -357,17 +670,15 @@
 //                 onPressed: () {
 //                   //mapAllTrucksNearUser(20);
 //                   setState(() {
-//                     trucksNearUserController.updateDistanceRadiusData(16000);
+//                     trucksNearUserController.updateDistanceRadiusData(100);
 //                     trucksNearUserController.updateNearStatusData(false);
-
+//                     mapAllTrucksNearUser();
 //                     showDialog(
 //                             context: context,
 //                             builder: (context) => UserNearLocationSelection())
 //                         .then((value) {
 //                       if (value) {
-//                         setState(() {
-//                           mapAllTrucksNearUser();
-//                         });
+//                         setState(() {});
 //                       }
 //                     });
 //                     print(" kkkkkk ");
@@ -389,19 +700,24 @@
 //     return address;
 //   }
 
-//   _getCurrentLocation() {
-//     Geolocator.getCurrentPosition(
-//             desiredAccuracy: LocationAccuracy.best,
-//             forceAndroidLocationManager: true)
-//         .then((Position position) {
-//       setState(() {
-//         _currentPosition = position;
-//         print(
-//             "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${widget.gpsDataList[1].latitude}");
-//       });
-//     }).catchError((e) {
-//       print(e);
-//     });
+//   _getCurrentLocation() async {
+//     print("INSIDE USER LOCATION");
+//     // Geolocator.getCurrentPosition(
+//     //         desiredAccuracy: LocationAccuracy.best,
+//     //         forceAndroidLocationManager: true)
+//     //     .then((Position position) {
+//     //   print("ERROR THERE");
+//     //   setState(() {
+//     //     _currentPosition = position;
+//     //     print(
+//     //         "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${widget.gpsDataList[1].latitude}");
+//     //   });
+//     // }).catchError((e) {
+//     //   print(e);
+//     //   print("ERROR THERE");
+//     // });
+//     _locationData = await locations.getLocation();
+//     print("CURRENT LOCATION IS ${_locationData.latitude}");
 //   }
 
 //   void mapAllTrucksNearUser() {
@@ -409,9 +725,9 @@
 //       var distanceStore = calculateDistance(
 //           widget.gpsDataList[i].latitude,
 //           widget.gpsDataList[i].longitude,
-//           _currentPosition.latitude,
-//           _currentPosition.latitude);
-//       if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+//           _locationData.latitude,
+//           _locationData.latitude);
+//       if (distanceStore <= 2) {
 //         print("TRYINGGGGGG");
 //         customGpsDataList[i] = widget.gpsDataList[i];
 //         customDeviceList[i] = widget.truckDataList[i];

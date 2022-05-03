@@ -143,7 +143,7 @@ Future<String> getCommandsResultApi(
         lockUnlockController.updateLockUnlockStatus(false);
         return "lock";
       } else if (store ==
-          "Already in the state of fuel supply to resume,the command is not running!") {
+          "Already in the state of fuel supply to resume, the command is not running!") {
         lockStorage.write('lockState', true);
         lockUnlockController.lockUnlockStatus.value = true;
         lockUnlockController.updateLockUnlockStatus(true);
