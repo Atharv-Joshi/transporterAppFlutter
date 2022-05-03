@@ -140,32 +140,36 @@ class _MyTrucksState extends State<MyTrucks> {
                   ],
                 ),
                 HelpButtonWidget(),
-                // FloatingActionButton(
-                //   heroTag: "btn3",
-                //   backgroundColor: Colors.white,
-                //   foregroundColor: Colors.black,
-                //   child: const Icon(Icons.my_location,
-                //       size: 22, color: Color(0xFF152968)),
-                //   onPressed: () {
-                //     //mapAllTrucksNearUser(20);
-                //     setState(() {
-                //       //trucksNearUserController.updateDistanceRadiusData(16000);
-                //       //trucksNearUserController.updateNearStatusData(false);
-                //       // Get.to(() => nearbyTrucksScreen(
-                //       //     gpsDataList: gpsDataList, truckDataList: trucklist));
+                // Container(
+                //   height: 15,
+                //   child: FloatingActionButton(
+                //     heroTag: "btn3",
+                //     backgroundColor: Colors.white,
+                //     foregroundColor: Colors.black,
+                //     child: const Icon(Icons.my_location,
+                //         size: 22, color: Color(0xFF152968)),
+                //     onPressed: () {
+                //       //mapAllTrucksNearUser(20);
+                //       setState(() {
+                //         //trucksNearUserController.updateDistanceRadiusData(16000);
+                //         //trucksNearUserController.updateNearStatusData(false);
+                //         // Get.to(() => nearbyTrucksScreen(
+                //         //     gpsDataList: gpsDataList,
+                //         //     truckDataList: trucklist));
 
-                //       // showDialog(
-                //       //         context: context,
-                //       //         builder: (context) => UserNearLocationSelection())
-                //       //     .then((value) {
-                //       //   if (value) {
-                //       //     setState(() {});
-                //       //   }
-                //       // });
-                //       //print(" kkkkkk ");
-                //       //print(trucksNearUserController.nearStatus.value);
-                //     });
-                //   },
+                //         // showDialog(
+                //         //         context: context,
+                //         //         builder: (context) => UserNearLocationSelection())
+                //         //     .then((value) {
+                //         //   if (value) {
+                //         //     setState(() {});
+                //         //   }
+                //         // });
+                //         //print(" kkkkkk ");
+                //         //print(trucksNearUserController.nearStatus.value);
+                //       });
+                //     },
+                //   ),
                 // ),
               ],
             ),
