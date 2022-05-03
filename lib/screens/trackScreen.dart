@@ -148,7 +148,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance!.addObserver(this);
     from = yesterday.toIso8601String();
     istDate1 = yesterday;
@@ -157,24 +156,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     to = now.toIso8601String();
     print("device ID ${widget.deviceId}");
     newGPSData.add(widget.gpsData);
-
-    EasyLoading.instance
-      ..indicatorType = EasyLoadingIndicatorType.ring
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..maskColor = darkBlueColor
-      ..userInteractions = false
-      ..backgroundColor = darkBlueColor
-      ..dismissOnTap = false;
-    EasyLoading.show(
-      status: "Loading...",
-    );
-
     try {
       initfunction();
 
       initfunction2();
-      // EasyLoading.dismiss();
+      EasyLoading.dismiss();
       logger.i("in init state function");
       lastlatLngMarker =
           LatLng(newGPSData.last.latitude, newGPSData.last.longitude);
@@ -189,7 +175,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       logger.e("Error is $e");
     }
     print("THE VALUE OF RESULT ISSSS${widget.gpsData.result}");
-    //EasyLoading.dismiss();
     //lockState = lockStorage.read('lockState');
     // print("THE CACHE LOCKSTATE IS ${lockState}");
     // if (lockState == null) {
@@ -349,7 +334,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     setState(() {
       polylines[id] = polyline;
       _polyline.add(polyline);
-      EasyLoading.dismiss();
     });
   }
 
@@ -370,6 +354,17 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   }
 
   initfunction() async {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..maskColor = darkBlueColor
+      ..userInteractions = false
+      ..backgroundColor = darkBlueColor
+      ..dismissOnTap = false;
+    EasyLoading.show(
+      status: "Loading...",
+    );
     logger.i("It is in init function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
     var f = getDataHistory(widget.deviceId, from, to);
@@ -404,7 +399,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       loading = true;
     });
 
-    //EasyLoading.dismiss();
+    EasyLoading.dismiss();
   }
 
   Future<void> initfunction2() async {
