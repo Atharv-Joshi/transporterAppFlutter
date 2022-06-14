@@ -145,7 +145,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
       status: "Loading...",
     );
 
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
     circles = Set.from([

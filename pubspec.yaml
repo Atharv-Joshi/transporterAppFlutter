@@ -33,7 +33,6 @@ dependencies:
   http: ^0.13.3
   geolocator: ^7.0.3
   geocoding: ^2.0.2
-  location_permissions: ^4.0.0
   syncfusion_flutter_charts: ^19.4.50
   provider: ^5.0.0
   google_maps_flutter: ^2.0.6
@@ -68,12 +67,10 @@ dependencies:
   package_info: ^2.0.2
   firebase_remote_config: ^0.10.0+4
   shared_preferences: ^2.0.6
-  location: ^4.3.0
   device_info: ^2.0.2
   firebase_database: ^7.2.0
   flutter_background: ^1.0.2+1
   visibility_aware_state: ^1.0.3
-  background_location: ^0.8.1
   fluster: ^1.2.0
   google_maps_cluster_manager: ^3.0.0+1
   flutter_cache_manager: ^3.1.2

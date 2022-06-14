@@ -19,7 +19,6 @@ import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
-
 const kMarkerId = MarkerId('MarkerId1');
 const kMarkerId2 = MarkerId('MarkerId2');
 
@@ -29,8 +28,9 @@ class PlayRouteHistory extends StatefulWidget {
   var gpsStoppageHistory;
   var totalRunningTime;
   var totalStoppedTime;
- // var routeHistory;
- // var totalDistance;
+
+  // var routeHistory;
+  // var totalDistance;
   String? truckNo;
   String? dateRange;
 
@@ -42,8 +42,8 @@ class PlayRouteHistory extends StatefulWidget {
     required this.dateRange,
     required this.totalRunningTime,
     required this.totalStoppedTime,
-  //  required this.routeHistory,
-  //  required this.totalDistance,
+    //  required this.routeHistory,
+    //  required this.totalDistance,
     // required this.toDate,
     // required this.polylineCoordinates,
   });
@@ -52,11 +52,13 @@ class PlayRouteHistory extends StatefulWidget {
   _PlayRouteHistoryState createState() => _PlayRouteHistoryState();
 }
 
-class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBindingObserver{
+class _PlayRouteHistoryState extends State<PlayRouteHistory>
+    with WidgetsBindingObserver {
   List<Marker> customMarkers = [];
   String? time;
   Map<PolylineId, Polyline> polylines = {};
-  late List<LatLng> polylineCoordinates2 ;
+  late List<LatLng> polylineCoordinates2;
+
   final Set<Polyline> _polyline = {};
   late LatLng lastlatLngMarker = LatLng(gpsData.last.lat, gpsData.last.lng);
   late CameraPosition camPosition;
@@ -72,7 +74,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   var totalDistance;
   String? dateRange;
   var logger = Logger();
-  int i =0;
+  int i = 0;
   var start;
   var end;
   late DateTimeRange newRange;
@@ -80,9 +82,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   DateTime today = DateTime.now();
   DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
   DateTimeRange selectedDate = DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 1)),
-      end: DateTime.now()
-  );
+      start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
   bool showBottomMenu = true;
   var markers = <MarkerId, Marker>{};
   var controller = Completer<GoogleMapController>();
@@ -91,14 +91,15 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
   late Uint8List markerIcon;
   var routeTime = [];
   var routeSpeed = [];
-  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
+  CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
   var totalRunningTime;
   var totalStoppedTime;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     try {
       initfunction();
       getTruckHistory();
@@ -106,23 +107,22 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       getInfoWindow();
       check();
       print("PLAY ROUTE HISTORY DONE ------");
-
     } catch (e) {
       logger.e("Error is $e");
     }
-    if(mounted)
+    if (mounted)
       setState(() {
         camPosition = CameraPosition(
-            target: LatLng(gpsTruckHistory[0].latitude, gpsTruckHistory[0].longitude),
-            zoom: 12.5
-        );
-        stream = Stream.periodic(Duration(milliseconds: 470), (count) => Locations[count])
+            target: LatLng(
+                gpsTruckHistory[0].latitude, gpsTruckHistory[0].longitude),
+            zoom: 12.5);
+        stream = Stream.periodic(
+                Duration(milliseconds: 470), (count) => Locations[count])
             .take(Locations.length);
       });
-
   }
 
-  initfunction(){
+  initfunction() {
     var logger = Logger();
     logger.i("in initState 1 function");
     setState(() {
@@ -167,30 +167,29 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     }
   }
 
-  getInfoWindow(){
+  getInfoWindow() {
     var logger = Logger();
     logger.i("in getInfoWindow function");
     routeTime = [];
     routeSpeed = [];
-    int a=0;
-    int c=0;
-    for(int i=0; i<gpsTruckHistory.length ; i++){
-      c=a+10;
-      if(gpsTruckHistory[a].speed >= 2) {
-          var time = getISOtoIST(gpsTruckHistory[a].deviceTime);
-          routeTime.add("$time");
-          routeSpeed
-              .add("${(gpsTruckHistory[a].speed).toStringAsFixed(2)} km/h");
+    int a = 0;
+    int c = 0;
+    for (int i = 0; i < gpsTruckHistory.length; i++) {
+      c = a + 10;
+      if (gpsTruckHistory[a].speed >= 2) {
+        var time = getISOtoIST(gpsTruckHistory[a].deviceTime);
+        routeTime.add("$time");
+        routeSpeed.add("${(gpsTruckHistory[a].speed).toStringAsFixed(2)} km/h");
       }
-      a=c;
-      if(a>=gpsTruckHistory.length){
+      a = c;
+      if (a >= gpsTruckHistory.length) {
         break;
       }
     }
     print("Route Time ${routeTime}");
     print("Route speed ${routeSpeed}");
-
   }
+
   addstops(var gpsStoppage) async {
     var logger = Logger();
     logger.i("in addstops function");
@@ -208,12 +207,12 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     var logger = Logger();
     logger.i("in getStops function");
     stops = [];
-    for(var stop in gpsStoppageHistory) {
+    for (var stop in gpsStoppageHistory) {
       stops.add(LatLng(stop.latitude, stop.longitude));
     }
     print("Stop Locations $stops");
-    for(int i=0; i<stops.length; i++){
-      markerIcon = await getBytesFromCanvas(i+1, 100, 100);
+    for (int i = 0; i < stops.length; i++) {
+      markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
       setState(() {
         customMarkers.add(Marker(
           markerId: MarkerId("Stop Mark $i"),
@@ -223,42 +222,44 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
       });
     }
   }
-  void check(){
+
+  void check() {
     print("Stop Locations $stops");
     print("Route time  $routeTime");
   }
 
   //Function to get EVERY 10th LAT LONG
-  getLatLngList(){
+  getLatLngList() {
     var logger = Logger();
     logger.i("in get lat long list function");
     Locations.clear();
-    int a=0;
-    int c=0;
-    for(int i=0; i<gpsTruckHistory.length ; i++){
-      c=a+10;
-      if(gpsTruckHistory[a].speed >= 2)
-        Locations.add(LatLng(gpsTruckHistory[a].latitude, gpsTruckHistory[a].longitude));
-      a=c;
-      if(a>=gpsTruckHistory.length){
+    int a = 0;
+    int c = 0;
+    for (int i = 0; i < gpsTruckHistory.length; i++) {
+      c = a + 10;
+      if (gpsTruckHistory[a].speed >= 2)
+        Locations.add(
+            LatLng(gpsTruckHistory[a].latitude, gpsTruckHistory[a].longitude));
+      a = c;
+      if (a >= gpsTruckHistory.length) {
         break;
       }
     }
   }
 
   //New location when truck moves
-  void newLocationUpdate(LatLng latLng) async{
-    markerIcon = await getBytesFromCanvas2(routeTime[i].toString(),routeSpeed[i].toString(), 600, 150);
+  void newLocationUpdate(LatLng latLng) async {
+    markerIcon = await getBytesFromCanvas2(
+        routeTime[i].toString(), routeSpeed[i].toString(), 600, 150);
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-        'assets/icons/playHistoryPin.png')
+            'assets/icons/playHistoryPin.png')
         .then((value) => {
-          if(mounted)
-            {
+              if (mounted)
+                {
                   setState(() {
                     pinLocationIconTruck = value;
                   }),
-                  setState(()
-                  {
+                  setState(() {
                     markers[kMarkerId] = Marker(
                         markerId: kMarkerId,
                         position: latLng,
@@ -267,21 +268,19 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                         rotation: 180,
                         onTap: () {
                           print("Tapped");
-
                         });
                     customMarkers.add(Marker(
-                        markerId: kMarkerId2,
-                        position: latLng,
-                        icon: BitmapDescriptor.fromBytes(markerIcon),
-                        ));
+                      markerId: kMarkerId2,
+                      position: latLng,
+                      icon: BitmapDescriptor.fromBytes(markerIcon),
+                    ));
                   })
                 }
             });
-    i=i+1;
+    i = i + 1;
   }
 
-
-  getDateRange(){
+  getDateRange() {
     var logger = Logger();
     logger.i("in getDateRange function");
     var splitted = dateRange!.split(" - ");
@@ -316,6 +315,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
 
     _addPolyLine();
   }
+
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
@@ -335,27 +335,27 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
     logger.i("Activity is disposed");
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    double height= MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height;
     double threshold = 100;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: statusBarColor,
+          backgroundColor: statusBarColor,
           body: GestureDetector(
-            onTap: (){
+            onTap: () {
               setState(() {
                 showBottomMenu = !showBottomMenu;
               });
             },
-            onPanEnd: (details){
-              if(details.velocity.pixelsPerSecond.dy > threshold) {
+            onPanEnd: (details) {
+              if (details.velocity.pixelsPerSecond.dy > threshold) {
                 this.setState(() {
                   showBottomMenu = false;
                 });
-              }
-              else if(details.velocity.pixelsPerSecond.dy < -threshold){
+              } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
                 this.setState(() {
                   showBottomMenu = true;
                 });
@@ -363,62 +363,60 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
             },
             child: Stack(
               children: <Widget>[
-
                 Positioned(
-                        left: 0,
-                        top: -75,
-                        bottom: 0 ,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Stack(
-                                children: <Widget>[
-                                  Animarker(
-                                    curve: Curves.easeIn,
-                                    angleThreshold: 30,
-                                    zoom: 12.5,
-                                    useRotation: true,
-                                    duration: Duration(milliseconds: 500 ),
-                                    mapId: controller.future
-                                        .then<int>((value) => value.mapId), //Grab Google Map Id
-                                    markers: markers.values.toSet(),
-                                    child: GoogleMap(
-                                      markers: customMarkers.toSet(),
-                                      polylines: Set.from(polylines.values),
-                                      myLocationButtonEnabled: true,
-                                      zoomControlsEnabled: false,
-                                      initialCameraPosition: camPosition,
-                                      compassEnabled: true,
-                                      mapType: MapType.normal,
-                                      onMapCreated: (gController) {
-                                        stream.forEach((value) => newLocationUpdate(value));
-                                        // stream.forEach((value) => newLocationUpdate2(value));
-                                        controller.complete(gController);
-                                        _customInfoWindowController.googleMapController = gController;
-
-                                      },
-                                      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                                        new Factory<OneSequenceGestureRecognizer>(
-                                              () => new EagerGestureRecognizer(),
-                                        ),
-                                      ].toSet(),
-                                    ),
-                                  ),
-
-                                ]
-                            )
+                  left: 0,
+                  top: -75,
+                  bottom: 0,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Stack(children: <Widget>[
+                        Animarker(
+                          curve: Curves.easeIn,
+                          angleThreshold: 30,
+                          zoom: 12.5,
+                          useRotation: true,
+                          duration: Duration(milliseconds: 500),
+                          mapId: controller.future
+                              .then<int>((value) => value.mapId),
+                          //Grab Google Map Id
+                          markers: markers.values.toSet(),
+                          child: GoogleMap(
+                            markers: customMarkers.toSet(),
+                            polylines: Set.from(polylines.values),
+                            myLocationButtonEnabled: true,
+                            zoomControlsEnabled: false,
+                            initialCameraPosition: camPosition,
+                            compassEnabled: true,
+                            mapType: MapType.normal,
+                            onMapCreated: (gController) {
+                              stream
+                                  .forEach((value) => newLocationUpdate(value));
+                              // stream.forEach((value) => newLocationUpdate2(value));
+                              controller.complete(gController);
+                              _customInfoWindowController.googleMapController =
+                                  gController;
+                            },
+                            gestureRecognizers:
+                                <Factory<OneSequenceGestureRecognizer>>[
+                              new Factory<OneSequenceGestureRecognizer>(
+                                () => new EagerGestureRecognizer(),
+                              ),
+                            ].toSet(),
+                          ),
                         ),
-                      ),
+                      ])),
+                ),
                 Positioned(
                   top: 0,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     color: white,
-
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(space_3, space_3, 0, space_3),
+                            margin: EdgeInsets.fromLTRB(
+                                space_3, space_3, 0, space_3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -430,152 +428,153 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                             ),
                           ),
                           Container(
-                              margin: EdgeInsets.fromLTRB(space_9, space_2, 0, space_2),
+                              margin: EdgeInsets.fromLTRB(
+                                  space_9, space_2, 0, space_2),
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Container(
                                         child: Column(
-                                          children: [
-
-                                            Row(
-                                                children: [
-                                                  Image(
-                                                    image: AssetImage(
-                                                        'assets/icons/distanceCovered.png'),
-                                                    height: 23,
-                                                  ),
-                                                  SizedBox(
-                                                    width: space_1,
-                                                  ),
-                                                  Container(
-                                                    alignment: Alignment.centerLeft,
-                                                    width: 170,
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text("travelled".tr+" ",
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: liveasyGreen,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                            Text("${(gpsData.last.distance/1000).toStringAsFixed(2)} km",
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: black,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Text("$totalRunningTime ",
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: grey,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                ]
+                                      children: [
+                                        Row(children: [
+                                          Image(
+                                            image: AssetImage(
+                                                'assets/icons/distanceCovered.png'),
+                                            height: 23,
+                                          ),
+                                          SizedBox(
+                                            width: space_1,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            width: 170,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text("travelled".tr + " ",
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: liveasyGreen,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                    Text(
+                                                        "${(gpsData.last.distance / 1000).toStringAsFixed(2)} km",
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: black,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text("$totalRunningTime ",
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: grey,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                            SizedBox(
-                                              height: space_3,
+                                          ),
+                                        ]),
+                                        SizedBox(
+                                          height: space_3,
+                                        ),
+                                        Row(children: [
+                                          Icon(Icons.pause, size: size_11),
+                                          SizedBox(
+                                            width: space_1,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            width: 170,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        "${gpsStoppageHistory.length} ",
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: black,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                    Text("stops".tr,
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: red,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text("$totalStoppedTime ",
+                                                        softWrap: true,
+                                                        style: TextStyle(
+                                                            color: grey,
+                                                            fontSize: size_6,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                regularWeight)),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                            Row(
-                                                children: [
-                                                  Icon(Icons.pause,
-                                                      size: size_11),
-                                                  SizedBox(
-                                                    width: space_1,
-                                                  ),
-                                                  Container(
-                                                    alignment: Alignment.centerLeft,
-                                                    width: 170,
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text("${gpsStoppageHistory.length } ",
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: black,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                            Text("stops".tr,
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: red,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: [
-                                                            Text("$totalStoppedTime ",
-                                                                softWrap: true,
-                                                                style: TextStyle(
-                                                                    color: grey,
-                                                                    fontSize: size_6,
-                                                                    fontStyle: FontStyle.normal,
-                                                                    fontWeight: regularWeight)),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                ]
-                                            ),
-
-                                          ],
-                                        )
-                                    ),
-                                    SizedBox(
-                                        width: space_1
-                                    ),
+                                          ),
+                                        ]),
+                                      ],
+                                    )),
+                                    SizedBox(width: space_1),
                                     Container(
                                       child: Column(
                                         children: [
-                                          Text("${(gpsData.last.speed).toStringAsFixed(2)}" +"km/h".tr,
+                                          Text(
+                                              "${(gpsData.last.speed).toStringAsFixed(2)}" +
+                                                  "km/h".tr,
                                               style: TextStyle(
                                                   color: liveasyGreen,
                                                   fontSize: size_10,
                                                   fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)
-                                          ),
+                                                  fontWeight: regularWeight)),
                                           Text("status".tr,
                                               style: TextStyle(
                                                   color: black,
                                                   fontSize: size_6,
                                                   fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)
-                                          )
+                                                  fontWeight: regularWeight))
                                         ],
                                       ),
                                     )
-
-                                  ]
-                              )
-                          ),
+                                  ])),
                           SizedBox(
                             height: 8,
                           )
-                        ]
-                    ),
+                        ]),
                   ),
                 ),
 
@@ -583,17 +582,17 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory> with WidgetsBinding
                   curve: Curves.easeInOut,
                   duration: Duration(milliseconds: 200),
                   left: 0,
-                  bottom: (showBottomMenu)? -30 : -(height/3),
-
-                  child: PlayRouteDetailsWidget(dateRange: dateRange, gpsData: gpsData, truckNo: widget.truckNo,),
+                  bottom: (showBottomMenu) ? -30 : -(height / 3),
+                  child: PlayRouteDetailsWidget(
+                    dateRange: dateRange,
+                    gpsData: gpsData,
+                    truckNo: widget.truckNo,
+                  ),
                 )
                 //MENU PLACE
               ],
             ),
-          )
-
-      ),
+          )),
     );
   }
 }
-

@@ -23,7 +23,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => providerData.updateUnitValue());
     // providerData.updateLoadWidget(true);
     PostLoadVariablesController postLoadVariables =
@@ -120,8 +120,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                     // AppLocalizations.of(context)!.weight
                                     ),
                                 LoadConfirmationTemplate(
-                                    value:
-                                        providerData.productType.tr ,
+                                    value: providerData.productType.tr,
                                     label: 'productType'.tr
                                     // AppLocalizations.of(context)!.productType
                                     ),

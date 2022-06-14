@@ -2,12 +2,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/controller/hudController.dart';
-import 'package:liveasy/screens/LoginScreens/locationDisabledScreen.dart';
 import 'package:liveasy/screens/LoginScreens/otpVerificationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:location_permissions/location_permissions.dart';
+
+// import 'package:location_permissions/location_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/widgets/phoneNumberTextField.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -26,31 +26,32 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     hudController.updateHud(
         false); // so that if user press the back button in between verification verifying stop
-    getLocationPermission();
+    // getLocationPermission();
   }
 
-  PermissionStatus? permission1;
-  Position? userPosition;
-
-  getLocationPermission() async {
-    await LocationPermissions().requestPermissions();
-    permission1 = await LocationPermissions().checkPermissionStatus();
-    // userPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    // final coordinates = new Coordinates(userPosition!.latitude, userPosition!.longitude);
-    // var addresses =
-    //     await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    // var first = addresses.first;
-    // print(first.addressLine);
-  }
+  //
+  // PermissionStatus? permission1;
+  // Position? userPosition;
+  //
+  // getLocationPermission() async {
+  //   await LocationPermissions().requestPermissions();
+  //   permission1 = await LocationPermissions().checkPermissionStatus();
+  //   // userPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //   // final coordinates = new Coordinates(userPosition!.latitude, userPosition!.longitude);
+  //   // var addresses =
+  //   //     await Geocoder.local.findAddressesFromCoordinates(coordinates);
+  //   // var first = addresses.first;
+  //   // print(first.addressLine);
+  // }
 
   final GlobalKey _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    if (permission1 == PermissionStatus.denied ||
-        permission1 == PermissionStatus.restricted) {
-      //return LocationDisabledScreen();
-    }
+    // if (permission1 == PermissionStatus.denied ||
+    //     permission1 == PermissionStatus.restricted) {
+    //   //return LocationDisabledScreen();
+    // }
     ProviderData providerData = Provider.of<ProviderData>(context);
     return Scaffold(
       body: Stack(

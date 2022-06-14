@@ -25,12 +25,14 @@ import 'package:flutter_config/flutter_config.dart';
 class HistoryScreenMapWidget extends StatefulWidget {
   // final List gpsData;
   final routeHistory;
+
   //final gpsHistory;
   var truckNo;
   var deviceId;
   var selectedlocation;
   var gpsDataHistory;
   var gpsStoppageHistory;
+
   HistoryScreenMapWidget({
     //  required this.gpsData,
     required this.routeHistory,
@@ -128,7 +130,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
     setState(() {
