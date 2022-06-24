@@ -4,14 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/lockUnlockController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:liveasy/models/gpsDataModelForHistory.dart';
-import 'package:liveasy/models/responseModel.dart';
-import 'package:liveasy/screens/truckLockScreen.dart';
-import 'package:liveasy/screens/truckUnlockScreen.dart';
-import 'package:location/location.dart';
-import 'package:geocoding/geocoding.dart';
 
 TransporterIdController transporterIdController =
     Get.find<TransporterIdController>();

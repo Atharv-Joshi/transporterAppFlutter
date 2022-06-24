@@ -93,26 +93,28 @@ class _BiddingScreensState extends State<BiddingScreens> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    WidgetsBinding.instance!
-        .addPostFrameCallback((_) => providerData.updateBidEndpoints(
-        widget.loadingPointCity, widget.unloadingPointCity));
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        providerData.updateBidEndpoints(
+            widget.loadingPointCity, widget.unloadingPointCity));
     return Scaffold(
         body: SafeArea(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: space_4, horizontal: space_4),
         child: Column(
           children: [
-            Header(reset: false, text: 'bids'.tr,
-            // 'Biddings',
+            Header(
+                reset: false,
+                text: 'bids'.tr,
+                // 'Biddings',
                 backButton: true),
             Container(
               margin: EdgeInsets.only(top: space_1),
               height: MediaQuery.of(context).size.height * 0.83,
               child: biddingModelList.isEmpty
                   ? Text(
-                'noBid'.tr,
-                  // 'No bids yet'
-              )
+                      'noBid'.tr,
+                      // 'No bids yet'
+                    )
                   : ListView.builder(
                       controller: scrollController,
                       itemCount: biddingModelList.length,

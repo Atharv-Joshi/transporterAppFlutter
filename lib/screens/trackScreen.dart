@@ -30,16 +30,19 @@ import 'package:get/get.dart';
 
 class TrackScreen extends StatefulWidget {
   final GpsDataModel gpsData;
+
 //  final List gpsDataHistory;
   // final List gpsStoppageHistory;
   //final List routeHistory;
   final String? TruckNo;
   final int? deviceId;
+
   // final String? driverNum;
   // final String? driverName;
   // final String? truckId;
   var totalDistance;
   var imei;
+
   TrackScreen(
       {required this.gpsData,
       //  required this.gpsDataHistory,
@@ -143,12 +146,13 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var lockState;
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
+
   //var Get;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     from = yesterday.toIso8601String();
     istDate1 = yesterday;
     istDate2 = now;

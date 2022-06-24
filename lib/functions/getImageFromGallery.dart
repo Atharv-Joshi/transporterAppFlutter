@@ -16,19 +16,19 @@ Future getImageFromGallery(var functionToUpdate, var strToUpdate, var context) a
       String img64 = base64Encode(bytes);
       functionToUpdate(File(pickedFile.path));
       strToUpdate(img64);
-    } else {
-      if(await Permission.camera.isPermanentlyDenied) {
-        final picker = ImagePicker();
-        var pickedFile = await picker.pickImage(source: ImageSource.gallery);
-        final bytes = await Io.File(pickedFile!.path).readAsBytes();
-        String img64 = base64Encode(bytes);
-        functionToUpdate(File(pickedFile.path));
-        strToUpdate(img64);
+    // } else {
+    //   if(await Permission.camera.isPermanentlyDenied) {
+    //     final picker = ImagePicker();
+    //     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    //     final bytes = await Io.File(pickedFile!.path).readAsBytes();
+    //     String img64 = base64Encode(bytes);
+    //     functionToUpdate(File(pickedFile.path));
+    //     strToUpdate(img64);
       } else {
         showDialog(
             context: context,
             builder: (context) => PermissionDialog());
-      }
+      // }
     }
   } else {
     final picker = ImagePicker();

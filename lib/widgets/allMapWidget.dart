@@ -76,7 +76,7 @@ class _AllMapWidgetState extends State<AllMapWidget>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     iconthenmarker();
     initfunction2();
     try {
@@ -380,53 +380,53 @@ class _AllMapWidgetState extends State<AllMapWidget>
     return address;
   }
 
-  // _getCurrentLocation() {
-  //   Geolocator.getCurrentPosition(
-  //           desiredAccuracy: LocationAccuracy.best,
-  //           forceAndroidLocationManager: true)
-  //       .then((Position position) {
-  //     setState(() {
-  //       _currentPosition = position;
-  //       print(
-  //           "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${widget.gpsDataList[1].latitude}");
-  //     });
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
+// _getCurrentLocation() {
+//   Geolocator.getCurrentPosition(
+//           desiredAccuracy: LocationAccuracy.best,
+//           forceAndroidLocationManager: true)
+//       .then((Position position) {
+//     setState(() {
+//       _currentPosition = position;
+//       print(
+//           "CURRENT LOCATION IS ${_currentPosition.latitude} AND ${widget.gpsDataList[1].latitude}");
+//     });
+//   }).catchError((e) {
+//     print(e);
+//   });
+// }
 
-  // void mapAllTrucksNearUser() {
-  //   for (var i = 0; i < widget.gpsDataList.length; i++) {
-  //     var distanceStore = calculateDistance(
-  //         widget.gpsDataList[i].latitude,
-  //         widget.gpsDataList[i].longitude,
-  //         _currentPosition.latitude,
-  //         _currentPosition.latitude);
-  //     if (distanceStore <= trucksNearUserController.distanceRadius.value) {
-  //       print("TRYINGGGGGG");
-  //       customGpsDataList[i] = widget.gpsDataList[i];
-  //       customDeviceList[i] = widget.deviceList[i];
-  //       customRunningDataList[i] = widget.runningDataList[i];
-  //       customRunningGpsDataList[i] = widget.runningGpsDataList[i];
-  //       customStoppedList[i] = widget.stoppedList[i];
-  //       customStoppedGpsList[i] = widget.stoppedGpsList[i];
-  //     } else {
-  //       customGpsDataList[i] = [];
-  //       customDeviceList[i] = [];
-  //       customRunningDataList[i] = [];
-  //       customRunningGpsDataList[i] = [];
-  //       customStoppedList[i] = [];
-  //       customStoppedGpsList[i] = [];
-  //     }
-  //   }
-  // }
+// void mapAllTrucksNearUser() {
+//   for (var i = 0; i < widget.gpsDataList.length; i++) {
+//     var distanceStore = calculateDistance(
+//         widget.gpsDataList[i].latitude,
+//         widget.gpsDataList[i].longitude,
+//         _currentPosition.latitude,
+//         _currentPosition.latitude);
+//     if (distanceStore <= trucksNearUserController.distanceRadius.value) {
+//       print("TRYINGGGGGG");
+//       customGpsDataList[i] = widget.gpsDataList[i];
+//       customDeviceList[i] = widget.deviceList[i];
+//       customRunningDataList[i] = widget.runningDataList[i];
+//       customRunningGpsDataList[i] = widget.runningGpsDataList[i];
+//       customStoppedList[i] = widget.stoppedList[i];
+//       customStoppedGpsList[i] = widget.stoppedGpsList[i];
+//     } else {
+//       customGpsDataList[i] = [];
+//       customDeviceList[i] = [];
+//       customRunningDataList[i] = [];
+//       customRunningGpsDataList[i] = [];
+//       customStoppedList[i] = [];
+//       customStoppedGpsList[i] = [];
+//     }
+//   }
+// }
 
-  // double calculateDistance(lat1, lon1, lat2, lon2) {
-  //   var p = 0.017453292519943295;
-  //   var c = cos;
-  //   var a = 0.5 -
-  //       c((lat2 - lat1) * p) / 2 +
-  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-  //   return 12742 * asin(sqrt(a));
-  // }
+// double calculateDistance(lat1, lon1, lat2, lon2) {
+//   var p = 0.017453292519943295;
+//   var c = cos;
+//   var a = 0.5 -
+//       c((lat2 - lat1) * p) / 2 +
+//       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+//   return 12742 * asin(sqrt(a));
+// }
 }

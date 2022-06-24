@@ -11,8 +11,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
-import 'package:location_permissions/location_permissions.dart';
-// import 'package:location/location.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -87,13 +85,13 @@ class _DisplayHistoryState extends State<DisplayHistory> {
   }
 
   Future getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission != PermissionStatus.granted) {
-      LocationPermission permission = await Geolocator.requestPermission();
-      if (permission != PermissionStatus.granted)
-        getLocation();
-      return;
-    }
+    // LocationPermission permission = await Geolocator.checkPermission();
+    // if (permission != PermissionStatus.granted) {
+    //   LocationPermission permission = await Geolocator.requestPermission();
+    //   if (permission != PermissionStatus.granted)
+    //     getLocation();
+    //   return;
+    // }
     getLocation();
   }
 
