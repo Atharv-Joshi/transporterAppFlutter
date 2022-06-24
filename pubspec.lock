@@ -120,27 +120,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  contact_picker_platform_interface:
-    dependency: transitive
-    description:
-      name: contact_picker_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.7.0"
-  contact_picker_web:
-    dependency: transitive
-    description:
-      name: contact_picker_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.7.0"
-  contacts_service:
-    dependency: "direct main"
-    description:
-      name: contacts_service
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3"
   cross_file:
     dependency: transitive
     description:
@@ -448,13 +427,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fluttercontactpicker:
-    dependency: "direct main"
-    description:
-      name: fluttercontactpicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.6.0"
   geocoding:
     dependency: "direct main"
     description:
@@ -875,13 +847,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  quiver:
-    dependency: transitive
-    description:
-      name: quiver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   rxdart:
     dependency: transitive
     description:

@@ -14,7 +14,7 @@ import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
-import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+// import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:liveasy/widgets/buttons/cancelButtonForAddNewDriver.dart';
 import 'package:provider/provider.dart';
 import 'CompletedDialog.dart';
@@ -83,31 +83,31 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                   ),
                   GestureDetector(
                       onTap: () async {
-                        print(driverNameController.text);
-                        print(driverNumberController.text);
-
-                        // if (await Permission.contacts.request().isGranted) {
-
-                        final PhoneContact contact =
-                            await FlutterContactPicker.pickPhoneContact(
-                                askForPermission: true);
-                        print("picked contact: $contact");
-
-                        setState(() {
-                          String contactName = contact.fullName.toString();
-                          driverNameController =
-                              TextEditingController(text: contactName);
-
-                          String contactNumber =
-                              contact.phoneNumber!.number!.contains("+91")
-                                  ? contact.phoneNumber!.number!
-                                      .replaceRange(0, 3, "")
-                                      .replaceAll(new RegExp(r"\D"), "")
-                                  : contact.phoneNumber!.number!.toString();
-
-                          driverNumberController =
-                              TextEditingController(text: contactNumber);
-                        });
+                        // print(driverNameController.text);
+                        // print(driverNumberController.text);
+                        //
+                        // // if (await Permission.contacts.request().isGranted) {
+                        //
+                        // final PhoneContact contact =
+                        //     await FlutterContactPicker.pickPhoneContact(
+                        //         askForPermission: true);
+                        // print("picked contact: $contact");
+                        //
+                        // setState(() {
+                        //   String contactName = contact.fullName.toString();
+                        //   driverNameController =
+                        //       TextEditingController(text: contactName);
+                        //
+                        //   String contactNumber =
+                        //       contact.phoneNumber!.number!.contains("+91")
+                        //           ? contact.phoneNumber!.number!
+                        //               .replaceRange(0, 3, "")
+                        //               .replaceAll(new RegExp(r"\D"), "")
+                        //           : contact.phoneNumber!.number!.toString();
+                        //
+                        //   driverNumberController =
+                        //       TextEditingController(text: contactNumber);
+                        // });
                       },
                       child: Image(
                         image:

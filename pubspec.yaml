@@ -46,8 +46,8 @@ dependencies:
   modal_progress_hud_alt: ^1.0.0
   social_share: ^2.1.1
   image_picker: ^0.8.4
-  contacts_service: ^0.6.1
-  fluttercontactpicker: ^4.5.1
+#  contacts_service: ^0.6.1
+#  fluttercontactpicker: ^4.5.1
   url_launcher: ^6.0.9
   firebase_dynamic_links: ^2.0.7
   wc_flutter_share: ^0.4.0
