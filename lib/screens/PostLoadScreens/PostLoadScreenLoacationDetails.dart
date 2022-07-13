@@ -10,7 +10,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/AddCalender.dart';
 import 'package:liveasy/widgets/addPostLoadHeader.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
-import 'package:liveasy/widgets/addressInputGMapsWidget.dart';
+import 'package:liveasy/widgets/addressInputMMIWidget.dart';
 import 'package:liveasy/widgets/buttons/NextButton.dart';
 import 'package:liveasy/widgets/loadingPointImageIcon.dart';
 import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
@@ -139,7 +139,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
-                            child: AddressInputGMapsWidget(
+                            child: AddressInputMMIWidget(
                                 hintText: "Loading point",
                                 icon: LoadingPointImageIcon(
                                   height: size_6,
@@ -154,8 +154,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
-                            child: AddressInputGMapsWidget(
-                              hintText: "Unloading point",
+                            child: AddressInputMMIWidget(
+                                hintText: "Unloading point",
                               icon: UnloadingPointImageIcon(
                                 height: size_6,
                                 width: size_6,

@@ -17,54 +17,33 @@ TruckApiCalls truckApiCalls = TruckApiCalls();
 
 DriverApiCalls driverApiCalls = DriverApiCalls();
 
-Future<OngoingCardModel> loadAllOngoingData(BookingModel bookingModel) async {
-  DriverModel driverModel = DriverModel();
-  Map truckData = {};
-  Map loadData = await loadApiCalls.getDataByLoadId(bookingModel.loadId!);
+Future<OngoingCardModel?> loadAllOngoingData(BookingModel bookingModel) async {
+  // Map loadData = await loadApiCalls.getDataByLoadId(bookingModel.loadId!);
   TransporterModel transporterModel = await transporterApiCalls
       .getDataByTransporterId(bookingModel.transporterId);
-  if (!bookingModel.truckId![0].contains("truck")) {
-    truckData = {
-      'driverId': 'NA',
-      'truckNo': 'NA',
-      'imei': 'NA',
-      'truckType': 'NA',
-    };
-  } else {
-    truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId![0]);
-  }
-
-  if (truckData['driverId'] != "NA") {
-    driverModel = await getDriverByDriverId(driverId: truckData['driverId']);
-  } else {
-    driverModel.driverId = 'NA';
-    driverModel.transporterId = 'NA';
-    driverModel.phoneNum = 'NA';
-    driverModel.driverName = 'NA';
-    driverModel.truckId = 'NA';
-  }
 
   OngoingCardModel loadALLDataModel = OngoingCardModel();
   loadALLDataModel.bookingDate = bookingModel.bookingDate;
   loadALLDataModel.bookingId = bookingModel.bookingId;
   loadALLDataModel.completedDate = bookingModel.completedDate;
-  loadALLDataModel.loadingPointCity = loadData['loadingPointCity'];
-  loadALLDataModel.unloadingPointCity = loadData['unloadingPointCity'];
+  loadALLDataModel.deviceId = bookingModel.deviceId;
+  loadALLDataModel.loadingPointCity = bookingModel.loadingPointCity;
+  loadALLDataModel.unloadingPointCity = bookingModel.unloadingPointCity;
   loadALLDataModel.companyName = transporterModel.companyName;
   loadALLDataModel.transporterPhoneNum = transporterModel.transporterPhoneNum;
   loadALLDataModel.transporterLocation = transporterModel.transporterLocation;
   loadALLDataModel.transporterName = transporterModel.transporterName;
   loadALLDataModel.transporterApproved = transporterModel.transporterApproved;
   loadALLDataModel.companyApproved = transporterModel.companyApproved;
-  loadALLDataModel.truckNo = truckData['truckNo'];
-  loadALLDataModel.truckType = truckData['truckType'];
-  loadALLDataModel.imei = truckData['imei'];
-  loadALLDataModel.driverName = driverModel.driverName;
-  loadALLDataModel.driverPhoneNum = driverModel.phoneNum;
+  loadALLDataModel.truckNo = bookingModel.truckNo;
+  loadALLDataModel.truckType = 'NA';
+  loadALLDataModel.imei = 'NA';
+  loadALLDataModel.driverName = bookingModel.driverName;
+  loadALLDataModel.driverPhoneNum = bookingModel.driverPhoneNum;
   loadALLDataModel.rate = bookingModel.rate.toString();
   loadALLDataModel.unitValue = bookingModel.unitValue;
-  loadALLDataModel.noOfTrucks = loadData['noOfTrucks'];
-  loadALLDataModel.productType = loadData['productType'];
+  loadALLDataModel.noOfTrucks = 'NA';
+  loadALLDataModel.productType = 'NA';
 
   return loadALLDataModel;
 }

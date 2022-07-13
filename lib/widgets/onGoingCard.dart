@@ -4,6 +4,10 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
@@ -12,33 +16,63 @@ import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
 import 'linePainter.dart';
 
-class OngoingCard extends StatelessWidget {
+class OngoingCard extends StatefulWidget {
   final OngoingCardModel loadAllDataModel;
+  // final GpsDataModel gpsData;
 
   OngoingCard({
     required this.loadAllDataModel,
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (loadAllDataModel.driverName == null) {
-      loadAllDataModel.driverName = "NA";
-    }
-    loadAllDataModel.driverName = loadAllDataModel.driverName!.length >= 20
-        ? loadAllDataModel.driverName!.substring(0, 18) + '..'
-        : loadAllDataModel.driverName;
-    if (loadAllDataModel.companyName == null) {}
-    loadAllDataModel.companyName = loadAllDataModel.companyName!.length >= 35
-        ? loadAllDataModel.companyName!.substring(0, 33) + '..'
-        : loadAllDataModel.companyName;
+  State<OngoingCard> createState() => _OngoingCardState();
+}
 
-    loadAllDataModel.unitValue =
-        loadAllDataModel.unitValue == "PER_TON" ? "tonne".tr : "truck".tr;
+class _OngoingCardState extends State<OngoingCard> {
+  GpsDataModel? gpsData;
+  var devicelist = [];
+  var gpsDataList = [];
+  var gpsList = [];
+
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  String? from;
+  String? to;
+  DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+  String? totalDistance;
+  @override
+  void initState() {
+    super.initState();
+    getMyTruckPosition();
+    initFunction();
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.loadAllDataModel.driverName == null) {
+      widget.loadAllDataModel.driverName = "NA";
+    }
+    widget.loadAllDataModel.driverName =
+        widget.loadAllDataModel.driverName!.length >= 20
+            ? widget.loadAllDataModel.driverName!.substring(0, 18) + '..'
+            : widget.loadAllDataModel.driverName;
+    if (widget.loadAllDataModel.companyName == null) {}
+    widget.loadAllDataModel.companyName =
+        widget.loadAllDataModel.companyName!.length >= 35
+            ? widget.loadAllDataModel.companyName!.substring(0, 33) + '..'
+            : widget.loadAllDataModel.companyName;
+
+    widget.loadAllDataModel.unitValue =
+        widget.loadAllDataModel.unitValue == "PER_TON"
+            ? "tonne".tr
+            : "truck".tr;
 
     return GestureDetector(
       onTap: () {
         Get.to(() => OnGoingLoadDetails(
-              loadALlDataModel: loadAllDataModel,
+              loadALlDataModel: widget.loadAllDataModel,
               trackIndicator: false,
             ));
       },
@@ -56,7 +90,7 @@ class OngoingCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${"bookingDate".tr} : ${loadAllDataModel.bookingDate}',
+                          '${"bookingDate".tr} : ${widget.loadAllDataModel.bookingDate}',
                           style: TextStyle(
                             fontSize: size_6,
                             color: veryDarkGrey,
@@ -69,7 +103,7 @@ class OngoingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LoadEndPointTemplate(
-                            text: loadAllDataModel.loadingPointCity,
+                            text: widget.loadAllDataModel.loadingPointCity,
                             endPointType: 'loading'),
                         Container(
                             padding: EdgeInsets.only(left: 2),
@@ -79,7 +113,7 @@ class OngoingCard extends StatelessWidget {
                               foregroundPainter: LinePainter(height: space_3),
                             )),
                         LoadEndPointTemplate(
-                            text: loadAllDataModel.unloadingPointCity,
+                            text: widget.loadAllDataModel.unloadingPointCity,
                             endPointType: 'unloading'),
                       ],
                     ),
@@ -89,16 +123,16 @@ class OngoingCard extends StatelessWidget {
                         children: [
                           NewRowTemplate(
                             label: "truckNumber".tr,
-                            value: loadAllDataModel.truckNo,
+                            value: widget.loadAllDataModel.truckNo,
                             width: 78,
                           ),
                           NewRowTemplate(
                               label: "driverName".tr,
-                              value: loadAllDataModel.driverName),
+                              value: widget.loadAllDataModel.driverName),
                           NewRowTemplate(
                             label: "price".tr,
                             value:
-                                '${loadAllDataModel.rate}/${loadAllDataModel.unitValue}',
+                                '${widget.loadAllDataModel.rate}/${widget.loadAllDataModel.unitValue}',
                             width: 78,
                           ),
                         ],
@@ -118,7 +152,7 @@ class OngoingCard extends StatelessWidget {
                                     AssetImage('assets/icons/TruckIcon.png')),
                           ),
                           Text(
-                            loadAllDataModel.companyName!,
+                            widget.loadAllDataModel.companyName!,
                             style: TextStyle(
                               color: liveasyBlackColor,
                               fontWeight: mediumBoldWeight,
@@ -138,13 +172,19 @@ class OngoingCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TrackButton(truckApproved: false),
+                    TrackButton(
+                      gpsData: gpsDataList[0],
+                      truckApproved: true,
+                      TruckNo: widget.loadAllDataModel.truckNo,
+                      totalDistance: totalDistance,
+                    ),
                     CallButton(
                       directCall: false,
-                      transporterPhoneNum: loadAllDataModel.transporterPhoneNum,
-                      driverPhoneNum: loadAllDataModel.driverPhoneNum,
-                      driverName: loadAllDataModel.driverName,
-                      transporterName: loadAllDataModel.companyName,
+                      transporterPhoneNum:
+                          widget.loadAllDataModel.transporterPhoneNum,
+                      driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
+                      driverName: widget.loadAllDataModel.driverName,
+                      transporterName: widget.loadAllDataModel.companyName,
                     ),
                   ],
                 ),
@@ -154,5 +194,43 @@ class OngoingCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getMyTruckPosition() async {
+    var devices = await getDeviceByDeviceId(widget.loadAllDataModel.deviceId.toString());
+    var gpsDataAll = await getPositionByDeviceId(widget.loadAllDataModel.deviceId.toString());
+
+    devicelist.clear();
+
+    for (var device in devices) {
+      setState(() {
+        devicelist.add(device);
+      });
+    }
+
+    gpsList = List.filled(devices.length, null, growable: true);
+
+    for (int i = 0; i < gpsDataAll.length; i++) {
+      getGPSData(gpsDataAll[i], i);
+    }
+
+    setState(() {
+      gpsDataList = gpsList;
+    });
+  }
+
+  void getGPSData(var gpsData, int i) async {
+    gpsList.removeAt(i);
+
+    gpsList.insert(i, gpsData);
+  }
+
+  void initFunction() async {
+    var gpsRoute1 = await getTraccarSummaryByDeviceId(
+        deviceId: widget.loadAllDataModel.deviceId, from: from, to: to);
+    setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+    });
+    print('in init');
   }
 }

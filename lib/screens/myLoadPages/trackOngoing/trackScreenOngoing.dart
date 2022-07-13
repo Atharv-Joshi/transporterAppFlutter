@@ -14,9 +14,12 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getTraccarStoppagesByDeviceId.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
+import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenDetailsOngoing.dart';
 import 'package:liveasy/screens/truckLockUnlockScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/stoppageInfoWindow.dart';
@@ -27,26 +30,28 @@ import 'package:screenshot/screenshot.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getDataHistoryByDeviceId.dart';
 
-class TrackScreen extends StatefulWidget {
+class TrackScreenOngoing extends StatefulWidget {
   final GpsDataModel gpsData;
-  final String? truckNo;
+  final String? TruckNo;
   final int? deviceId;
   var totalDistance;
   var imei;
 
-  TrackScreen(
+  TrackScreenOngoing(
       {required this.gpsData,
-      required this.truckNo,
+      required this.TruckNo,
       required this.deviceId,
       required this.totalDistance,
       this.imei});
 
   @override
-  _TrackScreenState createState() => _TrackScreenState();
+  _TrackScreenOngoingState createState() => _TrackScreenOngoingState();
 }
 
-class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
+class _TrackScreenOngoingState extends State<TrackScreenOngoing>
+    with WidgetsBindingObserver {
   final Set<Polyline> _polyline = {};
   Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
@@ -132,8 +137,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
 
-  //var Get;
-
   @override
   void initState() {
     super.initState();
@@ -143,7 +146,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     istDate2 = now;
     loading = false;
     to = now.toIso8601String();
-    print("device ID ${widget.deviceId}");
+    print("device ID ${widget.gpsData.deviceId}");
     newGPSData.add(widget.gpsData);
     try {
       initfunction();
@@ -356,8 +359,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     logger.i("It is in init function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getDataHistory(widget.deviceId, from, to);
-    var s = getStoppageHistory(widget.deviceId, from, to);
+    var f = getTraccarHistoryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
+    var s = getTraccarStoppagesByDeviceId(deviceId: widget.deviceId, from: from, to: to);
     //  var t = getRouteStatusList(widget.deviceId, from, to);
     //   var gpsRoute = await t;
     var newGpsDataHistory = await f;
@@ -365,15 +368,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     print("newGpsDataHistory $newGpsDataHistory");
     print("newGpsStoppageHistory $newGpsStoppageHistory");
     setState(() {
-      newGPSData.add(widget.gpsData);
-      // newGPSRoute = gpsRoute;
+      // newGPSData.add(widget.gpsData);
       gpsDataHistory = newGpsDataHistory;
       gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(start: istDate1, end: istDate2);
-      //  print("NEW ROute $newGPSRoute");
       totalDistance = widget.totalDistance;
-      //totalDistance = getTotalDistance(gpsRoute);
-      //  newGPSRoute = getStopList(newGPSRoute);
       totalRunningTime =
           getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
@@ -402,8 +401,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   void initfunctionAfterChange() async {
     logger.i("It is in init function after change function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getDataHistory(newGPSData.last.deviceId, from, to);
-    var s = getStoppageHistory(newGPSData.last.deviceId, from, to);
+    var f = getTraccarHistoryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
+    var s = getTraccarStoppagesByDeviceId(deviceId: widget.deviceId, from: from, to: to);
     // var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
     //  distancecalculation(from,to);
     // var gpsData = await f1;
@@ -416,13 +415,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       gpsDataHistory = newGpsDataHistory;
       gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(start: istDate1, end: istDate2);
-      //   print("NEW ROute $newGPSRoute");
-
-      //  totalRunningTime = getTotalRunningTime(gpsRoute);
-      // totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      //totalDistance = getTotalDistance(gpsRoute);
-      //  newGPSRoute = getStopList(newGPSRoute);
-      // status = getStatus(newGPSData, gpsStoppageHistory);
     });
     addstops(gpsStoppageHistory);
     getTruckHistoryAfter();
@@ -464,7 +456,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   //function used to change the speed of truck after 10 seconds and to make the truck look running
   void onActivityExecuted2() async {
     logger.i("It is in Activity2 Executed function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    var gpsData = await getPositionByDeviceId(widget.deviceId.toString());
     setState(() {
       newGPSData = gpsData;
     });
@@ -493,7 +485,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       print("Live location is ${newGPSData.last.latitude}");
 
       print("id ${newGPSData.last.deviceId.toString()}");
-      String? title = widget.truckNo;
+      String? title = widget.TruckNo;
       truckAddress = await getAddress(newGPSData);
       setState(() {
         direction = 180 + newGPSData.last.course;
@@ -507,7 +499,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
             icon: pinLocationIconTruck,
             onTap: () {
               _customDetailsInfoWindowController.addInfoWindow!(
-                truckInfoWindow(widget.truckNo, truckAddress),
+                truckInfoWindow(widget.TruckNo, truckAddress),
                 lastlatLngMarker,
               );
             },
@@ -956,137 +948,91 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                       ),
                     ])),
               ),
-
               Positioned(
-                  top: 0,
-                  child: Container(
+                top: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: white,
+                  child: Column(children: [
+                    Container(
+                      // margin: EdgeInsets.only(bottom: space_10),
                       width: MediaQuery.of(context).size.width,
+                      height: space_13,
                       color: white,
-                      child: Column(children: [
-                        Container(
-                          // margin: EdgeInsets.only(bottom: space_10),
-                          width: MediaQuery.of(context).size.width,
-                          height: space_13,
-                          color: white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                                child: Header(
-                                    reset: false,
-                                    text: "${widget.truckNo}",
-                                    backButton: true),
-                              ),
-                              //HelpButtonWidget(),
-                              PopupMenuButton(
-                                  onSelected: (value) => {
-                                        if (value == 1)
-                                          {
-                                            //   print("THE DATA ${widget.truckId}"),
-                                            Get.to(TruckLockUnlock(
-                                              deviceId: widget.deviceId,
-                                              gpsData: newGPSData,
-                                              lockStatus: widget.gpsData.result,
-                                              // position: position,
-                                              TruckNo: widget.truckNo,
-                                              //   driverName: widget.driverName,
-                                              //   driverNum: widget.driverNum,
-                                              gpsDataHistory: gpsDataHistory,
-                                              gpsStoppageHistory:
-                                                  gpsStoppageHistory,
-                                            ))
-                                            // routeHistory:
-                                            //     widget.routeHistory))
-                                            // truckId: widget.truckId))
-                                            //   if (lockState == false)
-                                            //     {
-                                            //       Get.to(() => TruckLockScreen(
-                                            //           deviceId: widget.deviceId,
-                                            //           gpsData: widget.gpsData,
-                                            //           // position: position,
-                                            //           TruckNo: widget.TruckNo,
-                                            //           driverName:
-                                            //               widget.driverName,
-                                            //           driverNum: widget.driverNum,
-                                            //           gpsDataHistory:
-                                            //               widget.gpsDataHistory,
-                                            //           gpsStoppageHistory: widget
-                                            //               .gpsStoppageHistory,
-                                            //           routeHistory:
-                                            //               widget.routeHistory,
-                                            //           truckId: widget.truckId))
-                                            //     }
-                                            //   else
-                                            //     {
-                                            //       Get.to(() => TruckUnlockScreen(
-                                            //           deviceId: widget.deviceId,
-                                            //           gpsData: widget.gpsData,
-                                            //           // position: position,
-                                            //           TruckNo: widget.TruckNo,
-                                            //           driverName:
-                                            //               widget.driverName,
-                                            //           driverNum: widget.driverNum,
-                                            //           gpsDataHistory:
-                                            //               widget.gpsDataHistory,
-                                            //           gpsStoppageHistory: widget
-                                            //               .gpsStoppageHistory,
-                                            //           routeHistory:
-                                            //               widget.routeHistory,
-                                            //           truckId: widget.truckId))
-                                            //     }
-                                          }
-                                      },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(radius_1 + 1))),
-                                  itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Image.asset(
-                                                "assets/icons/truckLockIcon.png",
-                                                height: space_2 + 3,
-                                                width: space_2 + 3,
-                                              ),
-                                              SizedBox(
-                                                width: space_1 + 1,
-                                              ),
-                                              Container(
-                                                  //width: 100,
-                                                  child: Text(
-                                                "Truck Lock".tr,
-                                                style: TextStyle(
-                                                    color: liveasyBlackColor),
-                                              )),
-                                            ],
-                                          ),
-                                        ),
-                                        // PopupMenuItem(
-                                        //   child: Text("Second"),
-                                        //   value: 2,
-                                        // )
-                                      ])
-                            ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
+                            child: Header(
+                                reset: false,
+                                text: "${widget.TruckNo}",
+                                backButton: true),
                           ),
-                        ),
-                      ]))),
-              //   loading?
+                          //HelpButtonWidget(),
+                          PopupMenuButton(
+                              onSelected: (value) => {
+                                    if (value == 1)
+                                      {
+                                        Get.to(
+                                          TruckLockUnlock(
+                                            deviceId: widget.deviceId,
+                                            gpsData: newGPSData,
+                                            lockStatus: widget.gpsData.result,
+                                            TruckNo: widget.TruckNo,
+                                            gpsDataHistory: gpsDataHistory,
+                                            gpsStoppageHistory:
+                                                gpsStoppageHistory,
+                                          ),
+                                        )
+                                      }
+                                  },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(radius_1 + 1))),
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Image.asset(
+                                            "assets/icons/truckLockIcon.png",
+                                            height: space_2 + 3,
+                                            width: space_2 + 3,
+                                          ),
+                                          SizedBox(
+                                            width: space_1 + 1,
+                                          ),
+                                          Container(
+                                              //width: 100,
+                                              child: Text(
+                                            "Truck Lock".tr,
+                                            style: TextStyle(
+                                                color: liveasyBlackColor),
+                                          )),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
               AnimatedPositioned(
                 curve: Curves.easeInOut,
                 duration: Duration(milliseconds: 200),
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
-                child: TrackScreenDetails(
+                child: TrackScreenDetailsOngoing(
                   gpsData: newGPSData,
                   dateRange: selectedDate,
-                  TruckNo: widget.truckNo,
+                  truckNo: widget.TruckNo,
                   gpsDataHistory: gpsDataHistory,
                   gpsStoppageHistory: gpsStoppageHistory,
                   stops: stoplatlong,
@@ -1097,7 +1043,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   imei: widget.imei,
                 ),
               )
-              //   :Container(),
             ],
           ),
         ),

@@ -16,7 +16,7 @@ getOngoingDataWithPageNo(int i) async {
       '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=false&cancel=false&pageNo=$i'));
 
   var jsonData = json.decode(response.body);
-
+  print(response.body);
   for (var json in jsonData) {
     BookingModel bookingModel = BookingModel(truckId: []);
     bookingModel.bookingDate =
@@ -31,9 +31,22 @@ getOngoingDataWithPageNo(int i) async {
     bookingModel.completedDate =
         json['completedDate'] != null ? json['completedDate'] : "NA";
     bookingModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA';
-    bookingModel.unitValue = json['unitValue'];
+    bookingModel.unitValue =
+        json['unitValue'] != null ? json['unitValue'] : 'PER_TON';
+    bookingModel.deviceId =
+        json['deviceId'] != null ? int.parse(json['deviceId']) : 0;
+    bookingModel.unloadingPointCity =
+        json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
+    bookingModel.loadingPointCity =
+        json['loadingPointCity'] != null ? json['loadingPointCity'] : 'NA';
+    bookingModel.truckNo = json['truckNo'] != null ? json['truckNo'] : 'NA';
+    bookingModel.driverPhoneNum =
+        json['driverPhoneNum'] != null ? json['driverPhoneNum'] : 'NA';
+    bookingModel.driverName =
+        json['driverName'] != null ? json['driverName'] : 'NA';
+
     var loadAllDataModel = await loadAllOngoingData(bookingModel);
-    modelList.add(loadAllDataModel);
+    modelList.add(loadAllDataModel!);
   }
   return modelList;
 }

@@ -6,11 +6,9 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/AppVersionCheck.dart';
-import 'package:liveasy/functions/getDriverDetailsFromDriverId.dart';
 import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
@@ -20,7 +18,6 @@ import 'package:liveasy/widgets/accountVerification/accountPageUtil.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/alertDialog/linkExpiredDialog.dart';
-import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/bottomNavigationIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'TruckScreens/myTrucksScreen.dart';
@@ -136,7 +133,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               deviceId: deviceId,
               gpsData: gpsDatamodel,
               // position: position,
-              TruckNo: truckno,
+              truckNo: truckno,
               //  driverName: driverModel.driverName,
               //   driverNum: driverModel.phoneNum,
               //   gpsDataHistory: gpsDataHistory,

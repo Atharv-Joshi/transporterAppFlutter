@@ -1,16 +1,14 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:date_format/date_format.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/analysisDataController.dart';
 import 'package:liveasy/controller/analysisScreenNavController.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getTraccarStoppagesByDeviceId.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getTraccarTripsByDeviceId.dart';
 import 'package:liveasy/widgets/analysisScreenBarButton.dart';
 import 'package:liveasy/widgets/stopSpecificCard.dart';
 import 'package:liveasy/widgets/truckAnalysisCard.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/constants/color.dart';
@@ -23,17 +21,17 @@ String routeDataApi = FlutterConfig.get("routeDataApiUrl");
 
 class truckAnalysisScreen extends StatefulWidget {
   var recentStops;
-  var TruckNo;
+  var truckNo;
   var imei;
   var deviceId;
   var runningTimeVar;
 
   truckAnalysisScreen(
       {required this.recentStops,
-      required this.TruckNo,
-      required this.imei,
-      this.deviceId,
-      this.runningTimeVar});
+        required this.truckNo,
+        required this.imei,
+        this.deviceId,
+        this.runningTimeVar});
 
   @override
   _truckAnalysisScreenState createState() => _truckAnalysisScreenState();
@@ -43,7 +41,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     with AutomaticKeepAliveClientMixin {
   var recentStops;
   var truckId = 0;
-  var TruckNo;
+  var truckNo;
   var imei;
   var gpsStoppage;
   var deviceId;
@@ -56,10 +54,10 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
   var temp;
 
   AnalysisDataController analysisDataController =
-      Get.put(AnalysisDataController());
+  Get.put(AnalysisDataController());
 
   AnalysisScreenNavController analysisScreenNavController =
-      Get.put(AnalysisScreenNavController());
+  Get.put(AnalysisScreenNavController());
 
   List<String> _locations = [
     '24 hours',
@@ -205,7 +203,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
 
       /// Call for route Data Api
       http.Response response =
-          await http.get(Uri.parse("${routeDataApi}?devideId=1"));
+      await http.get(Uri.parse("${routeDataApi}?devideId=1"));
       var returnData = await json.decode(response.body);
 
       if (response.statusCode == 200) {
@@ -318,8 +316,8 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
       loading = true;
     });
 
-    var s = getStoppageHistory(deviceId, from, to);
-    var t = getRouteStatusList(deviceId, from, to);
+    var s = getTraccarStoppagesByDeviceId(deviceId:deviceId, from: from,to: to);
+    var t = getTraccarTripsByDeviceId(deviceId:deviceId, from: from,to: to);
 
     var newGpsStoppageHistory = await s;
     var gpsRoute = await t;
@@ -419,21 +417,19 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
   void initFunction() async {
     setState(() {
       recentStops = widget.recentStops;
-    //  truckId = widget.truckId;
-      TruckNo = widget.TruckNo;
+      truckNo = widget.truckNo;
       imei = widget.imei;
       deviceId = widget.deviceId;
       timeSpan = 86400000;
     });
 
     DateTime yesterday =
-        DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+    DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
     DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
     late String today = yesterday.toIso8601String();
     late String end = now.toIso8601String();
-    var t = getRouteStatusList(deviceId, today, end);
+    var t = getTraccarTripsByDeviceId(deviceId: deviceId,from: today,to: end);
     var gpsRoute = await t;
-    print("ok");
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
       ..indicatorSize = 45.0
@@ -467,7 +463,7 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "$TruckNo",
+            "$truckNo",
             style: TextStyle(color: black, fontWeight: FontWeight.bold),
           ),
           backgroundColor: white,
@@ -475,252 +471,252 @@ class _truckAnalysisScreenState extends State<truckAnalysisScreen>
         body: loading
             ? Container()
             : Container(
-                height: height,
+          height: height,
+          margin: EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Container(
                 margin: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Column(children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Select Date"),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: white,
-                                          border: Border.all(
-                                              color: Color.fromRGBO(64, 64, 64, 1)),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      height: 30,
-                                      child: ElevatedButton(
-                                        onPressed: () => _selectDate(context),
-                                        child: Text(
-                                          "${formatDate(selectedDate, [d, ' ', M, ' ', yyyy])}",
-                                          style: TextStyle(
-                                              fontSize: 11, color: black),
-                                        ),
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    white)),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.calendar_today_outlined,
-                                      size: 20,
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                  height: 30,
-                                  width: 110,
-                                  alignment: Alignment.centerRight,
-                                  decoration: BoxDecoration(
-                                      color: white,
-                                      border: Border.all(
-                                          color: Color.fromRGBO(64, 64, 64, 1)),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  child: DropdownButton(
-                                    underline: Container(),
-                                    hint: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 12.0),
-                                      child: Text('24 hours'),
-                                    ),
-                                    icon: Container(
-                                      width: 36,
-                                      child: Row(children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: 36,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(5),
-                                                bottomRight: Radius.circular(5),
-                                              ),
-                                            ),
-                                            child: Icon(
-                                                Icons.arrow_drop_down_sharp,
-                                                size: 25,
-                                                color: black),
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                    style: TextStyle(
-                                        color: const Color(0xff3A3A3A),
-                                        fontSize: 11,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w400),
-                                    // Not necessary for Option 1
-                                    value: _selectedLocation,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _selectedLocation = newValue.toString();
-                                      });
-                                      customSelection(_selectedLocation);
-                                    },
-                                    items: _locations.map((location) {
-                                      return DropdownMenuItem(
-                                        child: Container(
-                                            child: new Text(location)),
-                                        value: location,
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 280,
-                          child: truckAnalysisDoughnut(),
-                        )
-                      ]),
-                    ),
-                    Container(
-                      height: 35,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        controller: ScrollController(),
+                child: Column(children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Select Date"),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            key: itemKeyFirst,
-                            child: AnalysisScreenBarButton(
-                                text: 'All (${allNav.toString()})'.tr,
-                                value: 0,
-                                pageController: pageController),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: white,
+                                    border: Border.all(
+                                        color: Color.fromRGBO(64, 64, 64, 1)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5))),
+                                height: 30,
+                                child: ElevatedButton(
+                                  onPressed: () => _selectDate(context),
+                                  child: Text(
+                                    "${formatDate(selectedDate, [d, ' ', M, ' ', yyyy])}",
+                                    style: TextStyle(
+                                        fontSize: 11, color: black),
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all(
+                                          white)),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                size: 20,
+                              )
+                            ],
                           ),
-                          AnalysisScreenBarButton(
-                              text: 'Loading (${loadingNav.toString()})'.tr,
-                              value: 1,
-                              pageController: pageController),
-                          AnalysisScreenBarButton(
-                              text: 'Unloading (${unLoadingNav.toString()})'.tr,
-                              value: 2,
-                              pageController: pageController),
-                          AnalysisScreenBarButton(
-                              text: 'Parking (${parkingNav.toString()})'.tr,
-                              value: 3,
-                              pageController: pageController),
                           Container(
-                            key: itemKey,
-                            child: AnalysisScreenBarButton(
-                                text:
-                                    'Maintenance (${maintenanceNav.toString()})'
-                                        .tr,
-                                value: 4,
-                                pageController: pageController),
+                            height: 30,
+                            width: 110,
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(
+                                color: white,
+                                border: Border.all(
+                                    color: Color.fromRGBO(64, 64, 64, 1)),
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5))),
+                            child: DropdownButton(
+                              underline: Container(),
+                              hint: Padding(
+                                padding:
+                                const EdgeInsets.only(right: 12.0),
+                                child: Text('24 hours'),
+                              ),
+                              icon: Container(
+                                width: 36,
+                                child: Row(children: [
+                                  Expanded(
+                                    child: Container(
+                                      width: 36,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(5),
+                                          bottomRight: Radius.circular(5),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                          Icons.arrow_drop_down_sharp,
+                                          size: 25,
+                                          color: black),
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                              style: TextStyle(
+                                  color: const Color(0xff3A3A3A),
+                                  fontSize: 11,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w400),
+                              // Not necessary for Option 1
+                              value: _selectedLocation,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedLocation = newValue.toString();
+                                });
+                                customSelection(_selectedLocation);
+                              },
+                              items: _locations.map((location) {
+                                return DropdownMenuItem(
+                                  child: Container(
+                                      child: new Text(location)),
+                                  value: location,
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                  Container(
+                    height: 280,
+                    child: truckAnalysisDoughnut(),
+                  )
+                ]),
+              ),
+              Container(
+                height: 35,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  controller: ScrollController(),
+                  children: [
+                    Container(
+                      key: itemKeyFirst,
+                      child: AnalysisScreenBarButton(
+                          text: 'All (${allNav.toString()})'.tr,
+                          value: 0,
+                          pageController: pageController),
                     ),
-                    Expanded(
-                      child: PageView(
-                          controller: pageController,
-                          physics: BouncingScrollPhysics(),
-                          onPageChanged: (value) {
-                            analysisScreenNavController
-                                .updateUpperNavIndex(value);
-                            value == 3 || value == 4
-                                ? scrollToLastItem()
-                                : scrollToFirstItem();
-                          },
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ListView.builder(
-                                  itemCount: validStoppageList.length,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) {
-                                    return truckanalysisCard(
-                                        validStop: validStoppageList[i],
-                                        validAddress: validAddressList[i],
-                                        truckId: truckId,
-                                        TruckNo: TruckNo,
-                                        imei: imei,
-                                        truckStauts: truckStatusList[i],
-                                        stopStatus: stopStatusList[i]);
-                                  }),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ListView.builder(
-                                  itemCount: validStoppageList.length,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) {
-                                    return stopSpecificCard(
-                                      validStop: validStoppageList[i],
-                                      validAddress: validAddressList[i],
-                                      stopStatus: stopStatusList[i],
-                                      show: "Loading_Point",
-                                    );
-                                  }),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ListView.builder(
-                                  itemCount: validStoppageList.length,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) {
-                                    return stopSpecificCard(
-                                      validStop: validStoppageList[i],
-                                      validAddress: validAddressList[i],
-                                      stopStatus: stopStatusList[i],
-                                      show: "Unloading_Point",
-                                    );
-                                  }),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ListView.builder(
-                                  itemCount: validStoppageList.length,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) {
-                                    return stopSpecificCard(
-                                      validStop: validStoppageList[i],
-                                      validAddress: validAddressList[i],
-                                      stopStatus: stopStatusList[i],
-                                      show: "Parking",
-                                    );
-                                  }),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: ListView.builder(
-                                  itemCount: validStoppageList.length,
-                                  physics: BouncingScrollPhysics(),
-                                  itemBuilder: (context, i) {
-                                    return stopSpecificCard(
-                                      validStop: validStoppageList[i],
-                                      validAddress: validAddressList[i],
-                                      stopStatus: stopStatusList[i],
-                                      show: "Maintenance",
-                                    );
-                                  }),
-                            ),
-                          ]),
+                    AnalysisScreenBarButton(
+                        text: 'Loading (${loadingNav.toString()})'.tr,
+                        value: 1,
+                        pageController: pageController),
+                    AnalysisScreenBarButton(
+                        text: 'Unloading (${unLoadingNav.toString()})'.tr,
+                        value: 2,
+                        pageController: pageController),
+                    AnalysisScreenBarButton(
+                        text: 'Parking (${parkingNav.toString()})'.tr,
+                        value: 3,
+                        pageController: pageController),
+                    Container(
+                      key: itemKey,
+                      child: AnalysisScreenBarButton(
+                          text:
+                          'Maintenance (${maintenanceNav.toString()})'
+                              .tr,
+                          value: 4,
+                          pageController: pageController),
                     ),
                   ],
                 ),
-              ));
+              ),
+              Expanded(
+                child: PageView(
+                    controller: pageController,
+                    physics: BouncingScrollPhysics(),
+                    onPageChanged: (value) {
+                      analysisScreenNavController
+                          .updateUpperNavIndex(value);
+                      value == 3 || value == 4
+                          ? scrollToLastItem()
+                          : scrollToFirstItem();
+                    },
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: ListView.builder(
+                            itemCount: validStoppageList.length,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return truckanalysisCard(
+                                  validStop: validStoppageList[i],
+                                  validAddress: validAddressList[i],
+                                  truckId: truckId,
+                                  TruckNo: truckNo,
+                                  imei: imei,
+                                  truckStauts: truckStatusList[i],
+                                  stopStatus: stopStatusList[i]);
+                            }),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: ListView.builder(
+                            itemCount: validStoppageList.length,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return stopSpecificCard(
+                                validStop: validStoppageList[i],
+                                validAddress: validAddressList[i],
+                                stopStatus: stopStatusList[i],
+                                show: "Loading_Point",
+                              );
+                            }),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: ListView.builder(
+                            itemCount: validStoppageList.length,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return stopSpecificCard(
+                                validStop: validStoppageList[i],
+                                validAddress: validAddressList[i],
+                                stopStatus: stopStatusList[i],
+                                show: "Unloading_Point",
+                              );
+                            }),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: ListView.builder(
+                            itemCount: validStoppageList.length,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return stopSpecificCard(
+                                validStop: validStoppageList[i],
+                                validAddress: validAddressList[i],
+                                stopStatus: stopStatusList[i],
+                                show: "Parking",
+                              );
+                            }),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: ListView.builder(
+                            itemCount: validStoppageList.length,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return stopSpecificCard(
+                                validStop: validStoppageList[i],
+                                validAddress: validAddressList[i],
+                                stopStatus: stopStatusList[i],
+                                show: "Maintenance",
+                              );
+                            }),
+                      ),
+                    ]),
+              ),
+            ],
+          ),
+        ));
   }
 }

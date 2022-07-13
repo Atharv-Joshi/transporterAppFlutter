@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bookingApi/getOngoingDataWithPageNo.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/onGoingCard.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 
 class OngoingScreen extends StatefulWidget {
   @override
@@ -17,20 +18,24 @@ class OngoingScreen extends StatefulWidget {
 }
 
 class _OngoingScreenState extends State<OngoingScreen> {
+  //Scroll Controller for Pagination
+  ScrollController scrollController = ScrollController();
+
+  bool loading = false;
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  late String from;
+  late String to;
+  DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+
   //for counting page numbers
   int i = 0;
 
-  bool loading = false;
   bool OngoingProgress = false;
-
-  TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
 
   final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
 
   List<OngoingCardModel> modelList = [];
-
-  ScrollController scrollController = ScrollController();
 
   getDataByPostLoadIdOnGoing(int i) async {
     if (this.mounted) {
@@ -42,7 +47,8 @@ class _OngoingScreenState extends State<OngoingScreen> {
     for (var bookingData in bookingDataListWithPagei) {
       modelList.add(bookingData);
     }
-    if (this.mounted) { // check whether the state object is in tree
+    if (this.mounted) {
+      // check whether the state object is in tree
       setState(() {
         loading = false;
         OngoingProgress = false;
@@ -52,10 +58,13 @@ class _OngoingScreenState extends State<OngoingScreen> {
 
   @override
   void initState() {
+    from = yesterday.toIso8601String();
+    to = now.toIso8601String();
     super.initState();
-    loading = true;
+    setState(() {
+      loading = true;
+    });
     getDataByPostLoadIdOnGoing(i);
-
     scrollController.addListener(() {
       if (scrollController.position.pixels >
           scrollController.position.maxScrollExtent * 0.7) {
@@ -108,17 +117,18 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     return getDataByPostLoadIdOnGoing(0);
                   },
                   child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: space_15),
-                      itemCount: modelList.length,
-                      itemBuilder: (context, index) =>
-                          (index == modelList.length - 1)
-                              ? Visibility(
-                                  visible: OngoingProgress,
-                                  child: bottomProgressBarIndicatorWidget())
-                              : OngoingCard(
-                                  loadAllDataModel: modelList[index],
-                                )),
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(bottom: space_15),
+                    itemCount: modelList.length,
+                    itemBuilder: (context, index) =>
+                        (index == modelList.length)
+                            ? Visibility(
+                                visible: OngoingProgress,
+                                child: bottomProgressBarIndicatorWidget())
+                            : OngoingCard(
+                                loadAllDataModel: modelList[index],
+                              ),
+                  ),
                 ),
     );
   }

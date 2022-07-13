@@ -19,6 +19,7 @@ class OngoingCardModel{
   String? productType;
   String? bookingDate;
   String? completedDate;
+  int? deviceId;
 
   OngoingCardModel(
       {this.bookingId,
@@ -40,6 +41,7 @@ class OngoingCardModel{
         this.transporterPhoneNum,
         this.truckNo,
         this.truckType,
-        this.unloadingPointCity
+        this.unloadingPointCity,
+        this.deviceId
       });
 }
