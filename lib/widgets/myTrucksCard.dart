@@ -21,6 +21,7 @@ class MyTruckCard extends StatefulWidget {
   String status;
   var imei;
   DeviceModel device;
+
   MyTruckCard(
       {required this.truckno,
       required this.status,
@@ -62,24 +63,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   @override
   Widget build(BuildContext context) {
-    var rssi;
-    // driver = widget.truckData.driverName != 'NA' ? true : false;
-    /*   String truckType = truckFilterVariables.truckTypeValueList
-            .contains(widget.truckData.truckType)
-        ? truckFilterVariables.truckTypeTextList[truckFilterVariables
-            .truckTypeValueList
-            .indexOf(widget.truckData.truckType)]
-        : 'NA';
-*/
-    Map<String, Color> statusColor = {
-      'Available': liveasyGreen,
-      'Busy': Colors.red,
-      'Offline': unselectedGrey,
-    };
-
-    if (widget.gpsData.rssi != null) {
-      rssi = widget.gpsData.rssi;
-    }
 
     if (widget.status == 'Online') {
       online = true;
@@ -88,13 +71,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
     }
     lastupdated =
         getStopDuration(widget.device.lastUpdate!, now.toIso8601String());
-    /*   if (driver && widget.truckData.driverName!.length > 15) {
-      widget.truckData.driverName =
-          widget.truckData.driverName!.substring(0, 14) + '..';
-    }
-    */
 
-    ProviderData providerData = Provider.of<ProviderData>(context);
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
@@ -104,18 +81,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
             TrackScreen(
               deviceId: widget.gpsData.deviceId,
               gpsData: widget.gpsData,
-              // position: position,
-              TruckNo: widget.truckno,
-              //  no_stoppages: no_stoppages,
-              //   driverName: widget.truckData.driverName,
-              //  driverNum: widget.truckData.driverNum,
-              //  gpsDataHistory: gpsDataHistory,
-              //  gpsStoppageHistory: gpsStoppageHistory,
-              // gpsRoute: gpsRoute,
-              //routeHistory: gpsRoute,
-              //    truckId: widget.truckData.truckId,
+              truckNo: widget.truckno,
               totalDistance: totalDistance,
-              imei: widget.imei,
+              // imei: widget.imei,
             ),
           );
         },
@@ -199,28 +167,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                 ],
                               ),
                             ),
-                      /*    Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, space_2, 0),
-                            height: space_2,
-                            width: space_2,
-                            decoration: BoxDecoration(
-                              color: statusColor['Offline'],
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-
-                          Text(
-                            AppLocalizations.of(context)!.offline,
-                            style: TextStyle(
-                                fontWeight: mediumBoldWeight, fontSize: size_8),
-                          ),
-                        ],
-                      ), */
-                      /*   SizedBox(height: space_2,),
-                      NewRowTemplate(label: AppLocalizations.of(context)!.vehicleNumber , value: widget.truckData.truckNo),
-                      SizedBox(height: space_2,),*/
                       Row(
                         children: [
                           Image.asset(
@@ -393,315 +339,55 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                         fontWeight: regularWeight)),
                             Spacer(),
                             Container(
-                                height: 30,
-                                width: 40,
-                                alignment: Alignment.centerLeft,
-                                child: (widget.gpsData.rssi == -1)
-                                    ? Image(
-                                        width: 30,
-                                        image: AssetImage(
-                                            "assets/icons/signalIconNothing.png"),
-                                      )
-                                    : (widget.gpsData.rssi == 0)
-                                        ? Image(
-                                            width: 40,
-                                            image: AssetImage(
-                                                "assets/icons/signalIconZero.png"),
-                                          )
-                                        : (widget.gpsData.rssi == 1)
-                                            ? Image(
-                                                width: 30,
-                                                image: AssetImage(
-                                                    "assets/icons/signalIconOne.png"),
-                                              )
-                                            : (widget.gpsData.rssi == 2)
-                                                ? Image(
-                                                    width: 30,
-                                                    image: AssetImage(
-                                                        "assets/icons/signalIconTwo.png"),
-                                                  )
-                                                : (widget.gpsData.rssi == 3)
-                                                    ? Image(
-                                                        width: 30,
-                                                        image: AssetImage(
-                                                            "assets/icons/signalIconThree.png"),
-                                                      )
-                                                    : (widget.gpsData.rssi ==
-                                                                4 ||
-                                                            widget.gpsData
-                                                                    .rssi ==
-                                                                5)
-                                                        ? Image(
-                                                            width: 30,
-                                                            image: AssetImage(
-                                                                "assets/icons/signalIconFour.png"),
-                                                          )
-                                                        : Container())
-                            //print(" ");
-
-                            // Text("${widget.gpsData.rssi}",
-                            //     style: TextStyle(
-                            //         color: red,
-                            //         fontSize: size_10,
-                            //         fontStyle: FontStyle.normal,
-                            //         fontWeight: regularWeight)),
-                          ],
-                        ),
-                      ),
-
-                      /*       SizedBox(height: space_2,),
-                      Container( 
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${widget.status}',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: veryDarkGrey,
-                            fontWeight: mediumBoldWeight,
-                            fontSize: size_6,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: space_2,),
-                      // NewRowTemplate(label: AppLocalizations.of(context)!.tyre, value: widget.truckData.tyres.toString()  , width: 98,),
-                      // NewRowTemplate(label: AppLocalizations.of(context)!.driver, value: widget.truckData.driverName , width: 98,),
-                      Container(
-                        margin: EdgeInsets.only(top: space_2),
-                        child:Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(right: space_2),
-                                child: TrackButton(
-                                  truckApproved: widget.truckData.truckApproved!,
-                                  phoneNo: widget.truckData.driverNum,
-                                  TruckNo: widget.truckData.truckNo,
-                                  imei: widget.truckData.imei,
-                                  DriverName: widget.truckData.driverName,
-                                  gpsData: widget.gpsData,
-                                  truckId: widget.truckData.truckId,
-                                )
+                              height: 30,
+                              width: 40,
+                              alignment: Alignment.centerLeft,
+                              child: (widget.gpsData.rssi == -1)
+                                  ? Image(
+                                      width: 30,
+                                      image: AssetImage(
+                                          "assets/icons/signalIconNothing.png"),
+                                    )
+                                  : (widget.gpsData.rssi == 0)
+                                      ? Image(
+                                          width: 40,
+                                          image: AssetImage(
+                                              "assets/icons/signalIconZero.png"),
+                                        )
+                                      : (widget.gpsData.rssi == 1)
+                                          ? Image(
+                                              width: 30,
+                                              image: AssetImage(
+                                                  "assets/icons/signalIconOne.png"),
+                                            )
+                                          : (widget.gpsData.rssi == 2)
+                                              ? Image(
+                                                  width: 30,
+                                                  image: AssetImage(
+                                                      "assets/icons/signalIconTwo.png"),
+                                                )
+                                              : (widget.gpsData.rssi == 3)
+                                                  ? Image(
+                                                      width: 30,
+                                                      image: AssetImage(
+                                                          "assets/icons/signalIconThree.png"),
+                                                    )
+                                                  : (widget.gpsData.rssi == 4 ||
+                                                          widget.gpsData.rssi ==
+                                                              5)
+                                                      ? Image(
+                                                          width: 30,
+                                                          image: AssetImage(
+                                                              "assets/icons/signalIconFour.png"),
+                                                        )
+                                                      : Container(),
                             ),
-                            CallButton(directCall: true , phoneNum: widget.truckData.driverNum,)
                           ],
                         ),
                       ),
-                      */
                     ],
                   ),
                 )
-                /*             : Container(
-                        padding: EdgeInsets.all(space_3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF7F8FA),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/box-truck.png',
-                                  width: 29,
-                                  height: 29,
-                                ),
-                                SizedBox(
-                                  width: 13,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '${widget.truckno}',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: black,
-                                      ),
-                                    ),
-                                    /*  Text(
-                                      'time date ',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: black,
-                                      ),
-                                    ),*/
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 23,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  27.00, 20.00, 20.00, 0.00),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/circle-outline-with-a-central-dot.png',
-                                    color: const Color(0xFFCDCDCD),
-                                    width: 12,
-                                    height: 12,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Container(
-                                    width: 200,
-                                    child: Text(
-                                    //  'buyGPS'.tr,
-                                    'Device is Offline',
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: const Color(0xFF152968),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            /*            Row(
-                        children: [
-                          Image(
-                              height: 16 ,
-                              width: 18,
-                              image: AssetImage('assets/icons/errorIcon.png')
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: space_1),
-                            child: Text(
-                               AppLocalizations.of(context)!.verificationFailed,
-                              style: TextStyle(
-                                  fontWeight: mediumBoldWeight,
-                                  fontSize: size_8),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                          margin: EdgeInsets.symmetric(vertical: space_3),
-                          child: NewRowTemplate(label: AppLocalizations.of(context)!.vehicleNumber, value: widget.truckData.truckNo)
-                      ),
-                      Container(
-                        child: Text(
-                          AppLocalizations.of(context)!.truckDetailsArePending,
-                          style: TextStyle(
-                              fontWeight: mediumBoldWeight,
-                              color: Colors.red
-                          ),
-                        ),
-                      ),
-
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: space_5),
-                          height: 32,
-                          width: 201,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              )),
-                              backgroundColor:
-                              MaterialStateProperty.all<Color>(darkBlueColor),
-                            ),
-                            onPressed: () {
-                              providerData.updateIsAddTruckSrcDropDown(true);
-                              Get.to( () => TruckDescriptionScreen(truckId : widget.truckData.truckId! , truckNumber: widget.truckData.truckNo! ,)
-                              );
-                              providerData.resetTruckFilters();
-                            },
-                            child: Container(
-                              child: Text(
-                                AppLocalizations.of(context)!.uploadTruckDetails,
-                                style: TextStyle(
-                                  letterSpacing: 0.7,
-                                  fontWeight: normalWeight,
-                                  color: white,
-                                  fontSize: size_7,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-
-
-                */
-                          ],
-                        ),
-                      ),
-           */ /*  driver
-                    ? Container(
-                        padding: EdgeInsets.fromLTRB(23, 0, 7, 0),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/icons/11 1.png',
-                              width: 22,
-                              height: 24,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                              child: Text(
-                                widget.truckData.driverName!,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: black,
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: CallButton(
-                                directCall: false,
-                                driverName: widget.truckData.driverName,
-                                driverPhoneNum: widget.truckData.driverNum,
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    : Container(
-                        padding: EdgeInsets.fromLTRB(23, 0, 0, 0),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/icons/images 1.png',
-                              width: 24,
-                              height: 22,
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8, 10, 0, 10),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            AddDriverAlertDialog(
-                                              notifyParent: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            MyDrivers()));
-                                              },
-                                            ));
-                                  },
-                                  child: Container(
-                                    child: Text(
-                                      'addDriver'.tr,
-                                      // 'Add Driver',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: black,
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),*/
               ],
             ),
           ),

@@ -38,11 +38,8 @@ class _MyTrucksState extends State<MyTrucks> {
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
 
-  // Truck Model List used to  create cards
-  // var truckDataList = [];
   var devicelist = [];
   var trucklist = [];
-  // var truckAddressList = [];
   var status = [];
   var gpsDataList = [];
   var gpsStoppageHistory = [];
@@ -411,17 +408,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                                             gpsDataList[index],
                                                         device:
                                                             devicelist[index],
-                                                        // truckId: .truckId,
-                                                        // truckApproved:
-                                                        //     truckDataList[index].truckApproved,
-                                                        // truckNo: truckDataList[index].truckNo,
-                                                        // truckType: truckDataList[index].truckType,
-                                                        // tyres: truckDataList[index].tyresString,
-                                                        // driverName: truckDataList[index].driverName,
-                                                        // phoneNum: truckDataList[index].driverNum,
-                                                        /*  imei:
-                                                            truckDataList[index]
-                                                                .imei,*/
                                                       )),
                                       ),
                           ],
@@ -491,16 +477,6 @@ class _MyTrucksState extends State<MyTrucks> {
                                                       runningGpsData[index],
                                                   device:
                                                       runningdevicelist[index],
-                                                  // truckId: .truckId,
-                                                  // truckApproved:
-                                                  //     truckDataList[index].truckApproved,
-                                                  // truckNo: truckDataList[index].truckNo,
-                                                  // truckType: truckDataList[index].truckType,
-                                                  // tyres: truckDataList[index].tyresString,
-                                                  // driverName: truckDataList[index].driverName,
-                                                  // phoneNum: truckDataList[index].driverNum,
-                                                  /*   imei:
-                                                      truckDataList[index].imei,*/
                                                 ),
                                         ),
                                       ),

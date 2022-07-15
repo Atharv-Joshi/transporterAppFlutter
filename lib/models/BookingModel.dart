@@ -1,10 +1,14 @@
 class BookingModel {
-  //parameters
   String? bookingId;
   String? loadId;
   String? transporterId;
   String? postLoadId;
   List? truckId;
+  String? loadingPointCity;
+  String? unloadingPointCity;
+  String? truckNo;
+  String? driverName;
+  String? driverPhoneNum;
   String? rate;
   String? rateString;
   String? unitValue;
@@ -12,6 +16,7 @@ class BookingModel {
   bool? completed;
   String? bookingDate;
   String? completedDate;
+  int? deviceId;
 
   BookingModel(
       {this.bookingId,
@@ -25,6 +30,11 @@ class BookingModel {
       this.completed,
       this.bookingDate,
       this.completedDate,
-      this.rateString
-      });
+      this.rateString,
+      this.deviceId,
+      this.unloadingPointCity,
+      this.loadingPointCity,
+      this.truckNo,
+      this.driverName,
+      this.driverPhoneNum});
 }
