@@ -56,7 +56,7 @@ class _BookNowButtonState extends State<BookNowButton> {
             context: context,
             builder: (context) =>
                 transporterIdController.transporterApproved.value
-                    ? BookLoadAlertDialogBox(
+                    ? BookLoadScreen(
                         truckModelList: truckDetailsList,
                         driverModelList: driverDetailsList,
                         loadDetailsScreenModel: widget.loadDetailsScreenModel,
