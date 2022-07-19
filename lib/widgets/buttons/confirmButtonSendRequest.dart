@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 class ConfirmButtonSendRequest extends StatefulWidget {
   bool? directBooking;
   String? truckId;
+  int? selectedDeviceId;
   BiddingModel? biddingModel;
   String? selectedDriverName;
   String? selectedDriverPhoneno;
@@ -77,8 +78,8 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
         print("directBooking");
       } else {
-        truckApiCalls.updateDriverIdForTruck(
-            driverID: widget.selectedDriver, truckID: widget.truckId);
+        //truckApiCalls.updateDriverIdForTruck(
+          //  driverID: widget.selectedDriver, truckID: widget.truckId);
         bookResponse = await postBookingApi(
           widget.biddingModel!.loadId,
           widget.biddingModel!.currentBid,
