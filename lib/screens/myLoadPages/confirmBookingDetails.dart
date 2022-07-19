@@ -12,7 +12,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 
 import 'selectTruckScreen.dart';
 
