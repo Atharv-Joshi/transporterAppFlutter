@@ -33,11 +33,14 @@ class SelectTruckScreen extends StatefulWidget {
 }
 
 class _SelectTruckScreenState extends State<SelectTruckScreen> {
+  String searchedTruck = "";
   late String selectedTruck;
   late int selectedDeviceId;
   int selectedIndex = -1;
   List truckList = [];
+  List searchedTruckList = [];
   List deviceIdList = [];
+  List searchedDeviceIdList = [];
   MapUtil mapUtil = MapUtil();
   getTruckList() async {
     // FutureGroup futureGroup = FutureGroup();
@@ -70,6 +73,29 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
   void initState() {
     super.initState();
     getTruckList();
+  }
+
+  void searchoperation(String searchText) {
+// searchresult. clear() ;
+    if (searchText != null) {
+      searchedTruckList.clear();
+      searchedDeviceIdList.clear();
+      for (int i = 0; i < truckList.length; i++) {
+        String data = truckList[i];
+        if (data.toLowerCase().contains(searchText.toLowerCase())) {
+          setState(() {
+            print(searchText);
+            searchedTruckList.add(data);
+            searchedDeviceIdList.add(deviceIdList[i]);
+            print(searchedTruckList);
+            print(searchedDeviceIdList);
+          });
+        }
+        // else {
+        //   searchedTruckList.add("");
+        // }
+      }
+    }
   }
 
   @override
@@ -112,18 +138,16 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                             width: 0.8, color: widgetBackGroundColor),
                       ),
                       child: TextField(
-                        onTap: () {
-                          // Get.to(() => MyTrucksResult(
-                          //       gpsDataList: gpsDataList,
-                          //       deviceList: devicelist,
-                          //       //truckAddressList: truckAddressList,
-                          //       status: status,
-                          //       items: items,
-                          //     ));
-                          // print("Enterrr");
-                          // print("THE ITEMS $items");
+                        onChanged: (value) {
+                          setState(() {
+                            searchedTruck = value;
+                          });
+                          print(value);
+                          searchoperation(searchedTruck);
+                          selectedTruck = "";
+                          selectedDeviceId = -1;
+                          selectedIndex = -1;
                         },
-                        readOnly: true,
                         textAlignVertical: TextAlignVertical.center,
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
@@ -144,88 +168,188 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                       ),
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: ListView.builder(
-                        itemCount: truckList.length,
-                        itemBuilder: ((context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIndex = index;
-                                selectedTruck = truckList[index];
-                                selectedDeviceId = deviceIdList[index];
-                                print(selectedDeviceId);
-                              });
-                            },
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: space_8,
-                                          right: space_5,
-                                          bottom: space_4,
-                                          top: space_3),
-                                      child: !(index == selectedIndex)
-                                          ? Container(
-                                              // color: grey,
-                                              height: 15,
-                                              width: 15,
-                                              padding: EdgeInsets.fromLTRB(
-                                                  space_2, space_2, 0, 0),
-                                              decoration: BoxDecoration(
-                                                // color: grey,
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      "assets/icons/deepbluecircle_ic.png"),
-                                                ),
-                                              ),
-                                            )
-                                          : Container(
-                                              // color: grey,
-                                              height: 25,
-                                              width: 25,
-                                              padding: EdgeInsets.fromLTRB(
-                                                  space_2, space_2, 0, 0),
-                                              decoration: BoxDecoration(
-                                                // color: grey,
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      "assets/icons/greencheckcircle_ic.png"),
-                                                ),
-                                              ),
+                  searchedTruck.length != 0
+                      ? SingleChildScrollView(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: ListView.builder(
+                              itemCount: searchedTruckList.length,
+                              itemBuilder: ((context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = index;
+                                      selectedTruck = searchedTruckList[index];
+                                      selectedDeviceId =
+                                          searchedDeviceIdList[index];
+                                      print(selectedDeviceId);
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: space_8,
+                                                right: space_5,
+                                                bottom: space_4,
+                                                top: space_3),
+                                            child: !(index == selectedIndex)
+                                                ? Container(
+                                                    // color: grey,
+                                                    height: 15,
+                                                    width: 15,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            space_2,
+                                                            space_2,
+                                                            0,
+                                                            0),
+                                                    decoration: BoxDecoration(
+                                                      // color: grey,
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/icons/deepbluecircle_ic.png"),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    // color: grey,
+                                                    height: 25,
+                                                    width: 25,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            space_2,
+                                                            space_2,
+                                                            0,
+                                                            0),
+                                                    decoration: BoxDecoration(
+                                                      // color: grey,
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/icons/greencheckcircle_ic.png"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ),
+                                          // setState
+                                          // changes(),
+                                          Text(
+                                            searchedTruckList[index],
+                                            style: TextStyle(
+                                              fontSize: size_10,
+                                              fontWeight: mediumBoldWeight,
+                                              color: black,
                                             ),
-                                    ),
-                                    // setState
-                                    // changes(),
-                                    Text(
-                                      truckList[index],
-                                      style: TextStyle(
-                                        fontSize: size_10,
-                                        fontWeight: mediumBoldWeight,
-                                        color: black,
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: space_5, right: space_5),
-                                  child: Divider(
-                                    height: size_10,
-                                    color: grey,
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: space_5, right: space_5),
+                                        child: Divider(
+                                          height: size_10,
+                                          color: grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                );
+                              }),
                             ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            child: ListView.builder(
+                              itemCount: truckList.length,
+                              itemBuilder: ((context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = index;
+                                      selectedTruck = truckList[index];
+                                      selectedDeviceId = deviceIdList[index];
+                                      print(selectedDeviceId);
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: space_8,
+                                                right: space_5,
+                                                bottom: space_4,
+                                                top: space_3),
+                                            child: !(index == selectedIndex)
+                                                ? Container(
+                                                    // color: grey,
+                                                    height: 15,
+                                                    width: 15,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            space_2,
+                                                            space_2,
+                                                            0,
+                                                            0),
+                                                    decoration: BoxDecoration(
+                                                      // color: grey,
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/icons/deepbluecircle_ic.png"),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    // color: grey,
+                                                    height: 25,
+                                                    width: 25,
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            space_2,
+                                                            space_2,
+                                                            0,
+                                                            0),
+                                                    decoration: BoxDecoration(
+                                                      // color: grey,
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/icons/greencheckcircle_ic.png"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ),
+                                          // setState
+                                          // changes(),
+                                          Text(
+                                            truckList[index],
+                                            style: TextStyle(
+                                              fontSize: size_10,
+                                              fontWeight: mediumBoldWeight,
+                                              color: black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: space_5, right: space_5),
+                                        child: Divider(
+                                          height: size_10,
+                                          color: grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                        ),
                 ]),
                 // ),
                 Positioned(
