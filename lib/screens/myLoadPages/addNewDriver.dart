@@ -84,7 +84,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                   height: 55,
                                   width: 55,
                                   image:
-                                      AssetImage("assets/icons/driver_ic.png"),
+                                      AssetImage("assets/icons/person_ic.png"),
                                 ),
                               )
                             ],
