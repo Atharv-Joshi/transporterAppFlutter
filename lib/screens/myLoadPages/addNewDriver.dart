@@ -225,7 +225,10 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                         return 'Enter Number : ';
                                       }
                                     },
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 10,
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(-5),
                                       border: InputBorder.none,
                                     ),
                                     onSaved: (input) => phoneno = input!,
