@@ -360,7 +360,7 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                     onTap: () {
                       print(selectedTruck);
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: ((context) {
+                          .pushReplacement(MaterialPageRoute(builder: ((context) {
                         return ConfirmBookingDetails(
                           selectedTruck: selectedTruck,
                           selectedDeviceId: selectedDeviceId,
