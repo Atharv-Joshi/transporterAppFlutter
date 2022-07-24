@@ -141,7 +141,7 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: ((context) {
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
                       return SelectTruckScreen(
                         loadDetailsScreenModel: widget.loadDetailsScreenModel,
                         directBooking: true,
@@ -208,7 +208,7 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: ((context) {
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
                       return AddNewDriver(
                         loadDetailsScreenModel: widget.loadDetailsScreenModel,
                       );
