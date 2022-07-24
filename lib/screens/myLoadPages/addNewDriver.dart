@@ -286,7 +286,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
       print(responseStatus);
       if (responseStatus == 'successful') {
         print(responseStatus);
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
             builder: (context) => ConfirmBookingDetails(
