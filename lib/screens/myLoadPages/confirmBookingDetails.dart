@@ -12,7 +12,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 import 'selectTruckScreen.dart';
 
@@ -75,183 +75,179 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                 SizedBox(
                   height: space_4,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      vertical: space_3, horizontal: space_3),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
+                      return SelectTruckScreen(
+                          driverName: widget.driverName,
+                          driverPhoneNo: widget.mobileNo,
+                          directBooking: true);
+                    })));
+                  },
                   child: Container(
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        width: 0.8,
-                        //  color: widgetBackGroundColor
-                        color: black,
+                    margin: EdgeInsets.symmetric(
+                        vertical: space_3, horizontal: space_3),
+                    child: Container(
+                      height: 130,
+                      decoration: BoxDecoration(
+                        color: white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          width: 0.8,
+                          //  color: widgetBackGroundColor
+                          color: black,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "  Truck",
-                                style: TextStyle(
-                                  fontSize: size_10,
-                                  color: darkBlueColor,
-                                  fontWeight: mediumBoldWeight,
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "  Truck",
+                                  style: TextStyle(
+                                    fontSize: size_10,
+                                    color: darkBlueColor,
+                                    fontWeight: mediumBoldWeight,
+                                  ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: space_2 - 2,
-                                      right: space_1 - 2,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        color: white,
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: space_2 - 2,
+                                        right: space_1 - 2,
                                       ),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: ((context) {
-                                              return SelectTruckScreen(
-                                                  driverName: widget.driverName,
-                                                  driverPhoneNo:
-                                                      widget.mobileNo,
-                                                  directBooking: true);
-                                            })));
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: black,
-                                          )),
-                                    )),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: 25, top: 15),
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: widgetBackGroundColor,
-                                borderRadius: BorderRadius.circular(13)),
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: widget.selectedTruck.toString() == "null"
-                                  ? Text(
-                                      " ",
-                                      style: TextStyle(
-                                          color: black, fontSize: size_10),
-                                    )
-                                  : Text(
-                                      widget.selectedTruck.toString(),
-                                      style: TextStyle(
-                                          color: black, fontSize: size_10),
-                                    ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          color: white,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          color: black,
+                                        ),
+                                      )),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            Container(
+                              margin: EdgeInsets.only(right: 25, top: 15),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: widgetBackGroundColor,
+                                  borderRadius: BorderRadius.circular(13)),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: widget.selectedTruck.toString() == "null"
+                                    ? Text(
+                                        " ",
+                                        style: TextStyle(
+                                            color: black, fontSize: size_10),
+                                      )
+                                    : Text(
+                                        widget.selectedTruck.toString(),
+                                        style: TextStyle(
+                                            color: black, fontSize: size_10),
+                                      ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      vertical: space_3, horizontal: space_3),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: ((context) {
+                      return AddNewDriver(
+                        selectedDeviceId: widget.selectedDeviceId,
+                        selectedTruck: widget.selectedTruck,
+                        loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                      );
+                    })));
+                  },
                   child: Container(
-                    height: 130,
-                    decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        width: 0.8,
-                        //  color: widgetBackGroundColor
-                        color: black,
+                    margin: EdgeInsets.symmetric(
+                        vertical: space_3, horizontal: space_3),
+                    child: Container(
+                      height: 130,
+                      decoration: BoxDecoration(
+                        color: white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          width: 0.8,
+                          //  color: widgetBackGroundColor
+                          color: black,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "  Driver",
-                                style: TextStyle(
-                                  fontSize: size_10,
-                                  color: darkBlueColor,
-                                  fontWeight: mediumBoldWeight,
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "  Driver",
+                                  style: TextStyle(
+                                    fontSize: size_10,
+                                    color: darkBlueColor,
+                                    fontWeight: mediumBoldWeight,
+                                  ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: space_2 - 2,
-                                      right: space_1 - 2,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        color: white,
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: space_2 - 2,
+                                        right: space_1 - 2,
                                       ),
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: ((context) {
-                                              return AddNewDriver(
-                                                selectedDeviceId:
-                                                    widget.selectedDeviceId,
-                                                selectedTruck:
-                                                    widget.selectedTruck,
-                                                loadDetailsScreenModel: widget
-                                                    .loadDetailsScreenModel,
-                                              );
-                                            })));
-                                          },
-                                          child: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: black,
-                                          )),
-                                    )),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: 25, top: 15),
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: widgetBackGroundColor,
-                                borderRadius: BorderRadius.circular(13)),
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: widget.driverName.toString() == "null"
-                                  ? Text(
-                                      "",
-                                      style: TextStyle(
-                                          color: black, fontSize: size_10),
-                                    )
-                                  : Text(
-                                      "${widget.driverName}-${widget.mobileNo}",
-                                      style: TextStyle(
-                                          color: black, fontSize: size_10),
-                                    ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          color: white,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          color: black,
+                                        ),
+                                      )),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            Container(
+                              margin: EdgeInsets.only(right: 25, top: 15),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: widgetBackGroundColor,
+                                  borderRadius: BorderRadius.circular(13)),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: widget.driverName.toString() == "null"
+                                    ? Text(
+                                        "",
+                                        style: TextStyle(
+                                            color: black, fontSize: size_10),
+                                      )
+                                    : Text(
+                                        "${widget.driverName}-${widget.mobileNo}",
+                                        style: TextStyle(
+                                            color: black, fontSize: size_10),
+                                      ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
