@@ -73,7 +73,9 @@ class CallButton extends StatelessWidget {
                       child: Column(
                         children: [
                           ChooseReceiverButton(
-                            label: (driverName != null) ? driverName! : "",
+                            label: (transporterName != null)
+                                ? transporterName!
+                                : "",
                             phoneNum: transporterPhoneNum,
                           ),
                           Container(
