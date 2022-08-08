@@ -51,6 +51,27 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 TruckApiCalls truckApiCalls = TruckApiCalls();
 
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
+
+  update_status() async {
+    try {
+      Map datanew = {"status": "ON_GOING"};
+      String body = json.encode(datanew);
+      final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+      final response = await http.put(
+          Uri.parse("$loadApiUrl/" +
+              widget.loadDetailsScreenModel!.loadId.toString()),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      print("put update result ========== ");
+      print(response.body);
+    } catch (e) {
+      print(e.toString());
+      // return e.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -92,6 +113,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
 
       if (bookResponse == "successful") {
         print(bookResponse);
+        update_status();
         showDialog(
           context: context,
           builder: (BuildContext context) {
