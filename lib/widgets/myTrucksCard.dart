@@ -44,6 +44,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
   var gpsRoute;
   var totalDistance;
   var lastupdated;
+  var lastupdated2;
   var no_stoppages;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
@@ -63,7 +64,6 @@ class _MyTruckCardState extends State<MyTruckCard> {
 
   @override
   Widget build(BuildContext context) {
-
     if (widget.status == 'Online') {
       online = true;
     } else {
@@ -71,7 +71,8 @@ class _MyTruckCardState extends State<MyTruckCard> {
     }
     lastupdated =
         getStopDuration(widget.device.lastUpdate!, now.toIso8601String());
-
+    lastupdated2 =
+        getStopDuration2(widget.device.lastUpdate!, now.toIso8601String());
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),
@@ -124,7 +125,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                     width: MediaQuery.of(context).size.width -
                                         space_28,
                                     child: Text(
-                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})',
+                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})  $lastupdated2',
                                       maxLines: 3,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -157,7 +158,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                     width: MediaQuery.of(context).size.width -
                                         space_28,
                                     child: Text(
-                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})',
+                                      ' (${'lastupdated'.tr} $lastupdated ${'ago'.tr})  $lastupdated2',
                                       maxLines: 3,
                                       style: TextStyle(
                                         fontSize: 12,

@@ -141,6 +141,7 @@ const Map<String, String> hiIN = {
   'status': "स्थिति",
   'truckTravelled': 'ट्रक चला है : ',
   'kmToday': 'किमी आज',
+  'Km in last 24 hours': 'किमी पिछले 24 घंटों में',
   'ignition': "इग्निशन :",
   'on': "शुरु",
   'off': 'बंद',
