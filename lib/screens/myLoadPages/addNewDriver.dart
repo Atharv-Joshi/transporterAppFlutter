@@ -237,42 +237,43 @@ class _AddNewDriverState extends State<AddNewDriver> {
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  bottom: 50, left: 10, right: 10),
-                              child: Align(
-                                alignment: FractionalOffset.bottomCenter,
-                                child: MaterialButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(radius_4)),
-                                  color: darkBlueColor,
-                                  child: Container(
-                                    color: darkBlueColor,
-                                    height: 50,
-                                    width: 170,
-                                    child: Center(
-                                      child: Text(
-                                        "Add",
-                                        style: TextStyle(
-                                          color: white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: size_11,
-                                        ),
-                                      ),
+                          // Expanded(
+                          // child:
+                          Container(
+                            margin:
+                                EdgeInsets.only(top: 35, left: 10, right: 10),
+                            // child: Align(
+                            //   alignment: FractionalOffset.bottomCenter,
+                            child: MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(radius_4)),
+                              color: darkBlueColor,
+                              child: Container(
+                                color: darkBlueColor,
+                                height: 50,
+                                width: 170,
+                                child: Center(
+                                  child: Text(
+                                    "Add",
+                                    style: TextStyle(
+                                      color: white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size_11,
                                     ),
                                   ),
-                                  onPressed: () {
-                                    transporterId =
-                                        tidstorage.read("transporterId");
-
-                                    _sendToPreviousScreen();
-                                  },
                                 ),
                               ),
+                              onPressed: () {
+                                transporterId =
+                                    tidstorage.read("transporterId");
+
+                                _sendToPreviousScreen();
+                              },
                             ),
-                          )
+                            // ),
+                          ),
+                          // )
                         ]))))));
   }
 
