@@ -166,7 +166,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context)
-                        .pushReplacement(MaterialPageRoute(builder: ((context) {
+                        .push(MaterialPageRoute(builder: ((context) {
                       return AddNewDriver(
                         selectedDeviceId: widget.selectedDeviceId,
                         selectedTruck: widget.selectedTruck,
