@@ -12,7 +12,9 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/confirmBookingDetails.dart';
 import 'package:liveasy/screens/myLoadPages/selectTruckScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
+import 'package:liveasy/widgets/accountVerification/elevatedButtonWidget.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 
 class AddNewDriver extends StatefulWidget {
   String? selectedTruck;
@@ -26,6 +28,7 @@ class AddNewDriver extends StatefulWidget {
 }
 
 class _AddNewDriverState extends State<AddNewDriver> {
+  bool btnActive = false;
   String? transporterId;
   String? mobileno;
   TransporterIdController transporterIdController = TransporterIdController();
@@ -151,16 +154,21 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                     color: white,
                                   ),
                                   child: TextFormField(
-                                    validator: (input) {
-                                      if (input!.isEmpty) {
-                                        return 'Enter name : ';
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                    onSaved: (input) => name = input!,
-                                  ),
+                                      validator: (input) {
+                                        if (input!.isEmpty) {
+                                          return "";
+                                          //'Enter name : ';
+                                        }
+                                      },
+                                      onChanged: (input) {
+                                        // if (input.isNotEmpty) {
+                                        validatebtn();
+                                        // }
+                                      },
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      onSaved: (input) => name = input!),
                                 ),
                               ),
                             ),
@@ -221,9 +229,15 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                   ),
                                   child: TextFormField(
                                     validator: (input) {
-                                      if (input!.isEmpty) {
-                                        return 'Enter Number : ';
+                                      if (input!.length < 10) {
+                                        return "";
+                                        // 'Enter Number : ';
                                       }
+                                    },
+                                    onChanged: (input) {
+                                      // if (input.isNotEmpty) {
+                                      validatebtn();
+                                      // }
                                     },
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
@@ -239,42 +253,61 @@ class _AddNewDriverState extends State<AddNewDriver> {
                           ),
                           // Expanded(
                           // child:
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 35, left: 10, right: 10),
-                            // child: Align(
-                            //   alignment: FractionalOffset.bottomCenter,
-                            child: MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(radius_4)),
-                              color: darkBlueColor,
-                              child: Container(
-                                color: darkBlueColor,
-                                height: 50,
-                                width: 170,
-                                child: Center(
-                                  child: Text(
-                                    "Add",
-                                    style: TextStyle(
-                                      color: white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: size_11,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                                transporterId =
-                                    tidstorage.read("transporterId");
+                          // Container(
+                          //   margin:
+                          //       EdgeInsets.only(top: 35, left: 10, right: 10),
+                          //   child: Align(
+                          //     alignment: FractionalOffset.bottomCenter,
+                          //     child: MaterialButton(
+                          //       shape: RoundedRectangleBorder(
+                          //           borderRadius:
+                          //               BorderRadius.circular(radius_4)),
+                          //       color: darkBlueColor,
+                          //       child: Container(
+                          //         color: darkBlueColor,
+                          //         height: 50,
+                          //         width: 170,
+                          //         child: Center(
+                          //           child: Text(
+                          //             "Add",
+                          //             style: TextStyle(
+                          //               color: white,
+                          //               fontWeight: FontWeight.bold,
+                          //               fontSize: size_11,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       onPressed: () {
+                          //         transporterId =
+                          //             tidstorage.read("transporterId");
+
+                          //         _sendToPreviousScreen();
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
+                          ElevatedButtonWidgetTwo(
+                              condition: btnActive,
+                              text: "Add".tr,
+                              onPressedConditionTrue: () {
+                                tidstorage.read("transporterId");
 
                                 _sendToPreviousScreen();
-                              },
-                            ),
-                            // ),
-                          ),
-                          // )
+                              }),
                         ]))))));
+  }
+
+  void validatebtn() {
+    if (_key.currentState!.validate()) {
+      setState(() {
+        btnActive = true;
+      });
+    } else {
+      setState(() {
+        btnActive = false;
+      });
+    }
   }
 
   Future<void> _sendToPreviousScreen() async {
