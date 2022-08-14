@@ -32,6 +32,8 @@ class ShipperDetails extends StatefulWidget {
   String? driverName;
   String? transporterName;
   bool? trackApproved;
+  var gpsDataList;
+  String? totalDistance;
 
   ShipperDetails(
       {Key? key,
@@ -52,7 +54,9 @@ class ShipperDetails extends StatefulWidget {
       this.driverPhoneNum,
       this.driverName,
       this.transporterName,
-      this.trackApproved})
+      this.trackApproved,
+      this.gpsDataList,
+      this.totalDistance})
       : super(key: key);
 
   @override
@@ -109,7 +113,14 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            TrackButton(truckApproved: widget.trackApproved!),
+                            //TrackButton(truckApproved: widget.trackApproved!),
+                            TrackButton(
+                              truckApproved: widget.trackApproved!,
+                              TruckNo: widget.vehicleNo,
+                              DriverName: widget.driverName,
+                              gpsData: widget.gpsDataList[0],
+                              totalDistance: widget.totalDistance,
+                            ),
                             CallButton(
                               directCall: false,
                               transporterPhoneNum: widget.transporterPhoneNum,

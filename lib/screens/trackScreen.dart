@@ -34,12 +34,14 @@ class TrackScreen extends StatefulWidget {
   final int? deviceId;
   var totalDistance;
   var imei;
+  bool? online;
 
   TrackScreen(
       {required this.gpsData,
       required this.truckNo,
       required this.deviceId,
       required this.totalDistance,
+      this.online,
       this.imei});
 
   @override
@@ -132,6 +134,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
 
+  bool loading_map = false;
+  bool loadmap2 = false;
+  bool loadmap3 = false;
+  bool loadmap4 = true;
+  
   //var Get;
 
   @override
@@ -323,6 +330,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     setState(() {
       polylines[id] = polyline;
       _polyline.add(polyline);
+      loadmap2 = true;
     });
   }
 
@@ -338,6 +346,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     setState(() {
       polylines[id] = polyline;
+      loadmap3 = true;
     });
     _addPolyLine();
   }
@@ -665,6 +674,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                               controller;
                           _customDetailsInfoWindowController
                               .googleMapController = controller;
+                          setState(() {
+                            loading_map = true;
+                          });
                         },
                         gestureRecognizers:
                             <Factory<OneSequenceGestureRecognizer>>[
@@ -1096,8 +1108,41 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   recentStops: gpsStoppageHistory,
                   imei: widget.imei,
                 ),
-              )
+              ),
+              
+              Positioned(
+                // height: 50,
+                // width: 50,
+                left: 0,
+                top: 0,
+                // bottom: 0,
+
+                child: loading_map && loadmap2 && loadmap3 ||
+                        !(widget.online!) && loading_map
+                    //         polylineCoordinates.isEmpty
+                    ? Container()
+                    // : EasyLoading.show() as Widget
+
+                    : Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white,
+                        child: Center(
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: CircularProgressIndicator(
+                              color: Colors.green,
+                            ),
+                            // child:
+                          ),
+                        ),
+                      ),
+              ),
+              
               //   :Container(),
+              
+              
             ],
           ),
         ),

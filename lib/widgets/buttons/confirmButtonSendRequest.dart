@@ -10,6 +10,7 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
+import 'package:liveasy/functions/postBookingApiNew.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
@@ -20,23 +21,30 @@ import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_config/flutter_config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // ignore: must_be_immutable
 class ConfirmButtonSendRequest extends StatefulWidget {
   bool? directBooking;
   String? truckId;
+  int? selectedDeviceId;
   BiddingModel? biddingModel;
-  String? selectedDriver;
+  String? selectedDriverName;
+  String? selectedDriverPhoneno;
   String? postLoadId;
   LoadDetailsScreenModel? loadDetailsScreenModel;
 
   ConfirmButtonSendRequest(
       {this.directBooking,
       this.truckId,
+      this.selectedDeviceId,
       this.biddingModel,
       this.postLoadId,
       this.loadDetailsScreenModel,
-      this.selectedDriver});
+      this.selectedDriverName,
+      this.selectedDriverPhoneno});
 
   @override
   _ConfirmButtonSendRequestState createState() =>
@@ -46,6 +54,27 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 TruckApiCalls truckApiCalls = TruckApiCalls();
 
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
+
+  update_status() async {
+    try {
+      Map datanew = {"status": "ON_GOING"};
+      String body = json.encode(datanew);
+      final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+      final response = await http.put(
+          Uri.parse("$loadApiUrl/" +
+              widget.loadDetailsScreenModel!.loadId.toString()),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: body);
+      print("put update result ========== ");
+      print(response.body);
+    } catch (e) {
+      print(e.toString());
+      // return e.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -62,20 +91,19 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
       }
       if (widget.directBooking == true) {
-        truckApiCalls.updateDriverIdForTruck(
-            driverID: widget.selectedDriver, truckID: widget.truckId);
-        bookResponse = await postBookingApi(
-          widget.loadDetailsScreenModel!.loadId,
-          widget.loadDetailsScreenModel!.rate,
-          widget.loadDetailsScreenModel!.unitValue,
+        //truckApiCalls.updateDriverIdForTruck(
+          //  driverID: widget.selectedDriver, truckID: widget.truckId);
+        bookResponse = await postBookingApiNew(
+          widget.loadDetailsScreenModel,
           widget.truckId,
-          widget.loadDetailsScreenModel!.postLoadId,
-          widget.loadDetailsScreenModel!.rate,
+          widget.selectedDeviceId,
+          widget.selectedDriverName,
+          widget.selectedDriverPhoneno,
         );
         print("directBooking");
       } else {
-        truckApiCalls.updateDriverIdForTruck(
-            driverID: widget.selectedDriver, truckID: widget.truckId);
+        //truckApiCalls.updateDriverIdForTruck(
+          //  driverID: widget.selectedDriver, truckID: widget.truckId);
         bookResponse = await postBookingApi(
           widget.biddingModel!.loadId,
           widget.biddingModel!.currentBid,
@@ -88,6 +116,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
 
       if (bookResponse == "successful") {
         print(bookResponse);
+        update_status();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -148,17 +177,26 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
             }
           : null,
       child: Container(
-        margin: EdgeInsets.only(right: space_3),
-        height: space_6 + 1,
-        width: space_16,
-        decoration: BoxDecoration(
-            color: widget.truckId != null ? darkBlueColor : unselectedGrey,
-            borderRadius: BorderRadius.circular(radius_4)),
-        child: Center(
-          child: Text(
-            "Confirm",
-            style: TextStyle(
-                color: white, fontWeight: normalWeight, fontSize: size_6 + 2),
+        margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
+        child: Align(
+          alignment: FractionalOffset.bottomCenter,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: darkBlueColor,
+            ),
+            height: 75,
+            width: 290,
+            child: Center(
+              child: Text(
+                "Continue Booking",
+                style: TextStyle(
+                  color: white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: size_12,
+                ),
+              ),
+            ),
           ),
         ),
       ),
