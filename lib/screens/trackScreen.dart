@@ -138,7 +138,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   bool loadmap2 = false;
   bool loadmap3 = false;
   bool loadmap4 = true;
-  
+
   //var Get;
 
   @override
@@ -652,39 +652,64 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     height: height,
                     child: Stack(children: <Widget>[
                       // loading?
-                      GoogleMap(
-                        onTap: (position) {
-                          _customInfoWindowController.hideInfoWindow!();
-                          _customDetailsInfoWindowController.hideInfoWindow!();
-                        },
-                        onCameraMove: (position) {
-                          _customInfoWindowController.onCameraMove!();
-                          _customDetailsInfoWindowController.onCameraMove!();
-                        },
-                        markers: customMarkers.toSet(),
-                        polylines: Set.from(polylines.values),
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: camPosition,
-                        compassEnabled: true,
-                        mapType: maptype,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          _customInfoWindowController.googleMapController =
-                              controller;
-                          _customDetailsInfoWindowController
-                              .googleMapController = controller;
-                          setState(() {
-                            loading_map = true;
-                          });
-                        },
-                        gestureRecognizers:
-                            <Factory<OneSequenceGestureRecognizer>>[
-                          new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
-                          ),
-                        ].toSet(),
-                      ),
+                      // loading_map &&
+                      loadmap2 && loadmap3 || !(widget.online!)
+                          //  && loading_map
+                          ? GoogleMap(
+                              onTap: (position) {
+                                _customInfoWindowController.hideInfoWindow!();
+                                _customDetailsInfoWindowController
+                                    .hideInfoWindow!();
+                              },
+                              onCameraMove: (position) {
+                                _customInfoWindowController.onCameraMove!();
+                                _customDetailsInfoWindowController
+                                    .onCameraMove!();
+                              },
+                              markers: customMarkers.toSet(),
+                              polylines: Set.from(polylines.values),
+                              myLocationButtonEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: camPosition,
+                              compassEnabled: true,
+                              mapType: maptype,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                                _customInfoWindowController
+                                    .googleMapController = controller;
+                                _customDetailsInfoWindowController
+                                    .googleMapController = controller;
+                                setState(() {
+                                  loading_map = true;
+                                });
+                              },
+                              gestureRecognizers:
+                                  <Factory<OneSequenceGestureRecognizer>>[
+                                new Factory<OneSequenceGestureRecognizer>(
+                                  () => new EagerGestureRecognizer(),
+                                ),
+                              ].toSet(),
+                            )
+                          :
+                          // Center(
+                          //     child: Container(
+                          //       height: MediaQuery.of(context).size.height,
+                          //       width: MediaQuery.of(context).size.width,
+                          //       color: Colors.white,
+                          //       child:
+                          Center(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: darkBlueColor,
+                                ),
+                                // child:
+                              ),
+                            ),
+                      //   ),
+                      // ),
+                      // ),
                       //   :Container(),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
@@ -1109,40 +1134,38 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   imei: widget.imei,
                 ),
               ),
-              
-              Positioned(
-                // height: 50,
-                // width: 50,
-                left: 0,
-                top: 0,
-                // bottom: 0,
 
-                child: loading_map && loadmap2 && loadmap3 ||
-                        !(widget.online!) && loading_map
-                    //         polylineCoordinates.isEmpty
-                    ? Container()
-                    // : EasyLoading.show() as Widget
+              // Positioned(
+              //   // height: 50,
+              //   // width: 50,
+              //   left: 0,
+              //   top: 0,
+              // bottom: 0,
 
-                    : Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.white,
-                        child: Center(
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            child: CircularProgressIndicator(
-                              color: Colors.green,
-                            ),
-                            // child:
-                          ),
-                        ),
-                      ),
-              ),
-              
+              //   child: loading_map && loadmap2 && loadmap3 ||
+              //           !(widget.online!) && loading_map
+              //       //         polylineCoordinates.isEmpty
+              //       ? Container()
+              //       // : EasyLoading.show() as Widget
+
+              //       : Container(
+              //           height: MediaQuery.of(context).size.height,
+              //           width: MediaQuery.of(context).size.width,
+              //           color: Colors.white,
+              //           child: Center(
+              //             child: Container(
+              //               height: 50,
+              //               width: 50,
+              //               child: CircularProgressIndicator(
+              //                 color: Colors.green,
+              //               ),
+              //               // child:
+              //             ),
+              //           ),
+              //         ),
+              // ),
+
               //   :Container(),
-              
-              
             ],
           ),
         ),
