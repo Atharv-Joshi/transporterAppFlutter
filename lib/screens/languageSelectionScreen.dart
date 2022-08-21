@@ -51,12 +51,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
     String? name;
     String? companyName;
 
-    transporterId = await runTransporterApiPost(
-      mobileNum: FirebaseAuth
-        .instance.currentUser!.phoneNumber
-        .toString()
-        .substring(3, 13),
-    );
+    //transporterId = await runTransporterApiPost(
+      //mobileNum: FirebaseAuth
+        //.instance.currentUser!.phoneNumber
+        //.toString()
+        //.substring(3, 13),
+    //);
 
     if (transporterId != null){
       setState(() {
@@ -89,10 +89,13 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
         transporterIdController.updateName(name!);
         transporterIdController.updateCompanyName(companyName!);
         print("transporterID is $transporterId");
-      }
-      setState(() {
+        setState(() {
         _nextScreen=true;
       });
+      }
+      //setState(() {
+        //_nextScreen=true;
+      //});
     }
   }
 
