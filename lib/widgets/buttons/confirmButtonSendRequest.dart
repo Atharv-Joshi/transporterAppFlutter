@@ -20,7 +20,7 @@ import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
-import 'package:liveasy/widgets/elevatedButtonWidgetThree.dart';
+import 'package:liveasy/widgets/buttons/elevatedButtonWidgetThree.dart';
 import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
