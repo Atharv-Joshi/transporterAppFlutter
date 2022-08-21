@@ -43,11 +43,15 @@ class _MyAppState extends State<MyApp> {
   late Connectivity connectivity;
   late StreamSubscription<ConnectivityResult> subscription;
   bool isDisconnected = false;
+  GetStorage tidstorage = GetStorage('TransporterIDStorage');
+  String? transporterId;
+
 
   @override
   void initState() {
     super.initState();
     setState(() {});
+    transporterId = tidstorage.read("transporterId");
     checkConnection();
     connectivityChecker();
   }
@@ -143,31 +147,55 @@ class _MyAppState extends State<MyApp> {
                       home: SplashScreen(),
                     );
                   } else {
-                    return GetMaterialApp(
-                      builder: EasyLoading.init(),
-                      theme: ThemeData(
-                          fontFamily: "montserrat",
-                          appBarTheme: AppBarTheme(
-                              color: statusBarColor,
-                              iconTheme: IconThemeData(color: grey))),
-                      translations: LocalizationService(),
-                      locale: LocalizationService().getCurrentLocale(),
-                      fallbackLocale: Locale('en', 'US'),
-                      // locale: provider.locale,
-                      // supportedLocales: L10n.all,
-                      // localizationsDelegates: [
-                      //   AppLocalizations.delegate,
-                      //   GlobalMaterialLocalizations.delegate,
-                      //   GlobalCupertinoLocalizations.delegate,
-                      //   GlobalWidgetsLocalizations.delegate,
-                      // ],
-                      home: SplashScreenToGetTransporterData(
-                        mobileNum: FirebaseAuth
-                            .instance.currentUser!.phoneNumber
-                            .toString()
-                            .substring(3, 13),
-                      ),
-                    );
+                    print("in not null else block");
+                    if (transporterId != null) {
+                      print("not null user");
+                      return GetMaterialApp(
+                        builder: EasyLoading.init(),
+                        theme: ThemeData(
+                            fontFamily: "montserrat",
+                            appBarTheme: AppBarTheme(
+                                color: statusBarColor,
+                                iconTheme: IconThemeData(color: grey))),
+                        translations: LocalizationService(),
+                        locale: LocalizationService().getCurrentLocale(),
+                        fallbackLocale: Locale('en', 'US'),
+                        // locale: provider.locale,
+                        // supportedLocales: L10n.all,
+                        // localizationsDelegates: [
+                        //   AppLocalizations.delegate,
+                        //   GlobalMaterialLocalizations.delegate,
+                        //   GlobalCupertinoLocalizations.delegate,
+                        //   GlobalWidgetsLocalizations.delegate,
+                        // ],
+                        home:
+                            // documentUploadScreen()
+                            SplashScreenToGetTransporterData(
+                          mobileNum: FirebaseAuth
+                              .instance.currentUser!.phoneNumber
+                              .toString()
+                              .substring(3, 13),
+                        ),
+                      );
+                    } else {
+                      print("null user");
+                      return GetMaterialApp(
+                        builder: EasyLoading.init(),
+                        theme: ThemeData(fontFamily: "montserrat"),
+                        translations: LocalizationService(),
+                        locale: LocalizationService().getCurrentLocale(),
+                        fallbackLocale: Locale('en', 'US'),
+                        // locale: provider.locale,
+                        // supportedLocales: L10n.all,
+                        // localizationsDelegates: [
+                        //   AppLocalizations.delegate,
+                        //   GlobalMaterialLocalizations.delegate,
+                        //   GlobalCupertinoLocalizations.delegate,
+                        //   GlobalWidgetsLocalizations.delegate,
+                        // ],
+                        home: SplashScreen(),
+                      );
+                    }
                   }
                 } else
                   return ErrorScreen();
