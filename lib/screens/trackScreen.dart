@@ -597,7 +597,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     customMarkers = [];
     from = istDate1.toIso8601String();
     to = istDate2.toIso8601String();
-    initfunctionAfterChange();
+    initfunction();
   }
 
   @override

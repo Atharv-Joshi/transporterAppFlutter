@@ -115,8 +115,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   }
 
   initFunction() {
-    distancecalculation(yesterday.toIso8601String(),
-        now.toIso8601String());
+    distancecalculation(yesterday.toIso8601String(), now.toIso8601String());
     // distancecalculation(widget.dateRange!.start.toIso8601String(),
     //     widget.dateRange!.end.toIso8601String());
   }
