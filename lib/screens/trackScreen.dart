@@ -50,7 +50,7 @@ class TrackScreen extends StatefulWidget {
 
 class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   final Set<Polyline> _polyline = {};
-  Map<PolylineId, Polyline> polylines = {};
+  Map<PolylineId, Polyline> polylines = {};//polylines are the blue lines that is displayed on the map to represent route by using polylineCoordinates.
   late GoogleMapController _googleMapController;
   late LatLng lastlatLngMarker =
       LatLng(widget.gpsData.latitude!, widget.gpsData.longitude!);
@@ -83,7 +83,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   List<LatLng> latlng = [];
   var istDate1;
   var istDate2;
-  List<LatLng> polylineCoordinates = [];
+  List<LatLng> polylineCoordinates = [];//these coordinates are used to create the polylines.
   List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
   late PointLatLng start;
@@ -134,6 +134,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
 
+// variables used to show the circularProgressIndicator till the polylines and map is created.
   bool loading_map = false;
   bool loadmap2 = false;
   bool loadmap3 = false;
@@ -473,7 +474,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   //function used to change the speed of truck after 10 seconds and to make the truck look running
   void onActivityExecuted2() async {
     logger.i("It is in Activity2 Executed function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);// to get the position of the truck using traccar position api.
     setState(() {
       newGPSData = gpsData;
     });
@@ -651,10 +652,19 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     width: MediaQuery.of(context).size.width,
                     height: height,
                     child: Stack(children: <Widget>[
-                      // loading?
-                      // loading_map &&
-                      loadmap2 && loadmap3 || !(widget.online!)
-                          //  && loading_map
+                      loading_map && loadmap2 && loadmap3 ||
+                              !(widget.online!) && loading_map//condition to show loadingIndicator until routes and map is created
+                          ? Container()
+                          : Center(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: darkBlueColor,
+                                ),
+                              ),
+                            ),
+                      loadmap2 && loadmap3 || !(widget.online!)//condition to show loadingIndicator until route is created
                           ? GoogleMap(
                               onTap: (position) {
                                 _customInfoWindowController.hideInfoWindow!();
@@ -680,7 +690,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                 _customDetailsInfoWindowController
                                     .googleMapController = controller;
                                 setState(() {
-                                  loading_map = true;
+                                  loading_map = true;//variable is made true when map is created.
                                 });
                               },
                               gestureRecognizers:
@@ -690,27 +700,22 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                 ),
                               ].toSet(),
                             )
-                          :
-                          // Center(
-                          //     child: Container(
-                          //       height: MediaQuery.of(context).size.height,
-                          //       width: MediaQuery.of(context).size.width,
-                          //       color: Colors.white,
-                          //       child:
-                          Center(
+                          : Center(
                               child: Container(
-                                height: 50,
-                                width: 50,
-                                child: CircularProgressIndicator(
-                                  color: darkBlueColor,
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: darkBlueColor,
+                                    ),
+                                  ),
                                 ),
-                                // child:
                               ),
                             ),
-                      //   ),
-                      // ),
-                      // ),
-                      //   :Container(),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
                         height: 110,
