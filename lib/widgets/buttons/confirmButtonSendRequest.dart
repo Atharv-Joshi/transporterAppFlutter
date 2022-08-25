@@ -20,6 +20,8 @@ import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
+import 'package:liveasy/widgets/buttons/elevatedButtonWidgetThree.dart';
+import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
@@ -54,7 +56,6 @@ class ConfirmButtonSendRequest extends StatefulWidget {
 TruckApiCalls truckApiCalls = TruckApiCalls();
 
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
-
   update_status() async {
     try {
       Map datanew = {"status": "ON_GOING"};
@@ -92,7 +93,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
       }
       if (widget.directBooking == true) {
         //truckApiCalls.updateDriverIdForTruck(
-          //  driverID: widget.selectedDriver, truckID: widget.truckId);
+        //  driverID: widget.selectedDriver, truckID: widget.truckId);
         bookResponse = await postBookingApiNew(
           widget.loadDetailsScreenModel,
           widget.truckId,
@@ -103,7 +104,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         print("directBooking");
       } else {
         //truckApiCalls.updateDriverIdForTruck(
-          //  driverID: widget.selectedDriver, truckID: widget.truckId);
+        //  driverID: widget.selectedDriver, truckID: widget.truckId);
         bookResponse = await postBookingApi(
           widget.biddingModel!.loadId,
           widget.biddingModel!.currentBid,
@@ -170,36 +171,46 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
           widget.biddingModel!.unitValue == 'tonne' ? 'PER_TON' : 'PER_TRUCK';
     }
 
-    return GestureDetector(
-      onTap: widget.truckId != null
-          ? () {
-              getBookingData();
-            }
-          : null,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
-        child: Align(
-          alignment: FractionalOffset.bottomCenter,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: darkBlueColor,
-            ),
-            height: 75,
-            width: 290,
-            child: Center(
-              child: Text(
-                "Continue Booking",
-                style: TextStyle(
-                  color: white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: size_12,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    // return
+    // GestureDetector(
+    //   onTap: widget.truckId != null
+    //       ? () {
+    //           getBookingData();
+    //         }
+    //       : null,
+    //   child:
+    return ElevatedButtonWidgetThree(
+        condition: widget.truckId != null &&
+            widget.selectedDriverName != null &&
+            widget.selectedDriverPhoneno != null,
+        text: "Continue Booking",
+        onPressedConditionTrue: () {
+          getBookingData();
+        });
+    // Container(
+    //   margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
+    //   child: Align(
+    //     alignment: FractionalOffset.bottomCenter,
+    //     child: Container(
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(15),
+    //         color: darkBlueColor,
+    //       ),
+    //       height: 75,
+    //       width: 290,
+    //       child: Center(
+    //         child: Text(
+    //           "Continue Booking",
+    //           style: TextStyle(
+    //             color: white,
+    //             fontWeight: FontWeight.bold,
+    //             fontSize: size_12,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // ),
+    // );
   }
 }

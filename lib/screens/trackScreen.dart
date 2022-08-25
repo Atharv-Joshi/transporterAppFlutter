@@ -50,7 +50,7 @@ class TrackScreen extends StatefulWidget {
 
 class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   final Set<Polyline> _polyline = {};
-  Map<PolylineId, Polyline> polylines = {};
+  Map<PolylineId, Polyline> polylines = {};//polylines are the blue lines that is displayed on the map to represent route by using polylineCoordinates.
   late GoogleMapController _googleMapController;
   late LatLng lastlatLngMarker =
       LatLng(widget.gpsData.latitude!, widget.gpsData.longitude!);
@@ -83,7 +83,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   List<LatLng> latlng = [];
   var istDate1;
   var istDate2;
-  List<LatLng> polylineCoordinates = [];
+  List<LatLng> polylineCoordinates = [];//these coordinates are used to create the polylines.
   List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
   late PointLatLng start;
@@ -134,11 +134,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
 
+// variables used to show the circularProgressIndicator till the polylines and map is created.
   bool loading_map = false;
   bool loadmap2 = false;
   bool loadmap3 = false;
   bool loadmap4 = true;
-  
+
   //var Get;
 
   @override
@@ -473,7 +474,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   //function used to change the speed of truck after 10 seconds and to make the truck look running
   void onActivityExecuted2() async {
     logger.i("It is in Activity2 Executed function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);// to get the position of the truck using traccar position api.
     setState(() {
       newGPSData = gpsData;
     });
@@ -651,41 +652,70 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     width: MediaQuery.of(context).size.width,
                     height: height,
                     child: Stack(children: <Widget>[
-                      // loading?
-                      GoogleMap(
-                        onTap: (position) {
-                          _customInfoWindowController.hideInfoWindow!();
-                          _customDetailsInfoWindowController.hideInfoWindow!();
-                        },
-                        onCameraMove: (position) {
-                          _customInfoWindowController.onCameraMove!();
-                          _customDetailsInfoWindowController.onCameraMove!();
-                        },
-                        markers: customMarkers.toSet(),
-                        polylines: Set.from(polylines.values),
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: camPosition,
-                        compassEnabled: true,
-                        mapType: maptype,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          _customInfoWindowController.googleMapController =
-                              controller;
-                          _customDetailsInfoWindowController
-                              .googleMapController = controller;
-                          setState(() {
-                            loading_map = true;
-                          });
-                        },
-                        gestureRecognizers:
-                            <Factory<OneSequenceGestureRecognizer>>[
-                          new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
-                          ),
-                        ].toSet(),
-                      ),
-                      //   :Container(),
+                      loading_map && loadmap2 && loadmap3 ||
+                              !(widget.online!) && loading_map//condition to show loadingIndicator until routes and map is created
+                          ? Container()
+                          : Center(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: darkBlueColor,
+                                ),
+                              ),
+                            ),
+                      loadmap2 && loadmap3 || !(widget.online!)//condition to show loadingIndicator until route is created
+                          ? GoogleMap(
+                              onTap: (position) {
+                                _customInfoWindowController.hideInfoWindow!();
+                                _customDetailsInfoWindowController
+                                    .hideInfoWindow!();
+                              },
+                              onCameraMove: (position) {
+                                _customInfoWindowController.onCameraMove!();
+                                _customDetailsInfoWindowController
+                                    .onCameraMove!();
+                              },
+                              markers: customMarkers.toSet(),
+                              polylines: Set.from(polylines.values),
+                              myLocationButtonEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: camPosition,
+                              compassEnabled: true,
+                              mapType: maptype,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                                _customInfoWindowController
+                                    .googleMapController = controller;
+                                _customDetailsInfoWindowController
+                                    .googleMapController = controller;
+                                setState(() {
+                                  loading_map = true;//variable is made true when map is created.
+                                });
+                              },
+                              gestureRecognizers:
+                                  <Factory<OneSequenceGestureRecognizer>>[
+                                new Factory<OneSequenceGestureRecognizer>(
+                                  () => new EagerGestureRecognizer(),
+                                ),
+                              ].toSet(),
+                            )
+                          : Center(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: darkBlueColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
                         height: 110,
@@ -1109,40 +1139,38 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   imei: widget.imei,
                 ),
               ),
-              
-              Positioned(
-                // height: 50,
-                // width: 50,
-                left: 0,
-                top: 0,
-                // bottom: 0,
 
-                child: loading_map && loadmap2 && loadmap3 ||
-                        !(widget.online!) && loading_map
-                    //         polylineCoordinates.isEmpty
-                    ? Container()
-                    // : EasyLoading.show() as Widget
+              // Positioned(
+              //   // height: 50,
+              //   // width: 50,
+              //   left: 0,
+              //   top: 0,
+              // bottom: 0,
 
-                    : Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.white,
-                        child: Center(
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            child: CircularProgressIndicator(
-                              color: Colors.green,
-                            ),
-                            // child:
-                          ),
-                        ),
-                      ),
-              ),
-              
+              //   child: loading_map && loadmap2 && loadmap3 ||
+              //           !(widget.online!) && loading_map
+              //       //         polylineCoordinates.isEmpty
+              //       ? Container()
+              //       // : EasyLoading.show() as Widget
+
+              //       : Container(
+              //           height: MediaQuery.of(context).size.height,
+              //           width: MediaQuery.of(context).size.width,
+              //           color: Colors.white,
+              //           child: Center(
+              //             child: Container(
+              //               height: 50,
+              //               width: 50,
+              //               child: CircularProgressIndicator(
+              //                 color: Colors.green,
+              //               ),
+              //               // child:
+              //             ),
+              //           ),
+              //         ),
+              // ),
+
               //   :Container(),
-              
-              
             ],
           ),
         ),
