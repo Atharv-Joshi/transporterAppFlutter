@@ -275,6 +275,7 @@ class _MyTrucksState extends State<MyTrucks> {
                 Get.to(MapAllTrucks(
                   gpsDataList: gpsDataList,
                   deviceList: trucklist,
+                  status: status,
                   runningDataList: runningList,
                   runningGpsDataList: runningGpsData,
                   stoppedList: StoppedList,

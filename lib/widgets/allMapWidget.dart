@@ -24,11 +24,12 @@ import 'package:flutter_config/flutter_config.dart';
 class AllMapWidget extends StatefulWidget {
   List gpsDataList;
   List truckDataList;
+  List status;
 
-  AllMapWidget({
-    required this.gpsDataList,
-    required this.truckDataList,
-  });
+  AllMapWidget(
+      {required this.gpsDataList,
+        required this.truckDataList,
+        required this.status});
 
   @override
   _AllMapWidgetState createState() => _AllMapWidgetState();
@@ -41,10 +42,11 @@ class _AllMapWidgetState extends State<AllMapWidget>
   late List<Placemark> placemarks;
   Iterable markers = [];
   ScreenshotController screenshotController = ScreenshotController();
-  late BitmapDescriptor pinLocationIcon;
-  late BitmapDescriptor pinLocationIconTruck;
+  late BitmapDescriptor pinLocationIconGreyTruck;
+  late BitmapDescriptor pinLocationIconGreenTruck;
+  late BitmapDescriptor pinLocationIconRedTruck;
   late CameraPosition camPosition =
-      CameraPosition(target: lastlatLngMarker, zoom: 4.5);
+  CameraPosition(target: lastlatLngMarker, zoom: 4.5);
   var logger = Logger();
   bool showdetails = false;
   late Marker markernew;
@@ -60,10 +62,12 @@ class _AllMapWidgetState extends State<AllMapWidget>
   bool popUp = false;
   late Uint8List markerIcon;
   var markerslist;
+  // GpsDataModel positionData=GpsDataModel();
+  // var speed=positionData.speed!.toString();
 
   //CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
   CustomInfoWindowController _customDetailsInfoWindowController =
-      CustomInfoWindowController();
+  CustomInfoWindowController();
   bool isAnimation = false;
   double mapHeight = 600;
   var direction;
@@ -77,6 +81,7 @@ class _AllMapWidgetState extends State<AllMapWidget>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
     iconthenmarker();
     initfunction2();
     try {
@@ -139,27 +144,58 @@ class _AllMapWidgetState extends State<AllMapWidget>
   }
 
   void iconthenmarker() {
+    var greyImg = 'assets/icons/truckPinGrey.png';
     logger.i("in Icon maker function");
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-            'assets/icons/truckPin.png')
-        .then((value) => {
-              setState(() {
-                pinLocationIconTruck = value;
-              }),
-              print("hello ${widget.gpsDataList.length}"),
-              for (int i = 0; i < widget.gpsDataList.length; i++)
-                {
-                  if (widget.gpsDataList[i] != null)
-                    createmarker(
-                        widget.gpsDataList[i], widget.truckDataList[i]),
-                }
-            });
+    for (int i = 0; i < widget.gpsDataList.length; i++) {
+      if (widget.status[i].toString() == "Offline") {
+        print("speed grey ${widget.gpsDataList[i].speed!}");
+        BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 2.5), greyImg)
+            .then((value) => {
+          setState(() {
+            pinLocationIconGreyTruck = value;
+          }),
+          print("working grey"),
+          createmarkerGrey(
+              widget.gpsDataList[i], widget.truckDataList[i]),
+        });
+      } else {
+        if (widget.status[i].toString() == "Online" &&
+            widget.gpsDataList[i].speed! >= 5) {
+          print("speed green ${widget.gpsDataList[i].speed!}");
+          BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(devicePixelRatio: 2.5),
+              'assets/icons/truckPinGreen.png')
+              .then((value) => {
+            setState(() {
+              pinLocationIconGreenTruck = value;
+            }),
+            print("working green"),
+            createmarkerGreen(
+                widget.gpsDataList[i], widget.truckDataList[i]),
+          });
+        } else if (widget.status[i].toString() == "Online" &&
+            widget.gpsDataList[i].speed! < 5) {
+          print("speed red ${widget.gpsDataList[i].speed!}");
+          BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(devicePixelRatio: 2.5),
+              'assets/icons/truckPinRed.png')
+              .then((value) => {
+            setState(() {
+              pinLocationIconRedTruck = value;
+            }),
+            print("working red"),
+            createmarkerRed(
+                widget.gpsDataList[i], widget.truckDataList[i]),
+          });
+        }
+      }
+    }
   }
 
-  void createmarker(GpsDataModel gpsData, var truck) async {
+  void createmarkerGrey(GpsDataModel gpsData, var truck) async {
     try {
       final GoogleMapController controller = await _controller.future;
-
       LatLng latLngMarker = LatLng(gpsData.latitude!, gpsData.longitude!);
       print("Live location is  ${gpsData.latitude}");
       print("hh");
@@ -182,9 +218,109 @@ class _AllMapWidgetState extends State<AllMapWidget>
               );
             },
             infoWindow: InfoWindow(
-                //   title: title,
+              //   title: title,
                 onTap: () {}),
-            icon: pinLocationIconTruck,
+            icon: pinLocationIconGreyTruck,
+            rotation: direction));
+        print("here i am");
+        customMarkers.add(Marker(
+            markerId: MarkerId("Details of ${gpsData.deviceId.toString()}"),
+            position: latLngMarker,
+            icon: BitmapDescriptor.fromBytes(markerIcons),
+            rotation: 0.0));
+      });
+      print("done");
+      //   controller.showMarkerInfoWindow(MarkerId(gpsData.last.deviceId.toString()));
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: LatLng(28.5673, 77.3211),
+          zoom: zoom,
+        ),
+      ));
+    } catch (e) {
+      print("Exceptionis $e");
+    }
+  }
+
+  void createmarkerGreen(GpsDataModel gpsData, var truck) async {
+    try {
+      final GoogleMapController controller = await _controller.future;
+      LatLng latLngMarker = LatLng(gpsData.latitude!, gpsData.longitude!);
+      print("Live location is  ${gpsData.latitude}");
+      print("hh");
+      print(gpsData.deviceId.toString());
+      String? title = truck;
+      var markerIcons = await getBytesFromCanvas3(truck!, 100, 100);
+      var address = await getAddress(gpsData);
+      var trucklatlong = latLngMarker;
+      setState(() {
+        direction = 180 + gpsData.course!;
+        lastlatLngMarker = LatLng(gpsData.latitude!, gpsData.longitude!);
+        latlng.add(lastlatLngMarker);
+        customMarkers.add(Marker(
+            markerId: MarkerId(gpsData.deviceId.toString()),
+            position: trucklatlong,
+            onTap: () {
+              _customDetailsInfoWindowController.addInfoWindow!(
+                truckInfoWindow(truck, address),
+                trucklatlong,
+              );
+            },
+            infoWindow: InfoWindow(
+              //   title: title,
+                onTap: () {}),
+            icon: pinLocationIconGreenTruck,
+            rotation: direction));
+        print("here i am");
+        customMarkers.add(Marker(
+            markerId: MarkerId("Details of ${gpsData.deviceId.toString()}"),
+            position: latLngMarker,
+            icon: BitmapDescriptor.fromBytes(markerIcons),
+            rotation: 0.0));
+      });
+      print("done");
+      //   controller.showMarkerInfoWindow(MarkerId(gpsData.last.deviceId.toString()));
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: LatLng(28.5673, 77.3211),
+          zoom: zoom,
+        ),
+      ));
+    } catch (e) {
+      print("Exceptionis $e");
+    }
+  }
+
+  void createmarkerRed(GpsDataModel gpsData, var truck) async {
+    try {
+      final GoogleMapController controller = await _controller.future;
+      LatLng latLngMarker = LatLng(gpsData.latitude!, gpsData.longitude!);
+      print("Live location is  ${gpsData.latitude}");
+      print("hh");
+      print(gpsData.deviceId.toString());
+      String? title = truck;
+      var markerIcons = await getBytesFromCanvas3(truck!, 100, 100);
+      var address = await getAddress(gpsData);
+      var trucklatlong = latLngMarker;
+      setState(() {
+        direction = 180 + gpsData.course!;
+        lastlatLngMarker = LatLng(gpsData.latitude!, gpsData.longitude!);
+        latlng.add(lastlatLngMarker);
+        customMarkers.add(Marker(
+            markerId: MarkerId(gpsData.deviceId.toString()),
+            position: trucklatlong,
+            onTap: () {
+              _customDetailsInfoWindowController.addInfoWindow!(
+                truckInfoWindow(truck, address),
+                trucklatlong,
+              );
+            },
+            infoWindow: InfoWindow(
+              //   title: title,
+                onTap: () {}),
+            icon: pinLocationIconRedTruck,
             rotation: direction));
         print("here i am");
         customMarkers.add(Marker(

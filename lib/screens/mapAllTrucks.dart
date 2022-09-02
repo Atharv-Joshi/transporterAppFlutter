@@ -25,6 +25,7 @@ import 'package:flutter_config/flutter_config.dart';
 class MapAllTrucks extends StatefulWidget {
   List gpsDataList;
   List deviceList;
+  List status;
   List runningDataList;
   List runningGpsDataList;
   List stoppedList;
@@ -33,6 +34,7 @@ class MapAllTrucks extends StatefulWidget {
   MapAllTrucks({
     required this.gpsDataList,
     required this.deviceList,
+    required this.status,
     required this.runningDataList,
     required this.runningGpsDataList,
     required this.stoppedGpsList,
@@ -297,14 +299,20 @@ class _MapAllTrucksState extends State<MapAllTrucks>
                     },
                     children: [
                       AllMapWidget(
-                          gpsDataList: widget.gpsDataList,
-                          truckDataList: widget.deviceList),
+                        gpsDataList: widget.gpsDataList,
+                        truckDataList: widget.deviceList,
+                        status: widget.status,
+                      ),
                       AllMapWidget(
-                          gpsDataList: widget.runningGpsDataList,
-                          truckDataList: widget.runningDataList),
+                        gpsDataList: widget.runningGpsDataList,
+                        truckDataList: widget.runningDataList,
+                        status: widget.status,
+                      ),
                       AllMapWidget(
-                          gpsDataList: widget.stoppedGpsList,
-                          truckDataList: widget.stoppedList),
+                        gpsDataList: widget.stoppedGpsList,
+                        truckDataList: widget.stoppedList,
+                        status: widget.status,
+                      ),
                     ])
                 // trucksNearUserController.nearStatus.value
                 //     ? PageView(
