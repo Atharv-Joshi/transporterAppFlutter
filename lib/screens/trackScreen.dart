@@ -41,7 +41,8 @@ class TrackScreen extends StatefulWidget {
       required this.truckNo,
       required this.deviceId,
       required this.totalDistance,
-      this.imei});
+      this.imei,
+      required bool online});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -382,8 +383,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
           getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
       totalStatus = getLastUpdate(gpsStoppageHistory, now.toIso8601String());
-      print('------------------- total status ------------------');
-      print(totalStatus);
+      // print('------------------- total status ------------------');
+      // print(totalStatus);
     });
 
     addstops(gpsStoppageHistory);
