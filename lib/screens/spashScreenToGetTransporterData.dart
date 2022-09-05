@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
+//import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 
@@ -39,8 +39,8 @@ class _SplashScreenToGetTransporterDataState
     String? name;
     String? companyName;
 
-    String? transporterId =
-        await runTransporterApiPost(mobileNum: widget.mobileNum);
+    String? transporterId;
+    //= await runTransporterApiPost(mobileNum: widget.mobileNum);
 
     // String? transporterId = tidstorage.read("transporterId");
     // runTransporterApiPost(mobileNum: widget.mobileNum);
@@ -74,8 +74,10 @@ class _SplashScreenToGetTransporterDataState
         transporterIdController.updateName(name!);
         transporterIdController.updateCompanyName(companyName!);
         print("transporterID is $transporterId");
+        
+        Timer(Duration(milliseconds: 1200), () => Get.off(() => NavigationScreen()));
       }
-      Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
+      //Timer(Duration(milliseconds: 1), () => Get.off(() => NavigationScreen()));
     }
   }
 

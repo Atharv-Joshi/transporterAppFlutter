@@ -11,6 +11,7 @@ import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/screens/isolatedTransporterGetData.dart';
 import 'package:liveasy/screens/ordersScreen.dart';
 import 'package:liveasy/screens/postLoadScreens/postLoadScreen.dart';
 import 'package:liveasy/screens/trackScreen.dart';
@@ -70,6 +71,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     super.initState();
     this.initDynamicLinks();
     this.checkUpdate();
+    
+    isolatedTransporterGetData();
   }
 
   void checkUpdate() async {

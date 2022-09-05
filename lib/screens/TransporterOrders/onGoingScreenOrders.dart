@@ -1,87 +1,294 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
+import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
+import 'package:liveasy/models/BookingModel.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/screens/TransporterOrders/loadOnGoingOrdersData.dart';
+import 'package:liveasy/screens/TransporterOrders/onGoingOrdersApiCall.dart';
+import 'package:liveasy/screens/TransporterOrders/onGoingOrdersCardNew.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
+import 'package:liveasy/widgets/onGoingCard.dart';
 import 'package:liveasy/widgets/onGoingCardOrder.dart';
+import 'package:flutter_config/flutter_config.dart';
 
-class OngoingScreenOrders extends StatelessWidget {
+class OngoingScreenOrders extends StatefulWidget {
+  @override
+  State<OngoingScreenOrders> createState() => _OngoingScreenOrdersState();
+}
+
+class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
+  GpsDataModel? gpsData;
+  var devicelist = [];
+  var gpsDataList = [];
+  var gpsList = [];
+
+  bool getMyTruckPostionBoolValue = false;
+  bool initfunctionBoolValue = false;
+
+  DateTime yesterday =
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+  String? from;
+  String? to;
+  DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+  String? totalDistance;
+
   final BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
+
+  int i = 0;
+
+  bool loading = false;
+  bool OngoingProgress = false;
+
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
+
+  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+
+  List<OngoingCardModel> modelList = [];
+  // Future<dynamic>? modelList = [];
+  ScrollController scrollController = ScrollController();
+
+  getOnGoingOrders(int i) async {
+    if (this.mounted) {
+      setState(() {
+        OngoingProgress = true;
+      });
+    }
+    var bookingDataListWithPagei = await onGoingOrdersApiCall(i);
+    for (var bookingData in bookingDataListWithPagei) {
+      print(bookingData);
+      modelList.add(bookingData);
+    }
+    if (this.mounted) {
+      // check whether the state object is in tree
+      setState(() {
+        loading = false;
+        OngoingProgress = false;
+      });
+    }
+  }
+
+  initializeGps() {
+    for (int i = 0; i < modelList.length; i++) {
+      getMyTruckPosition(i);
+      initFunction(i);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loading = true;
+    getOnGoingOrders(i);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >
+          scrollController.position.maxScrollExtent * 0.7) {
+        i = i + 1;
+        getOnGoingOrders(i);
+      }
+    });
+    print(modelList);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.67,
-        child: FutureBuilder(
-          //getTruckData returns list of truck Model
-          future: bookingApiCallsOrders.getDataByTransporterIdOnGoing(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return OnGoingLoadingWidgets();
-            }
-            //number of cards
-
-            if (snapshot.data.length == 0) {
-              return Container(
-                margin: EdgeInsets.only(top: 153),
-                child: Column(
-                  children: [
-                    Image(
-                      image: AssetImage('assets/images/EmptyLoad.png'),
-                      height: 127,
-                      width: 127,
-                    ),
-                    Text(
-                      'Looks like you have no on-going bookings!',
-                      style: TextStyle(fontSize: size_8, color: grey),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+      height: MediaQuery.of(context).size.height + size_10,
+      child: loading
+          ? OnGoingLoadingWidgets()
+          : modelList.length == 0
+              ? Container(
+                  margin: EdgeInsets.only(top: 153),
+                  child: Column(
+                    children: [
+                      Image(
+                        image: AssetImage('assets/images/EmptyLoad.png'),
+                        height: 127,
+                        width: 127,
+                      ),
+                      Text(
+                        'noOnGoingLoad'.tr,
+                        // 'Looks like you have not added any Loads!',
+                        style: TextStyle(fontSize: size_8, color: grey),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                )
+              : RefreshIndicator(
+                  color: lightNavyBlue,
+                  onRefresh: () {
+                    setState(() {
+                      modelList.clear();
+                      loading = true;
+                    });
+                    return getOnGoingOrders(0);
+                  },
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: space_10),
+                      itemCount: modelList.length,
+                      itemBuilder: (context, index) {
+                        getMyTruckPosition(index);
+                        initFunction(index);
+                        return (index == modelList.length - 1)
+                            ? Visibility(
+                                visible: OngoingProgress,
+                                child: bottomProgressBarIndicatorWidget())
+                            : (getMyTruckPostionBoolValue)
+                                ? onGoingOrdersCardNew(
+                                    loadAllDataModel: modelList[index],
+                                    gpsDataList: gpsDataList,
+                                    totalDistance: totalDistance,
+                                  )
+                                : Container();
+                      }),
                 ),
-              );
-            } else {
-              return ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return FutureBuilder(
-                        future: loadAllDataOrders(snapshot.data[index]),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.data == null) {
-                            return OnGoingLoadingWidgets();
-                          }
-                          return OngoingCardOrders(
-                            unitValue: snapshot.data['unitValue'],
-                            productType: snapshot.data['productType'],
-                            noOfTrucks: snapshot.data['noOfTrucks'],
-                            truckType: snapshot.data['truckType'],
-                            posterLocation: snapshot.data['posterLocation'],
-                            posterName: snapshot.data['posterName'],
-                            companyApproved: snapshot.data['companyApproved'],
-                            rate: snapshot.data['rate'],
-                            loadingPoint: snapshot.data['loadingPoint'],
-                            unloadingPoint: snapshot.data['unloadingPoint'],
-                            companyName: snapshot.data['companyName'],
-                            vehicleNo: snapshot.data['truckNo'],
-                            driverName: snapshot.data['driverName'],
-                            startedOn: snapshot.data['startedOn'],
-                            bookingId: snapshot.data['bookingId'],
-                            endedOn: snapshot.data['endedOn'],
-                            imei: snapshot.data['imei'],
-                            driverPhoneNum: snapshot.data['driverPhoneNum'],
-                            transporterPhoneNumber:
-                                snapshot.data['posterPhoneNum'],
-                            // transporterName : snapshot.data['transporterName'],
-                          );
-                        });
-                  } //builder
-
-                  );
-            } //else
-          },
-        ));
+    );
   }
-} //class end
+
+  void getMyTruckPosition(int index) async {
+    var devices =
+        await getDeviceByDeviceId(modelList[index].deviceId.toString());
+    var gpsDataAll =
+        await getPositionByDeviceId(modelList[index].deviceId.toString());
+
+    devicelist.clear();
+
+    for (var device in devices) {
+      setState(() {
+        devicelist.add(device);
+      });
+    }
+
+    gpsList = List.filled(devices.length, null, growable: true);
+
+    for (int i = 0; i < gpsDataAll.length; i++) {
+      getGPSData(gpsDataAll[i], i);
+    }
+
+    setState(() {
+      gpsDataList = gpsList;
+      print("GPSDATALIST....");
+      print(gpsDataList);
+      getMyTruckPostionBoolValue = true;
+    });
+    // return getMyTruckPostionBoolValue;
+  }
+
+  void getGPSData(var gpsData, int i) async {
+    gpsList.removeAt(i);
+
+    gpsList.insert(i, gpsData);
+  }
+
+  void initFunction(index) async {
+    var gpsRoute1 = await getTraccarSummaryByDeviceId(
+        deviceId: modelList[index].deviceId, from: from, to: to);
+    setState(() {
+      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+      initfunctionBoolValue = true;
+    });
+    print('in init');
+    // return initfunctionBoolValue;
+  }
+}
+
+
+// } //class end
+
+//     return Container(
+//         height: MediaQuery.of(context).size.height * 0.67,
+//         child: FutureBuilder(
+//           //getTruckData returns list of truck Model
+//           future: bookingApiCallsOrders.getDataByTransporterIdOnGoing(),
+//           builder: (BuildContext context, AsyncSnapshot snapshot) {
+//             if (snapshot.data == null) {
+//               return OnGoingLoadingWidgets();
+//             }
+//             //number of cards
+
+//             if (snapshot.data.length == 0) {
+//               return Container(
+//                 margin: EdgeInsets.only(top: 153),
+//                 child: Column(
+//                   children: [
+//                     Image(
+//                       image: AssetImage('assets/images/EmptyLoad.png'),
+//                       height: 127,
+//                       width: 127,
+//                     ),
+//                     Text(
+//                       'Looks like you have no on-going bookings!',
+//                       style: TextStyle(fontSize: size_8, color: grey),
+//                       textAlign: TextAlign.center,
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             } else {
+//               return ListView.builder(
+//                   physics: BouncingScrollPhysics(),
+//                   itemCount: snapshot.data.length,
+//                   itemBuilder: (context, index) {
+//                     return FutureBuilder(
+//                         future: loadAllOnGoingOrdersData(snapshot.data[index]),
+//                         //loadAllDataOrdersNew(snapshot.data[index]),
+//                         // future: modelList,
+//                         builder:
+//                             (BuildContext context, AsyncSnapshot snapshot) {
+//                           if (snapshot.data == null) {
+//                             return OnGoingLoadingWidgets();
+//                           }
+//                           return OngoingCardOrders(
+//                             // loadAllDataModel: modelList[index]
+//                             unitValue: snapshot.data['unitValue'],
+//                             productType: snapshot.data['productType'],
+//                             noOfTrucks: snapshot.data['noOfTrucks'],
+//                             truckType: snapshot.data['truckType'],
+//                             posterLocation: snapshot.data['posterLocation'],
+//                             posterName: snapshot.data['posterName'],
+//                             companyApproved: snapshot.data['companyApproved'],
+//                             rate: snapshot.data['rate'],
+//                             loadingPoint: snapshot.data['loadingPoint'],
+//                             unloadingPoint: snapshot.data['unloadingPoint'],
+//                             companyName: snapshot.data['companyName'],
+//                             vehicleNo: snapshot.data['truckNo'],
+//                             driverName: snapshot.data['driverName'],
+//                             startedOn: snapshot.data['startedOn'],
+//                             bookingId: snapshot.data['bookingId'],
+//                             endedOn: snapshot.data['endedOn'],
+//                             imei: snapshot.data['imei'],
+//                             driverPhoneNum: snapshot.data['driverPhoneNum'],
+//                             transporterPhoneNumber:
+//                                 snapshot.data['posterPhoneNum'],
+//                             // transporterName : snapshot.data['transporterName'],
+//                           );
+//                         });
+//                   } //builder
+
+//                   );
+//             } //else
+//           },
+//         ));
+//   }
+// } //class end
