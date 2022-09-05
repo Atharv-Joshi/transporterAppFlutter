@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:async/async.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -131,6 +132,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var lockState;
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
+
+  //variable for show running / stop status
+  var totalStatus = "";
 
   //var Get;
 
@@ -377,6 +381,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       totalRunningTime =
           getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      totalStatus = getLastUpdate(gpsStoppageHistory, now.toIso8601String());
+      print('------------------- total status ------------------');
+      print(totalStatus);
     });
 
     addstops(gpsStoppageHistory);
@@ -598,6 +605,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     from = istDate1.toIso8601String();
     to = istDate2.toIso8601String();
     initfunction();
+  }
+
+  //function for show the how long device is active or not !
+  getStatus() {
+    print("-------------------- $s.length");
   }
 
   @override
@@ -977,7 +989,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                     EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
                                 child: Header(
                                     reset: false,
-                                    text: "${widget.truckNo}",
+                                    // add variable for check status time or device
+                                    text: "${widget.truckNo} $totalStatus",
                                     backButton: true),
                               ),
                               //HelpButtonWidget(),

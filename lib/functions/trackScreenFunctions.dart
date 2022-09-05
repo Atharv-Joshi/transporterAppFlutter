@@ -681,3 +681,58 @@ convertMillisecondsToDuration(int time) {
   print("Formatted $formatted");
   return formatted;
 }
+
+getLastUpdate(var lastUpdate, var now) {
+  var s = lastUpdate[lastUpdate.length - 1].startTime.toString();
+  var e = lastUpdate[lastUpdate.length - 1].endTime.toString();
+  print('------------------////////////////////////////--------------');
+
+  var dateFormat = DateFormat('yyyy-MM-ddTHH:mm');
+  DateTime Start = dateFormat.parse(s);
+  DateTime End = dateFormat.parse(e);
+  now = dateFormat.parse(now);
+  print(" Start Time {$Start}");
+  print("End Time {$End} ");
+  print("Now time {$now} ");
+  var minutesForStartTime = Start.minute;
+  var hourForStartTime = Start.hour;
+  var totalMinutesForStartTime = minutesForStartTime + (hourForStartTime * 60);
+  var minutesForEndTime = End.minute;
+  var hourForEndTime = End.hour;
+  var totalMinutesForEndTime = minutesForEndTime + (hourForEndTime * 60);
+  var minutesForNowTime = now.minute;
+  var hourForNowTime = now.hour;
+  var totalMinutesForNowTime = minutesForNowTime + (hourForNowTime * 60);
+
+  print("minutes for Start time $minutesForStartTime");
+  print("hour for Start time $hourForStartTime");
+  print("minutes for End time $minutesForEndTime");
+  print("hour for End time $hourForEndTime");
+  print("minutes for now time $minutesForNowTime");
+  print("hour for now time $hourForNowTime");
+  print("total minutes for  Start time $totalMinutesForStartTime");
+  print("total minutes for  now time $totalMinutesForNowTime");
+  print("total minutes for  now time $totalMinutesForNowTime");
+
+  int diffMinutes = totalMinutesForNowTime - totalMinutesForEndTime;
+  var totalTimeForStop = totalMinutesForNowTime - totalMinutesForEndTime;
+  int totalTime;
+  print('diff-------------   $diffMinutes');
+  if (diffMinutes < 3) {
+    print("total stop is $totalTimeForStop");
+    int totalTime = totalTimeForStop;
+    int hour = totalTime ~/ 60;
+    int minute = (totalTime % 60);
+    print(hour);
+    print(minute);
+    return "S $hour hrs $minute min".toString();
+  } else {
+    print("total running time is $diffMinutes");
+    totalTime = diffMinutes;
+    int hour = totalTime ~/ 60;
+    int minute = (totalTime % 60);
+    print(hour);
+    print(minute);
+    return "A $hour hrs $minute min".toString();
+  }
+}
