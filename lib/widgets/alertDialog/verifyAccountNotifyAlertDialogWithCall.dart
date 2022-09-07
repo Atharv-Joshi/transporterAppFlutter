@@ -65,7 +65,7 @@ class _VerifyAccountNotifyAlertDialogWithCallState
           children: [
             VerifyNowButton(),
             SizedBox(width: 10),
-            CallUs(number: "918290748131")
+            CallUs(number: "+918290748131")
           ],
         )
       ],
