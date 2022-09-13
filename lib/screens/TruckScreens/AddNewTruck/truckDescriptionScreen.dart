@@ -18,13 +18,14 @@ import 'package:liveasy/providerClass/providerData.dart';
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
   String truckNumber;
+  String truckUniqueId;
 
   // TruckDescriptionScreen(
   //      this.truckId,
   //     this.truckNumber,
   //     );
 
-  TruckDescriptionScreen({required this.truckId, required this.truckNumber});
+  TruckDescriptionScreen({required this.truckId, required this.truckNumber, required this.truckUniqueId});
 
   @override
   _TruckDescriptionScreenState createState() => _TruckDescriptionScreenState();
@@ -331,6 +332,7 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               truckId: widget.truckId,
                               driverId: providerData.driverIdValue,
                               truckNumber: widget.truckNumber,
+                              uniqueId: widget.truckUniqueId,
                             ));
                       },
                       text: 'save'.tr,
