@@ -35,6 +35,7 @@ class TrackScreen extends StatefulWidget {
   final int? deviceId;
   var totalDistance;
   var imei;
+  bool active;
 
   TrackScreen(
       {required this.gpsData,
@@ -42,7 +43,7 @@ class TrackScreen extends StatefulWidget {
       required this.deviceId,
       required this.totalDistance,
       this.imei,
-      required bool online});
+      required this.active});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -93,7 +94,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var gpsDataHistory;
   var gpsStoppageHistory;
   var newGPSRoute;
-  var totalDistance;
+  var finalDistance;
   var stoppageTime = [];
   List<LatLng> stoplatlong = [];
   var duration = [];
@@ -122,6 +123,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   double averagelon = 0;
   var totalStoppedTime = "";
   var status;
+  var deviceId;
   bool loading = false;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
@@ -347,6 +349,18 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     _addPolyLine();
   }
 
+  // calling function for fetch total distance data
+  getTotalDistance(var ab, var from, var to) async {
+    // print("------------ calling gettotaldistance ---------");
+    var gpsRoute1 =
+        await mapUtil.getTraccarSummary(deviceId: ab, from: from, to: to);
+    setState(() {
+      widget.totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+      finalDistance = widget.totalDistance!;
+      // print('---------- total distance $finalDistance ---------------');
+    });
+  }
+
   initfunction() async {
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
@@ -361,6 +375,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     logger.i("It is in init function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    // print('----------- show from and now when change the time ---------------');
     var f = getDataHistory(widget.deviceId, from, to);
     var s = getStoppageHistory(widget.deviceId, from, to);
     //  var t = getRouteStatusList(widget.deviceId, from, to);
@@ -376,13 +391,25 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(start: istDate1, end: istDate2);
       //  print("NEW ROute $newGPSRoute");
-      totalDistance = widget.totalDistance;
+      deviceId = widget.gpsData.deviceId!;
+      // print("------------ device ID $deviceId -----------");
+      // print("------------- from $from ------------");
+      // print("-------------- to  $to   ------------");
+      // finalDistance = widget.totalDistance;
+      // setState(() {
+      //   widget.totalDistance = totalDistance;
+      // });
+      // print('---------- total distance ---------------');
+      // print(finalDistance);
+      finalDistance = getTotalDistance(deviceId, from, to);
+
       //totalDistance = getTotalDistance(gpsRoute);
       //  newGPSRoute = getStopList(newGPSRoute);
       totalRunningTime =
           getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
-      totalStatus = getLastUpdate(gpsStoppageHistory, now.toIso8601String());
+      totalStatus = getLastUpdate(
+          gpsStoppageHistory, now.toIso8601String(), widget.active);
       // print('------------------- total status ------------------');
       // print(totalStatus);
     });
@@ -1098,6 +1125,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
                 child: TrackScreenDetails(
+                  finalDistance: finalDistance,
                   gpsData: newGPSData,
                   dateRange: selectedDate,
                   TruckNo: widget.truckNo,

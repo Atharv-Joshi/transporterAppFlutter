@@ -143,7 +143,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               //   gpsStoppageHistory: gpsStoppageHistory,
               //routeHistory: gpsRoute,
               //  truckId: truckData['truckId'],
-              totalDistance: totalDistance, online: false,
+              totalDistance: totalDistance, active: false,
             ),
           );
         } else {
