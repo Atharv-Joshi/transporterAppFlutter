@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,6 +17,7 @@ import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/functions/deviceApiCalls.dart';
 
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
@@ -27,6 +31,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
   TextEditingController _controller = TextEditingController();
   TruckApiCalls truckApiCalls = TruckApiCalls();
   DriverApiCalls driverApiCalls = DriverApiCalls();
+  DeviceApiCalls postDeviceApi=DeviceApiCalls();
 
   String? truckId;
   RegExp truckNoRegex = RegExp(
@@ -132,10 +137,15 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                 setState(() {
                                   loading = true;
                                 });
+
+                                final int random=new Random().nextInt(10000000-1)+1;
+                                print(random);
                                 providerData
                                     .updateTruckNumberValue(_controller.text);
-                                truckId = await truckApiCalls.postTruckData(
-                                    truckNo: _controller.text);
+                                truckId = await postDeviceApi.PostDevice(   //post truck no in device api with random uniqueid
+                                    truckName: _controller.text,
+                                    uniqueid: random.toString()
+                                );
 
                                 if (truckId != null) {
                                   setState(() {
@@ -145,7 +155,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                   Get.to(() => TruckDescriptionScreen(
                                         truckId: truckId!,
                                         truckNumber: _controller.text,
+                                        truckUniqueId: random.toString()
                                       ));
+                                  // print("hii ${truckId} and ${_controller.text}");
                                 } else {
                                   setState(() {
                                     loading = false;
@@ -158,7 +170,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                                       });
                                 }
                               }
-                            : null),
+                            : null
+                  ),
                   ),
                 ),
               ],

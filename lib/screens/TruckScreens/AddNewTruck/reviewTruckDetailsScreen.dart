@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
+import 'package:liveasy/functions/deviceApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
@@ -21,11 +22,13 @@ class ReviewTruckDetails extends StatefulWidget {
   final String truckId;
   final String truckNumber;
   final String driverId;
+  final String uniqueId;
 
   ReviewTruckDetails(
       {required this.truckId,
       required this.driverId,
-      required this.truckNumber});
+      required this.truckNumber,
+      required this.uniqueId});
 
   @override
   _ReviewTruckDetailsState createState() => _ReviewTruckDetailsState();
@@ -33,6 +36,8 @@ class ReviewTruckDetails extends StatefulWidget {
 
 class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
   TruckApiCalls truckApiCalls = TruckApiCalls();
+
+  DeviceApiCalls deviceApiCalls= DeviceApiCalls();
 
   //
   DriverApiCalls driverApiCalls = DriverApiCalls();
@@ -192,21 +197,29 @@ class _ReviewTruckDetailsState extends State<ReviewTruckDetails> {
                               setState(() {
                                 loading = true;
                               });
-                              truckIdForCrossVerification =
-                                  await truckApiCalls.putTruckData(
-                                truckType: providerData.truckTypeValue,
-                                totalTyres: providerData.totalTyresValue,
-                                // truckLength: providerData.truckLengthValue,
-                                passingWeight: providerData.passingWeightValue,
-                                driverID: widget.driverId,
-                                truckID: widget.truckId,
-                              );
+                              // truckIdForCrossVerification =
+                              //     await truckApiCalls.putTruckData(
+                              //   truckType: providerData.truckTypeValue,
+                              //   totalTyres: providerData.totalTyresValue,
+                              //   // truckLength: providerData.truckLengthValue,
+                              //   passingWeight: providerData.passingWeightValue,
+                              //   driverID: widget.driverId,
+                              //   truckID: widget.truckId,
+                              // );
+
+                              truckIdForCrossVerification=await deviceApiCalls.UpdateDevice(   //update added truck
+                                  truckId: widget.truckId,
+                                  truckType: providerData.truckTypeValue,
+                                  truckTyre: providerData.totalTyresValue.toString(),
+                                  truckWeight: providerData.passingWeightValue.toString(),
+                                  uniqueId: widget.uniqueId,
+                                  truckName: widget.truckNumber);
 
                               if (truckIdForCrossVerification != null) {
                                 setState(() {
                                   loading = false;
                                 });
-
+                                // providerData.updateIsAddTruckSrcDropDown(true);
                                 if (providerData.isAddTruckSrcDropDown) {
                                   navigationIndexController.updateIndex(3);
                                   Navigator.of(context).push(MaterialPageRoute(
