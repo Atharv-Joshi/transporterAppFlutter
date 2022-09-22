@@ -84,7 +84,7 @@ class _MyTruckCardState extends State<MyTruckCard> {
               gpsData: widget.gpsData,
               truckNo: widget.truckno,
               totalDistance: totalDistance,
-              online: online
+              active: online,
               // imei: widget.imei,
             ),
           );

@@ -34,8 +34,10 @@ class TrackScreenDetails extends StatefulWidget {
   // var totalDistance;
   var imei;
   var recentStops;
+  var finalDistance;
 
   TrackScreenDetails({
+    required this.finalDistance,
     required this.gpsData,
     // required this.gpsTruckRoute,
     required this.gpsDataHistory,
@@ -61,6 +63,7 @@ class TrackScreenDetails extends StatefulWidget {
 class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   var gpsData;
 //  var gpsTruckRoute;
+  var finalDistance;
   var gpsDataHistory;
   var gpsStoppageHistory;
   var stops;
@@ -96,6 +99,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
 
   initFunction2() {
     setState(() {
+      finalDistance = widget.finalDistance;
       gpsStoppageHistory = widget.gpsStoppageHistory;
 
       recentStops = widget.recentStops;
@@ -115,8 +119,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
   }
 
   initFunction() {
-    distancecalculation(yesterday.toIso8601String(),
-        now.toIso8601String());
+    distancecalculation(yesterday.toIso8601String(), now.toIso8601String());
     // distancecalculation(widget.dateRange!.start.toIso8601String(),
     //     widget.dateRange!.end.toIso8601String());
   }
@@ -354,7 +357,7 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                                         fontSize: size_6,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: regularWeight)),
-                                Text("$totalDistance " + "km".tr,
+                                Text("$finalDistance " + "km".tr,
                                     softWrap: true,
                                     style: TextStyle(
                                         color: black,

@@ -366,7 +366,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                         Animarker(
                           curve: Curves.easeIn,
                           angleThreshold: 30,
-                          zoom: 12.5,
+                          zoom: 11,
                           useRotation: true,
                           duration: Duration(milliseconds: 500),
                           mapId: controller.future
