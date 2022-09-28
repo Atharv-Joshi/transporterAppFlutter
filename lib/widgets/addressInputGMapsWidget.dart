@@ -27,6 +27,7 @@ class AddressInputGMapsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     String kGoogleApiKey = FlutterConfig.get('mapKey').toString();
+    print(controller);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(space_6),
@@ -39,18 +40,25 @@ class AddressInputGMapsWidget extends StatelessWidget {
         onTap: () async {
           providerData.updateResetActive(true);
           FocusScope.of(context).requestFocus(FocusNode());
-          var uuid = Uuid();
-          uuid.v4(); // for session token
-          await PlacesAutocomplete.show(
+          // var uuid = Uuid();
+          // uuid.v4(); // for session token
+         await PlacesAutocomplete.show(    // flutter_google_places is used here for auto suggestion of places
               context: context,
               apiKey: kGoogleApiKey,
               mode: Mode.fullscreen,
-              language: "en",
-              logo: Text(""),
-              sessionToken: "$uuid",
-              types: ['(cities)'],
+              language: 'en',
+              // logo: Text(""),
+              // sessionToken: "$uuid",
               strictbounds: false,
-              components: [Component(Component.country, "in")]).then((value) {
+             overlayBorderRadius: BorderRadius.circular(10),
+              types: ["establishment"],
+              decoration:InputDecoration(
+                  filled: true,
+                  fillColor: widgetBackGroundColor,
+                  hintText: 'Enter City Name',suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
+                  contentPadding: EdgeInsets.symmetric(horizontal: space_2),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(space_6), borderSide: BorderSide(color: darkBlueColor,width: borderWidth_8))),
+              components: [Component(Component.country,"in")]).then((value) {
             if (value != null) {
               print(value.description);
               List<String> result = value.description!.split(",");

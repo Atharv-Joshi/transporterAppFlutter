@@ -7,6 +7,7 @@ import 'package:liveasy/screens/cityNameInputScreen.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 // ignore: must_be_immutable
 class AddressInputMMIWidget extends StatelessWidget {
@@ -34,10 +35,28 @@ class AddressInputMMIWidget extends StatelessWidget {
       child: TextFormField(
         readOnly: true,
         onTap: () {
+
           providerData.updateResetActive(true);
 
           FocusScope.of(context).requestFocus(FocusNode());
-          Get.to(() => CityNameInputScreen(hintText));
+          // MapBox api is used for autosuggestion but city data is too less for use in india
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => MapBoxAutoCompleteWidget(
+          //       apiKey: "pk.eyJ1IjoiZ2Fydml0YTkzNiIsImEiOiJjbDg0ZWNwZXkwMmJmM3ZwNWFzbnJpcXNlIn0.8WpvYsCUf889t6-nGoc4cA",
+          //       hint: 'enterCityName'.tr,
+          //       onSelect: (place) {
+          //         controller.text = place.placeName!;
+          //       },
+          //       country: "IND",
+          //       limit: 10,
+          //       // location: Location(78.96,20.59),
+          //       closeOnSelect: true,
+          //     ),
+          //   ),
+          // );
+          Get.to(() => CityNameInputScreen(hintText));   // for MapMyIndia api
         },
         controller: controller,
         decoration: InputDecoration(
