@@ -46,7 +46,6 @@ class _MyAppState extends State<MyApp> {
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
   String? transporterId;
 
-
   @override
   void initState() {
     super.initState();
