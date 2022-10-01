@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:async/async.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -34,15 +35,15 @@ class TrackScreen extends StatefulWidget {
   final int? deviceId;
   var totalDistance;
   var imei;
-  bool? online;
+  bool active;
 
   TrackScreen(
       {required this.gpsData,
       required this.truckNo,
       required this.deviceId,
       required this.totalDistance,
-      this.online,
-      this.imei});
+      this.imei,
+      required this.active});
 
   @override
   _TrackScreenState createState() => _TrackScreenState();
@@ -50,7 +51,7 @@ class TrackScreen extends StatefulWidget {
 
 class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   final Set<Polyline> _polyline = {};
-  Map<PolylineId, Polyline> polylines = {};//polylines are the blue lines that is displayed on the map to represent route by using polylineCoordinates.
+  Map<PolylineId, Polyline> polylines = {};
   late GoogleMapController _googleMapController;
   late LatLng lastlatLngMarker =
       LatLng(widget.gpsData.latitude!, widget.gpsData.longitude!);
@@ -83,7 +84,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   List<LatLng> latlng = [];
   var istDate1;
   var istDate2;
-  List<LatLng> polylineCoordinates = [];//these coordinates are used to create the polylines.
+  List<LatLng> polylineCoordinates = [];
   List<LatLng> polylineCoordinates2 = [];
   PolylinePoints polylinePoints = PolylinePoints();
   late PointLatLng start;
@@ -93,7 +94,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var gpsDataHistory;
   var gpsStoppageHistory;
   var newGPSRoute;
-  var totalDistance;
+  var finalDistance;
   var stoppageTime = [];
   List<LatLng> stoplatlong = [];
   var duration = [];
@@ -122,6 +123,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   double averagelon = 0;
   var totalStoppedTime = "";
   var status;
+  var deviceId;
   bool loading = false;
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
@@ -134,11 +136,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
 
-// variables used to show the circularProgressIndicator till the polylines and map is created.
-  bool loading_map = false;
-  bool loadmap2 = false;
-  bool loadmap3 = false;
-  bool loadmap4 = true;
+  //variable for show running / stop status
+  var totalStatus = "";
 
   //var Get;
 
@@ -331,7 +330,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     setState(() {
       polylines[id] = polyline;
       _polyline.add(polyline);
-      loadmap2 = true;
     });
   }
 
@@ -347,9 +345,20 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     setState(() {
       polylines[id] = polyline;
-      loadmap3 = true;
     });
     _addPolyLine();
+  }
+
+  // calling function for fetch total distance data
+  getTotalDistance(var ab, var from, var to) async {
+    // print("------------ calling gettotaldistance ---------");
+    var gpsRoute1 =
+        await mapUtil.getTraccarSummary(deviceId: ab, from: from, to: to);
+    setState(() {
+      widget.totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+      finalDistance = widget.totalDistance!;
+      // print('---------- total distance $finalDistance ---------------');
+    });
   }
 
   initfunction() async {
@@ -366,6 +375,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     logger.i("It is in init function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
+    // print('----------- show from and now when change the time ---------------');
     var f = getDataHistory(widget.deviceId, from, to);
     var s = getStoppageHistory(widget.deviceId, from, to);
     //  var t = getRouteStatusList(widget.deviceId, from, to);
@@ -381,12 +391,27 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       gpsStoppageHistory = newGpsStoppageHistory;
       selectedDate = DateTimeRange(start: istDate1, end: istDate2);
       //  print("NEW ROute $newGPSRoute");
-      totalDistance = widget.totalDistance;
+      deviceId = widget.gpsData.deviceId!;
+      // print("------------ device ID $deviceId -----------");
+      // print("------------- from $from ------------");
+      // print("-------------- to  $to   ------------");
+      // finalDistance = widget.totalDistance;
+      // setState(() {
+      //   widget.totalDistance = totalDistance;
+      // });
+      // print('---------- total distance ---------------');
+      // print(finalDistance);
+      finalDistance = getTotalDistance(deviceId, from, to);
+
       //totalDistance = getTotalDistance(gpsRoute);
       //  newGPSRoute = getStopList(newGPSRoute);
       totalRunningTime =
           getTotalRunningTime(gpsStoppageHistory, istDate1, istDate2);
       totalStoppedTime = getTotalStoppageTime(gpsStoppageHistory);
+      totalStatus = getLastUpdate(
+          gpsStoppageHistory, now.toIso8601String(), widget.active);
+      // print('------------------- total status ------------------');
+      // print(totalStatus);
     });
 
     addstops(gpsStoppageHistory);
@@ -474,7 +499,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   //function used to change the speed of truck after 10 seconds and to make the truck look running
   void onActivityExecuted2() async {
     logger.i("It is in Activity2 Executed function");
-    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);// to get the position of the truck using traccar position api.
+    var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
     setState(() {
       newGPSData = gpsData;
     });
@@ -607,7 +632,12 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     customMarkers = [];
     from = istDate1.toIso8601String();
     to = istDate2.toIso8601String();
-    initfunctionAfterChange();
+    initfunction();
+  }
+
+  //function for show the how long device is active or not !
+  getStatus() {
+    print("-------------------- $s.length");
   }
 
   @override
@@ -652,70 +682,38 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     width: MediaQuery.of(context).size.width,
                     height: height,
                     child: Stack(children: <Widget>[
-                      loading_map && loadmap2 && loadmap3 ||
-                              !(widget.online!) && loading_map//condition to show loadingIndicator until routes and map is created
-                          ? Container()
-                          : Center(
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                child: CircularProgressIndicator(
-                                  color: darkBlueColor,
-                                ),
-                              ),
-                            ),
-                      loadmap2 && loadmap3 || !(widget.online!)//condition to show loadingIndicator until route is created
-                          ? GoogleMap(
-                              onTap: (position) {
-                                _customInfoWindowController.hideInfoWindow!();
-                                _customDetailsInfoWindowController
-                                    .hideInfoWindow!();
-                              },
-                              onCameraMove: (position) {
-                                _customInfoWindowController.onCameraMove!();
-                                _customDetailsInfoWindowController
-                                    .onCameraMove!();
-                              },
-                              markers: customMarkers.toSet(),
-                              polylines: Set.from(polylines.values),
-                              myLocationButtonEnabled: true,
-                              zoomControlsEnabled: false,
-                              initialCameraPosition: camPosition,
-                              compassEnabled: true,
-                              mapType: maptype,
-                              onMapCreated: (GoogleMapController controller) {
-                                _controller.complete(controller);
-                                _customInfoWindowController
-                                    .googleMapController = controller;
-                                _customDetailsInfoWindowController
-                                    .googleMapController = controller;
-                                setState(() {
-                                  loading_map = true;//variable is made true when map is created.
-                                });
-                              },
-                              gestureRecognizers:
-                                  <Factory<OneSequenceGestureRecognizer>>[
-                                new Factory<OneSequenceGestureRecognizer>(
-                                  () => new EagerGestureRecognizer(),
-                                ),
-                              ].toSet(),
-                            )
-                          : Center(
-                              child: Container(
-                                height: MediaQuery.of(context).size.height,
-                                width: MediaQuery.of(context).size.width,
-                                color: Colors.white,
-                                child: Center(
-                                  child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    child: CircularProgressIndicator(
-                                      color: darkBlueColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                      // loading?
+                      GoogleMap(
+                        onTap: (position) {
+                          _customInfoWindowController.hideInfoWindow!();
+                          _customDetailsInfoWindowController.hideInfoWindow!();
+                        },
+                        onCameraMove: (position) {
+                          _customInfoWindowController.onCameraMove!();
+                          _customDetailsInfoWindowController.onCameraMove!();
+                        },
+                        markers: customMarkers.toSet(),
+                        polylines: Set.from(polylines.values),
+                        myLocationButtonEnabled: true,
+                        zoomControlsEnabled: false,
+                        initialCameraPosition: camPosition,
+                        compassEnabled: true,
+                        mapType: maptype,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                          _customInfoWindowController.googleMapController =
+                              controller;
+                          _customDetailsInfoWindowController
+                              .googleMapController = controller;
+                        },
+                        gestureRecognizers:
+                            <Factory<OneSequenceGestureRecognizer>>[
+                          new Factory<OneSequenceGestureRecognizer>(
+                            () => new EagerGestureRecognizer(),
+                          ),
+                        ].toSet(),
+                      ),
+                      //   :Container(),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
                         height: 110,
@@ -1019,7 +1017,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                                     EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
                                 child: Header(
                                     reset: false,
-                                    text: "${widget.truckNo}",
+                                    // add variable for check status time or device
+                                    text: "${widget.truckNo} $totalStatus",
                                     backButton: true),
                               ),
                               //HelpButtonWidget(),
@@ -1126,6 +1125,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
                 child: TrackScreenDetails(
+                  finalDistance: finalDistance,
                   gpsData: newGPSData,
                   dateRange: selectedDate,
                   TruckNo: widget.truckNo,
@@ -1138,38 +1138,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                   recentStops: gpsStoppageHistory,
                   imei: widget.imei,
                 ),
-              ),
-
-              // Positioned(
-              //   // height: 50,
-              //   // width: 50,
-              //   left: 0,
-              //   top: 0,
-              // bottom: 0,
-
-              //   child: loading_map && loadmap2 && loadmap3 ||
-              //           !(widget.online!) && loading_map
-              //       //         polylineCoordinates.isEmpty
-              //       ? Container()
-              //       // : EasyLoading.show() as Widget
-
-              //       : Container(
-              //           height: MediaQuery.of(context).size.height,
-              //           width: MediaQuery.of(context).size.width,
-              //           color: Colors.white,
-              //           child: Center(
-              //             child: Container(
-              //               height: 50,
-              //               width: 50,
-              //               child: CircularProgressIndicator(
-              //                 color: Colors.green,
-              //               ),
-              //               // child:
-              //             ),
-              //           ),
-              //         ),
-              // ),
-
+              )
               //   :Container(),
             ],
           ),

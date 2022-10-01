@@ -71,7 +71,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     super.initState();
     this.initDynamicLinks();
     this.checkUpdate();
-    
+
     isolatedTransporterGetData();
   }
 
@@ -143,7 +143,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               //   gpsStoppageHistory: gpsStoppageHistory,
               //routeHistory: gpsRoute,
               //  truckId: truckData['truckId'],
-              totalDistance: totalDistance,
+              totalDistance: totalDistance, active: false,
             ),
           );
         } else {
