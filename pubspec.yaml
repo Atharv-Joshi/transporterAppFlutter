@@ -84,6 +84,7 @@ dependencies:
   dotted_line: ^3.1.0
   flutter_animarker: ^3.2.0
   async: ^2.4.1
+  flutter_mapbox_autocomplete: ^2.0.0
 
 dev_dependencies:
   flutter_config: ^2.0.0

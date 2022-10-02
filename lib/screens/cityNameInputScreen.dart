@@ -8,6 +8,7 @@ import 'package:liveasy/widgets/autoFillDataDisplayCard.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/textFieldWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 class CityNameInputScreen extends StatefulWidget {
   final String valueType;
@@ -50,16 +51,40 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                       width: space_2,
                     ),
                     Expanded(
+                      // child: CustomTextField(
+                      //   hintText: "Select starting point",
+                      //   textController: controller,
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => MapBoxAutoCompleteWidget(
+                      //           apiKey: "pk.eyJ1IjoiZ2Fydml0YTkzNiIsImEiOiJjbDg0ZWNwZXkwMmJmM3ZwNWFzbnJpcXNlIn0.8WpvYsCUf889t6-nGoc4cA",
+                      //           hint: "Select starting point",
+                      //           onSelect: (place) {
+                      //             // TODO : Process the result gotten
+                      //             controller.text = place.placeName!;
+                      //           },
+                      //           limit: 10,
+                      //           country: "IN",
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      //   enabled: true,
+                      // ),
+
                       child: TextFieldWidget(
                           onChanged: (String value) {
                             setState(() {
-                              locationCard = fillCityName(value);
+                              locationCard = fillCityName(value);    //return auto suggested places using MapMyIndia api
                             });
                           },
                           controller: controller,
                           hintText: 'enterCityName'.tr
                           // AppLocalizations.of(context)!.enterCityName,
                           ),
+
                     ),
                   ],
                 ),

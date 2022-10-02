@@ -14,6 +14,7 @@ getMMIToken()async{
   } else {
     token = tokenMMIController.tokenMMI.value;
   }
+  print("hello here");
   print(token);
   return token;
 }
@@ -36,9 +37,31 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       url,
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
     );
+
+    // var headers = {
+    //   'accept': 'application/json',
+    //   'Authorization': 'Bearer 44fb8715-32e0-4759-a704-649e139f0e4c'
+    // };
+    // var request = http.Request('GET', Uri.parse('http://atlas.mapmyindia.com/api/places/search/json?query=varanasi&pod=CITY'));
+    // request.body = '''''';
+    // request.headers.addAll(headers);
+    //
+    // http.StreamedResponse response = await request.send();
+    //
+    // if (response.statusCode == 200) {
+    //   // print(await response.stream.bytesToString());
+    //   var res=await response.stream.bytesToString();
+    //   final decodeData = json.decode(res);
+    //   print(res);
+    // }
+    // else {
+    //   print(response.reasonPhrase);
+    // }
+
     print(response1.body);
     var address = (jsonDecode(response1.body));
     address = address["suggestedLocations"];
+    print("hiiiiiiiii");
     print(address);
     List<AutoFillMMIModel> card = [];
     for (var json in address) {
@@ -50,6 +73,7 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
     // card = card
     //   ..sort(
     //           (a, b) => a.placeCityName.toString().compareTo(b.placeStateName.toString()));
+
     return card;
   } else {
     List<AutoFillMMIModel> card = [];
