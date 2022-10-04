@@ -723,14 +723,14 @@ getLastUpdate(var lastUpdate, var now, bool active) {
     if (active != true) {
       return "Offline";
     } else {
-      if (diffMinutes < 3) {
+      if (diffMinutes < 2) {
         // print("total stop is $totalTimeForStop");
         int totalTime = totalTimeForStop;
         int hour = totalTime ~/ 60;
         int minute = (totalTime % 60);
         // print(hour);
         // print(minute);
-        return "S $hour hrs $minute min".toString();
+        return "Stop Since $hour hrs $minute min".toString();
       } else {
         // print("total running time is $diffMinutes");
         totalTime = diffMinutes;
@@ -738,7 +738,7 @@ getLastUpdate(var lastUpdate, var now, bool active) {
         int minute = (totalTime % 60);
         // print(hour);
         // print(minute);
-        return "A $hour hrs $minute min".toString();
+        return "Running since $hour hrs $minute min".toString();
       }
     }
   } else {

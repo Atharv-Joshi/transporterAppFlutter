@@ -61,6 +61,7 @@ class TrackScreenDetails extends StatefulWidget {
 }
 
 class _TrackScreenDetailsState extends State<TrackScreenDetails> {
+  var waiting;
   var gpsData;
 //  var gpsTruckRoute;
   var finalDistance;
@@ -122,6 +123,16 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
     distancecalculation(yesterday.toIso8601String(), now.toIso8601String());
     // distancecalculation(widget.dateRange!.start.toIso8601String(),
     //     widget.dateRange!.end.toIso8601String());
+  }
+
+  getValue() {
+    setState(() {
+      if (gpsDataHistory == null) {
+        waiting = true;
+      } else {
+        waiting = false;
+      }
+    });
   }
 
   static Future<void> openMap(double latitude, double longitude) async {
@@ -536,17 +547,54 @@ class _TrackScreenDetailsState extends State<TrackScreenDetails> {
                           child:
                               const Icon(Icons.play_circle_outline, size: 30),
                           onPressed: () {
-                            Get.to(PlayRouteHistory(
-                              gpsTruckHistory: gpsDataHistory,
-                              truckNo: widget.TruckNo,
-                              //    routeHistory: gpsTruckRoute,
-                              gpsData: gpsData,
-                              dateRange: widget.dateRange.toString(),
-                              gpsStoppageHistory: gpsStoppageHistory,
-                              //   totalDistance: totalDistance,
-                              totalRunningTime: totalRunningTime,
-                              totalStoppedTime: totalStoppedTime,
-                            ));
+                            //Checking value of gpsDataHistory, if it's null then waiting until The value not get
+                            getValue();
+                            if (waiting) {
+                              Get.to(
+                                Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                        child: CircularProgressIndicator())),
+                              );
+                              Timer(Duration(seconds: 10), () {
+                                Navigator.pop(context);
+                              });
+                              Timer(Duration(seconds: 10), () {
+                                Get.to(PlayRouteHistory(
+                                  finalDistance: finalDistance,
+                                  ignition: gpsData.last.ignition,
+                                  address: gpsData.last.address,
+                                  gpsTruckHistory: gpsDataHistory,
+                                  truckNo: widget.TruckNo,
+                                  //    routeHistory: gpsTruckRoute,
+                                  gpsData: gpsData,
+                                  dateRange: widget.dateRange.toString(),
+                                  gpsStoppageHistory: gpsStoppageHistory,
+                                  //   totalDistance: totalDistance,
+                                  totalRunningTime: totalRunningTime,
+                                  totalStoppedTime: totalStoppedTime,
+                                ));
+                                Timer(Duration(seconds: 10), () {
+                                  getValue();
+                                });
+                              });
+                            } else {
+                              Get.to(PlayRouteHistory(
+                                finalDistance: finalDistance,
+                                ignition: gpsData.last.ignition,
+                                address: gpsData.last.address,
+                                gpsTruckHistory: gpsDataHistory,
+                                truckNo: widget.TruckNo,
+                                //    routeHistory: gpsTruckRoute,
+                                gpsData: gpsData,
+                                dateRange: widget.dateRange.toString(),
+                                gpsStoppageHistory: gpsStoppageHistory,
+                                //   totalDistance: totalDistance,
+                                totalRunningTime: totalRunningTime,
+                                totalStoppedTime: totalStoppedTime,
+                              ));
+                            }
                           },
                         ),
                       ),

@@ -13,11 +13,17 @@ import 'alertDialog/invalidDateConditionDialog.dart';
 class PlayRouteDetailsWidget extends StatefulWidget {
   String? dateRange;
   String? truckNo;
+  String? address;
+  int? totalStop;
   var gpsData;
+  var finalDistance;
 
   // String? toDate;
 
   PlayRouteDetailsWidget({
+    required this.finalDistance,
+    required this.address,
+    required this.totalStop,
     required this.dateRange,
     required this.truckNo,
     required this.gpsData,
@@ -350,12 +356,12 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    //add Ui
     return Container(
         // color: white,
         width: width,
-        height: height / 3 + 65,
+        height: height * .5,
         decoration: BoxDecoration(
-            color: white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             boxShadow: [
@@ -383,167 +389,311 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
             margin: EdgeInsets.only(top: space_3),
             decoration: BoxDecoration(
               color: grey,
-              borderRadius: BorderRadius.all(
-                Radius.circular(12),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
             ),
           ),
-          Container(
-              child: Row(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, space_5, 0, 0),
-                    width: 117,
-                    alignment: Alignment.centerLeft,
-                    child: Text("from".tr,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: black,
-                            fontSize: size_7,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: regularWeight)),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 117,
-                          padding: EdgeInsets.fromLTRB(
-                              space_2, space_1, space_2, space_1),
-                          margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(3),
-                            ),
-                          ),
-                          child: Text("${start}",
-                              style: TextStyle(
-                                  color: grey,
-                                  fontSize: size_6,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: regularWeight)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
-                          alignment: Alignment.topCenter,
-                          child: Icon(Icons.calendar_today_outlined,
-                              color: black, size: 20),
-                        ),
-                      ],
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${widget.truckNo}",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, space_2, 0, 0),
-                    width: 117,
-                    alignment: Alignment.centerLeft,
-                    child: Text("to".tr,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: black,
-                            fontSize: size_7,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: regularWeight)),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 117,
-                          padding: EdgeInsets.fromLTRB(
-                              space_2, space_1, space_2, space_1),
-                          margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: black),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(3),
-                            ),
-                          ),
-                          child: Text("${end}",
-                              style: TextStyle(
-                                  color: grey,
-                                  fontSize: size_6,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: regularWeight)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
-                          alignment: Alignment.topCenter,
-                          child: Icon(Icons.calendar_today_outlined,
-                              color: black, size: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 110,
-                alignment: Alignment.topLeft,
-                margin: EdgeInsets.fromLTRB(space_10, space_5, 0, 0),
-                child: DropdownButton(
-                  hint: Text('custom'.tr),
-                  style: TextStyle(
-                      color: grey,
-                      fontSize: size_7,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: regularWeight),
-                  // Not necessary for Option 1
-                  value: _selectedLocation,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedLocation = newValue.toString();
-                    });
-                    customSelection(_selectedLocation);
-                  },
-                  items: _locations.map((location) {
-                    return DropdownMenuItem(
-                      child: new Text(location),
-                      value: location,
-                    );
-                  }).toList(),
+                    Icon(Icons.fire_truck_outlined)
+                  ],
                 ),
-              ),
-            ],
-            // ),
-            // GestureDetector(
-            //   onTap:(){
-            //     _selectDate(context);
-            //   },
-            //   child: Row(
-            //     children: [
-            //       Container(
-            //
-            //         width: 117,
-            //         padding: EdgeInsets.fromLTRB(space_2, space_1, space_2, space_1),
-            //         margin:  EdgeInsets.fromLTRB(space_6, 0, 0, 0),
-            //         decoration: BoxDecoration(
-            //           border: Border.all(color: black),
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(3),
-            //           ),
-            //         ),
-            //         child: Text("${end}",
-            //             style: TextStyle(
-            //                 color: grey,
-            //                 fontSize: size_6,
-            //                 fontStyle: FontStyle.normal,
-            //                 fontWeight: regularWeight)
-            //         ),
-            //       ),
-            //
-            //     ],
-            //   ),
-            // ),
-          ))
+                Divider(color: Colors.grey, endIndent: 120, thickness: 2),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Icon(Icons.location_on_sharp, color: Colors.grey),
+                    SizedBox(width: 10),
+                    Container(
+                      width: MediaQuery.of(context).size.width * .6,
+                      child: Text(
+                        "${widget.address}",
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 40, right: 120),
+                  child: Container(
+                    // width: MediaQuery.of(context).size.width * .5,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    padding: EdgeInsets.only(
+                        top: 15, bottom: 15, left: 25, right: 25),
+                    child: Row(children: [
+                      Image.asset(
+                        'assets/icons/circle-outline-with-a-central-dot.png',
+                        color: Colors.blue,
+                        width: 18,
+                        height: 18,
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text('ignition'.tr,
+                            softWrap: true,
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: regularWeight)),
+                      ),
+                      (widget.gpsData.last.ignition)
+                          ? Container(
+                              alignment: Alignment.centerLeft,
+                              //    width: 217,
+
+                              child: Text('on'.tr,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold)),
+                            )
+                          : Container(
+                              alignment: Alignment.centerLeft,
+                              //    width: 217,
+
+                              child: Text("off".tr,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                    ]),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/icons/distanceCovered.png'),
+                          height: 23,
+                        ),
+                        SizedBox(width: 10),
+                        Text("Kms Travelled:".tr + " ",
+                            softWrap: true,
+                            style: TextStyle(
+                                color: black,
+                                fontSize: size_7,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: regularWeight)),
+                        Text("${widget.finalDistance} km",
+                            softWrap: true,
+                            style: TextStyle(
+                                color: liveasyGreen,
+                                fontSize: size_7,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: regularWeight)),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
+                    Icon(Icons.pause, size: size_11),
+                    SizedBox(width: 10),
+                    Row(
+                      children: [
+                        Text("Stops:".tr,
+                            softWrap: true,
+                            style: TextStyle(
+                                color: black,
+                                fontSize: size_8,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: regularWeight)),
+                        Text(" ${widget.totalStop} stops ",
+                            softWrap: true,
+                            style: TextStyle(
+                                color: red,
+                                fontSize: size_8,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: regularWeight)),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          // Container(
+          //     child: Row(
+          //   children: [
+          //     Column(
+          //       children: [
+          //         Container(
+          //           margin: EdgeInsets.fromLTRB(0, space_5, 0, 0),
+          //           width: 117,
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("from".tr,
+          //               textAlign: TextAlign.start,
+          //               style: TextStyle(
+          //                   color: black,
+          //                   fontSize: size_7,
+          //                   fontStyle: FontStyle.normal,
+          //                   fontWeight: regularWeight)),
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             _selectDate(context);
+          //           },
+          //           child: Row(
+          //             children: [
+          //               Container(
+          //                 width: 117,
+          //                 padding: EdgeInsets.fromLTRB(
+          //                     space_2, space_1, space_2, space_1),
+          //                 margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
+          //                 decoration: BoxDecoration(
+          //                   border: Border.all(color: black),
+          //                   borderRadius: BorderRadius.all(
+          //                     Radius.circular(3),
+          //                   ),
+          //                 ),
+          //                 child: Text("${start}",
+          //                     style: TextStyle(
+          //                         color: grey,
+          //                         fontSize: size_6,
+          //                         fontStyle: FontStyle.normal,
+          //                         fontWeight: regularWeight)),
+          //               ),
+          //               Container(
+          //                 margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
+          //                 alignment: Alignment.topCenter,
+          //                 child: Icon(Icons.calendar_today_outlined,
+          //                     color: black, size: 20),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           margin: EdgeInsets.fromLTRB(0, space_2, 0, 0),
+          //           width: 117,
+          //           alignment: Alignment.centerLeft,
+          //           child: Text("to".tr,
+          //               textAlign: TextAlign.start,
+          //               style: TextStyle(
+          //                   color: black,
+          //                   fontSize: size_7,
+          //                   fontStyle: FontStyle.normal,
+          //                   fontWeight: regularWeight)),
+          //         ),
+          //         GestureDetector(
+          //           onTap: () {
+          //             _selectDate(context);
+          //           },
+          //           child: Row(
+          //             children: [
+          //               Container(
+          //                 width: 117,
+          //                 padding: EdgeInsets.fromLTRB(
+          //                     space_2, space_1, space_2, space_1),
+          //                 margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
+          //                 decoration: BoxDecoration(
+          //                   border: Border.all(color: black),
+          //                   borderRadius: BorderRadius.all(
+          //                     Radius.circular(3),
+          //                   ),
+          //                 ),
+          //                 child: Text("${end}",
+          //                     style: TextStyle(
+          //                         color: grey,
+          //                         fontSize: size_6,
+          //                         fontStyle: FontStyle.normal,
+          //                         fontWeight: regularWeight)),
+          //               ),
+          //               Container(
+          //                 margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
+          //                 alignment: Alignment.topCenter,
+          //                 child: Icon(Icons.calendar_today_outlined,
+          //                     color: black, size: 20),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     Container(
+          //       height: 110,
+          //       alignment: Alignment.topLeft,
+          //       margin: EdgeInsets.fromLTRB(space_10, space_5, 0, 0),
+          //       child: DropdownButton(
+          //         hint: Text('custom'.tr),
+          //         style: TextStyle(
+          //             color: grey,
+          //             fontSize: size_7,
+          //             fontStyle: FontStyle.normal,
+          //             fontWeight: regularWeight),
+          //         // Not necessary for Option 1
+          //         value: _selectedLocation,
+          //         onChanged: (newValue) {
+          //           setState(() {
+          //             _selectedLocation = newValue.toString();
+          //           });
+          //           customSelection(_selectedLocation);
+          //         },
+          //         items: _locations.map((location) {
+          //           return DropdownMenuItem(
+          //             child: new Text(location),
+          //             value: location,
+          //           );
+          //         }).toList(),
+          //       ),
+          //     ),
+          //   ],
+          //   // ),
+          //   // GestureDetector(
+          //   //   onTap:(){
+          //   //     _selectDate(context);
+          //   //   },
+          //   //   child: Row(
+          //   //     children: [
+          //   //       Container(
+          //   //
+          //   //         width: 117,
+          //   //         padding: EdgeInsets.fromLTRB(space_2, space_1, space_2, space_1),
+          //   //         margin:  EdgeInsets.fromLTRB(space_6, 0, 0, 0),
+          //   //         decoration: BoxDecoration(
+          //   //           border: Border.all(color: black),
+          //   //           borderRadius: BorderRadius.all(
+          //   //             Radius.circular(3),
+          //   //           ),
+          //   //         ),
+          //   //         child: Text("${end}",
+          //   //             style: TextStyle(
+          //   //                 color: grey,
+          //   //                 fontSize: size_6,
+          //   //                 fontStyle: FontStyle.normal,
+          //   //                 fontWeight: regularWeight)
+          //   //         ),
+          //   //       ),
+          //   //
+          //   //     ],
+          //   //   ),
+          //   // ),
+          // ))
         ]));
   }
 }
