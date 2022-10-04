@@ -356,8 +356,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
         await mapUtil.getTraccarSummary(deviceId: ab, from: from, to: to);
     setState(() {
       widget.totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
-      finalDistance = widget.totalDistance!;
-      // print('---------- total distance $finalDistance ---------------');
+      finalDistance = widget.totalDistance;
+      print('---------- total distance $finalDistance ---------------');
     });
   }
 
@@ -1012,14 +1012,31 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(space_3, 0, space_3, 0),
-                                child: Header(
-                                    reset: false,
-                                    // add variable for check status time or device
-                                    text: "${widget.truckNo} $totalStatus",
-                                    backButton: true),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        space_3, 0, space_3, 0),
+                                    child: Header(
+                                        reset: false,
+                                        // add variable for check status time or device
+                                        text: "${widget.truckNo} ",
+                                        backButton: true),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 45),
+                                    child: Container(
+                                      child: Text(
+                                        "( $totalStatus )",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               //HelpButtonWidget(),
                               PopupMenuButton(
@@ -1125,7 +1142,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                 left: 0,
                 bottom: (showBottomMenu) ? 0 : -(height / 3) + 44,
                 child: TrackScreenDetails(
-                  finalDistance: finalDistance,
+                  finalDistance: widget.totalDistance,
                   gpsData: newGPSData,
                   dateRange: selectedDate,
                   TruckNo: widget.truckNo,

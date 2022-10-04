@@ -6,6 +6,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animarker/flutter_map_marker_animation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/constants/color.dart';
@@ -23,22 +24,28 @@ const kMarkerId = MarkerId('MarkerId1');
 const kMarkerId2 = MarkerId('MarkerId2');
 
 class PlayRouteHistory extends StatefulWidget {
+  var finalDistance;
   var gpsData;
   var gpsTruckHistory;
   var gpsStoppageHistory;
   var totalRunningTime;
   var totalStoppedTime;
+  var address;
+  var ignition;
   String? truckNo;
   String? dateRange;
 
   PlayRouteHistory({
-    required this.gpsTruckHistory,
-    required this.gpsStoppageHistory,
-    required this.gpsData,
-    required this.truckNo,
-    required this.dateRange,
-    required this.totalRunningTime,
-    required this.totalStoppedTime,
+    this.ignition,
+    this.address,
+    this.finalDistance,
+    this.gpsTruckHistory,
+    this.gpsStoppageHistory,
+    this.gpsData,
+    this.truckNo,
+    this.dateRange,
+    this.totalRunningTime,
+    this.totalStoppedTime,
   });
 
   @override
@@ -47,6 +54,7 @@ class PlayRouteHistory extends StatefulWidget {
 
 class _PlayRouteHistoryState extends State<PlayRouteHistory>
     with WidgetsBindingObserver {
+  double value = 0;
   List<Marker> customMarkers = [];
   String? time;
   Map<PolylineId, Polyline> polylines = {};
@@ -113,6 +121,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                 Duration(milliseconds: 470), (count) => Locations[count])
             .take(Locations.length);
       });
+    value = routeTime.length.toDouble();
   }
 
   initfunction() {
@@ -128,6 +137,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
       // fromDate = widget.fromDate;
       // toDate = widget.toDate;
     });
+
     addstops(gpsStoppageHistory);
     getLatLngList();
   }
@@ -258,7 +268,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                         position: latLng,
                         icon: pinLocationIconTruck,
                         anchor: const Offset(0.5, 0.5),
-                        rotation: 180,
+                        rotation: 90,
                         onTap: () {
                           print("Tapped");
                         });
@@ -399,189 +409,382 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                         ),
                       ])),
                 ),
-                Positioned(
-                  top: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: white,
-                    child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                                space_3, space_3, 0, space_3),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Header(
-                                    reset: false,
-                                    text: "${widget.truckNo}",
-                                    backButton: true),
-                              ],
-                            ),
-                          ),
-                          Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  space_9, space_2, 0, space_2),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        child: Column(
-                                      children: [
-                                        Row(children: [
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/icons/distanceCovered.png'),
-                                            height: 23,
-                                          ),
-                                          SizedBox(
-                                            width: space_1,
-                                          ),
-                                          Container(
-                                            alignment: Alignment.centerLeft,
-                                            width: 170,
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text("travelled".tr + " ",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: liveasyGreen,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                    Text(
-                                                        "${(gpsData.last.distance / 1000).toStringAsFixed(2)} km",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: black,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text("$totalRunningTime ",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: grey,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ]),
-                                        SizedBox(
-                                          height: space_3,
-                                        ),
-                                        Row(children: [
-                                          Icon(Icons.pause, size: size_11),
-                                          SizedBox(
-                                            width: space_1,
-                                          ),
-                                          Container(
-                                            alignment: Alignment.centerLeft,
-                                            width: 170,
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                        "${gpsStoppageHistory.length} ",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: black,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                    Text("stops".tr,
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: red,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text("$totalStoppedTime ",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            color: grey,
-                                                            fontSize: size_6,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontWeight:
-                                                                regularWeight)),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ]),
-                                      ],
-                                    )),
-                                    SizedBox(width: space_1),
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              "${(gpsData.last.speed).toStringAsFixed(2)}" +
-                                                  "km/h".tr,
-                                              style: TextStyle(
-                                                  color: liveasyGreen,
-                                                  fontSize: size_10,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight)),
-                                          Text("status".tr,
-                                              style: TextStyle(
-                                                  color: black,
-                                                  fontSize: size_6,
-                                                  fontStyle: FontStyle.normal,
-                                                  fontWeight: regularWeight))
-                                        ],
-                                      ),
-                                    )
-                                  ])),
-                          SizedBox(
-                            height: 8,
-                          )
-                        ]),
-                  ),
-                ),
+                // Positioned(
+                //     top: 20,
+                //     left: 20,
+                //     child: FloatingActionButton(
+                //       backgroundColor: Colors.white,
+                //       onPressed: () => Navigator.pop(context),
+                //       child: Icon(Icons.arrow_back_ios_new_rounded,
+                //           color: Colors.black),
+                //     )),
+                // Positioned(
+                //   top: 0,
+                //   child: Container(
+                //     width: MediaQuery.of(context).size.width,
+                //     color: white,
+                //     child: Column(
+                //         // mainAxisAlignment: MainAxisAlignment.start,
+                //         children: [
+                //           Container(
+                //             margin: EdgeInsets.fromLTRB(
+                //                 space_3, space_3, 0, space_3),
+                //             child: Row(
+                //               mainAxisAlignment: MainAxisAlignment.start,
+                //               children: [
+                //                 Header(
+                //                     reset: false,
+                //                     text: "${widget.truckNo}",
+                //                     backButton: true),
+                //               ],
+                //             ),
+                //           ),
+                //           Container(
+                //               margin: EdgeInsets.fromLTRB(
+                //                   space_9, space_2, 0, space_2),
+                //               child: Row(
+                //                   mainAxisAlignment: MainAxisAlignment.start,
+                //                   children: [
+                //                     Container(
+                //                         child: Column(
+                //                       children: [
+                //                         Row(children: [
+                //                           Image(
+                //                             image: AssetImage(
+                //                                 'assets/icons/distanceCovered.png'),
+                //                             height: 23,
+                //                           ),
+                //                           SizedBox(
+                //                             width: space_1,
+                //                           ),
+                //                           Container(
+                //                             alignment: Alignment.centerLeft,
+                //                             width: 170,
+                //                             child: Column(
+                //                               children: [
+                //                                 Row(
+                //                                   children: [
+                //                                     Text("travelled".tr + " ",
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: liveasyGreen,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                     Text(
+                //                                         "${(gpsData.last.distance / 1000).toStringAsFixed(2)} km",
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: black,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                   ],
+                //                                 ),
+                //                                 Row(
+                //                                   mainAxisAlignment:
+                //                                       MainAxisAlignment.start,
+                //                                   children: [
+                //                                     Text("$totalRunningTime ",
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: grey,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                   ],
+                //                                 )
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         ]),
+                //                         SizedBox(
+                //                           height: space_3,
+                //                         ),
+                //                         Row(children: [
+                //                           Icon(Icons.pause, size: size_11),
+                //                           SizedBox(
+                //                             width: space_1,
+                //                           ),
+                //                           Container(
+                //                             alignment: Alignment.centerLeft,
+                //                             width: 170,
+                //                             child: Column(
+                //                               children: [
+                //                                 Row(
+                //                                   children: [
+                //                                     Text(
+                //                                         "${gpsStoppageHistory.length} ",
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: black,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                     Text("stops".tr,
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: red,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                   ],
+                //                                 ),
+                //                                 Row(
+                //                                   mainAxisAlignment:
+                //                                       MainAxisAlignment.start,
+                //                                   children: [
+                //                                     Text("$totalStoppedTime ",
+                //                                         softWrap: true,
+                //                                         style: TextStyle(
+                //                                             color: grey,
+                //                                             fontSize: size_6,
+                //                                             fontStyle: FontStyle
+                //                                                 .normal,
+                //                                             fontWeight:
+                //                                                 regularWeight)),
+                //                                   ],
+                //                                 )
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         ]),
+                //                       ],
+                //                     )),
+                //                     SizedBox(width: space_1),
+                //                     Container(
+                //                       child: Column(
+                //                         children: [
+                //                           Text(
+                //                               "${(gpsData.last.speed).toStringAsFixed(2)}" +
+                //                                   "km/h".tr,
+                //                               style: TextStyle(
+                //                                   color: liveasyGreen,
+                //                                   fontSize: size_10,
+                //                                   fontStyle: FontStyle.normal,
+                //                                   fontWeight: regularWeight)),
+                //                           Text("status".tr,
+                //                               style: TextStyle(
+                //                                   color: black,
+                //                                   fontSize: size_6,
+                //                                   fontStyle: FontStyle.normal,
+                //                                   fontWeight: regularWeight))
+                //                         ],
+                //                       ),
+                //                     )
+                //                   ])),
+                //           SizedBox(
+                //             height: 8,
+                //           )
+                //         ]),
+                //   ),
+                // ),
 
+                //top bar
+                AnimatedPositioned(
+                    curve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 200),
+                    left: 0,
+                    // bottom: (height / 1.4),
+                    child: Container(
+                        color: Color.fromRGBO(21, 41, 104, 1),
+                        height: 120,
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      FloatingActionButton(
+                                        mini: true,
+                                        elevation: 0,
+                                        backgroundColor:
+                                            Color.fromRGBO(21, 41, 104, 1),
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Icon(
+                                            Icons.arrow_back_ios_new_rounded,
+                                            color: Colors.white),
+                                      ),
+                                      Text(
+                                        "${widget.truckNo}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  FloatingActionButton(
+                                    elevation: 0,
+                                    backgroundColor:
+                                        Color.fromRGBO(21, 41, 104, 1),
+                                    child: Icon(
+                                      Icons.double_arrow_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    mini: true,
+                                    onPressed: () {},
+                                  )
+                                ],
+                              ),
+                              Text(
+                                "Run Time: $totalRunningTime",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Stop Time: $totalStoppedTime",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Total KM: ${widget.finalDistance}",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ))),
+
+                //bottom bar
                 AnimatedPositioned(
                   curve: Curves.easeInOut,
                   duration: Duration(milliseconds: 200),
                   left: 0,
-                  bottom: (showBottomMenu) ? -30 : -(height / 3),
+                  bottom: (showBottomMenu) ? -100 : -(height / 2.2),
                   child: PlayRouteDetailsWidget(
+                    finalDistance: widget.finalDistance,
+                    totalStop: gpsStoppageHistory.length,
+                    address: widget.address,
                     dateRange: dateRange,
                     gpsData: gpsData,
                     truckNo: widget.truckNo,
                   ),
-                )
+                ),
+
+                //Add sliderbar
+                AnimatedPositioned(
+                    curve: Curves.easeInOut,
+                    duration: Duration(milliseconds: 200),
+                    // left: 0,
+
+                    bottom: (showBottomMenu) ? 300 : (height / 40),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 80,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Positioned(
+                                top: -20,
+                                left: 10,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    boxShadow: [BoxShadow(blurRadius: 5)],
+                                    color: Colors.white,
+                                  ),
+                                  padding: EdgeInsets.all(3),
+                                  child: FloatingActionButton(
+                                    backgroundColor:
+                                        Color.fromRGBO(21, 41, 104, 1),
+                                    mini: true,
+                                    onPressed: () {},
+                                    child: Icon(Icons.pause),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  left: 70,
+                                  // bottom: 10,
+                                  top: 8,
+                                  child: Container(
+                                    // color: Colors.green,
+                                    width:
+                                        MediaQuery.of(context).size.width * .65,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: Text(
+                                            "${widget.truckNo}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Slider(
+                                          thumbColor: Colors.green,
+                                          activeColor: Colors.green,
+                                          min: 0,
+                                          max: routeTime.length.toDouble(),
+                                          value: value,
+                                          divisions: 100,
+                                          onChanged: (value) {
+                                            this.value = value;
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                              Positioned(
+                                  right: -10,
+                                  top: -15,
+                                  child: FloatingActionButton(
+                                    backgroundColor: Colors.white,
+                                    mini: true,
+                                    onPressed: () {},
+                                    child: Icon(
+                                      Icons.cancel,
+                                      color: Colors.red,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
                 //MENU PLACE
               ],
             ),
