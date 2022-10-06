@@ -1,22 +1,25 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_config/flutter_config.dart';
 
 class APIService {
+  String RapidApiKey = FlutterConfig.get('rapidKey').toString();
   // List<CityModel> city = [];
   static const _authority = "spott.p.rapidapi.com";
   static const _path = "/places/autocomplete";
   // static const _query = {"q": "city", "type": "CITY","limit":"10"};
-  static const Map<String, String> _headers = {
-    "x-rapidapi-key": "7b196c1d3amsh419883f34f424f1p138fcajsn819528e5e9fa",
-    "x-rapidapi-host": "spott.p.rapidapi.com",
-  };
+  // static const Map<String, String> _headers = {
+  //   "x-rapidapi-key": RapidApiKey,
+  //   "x-rapidapi-host": "spott.p.rapidapi.com",
+  // };
 
   // Base API request to get response
   Future<List<CityModel>> get(String cityName) async {
     var _query = {"q": cityName, "type": "CITY","limit":"10","country":"IN"};
     Uri uri = Uri.https(_authority, _path, _query);
-    final response = await http.get(uri, headers: _headers);
+    final response = await http.get(uri, headers: {"x-rapidapi-key": RapidApiKey,
+      "x-rapidapi-host": "spott.p.rapidapi.com"});
     if (response.statusCode == 200) {
       final List city = json.decode(response.body);
 
