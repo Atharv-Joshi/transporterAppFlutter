@@ -39,25 +39,29 @@ class AutoFillDataDisplayCard extends StatelessWidget {
                 color: darkBlueColor,
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  child: Text(
-                    '$placeName',
-                    overflow:TextOverflow.ellipsis,
-                    style:
-                        TextStyle(fontSize: size_7, color: liveasyBlackColor),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    // height: 170,
+                    child: Text(
+                      '''$placeName''',
+                        maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontSize: size_7, color: liveasyBlackColor),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Text(
-                    '($placeAddress)',
-                    style: TextStyle(fontSize: size_6, color: darkGreyColor),
+                  Container(
+                    child: Text(
+                      '($placeAddress)',
+                      style: TextStyle(fontSize: size_6, color: darkGreyColor),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
