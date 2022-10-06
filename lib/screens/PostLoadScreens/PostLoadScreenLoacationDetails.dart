@@ -141,7 +141,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
-                            child: AddressInputGMapsWidget(    //use AddressInputMMIWidget for using mapMyIndia api
+                            child: AddressInputMMIWidget(
+                              page:"postLoad",//use AddressInputMMIWidget for using mapMyIndia api
                                 hintText: "Loading point",
                                 icon: LoadingPointImageIcon(
                                   height: size_6,
@@ -156,7 +157,8 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 size_2, size_5, size_10, size_2),
-                            child: AddressInputGMapsWidget(
+                            child: AddressInputMMIWidget(
+                              page:"postLoad",
                                 hintText: "Unloading point",
                               icon: UnloadingPointImageIcon(
                                 height: size_6,

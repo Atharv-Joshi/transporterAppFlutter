@@ -33,7 +33,7 @@ class AutoFillDataDisplayCard extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: space_2),
+              padding: EdgeInsets.symmetric(horizontal: space_1),
               child: Icon(
                 Icons.location_on_outlined,
                 color: darkBlueColor,
@@ -46,6 +46,7 @@ class AutoFillDataDisplayCard extends StatelessWidget {
                 Container(
                   child: Text(
                     '$placeName',
+                    overflow:TextOverflow.ellipsis,
                     style:
                         TextStyle(fontSize: size_7, color: liveasyBlackColor),
                   ),

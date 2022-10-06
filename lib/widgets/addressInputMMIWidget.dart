@@ -11,13 +11,15 @@ import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 // ignore: must_be_immutable
 class AddressInputMMIWidget extends StatelessWidget {
+  final String page;
   final String hintText;
   final Widget icon;
   final TextEditingController controller;
   var onTap;
 
   AddressInputMMIWidget(
-      {required this.hintText,
+      {required this.page,
+        required this.hintText,
       required this.icon,
       required this.controller,
       required this.onTap});
@@ -56,13 +58,13 @@ class AddressInputMMIWidget extends StatelessWidget {
           //     ),
           //   ),
           // );
-          Get.to(() => CityNameInputScreen(hintText));   // for MapMyIndia api
+          Get.to(() => CityNameInputScreen(page,hintText));   // for MapMyIndia api
         },
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
           icon: icon,
-          suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
+        suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
         ),
       ),
     );

@@ -6,7 +6,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadApis/runFindLoadApiGet.dart';
-import 'package:liveasy/functions/mmiUtils/autoFillMMI.dart';
+import 'package:liveasy/functions/placeAutoFillUtils/autoFillMMI.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/availableLoadsTextWidget.dart';
 import 'package:liveasy/widgets/buttons/filterButton.dart';
@@ -91,6 +91,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_5,
                 ),
                 AddressInputMMIWidget(
+                  page:"findLoad",
                     hintText: "Loading Point",
                     // "Loading Point",
                     icon: LoadingPointImageIcon(
@@ -105,6 +106,7 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
                   height: space_4,
                 ),
                 AddressInputMMIWidget(
+                  page:"findLoad",
                   hintText: "Unloading Point",
                   // "Unloading Point",
                   icon: UnloadingPointImageIcon(
