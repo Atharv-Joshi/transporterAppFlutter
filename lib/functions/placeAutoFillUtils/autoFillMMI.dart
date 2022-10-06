@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
-import 'package:liveasy/functions/mmiUtils/tokenMMI.dart';
+import 'package:liveasy/functions/placeAutoFillUtils/tokenMMI.dart';
 import 'package:liveasy/models/autoFillMMIModel.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -19,6 +19,27 @@ getMMIToken()async{
   return token;
 }
 
+// Future<dynamic>fillCityName() async{
+//   var headers = {
+//     'accept': 'application/json',
+//     'Authorization': 'Bearer 44fb8715-32e0-4759-a704-649e139f0e4c'
+//   };
+//   var request = http.Request('GET', Uri.parse('http://atlas.mapmyindia.com/api/places/search/json?query=varanasi&pod=CITY'));
+//   request.body = '''''';
+//   request.headers.addAll(headers);
+//
+//   http.StreamedResponse response = await request.send();
+//
+//   if (response.statusCode == 200) {
+//     // print(await response.stream.bytesToString());
+//     var res=await response.stream.bytesToString();
+//     final decodeData = json.decode(res);
+//     print(res);
+//   }
+//   else {
+//     print(response.reasonPhrase);
+//   }
+// }
 Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
   if (cityName.length > 1) {
     // TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
@@ -37,26 +58,6 @@ Future<List<AutoFillMMIModel>> fillCityName(String cityName) async {
       url,
       headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
     );
-
-    // var headers = {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer 44fb8715-32e0-4759-a704-649e139f0e4c'
-    // };
-    // var request = http.Request('GET', Uri.parse('http://atlas.mapmyindia.com/api/places/search/json?query=varanasi&pod=CITY'));
-    // request.body = '''''';
-    // request.headers.addAll(headers);
-    //
-    // http.StreamedResponse response = await request.send();
-    //
-    // if (response.statusCode == 200) {
-    //   // print(await response.stream.bytesToString());
-    //   var res=await response.stream.bytesToString();
-    //   final decodeData = json.decode(res);
-    //   print(res);
-    // }
-    // else {
-    //   print(response.reasonPhrase);
-    // }
 
     print(response1.body);
     var address = (jsonDecode(response1.body));
