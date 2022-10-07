@@ -86,6 +86,7 @@ dependencies:
   async: ^2.4.1
   flutter_mapbox_autocomplete: ^2.0.0
   speech_to_text: ^6.0.0
+  gallery_saver: ^2.3.2
 
 dev_dependencies:
   flutter_config: ^2.0.0
