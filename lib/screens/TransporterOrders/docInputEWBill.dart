@@ -4,23 +4,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/TransporterOrders/documentUploadScreen.dart';
-import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
-import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
-import 'package:liveasy/screens/TransporterOrders/uploadedDocuments.dart';
-import 'package:liveasy/widgets/buttons/uploadBtn.dart';
-import '../../constants/radius.dart';
 import '../../widgets/accountVerification/image_display.dart';
 import 'docUploadBtn2.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:liveasy/functions/getImageFromGallery.dart';
 import 'package:liveasy/widgets/alertDialog/permissionDialog.dart';
 import 'dart:io' as Io;
 import 'package:permission_handler/permission_handler.dart';
 import 'getDocApiCallVerify.dart';
-import 'getDocName.dart';
 import 'getDocumentApiCall.dart';
 
 // ignore: must_be_immutable
