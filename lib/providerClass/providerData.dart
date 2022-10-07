@@ -639,6 +639,55 @@ class ProviderData extends ChangeNotifier {
     _languageItem = languageItems;
     notifyListeners();
   }
+  
+  File? LrPhotoFile;
+  String? LrPhoto64;
+  File? EwayBillPhotoFile;
+  String? EwayBillPhoto64;
+  File? WeightReceiptPhotoFile;
+  String? WeightReceiptPhoto64;
+  File? PodPhotoFile;
+  String? PodPhoto64;
+
+  updateLrPhoto(File? newFile) {
+    LrPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updateLrPhotoStr(String? newStr) {
+    LrPhoto64 = newStr;
+    notifyListeners();
+  }
+
+  updateEwayBillPhoto(File? newFile) {
+    EwayBillPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updateEwayBillPhotoStr(String? newStr) {
+    EwayBillPhoto64 = newStr;
+    notifyListeners();
+  }
+
+  updateWeightReceiptPhoto(File? newFile) {
+    WeightReceiptPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updateWeightReceiptPhotoStr(String? newStr) {
+    WeightReceiptPhoto64 = newStr;
+    notifyListeners();
+  }
+
+  updatePodPhoto(File? newFile) {
+    PodPhotoFile = newFile;
+    notifyListeners();
+  }
+
+  updatePodPhotoStr(String? newStr) {
+    PodPhoto64 = newStr;
+    notifyListeners();
+  }
 
 
 }
