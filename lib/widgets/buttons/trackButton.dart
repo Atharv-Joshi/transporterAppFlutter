@@ -8,6 +8,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenOngoing.dart';
+import 'package:liveasy/screens/trackScreen.dart';
 
 // ignore: must_be_immutable
 class TrackButton extends StatefulWidget {
@@ -18,15 +19,18 @@ class TrackButton extends StatefulWidget {
   String? DriverName;
   var gpsData;
   var totalDistance;
+  var device;
 
-  TrackButton(
-      {required this.truckApproved,
-      this.gpsData,
-      this.phoneNo,
-      this.TruckNo,
-      this.DriverName,
-      this.totalDistance,
-      this.imei});
+  TrackButton({
+    required this.truckApproved,
+    this.gpsData,
+    this.phoneNo,
+    this.TruckNo,
+    this.DriverName,
+    this.totalDistance,
+    this.imei,
+    this.device,
+  });
 
   @override
   _TrackButtonState createState() => _TrackButtonState();
@@ -78,12 +82,14 @@ class _TrackButtonState extends State<TrackButton> {
         ),
         onPressed: () async {
           Get.to(
-            TrackScreenOngoing(
+            TrackScreen(
               deviceId: widget.gpsData.deviceId,
               gpsData: widget.gpsData,
-              TruckNo: widget.TruckNo,
+              truckNo: widget.TruckNo,
               totalDistance: widget.totalDistance,
               imei: widget.imei,
+              // online: widget.device.status == "online" ? true : false,
+              online: true,
             ),
           );
         },
@@ -101,7 +107,7 @@ class _TrackButtonState extends State<TrackButton> {
                         image: AssetImage('assets/icons/lockIcon.png')),
               ),
               Text(
-                'Track',
+                'Track'.tr,
                 style: TextStyle(
                   letterSpacing: 0.7,
                   fontWeight: normalWeight,
