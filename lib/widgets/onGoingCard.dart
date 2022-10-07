@@ -9,6 +9,7 @@ import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/screens/TransporterOrders/documentUploadScreen.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
@@ -47,8 +48,6 @@ class _OngoingCardState extends State<OngoingCard> {
     initFunction();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     if (widget.loadAllDataModel.driverName == null) {
@@ -71,134 +70,163 @@ class _OngoingCardState extends State<OngoingCard> {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => OnGoingLoadDetails(
-              loadALlDataModel: widget.loadAllDataModel,
-              trackIndicator: false,
-            ));
+        // Get.to(() =>
+        // OnGoingLoadDetails(
+        //       loadALlDataModel: widget.loadAllDataModel,
+        //       trackIndicator: false,
+        //     ));
+        Get.to(documentUploadScreen(
+          bookingId: widget.loadAllDataModel.bookingId.toString(),
+          truckNo: widget.loadAllDataModel.truckNo,
+          loadingPoint: widget.loadAllDataModel.loadingPointCity,
+          unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
+          transporterName: widget.loadAllDataModel.transporterName,
+          transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
+          driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
+          driverName: widget.loadAllDataModel.driverName,
+          bookingDate: widget.loadAllDataModel.bookingDate,
+          // trackApproved: true,
+          gpsDataList: gpsDataList,
+          // widget.gpsDataList,
+          totalDistance: totalDistance,
+          //  widget.totalDistance,
+          // device: gpsData.deviceId,
+          // gpsData!.deviceId
+          // widget.device,
+        ));
       },
-      child: Container(
-        margin: EdgeInsets.only(bottom: space_3),
-        child: Card(
-          elevation: 5,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(space_4),
+      child: gpsDataList.isNotEmpty
+          ? Container(
+              margin: EdgeInsets.only(bottom: space_3),
+              child: Card(
+                elevation: 5,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${"bookingDate".tr} : ${widget.loadAllDataModel.bookingDate}',
-                          style: TextStyle(
-                            fontSize: size_6,
-                            color: veryDarkGrey,
-                          ),
-                        ),
-                        Icon(Icons.arrow_forward_ios_sharp),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        LoadEndPointTemplate(
-                            text: widget.loadAllDataModel.loadingPointCity,
-                            endPointType: 'loading'),
-                        Container(
-                            padding: EdgeInsets.only(left: 2),
-                            height: space_3,
-                            width: space_12,
-                            child: CustomPaint(
-                              foregroundPainter: LinePainter(height: space_3),
-                            )),
-                        LoadEndPointTemplate(
-                            text: widget.loadAllDataModel.unloadingPointCity,
-                            endPointType: 'unloading'),
-                      ],
-                    ),
                     Container(
-                      margin: EdgeInsets.only(top: space_4),
+                      margin: EdgeInsets.all(space_4),
                       child: Column(
                         children: [
-                          NewRowTemplate(
-                            label: "truckNumber".tr,
-                            value: widget.loadAllDataModel.truckNo,
-                            width: 78,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${"bookingDate".tr} : ${widget.loadAllDataModel.bookingDate}',
+                                style: TextStyle(
+                                  fontSize: size_6,
+                                  color: veryDarkGrey,
+                                ),
+                              ),
+                              Icon(Icons.arrow_forward_ios_sharp),
+                            ],
                           ),
-                          NewRowTemplate(
-                              label: "driverName".tr,
-                              value: widget.loadAllDataModel.driverName),
-                          NewRowTemplate(
-                            label: "price".tr,
-                            value:
-                                '${widget.loadAllDataModel.rate}/${widget.loadAllDataModel.unitValue}',
-                            width: 78,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              LoadEndPointTemplate(
+                                  text:
+                                      widget.loadAllDataModel.loadingPointCity,
+                                  endPointType: 'loading'),
+                              Container(
+                                  padding: EdgeInsets.only(left: 2),
+                                  height: space_3,
+                                  width: space_12,
+                                  child: CustomPaint(
+                                    foregroundPainter:
+                                        LinePainter(height: space_3),
+                                  )),
+                              LoadEndPointTemplate(
+                                  text: widget
+                                      .loadAllDataModel.unloadingPointCity,
+                                  endPointType: 'unloading'),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: space_4),
+                            child: Column(
+                              children: [
+                                NewRowTemplate(
+                                  label: "truckNumber".tr,
+                                  value: widget.loadAllDataModel.truckNo,
+                                  width: 78,
+                                ),
+                                NewRowTemplate(
+                                    label: "driverName".tr,
+                                    value: widget.loadAllDataModel.driverName),
+                                NewRowTemplate(
+                                  label: "price".tr,
+                                  value:
+                                      '${widget.loadAllDataModel.rate}/${widget.loadAllDataModel.unitValue}',
+                                  width: 78,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: space_4),
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: space_1),
+                                  child: Image(
+                                      height: 16,
+                                      width: 23,
+                                      color: black,
+                                      image: AssetImage(
+                                          'assets/icons/TruckIcon.png')),
+                                ),
+                                Text(
+                                  widget.loadAllDataModel.companyName!,
+                                  style: TextStyle(
+                                    color: liveasyBlackColor,
+                                    fontWeight: mediumBoldWeight,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: space_4),
+                      color: contactPlaneBackground,
+                      padding: EdgeInsets.symmetric(
+                        vertical: space_2,
+                      ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(right: space_1),
-                            child: Image(
-                                height: 16,
-                                width: 23,
-                                color: black,
-                                image:
-                                    AssetImage('assets/icons/TruckIcon.png')),
+                          TrackButton(
+                            gpsData: gpsDataList[0],
+                            truckApproved: true,
+                            TruckNo: widget.loadAllDataModel.truckNo,
+                            totalDistance: totalDistance,
                           ),
-                          Text(
-                            widget.loadAllDataModel.companyName!,
-                            style: TextStyle(
-                              color: liveasyBlackColor,
-                              fontWeight: mediumBoldWeight,
-                            ),
-                          )
+                          CallButton(
+                            directCall: false,
+                            transporterPhoneNum:
+                                widget.loadAllDataModel.transporterPhoneNum,
+                            driverPhoneNum:
+                                widget.loadAllDataModel.driverPhoneNum,
+                            driverName: widget.loadAllDataModel.driverName,
+                            transporterName:
+                                widget.loadAllDataModel.companyName,
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                color: contactPlaneBackground,
-                padding: EdgeInsets.symmetric(
-                  vertical: space_2,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TrackButton(
-                      gpsData: gpsDataList[0],
-                      truckApproved: true,
-                      TruckNo: widget.loadAllDataModel.truckNo,
-                      totalDistance: totalDistance,
-                    ),
-                    CallButton(
-                      directCall: false,
-                      transporterPhoneNum:
-                          widget.loadAllDataModel.transporterPhoneNum,
-                      driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
-                      driverName: widget.loadAllDataModel.driverName,
-                      transporterName: widget.loadAllDataModel.companyName,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            )
+          : Container(),
     );
   }
 
   void getMyTruckPosition() async {
-    var devices = await getDeviceByDeviceId(widget.loadAllDataModel.deviceId.toString());
-    var gpsDataAll = await getPositionByDeviceId(widget.loadAllDataModel.deviceId.toString());
+    var devices =
+        await getDeviceByDeviceId(widget.loadAllDataModel.deviceId.toString());
+    var gpsDataAll = await getPositionByDeviceId(
+        widget.loadAllDataModel.deviceId.toString());
 
     devicelist.clear();
 
