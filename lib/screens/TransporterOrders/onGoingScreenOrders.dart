@@ -22,6 +22,9 @@ import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/onGoingCard.dart';
 import 'package:liveasy/widgets/onGoingCardOrder.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:provider/provider.dart';
+
+import '../../providerClass/providerData.dart';
 
 class OngoingScreenOrders extends StatefulWidget {
   @override
@@ -30,8 +33,12 @@ class OngoingScreenOrders extends StatefulWidget {
 
 class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   GpsDataModel? gpsData;
+
   var devicelist = [];
-  var gpsDataList = [];
+  // var gpsDataList = [];
+  // late List<dynamic> gpsDataList = [];
+  List<dynamic> gpsDataList = [];
+  // List.generate(10, (index) => 0);
   var gpsList = [];
 
   bool getMyTruckPostionBoolValue = false;
@@ -78,18 +85,27 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         OngoingProgress = false;
       });
     }
+
+    print("model list length:- ");
+    print(modelList.length);
+
+    print("gps data :- ");
+    await initializeGps();
   }
 
-  initializeGps() {
+  initializeGps() async {
     for (int i = 0; i < modelList.length; i++) {
-      getMyTruckPosition(i);
-      initFunction(i);
+      await getMyTruckPosition(i);
+      // await initFunction(i);
     }
+    return true;
   }
 
   @override
   void initState() {
     super.initState();
+    // nullData();
+
     loading = true;
     getOnGoingOrders(i);
 
@@ -111,6 +127,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   @override
   Widget build(BuildContext context) {
+    // var providerData = Provider.of<ProviderData>(context);
     return Container(
       height: MediaQuery.of(context).size.height + size_10,
       child: loading
@@ -139,40 +156,91 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                   onRefresh: () {
                     setState(() {
                       modelList.clear();
+                      gpsDataList.clear();
                       loading = true;
                     });
                     return getOnGoingOrders(0);
                   },
+                  // child: FutureBuilder<dynamic>(
+                  //   future:
+                  //       initializeGps(), // Here you run the check for all queryRows items and assign the fromContact property of each item
+                  //   builder: (context, snapshot) {
+                  //     return ListView.builder(
+                  //       itemCount: modelList.length,
+                  //       itemBuilder: (context, index) {
+                  //         if (snapshot.hasData) {
+                  //           // Check if the record is in Contacts
+                  //           // True: Return your UI element with Name and Avatar here
+                  //           return onGoingOrdersCardNew(
+                  //             loadAllDataModel: modelList[index],
+                  //             gpsDataList: gpsDataList[index],
+                  //             totalDistance: totalDistance,
+                  //           );
+                  //         } else {
+                  //           // False: Return UI element without Name and Avatar
+                  //           return Container();
+                  //         }
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+
+                  // ListView.builder(
+                  //     physics: BouncingScrollPhysics(),
+                  //     padding: EdgeInsets.only(bottom: space_10),
+                  //     itemCount: modelList.length,
+                  //     itemBuilder: (context, index) {
+                  //       return FutureBuilder(
+                  //           future: getMyTruckPosition(index),
+                  //           builder: (context, snap) {
+                  //             if (snap.hasData) {
+                  //               // if(snap.hasData = true){
+                  //               return onGoingOrdersCardNew(
+                  //                 loadAllDataModel: modelList[index],
+                  //                 gpsDataList: gpsDataList,
+                  //                 totalDistance: totalDistance,
+                  //               );
+                  //             } else {
+                  //               return Container();
+                  //             }
+                  //             // }
+                  //             // return Loading();
+                  //           });
+                  //     }
                   child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.only(bottom: space_10),
                       itemCount: modelList.length,
                       itemBuilder: (context, index) {
-                        getMyTruckPosition(index);
+                        // getMyTruckPosition(index);
                         initFunction(index);
                         return (index == modelList.length - 1)
                             ? Visibility(
                                 visible: OngoingProgress,
                                 child: bottomProgressBarIndicatorWidget())
-                            : (getMyTruckPostionBoolValue)
+                            : (index < gpsDataList.length)
                                 ? onGoingOrdersCardNew(
                                     loadAllDataModel: modelList[index],
-                                    gpsDataList: gpsDataList,
+                                    gpsDataList: gpsDataList[index],
                                     totalDistance: totalDistance,
+                                    device: devicelist[index],
                                   )
                                 : Container();
                       }),
                 ),
+      // ),
     );
   }
 
-  void getMyTruckPosition(int index) async {
+  // List<GpsDataModel> gpsDataList;
+  // Future<bool>
+  getMyTruckPosition(int index) async {
     var devices =
         await getDeviceByDeviceId(modelList[index].deviceId.toString());
     var gpsDataAll =
         await getPositionByDeviceId(modelList[index].deviceId.toString());
 
-    devicelist.clear();
+    // devicelist.clear();
 
     for (var device in devices) {
       setState(() {
@@ -185,13 +253,16 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     for (int i = 0; i < gpsDataAll.length; i++) {
       getGPSData(gpsDataAll[i], i);
     }
-
+    print("GPSDATALIST....");
+    // gpsDataList.add(gpsList);
     setState(() {
-      gpsDataList = gpsList;
-      print("GPSDATALIST....");
+      // gpsDataList[i] = gpsList;
+      gpsDataList.add(gpsList);
+      // print("GPSDATALIST....");
       print(gpsDataList);
       getMyTruckPostionBoolValue = true;
     });
+    // return true;
     // return getMyTruckPostionBoolValue;
   }
 
@@ -212,7 +283,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     // return initfunctionBoolValue;
   }
 }
-
 
 // } //class end
 
