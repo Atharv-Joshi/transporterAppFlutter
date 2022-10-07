@@ -159,7 +159,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
           {"documentType": "PodPhoto1", "data": providerData.PodPhoto64}
         ],
       };
-      providerData.pod = false;
       await uploadDocumentApiCall();
     }
 
