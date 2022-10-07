@@ -2,24 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
-import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
-import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
-import 'package:liveasy/functions/textOverFlow.dart';
-import 'package:liveasy/models/BookingModel.dart';
-import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
-import 'package:liveasy/screens/shipperDetailsScreen.dart';
+import 'package:liveasy/screens/TransporterOrders/documentUploadScreen.dart';
 import 'package:liveasy/widgets/buttons/completedButton.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
-import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/linePainter.dart';
 import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
-import 'package:liveasy/widgets/newRowTemplate.dart';
 // import 'linePainter.dart';
 
 class onGoingOrdersCardNew extends StatefulWidget {
@@ -27,11 +18,13 @@ class onGoingOrdersCardNew extends StatefulWidget {
   OngoingCardModel loadAllDataModel;
   var gpsDataList;
   String? totalDistance;
+  var device;
 
   onGoingOrdersCardNew({
     required this.loadAllDataModel,
     required this.gpsDataList,
     required this.totalDistance,
+    this.device,
   });
 
   @override
@@ -79,28 +72,43 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
       child: Container(
         child: GestureDetector(
           onTap: () {
-            Get.to(ShipperDetails(
+            Get.to(documentUploadScreen(
               bookingId: widget.loadAllDataModel.bookingId.toString(),
-              noOfTrucks: widget.loadAllDataModel.noOfTrucks,
-              productType: widget.loadAllDataModel.productType,
+              truckNo: widget.loadAllDataModel.truckNo,
               loadingPoint: widget.loadAllDataModel.loadingPointCity,
               unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
-              rate: widget.loadAllDataModel.rate,
-              vehicleNo: widget.loadAllDataModel.truckNo,
-              shipperPosterCompanyApproved:
-                  widget.loadAllDataModel.companyApproved,
-              shipperPosterCompanyName: widget.loadAllDataModel.companyName,
-              shipperPosterLocation:
-                  widget.loadAllDataModel.transporterLocation,
-              shipperPosterName: widget.loadAllDataModel.transporterName,
+              transporterName: widget.loadAllDataModel.transporterName,
               transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
               driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
               driverName: widget.loadAllDataModel.driverName,
-              transporterName: widget.loadAllDataModel.companyName,
-              trackApproved: true,
+              bookingDate: widget.loadAllDataModel.bookingDate,
+              // trackApproved: true,
               gpsDataList: widget.gpsDataList,
               totalDistance: widget.totalDistance,
+              device: widget.device,
             ));
+            //     ShipperDetails(
+            //   bookingId: widget.loadAllDataModel.bookingId.toString(),
+            //   noOfTrucks: widget.loadAllDataModel.noOfTrucks,
+            //   productType: widget.loadAllDataModel.productType,
+            //   loadingPoint: widget.loadAllDataModel.loadingPointCity,
+            //   unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
+            //   rate: widget.loadAllDataModel.rate,
+            //   vehicleNo: widget.loadAllDataModel.truckNo,
+            //   shipperPosterCompanyApproved:
+            //       widget.loadAllDataModel.companyApproved,
+            //   shipperPosterCompanyName: widget.loadAllDataModel.companyName,
+            //   shipperPosterLocation:
+            //       widget.loadAllDataModel.transporterLocation,
+            //   shipperPosterName: widget.loadAllDataModel.transporterName,
+            //   transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
+            //   driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
+            //   driverName: widget.loadAllDataModel.driverName,
+            //   transporterName: widget.loadAllDataModel.companyName,
+            //   trackApproved: true,
+            //   gpsDataList: widget.gpsDataList,
+            //   totalDistance: widget.totalDistance,
+            // ));
           },
           child: Card(
             child: Column(
@@ -225,6 +233,7 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         truckApproved: true,
                         TruckNo: widget.loadAllDataModel.truckNo,
                         totalDistance: widget.totalDistance,
+                        device: widget.device,
                       ),
                       CompletedButtonOrders(
                           bookingId:
