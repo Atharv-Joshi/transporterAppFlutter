@@ -104,6 +104,7 @@ class _navigateToTrackScreenState extends State<navigateToTrackScreen> {
                       imei: widget.imei,
                       // online: widget.device.status == "online" ? true : false,
                       online: true,
+                      active: true,
                     ),
                   );
                 },
