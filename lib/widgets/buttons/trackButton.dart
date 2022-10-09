@@ -89,7 +89,8 @@ class _TrackButtonState extends State<TrackButton> {
               totalDistance: widget.totalDistance,
               imei: widget.imei,
               // online: widget.device.status == "online" ? true : false,
-              online: true,
+              online:true,
+              active: true,
             ),
           );
         },
