@@ -36,6 +36,7 @@ class TrackScreen extends StatefulWidget {
   var totalDistance;
   var imei;
   bool active;
+  bool? online;
 
   TrackScreen(
       {required this.gpsData,
@@ -43,6 +44,7 @@ class TrackScreen extends StatefulWidget {
       required this.deviceId,
       required this.totalDistance,
       this.imei,
+      this.online,
       required this.active});
 
   @override
@@ -140,6 +142,11 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var totalStatus = "";
 
   //var Get;
+
+  bool loading_map = false;
+  bool loadmap2 = false;
+  bool loadmap3 = false;
+  bool loadmap4 = true;
 
   @override
   void initState() {
@@ -330,6 +337,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     setState(() {
       polylines[id] = polyline;
       _polyline.add(polyline);
+      loadmap2 = true;
     });
   }
 
@@ -345,6 +353,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     );
     setState(() {
       polylines[id] = polyline;
+      loadmap3 = true;
     });
     _addPolyLine();
   }
@@ -682,37 +691,105 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
                     width: MediaQuery.of(context).size.width,
                     height: height,
                     child: Stack(children: <Widget>[
+                      loading_map && loadmap2 && loadmap3 ||
+                              !(widget.online!) &&
+                                  loading_map //condition to show loadingIndicator until routes and map is created
+                          ? Container()
+                          : Center(
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                  color: darkBlueColor,
+                                ),
+                              ),
+                            ),
+                      loadmap2 && loadmap3 ||
+                              !(widget
+                                  .online!) //condition to show loadingIndicator until route is created
+                          ? GoogleMap(
+                              onTap: (position) {
+                                _customInfoWindowController.hideInfoWindow!();
+                                _customDetailsInfoWindowController
+                                    .hideInfoWindow!();
+                              },
+                              onCameraMove: (position) {
+                                _customInfoWindowController.onCameraMove!();
+                                _customDetailsInfoWindowController
+                                    .onCameraMove!();
+                              },
+                              markers: customMarkers.toSet(),
+                              polylines: Set.from(polylines.values),
+                              myLocationButtonEnabled: true,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition: camPosition,
+                              compassEnabled: true,
+                              mapType: maptype,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                                _customInfoWindowController
+                                    .googleMapController = controller;
+                                _customDetailsInfoWindowController
+                                    .googleMapController = controller;
+                                setState(() {
+                                  loading_map =
+                                      true; //variable is made true when map is created.
+                                });
+                              },
+                              gestureRecognizers:
+                                  <Factory<OneSequenceGestureRecognizer>>[
+                                new Factory<OneSequenceGestureRecognizer>(
+                                  () => new EagerGestureRecognizer(),
+                                ),
+                              ].toSet(),
+                            )
+                          : Center(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.white,
+                                child: Center(
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: darkBlueColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                       // loading?
-                      GoogleMap(
-                        onTap: (position) {
-                          _customInfoWindowController.hideInfoWindow!();
-                          _customDetailsInfoWindowController.hideInfoWindow!();
-                        },
-                        onCameraMove: (position) {
-                          _customInfoWindowController.onCameraMove!();
-                          _customDetailsInfoWindowController.onCameraMove!();
-                        },
-                        markers: customMarkers.toSet(),
-                        polylines: Set.from(polylines.values),
-                        myLocationButtonEnabled: true,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: camPosition,
-                        compassEnabled: true,
-                        mapType: maptype,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          _customInfoWindowController.googleMapController =
-                              controller;
-                          _customDetailsInfoWindowController
-                              .googleMapController = controller;
-                        },
-                        gestureRecognizers:
-                            <Factory<OneSequenceGestureRecognizer>>[
-                          new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
-                          ),
-                        ].toSet(),
-                      ),
+                      // GoogleMap(
+                      //   onTap: (position) {
+                      //     _customInfoWindowController.hideInfoWindow!();
+                      //     _customDetailsInfoWindowController.hideInfoWindow!();
+                      //   },
+                      //   onCameraMove: (position) {
+                      //     _customInfoWindowController.onCameraMove!();
+                      //     _customDetailsInfoWindowController.onCameraMove!();
+                      //   },
+                      //   markers: customMarkers.toSet(),
+                      //   polylines: Set.from(polylines.values),
+                      //   myLocationButtonEnabled: true,
+                      //   zoomControlsEnabled: false,
+                      //   initialCameraPosition: camPosition,
+                      //   compassEnabled: true,
+                      //   mapType: maptype,
+                      //   onMapCreated: (GoogleMapController controller) {
+                      //     _controller.complete(controller);
+                      //     _customInfoWindowController.googleMapController =
+                      //         controller;
+                      //     _customDetailsInfoWindowController
+                      //         .googleMapController = controller;
+                      //   },
+                      //   gestureRecognizers:
+                      //       <Factory<OneSequenceGestureRecognizer>>[
+                      //     new Factory<OneSequenceGestureRecognizer>(
+                      //       () => new EagerGestureRecognizer(),
+                      //     ),
+                      //   ].toSet(),
+                      // ),
                       //   :Container(),
                       CustomInfoWindow(
                         controller: _customInfoWindowController,
