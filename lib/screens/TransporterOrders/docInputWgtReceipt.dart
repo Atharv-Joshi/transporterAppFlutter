@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
 import '../../widgets/accountVerification/image_display.dart';
 import 'docUploadBtn2.dart';
@@ -36,6 +37,15 @@ class _docInputWgtReceiptState extends State<docInputWgtReceipt> {
   bool showAddMoreDoc = true;
   var jsonresponse;
   var docLinks = [];
+
+  String? currentLang;
+
+  String addDocImageEng = "assets/images/AddDocumentImg.png";
+  String addDocImageHindi = "assets/images/AddDocumentImgHindi2.png";
+
+  String addMoreDocImageEng = "assets/images/AddMoreDocImg.png";
+  String addMoreDocImageHindi = "assets/images/AddMoreDocImgHindi.png";
+
   uploadedCheck() async {
     docLinks = [];
     docLinks = await getDocumentApiCall(bookid.toString(), "W");
@@ -72,6 +82,15 @@ class _docInputWgtReceiptState extends State<docInputWgtReceipt> {
   void initState() {
     super.initState();
     bookid = widget.bookingId;
+
+    currentLang = LocalizationService().getCurrentLocale().toString();
+    print(currentLang);
+    if (currentLang == "hi_IN") {
+      setState(() {
+        addDocImageEng = addDocImageHindi;
+        addMoreDocImageEng = addMoreDocImageHindi;
+      });
+    }
 
     uploadedCheck();
   }
@@ -126,8 +145,7 @@ class _docInputWgtReceiptState extends State<docInputWgtReceipt> {
                                         image: AssetImage(
                                             "assets/images/verifiedDoc.png"))
                                     : docUploadbtn2(
-                                        assetImage:
-                                            "assets/images/AddDocumentImg.png",
+                                        assetImage: addDocImageEng,
                                         onPressed: () async {
                                           widget.providerData
                                                       .WeightReceiptPhotoFile !=
@@ -162,7 +180,7 @@ class _docInputWgtReceiptState extends State<docInputWgtReceipt> {
                                 height: 110,
                                 width: 170,
                                 child: docUploadbtn2(
-                                  assetImage: "assets/images/AddMoreDocImg.png",
+                                  assetImage: addMoreDocImageEng,
                                   onPressed: () async {
                                     if (widget.providerData
                                             .WeightReceiptPhotoFile ==
