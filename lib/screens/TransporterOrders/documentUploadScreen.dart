@@ -467,6 +467,65 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                   child: Scaffold(
                     body: Column(
                       children: [
+                        Container(
+                          height: size_15 + 30,
+                          color: whiteBackgroundColor,
+                          child: Row(
+                            children: [
+                              Flexible(
+                                flex: 3,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // Get.back();
+                                          setState(() {
+                                            providerData.LrPhotoFile = null;
+                                            providerData.LrPhoto64 = null;
+
+                                            providerData.EwayBillPhotoFile =
+                                                null;
+                                            providerData.EwayBillPhoto64 = null;
+
+                                            providerData
+                                                .WeightReceiptPhotoFile = null;
+                                            providerData.WeightReceiptPhoto64 =
+                                                null;
+
+                                            providerData.PodPhotoFile = null;
+                                            providerData.PodPhoto64 = null;
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: darkBlueColor,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: space_1,
+                                    ),
+                                    Text(
+                                      "Upload Image".tr,
+                                      style: TextStyle(
+                                          fontSize: size_10 - 1,
+                                          fontWeight: boldWeight,
+                                          color: darkBlueColor,
+                                          letterSpacing: -0.408),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          height: size_3,
+                          color: darkGreyColor,
+                        ),
                         providerData.LrPhotoFile != null
                             ? Expanded(
                                 child: SizedBox(
@@ -490,21 +549,21 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                           // )),
                           Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Color.fromARGB(255, 214, 9, 9)),
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 7.5, bottom: 10, top: 10),
+                              child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
+                                  color: Color(0xFFE75347),
                                   child: Container(
-                                    height: space_9,
+                                    height: space_10,
                                     child: Center(
                                       child: Text(
                                         "Discard".tr,
                                         style: TextStyle(
                                             color: white,
-                                            fontSize: size_8,
+                                            fontSize: size_9,
                                             fontWeight: mediumBoldWeight),
                                       ),
                                     ),
@@ -519,23 +578,24 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                           ),
                           Flexible(
                             child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 7.5, right: 15, bottom: 10, top: 10),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(12),
                                   child: InkWell(
                                       child: Container(
-                                        color: Color.fromARGB(255, 20, 182, 88),
-                                        height: space_9,
+                                        color: Color(0xFF09B778),
+                                        height: space_10,
                                         child: Center(
                                           child: progressBar
                                               ? CircularProgressIndicator(
                                                   color: white,
                                                 )
                                               : Text(
-                                                  "Upload".tr,
+                                                  "Save".tr,
                                                   style: TextStyle(
                                                       color: white,
-                                                      fontSize: size_8,
+                                                      fontSize: size_9,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -559,6 +619,71 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                       child: Scaffold(
                         body: Column(
                           children: [
+                            Container(
+                              height: size_15 + 30,
+                              color: whiteBackgroundColor,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    flex: 3,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              // Get.back();
+                                              setState(() {
+                                                providerData.LrPhotoFile = null;
+                                                providerData.LrPhoto64 = null;
+
+                                                providerData.EwayBillPhotoFile =
+                                                    null;
+                                                providerData.EwayBillPhoto64 =
+                                                    null;
+
+                                                providerData
+                                                        .WeightReceiptPhotoFile =
+                                                    null;
+                                                providerData
+                                                        .WeightReceiptPhoto64 =
+                                                    null;
+
+                                                providerData.PodPhotoFile =
+                                                    null;
+                                                providerData.PodPhoto64 = null;
+                                              });
+                                            },
+                                            child: Icon(
+                                              Icons.arrow_back_ios,
+                                              color: darkBlueColor,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: space_1,
+                                        ),
+                                        Text(
+                                          "Upload Image".tr,
+                                          style: TextStyle(
+                                              fontSize: size_10 - 1,
+                                              fontWeight: boldWeight,
+                                              color: darkBlueColor,
+                                              letterSpacing: -0.408),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              height: size_3,
+                              color: darkGreyColor,
+                            ),
                             providerData.EwayBillPhotoFile != null
                                 ? Expanded(
                                     child: SizedBox(
@@ -574,21 +699,24 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                             Row(children: [
                               Flexible(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Color.fromARGB(255, 214, 9, 9)),
+                                  padding: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 7.5,
+                                      bottom: 10,
+                                      top: 10),
+                                  child: MaterialButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
+                                      color: Color(0xFFE75347),
                                       child: Container(
-                                        height: space_9,
+                                        height: space_10,
                                         child: Center(
                                           child: Text(
                                             "Discard".tr,
                                             style: TextStyle(
                                                 color: white,
-                                                fontSize: size_8,
+                                                fontSize: size_9,
                                                 fontWeight: mediumBoldWeight),
                                           ),
                                         ),
@@ -603,24 +731,27 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                               ),
                               Flexible(
                                 child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 7.5,
+                                        right: 15,
+                                        bottom: 10,
+                                        top: 10),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
+                                      borderRadius: BorderRadius.circular(12),
                                       child: InkWell(
                                           child: Container(
-                                            color: Color.fromARGB(
-                                                255, 20, 182, 88),
-                                            height: space_9,
+                                            color: Color(0xFF09B778),
+                                            height: space_10,
                                             child: Center(
                                               child: progressBar
                                                   ? CircularProgressIndicator(
                                                       color: white,
                                                     )
                                                   : Text(
-                                                      "Upload".tr,
+                                                      "Save".tr,
                                                       style: TextStyle(
                                                           color: white,
-                                                          fontSize: size_8,
+                                                          fontSize: size_9,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -644,6 +775,75 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                           child: Scaffold(
                             body: Column(
                               children: [
+                                Container(
+                                  height: size_15 + 30,
+                                  color: whiteBackgroundColor,
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        flex: 3,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  // Get.back();
+                                                  setState(() {
+                                                    providerData.LrPhotoFile =
+                                                        null;
+                                                    providerData.LrPhoto64 =
+                                                        null;
+
+                                                    providerData
+                                                            .EwayBillPhotoFile =
+                                                        null;
+                                                    providerData
+                                                        .EwayBillPhoto64 = null;
+
+                                                    providerData
+                                                            .WeightReceiptPhotoFile =
+                                                        null;
+                                                    providerData
+                                                            .WeightReceiptPhoto64 =
+                                                        null;
+
+                                                    providerData.PodPhotoFile =
+                                                        null;
+                                                    providerData.PodPhoto64 =
+                                                        null;
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.arrow_back_ios,
+                                                  color: darkBlueColor,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: space_1,
+                                            ),
+                                            Text(
+                                              "Upload Image".tr,
+                                              style: TextStyle(
+                                                  fontSize: size_10 - 1,
+                                                  fontWeight: boldWeight,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  height: size_3,
+                                  color: darkGreyColor,
+                                ),
                                 providerData.WeightReceiptPhotoFile != null
                                     ? Expanded(
                                         child: SizedBox(
@@ -659,22 +859,25 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                 Row(children: [
                                   Flexible(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ElevatedButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty
-                                                    .all<Color>(Color.fromARGB(
-                                                        255, 214, 9, 9)),
+                                      padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 7.5,
+                                          bottom: 10,
+                                          top: 10),
+                                      child: MaterialButton(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
+                                          color: Color(0xFFE75347),
                                           child: Container(
-                                            height: space_9,
+                                            height: space_10,
                                             child: Center(
                                               child: Text(
                                                 "Discard".tr,
                                                 style: TextStyle(
                                                     color: white,
-                                                    fontSize: size_8,
+                                                    fontSize: size_9,
                                                     fontWeight:
                                                         mediumBoldWeight),
                                               ),
@@ -693,25 +896,28 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                   ),
                                   Flexible(
                                     child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.only(
+                                            left: 7.5,
+                                            right: 15,
+                                            bottom: 10,
+                                            top: 10),
                                         child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(5),
+                                              BorderRadius.circular(12),
                                           child: InkWell(
                                               child: Container(
-                                                color: Color.fromARGB(
-                                                    255, 20, 182, 88),
-                                                height: space_9,
+                                                color: Color(0xFF09B778),
+                                                height: space_10,
                                                 child: Center(
                                                   child: progressBar
                                                       ? CircularProgressIndicator(
                                                           color: white,
                                                         )
                                                       : Text(
-                                                          "Upload".tr,
+                                                          "Save".tr,
                                                           style: TextStyle(
                                                               color: white,
-                                                              fontSize: size_8,
+                                                              fontSize: size_9,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
@@ -737,6 +943,78 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                               child: Scaffold(
                                 body: Column(
                                   children: [
+                                    Container(
+                                      height: size_15 + 30,
+                                      color: whiteBackgroundColor,
+                                      child: Row(
+                                        children: [
+                                          Flexible(
+                                            flex: 3,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      // Get.back();
+                                                      setState(() {
+                                                        providerData
+                                                            .LrPhotoFile = null;
+                                                        providerData.LrPhoto64 =
+                                                            null;
+
+                                                        providerData
+                                                                .EwayBillPhotoFile =
+                                                            null;
+                                                        providerData
+                                                                .EwayBillPhoto64 =
+                                                            null;
+
+                                                        providerData
+                                                                .WeightReceiptPhotoFile =
+                                                            null;
+                                                        providerData
+                                                                .WeightReceiptPhoto64 =
+                                                            null;
+
+                                                        providerData
+                                                                .PodPhotoFile =
+                                                            null;
+                                                        providerData
+                                                            .PodPhoto64 = null;
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                      Icons.arrow_back_ios,
+                                                      color: darkBlueColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: space_1,
+                                                ),
+                                                Text(
+                                                  "Upload Image".tr,
+                                                  style: TextStyle(
+                                                      fontSize: size_10 - 1,
+                                                      fontWeight: boldWeight,
+                                                      color: darkBlueColor,
+                                                      letterSpacing: -0.408),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(
+                                      height: size_3,
+                                      color: darkGreyColor,
+                                    ),
                                     providerData.PodPhotoFile != null
                                         ? Expanded(
                                             child: SizedBox(
@@ -754,23 +1032,25 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                     Row(children: [
                                       Flexible(
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all<
-                                                            Color>(
-                                                        Color.fromARGB(
-                                                            255, 214, 9, 9)),
+                                          padding: const EdgeInsets.only(
+                                              left: 15,
+                                              right: 7.5,
+                                              bottom: 10,
+                                              top: 10),
+                                          child: MaterialButton(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
                                               ),
+                                              color: Color(0xFFE75347),
                                               child: Container(
-                                                height: space_9,
+                                                height: space_10,
                                                 child: Center(
                                                   child: Text(
                                                     "Discard".tr,
                                                     style: TextStyle(
                                                         color: white,
-                                                        fontSize: size_8,
+                                                        fontSize: size_9,
                                                         fontWeight:
                                                             mediumBoldWeight),
                                                   ),
@@ -788,15 +1068,18 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       ),
                                       Flexible(
                                         child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 7.5,
+                                                right: 15,
+                                                bottom: 10,
+                                                top: 10),
                                             child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(5),
+                                                  BorderRadius.circular(12),
                                               child: InkWell(
                                                   child: Container(
-                                                    color: Color.fromARGB(
-                                                        255, 20, 182, 88),
-                                                    height: space_9,
+                                                    color: Color(0xFF09B778),
+                                                    height: space_10,
                                                     // width: space_30,
                                                     child: Center(
                                                       child: progressBar
@@ -804,11 +1087,11 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                               color: white,
                                                             )
                                                           : Text(
-                                                              "Upload".tr,
+                                                              "Save".tr,
                                                               style: TextStyle(
                                                                   color: white,
                                                                   fontSize:
-                                                                      size_8,
+                                                                      size_9,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold),
