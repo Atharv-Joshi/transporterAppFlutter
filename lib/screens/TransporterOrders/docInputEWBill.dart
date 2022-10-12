@@ -4,15 +4,24 @@ import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/language/localization_service.dart';
+import 'package:liveasy/screens/TransporterOrders/documentUploadScreen.dart';
+import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
+import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
+import 'package:liveasy/screens/TransporterOrders/uploadedDocuments.dart';
+import 'package:liveasy/widgets/buttons/uploadBtn.dart';
+import '../../constants/radius.dart';
 import '../../widgets/accountVerification/image_display.dart';
 import 'docUploadBtn2.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:liveasy/functions/getImageFromGallery.dart';
 import 'package:liveasy/widgets/alertDialog/permissionDialog.dart';
 import 'dart:io' as Io;
 import 'package:permission_handler/permission_handler.dart';
 import 'getDocApiCallVerify.dart';
+import 'getDocName.dart';
 import 'getDocumentApiCall.dart';
 
 // ignore: must_be_immutable
@@ -36,6 +45,14 @@ class _docInputEWBillState extends State<docInputEWBill> {
   bool showAddMoreDoc = true;
   var jsonresponse;
   var docLinks = [];
+
+  String? currentLang;
+
+  String addDocImageEng = "assets/images/AddDocumentImg.png";
+  String addDocImageHindi = "assets/images/AddDocumentImgHindi2.png";
+
+  String addMoreDocImageEng = "assets/images/AddMoreDocImg.png";
+  String addMoreDocImageHindi = "assets/images/AddMoreDocImgHindi.png";
 
   uploadedCheck() async {
     docLinks = [];
@@ -74,6 +91,15 @@ class _docInputEWBillState extends State<docInputEWBill> {
     // TODO: implement initState
     super.initState();
     bookid = widget.bookingId;
+
+    currentLang = LocalizationService().getCurrentLocale().toString();
+    print(currentLang);
+    if (currentLang == "hi_IN") {
+      setState(() {
+        addDocImageEng = addDocImageHindi;
+        addMoreDocImageEng = addMoreDocImageHindi;
+      });
+    }
 
     uploadedCheck();
   }
@@ -128,8 +154,7 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                         image: AssetImage(
                                             "assets/images/verifiedDoc.png"))
                                     : docUploadbtn2(
-                                        assetImage:
-                                            "assets/images/AddDocumentImg.png",
+                                        assetImage: addDocImageEng,
                                         onPressed: () async {
                                           widget.providerData.EwayBillPhotoFile !=
                                                   null
@@ -162,7 +187,7 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                 height: 110,
                                 width: 170,
                                 child: docUploadbtn2(
-                                  assetImage: "assets/images/AddMoreDocImg.png",
+                                  assetImage: addMoreDocImageEng,
                                   onPressed: () async {
                                     if (widget.providerData.EwayBillPhotoFile ==
                                         null) {
