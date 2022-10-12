@@ -1653,7 +1653,7 @@ const Map<String, String> enUS = {
       "Kya aap pakka truck ko Unlock karna chahte hai?",
       
       
-      // document Upload Screen :-
+  // document Upload Screen :-
   "Transporter Contact": "Transporter Contact",
   "Truck & Driver": "Truck & Driver",
   "Upload Documents": "Upload Documents",
@@ -1699,6 +1699,10 @@ const Map<String, String> enUS = {
   "Download Image": "Download Image",
   "( Downloading.... )": "( Downloading.... )",
   "( Downloaded )": "( Downloaded )",
-  "Discard": "Discard"
-      
+  "Discard": "Discard",
+
+  "Cancel": "Cancel",
+  "Download": "Download",
+  "Save": "Save",
+  "Upload Image": "Upload Image",
 };
