@@ -1650,19 +1650,19 @@ const Map<String, String> hiIN = {
       "क्या आप पक्का ट्रक को अनलॉक करना चाहते हैं?",
       
       
-      // document Upload Screen :-
+ // document Upload Screen :-
   "Transporter Contact": "ट्रांसपोर्टर संपर्क",
   "Truck & Driver": "ट्रक और ड्राइवर",
   "Upload Documents": "कागज अपलोड करें",
-  "Loading Documents": "माल के कागज",
+  "Loading Documents": "गाड़ी के कागज",
   "Upload Loadoing document photos for advanced payment":
-      "उन्नत भुगतान के लिए माल के कागज कि फ़ोटो अपलोड करें",
+      "माल के कागज कि फ़ोटो अपलोड करें",
   "Uploading Documents": "कागज अपलोड हो रहे हैं",
   "Upload unloadoing document photos for final payment":
-      "अंतिम भुगतान के लिए अनलोडिंग कागज कि फ़ोटो अपलोड करें",
+      "अनलोडिंग कागज कि फ़ोटो अपलोड करें",
 
   // docInputPod.dart :-
-  "Upload POD (Pohoch)": "पीओडी अपलोड करें (पोहोच)",
+  "Upload POD (Pohoch)": "पोहोच अपलोड करें",
   "Payment Details": "भुगतान विवरण",
   "Net earnings": "शुद्ध आय",
   "Net payment to passbook": "पासबुक का शुद्ध भुगतान",
@@ -1672,12 +1672,12 @@ const Map<String, String> hiIN = {
   "Take a Photo": "एक तस्वीर लें",
 
   // docInputWeightReceipt.dart :-
-  "Upload Weight receipt": "काटा रसीद अपलोड करें",
+  "Upload Weight receipt": "काटा पर्ची ढाले",
   "( Uploaded )": "( अपलोड हो गए )",
   // docInputWidget2.dart :-
-  "Upload LR": "बिल्टि अपलोड करें",
+  "Upload LR": "बिल्टि ढाले",
   // docInputEwayBill.dart :-
-  "Upload EWAY Bill": "ईवे बिल अपलोड करें",
+  "Upload EWAY Bill": "ईवे बिल ढाले",
 
   //trackButton.dart:-
   "Track": "ट्रैक करे",
@@ -1697,5 +1697,9 @@ const Map<String, String> hiIN = {
   "( Downloading.... )": "(डाउनलोड हो रहा है....)",
   "( Downloaded )": "डाउनलोड हो गया",
   "Discard": "खारिज करे",
-  
+
+  "Cancel": "रद्द करें",
+  "Download": "डाउनलोड करें",
+  "Save": "अपलोड करें",
+  "Upload Image": "फोटो अपलोड करें",
 };
