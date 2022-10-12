@@ -5,6 +5,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
 import '../../widgets/accountVerification/image_display.dart';
 import 'docUploadBtn2.dart';
@@ -37,6 +38,14 @@ class _docInputPodState extends State<docInputPod> {
   bool showAddMoreDoc = true;
   var jsonresponse;
   var docLinks = [];
+
+  String? currentLang;
+
+  String addDocImageEng = "assets/images/AddDocumentImg.png";
+  String addDocImageHindi = "assets/images/AddDocumentImgHindi2.png";
+
+  String addMoreDocImageEng = "assets/images/AddMoreDocImg.png";
+  String addMoreDocImageHindi = "assets/images/AddMoreDocImgHindi.png";
 
   uploadedCheck() async {
     docLinks = [];
@@ -77,6 +86,15 @@ class _docInputPodState extends State<docInputPod> {
     // TODO: implement initState
     super.initState();
     bookid = widget.bookingId;
+
+    currentLang = LocalizationService().getCurrentLocale().toString();
+    print(currentLang);
+    if (currentLang == "hi_IN") {
+      setState(() {
+        addDocImageEng = addDocImageHindi;
+        addMoreDocImageEng = addMoreDocImageHindi;
+      });
+    }
 
     uploadedCheck();
   }
@@ -135,8 +153,7 @@ class _docInputPodState extends State<docInputPod> {
                                     : docUploadbtn2(
                                         // text1: "( Click Here to add".tr,
                                         // text2: "documents / Photos )".tr,
-                                        assetImage:
-                                            "assets/images/AddDocumentImg.png",
+                                        assetImage: addDocImageEng,
                                         onPressed: () async {
                                           widget.providerData.PodPhotoFile !=
                                                   null
@@ -171,7 +188,7 @@ class _docInputPodState extends State<docInputPod> {
                                 child: docUploadbtn2(
                                   // text1: "( Click Here to add more".tr,
                                   // text2: "documents )".tr,
-                                  assetImage: "assets/images/AddMoreDocImg.png",
+                                  assetImage: addMoreDocImageEng,
                                   onPressed: () async {
                                     if (widget.providerData.PodPhotoFile ==
                                         null) {
