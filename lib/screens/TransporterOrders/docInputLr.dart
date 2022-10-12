@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/screens/TransporterOrders/getDocApiCallVerify.dart';
 import 'package:liveasy/screens/TransporterOrders/getDocumentApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
@@ -36,6 +37,13 @@ class _docInputLrState extends State<docInputLr> {
   bool showAddMoreDoc = true;
   var jsonresponse;
   var docLinks = [];
+  String? currentLang;
+
+  String addDocImageEng = "assets/images/AddDocumentImg.png";
+  String addDocImageHindi = "assets/images/AddDocumentImgHindi2.png";
+
+  String addMoreDocImageEng = "assets/images/AddMoreDocImg.png";
+  String addMoreDocImageHindi = "assets/images/AddMoreDocImgHindi.png";
 
   uploadedCheck() async {
     docLinks = [];
@@ -72,6 +80,17 @@ class _docInputLrState extends State<docInputLr> {
   @override
   void initState() {
     super.initState();
+    print("current selected language :- ");
+    print(LocalizationService().getCurrentLocale());
+    currentLang = LocalizationService().getCurrentLocale().toString();
+    print(currentLang);
+    if (currentLang == "hi_IN") {
+      setState(() {
+        addDocImageEng = addDocImageHindi;
+        addMoreDocImageEng = addMoreDocImageHindi;
+      });
+    }
+
     bookid = widget.bookingId.toString();
     uploadedCheck();
   }
@@ -131,8 +150,7 @@ class _docInputLrState extends State<docInputLr> {
                                     : docUploadbtn2(
                                         // text1: "( Click Here to add".tr,
                                         // text2: "documents / Photos )".tr,
-                                        assetImage:
-                                            "assets/images/AddDocumentImg.png",
+                                        assetImage: addDocImageEng,
                                         onPressed: () async {
                                           widget.providerData.LrPhotoFile !=
                                                   null
@@ -165,7 +183,7 @@ class _docInputLrState extends State<docInputLr> {
                                 height: 110,
                                 width: 170,
                                 child: docUploadbtn2(
-                                  assetImage: "assets/images/AddMoreDocImg.png",
+                                  assetImage: addMoreDocImageEng,
                                   onPressed: () async {
                                     if (widget.providerData.LrPhotoFile ==
                                         null) {
