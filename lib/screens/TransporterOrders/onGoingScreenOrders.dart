@@ -147,12 +147,14 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         String loadingPoint = modelList[i].loadingPointCity.toString();
         String unLoadingPoint = modelList[i].unloadingPointCity.toString();
         String driverName = modelList[i].driverName.toString();
+        String bookingDate = modelList[i].bookingDate.toString();
 
         //truckList[i];
         if ((truckNo.toLowerCase().contains(searchText.toLowerCase())) ||
             (loadingPoint.toLowerCase().contains(searchText.toLowerCase())) ||
-            unLoadingPoint.toLowerCase().contains(searchText.toLowerCase()) ||
-            driverName.toLowerCase().contains(searchText.toLowerCase())) {
+            (unLoadingPoint.toLowerCase().contains(searchText.toLowerCase())) ||
+            (driverName.toLowerCase().contains(searchText.toLowerCase())) ||
+            (bookingDate.toLowerCase().contains(searchText.toLowerCase()))) {
           setState(() {
             print(searchText);
             searchedModelList.add(modelList[i]);
@@ -162,7 +164,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
             print(searchedDeviceList);
           });
         }
-        ;
+
         // else {
         //   searchedModelList.add("");
         // }
@@ -283,7 +285,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                 textAlign: TextAlign.start,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'searchByNumber'.tr,
+                                  hintText: 'search'.tr,
                                   icon: Padding(
                                     padding: EdgeInsets.only(left: space_2),
                                     child: Icon(
