@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
@@ -10,6 +11,7 @@ import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
+import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
@@ -22,6 +24,7 @@ import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/onGoingCard.dart';
 import 'package:liveasy/widgets/onGoingCardOrder.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
 import 'package:provider/provider.dart';
 
 import '../../providerClass/providerData.dart';
@@ -106,6 +109,9 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     super.initState();
     // nullData();
 
+    print("current selected language :- ");
+    print(LocalizationService().getCurrentLocale());
+
     loading = true;
     getOnGoingOrders(i);
 
@@ -119,6 +125,51 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     print(modelList);
   }
 
+  String searchedTruck = "";
+  late String selectedTruck;
+  late int selectedDeviceId;
+  int selectedIndex = -1;
+  var searchedModelList = [];
+  var searchedDeviceList = [];
+  var searchedGpsList = [];
+  List truckList = [];
+  List deviceIdList = [];
+
+  void searchoperation(String searchText) {
+// searchresult. clear() ;
+    if (searchText != null) {
+      searchedModelList.clear();
+      searchedDeviceList.clear();
+      searchedGpsList.clear();
+
+      for (int i = 0; i < modelList.length; i++) {
+        String truckNo = modelList[i].truckNo.toString();
+        String loadingPoint = modelList[i].loadingPointCity.toString();
+        String unLoadingPoint = modelList[i].unloadingPointCity.toString();
+        String driverName = modelList[i].driverName.toString();
+
+        //truckList[i];
+        if ((truckNo.toLowerCase().contains(searchText.toLowerCase())) ||
+            (loadingPoint.toLowerCase().contains(searchText.toLowerCase())) ||
+            unLoadingPoint.toLowerCase().contains(searchText.toLowerCase()) ||
+            driverName.toLowerCase().contains(searchText.toLowerCase())) {
+          setState(() {
+            print(searchText);
+            searchedModelList.add(modelList[i]);
+            searchedDeviceList.add(devicelist[i]);
+            searchedGpsList.add(gpsDataList[i]);
+            print(searchedModelList);
+            print(searchedDeviceList);
+          });
+        }
+        ;
+        // else {
+        //   searchedModelList.add("");
+        // }
+      }
+    }
+  }
+
   @override
   void dispose() {
     scrollController.dispose();
@@ -127,109 +178,185 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   @override
   Widget build(BuildContext context) {
-    // var providerData = Provider.of<ProviderData>(context);
     return Container(
-      height: MediaQuery.of(context).size.height + size_10,
-      child: loading
-          ? OnGoingLoadingWidgets()
-          : modelList.length == 0
-              ? Container(
-                  margin: EdgeInsets.only(top: 153),
-                  child: Column(
-                    children: [
-                      Image(
-                        image: AssetImage('assets/images/EmptyLoad.png'),
-                        height: 127,
-                        width: 127,
-                      ),
-                      Text(
-                        'noOnGoingLoad'.tr,
-                        // 'Looks like you have not added any Loads!',
-                        style: TextStyle(fontSize: size_8, color: grey),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                  color: lightNavyBlue,
-                  onRefresh: () {
-                    setState(() {
-                      modelList.clear();
-                      gpsDataList.clear();
-                      loading = true;
-                    });
-                    return getOnGoingOrders(0);
-                  },
-                  // child: FutureBuilder<dynamic>(
-                  //   future:
-                  //       initializeGps(), // Here you run the check for all queryRows items and assign the fromContact property of each item
-                  //   builder: (context, snapshot) {
-                  //     return ListView.builder(
-                  //       itemCount: modelList.length,
-                  //       itemBuilder: (context, index) {
-                  //         if (snapshot.hasData) {
-                  //           // Check if the record is in Contacts
-                  //           // True: Return your UI element with Name and Avatar here
-                  //           return onGoingOrdersCardNew(
-                  //             loadAllDataModel: modelList[index],
-                  //             gpsDataList: gpsDataList[index],
-                  //             totalDistance: totalDistance,
-                  //           );
-                  //         } else {
-                  //           // False: Return UI element without Name and Avatar
-                  //           return Container();
-                  //         }
-                  //       },
-                  //     );
-                  //   },
-                  // ),
+        height: MediaQuery.of(context).size.height + size_10,
+        child: loading
+            ? OnGoingLoadingWidgets()
+            : modelList.length == 0
+                ? Container(
+                    margin: EdgeInsets.only(top: 153),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/images/EmptyLoad.png'),
+                          height: 127,
+                          width: 127,
+                        ),
+                        Text(
+                          'noOnGoingLoad'.tr,
+                          // 'Looks like you have not added any Loads!',
+                          style: TextStyle(fontSize: size_8, color: grey),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : RefreshIndicator(
+                    color: lightNavyBlue,
+                    onRefresh: () {
+                      setState(() {
+                        modelList.clear();
+                        gpsDataList.clear();
+                        loading = true;
+                      });
+                      return getOnGoingOrders(0);
+                    },
+                    // child: FutureBuilder<dynamic>(
+                    //   future:
+                    //       initializeGps(), // Here you run the check for all queryRows items and assign the fromContact property of each item
+                    //   builder: (context, snapshot) {
+                    //     return ListView.builder(
+                    //       itemCount: modelList.length,
+                    //       itemBuilder: (context, index) {
+                    //         if (snapshot.hasData) {
+                    //           // Check if the record is in Contacts
+                    //           // True: Return your UI element with Name and Avatar here
+                    //           return onGoingOrdersCardNew(
+                    //             loadAllDataModel: modelList[index],
+                    //             gpsDataList: gpsDataList[index],
+                    //             totalDistance: totalDistance,
+                    //           );
+                    //         } else {
+                    //           // False: Return UI element without Name and Avatar
+                    //           return Container();
+                    //         }
+                    //       },
+                    //     );
+                    //   },
+                    // ),
 
-                  // ListView.builder(
-                  //     physics: BouncingScrollPhysics(),
-                  //     padding: EdgeInsets.only(bottom: space_10),
-                  //     itemCount: modelList.length,
-                  //     itemBuilder: (context, index) {
-                  //       return FutureBuilder(
-                  //           future: getMyTruckPosition(index),
-                  //           builder: (context, snap) {
-                  //             if (snap.hasData) {
-                  //               // if(snap.hasData = true){
-                  //               return onGoingOrdersCardNew(
-                  //                 loadAllDataModel: modelList[index],
-                  //                 gpsDataList: gpsDataList,
-                  //                 totalDistance: totalDistance,
-                  //               );
-                  //             } else {
-                  //               return Container();
-                  //             }
-                  //             // }
-                  //             // return Loading();
-                  //           });
-                  //     }
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: space_10),
-                      itemCount: modelList.length,
-                      itemBuilder: (context, index) {
-                        // getMyTruckPosition(index);
-                        initFunction(index);
-                        return (index == modelList.length - 1)
-                            ? Visibility(
-                                visible: OngoingProgress,
-                                child: bottomProgressBarIndicatorWidget())
-                            : (index < gpsDataList.length)
-                                ? onGoingOrdersCardNew(
-                                    loadAllDataModel: modelList[index],
-                                    gpsDataList: gpsDataList[index],
-                                    totalDistance: totalDistance,
-                                    device: devicelist[index],
-                                  )
-                                : Container();
-                      }),
-                ),
-      // ),
-    );
+                    // ListView.builder(
+                    //     physics: BouncingScrollPhysics(),
+                    //     padding: EdgeInsets.only(bottom: space_10),
+                    //     itemCount: modelList.length,
+                    //     itemBuilder: (context, index) {
+                    //       return FutureBuilder(
+                    //           future: getMyTruckPosition(index),
+                    //           builder: (context, snap) {
+                    //             if (snap.hasData) {
+                    //               // if(snap.hasData = true){
+                    //               return onGoingOrdersCardNew(
+                    //                 loadAllDataModel: modelList[index],
+                    //                 gpsDataList: gpsDataList,
+                    //                 totalDistance: totalDistance,
+                    //               );
+                    //             } else {
+                    //               return Container();
+                    //             }
+                    //             // }
+                    //             // return Loading();
+                    //           });
+                    //     }
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: space_3, horizontal: space_3),
+                            child: Container(
+                              height: space_11,
+                              decoration: BoxDecoration(
+                                color: widgetBackGroundColor,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    width: 0.8, color: widgetBackGroundColor),
+                              ),
+                              child: TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchedTruck = value;
+                                  });
+                                  print(value);
+                                  searchoperation(searchedTruck);
+                                },
+                                textAlignVertical: TextAlignVertical.center,
+                                textAlign: TextAlign.start,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'searchByNumber'.tr,
+                                  icon: Padding(
+                                    padding: EdgeInsets.only(left: space_2),
+                                    child: Icon(
+                                      Icons.search,
+                                      color: grey,
+                                    ),
+                                  ),
+                                  hintStyle: TextStyle(
+                                    fontSize: size_8,
+                                    color: grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          searchedTruck == ""
+                              ?
+                              // child:
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: BouncingScrollPhysics(),
+                                  padding: EdgeInsets.only(bottom: space_10),
+                                  itemCount: modelList.length,
+                                  itemBuilder: (context, index) {
+                                    // getMyTruckPosition(index);
+                                    initFunction(index);
+                                    return (index == modelList.length - 1)
+                                        ? Visibility(
+                                            visible: OngoingProgress,
+                                            child:
+                                                bottomProgressBarIndicatorWidget())
+                                        : (index < gpsDataList.length)
+                                            ? onGoingOrdersCardNew(
+                                                loadAllDataModel:
+                                                    modelList[index],
+                                                gpsDataList: gpsDataList[index],
+                                                totalDistance: totalDistance,
+                                                device: devicelist[index],
+                                              )
+                                            : Container();
+                                  })
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: BouncingScrollPhysics(),
+                                  padding: EdgeInsets.only(bottom: space_10),
+                                  itemCount: searchedModelList.length,
+                                  itemBuilder: (context, index) {
+                                    // getMyTruckPosition(index);
+                                    initFunction(index);
+                                    return (index == searchedModelList.length)
+                                        ? Visibility(
+                                            visible: OngoingProgress,
+                                            child:
+                                                bottomProgressBarIndicatorWidget())
+                                        : (index < searchedGpsList.length)
+                                            ? onGoingOrdersCardNew(
+                                                loadAllDataModel:
+                                                    searchedModelList[index],
+                                                gpsDataList:
+                                                    searchedGpsList[index],
+                                                totalDistance: totalDistance,
+                                                device:
+                                                    searchedDeviceList[index],
+                                              )
+                                            : Container();
+                                  }),
+                        ],
+                      ),
+                      // ]
+                    ),
+                  ));
+    // ),
+    // );
   }
 
   // List<GpsDataModel> gpsDataList;
