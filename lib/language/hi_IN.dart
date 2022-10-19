@@ -1648,4 +1648,58 @@ const Map<String, String> hiIN = {
       "क्या आप पक्का ट्रक को लॉक करना चाहते हैं?",
   "Kya aap pakka truck ko Unlock karna chahte hai?":
       "क्या आप पक्का ट्रक को अनलॉक करना चाहते हैं?",
+      
+      
+ // document Upload Screen :-
+  "Transporter Contact": "ट्रांसपोर्टर संपर्क",
+  "Truck & Driver": "ट्रक और ड्राइवर",
+  "Upload Documents": "कागज अपलोड करें",
+  "Loading Documents": "गाड़ी के कागज",
+  "Upload Loadoing document photos for advanced payment":
+      "माल के कागज कि फ़ोटो अपलोड करें",
+  "Uploading Documents": "कागज अपलोड हो रहे हैं",
+  "Upload unloadoing document photos for final payment":
+      "अनलोडिंग कागज कि फ़ोटो अपलोड करें",
+
+  // docInputPod.dart :-
+  "Upload POD (Pohoch)": "पोहोच अपलोड करें",
+  "Payment Details": "भुगतान विवरण",
+  "Net earnings": "शुद्ध आय",
+  "Net payment to passbook": "पासबुक का शुद्ध भुगतान",
+  "Total Net Balance": "कुल शुद्ध शेष",
+  "Final Payment": "अंतिम भुगतान",
+  "Choose from Gallery": "गैलरी से चयन करो",
+  "Take a Photo": "एक तस्वीर लें",
+
+  // docInputWeightReceipt.dart :-
+  "Upload Weight receipt": "काटा पर्ची ढाले",
+  "( Uploaded )": "( अपलोड हो गए )",
+  // docInputWidget2.dart :-
+  "Upload LR": "बिल्टि ढाले",
+  // docInputEwayBill.dart :-
+  "Upload EWAY Bill": "ईवे बिल ढाले",
+
+  //trackButton.dart:-
+  "Track": "ट्रैक करे",
+
+  //navigateToTrackScreen.dart :-s
+  "Click here": "यहां क्लिक करें",
+  " to track your load": " अपने लोड को ट्रैक करने के लिए",
+  "ONGOING": "चालू माल",
+  "COMPLETED": "संपूर्ण: माल",
+
+  //uploadedDocs.dart :-
+  "Tap to Open": "खोलने के लिए क्लिक करें",
+
+  "Back": "पीछे",
+
+  "Download Image": "फोटो डाउनलोड करें",
+  "( Downloading.... )": "(डाउनलोड हो रहा है....)",
+  "( Downloaded )": "डाउनलोड हो गया",
+  "Discard": "खारिज करे",
+
+  "Cancel": "रद्द करें",
+  "Download": "डाउनलोड करें",
+  "Save": "अपलोड करें",
+  "Upload Image": "फोटो अपलोड करें",
 };

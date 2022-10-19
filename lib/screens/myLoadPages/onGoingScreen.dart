@@ -9,8 +9,6 @@ import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 import 'package:liveasy/widgets/onGoingCard.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 
 class OngoingScreen extends StatefulWidget {
   @override
@@ -21,7 +19,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
   //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
 
-  bool loading = false;
+  bool loading = true; //false
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
@@ -31,7 +29,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
   //for counting page numbers
   int i = 0;
 
-  bool OngoingProgress = false;
+  bool OngoingProgress = true;
 
   final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
 
@@ -51,6 +49,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
       // check whether the state object is in tree
       setState(() {
         loading = false;
+
         OngoingProgress = false;
       });
     }
@@ -58,12 +57,10 @@ class _OngoingScreenState extends State<OngoingScreen> {
 
   @override
   void initState() {
+    super.initState();
+    loading = true;
     from = yesterday.toIso8601String();
     to = now.toIso8601String();
-    super.initState();
-    setState(() {
-      loading = true;
-    });
     getDataByPostLoadIdOnGoing(i);
     scrollController.addListener(() {
       if (scrollController.position.pixels >
@@ -107,29 +104,33 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     ],
                   ),
                 )
-              : RefreshIndicator(
-                  color: lightNavyBlue,
-                  onRefresh: () {
-                    setState(() {
-                      modelList.clear();
-                      loading = true;
-                    });
-                    return getDataByPostLoadIdOnGoing(0);
-                  },
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: space_15),
-                    itemCount: modelList.length,
-                    itemBuilder: (context, index) =>
-                        (index == modelList.length)
-                            ? Visibility(
-                                visible: OngoingProgress,
-                                child: bottomProgressBarIndicatorWidget())
-                            : OngoingCard(
-                                loadAllDataModel: modelList[index],
-                              ),
-                  ),
-                ),
+              : modelList.length > 0
+                  ? RefreshIndicator(
+                      color: lightNavyBlue,
+                      onRefresh: () {
+                        setState(() {
+                          modelList.clear();
+                          loading = true;
+                        });
+                        return getDataByPostLoadIdOnGoing(0);
+                      },
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.only(bottom: space_15),
+                          itemCount: modelList.length,
+                          itemBuilder: (context, index) {
+                            return (index == modelList.length)
+                                ? Visibility(
+                                    visible: OngoingProgress,
+                                    child: bottomProgressBarIndicatorWidget())
+                                : (index < modelList.length)
+                                    ? OngoingCard(
+                                        loadAllDataModel: modelList[index],
+                                      )
+                                    : Container();
+                          }),
+                    )
+                  : Container(),
     );
   }
 } //class end

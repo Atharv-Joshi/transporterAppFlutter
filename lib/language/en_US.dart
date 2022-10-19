@@ -1651,4 +1651,58 @@ const Map<String, String> enUS = {
       "Kya aap pakka truck ko Lock karna chahte hai?",
   "Kya aap pakka truck ko Unlock karna chahte hai?":
       "Kya aap pakka truck ko Unlock karna chahte hai?",
+      
+      
+  // document Upload Screen :-
+  "Transporter Contact": "Transporter Contact",
+  "Truck & Driver": "Truck & Driver",
+  "Upload Documents": "Upload Documents",
+  "Loading Documents": "Loading Documents",
+  "Upload Loadoing document photos for advanced payment":
+      "Upload Loadoing document photos for advanced payment",
+  "Uploading Documents": "Uploading Documents",
+  "Upload unloadoing document photos for final payment":
+      "Upload unloadoing document photos for final payment",
+
+  // docInputPod.dart :-
+  "Upload POD (Pohoch)": "Upload POD (Pohoch)",
+  "Payment Details": "Payment Details",
+  "Net earnings": "Net earnings",
+  "Net payment to passbook": "Net payment to passbook",
+  "Total Net Balance": "Total Net Balance",
+  "Final Payment": "Final Payment",
+  "Choose from Gallery": "Choose from Gallery",
+  "Take a Photo": "Take a Photo",
+
+  // docInputWeightReceipt.dart :-
+  "Upload Weight receipt": "Upload Weight receipt",
+  "( Uploaded )": "( Uploaded )",
+  // docInputWidget2.dart :-
+  "Upload LR": "Upload LR",
+  // docInputEwayBill.dart :-
+  "Upload EWAY Bill": "Upload EWAY Bill",
+
+  //trackButton.dart:-
+  "Track": "Track",
+
+  //navigateToTrackScreen.dart :-s
+  "Click here": "Click here",
+  " to track your load": " to track your load",
+  "ONGOING": "ONGOING",
+  "COMPLETED": "COMPLETED",
+
+  //uploadedDocs.dart :-
+  "Tap to Open": "Tap to Open",
+
+  "Back": "Back",
+
+  "Download Image": "Download Image",
+  "( Downloading.... )": "( Downloading.... )",
+  "( Downloaded )": "( Downloaded )",
+  "Discard": "Discard",
+
+  "Cancel": "Cancel",
+  "Download": "Download",
+  "Save": "Save",
+  "Upload Image": "Upload Image",
 };
