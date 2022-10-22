@@ -163,6 +163,32 @@ class MapUtil {
     }
   }
 
+    getTraccarPositionforAllCustomized() async {
+    try {
+      print(traccarUser);
+      http.Response response = await http
+          .get(Uri.parse("$traccarApi/positions"), headers: <String, String>{
+        'authorization': basicAuth,
+        'Accept': 'application/json'
+      });
+      print(response.statusCode);
+      print(response.body);
+      var jsonData = await jsonDecode(response.body);
+      print("Positions BODY IS${response.body}");
+      var LatLongList = [];
+      int i = 0;
+      if (response.statusCode == 200) {
+        return jsonData;
+      } else {
+        return null;
+      }
+      // return LatLongList;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+    
   getTraccarPosition({int? deviceId}) async {
     try {
       http.Response response = await http.get(
