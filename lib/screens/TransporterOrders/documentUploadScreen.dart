@@ -71,14 +71,10 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
   Widget build(BuildContext context) {
     Get.put(TransporterIdController());
     var providerData = Provider.of<ProviderData>(context);
-    // providerData.pod = false;
-    // setState(() {
-    //   pod1 = providerData.pod;
-    // });
 
     //Pod :-
 
-    late Map datanew;
+    late Map datanew;// this map will contain the data to be posted using the post document api.
     datanew = {
       "entityId": widget.bookingId.toString(),
       "documents": [
@@ -89,6 +85,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
     late Map dataput;
     // bool verified = false;
 
+    // function to call the post or put api functions according to the need to upload the documents.
     uploadDocumentApiCall() async {
       var response = await postDocumentApiCall(datanew);
       if (response == "put") {
@@ -99,6 +96,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
             await putDocumentApiCall(dataput, widget.bookingId.toString());
       }
       if (response == "successful") {
+        // after uploading the document successfully we null the provider data of the documents to stop displaying the document upload screen.
         setState(() {
           providerData.PodPhotoFile = null;
           providerData.PodPhoto64 = null;
@@ -141,6 +139,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
     }
 
     assignDocNamePod(int i) async {
+      // for assigning the document name according the available document name.
       if (i == 0) {
         await mapAvaildataPod(i, "PodPhoto1");
       } else if (i == 1) {
@@ -162,7 +161,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
       await uploadDocumentApiCall();
     }
 
-    uploadedCheckPod() async {
+    uploadedCheckPod() async {// to check already uploaded pod documents .
       docLinks = [];
       docLinks = await getDocumentApiCall(widget.bookingId.toString(), "P");
       setState(() {
@@ -442,8 +441,8 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
     // }
 
     return WillPopScope(
-      onWillPop: () async {
-        // Do something here
+      onWillPop: () async {// to null the provider data of the documents variables after clicking the back button of the android device.
+       
         print("After clicking the Android Back Button");
         // var providerData = Provider.of<ProviderData>(context);
         providerData.LrPhotoFile = null;
@@ -462,7 +461,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
       child: Scaffold(
         backgroundColor: white,
         body: Container(
-          child: (providerData.LrPhotoFile != null)
+          child: (providerData.LrPhotoFile != null)// to display the document upload screen only if the lr photo is selected by the user.
               ? SafeArea(
                   child: Scaffold(
                     body: Column(
@@ -1112,7 +1111,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                 ),
                               ),
                             )
-                          : SingleChildScrollView(
+                          : SingleChildScrollView(// this will be displayed if any document is not selected for uploading.
                               child: Column(
                                 children: [
                                   SizedBox(
