@@ -214,7 +214,7 @@ class _docInputPodState extends State<docInputPod> {
                     style: TextStyle(color: black),
                   )
                 : Container(),
-            verified
+            verified //to show the payment details after the pod documents are verified.
                 ? Column(
                     children: [
                       Padding(

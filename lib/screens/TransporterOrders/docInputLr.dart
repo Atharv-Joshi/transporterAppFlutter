@@ -85,6 +85,7 @@ class _docInputLrState extends State<docInputLr> {
     currentLang = LocalizationService().getCurrentLocale().toString();
     print(currentLang);
     if (currentLang == "hi_IN") {
+      // to change the image selecting image according to the language.
       setState(() {
         addDocImageEng = addDocImageHindi;
         addMoreDocImageEng = addMoreDocImageHindi;
@@ -146,7 +147,7 @@ class _docInputLrState extends State<docInputLr> {
                                 child: verified
                                     ? Image(
                                         image: AssetImage(
-                                            "assets/images/verifiedDoc.png"))
+                                            "assets/images/verifiedDoc.png"))// to show verified document image if uploaded doucments get verified.
                                     : docUploadbtn2(
                                         // text1: "( Click Here to add".tr,
                                         // text2: "documents / Photos )".tr,
