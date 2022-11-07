@@ -19,6 +19,8 @@ import 'package:liveasy/widgets/requirementsLoad_DetailsWidget.dart';
 import 'package:liveasy/widgets/buttons/shareButton.dart';
 import 'package:get/get.dart';
 
+import '../functions/documentApi/getDocument.dart';
+
 // ignore: must_be_immutable
 
 class LoadDetailsScreen extends StatefulWidget {
@@ -33,6 +35,7 @@ class LoadDetailsScreen extends StatefulWidget {
 class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
   late WidgetLoadDetailsScreenModel widgetLoadDetailsScreenModel;
   bool loading = false;
+  var imageLinks ;
   SelectedDriverController selectedDriverController =
       Get.put(SelectedDriverController());
 
@@ -44,10 +47,22 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
     });
   }
 
+  Future<void>imageUrl() async {
+    // imageLinks = [];
+
+    imageLinks = await getDocumentWithTransportId(widget.loadDetailsScreenModel.postLoadId.toString());
+    // if(imageLinks.length == 0){
+    //   imageLinks.add("https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png");
+    // }
+    print("fffffff ${imageLinks}");
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
     runGetDetailsByPostLoadID();
+    imageUrl();
     setState(() {
       loading = true;
     });
@@ -98,6 +113,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                             loadPosterCompanyApproved:
                                 widgetLoadDetailsScreenModel
                                     .loadPosterCompanyApproved,
+                            imageUrl: imageLinks.toString(),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -153,7 +169,7 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                                         .loadDetailsScreenModel
                                         .loadingPointState?.tr,
                                     "unloadingPoint": widget
-                                        .loadDetailsScreenModel.unloadingPoint,
+                                        .loadDetailsScreenModel.unloadingPoint?.tr,
                                     "unloadingPointCity": widget
                                         .loadDetailsScreenModel
                                         .unloadingPointCity?.tr,

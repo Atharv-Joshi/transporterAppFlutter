@@ -51,7 +51,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "${loadDetails['loadingPointCity'.tr]}, ${loadDetails['loadingPointState'.tr]}",
+                        "${loadDetails['loadingPoint']}, ${loadDetails['loadingPointCity'.tr]}, ${loadDetails['loadingPointState'.tr]}",
                         style: TextStyle(
                             fontWeight: normalWeight, fontSize: size_6),
                       ),
@@ -79,7 +79,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      "${loadDetails['unloadingPointCity'.tr]}, ${loadDetails['unloadingPointState'.tr]}",
+                      "${loadDetails['unloadingPoint'.tr]}, ${loadDetails['unloadingPointCity'.tr]}, ${loadDetails['unloadingPointState'.tr]}",
                       style:
                           TextStyle(fontWeight: normalWeight, fontSize: size_6),
                     ),

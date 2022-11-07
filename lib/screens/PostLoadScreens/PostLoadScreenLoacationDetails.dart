@@ -150,7 +150,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                                 ),
                                 controller: controller1,
                                 onTap: () {
-                                  providerData.updateLoadingPointPostLoad(city: "",state: "");
+                                  providerData.updateLoadingPointPostLoad(place:"", city: "",state: "");
                                 }),
                           ),
                           SizedBox(height: size_5),
@@ -166,7 +166,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                               ),
                               controller: controller2,
                               onTap: () {
-                                providerData.updateUnloadingPointPostLoad(city: "",state: "");
+                                providerData.updateUnloadingPointPostLoad(place:"", city: "",state: "");
                               },
                             ),
                           ),

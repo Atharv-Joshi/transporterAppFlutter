@@ -286,26 +286,30 @@ class ProviderData extends ChangeNotifier {
   //------------------------FUNCTIONS--------------------------------------------------------------------------
 
   void clearLoadingPointFindLoad() {
+    loadingPointPostLoad="";
     loadingPointCityFindLoad = "";
     loadingPointStateFindLoad = "";
     notifyListeners();
   }
 
   void clearUnloadingPointFindLoad() {
+    unloadingPointPostLoad="";
     unloadingPointCityFindLoad = "";
     unloadingPointStateFindLoad = "";
     notifyListeners();
   }
 
   void updateLoadingPointFindLoad(
-      {required String city, required String state}) {
+      {required String place, required String city, required String state}) {
+    loadingPointPostLoad=place;
     loadingPointCityFindLoad = city;
     loadingPointStateFindLoad = state;
     notifyListeners();
   }
 
   void updateUnloadingPointFindLoad(
-      {required String city, required String state}) {
+      {required String place, required String city, required String state}) {
+    unloadingPointPostLoad=place;
     unloadingPointCityFindLoad = city;
     unloadingPointStateFindLoad = state;
     notifyListeners();
@@ -323,19 +327,22 @@ class ProviderData extends ChangeNotifier {
 
   //////////////
   void clearLoadingPointPostLoad() {
+    loadingPointPostLoad="";
     loadingPointCityPostLoad = "";
     loadingPointStatePostLoad = "";
     notifyListeners();
   }
 
   void clearUnloadingPointPostLoad() {
+    loadingPointPostLoad="";
     unloadingPointCityPostLoad = "";
     unloadingPointStatePostLoad = "";
     notifyListeners();
   }
 
   void updateLoadingPointPostLoad(
-      {required String city, required String state}) {
+      {required String place, required String city, required String state}) {
+    loadingPointPostLoad=place;
     loadingPointCityPostLoad = city;
     loadingPointStatePostLoad = state;
 
@@ -343,7 +350,8 @@ class ProviderData extends ChangeNotifier {
   }
 
   void updateUnloadingPointPostLoad(
-      {required String city, required String state}) {
+      {required String place, required String city, required String state}) {
+    unloadingPointPostLoad=place;
     unloadingPointCityPostLoad = city;
     unloadingPointStatePostLoad = state;
 

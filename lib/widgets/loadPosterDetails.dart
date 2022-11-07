@@ -7,23 +7,31 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/unverifiedWidget.dart';
 import 'package:liveasy/widgets/verifiedWidget.dart';
 
+import '../screens/fullScreenImage.dart';
+
 // ignore: must_be_immutable
 class LoadPosterDetails extends StatelessWidget {
   String? loadPosterLocation;
   String? loadPosterName;
   String? loadPosterCompanyName;
   bool? loadPosterCompanyApproved;
+  String? imageUrl;
 
   LoadPosterDetails({
     required this.loadPosterLocation,
     required this.loadPosterName,
     required this.loadPosterCompanyName,
     this.loadPosterCompanyApproved,
+    this.imageUrl
   });
 
   @override
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size.height);
+    String? image;
+    image =
+    (imageUrl == "no profile" ? "assets/images/defaultDriverImage.png" : imageUrl);
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.225,
       decoration: BoxDecoration(
@@ -39,15 +47,26 @@ class LoadPosterDetails extends StatelessWidget {
             child: CircleAvatar(
               radius: radius_11,
               backgroundColor: white,
-              child: Container(
-                height: space_11,
-                width: space_11,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/defaultDriverImage.png"),
-                  ),
-                ),
-              ),
+              child:GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) {
+                          return FullScreenImage(
+                            imageUrl: imageUrl!,
+                          );
+                        }));
+                  },
+                  child:
+                  imageUrl == "no profile" ?
+                  Container(
+                    height: space_7,
+                    width: space_7,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(image!),
+                      ),
+                    ),
+                  ):Image.network(image!)),
             ),
           ),
           Column(

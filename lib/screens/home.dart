@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/documentApi/getDocument.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
 import 'package:liveasy/screens/findLoadScreen.dart';
 import 'package:liveasy/widgets/accountNotVerifiedWidget.dart';
@@ -17,6 +18,7 @@ import 'package:liveasy/widgets/searchLoadWidget.dart';
 import 'package:liveasy/widgets/suggestedLoadWidgetHeader.dart';
 import 'package:liveasy/widgets/suggestedLoadsWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:liveasy/functions/documentApi/getDocument.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
@@ -29,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
-
+  var imageLinks ;
   bool isSwitched = false;
 
   final switchData = GetStorage();
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // switchData.write("isSwitched", true);
     super.initState();
+    imageUrl();
     // try {
     //   if(switchData.read('isSwitched') != null) {
     //     if(switchData.read('isSwitched') == true) {
@@ -59,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
           drawer: DrawerWidget(
             mobileNum: transporterIdController.mobileNum.value,
             userName: transporterIdController.name.toString(),
+            imageUrl: imageLinks.toString(),
+            // imageUrl: response['documentLink'],
             // and pass image url here, if required.
           ),
           backgroundColor: backgroundColor,
@@ -79,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           IconButton(
                             onPressed: () {
+                              imageUrl();
                               _scaffoldKey.currentState?.openDrawer();
                             },
                             icon: Icon(
@@ -153,6 +159,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void>imageUrl() async {
+    imageLinks = await getDocumentWithTransportId(transporterIdController.transporterId.toString());
+    setState(() {});
   }
 
 // Future<bool> onWillPop() {

@@ -90,7 +90,7 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                                 Container(
                                   child: LoadConfirmationTemplate(
                                       value:
-                                          "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                          "${providerData.loadingPointPostLoad}, ${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointPostLoad}, ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
                                       label: 'location'.tr
                                       // AppLocalizations.of(context)!
                                       //     .location

@@ -217,9 +217,11 @@ class MyLoadsCard extends StatelessWidget {
     switch (item) {
       case MenuItems.itemEdit:
         providerData.updateLoadingPointPostLoad(
+          place: loadDetailsScreenModel.loadingPoint!,
             city: loadDetailsScreenModel.loadingPointCity!,
             state: loadDetailsScreenModel.loadingPointState!);
         providerData.updateUnloadingPointPostLoad(
+            place: loadDetailsScreenModel.loadingPoint!,
             city: loadDetailsScreenModel.unloadingPointCity!,
             state: loadDetailsScreenModel.unloadingPointState!);
         providerData.updateProductType(loadDetailsScreenModel.productType);
