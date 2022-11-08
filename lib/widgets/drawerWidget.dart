@@ -17,14 +17,16 @@ import 'package:liveasy/widgets/alertDialog/addDriverAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
+import '../screens/fullScreenImage.dart';
+
 class DrawerWidget extends StatelessWidget {
   final String mobileNum;
   final String userName;
-  final String? imageUrl;
+  final String imageUrl;
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
   DrawerWidget(
-      {required this.mobileNum, required this.userName, this.imageUrl});
+      {required this.mobileNum, required this.userName, required this.imageUrl});
 
   final padding = EdgeInsets.only(left: space_1, right: space_7);
 
@@ -34,7 +36,7 @@ class DrawerWidget extends StatelessWidget {
     String name;
     String image;
     image =
-        (imageUrl == null ? "assets/icons/defaultAccountIcon.png" : imageUrl)!;
+    (imageUrl == "no profile" ? "assets/icons/defaultAccountIcon.png" : imageUrl);
     name = userName.length > 17 ? userName.substring(0, 15) + "..." : userName;
     NavigationIndexController navigationIndexController =
         Get.find<NavigationIndexController>();
@@ -60,15 +62,27 @@ class DrawerWidget extends StatelessWidget {
                           CircleAvatar(
                             radius: radius_7,
                             backgroundColor: white,
-                            child: Container(
-                              height: space_7,
-                              width: space_7,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(image),
-                                ),
-                              ),
-                            ),
+                            child:
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (_) {
+                                        return FullScreenImage(
+                                          imageUrl: imageUrl,
+                                        );
+                                      }));
+                                },
+                                child:
+                                imageUrl == "no profile" ?
+                                Container(
+                                  height: space_7,
+                                  width: space_7,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(image),
+                                    ),
+                                  ),
+                                ):Image.network(image)),
                           ),
                           SizedBox(
                             width: space_2,

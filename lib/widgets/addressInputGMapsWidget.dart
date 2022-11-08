@@ -73,21 +73,25 @@ class AddressInputGMapsWidget extends StatelessWidget {
                 if (hintText == "Loading Point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateLoadingPointFindLoad(
+                    place: result[resultLength - 3].toString(),
                           city: result[resultLength - 3].toString(),
                           state: result[resultLength - 2].toString());
                 } else if (hintText == "Unloading Point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateUnloadingPointFindLoad(
+                      place: result[resultLength - 3].toString(),
                           city: result[resultLength - 3].toString(),
                           state: result[resultLength - 2].toString());
                 } else if (hintText == "Loading point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateLoadingPointPostLoad(
+                      place: result[resultLength - 3].toString(),
                           city: result[resultLength - 3].toString(),
                           state: result[resultLength - 2].toString());
                 } else if (hintText == "Unloading point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateUnloadingPointPostLoad(
+                      place: result[resultLength - 3].toString(),
                           city: result[resultLength - 3].toString(),
                           state: result[resultLength - 2].toString());
                 }
@@ -97,21 +101,25 @@ class AddressInputGMapsWidget extends StatelessWidget {
                 if (hintText == "Loading Point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateLoadingPointFindLoad(
+                      place: result[resultLength - 3].toString(),
                           city: result[0].toString(),
                           state: result[0].toString());
                 } else if (hintText == "Unloading Point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateUnloadingPointFindLoad(
+                      place: result[resultLength - 3].toString(),
                           city: result[0].toString(),
                           state: result[0].toString());
                 } else if (hintText == "Loading point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateLoadingPointPostLoad(
+                    place: result[0].toString(),
                           city: result[0].toString(),
                           state: result[0].toString());
                 } else if (hintText == "Unloading point") {
                   Provider.of<ProviderData>(context, listen: false)
                       .updateUnloadingPointPostLoad(
+                      place: result[0].toString(),
                           city: result[0].toString(),
                           state: result[0].toString());
                 }

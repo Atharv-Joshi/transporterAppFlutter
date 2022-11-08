@@ -22,7 +22,6 @@ class APIService {
       "x-rapidapi-host": "spott.p.rapidapi.com"});
     if (response.statusCode == 200) {
       final List city = json.decode(response.body);
-
       return city.map((json) => CityModel.fromJson(json)).toList();
     } else {
       throw Exception(

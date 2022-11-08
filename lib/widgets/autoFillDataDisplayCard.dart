@@ -6,11 +6,13 @@ import 'package:liveasy/constants/spaces.dart';
 // ignore: must_be_immutable
 class AutoFillDataDisplayCard extends StatelessWidget {
   String placeName;
+  String placeCity;
   String placeAddress;
   var onTap;
 
   AutoFillDataDisplayCard(
-    this.placeName,
+      this.placeName,
+    this.placeCity,
     this.placeAddress,
     this.onTap,
   );
@@ -56,7 +58,7 @@ class AutoFillDataDisplayCard extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      '($placeAddress)',
+                      '($placeCity  $placeAddress)',
                       style: TextStyle(fontSize: size_6, color: darkGreyColor),
                     ),
                   ),

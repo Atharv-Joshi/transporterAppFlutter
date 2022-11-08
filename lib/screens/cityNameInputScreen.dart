@@ -69,7 +69,6 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
       _lastWords = result.recognizedWords;
       controller = TextEditingController(
           text: _lastWords);
-      print("$_lastWords ++++ $controller");
       if (widget.page == "postLoad") {
         locationCard = fillCityGoogle(controller.text); //google place api is used in postLoad
       } else {
@@ -214,12 +213,14 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                               itemCount: snapshot.data.length,
                               itemBuilder: (context, index) =>
                                   AutoFillDataDisplayCard(
+                                    snapshot.data[index].placeName,
                                       snapshot.data[index].placeCityName,
                                       snapshot.data[index].placeStateName, () {
                                 if (widget.valueType == "Loading Point") {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateLoadingPointFindLoad(
+                                    place: snapshot.data[index].placeName,
                                           city: snapshot
                                               .data[index].placeCityName,
                                           state: snapshot
@@ -230,6 +231,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateUnloadingPointFindLoad(
+                                      place: snapshot.data[index].placeName,
                                           city: snapshot
                                               .data[index].placeCityName,
                                           state: snapshot
@@ -241,6 +243,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateLoadingPointPostLoad(
+                                      place: snapshot.data[index].placeName,
                                           city: snapshot
                                               .data[index].placeCityName,
                                           state: snapshot
@@ -251,6 +254,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateUnloadingPointPostLoad(
+                                      place: snapshot.data[index].placeName,
                                           city: snapshot
                                               .data[index].placeCityName,
                                           state: snapshot

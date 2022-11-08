@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../addTruckCircularButtonTemplate.dart';
 
 class OkButtonProductType extends StatefulWidget {
-  late String category;
+  String category;
 
   OkButtonProductType({Key? key, required this.category}) : super(key: key);
 
@@ -22,6 +22,7 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
+    // print("hiiiii ${controllerOthers.text}");
     return Container(
       width: space_16,
       height: space_6,
@@ -72,9 +73,9 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
                           : data);
                   break;
                 case 'Type':
-                    providerData.updateProductType(controllerOthers.text == ""
-                        ? "Choose Product Type"
-                        : controllerOthers.text);
+                  providerData.updateProductType(controllerOthers.text == ""
+                      ? "Choose Product Type"
+                      : controllerOthers.text);
                   break;
                 case 'Number':
                     providerData.updateTruckNumber(data);

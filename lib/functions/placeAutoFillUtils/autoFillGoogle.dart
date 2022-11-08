@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 
 String kGoogleApiKey = FlutterConfig.get('mapKey').toString();
+
 Future<List<AutoFillMMIModel>> fillCityGoogle(String cityName) async{
   var request = http.Request('GET', Uri.parse('https://maps.googleapis.com/maps/api/place/autocomplete/json?'
       'input=$cityName&types=establishment&language=en&components=country:in&key=$kGoogleApiKey'));
@@ -30,9 +31,10 @@ Future<List<AutoFillMMIModel>> fillCityGoogle(String cityName) async{
         print(r);
       }
       AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
-          placeCityName:"${ result[0].toString()}",
+        placeName: "${ result[0].toString()}",
+          placeCityName:"${ result[resultLength - 3].toString()}",
           // placeStateName: json["placeAddress"]\
-          placeStateName:  "${ result[resultLength - 3].toString()}, ${result[resultLength - 2].toString()}"
+          placeStateName:  "${result[resultLength - 2].toString()}"
       );
       card.add(locationCardsModal);
     }
