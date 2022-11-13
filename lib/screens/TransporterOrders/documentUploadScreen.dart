@@ -11,14 +11,19 @@ import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
 import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
-import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
-import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
+//import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
+//import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../HelpScreen.dart';
 import 'docInputLr.dart';
-import 'getDocName.dart';
-import 'getDocumentApiCall.dart';
+//import 'getDocName.dart';
+//import 'getDocumentApiCall.dart';
+
+import 'package:liveasy/functions/documentApi/getDocName.dart';
+import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
+import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
+import 'package:liveasy/functions/documentApi/putDocumentApiCall.dart';
 
 class documentUploadScreen extends StatefulWidget {
   String? bookingId;
