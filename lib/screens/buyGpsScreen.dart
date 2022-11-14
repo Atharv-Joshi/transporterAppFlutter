@@ -32,10 +32,10 @@ class BuyGpsScreen extends StatefulWidget {
 }
 
 class _BuyGpsScreenState extends State<BuyGpsScreen> {
-
   String? _groupValue;
   String? _durationGroupValue;
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
   TruckModel truckModel = TruckModel();
   ScrollController scrollController = ScrollController();
   String? truckID;
@@ -82,19 +82,23 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
     scrollController.dispose();
     super.dispose();
   }
+
   ValueChanged<String?> _ratevalueChangedHandler() {
     return (value) => setState(() => {
-      truckID = updateButtonController.updateTruckID.value,
-      _groupValue = value!,
-      updateButtonController.updateRadioHud(true),
-      if(truckID == "") {
-        updateButtonController.updateButtonHud(false),
-      } else {
-        updateButtonController.updateButtonHud(true),
-      }
-    }
-    );
+          truckID = updateButtonController.updateTruckID.value,
+          _groupValue = value!,
+          updateButtonController.updateRadioHud(true),
+          if (truckID == "")
+            {
+              updateButtonController.updateButtonHud(false),
+            }
+          else
+            {
+              updateButtonController.updateButtonHud(true),
+            }
+        });
   }
+
   ValueChanged<String?> _durationvalueChangedHandler() {
     return (duration) => setState(() => _durationGroupValue = duration!);
   }
@@ -112,14 +116,11 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
               Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: space_4),
+                    margin: EdgeInsets.only(bottom: space_2),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Header(
-                            reset: false,
-                            text: 'Buy GPS',
-                            backButton: true),
+                        Header(reset: false, text: 'Buy GPS', backButton: true),
                         HelpButtonWidget()
                       ],
                     ),
@@ -137,15 +138,15 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                                 style: TextStyle(
                                     color: veryDarkGrey,
                                     fontSize: size_8,
-                                    fontWeight: mediumBoldWeight
-                                ),
+                                    fontWeight: mediumBoldWeight),
                               ),
                               MyRadioOption<String>(
                                 value: '2500',
                                 groupValue: _groupValue,
                                 duration: '1 year',
                                 groupDurationValue: _durationGroupValue,
-                                onDurationChanged: _durationvalueChangedHandler(),
+                                onDurationChanged:
+                                    _durationvalueChangedHandler(),
                                 onChanged: _ratevalueChangedHandler(),
                                 text: '₹2500/ year',
                               ),
@@ -154,17 +155,17 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                                 duration: '2 years',
                                 groupValue: _groupValue,
                                 groupDurationValue: _durationGroupValue,
-                                onDurationChanged: _durationvalueChangedHandler(),
+                                onDurationChanged:
+                                    _durationvalueChangedHandler(),
                                 onChanged: _ratevalueChangedHandler(),
                                 text: '₹3500/ 2 years',
                               ),
                             ],
                           ),
                         ],
-                      )
-                  ),
+                      )),
                   SizedBox(
-                    height: space_2,
+                    height: space_3,
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(vertical: space_3),
@@ -175,8 +176,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                               context: context,
                               builder: (context) => NextUpdateAlertDialog());
                         },
-                      )
-                  ),
+                      )),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -185,22 +185,22 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                           style: TextStyle(
                               color: bidBackground,
                               fontSize: size_9,
-                              fontWeight: mediumBoldWeight
-                          ),
+                              fontWeight: mediumBoldWeight),
                         ),
                         GestureDetector(
                             onTap: () => {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => BuyGPSAddTruckDialog()),
-                              // Get.to(() =>
-                              //     MapPage()
-                              // // HistoryScreen(
-                              // //   // imei: transporterIDImei,
-                              // //   // TruckNo: TruckNo,
-                              // // )
-                              // )
-                            },
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          BuyGPSAddTruckDialog()),
+                                  // Get.to(() =>
+                                  //     MapPage()
+                                  // // HistoryScreen(
+                                  // //   // imei: transporterIDImei,
+                                  // //   // TruckNo: TruckNo,
+                                  // // )
+                                  // )
+                                },
                             child: Row(
                               children: [
                                 Text(
@@ -208,8 +208,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                                   style: TextStyle(
                                       color: bidBackground,
                                       fontSize: size_9,
-                                      fontWeight: mediumBoldWeight
-                                  ),
+                                      fontWeight: mediumBoldWeight),
                                 ),
                                 Text(
                                   "Add Truck",
@@ -217,14 +216,11 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                                       decoration: TextDecoration.underline,
                                       color: bidBackground,
                                       fontSize: size_9,
-                                      fontWeight: mediumBoldWeight
-                                  ),
+                                      fontWeight: mediumBoldWeight),
                                 ),
                               ],
-                            )
-                        )
-                      ]
-                  ),
+                            ))
+                      ]),
                   BuyGPSTrucksStack(
                       durationGroupValue: _durationGroupValue,
                       locationPermissionis: locationPermissionis,
@@ -233,8 +229,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
                       groupValue: _groupValue,
                       loading: loading,
                       scrollController: scrollController,
-                      truckDataList: truckDataList
-                  )
+                      truckDataList: truckDataList)
                 ],
               ),
             ],
@@ -246,7 +241,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
 
   getTruckData(int i) async {
     var truckDataListForPagei = await getGPSTruckDataWithPageNo(i);
-    for (var truckData in truckDataListForPagei){
+    for (var truckData in truckDataListForPagei) {
       truckDataList.add(truckData);
     }
     setState(() {
@@ -255,8 +250,7 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
   }
 
   _getUserAddress() async {
-    Geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) async {
       setState(() {
         _currentPosition = position;
@@ -267,7 +261,8 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
         Placemark place = p[0];
         setState(() {
           locationPermissionis = true;
-          _currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
+          _currentAddress =
+              "${place.locality}, ${place.postalCode}, ${place.country}";
         });
       } catch (e) {
         print(e);
@@ -276,5 +271,4 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
       print("Error is $e");
     });
   }
-
 }
