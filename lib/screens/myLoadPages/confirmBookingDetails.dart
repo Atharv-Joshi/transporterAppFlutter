@@ -82,6 +82,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                       return SelectTruckScreen(
                           driverName: widget.driverName,
                           driverPhoneNo: widget.mobileNo,
+                          loadDetailsScreenModel: widget.loadDetailsScreenModel,
                           directBooking: true);
                     })));
                   },
