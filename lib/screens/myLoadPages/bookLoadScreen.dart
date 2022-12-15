@@ -10,6 +10,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
+import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
 import 'package:liveasy/screens/myLoadPages/selectTruckScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
@@ -20,7 +21,7 @@ import '../HelpScreen.dart';
 class BookLoadScreen extends StatefulWidget {
   List? truckModelList;
   List? driverModelList;
-  LoadDetailsScreenModel? loadDetailsScreenModel;
+  LoadDetailsScreenModel loadDetailsScreenModel;
   BiddingModel? biddingModel;
   bool? directBooking;
   String? postLoadId;
@@ -29,7 +30,7 @@ class BookLoadScreen extends StatefulWidget {
       {this.truckModelList,
       this.postLoadId,
       this.driverModelList,
-      this.loadDetailsScreenModel,
+      required this.loadDetailsScreenModel,
       this.biddingModel,
       required this.directBooking});
 
@@ -49,27 +50,27 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
 
   MapUtil mapUtil = MapUtil();
 
-  getTruckList() async {
-    // FutureGroup futureGroup = FutureGroup();
-
-    var a = mapUtil.getDevices(); ///////////////////////////
-    // var b = mapUtil.getTraccarPositionforAll(); /////////////////////
-    var devices = await a; /////////////////////
-    // setState(() {
-    //   truckList = devices;
-    // });
-    // truckList = devices;
-    // var gpsDataAll = await b; ////////////////////
-    truckList!.clear();
-    // // devicelist.clear();
-    for (var device in devices) {
-      setState(() {
-        truckList!.add(device.truckno);
-        print(truckList);
-        // devicelist.add(device);
-      });
-    }
-  }
+  // getTruckList() async {
+  //   // FutureGroup futureGroup = FutureGroup();
+  //
+  //   var a = mapUtil.getDevices(); ///////////////////////////
+  //   // var b = mapUtil.getTraccarPositionforAll(); /////////////////////
+  //   var devices = await a; /////////////////////
+  //   // setState(() {
+  //   //   truckList = devices;
+  //   // });
+  //   // truckList = devices;
+  //   // var gpsDataAll = await b; ////////////////////
+  //   truckList!.clear();
+  //   // // devicelist.clear();
+  //   for (var device in devices) {
+  //     setState(() {
+  //       truckList!.add(device.truckno);
+  //       print(truckList);
+  //       // devicelist.add(device);
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
@@ -142,7 +143,7 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: ((context) {
+                      .push(MaterialPageRoute(builder: ((context) {
                     return SelectTruckScreen(
                       loadDetailsScreenModel: widget.loadDetailsScreenModel,
                       directBooking: true,
@@ -192,9 +193,13 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: ((context) {
-                    return AddNewDriver(
+                      .push(MaterialPageRoute(builder: ((context) {
+                    // return AddNewDriver(
+                    //   loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                    // );
+                    return SelectDriverScreen(
                       loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                      directBooking: true,
                     );
                   })));
                 },

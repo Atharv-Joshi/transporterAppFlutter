@@ -291,14 +291,17 @@ class _MyTruckCardState extends State<MyTruckCard> {
                                     fontSize: size_6,
                                     fontStyle: FontStyle.normal,
                                     fontWeight: regularWeight)),
-                            Text("$totalDistance " + 'Km in last 24 hours'.tr,
-                                // "km Today",
-                                softWrap: true,
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: size_6,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: regularWeight)),
+                            Expanded(
+                              child: Text(
+                                  "$totalDistance " + 'Km in last 24 hours'.tr,
+                                  // "km Today",
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      color: black,
+                                      fontSize: size_6,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: regularWeight)),
+                            ),
                           ],
                         ),
                       ),
