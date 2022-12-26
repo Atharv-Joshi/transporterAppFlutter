@@ -435,7 +435,7 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     padding: EdgeInsets.only(
-                        top: 15, bottom: 15, left: 25, right: 25),
+                        top: 15, bottom: 15, left: 15, right: 25),
                     child: Row(children: [
                       Image.asset(
                         'assets/icons/circle-outline-with-a-central-dot.png',
