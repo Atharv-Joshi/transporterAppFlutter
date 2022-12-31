@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'dart:ui' as ui;
@@ -59,7 +60,8 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
   String? time;
   Map<PolylineId, Polyline> polylines = {};
   late List<LatLng> polylineCoordinates2;
-
+  bool isPaused = false;
+  late var subscription;
   final Set<Polyline> _polyline = {};
   late LatLng lastlatLngMarker = LatLng(gpsData.last.lat, gpsData.last.lng);
   late CameraPosition camPosition;
@@ -88,6 +90,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
   var markers = <MarkerId, Marker>{};
   var controller = Completer<GoogleMapController>();
   var stream;
+  var streamedData = [];
   var Locations = [];
   late Uint8List markerIcon;
   var routeTime = [];
@@ -111,7 +114,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     } catch (e) {
       logger.e("Error is $e");
     }
-    if (mounted)
+    if (mounted) {
       setState(() {
         camPosition = CameraPosition(
             target: LatLng(
@@ -121,7 +124,11 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                 Duration(milliseconds: 470), (count) => Locations[count])
             .take(Locations.length);
       });
-    value = routeTime.length.toDouble();
+      value = routeTime.length.toDouble();
+    }
+    // stream.forEach((value) {
+    //   streamedData.add(value);
+    // });
   }
 
   initfunction() {
@@ -259,10 +266,12 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
         .then((value) => {
               if (mounted)
                 {
+                  print(
+                      "-------------------------------------->in newLocationUpdate:${latlng.length}"),
                   setState(() {
                     pinLocationIconTruck = value;
-                  }),
-                  setState(() {
+                    // }),
+                    // setState(() {
                     markers[kMarkerId] = Marker(
                         markerId: kMarkerId,
                         position: latLng,
@@ -334,6 +343,17 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     });
   }
 
+  loadData() {
+    // Locations.forEach((element) {
+    //   value = Locations.indexOf(element).toDouble();
+    //   sleep(Duration(seconds: 1));
+    // });
+    // streamedData.toList().forEach((element) {
+    //
+    //   newLocationUpdate(element);
+    // });
+  }
+
   void dispose() {
     logger.i("Activity is disposed");
     super.dispose();
@@ -391,10 +411,31 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                             initialCameraPosition: camPosition,
                             compassEnabled: true,
                             mapType: MapType.normal,
-                            onMapCreated: (gController) {
-                              stream
-                                  .forEach((value) => newLocationUpdate(value));
-                              // stream.forEach((value) => newLocationUpdate2(value));
+                            onMapCreated: (gController) async {
+                              // newLocationUpdate(stream[1]);
+                              // stream.forEach((value) {
+                              //   print(
+                              //       "Stream-------------------------------------------->$value");
+                              //   newLocationUpdate(value);
+                              // });
+                              subscription = stream.listen(
+                                (data) => {
+                                  newLocationUpdate(data),
+                                  value = Locations.indexOf(data).toDouble(),
+                                },
+                              );
+                              // streamedData.forEach((element) {
+                              //   print(
+                              //       "----------------------->$element in stremedData");
+                              //   newLocationUpdate(element);
+                              //   value =
+                              //       streamedData.indexOf(element).toDouble();
+                              //   sleep(Duration(milliseconds: 457));
+                              // });
+                              // print(
+                              //     "Streamed data length----------------->${streamedData.length}");
+                              // // await loadData();
+                              // print("Function called");
                               controller.complete(gController);
                               _customInfoWindowController.googleMapController =
                                   gController;
@@ -409,6 +450,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                         ),
                       ])),
                 ),
+
                 // Positioned(
                 //     top: 20,
                 //     left: 20,
@@ -612,6 +654,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                   Row(
                                     children: [
                                       FloatingActionButton(
+                                        heroTag: "btn1",
                                         mini: true,
                                         elevation: 0,
                                         backgroundColor:
@@ -632,6 +675,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                     ],
                                   ),
                                   FloatingActionButton(
+                                    heroTag: "btn2",
                                     elevation: 0,
                                     backgroundColor:
                                         Color.fromRGBO(21, 41, 104, 1),
@@ -723,11 +767,28 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                   ),
                                   padding: EdgeInsets.all(3),
                                   child: FloatingActionButton(
+                                    heroTag: "btn3",
                                     backgroundColor:
                                         Color.fromRGBO(21, 41, 104, 1),
                                     mini: true,
-                                    onPressed: () {},
-                                    child: Icon(Icons.pause),
+                                    onPressed: () {
+                                      print(
+                                          "-------------------->Pause button");
+                                      print(
+                                          "Paused----------------->$isPaused");
+                                      setState(() {
+                                        if (isPaused) {
+                                          subscription.resume();
+                                        } else {
+                                          subscription.pause();
+                                        }
+                                        isPaused = !isPaused;
+                                      });
+                                      //print(streamedData);
+                                    },
+                                    child: isPaused
+                                        ? Icon(Icons.play_arrow)
+                                        : Icon(Icons.pause),
                                   ),
                                 ),
                               ),
@@ -758,11 +819,15 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                           thumbColor: Colors.green,
                                           activeColor: Colors.green,
                                           min: 0,
-                                          max: routeTime.length.toDouble(),
+                                          max: Locations.length.toDouble(),
                                           value: value,
                                           divisions: 100,
                                           onChanged: (value) {
-                                            this.value = value;
+                                            setState(() {
+                                              this.value = value;
+                                              print(Locations[value.toInt()]);
+                                            });
+                                            print(value);
                                           },
                                         ),
                                       ],
@@ -772,6 +837,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                   right: -10,
                                   top: -15,
                                   child: FloatingActionButton(
+                                    heroTag: "btn4",
                                     backgroundColor: Colors.white,
                                     mini: true,
                                     onPressed: () {},
