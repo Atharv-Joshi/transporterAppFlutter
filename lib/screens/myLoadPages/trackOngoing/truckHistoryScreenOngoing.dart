@@ -271,7 +271,7 @@ class _TruckHistoryScreenOngoingState extends State<TruckHistoryScreenOngoing> {
     var gpsRoute1 =
         await getTraccarSummaryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
     setState(() {
-      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+      totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
     });
   }
 

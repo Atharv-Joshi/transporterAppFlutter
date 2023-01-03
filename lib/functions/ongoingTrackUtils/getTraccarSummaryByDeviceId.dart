@@ -4,7 +4,7 @@ import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 
-getTraccarSummaryByDeviceId({
+Future<List<GpsDataModel>> getTraccarSummaryByDeviceId({
   int? deviceId,
   String? from,
   String? to,
@@ -17,6 +17,8 @@ getTraccarSummaryByDeviceId({
   String traccarApi = FlutterConfig.get("traccarApi");
 
   try {
+    print(Uri.parse(
+        "$traccarApi/reports/summary?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
     http.Response response = await http.get(
         Uri.parse(
             "$traccarApi/reports/summary?deviceId=$deviceId&from=${from}Z&to=${to}Z"),
@@ -25,7 +27,7 @@ getTraccarSummaryByDeviceId({
     print(response.body);
     var jsonData = await jsonDecode(response.body);
     print(response.body);
-    var LatLongList = [];
+    List<GpsDataModel> latLongList = [];
     if (response.statusCode == 200) {
       for (var json in jsonData) {
         GpsDataModel gpsDataModel = new GpsDataModel();
@@ -44,15 +46,15 @@ getTraccarSummaryByDeviceId({
 
         // print("Device time : ${gpsDataModel.deviceTime}");
 
-        LatLongList.add(gpsDataModel);
+        latLongList.add(gpsDataModel);
       }
-      print("TDSummary $LatLongList");
-      return LatLongList;
+      print("TDSummary $latLongList");
+      return latLongList;
     } else {
-      return null;
+      return [];
     }
   } catch (e) {
     print(e);
-    return null;
+    return [];
   }
 }

@@ -10,44 +10,40 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
 import 'package:geocoding/geocoding.dart';
 
-
-getDeviceByDeviceId(String deviceId) async {
+Future<List<DeviceModel>> getDeviceByDeviceId(String deviceId) async {
   String traccarUser = FlutterConfig.get("traccarUser");
   String traccarPass = FlutterConfig.get("traccarPass");
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
   String traccarApi = FlutterConfig.get("traccarApi");
   try {
-    http.Response response = await http.get(Uri.parse("$traccarApi/devices/$deviceId"),
+    http.Response response = await http.get(
+        Uri.parse("$traccarApi/devices/$deviceId"),
         headers: <String, String>{
-          'authorization': basicAuth,
+          'Authorization': basicAuth,
           'Accept': 'application/json'
         });
     print(response.statusCode);
-    print("traccar device api response: "+response.body);
-    print("done till here");
+    print("traccar device api response: " + response.body);
     var json = await jsonDecode(response.body);
-    print(json);
-    var devicesList = [];
+    List<DeviceModel> devicesList = [];
     if (response.statusCode == 200) {
-        DeviceModel devicemodel = new DeviceModel();
-        // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
-        devicemodel.deviceId = json["id"] != null ? json["id"] : 0;
-        devicemodel.truckno = json["name"] != null ? json["name"] : 'NA';
-        devicemodel.imei = json["uniqueId"] != null ? json["uniqueId"] : 'NA';
-        devicemodel.status = json["status"] != null ? json["status"] : 'NA';
-        devicemodel.lastUpdate =
-        json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
+      DeviceModel deviceModel = new DeviceModel();
+      deviceModel.deviceId = json["id"] != null ? json["id"] : 0;
+      deviceModel.truckno = json["name"] != null ? json["name"] : 'NA';
+      deviceModel.imei = json["uniqueId"] != null ? json["uniqueId"] : 'NA';
+      deviceModel.status = json["status"] != null ? json["status"] : 'NA';
+      deviceModel.lastUpdate =
+          json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
 
-        devicesList.add(devicemodel);
-
-      }
-      return devicesList;
+      devicesList.add(deviceModel);
+    }
+    return devicesList;
     // } else {
     //   return null;
     // }
   } catch (e) {
     print(e);
-    return null;
+    return [];
   }
 }

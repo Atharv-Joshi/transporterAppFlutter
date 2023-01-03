@@ -19,6 +19,7 @@ import 'linePainter.dart';
 
 class OngoingCard extends StatefulWidget {
   final OngoingCardModel loadAllDataModel;
+
   // final GpsDataModel gpsData;
 
   OngoingCard({
@@ -41,6 +42,7 @@ class _OngoingCardState extends State<OngoingCard> {
   String? to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
   String? totalDistance;
+
   @override
   void initState() {
     super.initState();
@@ -230,10 +232,12 @@ class _OngoingCardState extends State<OngoingCard> {
 
     devicelist.clear();
 
-    for (var device in devices) {
-      setState(() {
-        devicelist.add(device);
-      });
+    if (devices != null) {
+      for (var device in devices) {
+        setState(() {
+          devicelist.add(device);
+        });
+      }
     }
 
     gpsList = List.filled(devices.length, null, growable: true);
@@ -257,7 +261,7 @@ class _OngoingCardState extends State<OngoingCard> {
     var gpsRoute1 = await getTraccarSummaryByDeviceId(
         deviceId: widget.loadAllDataModel.deviceId, from: from, to: to);
     setState(() {
-      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+      totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
     });
     print('in init');
   }

@@ -7,27 +7,18 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bookingApiCallsOrders.dart';
-import 'package:liveasy/functions/loadOnGoingDeliveredDataOrders.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
 import 'package:liveasy/language/localization_service.dart';
-import 'package:liveasy/models/BookingModel.dart';
+import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
-import 'package:liveasy/screens/TransporterOrders/loadOnGoingOrdersData.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersCardNew.dart';
-import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
-import 'package:liveasy/widgets/onGoingCard.dart';
-import 'package:liveasy/widgets/onGoingCardOrder.dart';
 import 'package:flutter_config/flutter_config.dart';
-import 'package:liveasy/widgets/unloadingPointImageIcon.dart';
-import 'package:provider/provider.dart';
-
-import '../../providerClass/providerData.dart';
 
 class OngoingScreenOrders extends StatefulWidget {
   @override
@@ -49,9 +40,9 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   DateTime yesterday =
       DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-  String? from;
-  String? to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
+  String? from = DateTime.now().toIso8601String();
+  String? to = DateTime.now().toIso8601String();
   String? totalDistance;
 
   final BookingApiCallsOrders bookingApiCallsOrders = BookingApiCallsOrders();
@@ -97,6 +88,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   }
 
   initializeGps() async {
+    print("in func");
     for (int i = 0; i < modelList.length; i++) {
       await getMyTruckPosition(i);
       // await initFunction(i);
@@ -364,9 +356,10 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   // List<GpsDataModel> gpsDataList;
   // Future<bool>
   getMyTruckPosition(int index) async {
-    var devices =
+    List<DeviceModel> devices =
         await getDeviceByDeviceId(modelList[index].deviceId.toString());
-    var gpsDataAll =
+    print("in func 3");
+    List<GpsDataModel> gpsDataAll =
         await getPositionByDeviceId(modelList[index].deviceId.toString());
 
     // devicelist.clear();
@@ -402,12 +395,12 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   }
 
   void initFunction(index) async {
-    var gpsRoute1 = await getTraccarSummaryByDeviceId(
+    List<GpsDataModel> gpsRoute1 = await getTraccarSummaryByDeviceId(
         deviceId: modelList[index].deviceId, from: from, to: to);
-    setState(() {
-      totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
+
+      totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
       initfunctionBoolValue = true;
-    });
+
     print('in init');
     // return initfunctionBoolValue;
   }
