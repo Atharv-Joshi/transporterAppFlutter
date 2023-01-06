@@ -34,7 +34,7 @@ getOngoingDataWithPageNo(int i) async {
     bookingModel.unitValue =
         json['unitValue'] != null ? json['unitValue'] : 'PER_TON';
     bookingModel.deviceId =
-        json['deviceId'] != null ? int.parse(json['deviceId']) : 0;
+        json['deviceId'] != null ? json['deviceId'] == 'NA' ? 80 : int.parse(json["deviceId"]) : 80;
     bookingModel.unloadingPointCity =
         json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
     bookingModel.loadingPointCity =

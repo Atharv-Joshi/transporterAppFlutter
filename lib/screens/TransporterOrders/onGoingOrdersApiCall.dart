@@ -64,7 +64,7 @@ onGoingOrdersApiCall(int i) async {
     bookingModel.truckNo = json['truckNo'] != null ? json['truckNo'] : 'NA';
     // bookingModel.deviceId = json['deviceId'] != null ? json['deviceId'] : 'NA';
     bookingModel.deviceId =
-        json['deviceId'] != null ? int.parse(json["deviceId"]) : 0;
+        json['deviceId'] != null ? json['deviceId'] == 'NA' ? 80 : int.parse(json["deviceId"]) : 80;
 //     print(bookingModel);
 
 // // var loadAllDataModel = BookingModel(bookingModel);
