@@ -8,16 +8,19 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 
+import '../screens/accountScreens/kycScreen.dart';
+
 class AccountNotVerifiedWidget extends StatelessWidget {
   const AccountNotVerifiedWidget({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     NavigationIndexController navigationIndexController =
         Get.find<NavigationIndexController>();
     return GestureDetector(
       onTap: () {
-        navigationIndexController.updateIndex(4);
+        //navigationIndexController.updateIndex(4);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const KYCScreen()));
       },
       child: Container(
         height: space_8,
