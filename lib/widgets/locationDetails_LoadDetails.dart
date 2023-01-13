@@ -14,6 +14,7 @@ class LocationDetailsLoadDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(loadDetails["loadingPoint2"]);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,6 +60,30 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   ],
                 ),
               ),
+              loadDetails['loadingPoint2']!='NA'?
+                  Container(
+                margin: EdgeInsets.only(top: space_3),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: space_1),
+                      child: Image(
+                        image: AssetImage(
+                            "assets/icons/greenFilledCircleIcon.png"),
+                      ),
+                      width: space_2,
+                      height: space_2,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "${loadDetails['loadingPoint2']}, ${loadDetails['loadingPointCity2'.tr]}, ${loadDetails['loadingPointState2'.tr]}",
+                        style: TextStyle(
+                            fontWeight: normalWeight, fontSize: size_6),
+                      ),
+                    )
+                  ],
+                ),
+              ):Container(),
               Container(
                 height: space_5,
                 padding: EdgeInsets.only(left: space_1 - 3),
@@ -86,6 +111,30 @@ class LocationDetailsLoadDetails extends StatelessWidget {
                   )
                 ],
               ),
+              loadDetails['unloadingPoint2']!='NA'
+                  ?Container(
+                margin: EdgeInsets.only(top: space_3),
+                    child: Row(
+                children: [
+                    Container(
+                      margin: EdgeInsets.only(right: space_1),
+                      child: Image(
+                        image: AssetImage(
+                            "assets/icons/redSemiFilledCircleIcon.png"),
+                      ),
+                      width: space_2,
+                      height: space_2,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "${loadDetails['unloadingPoint2']}, ${loadDetails['unloadingPointCity2'.tr]}, ${loadDetails['unloadingPointState2'.tr]}",
+                        style:
+                        TextStyle(fontWeight: normalWeight, fontSize: size_6),
+                      ),
+                    )
+                ],
+              ),
+                  ):Container()
             ],
           ),
         ),

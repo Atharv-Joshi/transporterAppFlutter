@@ -94,6 +94,9 @@ const Map<String, String> enUS = {
   "youHaveCompletedYourOrder": "You have completed your order!",
   "youHaveSuccessfullyUpdateYourOrder":
       "You have successfully updated the load!",
+  "Single":"Single",
+  "Multiple":"Multiple",
+
 
   "bids": "Bids",
   "biddingDate": "Bidding Date",
@@ -194,7 +197,11 @@ const Map<String, String> enUS = {
   "disable": "Disable",
   "tyres": "Tyres",
   "loadingPoint": "Loading Point",
+  "loadingPoint1": "Loading Point 1",
+  "loadingPoint2": "Loading Point 2",
   "unLoadingPoint": "Unloading Point",
+  "unLoadingPoint1": "Unloading Point 1",
+  "unLoadingPoint2": "Unloading Point 2",
   "findLoad": "Find Load",
   'bidPrice': "Bid Price",
   'addDriver': "Add Driver",
@@ -519,6 +526,7 @@ const Map<String, String> enUS = {
   "Guruvayoor": "Guruvayoor",
   "Guwahati": "Guwahati",
   "Gwalior": "Gwalior",
+  "Gurugram":"Gurugram",
   "Habra": "Habra",
   "Hajipur": "Hajipur",
   "Haldwani": "Haldwani",
@@ -1127,6 +1135,7 @@ const Map<String, String> enUS = {
   "Robertsganj": "Robertsganj",
   "Robertsonpet": "Robertsonpet",
   "Rohtak": "Rohtak",
+  "Rohini":"Rohini",
   "Ron": "Ron",
   "Roorkee": "Roorkee",
   "Rosera": "Rosera",

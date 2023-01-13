@@ -180,6 +180,18 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                                           .loadDetailsScreenModel
                                           .loadingPointState
                                           ?.tr,
+                                      "loadingPoint2": widget
+                                          .loadDetailsScreenModel
+                                          .loadingPoint2
+                                          ?.tr,
+                                      "loadingPointCity2": widget
+                                          .loadDetailsScreenModel
+                                          .loadingPointCity2
+                                          ?.tr,
+                                      "loadingPointState2": widget
+                                          .loadDetailsScreenModel
+                                          .loadingPointState2
+                                          ?.tr,
                                       "unloadingPoint": widget
                                           .loadDetailsScreenModel
                                           .unloadingPoint
@@ -191,6 +203,18 @@ class _LoadDetailsScreenState extends State<LoadDetailsScreen> {
                                       "unloadingPointState": widget
                                           .loadDetailsScreenModel
                                           .unloadingPointState
+                                          ?.tr,
+                                      "unloadingPoint2": widget
+                                          .loadDetailsScreenModel
+                                          .unloadingPoint2
+                                          ?.tr,
+                                      "unloadingPointCity2": widget
+                                          .loadDetailsScreenModel
+                                          .unloadingPointCity2
+                                          ?.tr,
+                                      "unloadingPointState2": widget
+                                          .loadDetailsScreenModel
+                                          .unloadingPointState2
                                           ?.tr,
                                     },
                                   ),

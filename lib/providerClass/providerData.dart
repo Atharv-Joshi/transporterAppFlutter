@@ -98,10 +98,16 @@ class ProviderData extends ChangeNotifier {
   String loadingPointCityPostLoad = "";
   String loadingPointStatePostLoad = "";
   String loadingPointPostLoad = "";
+  String loadingPointCityPostLoad2 = "";
+  String loadingPointStatePostLoad2 = "";
+  String loadingPointPostLoad2="";
 
   String unloadingPointCityPostLoad = "";
   String unloadingPointStatePostLoad = "";
   String unloadingPointPostLoad = "";
+  String unloadingPointCityPostLoad2 = "";
+  String unloadingPointStatePostLoad2 = "";
+  String unloadingPointPostLoad2 = "";
 //
 
   String bookingDate = "";
@@ -160,6 +166,7 @@ class ProviderData extends ChangeNotifier {
 
   //variables related to orders page
   int upperNavigatorIndex = 0;
+  int upperNavigatorIndex2 = 0;
 
   dynamic dropDownValue;
 
@@ -189,6 +196,10 @@ class ProviderData extends ChangeNotifier {
 
   void updateUpperNavigatorIndex(int value) {
     upperNavigatorIndex = value;
+    notifyListeners();
+  }
+  void updateUpperNavigatorIndex2(int value){
+    upperNavigatorIndex2 = value;
     notifyListeners();
   }
 
@@ -328,12 +339,23 @@ class ProviderData extends ChangeNotifier {
     loadingPointStatePostLoad = "";
     notifyListeners();
   }
+  void clearLoadingPointPostLoad2(){
+    loadingPointPostLoad2 = "";
+    loadingPointCityPostLoad2 = "";
+    loadingPointStatePostLoad2 = "";
+    notifyListeners();
+  }
 
   void clearUnloadingPointPostLoad() {
-    loadingPointPostLoad = "";
+    unloadingPointPostLoad = "";
     unloadingPointCityPostLoad = "";
     unloadingPointStatePostLoad = "";
     notifyListeners();
+  }
+  void clearUnloadingPointPostLoad2(){
+    unloadingPointPostLoad2 = "";
+    unloadingPointCityPostLoad2 = "";
+    unloadingPointStatePostLoad2 = "";
   }
 
   void updateLoadingPointPostLoad(
@@ -344,6 +366,13 @@ class ProviderData extends ChangeNotifier {
 
     notifyListeners();
   }
+  void updateLoadingPointPostLoad2(
+  {required String place, required String city, required String state}){
+    loadingPointPostLoad2 = place;
+    loadingPointCityPostLoad2 = city;
+    loadingPointStatePostLoad2 = state;
+    notifyListeners();
+  }
 
   void updateUnloadingPointPostLoad(
       {required String place, required String city, required String state}) {
@@ -352,6 +381,12 @@ class ProviderData extends ChangeNotifier {
     unloadingPointStatePostLoad = state;
 
     notifyListeners();
+  }
+  void updateUnloadingPointPostLoad2(
+  {required String place, required String city, required String state}){
+    unloadingPointPostLoad2 = place;
+    unloadingPointCityPostLoad2 = city;
+    unloadingPointStatePostLoad2 = state;
   }
 
   //functions for login screen
@@ -477,6 +512,14 @@ class ProviderData extends ChangeNotifier {
     clearLoadingPointPostLoad();
     clearUnloadingPointPostLoad();
     clearBookingDate();
+    updateResetActive(false);
+    notifyListeners();
+  }
+  void resetPostLoadScreenMultiple(){
+    clearLoadingPointPostLoad();
+    clearUnloadingPointPostLoad();
+    clearLoadingPointPostLoad2();
+    clearUnloadingPointPostLoad2();
     updateResetActive(false);
     notifyListeners();
   }

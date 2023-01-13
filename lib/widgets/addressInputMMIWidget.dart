@@ -7,10 +7,11 @@ import 'package:liveasy/screens/cityNameInputScreen.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 // ignore: must_be_immutable
-class AddressInputMMIWidget extends StatelessWidget {
+class AddressInputMMIWidget extends StatefulWidget {
   final String page;
   final String hintText;
   final Widget icon;
@@ -24,6 +25,37 @@ class AddressInputMMIWidget extends StatelessWidget {
       required this.controller,
       required this.onTap});
 
+  @override
+  State<AddressInputMMIWidget> createState() => _AddressInputMMIWidgetState();
+}
+
+class _AddressInputMMIWidgetState extends State<AddressInputMMIWidget> {
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
     late String value;
@@ -79,16 +111,21 @@ class AddressInputMMIWidget extends StatelessWidget {
       child: TextFormField(
         readOnly: true,
         onTap: () async {
+          final hasPermission = await _handleLocationPermission();
+          if (hasPermission){
           providerData.updateResetActive(true);
           FocusScope.of(context).requestFocus(FocusNode());
           value = await Get.to(
-              () => CityNameInputScreen(page, hintText)); // for MapMyIndia api
-        },
-        controller: controller,
+              () => CityNameInputScreen(widget.page, widget.hintText)); // for MapMyIndia api
+        }},
+        controller: widget.controller,
         decoration: InputDecoration(
-          hintText: hintText,
-          icon: icon,
-          suffixIcon: GestureDetector(onTap: onTap, child: CancelIconWidget()),
+          hintText: widget.hintText,
+          icon: widget.icon,
+          suffixIcon: GestureDetector(onTap: widget.onTap,
+              child: widget.hintText == "Loading point 2"|| widget.hintText == "Unloading point 2"?
+              Icon(Icons.delete_outline):
+              CancelIconWidget()),
         ),
       ),
     );

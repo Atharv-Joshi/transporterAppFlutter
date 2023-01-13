@@ -21,7 +21,7 @@ import 'package:provider/provider.dart';
 import 'priceContainer.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/functions/loadApiCalls.dart';
-
+import 'package:liveasy/screens/PostLoadScreens/postloadnavigation.dart';
 // ignore: must_be_immutable
 class MyLoadsCard extends StatelessWidget {
   LoadDetailsScreenModel loadDetailsScreenModel;
@@ -89,6 +89,9 @@ class MyLoadsCard extends StatelessWidget {
               LoadEndPointTemplate(
                   text: "${loadDetailsScreenModel.loadingPointCity}".tr,
                   endPointType: 'loading'),
+              loadDetailsScreenModel.loadingPointCity2!= "NA"? LoadEndPointTemplate(
+                  text: "${loadDetailsScreenModel.loadingPointCity2}",
+                  endPointType: 'loading'):Container(),
               Container(
                 height: space_4 + 2,
                 padding: EdgeInsets.only(left: space_1 - 3),
@@ -99,6 +102,9 @@ class MyLoadsCard extends StatelessWidget {
               LoadEndPointTemplate(
                   text: "${loadDetailsScreenModel.unloadingPointCity}".tr,
                   endPointType: 'unloading'),
+              loadDetailsScreenModel.unloadingPointCity2!="NA"?LoadEndPointTemplate(
+                  text: "${loadDetailsScreenModel.unloadingPointCity2}".tr,
+                  endPointType: 'unloading'):Container(),
               SizedBox(
                 height: space_1,
               ),
@@ -220,14 +226,26 @@ class MyLoadsCard extends StatelessWidget {
           place: loadDetailsScreenModel.loadingPoint!,
             city: loadDetailsScreenModel.loadingPointCity!,
             state: loadDetailsScreenModel.loadingPointState!);
+        if(loadDetailsScreenModel.loadingPoint2!="NA"){
+          providerData.updateLoadingPointPostLoad2(
+              place: loadDetailsScreenModel.loadingPoint2!,
+              city: loadDetailsScreenModel.loadingPointCity2!,
+              state: loadDetailsScreenModel.loadingPointState2!);
+        }
         providerData.updateUnloadingPointPostLoad(
-            place: loadDetailsScreenModel.loadingPoint!,
+            place: loadDetailsScreenModel.unloadingPoint!,
             city: loadDetailsScreenModel.unloadingPointCity!,
             state: loadDetailsScreenModel.unloadingPointState!);
         providerData.updateProductType(loadDetailsScreenModel.productType);
         if (loadDetailsScreenModel.noOfTyres != "NA") {
           providerData
               .updateTruckNumber(int.parse(loadDetailsScreenModel.noOfTyres!));
+        }
+        if(loadDetailsScreenModel.unloadingPoint2!="NA"){
+          providerData.updateUnloadingPointPostLoad2(
+              place: loadDetailsScreenModel.unloadingPoint2!,
+              city: loadDetailsScreenModel.unloadingPointCity2!,
+              state: loadDetailsScreenModel.unloadingPointState2!);
         }
         providerData.updatePassingWeightValue(
             int.parse(loadDetailsScreenModel.weight!));
@@ -253,7 +271,7 @@ class MyLoadsCard extends StatelessWidget {
         providerData.updateEditLoad(true, loadDetailsScreenModel.loadId!);
 
         print(providerData.editLoad); // true
-        Get.to(PostLoadScreenOne());
+        Get.to(postloadnav());
         break;
       case MenuItems.itemDisable:
         LoadApiCalls loadApiCalls = LoadApiCalls();

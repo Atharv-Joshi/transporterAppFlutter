@@ -129,7 +129,7 @@ class callBtn extends StatelessWidget {
                 style: TextStyle(
                     letterSpacing: 0.7,
                     color: darkBlueColor,
-                    fontSize: size_9,
+                    fontSize: size_8,
                     fontWeight: mediumBoldWeight),
               ),
             ],

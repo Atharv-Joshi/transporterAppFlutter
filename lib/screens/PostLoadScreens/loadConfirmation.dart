@@ -89,8 +89,13 @@ class _LoadConfirmationState extends State<LoadConfirmation> {
                               children: [
                                 Container(
                                   child: LoadConfirmationTemplate(
-                                      value:
-                                          "${providerData.loadingPointPostLoad}, ${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad} ==> ${providerData.unloadingPointPostLoad}, ${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+                                      value:providerData.loadingPointPostLoad2!=""?
+                                      providerData.unloadingPointPostLoad2!=""?
+                                      "${providerData.loadingPointPostLoad}".tr+","+"${providerData.loadingPointCityPostLoad}".tr+","+"${providerData.loadingPointStatePostLoad}".tr + " + "+"${providerData.loadingPointPostLoad2}".tr+","+"${providerData.loadingPointCityPostLoad2}".tr+","+"${providerData.loadingPointStatePostLoad2}".tr+" ==> ${providerData.unloadingPointPostLoad.tr}, ${providerData.unloadingPointCityPostLoad.tr}, ${providerData.unloadingPointStatePostLoad} + ${providerData.unloadingPointPostLoad2}, ${providerData.unloadingPointCityPostLoad2}, ${providerData.unloadingPointStatePostLoad2}":
+                                      "${providerData.loadingPointPostLoad.tr}, ${providerData.loadingPointCityPostLoad.tr}, ${providerData.loadingPointStatePostLoad.tr}" + " + ${providerData.loadingPointPostLoad2.tr}, ${providerData.loadingPointCityPostLoad2.tr}, ${providerData.loadingPointStatePostLoad2.tr} ==> ${providerData.unloadingPointPostLoad.tr}, ${providerData.unloadingPointCityPostLoad.tr}, ${providerData.unloadingPointStatePostLoad.tr}":
+                                      providerData.unloadingPointPostLoad2!=""?
+                                      "${providerData.loadingPointPostLoad.tr}, ${providerData.loadingPointCityPostLoad.tr}, ${providerData.loadingPointStatePostLoad.tr}" + " ==> ${providerData.unloadingPointPostLoad.tr}, ${providerData.unloadingPointCityPostLoad.tr}, ${providerData.unloadingPointStatePostLoad.tr} + ${providerData.unloadingPointPostLoad2.tr}, ${providerData.unloadingPointCityPostLoad2.tr}, ${providerData.unloadingPointStatePostLoad2.tr}":
+                                      "${providerData.loadingPointPostLoad.tr}, ${providerData.loadingPointCityPostLoad.tr}, ${providerData.loadingPointStatePostLoad.tr}" + " ==> ${providerData.unloadingPointPostLoad.tr}, ${providerData.unloadingPointCityPostLoad.tr}, ${providerData.unloadingPointStatePostLoad.tr}",
                                       label: 'location'.tr
                                       // AppLocalizations.of(context)!
                                       //     .location

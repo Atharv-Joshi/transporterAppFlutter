@@ -16,6 +16,7 @@ import 'package:liveasy/functions/postOneSignalNotification.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoadDetails.dart';
+import 'package:liveasy/screens/PostLoadScreens/postloadnavigation.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
@@ -58,12 +59,18 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             providerData.loadingPointPostLoad,
             providerData.loadingPointCityPostLoad,
             providerData.loadingPointStatePostLoad,
+            providerData.loadingPointPostLoad2 ==""?null:providerData.loadingPointPostLoad2,
+            providerData.loadingPointCityPostLoad2 ==""?null:providerData.loadingPointCityPostLoad2,
+            providerData.loadingPointStatePostLoad2 ==""?null:providerData.loadingPointStatePostLoad2,
             providerData.totalTyresValue,
             providerData.productType,
             providerData.truckTypeValue,
             providerData.unloadingPointPostLoad,
             providerData.unloadingPointCityPostLoad,
             providerData.unloadingPointStatePostLoad,
+            providerData.unloadingPointPostLoad2 ==""?null:providerData.unloadingPointPostLoad2,
+            providerData.unloadingPointCityPostLoad2 ==""?null:providerData.unloadingPointCityPostLoad2,
+            providerData.unloadingPointStatePostLoad2 == ""?null:providerData.unloadingPointStatePostLoad2,
             providerData.passingWeightValue,
             providerData.unitValue == "" ? null : providerData.unitValue,
             providerData.price == 0 ? null : providerData.price);
@@ -87,6 +94,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
                     Get.off(() => NavigationScreen()),
                     providerData.resetPostLoadFilters(),
                     providerData.resetPostLoadScreenOne(),
+                    providerData.resetPostLoadScreenMultiple(),
+                    providerData.updateUpperNavigatorIndex2(0),
                     controller.text = "",
                     controllerOthers.text = ""
                   });
@@ -110,10 +119,16 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             "${providerData.loadingPointCityPostLoad}, ${providerData.loadingPointStatePostLoad}",
             providerData.loadingPointCityPostLoad,
             providerData.loadingPointStatePostLoad,
+            providerData.loadingPointCityPostLoad2==""?null:"${providerData.loadingPointCityPostLoad2}, ${providerData.loadingPointStatePostLoad2}",
+            providerData.loadingPointCityPostLoad2 ==""?null:providerData.loadingPointCityPostLoad2,
+            providerData.loadingPointStatePostLoad2 ==""?null:providerData.loadingPointStatePostLoad2,
             providerData.totalTyresValue,
             providerData.productType,
             providerData.truckTypeValue,
             "${providerData.unloadingPointCityPostLoad}, ${providerData.unloadingPointStatePostLoad}",
+            providerData.unloadingPointCityPostLoad2==""?null:"${providerData.unloadingPointCityPostLoad2}, ${providerData.unloadingPointStatePostLoad2}",
+            providerData.unloadingPointCityPostLoad2 ==""?null:providerData.unloadingPointCityPostLoad2,
+            providerData.unloadingPointStatePostLoad2 == ""?null:providerData.unloadingPointStatePostLoad2,
             providerData.unloadingPointCityPostLoad,
             providerData.unloadingPointStatePostLoad,
             providerData.passingWeightValue,
@@ -139,6 +154,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
                     navigationIndexController.updateIndex(2),
                     providerData.resetPostLoadFilters(),
                     providerData.resetPostLoadScreenOne(),
+                    providerData.resetPostLoadScreenMultiple(),
+                    providerData.updateUpperNavigatorIndex2(0),
                     controller.text = "",
                     controllerOthers.text = ""
                   });
@@ -158,7 +175,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
       onTap: () {
         // title=="Edit"?Get.to(PostLoadScreenOne()):
         if (title == "Edit") {
-          Get.to(() => PostLoadScreenOne());
+          providerData.updateUpperNavigatorIndex2(0);
+          Get.to(() => postloadnav());
         } else {
           providerData.updateUnitValue();
           getData();
