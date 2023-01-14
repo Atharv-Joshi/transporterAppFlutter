@@ -102,6 +102,8 @@ const Map<String, String> hiIN = {
   "orderDetails": "आर्डर की जानकारी",
   "complete": "पूर्ण",
   "completedDate": "पूर्ण दिनांक",
+  "Single":"एक",
+  "Multiple":"विभिन्न",
 
   //Newly Added
   //LOgin screen
@@ -190,7 +192,11 @@ const Map<String, String> hiIN = {
   "disable": "बंद करें",
   "tyres": "चक्के",
   "loadingPoint": "लादने का स्थान",
+  "loadingPoint1": "लादने का स्थान १",
+  "loadingPoint2": "लादने का स्थान २",
   "unLoadingPoint": "उतराई का स्थान",
+  "unLoadingPoint1": "उतराई का स्थान १",
+  "unLoadingPoint2": "उतराई का स्थान २",
   "findLoad": "माल ढूंढे",
   'bidPrice': "बोली का रेट",
   'addDriver': 'ड्राइवर जोड़े',
@@ -514,6 +520,7 @@ const Map<String, String> hiIN = {
   "Gurdaspur": "गुरदासपुर",
   "Gurgaon": "गुड़गांव",
   "Guruvayoor": "गुरुवयूर",
+  "Gurugram":"गुरुग्राम",
   "Guwahati": "गुवाहाटी",
   "Gwalior": "ग्वालियर",
   "Habra": "हबरा",
@@ -1124,6 +1131,7 @@ const Map<String, String> hiIN = {
   "Robertsganj": "रॉबर्ट्सगंज",
   "Robertsonpet": "रॉबर्टसनपेट",
   "Rohtak": "रोहतक",
+  "Rohini":"रोहिणी",
   "Ron": "रॉन",
   "Roorkee": "रुड़की",
   "Rosera": "रोसेरा",

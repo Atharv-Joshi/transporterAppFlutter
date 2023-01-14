@@ -125,12 +125,12 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                 color: backgroundColor,
                 child: Column(
                   children: [
-                    AddPostLoadHeader(
-                      reset: true,
-                      resetFunction: () {
-                        providerData.resetPostLoadScreenOne();
-                      },
-                    ),
+                    //AddPostLoadHeader(
+                      //reset: true,
+                      //resetFunction: () {
+                        //providerData.resetPostLoadScreenOne();
+                      //},
+                    //),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +174,7 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                             ),
                           ),
                           SizedBox(height: space_3),
-                          AddTruckSubtitleText(text: 'bookingDate'.tr
+                          /*AddTruckSubtitleText(text: 'bookingDate'.tr
                               // AppLocalizations.of(context)!.bookingDate
                               ),
                           GridView.count(
@@ -223,9 +223,9 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                                 ),
                               ),
                             ),
-                          ),
+                          ),*/
                           SizedBox(
-                            height: space_3,
+                            height: 323,
                           ),
                         ],
                       ),
@@ -233,6 +233,9 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                   ],
                 ),
               ),
+              /*SizedBox(
+                height: 323,
+              )*/
               nextButton(),
             ],
           ),

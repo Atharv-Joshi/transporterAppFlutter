@@ -126,6 +126,12 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
           json['loadingPoint'] != null ? json['loadingPoint'] : 'NA';
       loadDetailsScreenModel.loadingPointState =
           json['loadingPointState'] != null ? json['loadingPointState'] : 'NA';
+      loadDetailsScreenModel.loadingPointCity2 =
+          json['loadingPointCity2'] != null ? json['loadingPointCity2'] : 'NA';
+      loadDetailsScreenModel.loadingPoint2 =
+          json['loadingPoint2'] != null ? json['loadingPoint2'] : 'NA';
+      loadDetailsScreenModel.loadingPointState2 =
+          json['loadingPointState2'] != null ? json['loadingPointState2'] : 'NA';
       loadDetailsScreenModel.unloadingPointCity =
           json['unloadingPointCity'] != null
               ? json['unloadingPointCity']
@@ -136,6 +142,16 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
           json['unloadingPointState'] != null
               ? json['unloadingPointState']
               : 'NA';
+      loadDetailsScreenModel.unloadingPointCity2 =
+      json['unloadingPointCity2'] != null
+          ? json['unloadingPointCity2']
+          : 'NA';
+      loadDetailsScreenModel.unloadingPoint2 =
+      json['unloadingPoint2'] != null ? json['unloadingPoint2'] : 'NA';
+      loadDetailsScreenModel.unloadingPointState2 =
+      json['unloadingPointState2'] != null
+          ? json['unloadingPointState2']
+          : 'NA';
       loadDetailsScreenModel.postLoadId = json['postLoadId'];
       loadDetailsScreenModel.truckType =
           json['truckType'] != null ? json['truckType'] : 'NA';

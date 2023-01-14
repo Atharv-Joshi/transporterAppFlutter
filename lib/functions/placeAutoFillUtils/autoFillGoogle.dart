@@ -5,14 +5,15 @@ import 'package:liveasy/models/autoFillMMIModel.dart';
 import '../googleAutoCorrectionApi.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:geolocator/geolocator.dart';
 
 String kGoogleApiKey = FlutterConfig.get('mapKey').toString();
 
-Future<List<AutoFillMMIModel>> fillCityGoogle(String cityName) async {
+Future<List<AutoFillMMIModel>> fillCityGoogle(String cityName,Position position) async {
   var request = http.Request(
       'GET',
       Uri.parse('https://maps.googleapis.com/maps/api/place/autocomplete/json?'
-          'input=$cityName&types=establishment&language=en&components=country:in&key=$kGoogleApiKey'));
+          'input=$cityName&location=${position.latitude},${position.longitude}&radius=50000&language=en&components=country:in&key=$kGoogleApiKey'));
 
   http.StreamedResponse response = await request.send();
   List<AutoFillMMIModel> card = [];
@@ -33,12 +34,34 @@ Future<List<AutoFillMMIModel>> fillCityGoogle(String cityName) async {
         r = r.trimRight();
         //print(r);
       }
-      AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
-          placeName: "${result[0].toString()}",
-          placeCityName: "${result[resultLength - 3].toString()}",
-          // placeStateName: json["placeAddress"]\
-          placeStateName: "${result[resultLength - 2].toString()}");
-      card.add(locationCardsModal);
+      if(resultLength==2)
+        {
+          AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
+              placeName: "${result[0].toString()}",
+              placeCityName: "${result[0].toString()}",
+              // placeStateName: json["placeAddress"]\
+              placeStateName: "${result[0].toString()}");
+          card.add(locationCardsModal);
+        }
+      else if(resultLength==3)
+      {
+        AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
+            placeName: "${result[0].toString()}",
+            placeCityName: "${result[0].toString()}",
+            // placeStateName: json["placeAddress"]\
+            placeStateName: "${result[1].toString()}");
+        card.add(locationCardsModal);
+      }
+      else {
+        AutoFillMMIModel locationCardsModal = new AutoFillMMIModel(
+            placeName: "${result[0].toString()}",
+            addresscomponent1: "${result[1].toString()}",
+            placeCityName: "${result[resultLength - 3].toString()}",
+            // placeStateName: json["placeAddress"]\
+            placeStateName: "${result[resultLength - 2].toString()}");
+        card.add(locationCardsModal);
+        print(card[0]);
+      }
     }
     return card;
   } else {

@@ -7,6 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:get/get.dart';
 
 class AddPostLoadHeader extends StatefulWidget {
   dynamic resetFunction;
@@ -30,7 +31,13 @@ class _AddPostLoadHeaderState extends State<AddPostLoadHeader> {
           children: [
             Container(
                 margin: EdgeInsets.only(right: space_2),
-                child: BackButtonWidget()),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                    providerData.updateUpperNavigatorIndex2(0);
+                  },
+                  child: Icon(Icons.arrow_back_ios_rounded),
+                )),
             Text('postLoad'.tr,
                 // AppLocalizations.of(context)!.postLoad,
                 style: TextStyle(

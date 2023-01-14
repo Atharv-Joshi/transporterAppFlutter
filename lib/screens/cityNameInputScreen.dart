@@ -10,11 +10,12 @@ import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/textFieldWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
-
 import '../functions/placeAutoFillUtils/autoFillRapidSpott.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CityNameInputScreen extends StatefulWidget {
   final String page;
@@ -30,12 +31,59 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
+  late Position currentPosition;
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
+    async_method();
     getMMIToken();
     _initSpeech();
+  }
+  void async_method()async{
+    await getCurrentPosition();
+  }
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+  Future<void> getCurrentPosition() async {
+    //final hasPermission = await _handleLocationPermission();
+    //if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+          print(position);
+      setState(() {
+        currentPosition = position;
+        loading = false;
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 
   var locationCard;
@@ -70,7 +118,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
       controller = TextEditingController(
           text: _lastWords);
       if (widget.page == "postLoad") {
-        locationCard = fillCityGoogle(controller.text); //google place api is used in postLoad
+        locationCard = fillCityGoogle(controller.text,currentPosition); //google place api is used in postLoad
       } else {
         locationCard = fillCity(controller.text);}
     });
@@ -80,7 +128,19 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
   Widget build(BuildContext context) {
     double keyboardLength = MediaQuery.of(context).viewInsets.bottom;
     double screenHeight = MediaQuery.of(context).size.height;
-    return SafeArea(
+    return loading==true ?
+    SafeArea(
+      child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: Center(
+            child: SpinKitRotatingCircle(
+              color: darkBlueColor,
+              size: 50.0,
+            ),
+          )
+      ),
+    )
+    :SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: Container(
@@ -137,7 +197,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                           setState(() {
                             if (widget.page == "postLoad") {
                               locationCard = fillCityGoogle(
-                                  value); //google place api is used in postLoad
+                                  value,currentPosition); //google place api is used in postLoad
                             } else {
                               locationCard = fillCity(
                                   value); //return auto suggested places using rapid api
@@ -214,6 +274,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                               itemBuilder: (context, index) =>
                                   AutoFillDataDisplayCard(
                                     snapshot.data[index].placeName,
+                                      snapshot.data[index].addresscomponent1,
                                       snapshot.data[index].placeCityName,
                                       snapshot.data[index].placeStateName, () {
                                 if (widget.valueType == "Loading Point") {
@@ -226,7 +287,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                           state: snapshot
                                               .data[index].placeStateName);
                                   Get.back();
-                                } else if (widget.valueType ==
+                                }  else if (widget.valueType ==
                                     "Unloading Point") {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
@@ -239,7 +300,7 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                   // Get.off(FindLoadScreen());
                                   Get.back();
                                 } else if (widget.valueType ==
-                                    "Loading point") {
+                                    "Loading point" || widget.valueType == "Loading point 1") {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateLoadingPointPostLoad(
@@ -249,8 +310,17 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                           state: snapshot
                                               .data[index].placeStateName);
                                   Get.back();
+                                } else if(widget.valueType == "Loading point 2"){
+                                  Provider.of<ProviderData>(context,listen: false)
+                                      .updateLoadingPointPostLoad2(
+                                      place: snapshot.data[index].placeName,
+                                      city: snapshot
+                                          .data[index].placeCityName,
+                                      state: snapshot
+                                          .data[index].placeStateName);
+                                  Get.back();
                                 } else if (widget.valueType ==
-                                    "Unloading point") {
+                                    "Unloading point" || widget.valueType == "Unloading point 1") {
                                   Provider.of<ProviderData>(context,
                                           listen: false)
                                       .updateUnloadingPointPostLoad(
@@ -260,7 +330,15 @@ class _CityNameInputScreenState extends State<CityNameInputScreen> {
                                           state: snapshot
                                               .data[index].placeStateName);
                                   Get.back();
-                                }
+                                } else if(widget.valueType == "Unloading point 2")
+                                  {
+                                    Provider.of<ProviderData>(context,listen: false)
+                                        .updateUnloadingPointPostLoad2(
+                                        place: snapshot.data[index].placeName,
+                                        city: snapshot.data[index].placeCityName,
+                                        state: snapshot.data[index].placeStateName);
+                                    Get.back();
+                                  }
                               }),
                             );
                           }),

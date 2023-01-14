@@ -8,6 +8,7 @@ import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart'
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/screens/PostLoadScreens/postloadnavigation.dart';
 import 'package:liveasy/screens/PostLoadScreens/PostLoadScreenLoacationDetails.dart';
 
 // ignore: must_be_immutable
@@ -32,9 +33,10 @@ class PostButtonLoad extends StatelessWidget {
         onPressed: () {
           providerData.resetPostLoadScreenOne();
           providerData.resetPostLoadFilters();
+          providerData.resetPostLoadScreenMultiple();
           providerData.updateEditLoad(false, "");
-          transporterIdController.companyApproved.value
-              ? Get.to(() => PostLoadScreenOne())
+          transporterIdController.companyApproved.value?
+               Get.to(() => postloadnav())
               : showDialog(
                   context: context,
                   builder: (context) => VerifyAccountNotifyAlertDialog());
