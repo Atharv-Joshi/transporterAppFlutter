@@ -33,9 +33,10 @@ class AuthService {
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: verificationId!, smsCode: smsCode!))
           .then((value) async {
+        var value1 = value;
         if (value.user != null) {
-          print('hud false due to try in manual verification');
-          hudController.updateHud(false);
+          print('hud True due to try in manual verification');
+          hudController.updateHud(true);
           timerController.cancelTimer();
 
           await runTransporterApiPost(
@@ -48,8 +49,14 @@ class AuthService {
       // FocusScope.of(context).unfocus();
       print("---------------------->${e.code}");
       if (e.code == "session-expired") {
-        hudController.updateHud(false);
+        hudController.updateHud(true);
         isOtpInvalidController.updateIsOtpInvalid(false);
+        //await FirebaseAuth.instance.signInWithCredential(credential);
+
+        timerController.cancelTimer();
+        // await runTransporterApiPost(
+        //     mobileNum: value1.user!.phoneNumber!.toString().substring(3, 13));
+        // Get.offAll(() => NavigationScreen());
         print("---------------------------------->hi");
       } else {
         print('hud false due to catch in manual verification');
