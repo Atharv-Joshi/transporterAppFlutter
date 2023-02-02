@@ -87,7 +87,6 @@ dependencies:
   flutter_mapbox_autocomplete: ^2.0.0
   speech_to_text: ^6.0.0
   gallery_saver: ^2.3.2
-  alt_sms_autofill: ^1.0.0
   pin_code_fields: ^7.4.0
   webview_flutter: ^4.0.1
 

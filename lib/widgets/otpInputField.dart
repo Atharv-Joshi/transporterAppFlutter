@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:visibility_aware_state/visibility_aware_state.dart';
-import 'package:alt_sms_autofill/alt_sms_autofill.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPInputField extends StatefulWidget {
@@ -31,47 +30,20 @@ class _OTPInputFieldState extends State<OTPInputField> {
   IsOtpInvalidController isOtpInvalidController =
       Get.put(IsOtpInvalidController());
   TextEditingController textEditingController = TextEditingController();
-  String _comingSms = 'Unknown';
-
-  Future<void> initSmsListener() async {
-    String? comingSms;
-    try {
-      comingSms = await AltSmsAutofill().listenForSms;
-    } on PlatformException {
-      comingSms = 'Failed to get Sms.';
-    }
-    if (!mounted) return;
-    setState(() {
-      textEditingController.clear();
-      _comingSms = comingSms!;
-
-      textEditingController.text = _comingSms[0] +
-          _comingSms[1] +
-          _comingSms[2] +
-          _comingSms[3] +
-          _comingSms[4] +
-          _comingSms[
-              5]; //used to set the code in the message to a string and setting it to a textcontroller. message length is 38. so my code is in string index 32-37.
-    });
-  }
-
   @override
   void dispose() {
-    //textEditingController.dispose();
-    AltSmsAutofill().unregisterListener();
+    textEditingController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    initSmsListener();
   }
 
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: PinCodeTextField(
@@ -110,10 +82,6 @@ class _OTPInputFieldState extends State<OTPInputField> {
         },
         onChanged: (value) {
           setState(() {});
-          // if (value.length == 6) {
-          //   isOtpInvalidController.updateIsOtpInvalid(false);
-          // }
-          print("changed to - $value");
         },
       ),
     );
