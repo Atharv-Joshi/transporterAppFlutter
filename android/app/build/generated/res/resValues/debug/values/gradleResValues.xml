@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Automatically generated file. DO NOT MODIFY -->
+
+    <!-- Value from default config. -->
+    <string name="biddingApiUrl" translatable="false">http://bidding.dev.truckseasy.com:8080/bid</string>
+    <!-- Value from default config. -->
+    <string name="bookingApiUrl" translatable="false">http://booking.dev.truckseasy.com:8080/booking</string>
+    <!-- Value from default config. -->
+    <string name="buyGPSApiUrl" translatable="false">http://buygps.dev.truckseasy.com:9090/gps</string>
+    <!-- Value from default config. -->
+    <string name="documentApiUrl" translatable="false">http://document.dev.truckseasy.com:9090/document</string>
+    <!-- Value from default config. -->
+    <string name="driverApiUrl" translatable="false">http://traccar.dev1.truckseasy.com:8082</string>
+    <!-- Value from default config. -->
+    <string name="gpsApiUrl" translatable="false">http://gps.dev.truckseasy.com:3000/locationbyimei</string>
+    <!-- Value from default config. -->
+    <string name="idfyAccountId" translatable="false">ed728f377d5d/1e7581e4-2383-4d11-b6a4-20a72b66c17a</string>
+    <!-- Value from default config. -->
+    <string name="idfyApiKey" translatable="false">ddeb2316-c816-4a9b-9e1d-56ae0b06aa44</string>
+    <!-- Value from default config. -->
+    <string name="idfyKey_id" translatable="false">2753c121-d1d3-4402-8f4f-b896c9a024d5</string>
+    <!-- Value from default config. -->
+    <string name="idfyOu_id" translatable="false">ed728f377d5d</string>
+    <!-- Value from default config. -->
+    <string name="idfySecret_Key" translatable="false">MzM0NGYxYjFiNmMyNDM2OThhMDBhNjMxYWI3MThjOTI=</string>
+    <!-- Value from default config. -->
+    <string name="loadApiUrl" translatable="false">http://load.dev.truckseasy.com:8080/load</string>
+    <!-- Value from default config. -->
+    <string name="mapKey" translatable="false">AIzaSyAhUyHTmaRlAEAD75J1AkMuLH5-zmVmn98</string>
+    <!-- Value from default config. -->
+    <string name="mapKeyNew" translatable="false">AIzaSyDNgqelUhqMZpGcDykhkKDeJroiEsRY4wQ</string>
+    <!-- Value from default config. -->
+    <string name="mapKeyOld" translatable="false">AIzaSyCPU872xIfRhjvtdLViTDbj0EnIBuxlcSs</string>
+    <!-- Value from default config. -->
+    <string name="oneSignalApiKey" translatable="false">NjI5N2JiNGYtNWZhNC00NDE0LThlMGItNTk5ODQ2ZDIyZDUx</string>
+    <!-- Value from default config. -->
+    <string name="oneSignalAppId" translatable="false">b1948857-b2d1-4946-b4d1-86f911c30389</string>
+    <!-- Value from default config. -->
+    <string name="rapidKey" translatable="false">7b196c1d3amsh419883f34f424f1p138fcajsn819528e5e9fa</string>
+    <!-- Value from default config. -->
+    <string name="routeDataApiUrl" translatable="false">http://load.dev.truckseasy.com:8080/routedata</string>
+    <!-- Value from default config. -->
+    <string name="routeHistoryApiUrl" translatable="false">http://gps.dev.truckseasy.com:3000/routehistory</string>
+    <!-- Value from default config. -->
+    <string name="shareUrl" translatable="false">https://liveasywa.page.link</string>
+    <!-- Value from default config. -->
+    <string name="shipperApiUrl" translatable="false">http://shipper.dev.truckseasy.com:9090/shipper</string>
+    <!-- Value from default config. -->
+    <string name="traccarApi" translatable="false">http://traccar.dev1.truckseasy.com:8082/api</string>
+    <!-- Value from default config. -->
+    <string name="traccarPass" translatable="false">admin</string>
+    <!-- Value from default config. -->
+    <string name="traccarUser" translatable="false">admin</string>
+    <!-- Value from default config. -->
+    <string name="transporterApiUrl" translatable="false">http://transporter.dev.truckseasy.com:9090/transporter</string>
+    <!-- Value from default config. -->
+    <string name="truckApiUrl" translatable="false">http://truck.dev.truckseasy.com:9090/truck</string>
+    <!-- Value from default config. -->
+    <string name="webHookUrl" translatable="false">https://webhook.site/3433a9c3-4c93-4427-8ce6-b310300d2cd7</string>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">291069338054-4ue593bv36h2agofkgcvcie96rj3hdhu.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">291069338054</string>
+    <string name="google_api_key" translatable="false">AIzaSyASm8O_kktMOWhQulrYAFxrUWZP6Lg9SdY</string>
+    <string name="google_app_id" translatable="false">1:291069338054:android:82108524a82166769b92c7</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyASm8O_kktMOWhQulrYAFxrUWZP6Lg9SdY</string>
+    <string name="google_storage_bucket" translatable="false">liveasytransporterapp.appspot.com</string>
+    <string name="project_id" translatable="false">liveasytransporterapp</string>
+</resources>
