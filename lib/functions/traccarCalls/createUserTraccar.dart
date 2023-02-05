@@ -54,7 +54,9 @@ Future<String?> createUserTraccar(String? token, String? mobileNum) async {
           "attributes": {
             "notificationTokens": "$token",
             "timezone": "Asia/Kolkata"
-          }
+          },
+          "deviceLimit": -1,
+          "userLimit": 0,
         };
         body = json.encode(data);
 

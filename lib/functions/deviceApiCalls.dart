@@ -6,11 +6,11 @@ import 'package:liveasy/controller/transporterIdController.dart';
 
 String traccarPass = FlutterConfig.get("traccarPass");
 String? current_lang;
-String traccarUser = FlutterConfig.get("traccarUser");
+//String traccarUser = FlutterConfig.get("traccarUser");
 //to change authorization from admin to user
-// TransporterIdController transporterIdController =
-// Get.find<TransporterIdController>();
-// String traccarUser = transporterIdController.mobileNum.value;
+TransporterIdController transporterIdController =
+Get.find<TransporterIdController>();
+String traccarUser = transporterIdController.mobileNum.value;
 
 class DeviceApiCalls {
   String traccarApi = FlutterConfig.get("traccarApi");
