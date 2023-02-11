@@ -69,10 +69,10 @@ class _MyTruckCardState extends State<MyTruckCard> {
     } else {
       online = false;
     }
-    lastupdated =
-        getStopDuration(widget.device.lastUpdate!, now.toIso8601String());
-    lastupdated2 =
-        getStopDuration2(widget.device.lastUpdate!, now.toIso8601String());
+    lastupdated = "";
+        //getStopDuration(widget.device.lastUpdate!, now.toIso8601String());
+    lastupdated2 = "";
+        //getStopDuration2(widget.device.lastUpdate!, now.toIso8601String());
     return Container(
       color: Color(0xffF7F8FA),
       margin: EdgeInsets.only(bottom: space_2),

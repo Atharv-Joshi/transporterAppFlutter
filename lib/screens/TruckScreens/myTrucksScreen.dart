@@ -20,7 +20,10 @@ import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingWidgets.dart';
 import 'package:liveasy/widgets/myTrucksCard.dart';
 import 'package:liveasy/widgets/truckScreenBarButton.dart';
+import 'package:liveasy/widgets/myTrucksCardNoGps.dart';
 import 'package:provider/provider.dart';
+import 'package:liveasy/models/deviceModel.dart';
+import 'package:liveasy/widgets/loadingWidget.dart';
 
 class MyTrucks extends StatefulWidget {
   @override
@@ -36,7 +39,9 @@ class _MyTrucksState extends State<MyTrucks> {
   ScrollController scrollController = ScrollController();
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
-
+  var tempdevices = [];
+  var temptrucks = [];
+  var truckswithgps=[];
   var devicelist = [];
   var trucklist = [];
   var status = [];
@@ -87,6 +92,9 @@ class _MyTrucksState extends State<MyTrucks> {
       loading = true;
     });
     getMyTruckPosition();
+    /*print("HI from init");
+    print(devicelist);*/
+    //check_gps(gpsDataList[0]);
     // var f2 = getMyDevices(i);
 
     /* scrollController.addListener(() {
@@ -328,7 +336,8 @@ class _MyTrucksState extends State<MyTrucks> {
               height: 15,
             ),
             Expanded(
-              child: Stack(children: [
+              child: Stack(
+                  children: [
                 Container(
                   //    margin: EdgeInsets.fromLTRB(space_2, 0, space_2, 0),
                   height: MediaQuery.of(context).size.height -
@@ -344,7 +353,6 @@ class _MyTrucksState extends State<MyTrucks> {
                       },
                       children: [
                         Stack(
-                          alignment: Alignment.bottomCenter,
                           children: [
                             loading // ||
                                 // gpsDataList.isEmpty
@@ -374,53 +382,71 @@ class _MyTrucksState extends State<MyTrucks> {
                                           ],
                                         ),
                                       )
-                                    : RefreshIndicator(
-                                        color: lightNavyBlue,
-                                        onRefresh: () {
-                                          setState(() {
-                                            runningList.clear();
-                                            runningGpsData.clear();
-                                            runningStatus.clear();
-                                            gpsDataList.clear();
-                                            status.clear();
-                                            StoppedStatus.clear();
-                                            StoppedGpsData.clear();
-                                            StoppedList.clear();
-                                            runningdevicelist.clear();
-                                            stoppeddevicelist.clear();
+                                    : SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          gpsDataList.isNotEmpty && truckswithgps.isNotEmpty && status2.isNotEmpty && devicelist.isNotEmpty?
+                                          RefreshIndicator(
+                                              color: lightNavyBlue,
+                                              onRefresh: () {
+                                                setState(() {
+                                                  runningList.clear();
+                                                  runningGpsData.clear();
+                                                  runningStatus.clear();
+                                                  gpsDataList.clear();
+                                                  status.clear();
+                                                  StoppedStatus.clear();
+                                                  StoppedGpsData.clear();
+                                                  StoppedList.clear();
+                                                  runningdevicelist.clear();
+                                                  stoppeddevicelist.clear();
 
-                                            loading = true;
-                                          });
-                                          return refreshData(i);
-                                        },
-                                        child:
-                                            //  Text("cards list")
+                                                  loading = true;
+                                                });
+                                                return refreshData(i);
+                                              },
+                                              child:
+                                                  //  Text("cards list")
 
-                                            ListView.builder(
-                                                physics:
-                                                    AlwaysScrollableScrollPhysics(),
-                                                controller: scrollController,
-                                                scrollDirection: Axis.vertical,
-                                                padding: EdgeInsets.only(
-                                                    bottom: space_15),
-                                                itemCount: gpsDataList.length,
-                                                itemBuilder: (context, index) =>
-                                                    index == gpsDataList.length
-                                                        ? bottomProgressBarIndicatorWidget()
-                                                        // : Text("cards"),
-                                                        : MyTruckCard(
-                                                            truckno: trucklist[
-                                                                index],
-                                                            status:
-                                                                status2[index],
-                                                            // status[index],
-                                                            gpsData:
-                                                                gpsDataList[
-                                                                    index],
-                                                            device: devicelist[
-                                                                index],
-                                                          )),
+                                                  ListView.builder(
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      controller: scrollController,
+                                                      scrollDirection: Axis.vertical,
+                                                      itemCount: gpsDataList.length,
+                                                      itemBuilder: (context, index) =>
+                                                          index == gpsDataList.length
+                                                              ? bottomProgressBarIndicatorWidget()
+                                                              : MyTruckCard(
+                                                                  truckno: truckswithgps[
+                                                                      index],
+                                                                  status:
+                                                                      status2[index],
+                                                                  // status[index],
+                                                                  gpsData:
+                                                                      gpsDataList[
+                                                                          index],
+                                                                  device: devicelist[
+                                                                      index],
+                                                                )),
+                                            ):Container(),
+                                          tempdevices.isNotEmpty && temptrucks.isNotEmpty?
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            controller: scrollController,
+                                            scrollDirection: Axis.vertical,
+                                            padding: EdgeInsets.only(
+                                                bottom: space_15),
+                                            itemCount: tempdevices.length,
+                                            itemBuilder: (context, index) =>
+                                                myTrucksCardNoGps(
+                                                  temptrucks[index], tempdevices[index],),
+                                          ):Container()
+                                        ],
                                       ),
+                                    ),
                           ],
                         ),
                         Stack(
@@ -631,6 +657,7 @@ class _MyTrucksState extends State<MyTrucks> {
       setState(() {
         trucklist.add(device.truckno);
         devicelist.add(device);
+        tempdevices.add(device);
         // loading = false;
       });
     }
@@ -819,6 +846,30 @@ class _MyTrucksState extends State<MyTrucks> {
     // setState(() {
     //   loading = false;
     // });
+    var toremove = [];
+    for(GpsDataModel i in gpsDataList)
+      {
+        for(DeviceModel j in tempdevices)
+          {
+            if(i.deviceId==j.deviceId)
+              {
+                truckswithgps.add(j.truckno);
+                toremove.add(j);
+              }
+          }
+      }
+    print(truckswithgps);
+    print(gpsDataList);
+    print(status2);
+    print(devicelist);
+    print(tempdevices);
+    tempdevices.removeWhere((element) => toremove.contains(element));
+    print(tempdevices);
+    for(DeviceModel i in tempdevices)
+      {
+        temptrucks.add(i.truckno);
+      }
+    print(temptrucks);
   }
 
   getGPSData(var gpsData, int i, var truckno, var device) async {
