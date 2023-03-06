@@ -38,6 +38,7 @@ class _WhatsappShareState extends State<WhatsappShare> {
   bool _isCreateLink = false;
 
   String? _stringUrl;
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   List<String> lst = ['1Day'.tr, '2Days'.tr, '7Days'.tr];
   List<int> expiryHours = [24, 48, 168];
@@ -57,17 +58,15 @@ class _WhatsappShareState extends State<WhatsappShare> {
           packageName: packageName,
           minimumVersion: 0,
         ),
-        dynamicLinkParametersOptions: DynamicLinkParametersOptions(
-          shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
-        ));
+        );
 
     Uri url;
     if (short) {
-      final ShortDynamicLink shortLink = await parameters.buildShortLink();
+      final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
       url = shortLink.shortUrl;
       print("Dynamic URL is $url");
     } else {
-      url = await parameters.buildUrl();
+      url = await dynamicLinks.buildLink(parameters);
       print("Dynamic URL is $url");
     }
     //   url = await parameters.buildUrl();

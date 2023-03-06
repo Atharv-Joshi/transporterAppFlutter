@@ -12,7 +12,7 @@ Future<String> updateTransporterApi(
       Get.put(TransporterIdController());
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
-  Map data = {"accountVerificationInProgress": accountVerificationInProgress};
+  Map data = {"transporterApproved": accountVerificationInProgress};
   String body = json.encode(data);
   final response =
       await http.put(Uri.parse("$transporterApiUrl/$transporterId"),

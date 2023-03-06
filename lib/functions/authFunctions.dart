@@ -1,14 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
-import 'package:liveasy/screens/languageSelectionScreen.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
-import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
 class AuthService {
   HudController hudController = Get.put(HudController());
@@ -33,7 +30,6 @@ class AuthService {
           .signInWithCredential(PhoneAuthProvider.credential(
               verificationId: verificationId!, smsCode: smsCode!))
           .then((value) async {
-        var value1 = value;
         if (value.user != null) {
           print('hud True due to try in manual verification');
           hudController.updateHud(true);

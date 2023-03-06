@@ -39,6 +39,7 @@ class _ShareButtonState extends State<ShareButton> {
   String? _stringUrl;
 
   ScreenshotController screenshotController = ScreenshotController();
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   Future<void> _createDynamicLink(bool short) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -54,17 +55,15 @@ class _ShareButtonState extends State<ShareButton> {
           packageName: packageName,
           minimumVersion: 0,
         ),
-        dynamicLinkParametersOptions: DynamicLinkParametersOptions(
-          shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
-        ));
+        );
 
     Uri url;
     if (short) {
-      final ShortDynamicLink shortLink = await parameters.buildShortLink();
+      final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
       url = shortLink.shortUrl;
       print("Dynamic URL is $url");
     } else {
-      url = await parameters.buildUrl();
+      url = await dynamicLinks.buildLink(parameters);
     }
 
     setState(() {
