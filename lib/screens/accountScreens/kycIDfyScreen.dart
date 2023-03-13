@@ -58,8 +58,9 @@ class _KYCIDfyScreenState extends State<KYCIDfyScreen> {
           if (url.contains(
               "https://capture.kyc.idfy.com/document-fetcher/digilocker/callback/?")) {
             String status = await updateTransporterApi(
-                accountVerificationInProgress: true,
+                accountVerificationInProgress: false,
                 verificationType: 'Immediate',
+                transporterApproved: true
                 transporterId: transporterIdController.transporterId.value);
             if (status == "Success") {
               navigationIndexController.updateIndex(0);
