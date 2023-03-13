@@ -56,14 +56,14 @@ class _KYCIDfyScreenState extends State<KYCIDfyScreen> {
         }, onPageFinished: (String url) async {
           print("in onPageFinished------------------------------------->$url");
           if (url.contains(
-              "https://capture.kyc.idfy.com/document-fetcher/digilocker/callback/?")) {
+              "https://capture.kyc.idfy.com/document-fetcher/digilocker/callback/?code=")) {
             String status = await updateTransporterApi(
                 accountVerificationInProgress: false,
                 verificationType: 'Immediate',
                 transporterApproved: true,
                 transporterId: transporterIdController.transporterId.value);
             if (status == "Success") {
-              navigationIndexController.updateIndex(0);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigationScreen()));
             }
           }
           // This is used to redirect the page after successful completion of kyc and also here we are updating the transporter status
