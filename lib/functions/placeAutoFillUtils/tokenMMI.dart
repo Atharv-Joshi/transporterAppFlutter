@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:liveasy/controller/tokenMMIController.dart';
 import 'dart:convert';
@@ -12,17 +14,17 @@ Future<String> getMapMyIndiaToken() async {
       .child('clientSecretMapMyIndia')
       .once()
       .then((DataSnapshot snapshot) {
-    clientSecretMapMyIndia = snapshot.value;
+    clientSecretMapMyIndia = snapshot.value as String?;
     print("clientSecretMapMyIndia = $clientSecretMapMyIndia");
-  });
+  } as FutureOr Function(DatabaseEvent value));
   await FirebaseDatabase.instance
       .reference()
       .child('clientIdMapMyIndia')
       .once()
       .then((DataSnapshot snapshot) {
-    clientIdMapMyIndia = snapshot.value;
+    clientIdMapMyIndia = snapshot.value as String?;
     print("clientIdMapMyIndia = $clientIdMapMyIndia");
-  });
+  } as FutureOr Function(DatabaseEvent value));
   // if(clientIdMapMyIndia != null && clientSecretMapMyIndia != null){
 
   TokenMMIController tokenMMIController = Get.find<TokenMMIController>();
