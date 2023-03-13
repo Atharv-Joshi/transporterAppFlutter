@@ -60,7 +60,7 @@ class _KYCIDfyScreenState extends State<KYCIDfyScreen> {
             String status = await updateTransporterApi(
                 accountVerificationInProgress: false,
                 verificationType: 'Immediate',
-                transporterApproved: true
+                transporterApproved: true,
                 transporterId: transporterIdController.transporterId.value);
             if (status == "Success") {
               navigationIndexController.updateIndex(0);
