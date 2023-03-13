@@ -7,12 +7,13 @@ import 'package:liveasy/controller/transporterIdController.dart';
 //TODO:all details not fetched
 Future<String> updateTransporterApi(
     {required bool accountVerificationInProgress,
-    required String transporterId}) async {
+     required bool transporterApproved,
+    required String transporterId,required verificationType}) async {
   TransporterIdController transporterIdController =
       Get.put(TransporterIdController());
   final String transporterApiUrl =
       FlutterConfig.get("transporterApiUrl").toString();
-  Map data = {"transporterApproved": accountVerificationInProgress};
+  Map data = verificationType=='Immediate'?{"transporterApproved": transporterApproved} :{"accountVerificationInProgress": accountVerificationInProgress};
   String body = json.encode(data);
   final response =
       await http.put(Uri.parse("$transporterApiUrl/$transporterId"),
