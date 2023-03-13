@@ -106,6 +106,7 @@ class AccountVerificationPage2 extends StatelessWidget {
                             final status = await updateTransporterApi(
                                 accountVerificationInProgress: true,
                                 verificationType: 'Manual',
+                                transporterApproved:false,
                                 transporterId: transporterIdController
                                     .transporterId.value);
                             if (status == "Success") {
