@@ -43,6 +43,7 @@ class MapUtil {
       var devicesList = [];
       if (response.statusCode == 200) {
         for (var json in jsonData) {
+          Map <String,dynamic> att;
           DeviceModel devicemodel = new DeviceModel();
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
           devicemodel.deviceId = json["id"] != null ? json["id"] : 0;
@@ -51,7 +52,10 @@ class MapUtil {
           devicemodel.status = json["status"] != null ? json["status"] : 'NA';
           devicemodel.lastUpdate =
               json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
-
+          att = json["attributes"] !=null?json['attributes']:null;
+          devicemodel.expire = att['expirationTime'];
+          print(att);
+          print(devicemodel.expire);
           devicesList.add(devicemodel);
         }
         return devicesList;

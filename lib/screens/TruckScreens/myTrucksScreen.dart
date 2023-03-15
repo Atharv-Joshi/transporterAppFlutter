@@ -25,6 +25,8 @@ import 'package:provider/provider.dart';
 import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 
+import '../../constants/fontWeights.dart';
+
 class MyTrucks extends StatefulWidget {
   @override
   _MyTrucksState createState() => _MyTrucksState();
@@ -39,6 +41,9 @@ class _MyTrucksState extends State<MyTrucks> {
   ScrollController scrollController = ScrollController();
 
   TruckApiCalls truckApiCalls = TruckApiCalls();
+  int expired = 0;
+  int unsubscribed = 0;
+  var deviceswithgps = [];
   var tempdevices = [];
   var temptrucks = [];
   var truckswithgps=[];
@@ -92,6 +97,11 @@ class _MyTrucksState extends State<MyTrucks> {
       loading = true;
     });
     getMyTruckPosition();
+    setState(() {
+    });
+    print(expired);
+    print(unsubscribed);
+
     /*print("HI from init");
     print(devicelist);*/
     //check_gps(gpsDataList[0]);
@@ -114,6 +124,10 @@ class _MyTrucksState extends State<MyTrucks> {
 
   @override
   Widget build(BuildContext context) {
+    for(DeviceModel i in devicelist)
+      {
+        print(i.expire);
+      }
     // ProviderData providerData = Provider.of<ProviderData>(context);
     // providerData.resetTruckFilters();
     ProviderData providerData = Provider.of<ProviderData>(context);
@@ -382,71 +396,70 @@ class _MyTrucksState extends State<MyTrucks> {
                                           ],
                                         ),
                                       )
-                                    : SingleChildScrollView(
-                                      child: Column(
-                                        children: [
+                                    : RefreshIndicator(
+                                        color: lightNavyBlue,
+                                        onRefresh: () {
+                                          setState(() {
+                                            runningList.clear();
+                                            runningGpsData.clear();
+                                            runningStatus.clear();
+                                            gpsDataList.clear();
+                                            status.clear();
+                                            StoppedStatus.clear();
+                                            StoppedGpsData.clear();
+                                            StoppedList.clear();
+                                            runningdevicelist.clear();
+                                            stoppeddevicelist.clear();
+                                            truckswithgps.clear();
+                                            deviceswithgps.clear();
+                                            loading = true;
+                                          });
+                                          return refreshData(i);
+                                        },
+                                        child:SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              //  Text("cards list")
                                           gpsDataList.isNotEmpty && truckswithgps.isNotEmpty && status2.isNotEmpty && devicelist.isNotEmpty?
-                                          RefreshIndicator(
-                                              color: lightNavyBlue,
-                                              onRefresh: () {
-                                                setState(() {
-                                                  runningList.clear();
-                                                  runningGpsData.clear();
-                                                  runningStatus.clear();
-                                                  gpsDataList.clear();
-                                                  status.clear();
-                                                  StoppedStatus.clear();
-                                                  StoppedGpsData.clear();
-                                                  StoppedList.clear();
-                                                  runningdevicelist.clear();
-                                                  stoppeddevicelist.clear();
-
-                                                  loading = true;
-                                                });
-                                                return refreshData(i);
-                                              },
-                                              child:
-                                                  //  Text("cards list")
-
-                                                  ListView.builder(
-                                                      physics:
-                                                          NeverScrollableScrollPhysics(),
-                                                      shrinkWrap: true,
-                                                      controller: scrollController,
-                                                      scrollDirection: Axis.vertical,
-                                                      itemCount: gpsDataList.length,
-                                                      itemBuilder: (context, index) =>
-                                                          index == gpsDataList.length
-                                                              ? bottomProgressBarIndicatorWidget()
-                                                              : MyTruckCard(
-                                                                  truckno: truckswithgps[
+                                              ListView.builder(
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  controller: scrollController,
+                                                  scrollDirection: Axis.vertical,
+                                                  itemCount: gpsDataList.length,
+                                                  itemBuilder: (context, index) =>
+                                                      index == gpsDataList.length
+                                                          ? bottomProgressBarIndicatorWidget()
+                                                          : MyTruckCard(
+                                                              truckno: truckswithgps[
+                                                                  index],
+                                                              status:
+                                                                  status2[index],
+                                                              // status[index],
+                                                              gpsData:
+                                                                  gpsDataList[
                                                                       index],
-                                                                  status:
-                                                                      status2[index],
-                                                                  // status[index],
-                                                                  gpsData:
-                                                                      gpsDataList[
-                                                                          index],
-                                                                  device: devicelist[
-                                                                      index],
-                                                                )),
-                                            ):Container(),
-                                          tempdevices.isNotEmpty && temptrucks.isNotEmpty?
-                                          ListView.builder(
-                                            shrinkWrap: true,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            controller: scrollController,
-                                            scrollDirection: Axis.vertical,
-                                            padding: EdgeInsets.only(
-                                                bottom: space_15),
-                                            itemCount: tempdevices.length,
-                                            itemBuilder: (context, index) =>
-                                                myTrucksCardNoGps(
-                                                  temptrucks[index], tempdevices[index],),
-                                          ):Container()
-                                        ],
-                                      ),
-                                    ),
+                                                              device: deviceswithgps[
+                                                                  index],
+                                                            ))
+                                      :Container(),
+                                    tempdevices.isNotEmpty && temptrucks.isNotEmpty?
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      controller: scrollController,
+                                      scrollDirection: Axis.vertical,
+                                      padding: EdgeInsets.only(
+                                            bottom: space_15),
+                                      itemCount: tempdevices.length,
+                                      itemBuilder: (context, index) =>
+                                            myTrucksCardNoGps(
+                                              temptrucks[index], tempdevices[index],),
+                                    ):Container()
+                                            ]
+                                          ),
+                                        )),
                           ],
                         ),
                         Stack(
@@ -792,10 +805,6 @@ class _MyTrucksState extends State<MyTrucks> {
       // gpsDataList.add(value)
       // if (j == 4) {
       //   // break;
-      setState(() {
-        loading = false;
-      });
-      print("loading falsed");
       // }
     }
     // setState(() {});
@@ -847,6 +856,10 @@ class _MyTrucksState extends State<MyTrucks> {
     //   loading = false;
     // });
     var toremove = [];
+    for(DeviceModel i in devicelist)
+      {
+        print("${i.truckno} + ${i.expire}");
+      }
     for(GpsDataModel i in gpsDataList)
       {
         for(DeviceModel j in tempdevices)
@@ -854,6 +867,7 @@ class _MyTrucksState extends State<MyTrucks> {
             if(i.deviceId==j.deviceId)
               {
                 truckswithgps.add(j.truckno);
+                deviceswithgps.add(j);
                 toremove.add(j);
               }
           }
@@ -870,6 +884,78 @@ class _MyTrucksState extends State<MyTrucks> {
         temptrucks.add(i.truckno);
       }
     print(temptrucks);
+    /*if(expired>0 || unsubscribed>0)
+    {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        showDialog(context: context, builder: (context){
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40)
+            ),
+            backgroundColor: Colors.white,
+            elevation: 20,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  expired>0 ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                    child: Text('Subscription for $expired devices has expired',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: black,
+                            fontSize: 15,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: normalWeight))
+                  ):Container(),
+                  unsubscribed>0 ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                      child: Text("Subscription for $unsubscribed devices hasn't been bought yet",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 15,
+                              fontStyle: FontStyle.normal,
+                              fontWeight: normalWeight))
+                  ):Container(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15),
+                    child: Container(
+                      width: space_33,
+                      height: space_8,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              )),
+                          backgroundColor: MaterialStateProperty.all<Color>(truckGreen),
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            //additem(new_task);
+                          });
+                          Navigator.of(context, rootNavigator: true).pop('dialog');
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        }, child: Text('Buy GPS',
+                        style: TextStyle(
+                          fontWeight: mediumBoldWeight,
+                          fontSize: size_9,
+                          color: white,
+                        ),),),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+      });
+    }*/
+
+    setState(() {
+      loading = false;
+    });
+    print("loading falsed");
   }
 
   getGPSData(var gpsData, int i, var truckno, var device) async {
@@ -907,6 +993,22 @@ class _MyTrucksState extends State<MyTrucks> {
 
   refreshData(int i) async {
     FutureGroup futureGroup = FutureGroup();
+    var a = mapUtil.getDevices();
+    var devices = await a;
+    // setState(() {
+    //   loading = false;
+    // });
+    trucklist.clear();
+    devicelist.clear();
+    tempdevices.clear();
+    for (var device in devices) {
+      setState(() {
+        trucklist.add(device.truckno);
+        devicelist.add(device);
+        tempdevices.add(device);
+        // loading = false;
+      });
+    }
     print("device list $devicelist");
     //FIX LENGTH OF ALL LIST----------------------
     gpsList = List.filled(devicelist.length, null, growable: true);
@@ -921,18 +1023,104 @@ class _MyTrucksState extends State<MyTrucks> {
     stoppeddevicelist = List.filled(devicelist.length, null, growable: true);
     //------------------------------------------------
     //Fire all APIs at once (not one after the other)
-    var gpsDataAll = await mapUtil.getTraccarPositionforAll();
-    for (int i = 0; i < gpsDataAll.length; i++) {
+    var gpsDataAll = await mapUtil.getTraccarPositionforAllCustomized();
+    int j = 0;
+    for (var json in gpsDataAll) {
+      GpsDataModel gpsDataModel = new GpsDataModel();
+      // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
+      gpsDataModel.deviceId =
+      json["deviceId"] != null ? json["deviceId"] : 'NA';
+      gpsDataModel.rssi =
+      json["attributes"]["rssi"] != null ? json["attributes"]["rssi"] : -1;
+      gpsDataModel.result = json["attributes"]["result"] != null
+          ? json["attributes"]["result"]
+          : 'NA';
+      gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
+      gpsDataModel.longitude =
+      json["longitude"] != null ? json["longitude"] : 0;
       print(
-          "DeviceId is ${devicelist[i].deviceId} for ${devicelist[i].truckno}");
+          "LAT : ${gpsDataModel.latitude}, LONG : ${gpsDataModel.longitude} ");
+      gpsDataModel.distance = json["attributes"]["totalDistance"] != null
+          ? json["attributes"]["totalDistance"]
+          : 0;
+      gpsDataModel.motion = json["attributes"]["motion"] != null
+          ? json["attributes"]["motion"]
+          : false;
+      print("Motion : ${gpsDataModel.motion}");
+      gpsDataModel.ignition = json["attributes"]["ignition"] != null
+          ? json["attributes"]["ignition"]
+          : false;
+      gpsDataModel.speed = json["speed"] != null ? json["speed"] * 1.85 : 'NA';
+      gpsDataModel.course = json["course"] != null ? json["course"] : 'NA';
+      gpsDataModel.deviceTime =
+      json["deviceTime"] != null ? json["deviceTime"] : 'NA';
+      gpsDataModel.serverTime =
+      json["serverTime"] != null ? json["serverTime"] : 'NA';
+      gpsDataModel.fixTime = json["fixTime"] != null ? json["fixTime"] : 'NA';
+      //   gpsDataModel.attributes = json["fixTime"] != null ? json["fixTime"] : 'NA';
+      var latn = gpsDataModel.latitude =
+      json["latitude"] != null ? json["latitude"] : 0;
+      var lngn = gpsDataModel.longitude =
+      json["longitude"] != null ? json["longitude"] : 0;
+      String? addressstring;
+      try {
+        List<Placemark> newPlace;
+        current_lang = LocalizationService().getCurrentLang();
+        if (current_lang == 'Hindi') {
+          newPlace = await placemarkFromCoordinates(latn, lngn,
+              localeIdentifier: "hi_IN");
+        } else {
+          newPlace = await placemarkFromCoordinates(latn, lngn,
+              localeIdentifier: "en_US");
+        }
+        var first = newPlace.first;
 
-      getGPSData(gpsDataAll[i], i, devicelist[i].truckno, devicelist[i]);
+        if (first.subLocality == "")
+          addressstring =
+          " ${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+        else if (first.locality == "")
+          addressstring =
+          "${first.street}, ${first.subLocality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+        else if (first.administrativeArea == "")
+          addressstring =
+          "${first.street}, ${first.subLocality}, ${first.locality}, ${first.postalCode}, ${first.country}";
+        else
+          addressstring =
+          "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+        print("ADD $addressstring");
+      } catch (e) {
+        print(e);
+
+        addressstring = "";
+      }
+      gpsDataModel.address = "$addressstring";
+      getGPSData(gpsDataModel, j, devicelist[j].truckno, devicelist[j]);
+      // if (j <= 4) {
       // setState(() {
-      //   loading = false;
+      gpsDataList.add(gpsDataModel);
       // });
+      // } else {
+      //   gpsDataList.add(gpsDataModel);
+      // }
+
+      // gpsDataList.add(gpsDataModel);
+      print("gpsDataList :- ");
+      print(gpsDataList);
+      if (devicelist[j].status == "online") {
+        status2.add("Online");
+      } else {
+        status2.add("Offline");
+      }
+      j++;
+      // LatLongList.add(gpsDataModel);
+      // i++;
+      // gpsDataList.add(value)
+      // if (j == 4) {
+      //   // break;
+      // }
     }
     setState(() {
-      gpsDataList = gpsList;
+      //gpsDataList = gpsList;
       status = stat;
       status2 = stat;
 
@@ -958,7 +1146,37 @@ class _MyTrucksState extends State<MyTrucks> {
 
     print("ALL $status");
     print("ALL $gpsDataList");
-    print("--TRUCK SCREEN DONE--");
+    print("--TRUCK SCREEN DONE FOR REFRESH-");
+    var toremove = [];
+    for(DeviceModel i in devicelist)
+    {
+      print("${i.truckno} + ${i.expire}");
+    }
+    for(GpsDataModel i in gpsDataList)
+    {
+      for(DeviceModel j in tempdevices)
+      {
+        if(i.deviceId==j.deviceId)
+        {
+          truckswithgps.add(j.truckno);
+          deviceswithgps.add(j);
+          toremove.add(j);
+        }
+      }
+    }
+    print(truckswithgps);
+    print(gpsDataList);
+    print(status2);
+    print(devicelist);
+    print(tempdevices);
+    tempdevices.removeWhere((element) => toremove.contains(element));
+    print(tempdevices);
+    for(DeviceModel i in tempdevices)
+    {
+      temptrucks.add(i.truckno);
+    }
+    print(temptrucks);
+
     setState(() {
       loading = false;
     });

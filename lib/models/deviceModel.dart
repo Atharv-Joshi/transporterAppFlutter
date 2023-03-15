@@ -11,6 +11,7 @@ class DeviceModel {
   String? model;
   String? contact;
   String? category;
+  String? expire;
 
   DeviceModel(
       {this.deviceId,
@@ -21,6 +22,7 @@ class DeviceModel {
         this.phone,
         this.model,
         this.contact,
-        this.category
+        this.category,
+        this.expire,
       });
 }

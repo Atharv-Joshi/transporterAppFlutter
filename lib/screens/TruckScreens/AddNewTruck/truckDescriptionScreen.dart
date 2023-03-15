@@ -15,6 +15,8 @@ import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
+import '../../../constants/fontSize.dart';
+
 class TruckDescriptionScreen extends StatefulWidget {
   final String truckId;
   String truckNumber;
@@ -202,6 +204,35 @@ class _TruckDescriptionScreenState extends State<TruckDescriptionScreen> {
                               .toList(),
                         ),
                       ),
+                SizedBox(height: space_3),
+                providerData.pluspressed==true?Padding(
+                  padding: const EdgeInsets.only(left: 3),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: priceBackground,
+                            offset: Offset.fromDirection(0.8),
+                            spreadRadius: 1)
+                      ],
+                      shape: BoxShape.circle,
+                      border: Border(
+                          top: BorderSide(width: 1, color: grey),
+                          right: BorderSide(width: 1, color: grey),
+                          left: BorderSide(width: 1, color: grey),
+                          bottom: BorderSide(width: 1, color: grey)),
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: darkBlueColor,
+                      child: Text(
+                        '${providerData.passingWeightValue}',
+                        style: TextStyle(
+                            fontSize: size_10,
+                            color: white),
+                      ),
+                    ),
+                  ),
+                ):Container(),
                 providerData.truckTypeValue == ''
                     ? SizedBox()
                     : Container(

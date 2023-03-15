@@ -248,7 +248,7 @@ class MyLoadsCard extends StatelessWidget {
               state: loadDetailsScreenModel.unloadingPointState2!);
         }
         providerData.updatePassingWeightValue(
-            int.parse(loadDetailsScreenModel.weight!));
+            int.parse(loadDetailsScreenModel.weight!),false);
         providerData.updateTruckTypeValue(loadDetailsScreenModel.truckType!
             .replaceAll(" ", "_")
             .toUpperCase());

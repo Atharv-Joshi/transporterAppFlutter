@@ -55,7 +55,7 @@ const Map<String, String> enUS = {
   "selectADriver": "Select A Driver",
   "driverNameNumber": "Driver Name-Number",
   "save": "Save",
-  "passingWeigthInTons": "Passing Weight (in tons.)",
+  "passingWeigthInTons": "Passing Weight (in mt)",
   "totalTyres": "Total Tyres (front & rare)",
   "truckLength": "Truck Length (in ft)",
   "addNewDriver": "Add New Driver",
@@ -75,7 +75,7 @@ const Map<String, String> enUS = {
   "truckType": "Truck Type",
   "numberOfTrucks": "Number Of Trucks",
   "productType": "Product Type",
-  "weightInTon": "Weight(in tons)",
+  "weightInTon": "Weight(in mt)",
   "priceOptional": "Price(Optional)",
   "PER_TRUCK": "Per Truck",
   "PER_TON": "Per Ton",
@@ -157,7 +157,7 @@ const Map<String, String> enUS = {
   "notruckadded": "Look like you have not added any truck",
   "notruckrunnning": "Look like you do not have any truck running",
   "notruckstopped": "Look like you do not have any stopped truck",
-  'passingWeight': "Passing Weight (in tons.)",
+  'passingWeight': "Passing Weight (in mt)",
   'buyGPS': 'Buy GPS to access live tracking',
   'timedate': 'time date',
   'km': 'km',
@@ -205,9 +205,9 @@ const Map<String, String> enUS = {
   "findLoad": "Find Load",
   'bidPrice': "Bid Price",
   'addDriver': "Add Driver",
-  'weights': 'Weight(in tons)',
+  'weights': 'Weight(in mt)',
   "chooseproductType": "Choose Product Type",
-  'priceoptional': 'Price(Optional)',
+  'priceoptional': 'Freight(Optional)',
   'enterprice': 'enter price',
 
   //my account
@@ -272,6 +272,10 @@ const Map<String, String> enUS = {
   'whatsappShare': 'Share on Whatsapp',
   'setExpiry': 'Set expiry time',
 
+  //My Truck Screen
+  'Subcribe for this truck' : 'Buy for this truck',
+  'Your plan has': 'Your plan has ',
+  'Expired' : 'EXPIRED!',
   //searchMytrucks
   'searchTrucks': 'Search Trucks',
 

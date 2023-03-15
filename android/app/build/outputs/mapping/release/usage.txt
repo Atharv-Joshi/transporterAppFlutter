@@ -25835,6 +25835,7 @@ com.google.firebase.messaging.Constants$MessageTypes
 com.google.android.gms.internal.measurement.zzdk
 androidx.fragment.app.ListFragment
 kotlin.sequences.SequencesKt___SequencesKt$runningReduceIndexed$1
+kotlinx.coroutines.flow.FlowKt__ZipKt$combine$5$1
 com.google.gson.internal.bind.util.ISO8601Utils:
     public void <init>()
     public static java.lang.String format(java.util.Date)
@@ -25842,7 +25843,6 @@ com.google.gson.internal.bind.util.ISO8601Utils:
     public static java.lang.String format(java.util.Date,boolean,java.util.TimeZone)
     private static void padInt(java.lang.StringBuilder,int,int)
     private static final java.lang.String UTC_ID
-kotlinx.coroutines.flow.FlowKt__ZipKt$combine$5$1
 com.tekartik.sqflite.R
 org.checkerframework.checker.nullness.compatqual.NonNullType
 androidx.viewpager.R$dimen
@@ -26523,10 +26523,10 @@ androidx.appcompat.view.StandaloneActionMode:
     public void onCloseSubMenu(androidx.appcompat.view.menu.SubMenuBuilder)
     public boolean isUiFocusable()
 io.flutter.plugin.common.PluginRegistry
-com.google.firebase.database.android.-$$Lambda$AndroidAppCheckTokenProvider$60vFfzkhuN4dN7asQDMFpqCxmE0:
-    public final void onAppCheckTokenChanged(com.google.firebase.appcheck.AppCheckTokenResult)
 com.google.firebase.messaging.-$$Lambda$FirebaseMessaging$Uyx38-Jmg4xvTvNieX_4Y_cQnyc:
     public final void onNewToken(java.lang.String)
+com.google.firebase.database.android.-$$Lambda$AndroidAppCheckTokenProvider$60vFfzkhuN4dN7asQDMFpqCxmE0:
+    public final void onAppCheckTokenChanged(com.google.firebase.appcheck.AppCheckTokenResult)
 kotlinx.coroutines.scheduling.ExperimentalCoroutineDispatcher:
     public void <init>(int,int,long,java.lang.String)
     public void <init>(int,int,java.lang.String)
@@ -26662,8 +26662,8 @@ io.flutter.plugin.platform.PlatformViewsController$1:
     private void lambda$resize$2(io.flutter.plugin.platform.VirtualDisplayController,io.flutter.embedding.engine.systemchannels.-$$Lambda$PlatformViewsChannel$1$pMHhgo3vaqdzoS3K-OFSVbonOaM)
     private synthetic void lambda$createForTextureLayer$1(int,android.view.View,boolean)
     private synthetic void lambda$createForTextureLayer$0(io.flutter.embedding.engine.systemchannels.PlatformViewsChannel$PlatformViewCreationRequest,android.view.View,boolean)
-    public synthetic void lambda$createForTextureLayer$1$PlatformViewsController$1(int,android.view.View,boolean)
     public synthetic void lambda$createForTextureLayer$0$PlatformViewsController$1(io.flutter.embedding.engine.systemchannels.PlatformViewsChannel$PlatformViewCreationRequest,android.view.View,boolean)
+    public synthetic void lambda$createForTextureLayer$1$PlatformViewsController$1(int,android.view.View,boolean)
     public void lambda$resize$2$PlatformViewsController$1(io.flutter.plugin.platform.VirtualDisplayController,io.flutter.embedding.engine.systemchannels.-$$Lambda$PlatformViewsChannel$1$pMHhgo3vaqdzoS3K-OFSVbonOaM)
 kotlin.LazyKt__LazyKt
 com.google.android.gms.common.internal.zzah
@@ -27981,9 +27981,9 @@ com.google.android.datatransport.runtime.scheduling.persistence.SQLiteEventStore
     long getByteSize()
     public synthetic java.lang.Integer lambda$cleanUp$12$SQLiteEventStore(long,android.database.sqlite.SQLiteDatabase)
     public synthetic java.lang.Object lambda$recordFailure$4$SQLiteEventStore(java.lang.String,java.lang.String,android.database.sqlite.SQLiteDatabase)
+    public synthetic com.google.android.datatransport.runtime.firebase.transport.ClientMetrics lambda$loadClientMetrics$20$SQLiteEventStore(java.lang.String,java.util.Map,com.google.android.datatransport.runtime.firebase.transport.ClientMetrics$Builder,android.database.sqlite.SQLiteDatabase)
     public synthetic java.lang.Object lambda$recordFailure$3$SQLiteEventStore(android.database.Cursor)
     public synthetic java.lang.Object lambda$cleanUp$11$SQLiteEventStore(android.database.Cursor)
-    public synthetic com.google.android.datatransport.runtime.firebase.transport.ClientMetrics lambda$loadClientMetrics$20$SQLiteEventStore(java.lang.String,java.util.Map,com.google.android.datatransport.runtime.firebase.transport.ClientMetrics$Builder,android.database.sqlite.SQLiteDatabase)
 io.flutter.embedding.android.FlutterImageView$SurfaceKind:
     public static io.flutter.embedding.android.FlutterImageView$SurfaceKind[] values()
 kotlinx.coroutines.internal.LockFreeTaskQueueCore:
@@ -28035,8 +28035,8 @@ com.google.firebase.messaging.FirebaseMessaging:
     private synthetic void lambda$new$2(com.google.firebase.messaging.TopicsSubscriber)
     private synthetic void lambda$new$1()
     private synthetic void lambda$new$0(java.lang.String)
-    public synthetic void lambda$getToken$4$FirebaseMessaging(com.google.android.gms.tasks.TaskCompletionSource)
     public synthetic void lambda$new$2$FirebaseMessaging(com.google.firebase.messaging.TopicsSubscriber)
+    public synthetic void lambda$getToken$4$FirebaseMessaging(com.google.android.gms.tasks.TaskCompletionSource)
     private final java.util.concurrent.Executor taskExecutor
 com.google.firebase.database.core.view.QueryParams$1
 com.google.android.gms.cloudmessaging.IMessengerCompat$Proxy
@@ -29120,9 +29120,9 @@ io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingPlugin:
     static java.lang.Void lambda$subscribeToTopic$2(java.util.Map)
     private synthetic java.util.Map lambda$getToken$1()
     static synthetic java.lang.Void lambda$deleteToken$0()
-    public java.util.Map lambda$setAutoInitEnabled$5$FlutterFirebaseMessagingPlugin(java.util.Map)
-    public synthetic java.util.Map lambda$getToken$1$FlutterFirebaseMessagingPlugin()
     public void lambda$onMethodCall$7$FlutterFirebaseMessagingPlugin(io.flutter.plugin.common.MethodChannel$Result,com.google.android.gms.tasks.Task)
+    public synthetic java.util.Map lambda$getToken$1$FlutterFirebaseMessagingPlugin()
+    public java.util.Map lambda$setAutoInitEnabled$5$FlutterFirebaseMessagingPlugin(java.util.Map)
 com.google.android.datatransport.cct.internal.NetworkConnectionInfo$MobileSubtype:
     private static final synthetic com.google.android.datatransport.cct.internal.NetworkConnectionInfo$MobileSubtype[] $VALUES
 com.google.android.gms.auth.api.zzb
@@ -37631,53 +37631,53 @@ io.flutter.embedding.engine.systemchannels.PlatformChannel$SoundType:
 org.threeten.bp.chrono.ChronoLocalDate$1
 androidx.appcompat.view.StandaloneActionMode:
     private boolean mFocusable
-com.baseflow.permissionhandler.-$$Lambda$JPiYTbAO2q7Bir0n3-Qtv6Aqu3g:
-    public final void onSuccess(int)
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$oKqdxOixQwtlnwudfP7AamBZ6Fk
-com.google.android.datatransport.runtime.-$$Lambda$TransportImpl$vLzWiBneRS8-wkDW460naPYgeb8:
-    public final void onSchedule(java.lang.Exception)
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$ay-gMZD86BC6lBcqzDnqrGFe1do
-com.google.firebase.database.collection.-$$Lambda$ImmutableSortedMap$Builder$6y7xYObLuge9FUW97sc5MLHleDs:
-    public final java.lang.Object translate(java.lang.Object)
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$gKYqXsg1_yufDN2V8syELXN02mo
-com.baseflow.permissionhandler.-$$Lambda$qLCwtehbBhWZPcZzfqpZ7QFeZAs
-com.google.android.datatransport.cct.-$$Lambda$CctTransportBackend$bLAzIpNF4NtapXlUpPVGhzxyNT8
-io.flutter.plugins.firebase.auth.-$$Lambda$FlutterFirebaseAuthPlugin$Ytixa6jBajBBvdwrPZ5TeazRF9g:
-    public final void onCredentialsReceived(com.google.firebase.auth.PhoneAuthCredential)
-com.google.android.datatransport.cct.-$$Lambda$CctTransportBackend$S-r8nBLtE2gbjrB4Xb4-7yhMlbw
-com.google.firebase.database.android.-$$Lambda$AndroidAppCheckTokenProvider$d5ouCwY_MlmKFbkPIcW9iYuM3gk
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$Sh6yJGFWTLsd_30cUzl9yLa_YMg
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$iYuxN0Ty41ycitE3CEiSDQ_wwLA
-com.baseflow.geolocator.-$$Lambda$MethodCallHandlerImpl$_mtWVu_T5fFYvfKNKfIX4kigiro:
-    public final void onResult(com.baseflow.geolocator.permission.LocationPermission)
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$zn4IshrquL3Sn0eA13DcwuSm0VQ
-com.baseflow.permissionhandler.-$$Lambda$tL6_uMNVRblqC6B398vao7TdIZk
 com.baseflow.geolocator.-$$Lambda$MethodCallHandlerImpl$H5IoIEOIf28y6DbVFUgSxWA7imY
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$_ODvwrA4e5PffihOIPekiQxZ_ys
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$oKqdxOixQwtlnwudfP7AamBZ6Fk
 io.flutter.embedding.engine.systemchannels.-$$Lambda$PlatformViewsChannel$1$pMHhgo3vaqdzoS3K-OFSVbonOaM:
     public final void run(io.flutter.embedding.engine.systemchannels.PlatformViewsChannel$PlatformViewBufferSize)
-com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$lk5T7z9CZr_kRsdWPJdSt_kHRsU
-com.google.firebase.messaging.-$$Lambda$FirebaseMessaging$1AYfBMlbEOJoTvXNS_TEZqpK2SY:
-    public final com.google.android.gms.tasks.Task start()
-com.google.firebase.messaging.-$$Lambda$2ZDU5QlLyvKN8sIPj15Aus63uf8:
-    public final java.lang.Object apply(java.lang.Object)
+com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$z-5Y05bp5oQnzz_VynnxR9WkAQM
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$gKYqXsg1_yufDN2V8syELXN02mo
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$QMebUAXXtKjpg4z3JpJv7FltEYU
+com.baseflow.permissionhandler.-$$Lambda$_ZvzXemzOXd_KNrS3rVJNNWtxFc
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$_ODvwrA4e5PffihOIPekiQxZ_ys
+com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$q7Tl8y0r1dZ06shK3VJv08xkMY8
 com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$AaygE11VixcKoKxi2oierHUCg_U:
     public final void onError(java.lang.String,java.lang.String)
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$jHvNLuj_MNfbJKoNwQY_V7SxzbM
-com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$z-5Y05bp5oQnzz_VynnxR9WkAQM
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$QMebUAXXtKjpg4z3JpJv7FltEYU
 com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$Tp04eFGXofDuQuggKYF7mlQ8_nE
-com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$q7Tl8y0r1dZ06shK3VJv08xkMY8
+com.baseflow.permissionhandler.-$$Lambda$JPiYTbAO2q7Bir0n3-Qtv6Aqu3g:
+    public final void onSuccess(int)
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$dHdF4FfDiVZdg0Y0Qp9a2i_CYcE
+com.google.firebase.database.android.-$$Lambda$AndroidAppCheckTokenProvider$d5ouCwY_MlmKFbkPIcW9iYuM3gk
+com.baseflow.geolocator.-$$Lambda$MethodCallHandlerImpl$_mtWVu_T5fFYvfKNKfIX4kigiro:
+    public final void onResult(com.baseflow.geolocator.permission.LocationPermission)
+com.baseflow.permissionhandler.-$$Lambda$tL6_uMNVRblqC6B398vao7TdIZk
+com.google.android.datatransport.runtime.-$$Lambda$TransportImpl$vLzWiBneRS8-wkDW460naPYgeb8:
+    public final void onSchedule(java.lang.Exception)
+com.baseflow.permissionhandler.-$$Lambda$MethodCallHandlerImpl$lk5T7z9CZr_kRsdWPJdSt_kHRsU
+com.google.android.datatransport.cct.-$$Lambda$CctTransportBackend$S-r8nBLtE2gbjrB4Xb4-7yhMlbw
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$zn4IshrquL3Sn0eA13DcwuSm0VQ
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$iYuxN0Ty41ycitE3CEiSDQ_wwLA
+com.baseflow.permissionhandler.-$$Lambda$qLCwtehbBhWZPcZzfqpZ7QFeZAs
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$ay-gMZD86BC6lBcqzDnqrGFe1do
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$jHvNLuj_MNfbJKoNwQY_V7SxzbM
+com.google.firebase.database.collection.-$$Lambda$ImmutableSortedMap$Builder$6y7xYObLuge9FUW97sc5MLHleDs:
+    public final java.lang.Object translate(java.lang.Object)
+com.google.firebase.messaging.-$$Lambda$2ZDU5QlLyvKN8sIPj15Aus63uf8:
+    public final java.lang.Object apply(java.lang.Object)
+io.flutter.plugins.firebase.auth.-$$Lambda$FlutterFirebaseAuthPlugin$Ytixa6jBajBBvdwrPZ5TeazRF9g:
+    public final void onCredentialsReceived(com.google.firebase.auth.PhoneAuthCredential)
 com.baseflow.permissionhandler.-$$Lambda$fOfJ7OpNBkhP48Mtzqs01exhUJs:
     public final void onSuccess(java.util.Map)
-com.baseflow.permissionhandler.-$$Lambda$_ZvzXemzOXd_KNrS3rVJNNWtxFc
-com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$dHdF4FfDiVZdg0Y0Qp9a2i_CYcE
+com.google.android.datatransport.cct.-$$Lambda$CctTransportBackend$bLAzIpNF4NtapXlUpPVGhzxyNT8
+com.google.android.datatransport.runtime.scheduling.persistence.-$$Lambda$SQLiteEventStore$Sh6yJGFWTLsd_30cUzl9yLa_YMg
+com.google.firebase.messaging.-$$Lambda$FirebaseMessaging$1AYfBMlbEOJoTvXNS_TEZqpK2SY:
+    public final com.google.android.gms.tasks.Task start()
 io.flutter.view.TextureRegistry$SurfaceTextureEntry$-CC
+androidx.lifecycle.DefaultLifecycleObserver$-CC
 io.flutter.plugin.common.BinaryMessenger$-CC:
     public static io.flutter.plugin.common.BinaryMessenger$TaskQueue $default$makeBackgroundTaskQueue(io.flutter.plugin.common.BinaryMessenger,io.flutter.plugin.common.BinaryMessenger$TaskQueueOptions)
     public static void $default$setMessageHandler(io.flutter.plugin.common.BinaryMessenger,java.lang.String,io.flutter.plugin.common.BinaryMessenger$BinaryMessageHandler,io.flutter.plugin.common.BinaryMessenger$TaskQueue)
 io.flutter.plugin.platform.PlatformView$-CC:
     public static void $default$onInputConnectionLocked(io.flutter.plugin.platform.PlatformView)
     public static void $default$onInputConnectionUnlocked(io.flutter.plugin.platform.PlatformView)
-androidx.lifecycle.DefaultLifecycleObserver$-CC
 $r8$backportedMethods$utility$Long$1$hashCode

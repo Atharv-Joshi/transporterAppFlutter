@@ -70,7 +70,7 @@ const Map<String, String> hiIN = {
   "truckType": "ट्रक का प्रकार",
   "numberOfTrucks": "ट्रक की संख्या",
   "productType": "माल का प्रकार",
-  "weightInTon": "वजन (टन में)",
+  "weightInTon": "वजन (mt में)",
   "priceOptional": "मूल्य()",
   "PER_TRUCK": "प्रति ट्रक",
   "PER_TON": "प्रति टन",
@@ -145,7 +145,7 @@ const Map<String, String> hiIN = {
   "notruckadded": "आपके द्वारा कोई ट्रक नहीं जोड़ा गया",
   "notruckrunning": "आपका कोई ट्रक नहीं चल रहा है",
   "notruckstopped": "आपका कोई भी ट्रक नही रुका है",
-  'passingWeight': "वजन क्षमता (टन)",
+  'passingWeight': "वजन क्षमता (mt)",
   'status': "स्थिति",
   'truckTravelled': 'ट्रक चला है : ',
   'kmToday': 'किमी आज',
@@ -200,7 +200,7 @@ const Map<String, String> hiIN = {
   "findLoad": "माल ढूंढे",
   'bidPrice': "बोली का रेट",
   'addDriver': 'ड्राइवर जोड़े',
-  'weights': 'वजन(टन)',
+  'weights': 'वजन(mt)',
   "chooseproductType": "माल का प्रकार चुनें",
   'priceoptional': 'रेट(ऑप्शनल)',
   'enterprice': 'रेट डाले',
@@ -267,6 +267,11 @@ const Map<String, String> hiIN = {
   '7Days': '7 दिन',
   'whatsappShare': 'वॉट्स्ऐप पर शेयर करें',
   'setExpiry': 'लिंक की अवधि निर्धारित करे',
+
+  //My Truck Screen
+  'Subcribe for this truck': 'इस ट्रक के लिए खरीदें',
+  'Your plan has': 'आपकी योजना ',
+  'Expired' : 'समाप्त हो गई है',
 
   //searchMytrucks
   'searchTrucks': 'ट्रक खोजें',
