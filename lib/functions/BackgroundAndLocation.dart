@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:device_info/device_info.dart';
-import 'package:flutter_background/flutter_background.dart';
+import 'package:flutter_background/flutter_background.dart' as fbg;
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,19 +20,19 @@ TransporterIdController transporterIdController = Get.find<TransporterIdControll
 
 void backgroundTry() async {
   print("Background Try");
-  final androidConfig = FlutterBackgroundAndroidConfig(
+  final androidConfig = fbg.FlutterBackgroundAndroidConfig(
     notificationTitle: "flutter_background example app",
     notificationText: "Background notification for keeping the example app running in the background",
-    notificationImportance: AndroidNotificationImportance.Default,
-    notificationIcon: AndroidResource(name: 'background_icon', defType: 'drawable'), // Default is ic_launcher from folder mipmap
+    notificationImportance: fbg.AndroidNotificationImportance.Default,
+    notificationIcon: fbg.AndroidResource(name: 'background_icon', defType: 'drawable'), // Default is ic_launcher from folder mipmap
   );
-  bool success = await FlutterBackground.initialize(androidConfig: androidConfig);
+  bool success = await fbg.FlutterBackground.initialize(androidConfig: androidConfig);
   print("Success in button is $success and it is in intialise");
-  bool hasPermissions = await FlutterBackground.hasPermissions;
+  bool hasPermissions = await fbg.FlutterBackground.hasPermissions;
   print("Success in button is $hasPermissions and it is after initialise");
-  bool BackExecute = await FlutterBackground.enableBackgroundExecution();
+  bool BackExecute = await fbg.FlutterBackground.enableBackgroundExecution();
   print("BackExecute is $BackExecute");
-  bool enabled = FlutterBackground.isBackgroundExecutionEnabled;
+  bool enabled = fbg.FlutterBackground.isBackgroundExecutionEnabled;
   print("Success in button is $enabled and it is after initialise");
   if (enabled == true) {
     timer = Timer.periodic(Duration(minutes: 1), (Timer t) => _getUserAddress());
@@ -43,7 +43,7 @@ void backgroundTry() async {
 
 void backgroundCancel() async {
   print("Background and timer canceled");
-  await FlutterBackground.disableBackgroundExecution();
+  await fbg.FlutterBackground.disableBackgroundExecution();
   timer.cancel();
 }
 

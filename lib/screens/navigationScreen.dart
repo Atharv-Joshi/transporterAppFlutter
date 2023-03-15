@@ -161,10 +161,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   void initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+    FirebaseDynamicLinks.instance.onLink.listen(
+       (PendingDynamicLinkData? dynamicLink) async {
       _handleDynamicLink(dynamicLink);
-    }, onError: (OnLinkErrorException e) async {
+    }, onError: (e) async {
       print('onLinkError');
       print(e.message);
     });

@@ -10,7 +10,7 @@ Future<void> versionCheck(BuildContext context) async {
   double currentVersion = double.parse(info.version.trim().replaceAll(".", ""));
 
   try {
-    RemoteConfig _remoteConfig = RemoteConfig.instance;
+    FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig.instance;
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(
           seconds: 1),

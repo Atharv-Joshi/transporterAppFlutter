@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
@@ -32,6 +32,7 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
 
   bool loading = false;
   bool bottomProgressLoad = false;
+  String transporterId = "";
 
   @override
   void initState() {
@@ -109,13 +110,13 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
   }
 
   getDataByPostLoadId(int i) async {
+    transporterId = transporterIdController.transporterId.value;
     if (this.mounted) {
       setState(() {
         bottomProgressLoad = true;
       });
     }
-    http.Response response = await http.get(Uri.parse(
-        '$loadApiUrl?postLoadId=${transporterIdController.transporterId.value}&pageNo=$i'));
+    http.Response response = await http.get(Uri.parse('$loadApiUrl?postLoadId=$transporterId&pageNo=$i'));
     var jsonData = json.decode(response.body);
     for (var json in jsonData) {
       LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
