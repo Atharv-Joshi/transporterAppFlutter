@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../controller/transporterIdController.dart';
 import '../functions/deviceApiCalls.dart';
+import 'package:flutter_config/flutter_config.dart';
 class myTrucksCardNoGps extends StatefulWidget {
   var truckno;
   DeviceModel device;
@@ -36,6 +37,10 @@ class _myTrucksCardNoGpsState extends State<myTrucksCardNoGps> {
   Get.find<TransporterIdController>();
   bool expired = true;
   Razorpay razorpay = new Razorpay();
+  String key = FlutterConfig.get("paymentkey");
+  String keysecret = FlutterConfig.get("paymentkeysecret");
+  String orderapi = FlutterConfig.get("razorpayorder");
+  int amount = 100;
   @override
   void initState() {
     // TODO: implement initState
@@ -77,18 +82,18 @@ class _myTrucksCardNoGpsState extends State<myTrucksCardNoGps> {
   void checkout() async{
     String mob_no = transporterIdController.mobileNum.value;
     var orderoptions = {
-      "amount": 100,
+      "amount": amount,
       "currency": "INR",
       "receipt": "rcptid_11"
     };
     final client = HttpClient();
     final request =
-    await client.postUrl(Uri.parse('https://api.razorpay.com/v1/orders'));
+    await client.postUrl(Uri.parse('$orderapi'));
     request.headers.set(
         HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
     String basicAuth = 'Basic ' +
         base64Encode(utf8.encode(
-            'rzp_live_7ulE9CRA7HfMhq:ctS09xly995ozZDc5ZM8QLjQ'));
+            '${key}:${keysecret}'));
     request.headers.set(HttpHeaders.authorizationHeader, basicAuth);
     request.add(utf8.encode(json.encode(orderoptions)));
     final response = await request.close();
@@ -97,8 +102,8 @@ class _myTrucksCardNoGpsState extends State<myTrucksCardNoGps> {
       String orderId = contents.split(',')[0].split(":")[1];
       orderId = orderId.substring(1, orderId.length - 1);
       var options = {
-        'key': 'rzp_live_7ulE9CRA7HfMhq',
-        'amount': 100, //in the smallest currency sub-unit.
+        'key': '${key}',
+        'amount': amount, //in the smallest currency sub-unit.
         'name': 'Liveasy',
         'order_id': '$orderId', // in seconds
         'prefill': {
