@@ -81,11 +81,16 @@ class AddTruckCircularButtonTemplate extends StatelessWidget {
               },
             );
           }
-        else
-          {
-            providerData.updateResetActive(true);
-            providerFunction(value);
-          }
+        else {
+          providerData.updateResetActive(true);
+          if (category == 'weight') {
+            providerFunction(value, false);
+            }
+          else
+            {
+              providerFunction(value);
+            }
+        }
       },
     );
   }

@@ -34,13 +34,11 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
             if (controllerOthers.text.length > 0) {
               //int data = int.parse(controllerOthers.text);
               switch (widget.category) {
-                // case 'weight':
-                //   providerData.updatePassingWeightValue(
-                //       controllerOthers.text == ""
-                //           ? "Choose Product Weight"
-                //           : data);
-                //   print(data);
-                //   //weightList.remove(0);
+                 case 'weight':
+                   providerData.updatePassingWeightValue(
+                           int.parse(controllerOthers.text),true);
+                   print(controllerOthers.text);
+                   weightList.remove(0);
                 //   if (!truckFilterVariables
                 //       .passingWeightList[providerData.truckTypeValue]!
                 //       .contains(data)) {
@@ -54,7 +52,7 @@ class _OkButtonProductTypeState extends State<OkButtonProductType> {
                 //                 1,
                 //             data);
                 //   }
-                //   break;
+                   break;
                 // case 'tyres':
                 //   providerData.updateTotalTyresValue(controllerOthers.text == ""
                 //       ? "Choose Product Tyres"

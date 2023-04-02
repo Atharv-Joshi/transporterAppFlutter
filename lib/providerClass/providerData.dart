@@ -155,6 +155,7 @@ class ProviderData extends ChangeNotifier {
   bool otpIsValid = true;
   String hintText = "enter price";
   Color borderColor = darkBlueColor;
+  bool pluspressed = false;
 
   String truckId = '';
 
@@ -435,8 +436,9 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatePassingWeightValue(value) {
+  void updatePassingWeightValue(value,p) {
     passingWeightValue = value;
+    pluspressed = p;
     notifyListeners();
   }
 

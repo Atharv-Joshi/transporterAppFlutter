@@ -35,11 +35,11 @@ class PostButtonLoad extends StatelessWidget {
           providerData.resetPostLoadFilters();
           providerData.resetPostLoadScreenMultiple();
           providerData.updateEditLoad(false, "");
-          transporterIdController.companyApproved.value?
-               Get.to(() => postloadnav())
-              : showDialog(
+          //transporterIdController.companyApproved.value?
+               Get.to(() => postloadnav());
+              /*: showDialog(
                   context: context,
-                  builder: (context) => VerifyAccountNotifyAlertDialog());
+                  builder: (context) => VerifyAccountNotifyAlertDialog());*/
         },
         child: Container(
           child: Text(
