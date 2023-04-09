@@ -60,6 +60,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   List<OngoingCardModel> modelList = [];
   // Future<dynamic>? modelList = [];
   ScrollController scrollController = ScrollController();
+  bool moreitems = true;
 
   getOnGoingOrders(int i) async {
     if (this.mounted) {
@@ -68,9 +69,17 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
       });
     }
     var bookingDataListWithPagei = await onGoingOrdersApiCall(i);
-    for (var bookingData in bookingDataListWithPagei) {
-      print(bookingData);
-      modelList.add(bookingData);
+    if(bookingDataListWithPagei==[])
+      {
+        setState(() {
+          moreitems = false;
+        });
+      }
+    if(moreitems) {
+      for (var bookingData in bookingDataListWithPagei) {
+        print(bookingData);
+        modelList.add(bookingData);
+      }
     }
     if (this.mounted) {
       // check whether the state object is in tree
@@ -108,8 +117,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     getOnGoingOrders(i);
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels >
-          scrollController.position.maxScrollExtent * 0.7) {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
         i = i + 1;
         getOnGoingOrders(i);
       }
@@ -172,6 +181,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   @override
   Widget build(BuildContext context) {
+    print("$i HELLOOO");
     return Container(
         height: MediaQuery.of(context).size.height + size_10,
         child: loading
@@ -200,6 +210,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                     onRefresh: () {
                       setState(() {
                         modelList.clear();
+                        moreitems = true;
+                        i = 0;
                         gpsDataList.clear();
                         loading = true;
                       });
@@ -252,6 +264,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                     //           });
                     //     }
                     child: SingleChildScrollView(
+                      controller: scrollController,
                       child: Column(
                         children: [
                           Container(
@@ -298,7 +311,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                               // child:
                               ListView.builder(
                                   shrinkWrap: true,
-                                  physics: BouncingScrollPhysics(),
+                                  physics: NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.only(bottom: space_10),
                                   itemCount: modelList.length,
                                   itemBuilder: (context, index) {
@@ -321,7 +334,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                   })
                               : ListView.builder(
                                   shrinkWrap: true,
-                                  physics: BouncingScrollPhysics(),
+                                  physics: NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.only(bottom: space_10),
                                   itemCount: searchedModelList.length,
                                   itemBuilder: (context, index) {
