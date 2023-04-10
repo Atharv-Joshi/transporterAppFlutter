@@ -16,8 +16,7 @@ class OngoingScreen extends StatefulWidget {
 }
 
 class _OngoingScreenState extends State<OngoingScreen> {
-  //Scroll Controller for Pagination
-  ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
 
   bool loading = true; //false
   DateTime yesterday =
@@ -30,7 +29,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
   int i = 0;
 
   bool OngoingProgress = true;
-
+  bool moreitems = true;
   final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
 
   List<OngoingCardModel> modelList = [];
@@ -41,39 +40,55 @@ class _OngoingScreenState extends State<OngoingScreen> {
         OngoingProgress = true;
       });
     }
-    var bookingDataListWithPagei = await getOngoingDataWithPageNo(i);
-    for (var bookingData in bookingDataListWithPagei) {
-      modelList.add(bookingData);
+    if(moreitems) {
+      List<OngoingCardModel> bookingdata = await getOngoingDataWithPageNo(i);
+      if(bookingdata.isEmpty)
+        {
+          setState(() {
+            moreitems = false;
+          });
+        }
+      if(moreitems)
+        {
+          modelList.addAll(bookingdata);
+        }
     }
-    if (this.mounted) {
-      // check whether the state object is in tree
-      setState(() {
-        loading = false;
+    if (modelList.isNotEmpty) {
+      if (this.mounted) {
+        // check whether the state object is in tree
+        setState(() {
+          loading = false;
 
-        OngoingProgress = false;
-      });
+          OngoingProgress = false;
+        });
+      }
     }
   }
 
   @override
   void initState() {
+    //Scroll Controller for Pagination
+    scrollController = ScrollController();
     super.initState();
     loading = true;
-    from = yesterday.toIso8601String();
-    to = now.toIso8601String();
     getDataByPostLoadIdOnGoing(i);
+
     scrollController.addListener(() {
-      if (scrollController.position.pixels >
-          scrollController.position.maxScrollExtent * 0.7) {
-        i = i + 1;
-        getDataByPostLoadIdOnGoing(i);
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          i = i + 1;
+          if(moreitems)
+            {
+              getDataByPostLoadIdOnGoing(i);
+            }
+        });
       }
     });
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
     super.dispose();
   }
 
@@ -104,33 +119,37 @@ class _OngoingScreenState extends State<OngoingScreen> {
                     ],
                   ),
                 )
-              : modelList.length > 0
-                  ? RefreshIndicator(
+              : RefreshIndicator(
                       color: lightNavyBlue,
                       onRefresh: () {
                         setState(() {
+                          print(modelList);
                           modelList.clear();
+                          moreitems = true;
+                          i = 0;
                           loading = true;
+                          print(modelList);
                         });
-                        return getDataByPostLoadIdOnGoing(0);
+                        return getDataByPostLoadIdOnGoing(i);
                       },
-                      child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.only(bottom: space_15),
-                          itemCount: modelList.length,
-                          itemBuilder: (context, index) {
-                            return (index == modelList.length)
-                                ? Visibility(
-                                    visible: OngoingProgress,
-                                    child: bottomProgressBarIndicatorWidget())
-                                : (index < modelList.length)
-                                    ? OngoingCard(
-                                        loadAllDataModel: modelList[index],
-                                      )
-                                    : Container();
-                          }),
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(bottom: space_15),
+                            itemCount: modelList.length + 1,
+                            itemBuilder: (context, index) =>
+                              (index == modelList.length)
+                                  ? Visibility(
+                                      visible: OngoingProgress,
+                                      child: bottomProgressBarIndicatorWidget())
+                                  : OngoingCard(
+                                          loadAllDataModel: modelList[index],
+                                        )
+                            ),
+                      ),
                     )
-                  : Container(),
     );
   }
 } //class end

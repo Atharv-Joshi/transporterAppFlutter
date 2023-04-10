@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import '../../constants/spaces.dart';
 import '../../controller/navigationIndexController.dart';
+import '../navigationScreen.dart';
 
 class KYCIDfyScreen extends StatefulWidget {
   const KYCIDfyScreen({Key? key}) : super(key: key);
