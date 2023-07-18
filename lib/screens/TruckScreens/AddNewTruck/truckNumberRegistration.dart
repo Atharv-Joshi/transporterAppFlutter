@@ -75,8 +75,8 @@ class _AddNewTruckState extends State<AddNewTruck> {
                   height: space_2,
                 ),
                 AddTruckSubtitleText(text: 'truckNumber'.tr
-                    // AppLocalizations.of(context)!.truckNumber
-                    ),
+                  // AppLocalizations.of(context)!.truckNumber
+                ),
                 Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: space_6),
@@ -127,9 +127,9 @@ class _AddNewTruckState extends State<AddNewTruck> {
                 ),
                 loading!
                     ? Container(
-                        margin: EdgeInsets.all(space_3),
-                        child: LoadingWidget(),
-                      )
+                  margin: EdgeInsets.all(space_3),
+                  child: LoadingWidget(),
+                )
                     : Container(),
                 Expanded(
                   child: Align(
@@ -140,55 +140,56 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         optional: false,
                         onPressedFunction: providerData.resetActive
                             ? () async {
-                                setState(() {
-                                  loading = true;
+                          setState(() {
+                            loading = true;
+                          });
+
+                          final int random =
+                              new Random().nextInt(10000000 - 1) + 1;
+                          print(random);
+                          providerData
+                              .updateTruckNumberValue(_controller.text);
+                          truckId = await postDeviceApi.PostDevice(
+                            //post truck no in device api with random uniqueid
+                              truckName: _controller.text,
+                              uniqueid: random.toString());
+                          print("$truckId--------------------");
+
+                          if (truckId != null) {
+                            setState(() {
+                              loading = false;
+                            });
+                            providerData.updateResetActive(false);
+                            if (widget.fromScreen == "myTrucks") {
+                              Get.to(() => TruckDescriptionScreen(
+                                  truckId: truckId!,
+                                  truckNumber: _controller.text,
+                                  truckUniqueId: random.toString()));
+                            } else if (widget.fromScreen ==
+                                "selectTruck") {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SelectTruckScreen(
+                                            loadDetailsScreenModel:
+                                            LoadDetailsScreenModel(),
+                                            directBooking: false,
+                                          )));
+                            }
+                            // print("hii ${truckId} and ${_controller.text}");
+                          } else {
+                            setState(() {
+                              loading = false;
+                            });
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return SameTruckAlertDialogBox();
                                 });
-
-                                final int random =
-                                    new Random().nextInt(10000000 - 1) + 1;
-                                print(random);
-                                providerData
-                                    .updateTruckNumberValue(_controller.text);
-                                truckId = await postDeviceApi.PostDevice(
-                                    //post truck no in device api with random uniqueid
-                                    truckName: _controller.text,
-                                    uniqueid: random.toString());
-
-                                if (truckId != null) {
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                  providerData.updateResetActive(false);
-                                  if (widget.fromScreen == "myTrucks") {
-                                    Get.to(() => TruckDescriptionScreen(
-                                        truckId: truckId!,
-                                        truckNumber: _controller.text,
-                                        truckUniqueId: random.toString()));
-                                  } else if (widget.fromScreen ==
-                                      "selectTruck") {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SelectTruckScreen(
-                                                  loadDetailsScreenModel:
-                                                      LoadDetailsScreenModel(),
-                                                  directBooking: false,
-                                                )));
-                                  }
-                                  // print("hii ${truckId} and ${_controller.text}");
-                                } else {
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                  showDialog(
-                                      barrierDismissible: false,
-                                      context: context,
-                                      builder: (context) {
-                                        return SameTruckAlertDialogBox();
-                                      });
-                                }
-                              }
+                          }
+                        }
                             : null),
                   ),
                 ),

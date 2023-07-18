@@ -36,6 +36,8 @@ class DeviceApiCalls {
 
     var res= await response.stream.bytesToString();
 
+    print(response);
+
     if (response.statusCode == 200) {
       final decodeData = json.decode(res);
       print(res);
@@ -116,12 +118,12 @@ class DeviceApiCalls {
       // final decodeData = json.decode(res);
       // _truckId = decodeData["id"].toString();
       print(await response.stream.bytesToString());
-  // return _truckId;
-  return truckId;
-  }
-  else {
-  print(response.reasonPhrase);
-  // return null;
-  }
+      // return _truckId;
+      return truckId;
+    }
+    else {
+      print(response.reasonPhrase);
+      // return null;
+    }
   }
 }

@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:liveasy/constants/urlGetter.dart';
 import 'package:liveasy/controller/postLoadErrorController.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -26,7 +29,18 @@ Future<String?> postLoadAPi(
     unitValue,
     rate) async {
   PostLoadErrorController postLoadErrorController =
-      Get.put(PostLoadErrorController());
+  Get.put(PostLoadErrorController());
+
+  // Changing unit_Values in the string the way it's accepted by API
+  String? unit_value;
+  if (unitValue == "Per Ton") {
+    unit_value = "PER_TON";
+  }
+  if (unitValue == "Per Truck") {
+    unit_value = "PER_TRUCK";
+  }
+
+
   try {
     Map data = {
       "loadDate": loadDate,
@@ -47,13 +61,15 @@ Future<String?> postLoadAPi(
       "unloadingPointCity2":unloadingPointCity2,
       "unloadingPointState2":unloadingPointState2,
       "weight": weight,
-      "unitValue": unitValue,
+      "unitValue": unit_value,
       "rate": rate
     };
     String body = json.encode(data);
     var jsonData;
 
-    final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+    String loadApiUrl = await UrlGetter.get('loadApiUrl');
+
+    print(body + "----------------------------------");
 
     final response = await http.post(Uri.parse(loadApiUrl),
         headers: <String, String>{

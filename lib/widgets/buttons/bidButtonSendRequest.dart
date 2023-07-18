@@ -19,18 +19,30 @@ import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:provider/provider.dart';
 
+import '../../functions/postOneSignalNotification.dart';
+
 // ignore: must_be_immutable
 class BidButtonSendRequest extends StatelessWidget {
   String? loadId;
   String? bidId;
   bool? isPost;
   bool? isNegotiating;
+  String? bidRate;
+  String? bidUnitValue;
+  String? loadingPoint;
+  String? unloadingPoint;
+  String? postLoadId;
 
   BidButtonSendRequest({
     this.loadId,
     this.bidId,
     required this.isPost,
     required this.isNegotiating,
+    this.bidRate,
+    this.bidUnitValue,
+    this.loadingPoint,
+    this.unloadingPoint,
+    this.postLoadId,
   });
 
   TransporterIdController tIdController = Get.find<TransporterIdController>();
@@ -38,9 +50,9 @@ class BidButtonSendRequest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData =
-        Provider.of<ProviderData>(context, listen: false);
+    Provider.of<ProviderData>(context, listen: false);
     NavigationIndexController navigationIndexController =
-        Get.find<NavigationIndexController>();
+    Get.find<NavigationIndexController>();
     getBidData() async {
       String? bidResponse = "";
       String? putResponse = "";
@@ -55,9 +67,9 @@ class BidButtonSendRequest extends StatelessWidget {
 
       isPost!
           ? bidResponse = await postBidAPi(loadId, providerData.rate1,
-              tIdController.transporterId.value, providerData.unitValue1)
+          tIdController.transporterId.value, providerData.unitValue1)
           : putResponse = await putBidForNegotiate(
-              bidId, providerData.rate1, providerData.unitValue1);
+          bidId, providerData.rate1, providerData.unitValue1);
 
       if (bidResponse == "success" || putResponse == "success") {
         print(bidResponse);
@@ -72,25 +84,33 @@ class BidButtonSendRequest extends StatelessWidget {
         );
         Timer(
             Duration(seconds: 3),
-            () => {
-                  if (!isPost!)
-                    {
-                      Get.offAll(() => NavigationScreen()),
-                      navigationIndexController.updateIndex(2),
-                      Get.to(() => BiddingScreens(
-                          loadId: loadId,
-                          loadingPointCity: providerData.bidLoadingPoint,
-                          unloadingPointCity: providerData.bidUnloadingPoint)),
-                      providerData.updateBidButtonSendRequest(false),
-                    }
-                  else
-                    {
-                      providerData.updateUpperNavigatorIndex(0),
-                      Get.offAll(() => NavigationScreen()),
-                      navigationIndexController.updateIndex(3),
-                      providerData.updateBidButtonSendRequest(false),
-                    }
-                });
+                () => {
+              if (!isPost!)
+                {
+                  Get.offAll(() => NavigationScreen()),
+                  navigationIndexController.updateIndex(2),
+                  Get.to(() => BiddingScreens(
+                      loadId: loadId,
+                      loadingPointCity: providerData.bidLoadingPoint,
+                      unloadingPointCity: providerData.bidUnloadingPoint)),
+                  providerData.updateBidButtonSendRequest(false),
+                }
+              else
+                {
+                  providerData.updateUpperNavigatorIndex(0),
+                  Get.offAll(() => NavigationScreen()),
+                  navigationIndexController.updateIndex(3),
+                  providerData.updateBidButtonSendRequest(false),
+                }
+            });
+
+        // post Notification :-----------------
+        if (bidUnitValue == null) {
+          bidUnitValue = "Per Tonne";
+        }
+        // Pushing Notification on the user phone who posted the load----------------
+        postBidNotification(loadingPoint!, unloadingPoint!, bidRate!, bidUnitValue!, postLoadId!);
+
       } else if (bidResponse == "conflict") {
         showDialog(
           context: context,
@@ -140,14 +160,14 @@ class BidButtonSendRequest extends StatelessWidget {
         ),
         onPressed: providerData.bidButtonSendRequestState
             ? () {
-                getBidData();
-              }
+          getBidData();
+        }
             : null,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius_4),
-            )),
+                  borderRadius: BorderRadius.circular(radius_4),
+                )),
             overlayColor: providerData.bidButtonSendRequestState == true
                 ? null
                 : MaterialStateProperty.all(Colors.transparent),

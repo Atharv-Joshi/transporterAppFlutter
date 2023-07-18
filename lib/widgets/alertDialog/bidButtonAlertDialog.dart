@@ -18,8 +18,11 @@ class BidButtonAlertDialog extends StatefulWidget {
   String? bidId;
   bool? isPost;
   bool? isNegotiating;
+  String? loadingPoint;
+  String? unloadingPoint;
+  String? postLoadId;
 
-  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost ,  required this.isNegotiating});
+  BidButtonAlertDialog({this.loadId, this.bidId, required this.isPost ,  required this.isNegotiating, this.loadingPoint, this.unloadingPoint, this.postLoadId});
 
   @override
   _BidButtonAlertDialogState createState() => _BidButtonAlertDialogState();
@@ -28,6 +31,9 @@ class BidButtonAlertDialog extends StatefulWidget {
 class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
 
   RadioButtonOptions unitValue = RadioButtonOptions.PER_TON;
+
+  String? bidRate;
+  String? bidUnitValue;
 
 
   @override
@@ -54,6 +60,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   onTap: (){
                     setState(() {
                       unitValue = RadioButtonOptions.PER_TON;
+                      bidUnitValue = "Per Tonne";
                     });
                   },
                   child: Row(
@@ -65,6 +72,8 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                           onChanged: (value) {
                             setState(() {
                               unitValue = value!;
+                              bidUnitValue = "Per Tonne";
+                              print("$unitValue-------------------");
                             });
                           }),
                       Text(
@@ -81,6 +90,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   onTap: (){
                     setState(() {
                       unitValue = RadioButtonOptions.PER_TRUCK;
+                      bidUnitValue = "Per Truck";
                       print(unitValue);
                     });
                   },
@@ -92,8 +102,9 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                           groupValue: unitValue,
                           onChanged: (value) {
                             setState(() {
-                              print(value);
                               unitValue = value!;
+                              bidUnitValue = "Per Truck";
+                              print("$unitValue-------------------");
                             });
                           }),
                       Text(
@@ -130,6 +141,7 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                   border: InputBorder.none,
                 ),
                 onChanged: (String? rate) {
+                  bidRate = rate;
                   if (rate == null || rate == "") {
                     providerData.updateBidButtonSendRequest(false);
                   } else {
@@ -154,6 +166,11 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                 loadId: widget.loadId ,
                 bidId: widget.bidId,
                 isPost: widget.isPost,
+                bidRate: bidRate,
+                bidUnitValue: bidUnitValue,
+                loadingPoint: widget.loadingPoint,
+                unloadingPoint: widget.unloadingPoint,
+                postLoadId: widget.postLoadId,
               ),
               CancelButtonBidDialogBox(),
             ],

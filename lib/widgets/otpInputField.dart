@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:liveasy/constants/color.dart';
@@ -19,7 +20,9 @@ class OTPInputField extends StatefulWidget {
   String _verificationCode = '';
   // String autoVerificationCode = '';
 
-  OTPInputField(this._verificationCode);
+  var temp; // to store confirmationResult of WEB SIGN IN METHOD
+
+  OTPInputField(this._verificationCode, [this.temp]);
   @override
   _OTPInputFieldState createState() => _OTPInputFieldState();
 }
@@ -28,7 +31,7 @@ class _OTPInputFieldState extends State<OTPInputField> {
   HudController hudController = Get.put(HudController());
   AuthService authService = AuthService();
   IsOtpInvalidController isOtpInvalidController =
-      Get.put(IsOtpInvalidController());
+  Get.put(IsOtpInvalidController());
   TextEditingController textEditingController = TextEditingController();
   @override
   void dispose() {
@@ -72,10 +75,26 @@ class _OTPInputFieldState extends State<OTPInputField> {
         onCompleted: (pin) {
           hudController.updateHud(true);
           providerData.updateSmsCode(pin);
+          print("${providerData.smsCode}-------------------SMS Code");
+          if (kIsWeb) {
+            print("${widget}-------------------temp"); // For WEB Authentication
+          }
+          else {
+            print("${widget._verificationCode}-------------------Verification Code"); // For Android Authentication
+          }
           // isOtpInvalidController.updateIsOtpInvalid(false);
-          authService.manualVerification(
-              smsCode: providerData.smsCode,
-              verificationId: widget._verificationCode);
+          if (kIsWeb) {
+            print("INITIALIZING MANUAL VERIFICATION ON WEB");
+            authService.manualVerification_web(
+                smsCode: providerData.smsCode,
+                temp: widget.temp);
+          }
+          else {
+            print("INITIALIZING MANUAL VERIFICATION ON ANDROID");
+            authService.manualVerification(
+                smsCode: providerData.smsCode,
+                verificationId: widget._verificationCode);
+          }
 
           providerData.updateInputControllerLengthCheck(true);
           providerData.clearAll();

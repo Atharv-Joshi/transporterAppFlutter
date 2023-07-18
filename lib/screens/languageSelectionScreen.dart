@@ -52,10 +52,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
     String? companyName;
 
     //transporterId = await runTransporterApiPost(
-      //mobileNum: FirebaseAuth
-        //.instance.currentUser!.phoneNumber
-        //.toString()
-        //.substring(3, 13),
+    //mobileNum: FirebaseAuth
+    //.instance.currentUser!.phoneNumber
+    //.toString()
+    //.substring(3, 13),
     //);
 
     if (transporterId != null){
@@ -90,11 +90,11 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
         transporterIdController.updateCompanyName(companyName!);
         print("transporterID is $transporterId");
         setState(() {
-        _nextScreen=true;
-      });
+          _nextScreen=true;
+        });
       }
       //setState(() {
-        //_nextScreen=true;
+      //_nextScreen=true;
       //});
     }
   }
@@ -164,10 +164,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                         color:currentItem == 'English' ? navy : darkGreyColor //change here
                                     ),
                                     borderRadius:
-                                        BorderRadius.circular(radius_1)),
+                                    BorderRadius.circular(radius_1)),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
                                       "English",
@@ -194,8 +194,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                  // selectLanguageItem(context, LanguageItem.Hindi);
-                                  // provider.setLocale(Locale('hi'));
+                                // selectLanguageItem(context, LanguageItem.Hindi);
+                                // provider.setLocale(Locale('hi'));
                                 //change here
                                 setState(() {
                                   var locale = Locale('hi', 'IN');
@@ -212,7 +212,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                         color: currentItem == 'Hindi' ? navy : darkGreyColor    //change here
                                     ),
                                     borderRadius:
-                                        BorderRadius.circular(radius_1)),
+                                    BorderRadius.circular(radius_1)),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
@@ -224,12 +224,12 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> with 
                                           fontSize: size_9,
                                           fontWeight: normalWeight),
                                     ),
-                                Container(
-                                  child: currentItem == 'Hindi' ? Image(   //change here
-                                    image: AssetImage("assets/icons/tick.png"),
-                                    width: space_3,
-                                    height: space_3,
-                                  ): Container(),),
+                                    Container(
+                                      child: currentItem == 'Hindi' ? Image(   //change here
+                                        image: AssetImage("assets/icons/tick.png"),
+                                        width: space_3,
+                                        height: space_3,
+                                      ): Container(),),
                                   ],
                                 ),
                               ),

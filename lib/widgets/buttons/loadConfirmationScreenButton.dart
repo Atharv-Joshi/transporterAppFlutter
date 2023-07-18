@@ -33,16 +33,17 @@ class LoadConfirmationScreenButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // LoadApi loadApi = LoadApi();
     PostLoadErrorController postLoadErrorController =
-        Get.put(PostLoadErrorController());
+    Get.put(PostLoadErrorController());
     NavigationIndexController navigationIndexController =
-        Get.find<NavigationIndexController>();
+    Get.find<NavigationIndexController>();
     TransporterIdController transporterIdController =
-        Get.find<TransporterIdController>();
+    Get.find<TransporterIdController>();
     ProviderData providerData = Provider.of<ProviderData>(context);
     PostLoadVariablesController postLoadVariables =
-        Get.find<PostLoadVariablesController>();
+    Get.find<PostLoadVariablesController>();
+
     getData() async {
-      // print(transporterIdController.transporterId.value);
+      debugPrint(transporterIdController.transporterId.value);
       String? loadId = '';
       if (loadId == '') {
         showDialog(
@@ -75,6 +76,8 @@ class LoadConfirmationScreenButton extends StatelessWidget {
             providerData.unitValue == "" ? null : providerData.unitValue,
             providerData.price == 0 ? null : providerData.price);
 
+        debugPrint("loadId is $loadId ----------------------------------------------------");
+
         if (loadId != null) {
           showDialog(
             context: context,
@@ -83,22 +86,22 @@ class LoadConfirmationScreenButton extends StatelessWidget {
                   upperDialogText: 'congratulations'.tr,
                   // AppLocalizations.of(context)!.congratulations,
                   lowerDialogText: 'youHaveCompletedYourOrder'.tr
-                  // AppLocalizations.of(context)!.youHaveCompletedYourOrder,
-                  );
+                // AppLocalizations.of(context)!.youHaveCompletedYourOrder,
+              );
             },
           );
           Timer(
               Duration(seconds: 3),
-              () => {
-                    navigationIndexController.updateIndex(2),
-                    Get.off(() => NavigationScreen()),
-                    providerData.resetPostLoadFilters(),
-                    providerData.resetPostLoadScreenOne(),
-                    providerData.resetPostLoadScreenMultiple(),
-                    providerData.updateUpperNavigatorIndex2(0),
-                    controller.text = "",
-                    controllerOthers.text = ""
-                  });
+                  () => {
+                navigationIndexController.updateIndex(2),
+                Get.off(() => NavigationScreen()),
+                providerData.resetPostLoadFilters(),
+                providerData.resetPostLoadScreenOne(),
+                providerData.resetPostLoadScreenMultiple(),
+                providerData.updateUpperNavigatorIndex2(0),
+                controller.text = "",
+                controllerOthers.text = ""
+              });
           providerData.updateEditLoad(true, "");
 
           postNotification(providerData.loadingPointCityPostLoad,
@@ -143,22 +146,22 @@ class LoadConfirmationScreenButton extends StatelessWidget {
                   upperDialogText: 'congratulations'.tr,
                   // AppLocalizations.of(context)!.congratulations,
                   lowerDialogText: 'youHaveSuccessfullyUpdateYourOrder'.tr
-                  // AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
-                  );
+                // AppLocalizations.of(context)!.youHaveSuccessfullyUpdateYourOrder,
+              );
             },
           );
           Timer(
               Duration(seconds: 3),
-              () => {
-                    Get.offAll(() => NavigationScreen()),
-                    navigationIndexController.updateIndex(2),
-                    providerData.resetPostLoadFilters(),
-                    providerData.resetPostLoadScreenOne(),
-                    providerData.resetPostLoadScreenMultiple(),
-                    providerData.updateUpperNavigatorIndex2(0),
-                    controller.text = "",
-                    controllerOthers.text = ""
-                  });
+                  () => {
+                Get.offAll(() => NavigationScreen()),
+                navigationIndexController.updateIndex(2),
+                providerData.resetPostLoadFilters(),
+                providerData.resetPostLoadScreenOne(),
+                providerData.resetPostLoadScreenMultiple(),
+                providerData.updateUpperNavigatorIndex2(0),
+                controller.text = "",
+                controllerOthers.text = ""
+              });
           providerData.updateEditLoad(false, "");
         } else {
           showDialog(

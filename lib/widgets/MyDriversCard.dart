@@ -44,71 +44,71 @@ class _MyDriverCardState extends State<MyDriverCard> {
       child: Card(
         elevation: 5,
         child: Container(
-            padding: EdgeInsets.all(space_2),
-              child: Column(
+          padding: EdgeInsets.all(space_2),
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(right: space_2),
-                          height: space_5,
-                          child: Image.asset('assets/icons/person.png')),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Text(
-                                '${widget.driverData.driverName}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(fontSize: size_7),
-                              ),
-                            ),
-                            Container(
-                              // alignment: Alignment.centerLeft,
-                              child: Text(
-                                '${widget.driverData.phoneNum}',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CallButton(
-                                directCall: true,
-                                phoneNum: widget.driverData.phoneNum,
-                              ),
-                              PopupMenuButton<popupMenuforDrivers>(
-                                  offset: Offset(0, space_2),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(radius_2))),
-                                  onSelected: (item) =>
-                                      onSelected(context, item),
-                                  itemBuilder: (context) => [
-                                        ...menuItems.listItem
-                                            .map(showEachItemFromList)
-                                            .toList(),
-                                      ]),
-                            ],
+                  Container(
+                      margin: EdgeInsets.only(right: space_2),
+                      height: space_5,
+                      child: Image.asset('assets/icons/person.png')),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text(
+                            '${widget.driverData.driverName}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontSize: size_7),
                           ),
                         ),
+                        Container(
+                          // alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${widget.driverData.phoneNum}',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CallButton(
+                            directCall: true,
+                            phoneNum: widget.driverData.phoneNum,
+                          ),
+                          PopupMenuButton<popupMenuforDrivers>(
+                              offset: Offset(0, space_2),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(radius_2))),
+                              onSelected: (item) =>
+                                  onSelected(context, item),
+                              itemBuilder: (context) => [
+                                ...menuItems.listItem
+                                    .map(showEachItemFromList)
+                                    .toList(),
+                              ]),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   PopupMenuItem<popupMenuforDrivers> showEachItemFromList(
-          popupMenuforDrivers item) =>
+      popupMenuforDrivers item) =>
       PopupMenuItem<popupMenuforDrivers>(
           value: item,
           child: Row(
@@ -148,6 +148,7 @@ class _MyDriverCardState extends State<MyDriverCard> {
             barrierDismissible: false,
             context: context,
             builder: (context) {
+              print("${widget.driverData.id} -------- DRIVER DATA -------");
               return EditDriverAlertDialog(
                 driverEditData: widget.driverData,
               );

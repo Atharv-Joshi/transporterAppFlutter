@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
@@ -19,16 +22,32 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:connectivity/connectivity.dart';
+import 'firebase_options.dart';
 import 'language/localization_service.dart';
 
 var firebase;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  firebase = Firebase.initializeApp();
+
+  // Different Firebase initialization for android app and web app
+  // Wherever kIsWeb is used, it means we are having separate code for web app and android app
+
+  firebase = kIsWeb
+      ? await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  )
+      : Firebase.initializeApp();
+
+  if( kIsWeb ) {
+    await dotenv.load(fileName: ".env"); // For loading env files for WEB
+  }
+  else {
+    await FlutterConfig.loadEnvVariables(); // For loading env files for ANDROID & IOS
+  }
+
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
-  await FlutterConfig.loadEnvVariables();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();
   runApp(MyApp());
@@ -52,39 +71,42 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setState(() {});
     transporterId = tidstorage.read("transporterId");
-    checkConnection();
-    connectivityChecker();
+    //TODO: Internet connection check and onesignal initialization is only done for android application.
+    if (!kIsWeb) {
+      checkConnection();
+      connectivityChecker();
+    }
   }
 
   void checkConnection() {
-    configOneSignel();
+    configOneSignel(context);
     connectivity = new Connectivity();
     subscription =
         connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      _connectionStatus = result.toString();
-      print(_connectionStatus);
-      if (result == ConnectivityResult.mobile ||
-          result == ConnectivityResult.wifi) {
-        if (isDisconnected) {
-          isDisconnected = false;
-          connectivityChecker();
-          Get.back();
-        }
-      } else {
-        if (!isDisconnected) {
-          isDisconnected = true;
-          Get.defaultDialog(
-              barrierDismissible: false,
-              content: NoInternetConnection.noInternetDialogue(),
-              onWillPop: () async => false,
-              title: "\nNo Internet",
-              titleStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-              ));
-        } else
-          connectivityChecker();
-      }
-    });
+          _connectionStatus = result.toString();
+          print(_connectionStatus);
+          if (result == ConnectivityResult.mobile ||
+              result == ConnectivityResult.wifi) {
+            if (isDisconnected) {
+              isDisconnected = false;
+              connectivityChecker();
+              Get.back();
+            }
+          } else {
+            if (!isDisconnected) {
+              isDisconnected = true;
+              Get.defaultDialog(
+                  barrierDismissible: false,
+                  content: NoInternetConnection.noInternetDialogue(),
+                  onWillPop: () async => false,
+                  title: "\nNo Internet",
+                  titleStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ));
+            } else
+              connectivityChecker();
+          }
+        });
   }
 
   Future<void> connectivityChecker() async {
@@ -112,10 +134,27 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  void configOneSignel() {
+  Future<void> configOneSignel(BuildContext context) async {
+    //Remove this method to stop OneSignal Debugging
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
     String oneSignalAppId = FlutterConfig.get('oneSignalAppId').toString();
     OneSignal.shared.setAppId(oneSignalAppId);
+
+    // Get the Onesignal external userId and update that into the firebase.
+    // So, that it can be used to send Notifications to users later.̥
+    // Returns an `OSDeviceState` object with the current immediate device state info
+    final status = await OneSignal.shared.getDeviceState().then((deviceState) {
+      print("OneSignal: device state: ${deviceState?.jsonRepresentation()}");
+      bool areNotificationsEnabled = deviceState!.hasNotificationPermission;
+      if (!areNotificationsEnabled) {
+        // Ask permission from user for push notification (>= Android 13)
+        OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+          print("Accepted permission: $accepted");
+        });
+      }
+
+    });
   }
 
   @override
@@ -128,12 +167,28 @@ class _MyAppState extends State<MyApp> {
       child: ChangeNotifierProvider<ProviderData>(
         create: (context) => ProviderData(),
         builder: (context, child) {
-          return FutureBuilder(
+          return kIsWeb
+              ? GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            builder: EasyLoading.init(),
+            theme: ThemeData(fontFamily: "Montserrat"),
+            translations: LocalizationService(),
+            locale: LocalizationService().getCurrentLocale(),
+            fallbackLocale: const Locale('en', 'US'),
+            //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
+            //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
+            // home: prefs.containsKey('uid')?const HomeScreenWeb(): LoginScreen(),
+            home: LoginScreen(),
+          )
+              : FutureBuilder(
               future: firebase,
               builder: (context, snapshot) {
                 final provider = Provider.of<ProviderData>(context);
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (FirebaseAuth.instance.currentUser == null) {
+                    // If no user logged in then delete the previous external id of this device from one signal --
+                    OneSignal.shared.removeExternalUserId();
+
                     return GetMaterialApp(
                       debugShowCheckedModeBanner: false,
                       builder: EasyLoading.init(),
@@ -152,9 +207,15 @@ class _MyAppState extends State<MyApp> {
                       home: SplashScreen(),
                     );
                   } else {
-                    print("in not null else block");
+                    // print("in not null else block");
+
+                    // debugPrint("User Signed In-------------------------");
+
                     if (transporterId != null) {
-                      print("not null user");
+                      // print("not null user");
+
+                      // debugPrint("User Signed In (Transport Id Available)-------------------------");
+
                       return GetMaterialApp(
                         debugShowCheckedModeBanner: false,
                         builder: EasyLoading.init(),
@@ -175,8 +236,8 @@ class _MyAppState extends State<MyApp> {
                         //   GlobalWidgetsLocalizations.delegate,
                         // ],
                         home:
-                            // documentUploadScreen()
-                            SplashScreenToGetTransporterData(
+                        // documentUploadScreen()
+                        SplashScreenToGetTransporterData(
                           mobileNum: FirebaseAuth
                               .instance.currentUser!.phoneNumber
                               .toString()
@@ -184,7 +245,10 @@ class _MyAppState extends State<MyApp> {
                         ),
                       );
                     } else {
-                      print("null user");
+                      // print("null user");
+
+                      // debugPrint("User Signed In (NULL Transport ID)-------------------------");
+
                       return GetMaterialApp(
                         debugShowCheckedModeBanner: false,
                         builder: EasyLoading.init(),

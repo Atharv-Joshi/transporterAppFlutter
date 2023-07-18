@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/constants/urlGetter.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/MyLoadsCard.dart';
@@ -21,12 +22,10 @@ class MyLoadsScreen extends StatefulWidget {
 class _MyLoadsScreenState extends State<MyLoadsScreen> {
   List<LoadDetailsScreenModel> myLoadList = [];
 
-  final String loadApiUrl = FlutterConfig.get("loadApiUrl");
-
   ScrollController scrollController = ScrollController();
 
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   int i = 0;
 
@@ -65,52 +64,55 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
         child: loading
             ? OnGoingLoadingWidgets()
             : myLoadList.length == 0
-                ? Container(
-                    margin: EdgeInsets.only(top: 153),
-                    child: Column(
-                      children: [
-                        Image(
-                          image: AssetImage('assets/images/EmptyLoad.png'),
-                          height: 127,
-                          width: 127,
-                        ),
-                        Text(
-                          'noLoadAdded'.tr,
-                          // 'Looks like you have not added any Loads!',
-                          style: TextStyle(fontSize: size_8, color: grey),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  )
-                : RefreshIndicator(
-                    color: lightNavyBlue,
-                    onRefresh: () {
-                      setState(() {
-                        myLoadList.clear();
-                        loading = true;
-                      });
-                      return getDataByPostLoadId(0);
-                    },
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.only(bottom: space_15),
-                      controller: scrollController,
-                      itemCount: myLoadList.length,
-                      itemBuilder: (context, index) =>
-                          (index == myLoadList.length)//removed -1 here
-                              ? Visibility(
-                                  visible: bottomProgressLoad,
-                                  child: bottomProgressBarIndicatorWidget())
-                              : MyLoadsCard(
-                                  loadDetailsScreenModel: myLoadList[index],
-                                ),
-                    ),
-                  ));
+            ? Container(
+          margin: EdgeInsets.only(top: 153),
+          child: Column(
+            children: [
+              Image(
+                image: AssetImage('assets/images/EmptyLoad.png'),
+                height: 127,
+                width: 127,
+              ),
+              Text(
+                'noLoadAdded'.tr,
+                // 'Looks like you have not added any Loads!',
+                style: TextStyle(fontSize: size_8, color: grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        )
+            : RefreshIndicator(
+          color: lightNavyBlue,
+          onRefresh: () {
+            setState(() {
+              myLoadList.clear();
+              loading = true;
+            });
+            return getDataByPostLoadId(0);
+          },
+          child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(bottom: space_15),
+            controller: scrollController,
+            itemCount: myLoadList.length,
+            itemBuilder: (context, index) =>
+            (index == myLoadList.length)//removed -1 here
+                ? Visibility(
+                visible: bottomProgressLoad,
+                child: bottomProgressBarIndicatorWidget())
+                : MyLoadsCard(
+              loadDetailsScreenModel: myLoadList[index],
+            ),
+          ),
+        ));
   }
 
   getDataByPostLoadId(int i) async {
     transporterId = transporterIdController.transporterId.value;
+
+    final String loadApiUrl = await UrlGetter.get('loadApiUrl');
+
     if (this.mounted) {
       setState(() {
         bottomProgressLoad = true;
@@ -122,27 +124,27 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
       LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
       loadDetailsScreenModel.loadId = json['loadId'];
       loadDetailsScreenModel.loadingPointCity =
-          json['loadingPointCity'] != null ? json['loadingPointCity'] : 'NA';
+      json['loadingPointCity'] != null ? json['loadingPointCity'] : 'NA';
       loadDetailsScreenModel.loadingPoint =
-          json['loadingPoint'] != null ? json['loadingPoint'] : 'NA';
+      json['loadingPoint'] != null ? json['loadingPoint'] : 'NA';
       loadDetailsScreenModel.loadingPointState =
-          json['loadingPointState'] != null ? json['loadingPointState'] : 'NA';
+      json['loadingPointState'] != null ? json['loadingPointState'] : 'NA';
       loadDetailsScreenModel.loadingPointCity2 =
-          json['loadingPointCity2'] != null ? json['loadingPointCity2'] : 'NA';
+      json['loadingPointCity2'] != null ? json['loadingPointCity2'] : 'NA';
       loadDetailsScreenModel.loadingPoint2 =
-          json['loadingPoint2'] != null ? json['loadingPoint2'] : 'NA';
+      json['loadingPoint2'] != null ? json['loadingPoint2'] : 'NA';
       loadDetailsScreenModel.loadingPointState2 =
-          json['loadingPointState2'] != null ? json['loadingPointState2'] : 'NA';
+      json['loadingPointState2'] != null ? json['loadingPointState2'] : 'NA';
       loadDetailsScreenModel.unloadingPointCity =
-          json['unloadingPointCity'] != null
-              ? json['unloadingPointCity']
-              : 'NA';
+      json['unloadingPointCity'] != null
+          ? json['unloadingPointCity']
+          : 'NA';
       loadDetailsScreenModel.unloadingPoint =
-          json['unloadingPoint'] != null ? json['unloadingPoint'] : 'NA';
+      json['unloadingPoint'] != null ? json['unloadingPoint'] : 'NA';
       loadDetailsScreenModel.unloadingPointState =
-          json['unloadingPointState'] != null
-              ? json['unloadingPointState']
-              : 'NA';
+      json['unloadingPointState'] != null
+          ? json['unloadingPointState']
+          : 'NA';
       loadDetailsScreenModel.unloadingPointCity2 =
       json['unloadingPointCity2'] != null
           ? json['unloadingPointCity2']
@@ -155,21 +157,21 @@ class _MyLoadsScreenState extends State<MyLoadsScreen> {
           : 'NA';
       loadDetailsScreenModel.postLoadId = json['postLoadId'];
       loadDetailsScreenModel.truckType =
-          json['truckType'] != null ? json['truckType'] : 'NA';
+      json['truckType'] != null ? json['truckType'] : 'NA';
       loadDetailsScreenModel.weight =
-          json['weight'] != null ? json['weight'] : 'NA';
+      json['weight'] != null ? json['weight'] : 'NA';
       loadDetailsScreenModel.productType =
-          json['productType'] != null ? json['productType'] : 'NA';
+      json['productType'] != null ? json['productType'] : 'NA';
       loadDetailsScreenModel.rate =
-          json['rate'] != null ? json['rate'].toString() : 'NA';
+      json['rate'] != null ? json['rate'].toString() : 'NA';
       loadDetailsScreenModel.unitValue =
-          json['unitValue'] != null ? json['unitValue'] : 'NA';
+      json['unitValue'] != null ? json['unitValue'] : 'NA';
       loadDetailsScreenModel.noOfTyres =
-          json['noOfTyres'] != null ? json['noOfTyres'] : 'NA';
+      json['noOfTyres'] != null ? json['noOfTyres'] : 'NA';
       loadDetailsScreenModel.loadDate =
-          json['loadDate'] != null ? json['loadDate'] : 'NA';
+      json['loadDate'] != null ? json['loadDate'] : 'NA';
       loadDetailsScreenModel.postLoadDate =
-          json['postLoadDate'] != null ? json['postLoadDate'] : 'NA';
+      json['postLoadDate'] != null ? json['postLoadDate'] : 'NA';
       loadDetailsScreenModel.status = json['status'];
       if (this.mounted) {
         setState(() {

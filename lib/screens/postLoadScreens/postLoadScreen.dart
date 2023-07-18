@@ -21,7 +21,7 @@ class _PostLoadScreenState extends State<PostLoadScreen> {
   //Page Controller
   PageController pageController = PageController(initialPage: 0);
   PostLoadVariablesController postLoadVariables =
-      Get.put(PostLoadVariablesController());
+  Get.put(PostLoadVariablesController());
   int currentPage = 0;
 
   @override

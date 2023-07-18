@@ -31,10 +31,13 @@ class _BidButtonState extends State<BidButton> {
           await showDialog(
               context: context,
               builder: (context) => BidButtonAlertDialog(
-                    isNegotiating: false,
-                    isPost: true,
-                    loadId: widget.loadDetails.loadId,
-                  ));
+                isNegotiating: false,
+                isPost: true,
+                loadId: widget.loadDetails.loadId,
+                loadingPoint: widget.loadDetails.loadingPointCity,
+                unloadingPoint: widget.loadDetails.unloadingPointCity,
+                postLoadId: widget.loadDetails.postLoadId,
+              ));
         } else {
           showDialog(
               context: context,

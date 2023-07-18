@@ -35,8 +35,8 @@ class MyLoadsCard extends StatelessWidget {
     if (truckFilterVariables.truckTypeValueList
         .contains(loadDetailsScreenModel.truckType)) {
       loadDetailsScreenModel.truckType = truckFilterVariables.truckTypeTextList[
-          truckFilterVariables.truckTypeValueList
-              .indexOf(loadDetailsScreenModel.truckType)];
+      truckFilterVariables.truckTypeValueList
+          .indexOf(loadDetailsScreenModel.truckType)];
     }
 
     if (loadDetailsScreenModel.unitValue == 'PER_TON') {
@@ -54,7 +54,7 @@ class MyLoadsCard extends StatelessWidget {
         elevation: 3,
         child: Container(
           padding:
-              EdgeInsets.only(bottom: space_2, left: space_2, right: space_2),
+          EdgeInsets.only(bottom: space_2, left: space_2, right: space_2),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,20 +70,20 @@ class MyLoadsCard extends StatelessWidget {
                   ),
                   loadDetailsScreenModel.status == 'EXPIRED'
                       ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.more_vert, color: black),
-                        )
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.more_vert, color: black),
+                  )
                       : PopupMenuButton<popupMenuforloads>(
-                          offset: Offset(0, space_2),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(radius_2))),
-                          onSelected: (item) => onSelected(context, item),
-                          itemBuilder: (context) => [
-                                ...MenuItems.listItem
-                                    .map(showEachItemFromList)
-                                    .toList(),
-                              ]),
+                      offset: Offset(0, space_2),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(radius_2))),
+                      onSelected: (item) => onSelected(context, item),
+                      itemBuilder: (context) => [
+                        ...MenuItems.listItem
+                            .map(showEachItemFromList)
+                            .toList(),
+                      ]),
                 ],
               ),
               LoadEndPointTemplate(
@@ -114,7 +114,7 @@ class MyLoadsCard extends StatelessWidget {
                     margin: EdgeInsets.only(right: 8),
                     child: Image(
                       image:
-                          AssetImage('assets/images/TruckListEmptyImage.png'),
+                      AssetImage('assets/images/TruckListEmptyImage.png'),
                       height: 24,
                       width: 24,
                     ),
@@ -151,39 +151,39 @@ class MyLoadsCard extends StatelessWidget {
               ),
               loadDetailsScreenModel.status == 'EXPIRED'
                   ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'loadexpired'.tr,
-                          // "Load Expired!",
-                          style: TextStyle(
-                            color: declineButtonRed,
-                            fontSize: size_8,
-                            fontWeight: mediumBoldWeight,
-                            fontFamily: 'montserrat',
-                          ),
-                        ),
-                        RepostButton(),
-                      ],
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        loadDetailsScreenModel.rate != 'NA'
-                            ? PriceContainer(
-                                rate: loadDetailsScreenModel.rate,
-                                unitValue: loadDetailsScreenModel.unitValue,
-                              )
-                            : SizedBox(),
-                        ViewBidsButton(
-                          loadId: loadDetailsScreenModel.loadId,
-                          loadingPointCity:
-                              loadDetailsScreenModel.loadingPointCity,
-                          unloadingPointCity:
-                              loadDetailsScreenModel.unloadingPointCity,
-                        ),
-                      ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'loadexpired'.tr,
+                    // "Load Expired!",
+                    style: TextStyle(
+                      color: declineButtonRed,
+                      fontSize: size_8,
+                      fontWeight: mediumBoldWeight,
+                      fontFamily: 'montserrat',
                     ),
+                  ),
+                  RepostButton(),
+                ],
+              )
+                  : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  loadDetailsScreenModel.rate != 'NA'
+                      ? PriceContainer(
+                    rate: loadDetailsScreenModel.rate,
+                    unitValue: loadDetailsScreenModel.unitValue,
+                  )
+                      : SizedBox(),
+                  ViewBidsButton(
+                    loadId: loadDetailsScreenModel.loadId,
+                    loadingPointCity:
+                    loadDetailsScreenModel.loadingPointCity,
+                    unloadingPointCity:
+                    loadDetailsScreenModel.unloadingPointCity,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -192,7 +192,7 @@ class MyLoadsCard extends StatelessWidget {
   }
 
   PopupMenuItem<popupMenuforloads> showEachItemFromList(
-          popupMenuforloads item) =>
+      popupMenuforloads item) =>
       PopupMenuItem<popupMenuforloads>(
           value: item,
           child: Row(
@@ -217,13 +217,13 @@ class MyLoadsCard extends StatelessWidget {
 
   void onSelected(BuildContext context, popupMenuforloads item) {
     ProviderData providerData =
-        Provider.of<ProviderData>(context, listen: false);
+    Provider.of<ProviderData>(context, listen: false);
     NavigationIndexController navigationIndexController =
-        Get.find<NavigationIndexController>();
+    Get.find<NavigationIndexController>();
     switch (item) {
       case MenuItems.itemEdit:
         providerData.updateLoadingPointPostLoad(
-          place: loadDetailsScreenModel.loadingPoint!,
+            place: loadDetailsScreenModel.loadingPoint!,
             city: loadDetailsScreenModel.loadingPointCity!,
             state: loadDetailsScreenModel.loadingPointState!);
         if(loadDetailsScreenModel.loadingPoint2!="NA"){
