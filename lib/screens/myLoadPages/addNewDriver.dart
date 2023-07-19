@@ -25,8 +25,8 @@ class AddNewDriver extends StatefulWidget {
   LoadDetailsScreenModel loadDetailsScreenModel;
   AddNewDriver(
       {this.selectedTruck,
-      this.selectedDeviceId,
-      required this.loadDetailsScreenModel});
+        this.selectedDeviceId,
+        required this.loadDetailsScreenModel});
 
   @override
   State<AddNewDriver> createState() => _AddNewDriverState();
@@ -72,7 +72,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
 
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(top: 15, right: 17),
+                                      EdgeInsets.only(top: 15, right: 17),
                                       child: Text(
                                         "Enter Driver Details",
                                         style: TextStyle(
@@ -94,7 +94,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                   height: 55,
                                   width: 55,
                                   image:
-                                      AssetImage("assets/icons/person_ic.png"),
+                                  AssetImage("assets/icons/person_ic.png"),
                                 ),
                               )
                             ],
@@ -146,7 +146,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.circular(radius_1 + 2),
+                                BorderRadius.circular(radius_1 + 2),
                                 border: Border.all(color: darkGreyColor)),
                             child: Align(
                               alignment: Alignment.centerRight,
@@ -220,7 +220,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.circular(radius_1 + 2),
+                                BorderRadius.circular(radius_1 + 2),
                                 border: Border.all(color: darkGreyColor)),
                             child: Align(
                               alignment: Alignment.centerRight,
@@ -334,7 +334,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
               selectedTruck: widget.selectedTruck,
               selectedDeviceId: widget.selectedDeviceId,
               driverName:
-                  name, // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
+              name, // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
               mobileNo: phoneno,
               directBooking: true,
               loadDetailsScreenModel: widget.loadDetailsScreenModel,

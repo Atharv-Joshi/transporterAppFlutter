@@ -203,12 +203,12 @@ class _myTrucksCardNoGpsState extends State<myTrucksCardNoGps> {
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: RichText(
                             text: TextSpan(
-                                text: 'Subcribe for this truck'.tr,
-                                style: TextStyle(
-                                  fontWeight: mediumBoldWeight,
-                                  fontSize: 20,
-                                  color: black,
-                                ),
+                              text: 'Subcribe for this truck'.tr,
+                              style: TextStyle(
+                                fontWeight: mediumBoldWeight,
+                                fontSize: 20,
+                                color: black,
+                              ),
                             ),
 
                           )

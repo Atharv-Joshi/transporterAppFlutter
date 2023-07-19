@@ -9,12 +9,14 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class LogoutOkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        OneSignal.shared.removeExternalUserId();
         FirebaseAuth.instance.signOut().then((value) =>
             tidstorage.erase().then((value) => print('Storage is erased')));
         Get.offAll(LoginScreen());
@@ -23,14 +25,14 @@ class LogoutOkButton extends StatelessWidget {
         height: 31,
         width: 80,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: darkShadow,
-              offset: Offset(0, 0),
-              blurRadius: 16,
-              spreadRadius: 0,
-            )
-          ],
+            boxShadow: [
+              BoxShadow(
+                color: darkShadow,
+                offset: Offset(0, 0),
+                blurRadius: 16,
+                spreadRadius: 0,
+              )
+            ],
             color: darkBlueColor,
             borderRadius: BorderRadius.circular(radius_4)),
         child: Center(

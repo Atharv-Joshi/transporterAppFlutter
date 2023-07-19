@@ -22,7 +22,7 @@ class CancelBidButton extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
     NavigationIndexController navigationIndexController =
-        Get.find<NavigationIndexController>();
+    Get.find<NavigationIndexController>();
     return Container(
       height: 31,
       width: 80,
@@ -30,21 +30,21 @@ class CancelBidButton extends StatelessWidget {
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          )),
+                borderRadius: BorderRadius.circular(30),
+              )),
           backgroundColor: MaterialStateProperty.all<Color>(
               active! ? bidBackground : inactiveBidding),
         ),
         onPressed: active!
             ? () {
-                declineBidFromTransporterSideSide(
-                    bidId: biddingModel.bidId!,
-                    approvalVariable: biddingModel.transporterApproval == true
-                        ? 'transporterApproval'
-                        : 'shipperApproval');
-                Get.offAll(NavigationScreen());
-                navigationIndexController.updateIndex(3);
-              }
+          declineBidFromTransporterSideSide(
+              bidId: biddingModel.bidId!,
+              approvalVariable: biddingModel.transporterApproval == true
+                  ? 'transporterApproval'
+                  : 'shipperApproval');
+          Get.offAll(NavigationScreen());
+          navigationIndexController.updateIndex(3);
+        }
             : null,
         child: Container(
           child: Text(

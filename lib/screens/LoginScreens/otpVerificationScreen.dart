@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/radius.dart';
@@ -44,6 +45,7 @@ class _NewOTPVerificationScreenState
 
   //variables
   String _verificationCode = '';
+  var temp; // to store confirmationResult of WEB SIGN IN METHOD
   late int _forceResendingToken = 0;
 
   //controllers
@@ -51,7 +53,7 @@ class _NewOTPVerificationScreenState
   TimerController timerController = Get.put(TimerController());
   HudController hudController = Get.put(HudController());
   IsOtpInvalidController isOtpInvalidController =
-      Get.put(IsOtpInvalidController());
+  Get.put(IsOtpInvalidController());
 
   //--------------------------------------------------------------------------------------------------------------------
   @override
@@ -119,118 +121,118 @@ class _NewOTPVerificationScreenState
                             padding: EdgeInsets.only(bottom: space_5),
                             child: Container(
                                 child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'OTPsent'.tr,
-                                  // 'OTP sent to',
-                                  style: TextStyle(
-                                    fontSize: size_6,
-                                    fontWeight: regularWeight,
-                                    color: darkCharcoal,
-                                  ),
-                                ),
-                                Text(' +91${widget.phoneNumber} ',
-                                    style: TextStyle(
-                                        fontSize: size_7,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'OTPsent'.tr,
+                                      // 'OTP sent to',
+                                      style: TextStyle(
+                                        fontSize: size_6,
                                         fontWeight: regularWeight,
-                                        color: black,
-                                        fontFamily: "Roboto")),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.back();
-                                  },
-                                  child: Text(
-                                    'change'.tr,
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: size_6,
-                                      fontWeight: regularWeight,
-                                      color: bidBackground,
+                                        color: darkCharcoal,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            )),
+                                    Text(' +91${widget.phoneNumber} ',
+                                        style: TextStyle(
+                                            fontSize: size_7,
+                                            fontWeight: regularWeight,
+                                            color: black,
+                                            fontFamily: "Roboto")),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        'change'.tr,
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: size_6,
+                                          fontWeight: regularWeight,
+                                          color: bidBackground,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
                           ),
-                          OTPInputField(_verificationCode),
+                          OTPInputField(_verificationCode, temp),
                           Padding(
                               padding: EdgeInsets.only(top: space_3),
                               child: Obx(
-                                () => Container(
+                                    () => Container(
                                   child:
-                                      isOtpInvalidController.isOtpInvalid.value
-                                          ? Text(
-                                              'Wrong OTP. Try Again!',
-                                              style: TextStyle(
-                                                letterSpacing: 0.5,
-                                                color: red,
-                                              ),
-                                            )
-                                          : Text(""),
+                                  isOtpInvalidController.isOtpInvalid.value
+                                      ? Text(
+                                    'Wrong OTP. Try Again!',
+                                    style: TextStyle(
+                                      letterSpacing: 0.5,
+                                      color: red,
+                                    ),
+                                  )
+                                      : Text(""),
                                 ),
                               )),
                           Padding(
                             padding: EdgeInsets.only(top: space_3),
                             child: Obx(
-                              () => Container(
+                                  () => Container(
                                 child: timerController.timeOnTimer.value == 0
                                     ? Obx(() => TextButton(
-                                        onPressed: () {
-                                          timerController.startTimer();
-                                          // hudController.updateHud(true);
+                                    onPressed: () {
+                                      timerController.startTimer();
+                                      // hudController.updateHud(true);
 
-                                          _verifyPhoneNumber();
-                                        },
-                                        child: Text(
-                                          'Resendotp'.tr,
-                                          // 'Resend OTP',
-                                          style: TextStyle(
-                                            letterSpacing: 0.5,
-                                            color: timerController
-                                                    .resendButton.value
-                                                ? navygreen
-                                                : unselectedGrey,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        )))
-                                    : Obx(
-                                        () => Text(
-                                          'Resendotp'.tr +
-                                              '${timerController.timeOnTimer}',
-                                          // 'Resend OTP in ${timerController.timeOnTimer}',
-                                          style: TextStyle(
-                                            letterSpacing: 0.5,
-                                            color: veryDarkGrey,
-                                          ),
-                                        ),
+                                      kIsWeb ? _verifyPhoneNum_web() : _verifyPhoneNumber();
+                                    },
+                                    child: Text(
+                                      'Resendotp'.tr,
+                                      // 'Resend OTP',
+                                      style: TextStyle(
+                                        letterSpacing: 0.5,
+                                        color: timerController
+                                            .resendButton.value
+                                            ? navygreen
+                                            : unselectedGrey,
+                                        decoration:
+                                        TextDecoration.underline,
                                       ),
+                                    )))
+                                    : Obx(
+                                      () => Text(
+                                    'Resendotp'.tr +
+                                        '${timerController.timeOnTimer}',
+                                    // 'Resend OTP in ${timerController.timeOnTimer}',
+                                    style: TextStyle(
+                                      letterSpacing: 0.5,
+                                      color: veryDarkGrey,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.only(top: space_5),
                               child: Obx(
-                                () => Container(
+                                    () => Container(
                                   child: hudController.showHud.value
                                       ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text("Verifying OTP"),
-                                            SizedBox(
-                                              width: space_1,
-                                            ),
-                                            Container(
-                                                width: space_3,
-                                                height: space_3,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1,
-                                                ))
-                                          ],
-                                        )
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      Text("Verifying OTP"),
+                                      SizedBox(
+                                        width: space_1,
+                                      ),
+                                      Container(
+                                          width: space_3,
+                                          height: space_3,
+                                          child:
+                                          CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                          ))
+                                    ],
+                                  )
                                       : Text(""),
                                 ),
                               )),
@@ -261,16 +263,16 @@ class _NewOTPVerificationScreenState
     timerController.startTimer();
     isOtpInvalidController.updateIsOtpInvalid(false);
     // hudController.updateHud(false);
-    _verifyPhoneNumber();
+    kIsWeb ? _verifyPhoneNum_web() : _verifyPhoneNumber();
   }
 
   void _verifyPhoneNumber() async {
     // try {
-    print('in verify phone');
+    print('in verify phone ANDROID VERSION');
     print(widget.phoneNumber);
-    print(widget.phoneNumber.runtimeType);
+
     await FirebaseAuth.instance.verifyPhoneNumber(
-        //this value changes runtime
+      //this value changes runtime
         forceResendingToken: _forceResendingToken,
         phoneNumber: '+91${widget.phoneNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -290,7 +292,7 @@ class _NewOTPVerificationScreenState
         },
         codeSent: (String? verificationId, int? resendToken) {
           setState(() {
-            print('in codesent');
+            print('in codesent--------');
             _forceResendingToken = resendToken!;
             print(_forceResendingToken);
             _verificationCode = verificationId!;
@@ -312,4 +314,30 @@ class _NewOTPVerificationScreenState
     //   hudController.updateHud(false);
     // }
   }
+
+  // WEB SIGN IN (WEB OTP AUTHENTICATION) FUNCTION -------------------------------------------
+
+  void _verifyPhoneNum_web() async {
+    try {
+      print('in verify phone WEB VERSION');
+      print(widget.phoneNumber);
+      print(widget.phoneNumber.runtimeType);
+      FirebaseAuth auth = FirebaseAuth.instance;
+
+      ConfirmationResult result = await auth.signInWithPhoneNumber('+91${widget.phoneNumber}');
+      setState(() {
+        print('in codesent');
+        temp = result;
+        print("$_verificationCode--------------");
+      });
+    }
+    catch (e) {
+      print("ERROR------------$e");
+      hudController.updateHud(false);
+    }
+
+  }
+
+// ---------------------------------------
+
 } // class end

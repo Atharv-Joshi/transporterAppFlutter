@@ -14,7 +14,7 @@ class TruckApiCalls {
 
   // transporterId controller
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   //truckId controller ..used to store truckId for latest truck
   TruckIdController truckIdController = TruckIdController();
@@ -43,27 +43,27 @@ class TruckApiCalls {
         TruckModel truckModel = TruckModel();
         truckModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
         truckModel.transporterId =
-            json["transporterId"] != null ? json["transporterId"] : 'NA';
+        json["transporterId"] != null ? json["transporterId"] : 'NA';
         truckModel.truckNo = json["truckNo"] != null ? json["truckNo"] : 'NA';
         truckModel.truckApproved =
-            json["truckApproved"] != null ? json["truckApproved"] : false;
+        json["truckApproved"] != null ? json["truckApproved"] : false;
         truckModel.imei = json["imei"] != null ? json["imei"] : 'NA';
         truckModel.passingWeightString = json["passingWeight"] != null
             ? json["passingWeight"].toString()
             : 'NA';
         truckModel.truckType =
-            json["truckType"] != null ? json["truckType"] : 'NA';
+        json["truckType"] != null ? json["truckType"] : 'NA';
         truckModel.deviceId =
-            json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
+        json["deviceId"] != null ? int.parse(json["deviceId"]) : 0;
         truckModel.tyres =
-            json["tyres"] != null ? json["tyres"].toString() : 'NA';
+        json["tyres"] != null ? json["tyres"].toString() : 'NA';
         truckModel.driverId =
-            json["driverId"] != null ? json["driverId"] : 'NA';
+        json["driverId"] != null ? json["driverId"] : 'NA';
         // truckModel.truckLengthString =
         //     json["truckLength"] != null ? json["truckLength"].toString() : 'NA';
         //driver data
         DriverModel driverModel =
-            await getDriverByDriverId(driverId: truckModel.driverId);
+        await getDriverByDriverId(driverId: truckModel.driverId);
         truckModel.driverName = driverModel.driverName;
         truckModel.driverNum = driverModel.phoneNum;
         truckDataList.add(truckModel);
@@ -82,7 +82,7 @@ class TruckApiCalls {
         'truckNo': jsonData['truckNo'] != null ? jsonData['truckNo'] : 'NA',
         'imei': jsonData['imei'] != null ? jsonData['imei'] : 'NA',
         'truckType':
-            jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
+        jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
         'truckApproved': jsonData['truckApproved'] != null
             ? jsonData["truckApproved"]
             : false,
@@ -129,11 +129,11 @@ class TruckApiCalls {
 
   Future<String?> putTruckData(
       {required String truckID,
-      required String truckType,
-      required int totalTyres,
-      required int passingWeight,
-      // required int truckLength,
-      required String driverID}) async {
+        required String truckType,
+        required int totalTyres,
+        required int passingWeight,
+        // required int truckLength,
+        required String driverID}) async {
     //json map
     Map<String, dynamic> data = {
       "driverId": driverID == '' ? null : driverID,

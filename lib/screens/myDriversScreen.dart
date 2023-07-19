@@ -25,7 +25,7 @@ class MyDrivers extends StatefulWidget {
 class _MyDriversState extends State<MyDrivers> {
   DriverApiCalls driverApiCalls = DriverApiCalls();
   TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+  Get.find<TransporterIdController>();
 
   ScrollController scrollController = ScrollController();
 
@@ -74,86 +74,86 @@ class _MyDriversState extends State<MyDrivers> {
         backgroundColor: backgroundColor,
         body: SafeArea(
             child: Container(
-          padding: EdgeInsets.fromLTRB(space_4, space_5, space_4, space_2),
-          height: MediaQuery.of(context).size.height - space_4,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: EdgeInsets.fromLTRB(space_4, space_5, space_4, space_2),
+              height: MediaQuery.of(context).size.height - space_4,
+              child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: _willPopCallback,
-                        child: Icon(Icons.arrow_back_ios_rounded),
-                      ),
-                      SizedBox(
-                        width: space_3,
-                      ),
-                      HeadingTextWidget('mydriver'.tr
-                          // 'My Drivers'
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: _willPopCallback,
+                            child: Icon(Icons.arrow_back_ios_rounded),
                           ),
-                      // HelpButtonWidget(),
+                          SizedBox(
+                            width: space_3,
+                          ),
+                          HeadingTextWidget('mydriver'.tr
+                            // 'My Drivers'
+                          ),
+                          // HelpButtonWidget(),
+                        ],
+                      ),
+                      HelpButtonWidget(),
                     ],
                   ),
-                  HelpButtonWidget(),
+                  Container(
+                      margin: EdgeInsets.symmetric(vertical: space_3),
+                      child: SearchLoadWidget(
+                        hintText: 'search'.tr,
+                        // 'Search',
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => NextUpdateAlertDialog());
+                        },
+                      )),
+                  //LIST OF DRIVER CARDS---------------------------------------------
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        loading!
+                            ? DriverLoadingWidgets()
+                            : driverList.isEmpty
+                            ? Container(
+                          alignment: Alignment.center,
+                          // margin: EdgeInsets.only(top: 153),
+                          child: Text(
+                            'noDriver'.tr,
+                            // 'Looks like you have not added any Drivers!',
+                            style:
+                            TextStyle(fontSize: size_8, color: grey),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                            : ListView.builder(
+                            padding: EdgeInsets.only(bottom: space_15),
+                            controller: scrollController,
+                            itemCount: driverList.length,
+                            itemBuilder: (context, index) {
+                              return MyDriverCard(
+                                driverData: driverList[index],
+                              );
+                            }),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: space_2),
+                          child: Container(
+                              padding: EdgeInsets.only(bottom: space_2),
+                              margin: EdgeInsets.only(bottom: space_2),
+                              child: AddDriverButton()),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  //--------------------------------------------------------------
                 ],
               ),
-              Container(
-                  margin: EdgeInsets.symmetric(vertical: space_3),
-                  child: SearchLoadWidget(
-                    hintText: 'search'.tr,
-                    // 'Search',
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => NextUpdateAlertDialog());
-                    },
-                  )),
-              //LIST OF DRIVER CARDS---------------------------------------------
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    loading!
-                        ? DriverLoadingWidgets()
-                        : driverList.isEmpty
-                            ? Container(
-                                alignment: Alignment.center,
-                                // margin: EdgeInsets.only(top: 153),
-                                child: Text(
-                                  'noDriver'.tr,
-                                  // 'Looks like you have not added any Drivers!',
-                                  style:
-                                      TextStyle(fontSize: size_8, color: grey),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            : ListView.builder(
-                                padding: EdgeInsets.only(bottom: space_15),
-                                controller: scrollController,
-                                itemCount: driverList.length,
-                                itemBuilder: (context, index) {
-                                  return MyDriverCard(
-                                    driverData: driverList[index],
-                                  );
-                                }),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: space_2),
-                      child: Container(
-                          padding: EdgeInsets.only(bottom: space_2),
-                          margin: EdgeInsets.only(bottom: space_2),
-                          child: AddDriverButton()),
-                    ),
-                  ],
-                ),
-              ),
-
-              //--------------------------------------------------------------
-            ],
-          ),
-        )),
+            )),
       ),
     );
   } //build
@@ -166,7 +166,6 @@ class _MyDriversState extends State<MyDrivers> {
     driverList = await driverApiCalls.getDriverData();
     setState(() {
       loading = false;
-      print(driverList);
     });
   } //getDriverData
 

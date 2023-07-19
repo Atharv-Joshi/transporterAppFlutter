@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "291069338054",
+    "firebase_url": "https://liveasytransporterapp-default-rtdb.firebaseio.com",
     "project_id": "liveasytransporterapp",
     "storage_bucket": "liveasytransporterapp.appspot.com"
   },
@@ -22,11 +23,27 @@
           }
         },
         {
-          "client_id": "291069338054-45vq7949qduqnuujobjh5ivin0j2jeha.apps.googleusercontent.com",
+          "client_id": "291069338054-4ab6v0bjbk9rvrbplqbjh9rorcharo5f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.liveasy.liveasy",
-            "certificate_hash": "9cde869ea17696eb2113ee53bbebede91742b145"
+            "certificate_hash": "e32b397336231c851dd87dee73522f2260ce43dc"
+          }
+        },
+        {
+          "client_id": "291069338054-4d7gmqvna6vil3ns385klbbfecvv5le6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "1476e47e03f3a7af957f5c75e2b607f6c3b689ee"
+          }
+        },
+        {
+          "client_id": "291069338054-4pvapbnabiq42g2iiqhna28kuhurorkm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "0e3a4c13c0404eec85dbc1e1e9de4354bfd48539"
           }
         },
         {
@@ -38,11 +55,131 @@
           }
         },
         {
+          "client_id": "291069338054-6316gr12s5iujq6d01osdpktsb9gbveh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "10ae36e66c5806e18663a2dec88cedcab7e5af86"
+          }
+        },
+        {
           "client_id": "291069338054-6o2s231pn3o04h4qohudu6onp59u6qam.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.liveasy.liveasy",
             "certificate_hash": "560bc5692becbac756238bf55fef697002b95b5d"
+          }
+        },
+        {
+          "client_id": "291069338054-af1tpbm13pv990n8hg4ipfhq0hv80n3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "b26280a37d43af457a3a49d75d8e636916bef26e"
+          }
+        },
+        {
+          "client_id": "291069338054-ccmhigdqa4t49k7vnd60selr0b4nhg8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "45378284c1bcb60e6e18ec6f647f5a5b631f6a5c"
+          }
+        },
+        {
+          "client_id": "291069338054-e3kq0a9cu49jlqu8trcugtm0f6044pd3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "8b2cdeae93c2e210b19c4dbfdc0db60e87481202"
+          }
+        },
+        {
+          "client_id": "291069338054-g5kfu9ugciph8b7kgii92u0dpf8d91k2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "2ed963660eadcd6ea731d05d8d15a7c610e8f7e2"
+          }
+        },
+        {
+          "client_id": "291069338054-i1oqo8ltntimqmm0f1obs9v5iord2cae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "f89851112d31091d75be9b5e4530b4f3b5257de2"
+          }
+        },
+        {
+          "client_id": "291069338054-j9hfp5ncl599ccpfkrudaovqdic3liiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "78313f39d456f1b982328773305f53d27bea3a2a"
+          }
+        },
+        {
+          "client_id": "291069338054-jdbvvphdpalaifljs0jun6ld89iqojmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "632f6c706a1b8a5fdcf8f57c92036bde4b652eb7"
+          }
+        },
+        {
+          "client_id": "291069338054-jij4cjsa6scunuh2l842mh5oflrll106.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "fc170a907ff0ad8cd549f600067aa88f50519395"
+          }
+        },
+        {
+          "client_id": "291069338054-kisnq81jra5ilupubrs7oikto0f7o5ra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "a92c67fd0f7e4cb7272ad452480508226fff33bf"
+          }
+        },
+        {
+          "client_id": "291069338054-l5rflm089tfl3roe8cebfe8sfhqa0lh6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "96a694aa95bcad4aa32a56eacb6300765e9a2868"
+          }
+        },
+        {
+          "client_id": "291069338054-lc2p1cqc8n46c2h8nk2pcdhs12kte2ts.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "9560d3ee3ecfb6e92931d9d9fa352403e9e0fb17"
+          }
+        },
+        {
+          "client_id": "291069338054-mt88v8cnsbcs12hjl3567j45gj2shui7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "8ce6db2ae5237a9214eba82821bc0241844f27ac"
+          }
+        },
+        {
+          "client_id": "291069338054-nbtn5s877uefetml7dpv7hjphce61kot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "ee5a1ed2cf7f7c89207f3a89a7767de2f9009f0e"
+          }
+        },
+        {
+          "client_id": "291069338054-p0r43gndmmctojmkpom9fg2v3lp4bnnf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "cf0fb2a15adb151ae6e2efcafaf648e17a2ad479"
           }
         },
         {
@@ -54,11 +191,59 @@
           }
         },
         {
-          "client_id": "291069338054-pdcjbtvtk8u28fac0fql1n5bbdgngb8s.apps.googleusercontent.com",
+          "client_id": "291069338054-pdi3run3g1pb4lf378r3949288coetml.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.liveasy.liveasy",
-            "certificate_hash": "4b644be9482cada3d61b57a938da1a5bee24b478"
+            "certificate_hash": "cb50929cfeffa7bb92dfe28e2e4f39f47725c15f"
+          }
+        },
+        {
+          "client_id": "291069338054-qgnnj1gev9o8i9f9vajda4j53icdq2gf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "59497858b3f1bb35d954ed5a8fd01c0b31c82de9"
+          }
+        },
+        {
+          "client_id": "291069338054-r4raun5vrbkcv77marfmkt8fa1e91t3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "079f57d40dd6cd95d2c7a353520e84eae1e9f7f7"
+          }
+        },
+        {
+          "client_id": "291069338054-rqesn2sj7dk7b9gfckm6dhknrd9hr7u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "dd09c23ef8eaff9fb7a3abf66ccec6485ac2a37c"
+          }
+        },
+        {
+          "client_id": "291069338054-rr8hjl6jcqs38q2aungk8cqfjm2qjsn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "ecd397c8b7397ab39bb0e1ab20a399a3ae5625f6"
+          }
+        },
+        {
+          "client_id": "291069338054-rvl5kbopegdgn30kkiuls4qrll14358u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "5695b9d885c63f6aa0c11ad5d769bef28287316d"
+          }
+        },
+        {
+          "client_id": "291069338054-vca7jkkk9gc4aksd5g056h2gtg4bbebr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.liveasy.liveasy",
+            "certificate_hash": "364aeeffc6d0cc3789715724204b781c4fb89a57"
           }
         },
         {

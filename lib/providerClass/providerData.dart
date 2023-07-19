@@ -368,7 +368,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
   void updateLoadingPointPostLoad2(
-  {required String place, required String city, required String state}){
+      {required String place, required String city, required String state}){
     loadingPointPostLoad2 = place;
     loadingPointCityPostLoad2 = city;
     loadingPointStatePostLoad2 = state;
@@ -384,7 +384,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
   void updateUnloadingPointPostLoad2(
-  {required String place, required String city, required String state}){
+      {required String place, required String city, required String state}){
     unloadingPointPostLoad2 = place;
     unloadingPointCityPostLoad2 = city;
     unloadingPointStatePostLoad2 = state;
@@ -543,7 +543,7 @@ class ProviderData extends ChangeNotifier {
 
   void clearBookingDate() {
     PostLoadVariablesController postLoadVariables =
-        Get.find<PostLoadVariablesController>();
+    Get.find<PostLoadVariablesController>();
     postLoadVariables.updateBookingDate("");
     notifyListeners();
   }
@@ -583,14 +583,14 @@ class ProviderData extends ChangeNotifier {
 
   void updateBookingDate(value) {
     PostLoadVariablesController postLoadVariables =
-        Get.find<PostLoadVariablesController>();
+    Get.find<PostLoadVariablesController>();
     postLoadVariables.updateBookingDate(value);
     notifyListeners();
   }
 
   bool postLoadScreenOneButton() {
     PostLoadVariablesController postLoadVariables =
-        Get.find<PostLoadVariablesController>();
+    Get.find<PostLoadVariablesController>();
     if (loadingPointCityPostLoad != "" &&
         postLoadVariables.bookingDate.value != "" &&
         unloadingPointCityPostLoad != '') {

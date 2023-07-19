@@ -19,15 +19,14 @@ postDriverTraccarApi(DriverName, DriverPhoneNo, TransporterId) async {
       "uniqueId": DriverPhoneNo
     };
     String body = json.encode(data);
-    final String DriverTraccarApiUrl =
-        FlutterConfig.get('traccarApi').toString();
+    final String DriverTraccarApiUrl = FlutterConfig.get('traccarApi').toString();
     final response =
-        await http.post(Uri.parse("$DriverTraccarApiUrl" + "/drivers"),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'authorization': basicAuth,
-            },
-            body: body);
+    await http.post(Uri.parse("$DriverTraccarApiUrl" + "/drivers"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': basicAuth,
+        },
+        body: body);
     print(response.body);
     if (response.statusCode == 400) {
       print("Mobile number already exists");

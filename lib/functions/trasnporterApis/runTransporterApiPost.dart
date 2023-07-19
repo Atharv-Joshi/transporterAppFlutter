@@ -2,31 +2,42 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/traccarCalls/createTraccarUserAndNotifications.dart';
+import 'package:flutter_config/flutter_config.dart';
+import 'package:liveasy/main.dart';
+
+import '../../constants/urlGetter.dart';
 
 GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
 Future<String?> runTransporterApiPost(
     {required String mobileNum, String? userLocation}) async {
   try {
+    print("-------------RUNNING runTransporterApiPost function-----------------");
+    print("${mobileNum}-------------------------------");
+
     // var mUser = FirebaseAuth.instance.currentUser;
     // String? firebaseToken;
+    // print("$mUser ------------USER---");
+    // print("${mUser?.getIdToken(true)}-------BBB--");
     // await mUser!.getIdToken(true).then((value) {
-    //   // log(value);
+    //   print("$value-----value-----");
     //   firebaseToken = value;
     // });
 
     TransporterIdController transporterIdController =
-        Get.put(TransporterIdController(), permanent: true);
+    Get.put(TransporterIdController(), permanent: true);
+    print(transporterIdController.transporterId + "----------------------------");
 
-    final String transporterApiUrl =
-        FlutterConfig.get("transporterApiUrl").toString();
+    final String transporterApiUrl = FlutterConfig.get('transporterApiUrl');
+
     Map data = userLocation != null
         ? {"phoneNo": mobileNum, "transporterLocation": userLocation}
         : {"phoneNo": mobileNum};
@@ -34,7 +45,7 @@ Future<String?> runTransporterApiPost(
     final response = await http.post(Uri.parse(transporterApiUrl),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-        // HttpHeaders.authorizationHeader: firebaseToken!
+          // HttpHeaders.authorizationHeader: firebaseToken!
         },
         body: body);
 
@@ -46,6 +57,7 @@ Future<String?> runTransporterApiPost(
     });
 
     if (response.statusCode == 201) {
+      print("STATUS CODE 201 Generating transporter Body ---------------");
       var decodedResponse = json.decode(response.body);
       if (decodedResponse["transporterId"] != null) {
         String transporterId = decodedResponse["transporterId"];
@@ -57,9 +69,9 @@ Future<String?> runTransporterApiPost(
             decodedResponse["accountVerificationInProgress"].toString() ==
                 "true";
         String transporterLocation =
-            decodedResponse["transporterLocation"] == null
-                ? " "
-                : decodedResponse["transporterLocation"];
+        decodedResponse["transporterLocation"] == null
+            ? " "
+            : decodedResponse["transporterLocation"];
         String name = decodedResponse["transporterName"] == null
             ? " "
             : decodedResponse["transporterName"];
@@ -86,7 +98,7 @@ Future<String?> runTransporterApiPost(
             .updateAccountVerificationInProgress(accountVerificationInProgress);
         tidstorage
             .write(
-                "accountVerificationInProgress", accountVerificationInProgress)
+            "accountVerificationInProgress", accountVerificationInProgress)
             .then((value) => print("Written accountVerificationInProgress"));
         transporterIdController.updateTransporterLocation(transporterLocation);
         tidstorage

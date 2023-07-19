@@ -96,9 +96,13 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
               EasyLoading.show(
                 status: "Loading...",
               );
+              print("${widget.driverEditData.id} ------ ${widget.driverEditData.driverName}");
               ResponseModel? Editresponse = await driverApiCalls.editDriver(
-                  driverId: widget.driverEditData.driverId,
+                  driverData: widget.driverEditData,
+                  driverId: widget.driverEditData.id.toString(),
                   driverName: driverEditNameController.text.toString());
+
+              print("${Editresponse?.statusCode} -----STATUS CODE ------");
 
               if (Editresponse != null) {
                 EasyLoading.dismiss();
@@ -114,10 +118,10 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
                     },
                   );
                   Timer(Duration(milliseconds: 1000),
-                      () => {Get.to(MyDrivers())});
+                          () => {Get.to(MyDrivers())});
 
                   var totalResponses =
-                      await driverApiCalls.getDriversByTransporterId();
+                  await driverApiCalls.getDriversByTransporterId();
 
                   providerData.updateDriverList(totalResponses);
                 } else {
@@ -140,7 +144,7 @@ class _EditDriverAlertDialogState extends State<EditDriverAlertDialog> {
         )
       ],
       contentPadding:
-          EdgeInsets.symmetric(horizontal: space_3, vertical: space_4),
+      EdgeInsets.symmetric(horizontal: space_3, vertical: space_4),
       actionsPadding: EdgeInsets.only(top: space_8, bottom: space_3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(radius_2 - 2)),
