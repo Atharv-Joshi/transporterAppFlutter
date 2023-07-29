@@ -5,6 +5,7 @@ class DeliveredCardModel{
   String? companyName;
   String? transporterPhoneNum;
   String? transporterLocation;
+  String? postLoadId;
   String? transporterName;
   bool? transporterApproved;
   bool? companyApproved;
@@ -19,6 +20,7 @@ class DeliveredCardModel{
   String? productType;
   String? bookingDate;
   String? completedDate;
+  int? deviceId;
 
   DeliveredCardModel(
       {this.bookingId,
@@ -29,6 +31,7 @@ class DeliveredCardModel{
         this.companyName,
         this.completedDate,
         this.driverName,
+        this.postLoadId,
         this.driverPhoneNum,
         this.loadingPointCity,
         this.noOfTrucks,
@@ -40,6 +43,7 @@ class DeliveredCardModel{
         this.transporterPhoneNum,
         this.truckNo,
         this.truckType,
-        this.unloadingPointCity
+        this.unloadingPointCity,
+        this.deviceId
       });
 }

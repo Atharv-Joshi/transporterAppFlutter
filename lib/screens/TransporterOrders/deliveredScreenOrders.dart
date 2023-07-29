@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -53,6 +55,7 @@ class DeliveredScreenOrders extends StatelessWidget {
                         future: loadAllDataOrders(snapshot.data[index]),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
+                          inspect(snapshot.data);
                           if (snapshot.data == null) {
                             return CompletedLoadingWidgets();
                           }
@@ -66,13 +69,12 @@ class DeliveredScreenOrders extends StatelessWidget {
                             posterName: snapshot.data['posterName'],
                             companyApproved: snapshot.data['companyApproved'],
                             driverPhoneNum: snapshot.data['driverPhoneNum'],
-                            transporterPhoneNumber:
-                            snapshot.data['posterPhoneNum'],
+                            transporterPhoneNumber: snapshot.data['posterPhoneNum'],
                             rate: snapshot.data['rate'],
                             loadingPoint: snapshot.data['loadingPoint'],
                             unloadingPoint: snapshot.data['unloadingPoint'],
                             companyName: snapshot.data['companyName'],
-                            truckNo: snapshot.data['truckNo'],
+                            // truckNo: snapshot.data['truckNo'],
                             driverName: snapshot.data['driverName'],
                             startedOn: snapshot.data['startedOn'],
                             endedOn: snapshot.data['endedOn'],

@@ -65,7 +65,15 @@ class LoadPosterDetails extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Image.network(image!)),
+                      : Container(
+                    height: space_7,
+                    width: space_7,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/defaultDriverImage.png"),
+                      ),
+                    ),
+                  )),
             ),
           ),
           Column(

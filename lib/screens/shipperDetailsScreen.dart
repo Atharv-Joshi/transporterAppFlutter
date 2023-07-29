@@ -22,7 +22,7 @@ class ShipperDetails extends StatefulWidget {
   String? shipperPosterName;
   String? shipperPosterCompanyName;
   bool? shipperPosterCompanyApproved;
-  String? posterName;
+  // String? posterName;
   String? truckType;
   String? noOfTrucks;
   String? productType;
@@ -37,7 +37,7 @@ class ShipperDetails extends StatefulWidget {
 
   ShipperDetails(
       {Key? key,
-      this.posterName,
+      // this.posterName,
       this.truckType,
       this.noOfTrucks,
       this.productType,
@@ -56,7 +56,8 @@ class ShipperDetails extends StatefulWidget {
       this.transporterName,
       this.trackApproved,
       this.gpsDataList,
-      this.totalDistance})
+      this.totalDistance
+      })
       : super(key: key);
 
   @override
@@ -118,7 +119,7 @@ class _ShipperDetailsState extends State<ShipperDetails> {
                               truckApproved: widget.trackApproved!,
                               TruckNo: widget.vehicleNo,
                               DriverName: widget.driverName,
-                              gpsData: widget.gpsDataList[0],
+                              // gpsData: widget.gpsDataList[0],
                               totalDistance: widget.totalDistance,
                             ),
                             CallButton(

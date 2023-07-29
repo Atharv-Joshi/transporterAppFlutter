@@ -46,6 +46,7 @@ class _OngoingScreenState extends State<OngoingScreen> {
         {
           setState(() {
             moreitems = false;
+            loading = false;
           });
         }
       if(moreitems)
@@ -58,11 +59,11 @@ class _OngoingScreenState extends State<OngoingScreen> {
         // check whether the state object is in tree
         setState(() {
           loading = false;
-
           OngoingProgress = false;
         });
       }
     }
+    print("${modelList.length}---------------------");
   }
 
   @override

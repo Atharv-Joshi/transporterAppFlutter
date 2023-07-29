@@ -22,39 +22,31 @@ Future<DeliveredCardModel> loadAllDeliveredData(bookingModel) async {
   TransporterModel transporterModel = await transporterApiCalls
       .getDataByTransporterId(bookingModel.transporterId);
 
-  Map truckData = await truckApiCalls.getDataByTruckId(bookingModel.truckId[0]);
-  if(truckData['driverId'] != "NA"){
-    driverModel = await getDriverByDriverId(driverId: truckData['driverId']);
-  }
-  else{
-    driverModel.driverId =  'NA';
-    driverModel.transporterId =  'NA';
-    driverModel.phoneNum =  'NA';
-    driverModel.driverName =  'NA';
-    driverModel.truckId =  'NA';
-  }
-
   DeliveredCardModel loadALLDataModel = DeliveredCardModel();
   loadALLDataModel.bookingDate= bookingModel.bookingDate;
   loadALLDataModel.bookingId = bookingModel.bookingId;
   loadALLDataModel.completedDate = bookingModel.completedDate;
-  loadALLDataModel.loadingPointCity = loadData['loadingPointCity'];
-  loadALLDataModel.unloadingPointCity = loadData['unloadingPointCity'];
+  loadALLDataModel.loadingPointCity = bookingModel.loadingPointCity;
+  loadALLDataModel.unloadingPointCity = bookingModel.unloadingPointCity;
   loadALLDataModel.companyName =  transporterModel.companyName;
   loadALLDataModel.transporterPhoneNum = transporterModel.transporterPhoneNum;
   loadALLDataModel.transporterLocation = transporterModel.transporterLocation;
   loadALLDataModel.transporterName = transporterModel.transporterName;
   loadALLDataModel.transporterApproved = transporterModel.transporterApproved;
   loadALLDataModel.companyApproved=transporterModel.companyApproved;
-  loadALLDataModel.truckNo =truckData['truckNo'];
-  loadALLDataModel.truckType= truckData['truckType'];
-  loadALLDataModel.imei = truckData['imei'];
-  loadALLDataModel.driverName= driverModel.driverName;
-  loadALLDataModel.driverPhoneNum= driverModel.phoneNum;
+  loadALLDataModel.truckNo = bookingModel.truckNo; // truckData['truckNo'];
+  loadALLDataModel.truckType= 'NA'; // truckData['truckType'];
+  loadALLDataModel.imei = 'NA'; // truckData['imei'];
+  loadALLDataModel.driverName= bookingModel.driverName;
+  loadALLDataModel.driverPhoneNum= bookingModel.driverPhoneNum;
   loadALLDataModel.rate= bookingModel.rate.toString();
   loadALLDataModel.unitValue =  bookingModel.unitValue;
   loadALLDataModel.noOfTrucks = loadData['noOfTrucks'];
-  loadALLDataModel.productType =loadData['productType'];
+  loadALLDataModel.productType = loadData['productType'];
+
+  // Added on 24-07-2023 :--
+  loadALLDataModel.deviceId = bookingModel.deviceId;
+  // ----------
 
   return loadALLDataModel;
 }

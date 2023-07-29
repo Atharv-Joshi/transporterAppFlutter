@@ -13,7 +13,7 @@ class DeliveredCardOrders extends StatelessWidget {
   final String unloadingPoint;
   final String startedOn;
   final String endedOn;
-  final String truckNo;
+  // final String truckNo;
   final String companyName;
 
   // final String phoneNum;
@@ -40,7 +40,7 @@ class DeliveredCardOrders extends StatelessWidget {
       required this.unloadingPoint,
       required this.startedOn,
       required this.endedOn,
-      required this.truckNo,
+      // required this.truckNo,
       required this.companyName,
       // required this.phoneNum,
       required this.driverName,
