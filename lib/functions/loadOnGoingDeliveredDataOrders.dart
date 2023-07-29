@@ -1,18 +1,14 @@
+import 'dart:developer';
+
 import 'package:liveasy/functions/postLoadIdApiCalls.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/BookingModel.dart';
-import 'package:liveasy/models/driverModel.dart';
-import 'driverApiCalls.dart';
 import 'loadApiCalls.dart';
 
 final LoadApiCalls loadApiCalls = LoadApiCalls();
 
 final PostLoadIdApiCalls postLoadIdApiCalls = PostLoadIdApiCalls();
-
-final TruckApiCalls truckApiCalls = TruckApiCalls();
-
-final DriverApiCalls driverApiCalls = DriverApiCalls();
 
 Future<Map> loadAllDataOrders(BookingModel bookingModel) async {
   Map loadDetails;
@@ -45,24 +41,14 @@ Future<Map> loadAllDataOrders(BookingModel bookingModel) async {
     };
   }
 
-  Map truckData =
-      await truckApiCalls.getDataByTruckId(bookingModel.truckId![0]);
-
-  DriverModel driverModel =
-      await driverApiCalls.getDriverByDriverId(driverId: truckData['driverId']);
-
   Map cardDataModel = {
     'unitValue': bookingModel.unitValue == null ? "NA" : bookingModel.unitValue,
     'startedOn': bookingModel.bookingDate,
     'endedOn': bookingModel.completedDate,
-    'loadingPoint': loadDetails['loadingPointCity'] == null
-        ? "NA"
-        : loadDetails['loadingPointCity'],
-    'unloadingPoint': loadDetails['unloadingPointCity'] == null
-        ? "NA"
-        : loadDetails['unloadingPointCity'],
+    'loadingPoint': bookingModel.loadingPointCity,
+    'unloadingPoint': bookingModel.unloadingPointCity,
     'truckType':
-        truckData['truckType'] == null ? "NA" : truckData['truckType'],
+        "NA", // truckData['truckType'] == null ? "NA" : truckData['truckType'],
     'productType':
         loadDetails['productType'] == null ? "NA" : loadDetails['productType'],
     'noOfTrucks':
@@ -85,11 +71,11 @@ Future<Map> loadAllDataOrders(BookingModel bookingModel) async {
     'posterName': postLoadIdData['posterName'] == null
         ? "NA"
         : postLoadIdData['posterName'],
-    'truckNo': truckData['truckNo'] == null ? "NA" : truckData['truckNo'],
-    'imei': "truckData['imei']",
-    'driverName':
-        driverModel.driverName == null ? "NA" : driverModel.driverName,
-    'driverPhoneNum': driverModel.phoneNum == null ? "NA" : driverModel.phoneNum
+    'truckNo':
+        bookingModel.truckNo, // truckData['truckNo'] == null ? "NA" : truckData['truckNo'],
+    'imei': "NA",
+    'driverName': bookingModel.driverName,
+    'driverPhoneNum': bookingModel.driverPhoneNum
   };
 
   return cardDataModel;

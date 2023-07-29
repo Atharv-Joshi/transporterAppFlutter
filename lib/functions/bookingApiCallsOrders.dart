@@ -68,6 +68,7 @@ class BookingApiCallsOrders {
         http.Response response = await http.get(Uri.parse(
             '$bookingApiUrl?transporterId=${transporterIdController.transporterId.value}&completed=true&cancel=false&pageNo=$i'));
         var jsonData = json.decode(response.body);
+        print("$jsonData -------------------ORDER COMPLETE-----------");
 
         if (jsonData.isEmpty) {
           break;
@@ -92,6 +93,20 @@ class BookingApiCallsOrders {
               json['rate'] != null ? json['rate'].toString() : 'NA';
           bookingModel.unitValue =
               json['unitValue'] != null ? json['unitValue'] : 'NA';
+          // added on 24-07-2023 -----
+          bookingModel.loadingPointCity =
+          json['loadingPointCity'] != null ? json['loadingPointCity'] : 'NA';
+          bookingModel.unloadingPointCity =
+          json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
+          bookingModel.bookingId =
+          json['bookingId'] != null ? json['bookingId'] : 'NA';
+          bookingModel.truckNo =
+          json['truckNo'] != null ? json['truckNo'] : 'NA';
+          bookingModel.driverName =
+          json['driverName'] != null ? json['driverName'] : 'NA';
+          bookingModel.driverPhoneNum =
+          json['driverPhoneNum'] != null ? json['driverPhoneNum'] : 'NA';
+          // --------
 
           modelList.add(bookingModel);
         }

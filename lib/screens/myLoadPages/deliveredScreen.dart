@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
@@ -32,6 +34,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   ScrollController scrollController = ScrollController();
 
   getDataByPostLoadIdDelivered(int i) async {
+    print("RUNNING GETDATA BY POST----------------------");
 
     if (this.mounted) {
       setState(() {
@@ -42,6 +45,8 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     for (var bookingData in bookingDataListWithPagei) {
       modelList.add(bookingData);
     }
+    inspect(modelList);
+    print("MODEL LIST LENGTH ------------------------- : ${modelList.length}");
     if (this.mounted) {
       setState(() {
         loading = false;
@@ -113,7 +118,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                       controller: scrollController,
                       itemCount: modelList.length,
                       itemBuilder: (context, index) =>
-                          (index == modelList.length - 1)
+                          (index == modelList.length)
                               ? Visibility(
                                   visible: DeliveredProgress,
                                   child: bottomProgressBarIndicatorWidget())
