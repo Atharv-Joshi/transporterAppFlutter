@@ -100,8 +100,9 @@ class AuthService {
       print("SUCCESS");
       return;*/
       UserCredential userCredential = await temp.confirm(smsCode!);
+      print("hello");
       if (userCredential.user != null) {
-        print(userCredential.user);
+        //print(userCredential.user);
         hudController.updateHud(true);
         timerController.cancelTimer();
         await runTransporterApiPost(
