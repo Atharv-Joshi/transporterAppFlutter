@@ -94,11 +94,6 @@ class AuthService {
     print("WEB MANUAL OTP VERIFICATION STARTED -------------");
     print('verificationId in manual func: $smsCode');
     try {
-      /*await FirebaseAuth.instance.currentUser!.updatePhoneNumber(
-          PhoneAuthProvider.credential(
-              verificationId: temp.verificationId, smsCode: smsCode!));
-      print("SUCCESS");
-      return;*/
       UserCredential userCredential = await temp.confirm(smsCode!);
       if (userCredential.user != null) {
         hudController.updateHud(true);
