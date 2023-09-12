@@ -5,25 +5,26 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/functions/loadOnGoingData.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
-import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
-import 'package:liveasy/screens/myLoadPages/selectTruckScreen.dart';
-import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
-import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
-
-import '../../screens/HelpScreen.dart';
-
-// import 'addDriverAlertDialog.dart';
+import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
+import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
+import 'package:liveasy/widgets/buttons/CancelSelectedTruckDriverButton.dart';
+import 'package:provider/provider.dart';
+import 'addDriverAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BookLoadAlertDialogBox extends StatefulWidget {
   List? truckModelList;
   List? driverModelList;
-  LoadDetailsScreenModel loadDetailsScreenModel;
+  LoadDetailsScreenModel? loadDetailsScreenModel;
   BiddingModel? biddingModel;
   bool? directBooking;
   String? postLoadId;
@@ -32,7 +33,7 @@ class BookLoadAlertDialogBox extends StatefulWidget {
       {this.truckModelList,
         this.postLoadId,
         this.driverModelList,
-        required this.loadDetailsScreenModel,
+        this.loadDetailsScreenModel,
         this.biddingModel,
         required this.directBooking});
 
@@ -47,36 +48,145 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
 
   TransporterIdController transporterIdController = Get.find();
 
+  TruckApiCalls truckApiCalls = TruckApiCalls();
+
+  // List? truckDropDownList ;
+
+  late TruckModel truckModel = TruckModel(
+      truckApproved: false, truckId: 'Add new Truck', truckNo: 'Add new Truck');
+  late DriverModel driverModel = DriverModel(
+      driverId: 'Add new Driver', driverName: 'Add new Driver', phoneNum: '');
   late List? driverList = [];
   late List? truckList = [];
+  List<DropdownMenuItem<String>> dropDownList = [];
+  List<DropdownMenuItem<String>> dropDownListT = [];
+  SelectedDriverController selectedDriverController =
+  Get.find<SelectedDriverController>();
 
-  MapUtil mapUtil = MapUtil();
+  getDriverList() async {
+    List temp;
+    temp = await driverApiCalls.getDriversByTransporterId();
+    setState(() {
+      driverList = temp;
+      // print(driverList[0]);
+    });
+    for (var instance in driverList!) {
+      bool instanceAlreadyAdded = false;
+      for (var dropDown in dropDownList) {
+        if (dropDown.value == instance.driverId) {
+          instanceAlreadyAdded = true;
+          break;
+        }
+      }
+      if (!instanceAlreadyAdded) {
+        dropDownList.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.driverId,
+              child: Text('${instance.driverName}-${instance.phoneNum}'),
+            ));
+      }
+    }
 
-  // getTruckList() async {
-  //   // FutureGroup futureGroup = FutureGroup();
-  //
-  //   var a = mapUtil.getDevices(); ///////////////////////////
-  //   // var b = mapUtil.getTraccarPositionforAll(); /////////////////////
-  //   var devices = await a; /////////////////////
-  //   // setState(() {
-  //   //   truckList = devices;
-  //   // });
-  //   // truckList = devices;
-  //   // var gpsDataAll = await b; ////////////////////
-  //   truckList!.clear();
-  //   // // devicelist.clear();
-  //   for (var device in devices) {
-  //     setState(() {
-  //       truckList!.add(device.truckno);
-  //       print(truckList);
-  //       // devicelist.add(device);
-  //     });
-  //   }
-  // }
+    // bool addNewDriverAlreadyAdded = false;
+    // for (var dropDown in dropDownList) {
+    //   if (dropDown.value == 'e') {
+    //     addNewDriverAlreadyAdded = true;
+    //     break;
+    //   }
+    // }
+    // if (!addNewDriverAlreadyAdded) {
+    //   dropDownList.add(DropdownMenuItem(
+    //     value: 'e',
+    //     child: Expanded(
+    //       child: Container(
+    //         width: 400,
+    //         child: TextButton(
+    //           onPressed: () {
+    //             showDialog(
+    //                 context: context,
+    //                 builder: (context) => AddDriverAlertDialog());
+    //           },
+    //           child: Text('Add New Driver'),
+    //         ),
+    //       ),
+    //     ),
+    //   ));
+    // }
+    // selectedDriverController.updateSelectedDriverController(
+    //     '${driverList[0].driverName}-${driverList[0].phoneNum}');
+    // for (var instance in driverList[0].d) {
+    //
+    //   print('${instance.driverName}-${instance.phoneNum}');
+    // }
+    // print("driver list driver name${driverList[0].driverName}");
+  }
+
+  getTruckList() async {
+    List temp;
+    temp = await truckApiCalls.getTruckData();
+    setState(() {
+      truckList = temp;
+    });
+    for (var instance in truckList!) {
+      bool instanceAlreadyAdded = false;
+      for (var dropDown in dropDownListT) {
+        if (dropDown.value == instance.truckId) {
+          instanceAlreadyAdded = true;
+          break;
+        }
+      }
+      if (!instanceAlreadyAdded) {
+        dropDownListT.insert(
+            0,
+            DropdownMenuItem<String>(
+              value: instance.truckId,
+              child: Text('${instance.truckNo}'),
+            ));
+      }
+    }
+
+    // bool addNewTruckAlreadyAdded = false;
+    // for (var dropDown in dropDownListT) {
+    //   if (dropDown.value == '') {
+    //     addNewTruckAlreadyAdded = true;
+    //     break;
+    //   }
+    // }
+    //
+    // dropDownListT.add(DropdownMenuItem(
+    //   value: '',
+    //   child: Expanded(
+    //     child: Container(
+    //       width: 400,
+    //       child: TextButton(
+    //         onPressed: () {
+    //           // providerData.updateIsAddTruckSrcDropDown(true);
+    //           Navigator.pop(context);
+    //           Get.to(() => AddNewTruck());
+    //         },
+    //         child: Text('Add New Truck'),
+    //       ),
+    //     ),
+    //   ),
+    // ));
+  }
+
+  void autoAddDriver() {
+    getDriverList();
+    getTruckList();
+    // if (selectedDriverController.newDriverAddedBook.value) {
+    //   selectedDriver = selectedDriverController.selectedDriverBook.value;
+    //   selectedDriverController.updateNewDriverAddedBookController(false);
+    // }
+  }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    getDriverList();
+    getTruckList();
   }
 
   refresh() {
@@ -88,184 +198,220 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: statusBarColor,
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(horizontal: space_2),
-          child: Column(
+    selectedDriverController.updateFromTruck(false);
+    selectedDriverController.updateFromBook(true);
+    // selectedDriver = dropDownList![0];
+    ProviderData providerData = Provider.of<ProviderData>(context);
+
+    widget.truckModelList!.add(truckModel);
+
+    widget.driverModelList!.add(driverModel);
+
+    // print(
+    //     "bookLoadAlertDialog.dart ${selectedDriverController.newDriverAddedBook.value}");
+    autoAddDriver();
+    // for (var i in widget.driverModelList!) {
+    //   print(i.driverName);
+    // }
+    // print('driver list driver name $selectedDriver');
+
+    return AlertDialog(
+      contentPadding: EdgeInsets.all(space_1),
+      insetPadding: EdgeInsets.only(
+        left: space_4,
+        right: space_4,
+      ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: space_2 + 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: space_4,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  BackButtonWidget(),
-                  SizedBox(
-                    width: space_2,
-                  ),
-                  HeadingTextWidgetBlue('enterBookingDetails'.tr),
-                  SizedBox(
-                    width: space_4,
-                  ),
-                  TextButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HelpScreen()),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.headset_mic_outlined,
-                        color: const Color(0xFF152968),
-                      ),
-                      label: Text(
-                        "Help".tr,
-                        style: TextStyle(
-                            color: const Color(0xFF152968),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20),
-                      ))
-                ],
-              ),
               Container(
-                padding: EdgeInsets.only(left: space_5, top: space_15),
-                alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(bottom: space_2),
                 child: Text(
-                  "Select Truck",
-                  style: TextStyle(
-                      fontSize: size_9,
-                      fontWeight: mediumBoldWeight,
-                      color: const Color(0xFF152968)),
+                  "Select a Truck",
+                  style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: ((context) {
-                    return SelectTruckScreen(
-                      loadDetailsScreenModel: widget.loadDetailsScreenModel,
-                      directBooking: true,
-                    );
-                  })));
+              TextButton(
+                onPressed: () {
+                  // providerData.updateIsAddTruckSrcDropDown(true);
+                  Navigator.pop(context);
+                  Get.to(() => AddNewTruck("bookLoad"));
                 },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      left: space_5, right: space_5, bottom: space_2),
-                  height: 50,
-                  width: 356,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(radius_1 + 2),
-                      border: Border.all(color: const Color(0xFF152968))),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: space_2 - 2,
-                        right: space_2 - 2,
-                      ),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: white,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: const Color(0xFF152968),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: space_5, top: space_14),
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: space_2),
-                child: Text(
-                  "Select Driver",
-                  style: TextStyle(
-                      fontSize: size_9,
-                      fontWeight: mediumBoldWeight,
-                      color: const Color(0xFF152968)),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: ((context) {
-                    // return AddNewDriver(
-                    //   loadDetailsScreenModel: widget.loadDetailsScreenModel,
-                    // );
-                    return SelectDriverScreen(
-                      loadDetailsScreenModel: widget.loadDetailsScreenModel,
-                      directBooking: true,
-                    );
-                  })));
-                },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      left: space_5, right: space_5, bottom: space_2),
-                  height: 50,
-                  width: 356,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(radius_1 + 2),
-                      border: Border.all(color: const Color(0xFF152968))),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: space_2 - 2,
-                        right: space_2 - 2,
-                      ),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: white,
-                          ),
-                          child: const Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: const Color(0xFF152968),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(bottom: space_6 + 0.5),
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(radius_2)),
-                      color: const Color(0xFF152968),
-                      child: Container(
-                        color: const Color(0xFF152968),
-                        height: 54,
-                        width: 242,
-                        child: Center(
-                          child: Text(
-                            "Proceed",
-                            style: TextStyle(
-                              color: white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: size_12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
+                child: Text('Add New Truck'),
               ),
             ],
           ),
-        ),
+          // SizedBox(
+          //   height: space_2,
+          // ),
+          Container(
+            height: space_7 + 2,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius_4 + 2),
+                border: Border.all(color: darkGreyColor)),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: space_2 - 2,
+                right: space_2 - 2,
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  isDense: true,
+                  isExpanded: true,
+                  focusColor: Colors.blue,
+                  hint: Text('Truck number'),
+                  value: selectedTruck,
+                  icon: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: darkBlueColor,
+                      ),
+                      child: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: white,
+                      )),
+                  onChanged: (String? newValue) {
+                    providerData.updateDropDownValue(newValue);
+                    setState(() {
+                      selectedTruck = newValue!;
+                      for (TruckModel truckModel in widget.truckModelList!) {
+                        if (truckModel.truckId == selectedTruck) {
+                          if (truckModel.driverId != null) {
+                            for (var dropDown in dropDownList) {
+                              if (dropDown.value == truckModel.driverId) {
+                                selectedDriver = truckModel.driverId;
+                                break;
+                              } else {
+                                selectedDriver = null;
+                                selectedDriverName = null;
+                              }
+                            }
+
+                            for (DriverModel driverModel
+                            in widget.driverModelList!) {
+                              if (driverModel.driverId == selectedDriver) {
+                                selectedDriverName = driverModel.driverName;
+                              }
+                            }
+                          }
+                          //executed if truck doesn't have a driver
+                          else {
+                            selectedDriver = null;
+                            selectedDriverName = null;
+                          }
+                          break;
+                        } //first if
+                      }
+                    });
+                  },
+                  items: dropDownListT,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: space_2 + 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Select a Driver",
+                style: TextStyle(fontSize: size_9, fontWeight: normalWeight),
+              ),
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          AddDriverAlertDialog(notifyParent: refresh));
+                },
+                child: Text('Add New Driver'),
+              ),
+            ],
+          ),
+          // SizedBox(
+          //   height: space_2,
+          // ),
+          Container(
+            height: space_7 + 2,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius_4 + 2),
+                border: Border.all(color: Color(0xFF878787))),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: space_2 - 2,
+                right: space_2 - 2,
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  underline: SizedBox(),
+                  isDense: true,
+                  isExpanded: true,
+                  focusColor: Colors.blue,
+                  hint: Text('Driver Name-Number'),
+                  value: selectedDriver,
+                  icon: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: darkBlueColor,
+                      ),
+                      child: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: white,
+                      )),
+                  onChanged: (String? newValue) {
+                    providerData.updateDropDownValue(newValue);
+                    setState(() {
+                      selectedDriver = newValue!;
+                    });
+                  },
+                  items: dropDownList,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(top: space_11, bottom: space_4 + 2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              widget.loadDetailsScreenModel != null
+                  ? ConfirmButtonSendRequest(
+                selectedDriverName: selectedDriver,
+                loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                truckId: selectedTruck,
+                directBooking: true,
+              )
+                  : ConfirmButtonSendRequest(
+                selectedDriverName: selectedDriver,
+                directBooking: false,
+                postLoadId: widget.postLoadId,
+                truckId: selectedTruck,
+                biddingModel: widget.biddingModel,
+              ),
+              CancelSelectedTruckDriverButton(
+                driverModelList: widget.driverModelList,
+                truckModelList: widget.truckModelList,
+              )
+            ],
+          ),
+        )
+      ],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(radius_2 - 2)),
       ),
     );
   }

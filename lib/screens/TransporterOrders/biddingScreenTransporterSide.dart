@@ -6,7 +6,6 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bigApis/getBidDataWithPageNo.dart';
-import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
 import 'package:liveasy/widgets/biddingsCardTransporterSide.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
@@ -20,7 +19,6 @@ class BiddingScreenTransporterSide extends StatefulWidget {
 class _BiddingScreenTransporterSideState
     extends State<BiddingScreenTransporterSide> {
   final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
-  final String loadApiUrl = FlutterConfig.get('loadApiUrl');
 
   int i = 0;
 
@@ -31,7 +29,6 @@ class _BiddingScreenTransporterSideState
   ScrollController scrollController = ScrollController();
 
   List biddingModelList = [];
-  List LoadDetailsScreenModelList = [];
 
   bool loading = false;
 
@@ -112,8 +109,7 @@ class _BiddingScreenTransporterSideState
                                 : SizedBox.shrink();
                           } else {
                             return BiddingsCardTransporterSide(
-                                biddingModel: biddingModelList[index],
-                            loadDetailsScreenModel: loadDetailsScreenModel,);
+                                biddingModel: biddingModelList[index]);
                           }
                         }),
                   ));

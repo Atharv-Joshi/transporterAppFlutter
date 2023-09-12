@@ -125,7 +125,6 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
           ),
           onPressed: isSelected
               ? () => {
-                    print("hi"),
                     print(widget.loadDetailsScreenModel),
                     Navigator.of(context)
                         .pushReplacement(MaterialPageRoute(builder: ((context) {
