@@ -5,35 +5,33 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/homeScreenLoadsCard.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 
-// ignore: must_be_immutable
 class SuggestedLoadsWidget extends StatefulWidget {
   @override
   _SuggestedLoadsWidgetState createState() => _SuggestedLoadsWidgetState();
 }
 
 class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
-  //Scroll Controller for Pagination
   ScrollController scrollController = ScrollController();
-
-  //for pageNo
   int i = 0;
-
-  //list for load models
   List<LoadDetailsScreenModel> data = [];
+  bool isLoading = true;
 
-  //API CALL--------------------------------------------------------------------
   runSuggestedLoadApi(int i) async {
     if (this.mounted) {
       var suggestedLoadDataList = await runWidgetSuggestedLoadApiWithPageNo(i);
-      for (var suggestedLoadData in suggestedLoadDataList) {
+      if (suggestedLoadDataList.isEmpty) {
         setState(() {
-          data.add(suggestedLoadData);
+          isLoading = false;
         });
+      } else {
+        for (var suggestedLoadData in suggestedLoadDataList) {
+          setState(() {
+            data.add(suggestedLoadData);
+          });
+        }
       }
     }
   }
-
-  //API CALL--------------------------------------------------------------------
 
   @override
   void initState() {
@@ -63,22 +61,28 @@ class _SuggestedLoadsWidgetState extends State<SuggestedLoadsWidget> {
           )
         : RefreshIndicator(
             color: lightNavyBlue,
-            onRefresh: () {
+            onRefresh: () async {
               setState(() {
                 data.clear();
+                isLoading = true;
+                i = 0;
               });
-              return runSuggestedLoadApi(0);
+              await runSuggestedLoadApi(i);
             },
             child: ListView.builder(
               physics: BouncingScrollPhysics(),
               controller: scrollController,
               scrollDirection: Axis.vertical,
-              itemCount: data.length + 1,
-              itemBuilder: (context, index) => index == data.length
-                  ? bottomProgressBarIndicatorWidget()
-                  : HomeScreenLoadsCard(
-                      loadDetailsScreenModel: data[index],
-                    ),
+              itemCount: isLoading ? data.length + 1 : data.length,
+              itemBuilder: (context, index) {
+                if (isLoading && index == data.length) {
+                  return bottomProgressBarIndicatorWidget();
+                } else {
+                  return HomeScreenLoadsCard(
+                    loadDetailsScreenModel: data[index],
+                  );
+                }
+              },
             ),
           );
   }

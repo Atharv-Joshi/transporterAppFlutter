@@ -31,11 +31,11 @@ class BookLoadAlertDialogBox extends StatefulWidget {
 
   BookLoadAlertDialogBox(
       {this.truckModelList,
-      this.postLoadId,
-      this.driverModelList,
-      this.loadDetailsScreenModel,
-      this.biddingModel,
-      required this.directBooking});
+        this.postLoadId,
+        this.driverModelList,
+        this.loadDetailsScreenModel,
+        this.biddingModel,
+        required this.directBooking});
 
   @override
   _BookLoadAlertDialogBoxState createState() => _BookLoadAlertDialogBoxState();
@@ -61,7 +61,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
   List<DropdownMenuItem<String>> dropDownList = [];
   List<DropdownMenuItem<String>> dropDownListT = [];
   SelectedDriverController selectedDriverController =
-      Get.find<SelectedDriverController>();
+  Get.find<SelectedDriverController>();
 
   getDriverList() async {
     List temp;
@@ -296,7 +296,7 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
                             }
 
                             for (DriverModel driverModel
-                                in widget.driverModelList!) {
+                            in widget.driverModelList!) {
                               if (driverModel.driverId == selectedDriver) {
                                 selectedDriverName = driverModel.driverName;
                               }
@@ -390,18 +390,18 @@ class _BookLoadAlertDialogBoxState extends State<BookLoadAlertDialogBox> {
             children: [
               widget.loadDetailsScreenModel != null
                   ? ConfirmButtonSendRequest(
-                      selectedDriverName: selectedDriver,
-                      loadDetailsScreenModel: widget.loadDetailsScreenModel,
-                      truckId: selectedTruck,
-                      directBooking: true,
-                    )
+                selectedDriverName: selectedDriver,
+                loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                truckId: selectedTruck,
+                directBooking: true,
+              )
                   : ConfirmButtonSendRequest(
-                      selectedDriverName: selectedDriver,
-                      directBooking: false,
-                      postLoadId: widget.postLoadId,
-                      truckId: selectedTruck,
-                      biddingModel: widget.biddingModel,
-                    ),
+                selectedDriverName: selectedDriver,
+                directBooking: false,
+                postLoadId: widget.postLoadId,
+                truckId: selectedTruck,
+                biddingModel: widget.biddingModel,
+              ),
               CancelSelectedTruckDriverButton(
                 driverModelList: widget.driverModelList,
                 truckModelList: widget.truckModelList,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/documentApi/getDocument.dart';
 import 'package:liveasy/providerClass/drawerProviderClassData.dart';
@@ -48,6 +49,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   void initState() {
     super.initState();
     imageUrl();
+    Get.put(NavigationIndexController());
     if (widget.index != null) {
       setState(() {
         _index = widget.index!;
