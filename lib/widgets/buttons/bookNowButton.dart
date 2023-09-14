@@ -11,7 +11,6 @@ import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/screens/myLoadPages/bookLoadScreen.dart';
-import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:get/get.dart';
 

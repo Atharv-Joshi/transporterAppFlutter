@@ -4,21 +4,25 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/loadApis/findLoadByLoadID.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/screens/myLoadPages/biddingDetails.dart';
 import 'package:liveasy/widgets/buttons/CancelBidButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import '../models/loadDetailsScreenModel.dart';
 import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
 class BiddingsCardTransporterSide extends StatelessWidget {
   BiddingModel biddingModel;
+  LoadDetailsScreenModel loadDetailsScreenModel;
   String orderStatus = '';
   Color orderStatusColor = Colors.white;
 
-  BiddingsCardTransporterSide({required this.biddingModel});
+  BiddingsCardTransporterSide(
+      {required this.biddingModel, required this.loadDetailsScreenModel});
 
   @override
   Widget build(BuildContext context) {
@@ -187,6 +191,7 @@ class BiddingsCardTransporterSide extends StatelessWidget {
                               shipperApproval: biddingModel.shipperApproval,
                               transporterApproval:
                                   biddingModel.transporterApproval,
+                              loadDetailsScreenModel: loadDetailsScreenModel,
                             )
                           ],
                         ),
