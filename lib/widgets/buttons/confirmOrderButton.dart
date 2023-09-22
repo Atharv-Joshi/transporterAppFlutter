@@ -9,8 +9,12 @@ import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/widgets/alertDialog/bookLoadAlertDialogBox.dart';
 import 'package:get/get.dart';
+import '../../functions/BackgroundAndLocation.dart';
+import '../../functions/getLoadDetailsFromLoadId.dart';
+import '../../models/loadDetailsScreenModel.dart';
+import '../../screens/myLoadPages/bookLoadScreen.dart';
+import '../alertDialog/verifyAccountNotifyAlertDialog.dart';
 
 // ignore: must_be_immutable
 class ConfirmOrderButton extends StatefulWidget {
@@ -18,12 +22,15 @@ class ConfirmOrderButton extends StatefulWidget {
   final String? postLoadId;
   bool? shipperApproval;
   bool? transporterApproval;
+  LoadDetailsScreenModel?
+      loadDetailsScreenModel; //Instance of LoadDetailsScreenModel is created
 
   ConfirmOrderButton({
     this.transporterApproval,
     this.shipperApproval,
     required this.biddingModel,
     required this.postLoadId,
+    this.loadDetailsScreenModel,
   });
 
   @override
@@ -71,17 +78,23 @@ class _ConfirmOrderButtonState extends State<ConfirmOrderButton> {
                     widget.transporterApproval == false) {
                   // putBidForAccept(bidId);
                 }
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return BookLoadAlertDialogBox(
+                //this below function is called to get the load information based on the loadId
+                await getLoadDetailsFromLoadId(
+                        widget.biddingModel.loadId.toString())
+                    .then((value) {
+                  //loadId will be generated in the response of the biddingModel
+                  if (transporterIdController.transporterApproved.value) {
+                    Get.to(() => BookLoadScreen(
+                          //BookLoadScreen will open while confirming the orders in bidding section
                           truckModelList: truckDetailsList,
                           driverModelList: driverDetailsList,
-                          postLoadId: widget.postLoadId,
-                          biddingModel: widget.biddingModel,
-                          directBooking: false);
-                    });
+                          loadDetailsScreenModel: value,
+                          directBooking: true,
+                        ));
+                  } else {
+                    Get.dialog(VerifyAccountNotifyAlertDialog());
+                  }
+                });
               },
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

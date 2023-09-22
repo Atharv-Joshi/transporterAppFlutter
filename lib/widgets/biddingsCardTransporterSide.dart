@@ -10,15 +10,18 @@ import 'package:liveasy/widgets/buttons/CancelBidButton.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
+import '../models/loadDetailsScreenModel.dart';
 import 'LoadEndPointTemplate.dart';
 import 'linePainter.dart';
 
 class BiddingsCardTransporterSide extends StatelessWidget {
   BiddingModel biddingModel;
+  LoadDetailsScreenModel? loadDetailsScreenModel;
   String orderStatus = '';
   Color orderStatusColor = Colors.white;
 
-  BiddingsCardTransporterSide({required this.biddingModel});
+  BiddingsCardTransporterSide(
+      {required this.biddingModel, this.loadDetailsScreenModel});
 
   @override
   Widget build(BuildContext context) {

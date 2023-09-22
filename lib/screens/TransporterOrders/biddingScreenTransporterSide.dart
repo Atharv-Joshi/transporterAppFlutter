@@ -19,6 +19,7 @@ class BiddingScreenTransporterSide extends StatefulWidget {
 class _BiddingScreenTransporterSideState
     extends State<BiddingScreenTransporterSide> {
   final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
+  final String loadApiUrl = FlutterConfig.get('loadApiUrl');
 
   int i = 0;
 
@@ -109,7 +110,8 @@ class _BiddingScreenTransporterSideState
                                 : SizedBox.shrink();
                           } else {
                             return BiddingsCardTransporterSide(
-                                biddingModel: biddingModelList[index]);
+                              biddingModel: biddingModelList[index],
+                            );
                           }
                         }),
                   ));
