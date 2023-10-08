@@ -15,6 +15,9 @@ import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
 //import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import '../../widgets/buttons/fastagButton.dart';
+// import '../../widgets/buttons/sarathiButton.dart';
+import '../../widgets/buttons/vahanButton.dart';
 import '../HelpScreen.dart';
 import 'docInputLr.dart';
 //import 'getDocName.dart';
@@ -28,6 +31,7 @@ import 'package:liveasy/widgets/buttons/callBtn.dart';
 
 class documentUploadScreen extends StatefulWidget {
   String? bookingId;
+  String? loadId;
   String? bookingDate;
   String? truckNo;
   String? transporterName;
@@ -43,6 +47,7 @@ class documentUploadScreen extends StatefulWidget {
   documentUploadScreen({
     Key? key,
     this.bookingId,
+    this.loadId,
     this.bookingDate,
     this.truckNo,
     this.transporterName,
@@ -68,8 +73,9 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
   @override
   void initState() {
     super.initState();
+    print("hiii");
     // pod1 = false;
-
+    print(widget.loadId);
     Permission.camera.request();
   }
 
@@ -80,7 +86,8 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
 
     //Pod :-
 
-    late Map datanew;// this map will contain the data to be posted using the post document api.
+    late Map
+        datanew; // this map will contain the data to be posted using the post document api.
     datanew = {
       "entityId": widget.bookingId.toString(),
       "documents": [
@@ -167,7 +174,8 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
       await uploadDocumentApiCall();
     }
 
-    uploadedCheckPod() async {// to check already uploaded pod documents .
+    uploadedCheckPod() async {
+      // to check already uploaded pod documents .
       docLinks = [];
       docLinks = await getDocumentApiCall(widget.bookingId.toString(), "P");
       setState(() {
@@ -447,8 +455,9 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
     // }
 
     return WillPopScope(
-      onWillPop: () async {// to null the provider data of the documents variables after clicking the back button of the android device.
-       
+      onWillPop: () async {
+        // to null the provider data of the documents variables after clicking the back button of the android device.
+
         print("After clicking the Android Back Button");
         // var providerData = Provider.of<ProviderData>(context);
         providerData.LrPhotoFile = null;
@@ -467,7 +476,8 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
       child: Scaffold(
         backgroundColor: white,
         body: Container(
-          child: (providerData.LrPhotoFile != null)// to display the document upload screen only if the lr photo is selected by the user.
+          child: (providerData.LrPhotoFile !=
+                  null) // to display the document upload screen only if the lr photo is selected by the user.
               ? SafeArea(
                   child: Scaffold(
                     body: Column(
@@ -1117,7 +1127,8 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                 ),
                               ),
                             )
-                          : SingleChildScrollView(// this will be displayed if any document is not selected for uploading.
+                          : SingleChildScrollView(
+                              // this will be displayed if any document is not selected for uploading.
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -1442,7 +1453,32 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       ),
                                     ),
                                   ),
-
+                                  // Padding(
+                                  //   padding: EdgeInsets.fromLTRB(
+                                  //   space_4, space_4, space_4, 0,),
+                                  //   child: SarathiButton(),
+                                  // ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            space_4, space_2, space_0, space_0),
+                                        child: VahanButton(
+                                          truckNo: widget.truckNo,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            space_7, space_2, space_0, space_0),
+                                        child: FastagButton(
+                                          bookingDate: widget.bookingDate,
+                                          truckNo: widget.truckNo,
+                                          loadingPoint: widget.loadingPoint,
+                                          unloadingPoint: widget.unloadingPoint,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(
                                         space_4, space_4, space_4, 0),
