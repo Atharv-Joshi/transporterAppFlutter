@@ -16,13 +16,11 @@ import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/buttons/fastagButton.dart';
-// import '../../widgets/buttons/sarathiButton.dart';
 import '../../widgets/buttons/vahanButton.dart';
 import '../HelpScreen.dart';
 import 'docInputLr.dart';
 //import 'getDocName.dart';
 //import 'getDocumentApiCall.dart';
-
 import 'package:liveasy/functions/documentApi/getDocName.dart';
 import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
@@ -73,7 +71,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
   @override
   void initState() {
     super.initState();
-    print("hiii");
     // pod1 = false;
     print(widget.loadId);
     Permission.camera.request();
@@ -1453,11 +1450,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       ),
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: EdgeInsets.fromLTRB(
-                                  //   space_4, space_4, space_4, 0,),
-                                  //   child: SarathiButton(),
-                                  // ),
                                   Row(
                                     children: [
                                       Padding(
