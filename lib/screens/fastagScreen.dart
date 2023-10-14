@@ -50,6 +50,7 @@ class _FastagScreenState extends State<FastagScreen> {
       CustomInfoWindowController();
 
   Uint8List customIconBytes = Uint8List(0);
+  String? bookingTime = "8:47 AM";
 
   @override
   void initState() {
@@ -63,22 +64,18 @@ class _FastagScreenState extends State<FastagScreen> {
         isLoading = true; // Set isLoading to true when starting the API call
       });
 
-      // Call your API here and store the result in variables
+      // Calling API here and store the result in variables
       final List<TollPlazaData> tollPlazaData =
           await fetchTollPlazaData(widget.truckNo!);
 
       // Fetch addresses for markers and pass the fetched data
       await _loadMarkers(tollPlazaData);
-
-      // You can now use the data retrieved from the API as needed.
       setState(() {
-        // Update state variables with the API data if necessary
         tollPlazaDataList = tollPlazaData;
         isLoading =
             false; // Set isLoading to false after receiving the response
       });
     } catch (error) {
-      // Handle errors if the API call fails
       print('API Error: $error');
       setState(() {
         isLoading = false; // Set isLoading to false if there's an error
@@ -621,7 +618,7 @@ class _FastagScreenState extends State<FastagScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 3),
                                   child: Text(
-                                    "8:47 AM",
+                                    bookingTime!,
                                     style: TextStyle(
                                         color: white, fontSize: size_6),
                                   ),
