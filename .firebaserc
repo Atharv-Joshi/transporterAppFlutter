@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "liveasytransporterapp"
+  },
+  "targets": {
+    "liveasytransporterapp": {
+      "hosting": {
+        "liveasytransporterapp": [
+          "liveasytransporterapp"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
