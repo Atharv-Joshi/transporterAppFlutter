@@ -78,15 +78,10 @@ class _OngoingCardState extends State<OngoingCard> {
         //       trackIndicator: false,
         //     ));
         Get.to(documentUploadScreen(
-          bookingId: widget.loadAllDataModel.bookingId.toString(),
-          truckNo: widget.loadAllDataModel.truckNo,
-          loadingPoint: widget.loadAllDataModel.loadingPointCity,
-          unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
-          transporterName: widget.loadAllDataModel.transporterName,
-          transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
-          driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
-          driverName: widget.loadAllDataModel.driverName,
-          bookingDate: widget.loadAllDataModel.bookingDate,
+          loadAllDataModel: widget.loadAllDataModel,
+          refreshParent: (
+            bool x,
+          ) {},
           // trackApproved: true,
           gpsDataList: gpsDataList,
           // widget.gpsDataList,

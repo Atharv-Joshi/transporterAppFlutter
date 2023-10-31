@@ -15,12 +15,14 @@ import 'package:liveasy/widgets/loadLabelValueRowTemplate.dart';
 
 class onGoingOrdersCardNew extends StatefulWidget {
   // BookingModel loadAllDataModel;
+  final Function(bool) refreshParent;
   OngoingCardModel loadAllDataModel;
   var gpsDataList;
   String? totalDistance;
   var device;
 
   onGoingOrdersCardNew({
+    required this.refreshParent,
     required this.loadAllDataModel,
     required this.gpsDataList,
     required this.totalDistance,
@@ -71,22 +73,62 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
       padding: EdgeInsets.only(bottom: space_3),
       child: Container(
         child: GestureDetector(
-          onTap: () {
-            Get.to(documentUploadScreen(
-              bookingId: widget.loadAllDataModel.bookingId.toString(),
-              truckNo: widget.loadAllDataModel.truckNo,
-              loadingPoint: widget.loadAllDataModel.loadingPointCity,
-              unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
-              transporterName: widget.loadAllDataModel.transporterName,
-              transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
-              driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
-              driverName: widget.loadAllDataModel.driverName,
-              bookingDate: widget.loadAllDataModel.bookingDate,
-              // trackApproved: true,
-              gpsDataList: widget.gpsDataList,
-              totalDistance: widget.totalDistance,
-              device: widget.device,
-            ));
+          onTap: () async {
+            bool launch = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => documentUploadScreen(
+                          bookingId:
+                              widget.loadAllDataModel.bookingId.toString(),
+                          truckNo: widget.loadAllDataModel.truckNo,
+                          loadingPoint:
+                              widget.loadAllDataModel.loadingPointCity,
+                          unloadingPoint:
+                              widget.loadAllDataModel.unloadingPointCity,
+                          transporterName:
+                              widget.loadAllDataModel.transporterName,
+                          transporterPhoneNum:
+                              widget.loadAllDataModel.transporterPhoneNum,
+                          driverPhoneNum:
+                              widget.loadAllDataModel.driverPhoneNum,
+                          driverName: widget.loadAllDataModel.driverName,
+                          bookingDate: widget.loadAllDataModel.bookingDate,
+                          // trackApproved: true,
+                          gpsDataList: widget.gpsDataList,
+                          totalDistance: widget.totalDistance,
+                          device: widget.device,
+                          loadAllDataModel: widget.loadAllDataModel,
+                          refreshParent: widget.refreshParent,
+                        )));
+            if (launch) {
+              widget.refreshParent(true);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => documentUploadScreen(
+                            bookingId:
+                                widget.loadAllDataModel.bookingId.toString(),
+                            truckNo: widget.loadAllDataModel.truckNo,
+                            loadingPoint:
+                                widget.loadAllDataModel.loadingPointCity,
+                            unloadingPoint:
+                                widget.loadAllDataModel.unloadingPointCity,
+                            transporterName:
+                                widget.loadAllDataModel.transporterName,
+                            transporterPhoneNum:
+                                widget.loadAllDataModel.transporterPhoneNum,
+                            driverPhoneNum:
+                                widget.loadAllDataModel.driverPhoneNum,
+                            driverName: widget.loadAllDataModel.driverName,
+                            bookingDate: widget.loadAllDataModel.bookingDate,
+                            // trackApproved: true,
+                            gpsDataList: widget.gpsDataList,
+                            totalDistance: widget.totalDistance,
+                            device: widget.device,
+                            loadAllDataModel: widget.loadAllDataModel,
+                            refreshParent: widget.refreshParent,
+                          )));
+            }
             //     ShipperDetails(
             //   bookingId: widget.loadAllDataModel.bookingId.toString(),
             //   noOfTrucks: widget.loadAllDataModel.noOfTrucks,

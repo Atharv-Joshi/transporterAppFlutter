@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
@@ -69,13 +70,12 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
       });
     }
     var bookingDataListWithPagei = await onGoingOrdersApiCall(i);
-    if(bookingDataListWithPagei==[])
-      {
-        setState(() {
-          moreitems = false;
-        });
-      }
-    if(moreitems) {
+    if (bookingDataListWithPagei == []) {
+      setState(() {
+        moreitems = false;
+      });
+    }
+    if (moreitems) {
       for (var bookingData in bookingDataListWithPagei) {
         print(bookingData);
         modelList.add(bookingData);
@@ -170,6 +170,19 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         //   searchedModelList.add("");
         // }
       }
+    }
+  }
+
+  refresh(bool allowToRefresh) {
+    if (allowToRefresh) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          modelList.clear();
+          for (int j = 0; j <= i; j++) {
+            getOnGoingOrders(i);
+          }
+        });
+      });
     }
   }
 
@@ -329,6 +342,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                 gpsDataList: gpsDataList[index],
                                                 totalDistance: totalDistance,
                                                 device: devicelist[index],
+                                                refreshParent: refresh,
                                               )
                                             : Container();
                                   })
@@ -354,6 +368,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                 totalDistance: totalDistance,
                                                 device:
                                                     searchedDeviceList[index],
+                                                refreshParent: refresh,
                                               )
                                             : Container();
                                   }),
@@ -411,8 +426,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     List<GpsDataModel> gpsRoute1 = await getTraccarSummaryByDeviceId(
         deviceId: modelList[index].deviceId, from: from, to: to);
 
-      totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
-      initfunctionBoolValue = true;
+    totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
+    initfunctionBoolValue = true;
 
     print('in init');
     // return initfunctionBoolValue;
