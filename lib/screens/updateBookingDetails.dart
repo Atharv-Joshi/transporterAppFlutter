@@ -6,13 +6,13 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/screens/updateDriverScreen.dart';
 import 'package:liveasy/screens/updateTruckScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
-import '../../functions/numverifyAPIs.dart';
-import '../models/onGoingCardModel.dart';
-import '../widgets/buttons/updateButtonSendRequest.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/widgets/buttons/updateButtonSendRequest.dart';
 
 //Whatever the user chooses from the previous screen is displayed in this screens
 class UpdateBookingDetails extends StatefulWidget {
@@ -39,44 +39,23 @@ class _UpdateBookingDetailsState extends State<UpdateBookingDetails> {
   TransporterIdController transporterIdController = TransporterIdController();
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
   String? selectedOperator;
-  List<String> operatorOptions = [];
+  List<String> operatorOptions = [
+    'Airtel',
+    'Vodafone',
+    'Jio',
+  ];
   @override
   void initState() {
     super.initState();
     // Load operator options from the API response or set default options.
-    loadOperatorInfo();
+    loadOperatorInfo(widget.mobileNo, updateSelectedOperator);
   }
 
-  // This function morphs the data accordingly to be passed into the consent apis
-  String mapOperatorName(String apiOperator) {
-    if (apiOperator
-        .contains('Vodafone Idea Ltd (formerly Idea Cellular Ltd)')) {
-      return 'Vodafone';
-    } else if (apiOperator.contains('Bharti Airtel Ltd')) {
-      return 'Airtel';
-    } else if (apiOperator.contains('Reliance Jio Infocomm Ltd (RJIL)')) {
-      return 'Jio';
-    } else {
-      // If it's not one of the values, return the original name.
-      return 'Vodafone';
-    }
-  }
-
-  // The operator info is gathered with the help of numVerifyApis
-  Future<void> loadOperatorInfo() async {
-    try {
-      final apiResponse = await validateMobileNumber(
-        mobileNumber: widget.mobileNo,
-      );
-
-      setState(() {
-        selectedOperator = mapOperatorName(apiResponse['carrier']);
-        print(selectedOperator);
-        operatorOptions = ['Airtel', 'Vodafone', 'Jio'];
-      });
-    } catch (e) {
-      print(e);
-    }
+  //This function is used to fetch the operator info select it by default from the dropdown
+  void updateSelectedOperator(String newOperator) {
+    setState(() {
+      selectedOperator = newOperator;
+    });
   }
 
   @override

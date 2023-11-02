@@ -7,6 +7,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
@@ -55,36 +56,22 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
   TransporterIdController transporterIdController = TransporterIdController();
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
   String? selectedOperator;
-  List<String> operatorOptions = [];
+  List<String> operatorOptions = [
+    'Airtel',
+    'Vodafone',
+    'Jio',
+  ];
   @override
   void initState() {
     super.initState();
-    loadOperatorInfo();
+    loadOperatorInfo(widget.mobileNo, updateSelectedOperator);
   }
-  //The operator name which we get from numVerifyApis we are morphing the data accordingly to pass into the consent apis
-  String mapOperatorName(String apiOperator) {
-    if (apiOperator
-        .contains('Vodafone Idea Ltd (formerly Idea Cellular Ltd)')) {
-      return 'Vodafone';
-    } else if (apiOperator.contains('Bharti Airtel Ltd')) {
-      return 'Airtel';
-    } else if (apiOperator.contains('Reliance Jio Infocomm Ltd (RJIL)')) {
-      return 'Jio';
-    } else {
-      // If it's not one of the values, return the original name.
-      return 'Vodafone';
-    }
-  }
-  // function to load the operator from the given number
-  Future<void> loadOperatorInfo() async {
-      final apiResponse = await validateMobileNumber(
-        mobileNumber: widget.mobileNo,
-      );
-      setState(() {
-        selectedOperator = mapOperatorName(apiResponse['carrier']);
-        print(selectedOperator);
-        operatorOptions = ['Airtel', 'Vodafone', 'Jio'];//DropDown options
-      });
+
+  //This function is used to fetch the operator info select it by default from the dropdown
+  void updateSelectedOperator(String newOperator) {
+    setState(() {
+      selectedOperator = newOperator;
+    });
   }
 
   @override
@@ -301,8 +288,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                         ),
                         child: DropdownButton<String>(
                           key: UniqueKey(),
-                          value:
-                              selectedOperator,
+                          value: selectedOperator,
                           icon: Icon(Icons.keyboard_arrow_down_sharp),
                           style: const TextStyle(color: black),
                           underline: Container(

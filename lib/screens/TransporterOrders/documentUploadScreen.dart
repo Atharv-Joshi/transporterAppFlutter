@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/consentStatus.dart';
+import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 //import 'package:liveasy/screens/TransporterOrders/callBtn.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
@@ -18,11 +19,11 @@ import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 //import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import '../../functions/numverifyAPIs.dart';
-import '../../models/onGoingCardModel.dart';
-import '../../widgets/buttons/fastagButton.dart';
-import '../../widgets/buttons/vahanButton.dart';
-import '../HelpScreen.dart';
+import 'package:liveasy/functions/numverifyAPIs.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/widgets/buttons/fastagButton.dart';
+import 'package:liveasy/widgets/buttons/vahanButton.dart';
+import 'package:liveasy/screens/HelpScreen.dart';
 import 'docInputLr.dart';
 //import 'getDocName.dart';
 //import 'getDocumentApiCall.dart';
@@ -78,49 +79,26 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
   // bool podother = false;
   String status = 'Pending'; // Default status
   String? selectedOperator;
-  List<String> operatorOptions = [];
+  List<String> operatorOptions = [
+    'Airtel',
+    'Vodafone',
+    'Jio',
+  ];
   final StatusAPI statusAPI = StatusAPI();
   @override
   void initState() {
     super.initState();
     // pod1 = false;
     fetchConsent();
-    loadOperatorInfo();
+    loadOperatorInfo(widget.driverPhoneNum, updateSelectedOperator);
     Permission.camera.request();
   }
 
-  String mapOperatorName(String apiOperator) {
-    if (apiOperator == 'Bharti Airtel Ltd') {
-      return 'Airtel';
-    } else if (apiOperator ==
-        'Vodafone Idea Ltd (formerly Idea Cellular Ltd)') {
-      return 'Vodafone';
-    } else if (apiOperator == 'Reliance Jio Infocomm Ltd (RJIL)') {
-      return 'Jio';
-    } else {
-      // If it's not one of the expected values, return the original name.
-      return 'Vodafone';
-    }
-  }
-
-  Future<void> loadOperatorInfo() async {
-    try {
-      final apiResponse = await validateMobileNumber(
-        mobileNumber: widget.driverPhoneNum,
-      );
-
-      setState(() {
-        selectedOperator = mapOperatorName(apiResponse['carrier']);
-        print(selectedOperator);
-        operatorOptions = [
-          'Airtel',
-          'Vodafone',
-          'Jio'
-        ]; // You can replace this with values from the API.
-      });
-    } catch (e) {
-      print(e);
-    }
+  //This function is used to fetch the operator info select it by default from the dropdown
+  void updateSelectedOperator(String newOperator) {
+    setState(() {
+      selectedOperator = newOperator;
+    });
   }
 
   Future<void> fetchConsent() async {
@@ -1540,8 +1518,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                 Border.all(color: Colors.black),
                                           ),
                                           child: DropdownButton<String>(
-                                            value:
-                                                selectedOperator, // Check if selectedOperator is not null.
+                                            value: selectedOperator,
                                             icon: Icon(Icons
                                                 .keyboard_arrow_down_sharp),
                                             style:
@@ -1552,7 +1529,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                             ),
                                             onChanged: (String? newValue) {
                                               setState(() {
-                                                selectedOperator = newValue!;
+                                                selectedOperator = newValue;
                                               });
                                             },
                                             items: operatorOptions
