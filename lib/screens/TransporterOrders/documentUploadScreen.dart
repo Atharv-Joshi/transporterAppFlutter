@@ -31,8 +31,6 @@ import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/putDocumentApiCall.dart';
 import 'package:liveasy/widgets/buttons/callBtn.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 class documentUploadScreen extends StatefulWidget {
   String? bookingId;
@@ -1405,12 +1403,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          // Padding(
-                                          //   padding: EdgeInsets.only(left: 15),
-                                          //   child: Image(
-                                          //       image: AssetImage(
-                                          //           "assets/icons/deliveryTruck.png")),
-                                          // ),
                                           Padding(
                                             padding: EdgeInsets.only(left: 16),
                                             child: Text(
@@ -1449,13 +1441,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          // Padding(
-                                          //   padding: EdgeInsets.only(
-                                          //       top: 11, left: 15),
-                                          //   child: Image(
-                                          //       image: AssetImage(
-                                          //           "assets/icons/MaleUser.png")),
-                                          // ),
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 left: 11, top: 5, bottom: 5),
