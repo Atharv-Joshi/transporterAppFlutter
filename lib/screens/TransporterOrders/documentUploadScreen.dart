@@ -19,7 +19,6 @@ import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 //import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:liveasy/functions/numverifyAPIs.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/fastagButton.dart';
 import 'package:liveasy/widgets/buttons/vahanButton.dart';
