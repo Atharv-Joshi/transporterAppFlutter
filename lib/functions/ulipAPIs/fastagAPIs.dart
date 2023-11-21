@@ -1,11 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../models/fastagModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<List<TollPlazaData>> fetchTollPlazaData(String vehicleNumber) async {
   try {
-    final String fastagApiUrl = FlutterConfig.get('fastagApiUrl').toString();
+    final String fastagApiUrl = dotenv.get('fastagApiUrl').toString();
     final response = await http.post(
       Uri.parse(fastagApiUrl),
       headers: {

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 
@@ -14,7 +14,7 @@ class BookingApiCallsOrders {
   ProviderData providerData = ProviderData();
 
   //BookingApiUrl
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
 
   //to hold list of dataModels retrieved from Api
   List<BookingModel> modelList = [];
@@ -94,18 +94,20 @@ class BookingApiCallsOrders {
           bookingModel.unitValue =
               json['unitValue'] != null ? json['unitValue'] : 'NA';
           // added on 24-07-2023 -----
-          bookingModel.loadingPointCity =
-          json['loadingPointCity'] != null ? json['loadingPointCity'] : 'NA';
-          bookingModel.unloadingPointCity =
-          json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
+          bookingModel.loadingPointCity = json['loadingPointCity'] != null
+              ? json['loadingPointCity']
+              : 'NA';
+          bookingModel.unloadingPointCity = json['unloadingPointCity'] != null
+              ? json['unloadingPointCity']
+              : 'NA';
           bookingModel.bookingId =
-          json['bookingId'] != null ? json['bookingId'] : 'NA';
+              json['bookingId'] != null ? json['bookingId'] : 'NA';
           bookingModel.truckNo =
-          json['truckNo'] != null ? json['truckNo'] : 'NA';
+              json['truckNo'] != null ? json['truckNo'] : 'NA';
           bookingModel.driverName =
-          json['driverName'] != null ? json['driverName'] : 'NA';
+              json['driverName'] != null ? json['driverName'] : 'NA';
           bookingModel.driverPhoneNum =
-          json['driverPhoneNum'] != null ? json['driverPhoneNum'] : 'NA';
+              json['driverPhoneNum'] != null ? json['driverPhoneNum'] : 'NA';
           // --------
 
           modelList.add(bookingModel);

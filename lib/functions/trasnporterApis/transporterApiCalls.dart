@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/transporterModel.dart';
 
 class TransporterApiCalls {
-  final String transporterApiUrl = FlutterConfig.get("transporterApiUrl");
+  final String transporterApiUrl = dotenv.get("transporterApiUrl");
+
 
   Future<TransporterModel> getDataByTransporterId(String? transporterId) async {
 
@@ -57,6 +58,7 @@ class TransporterApiCalls {
     var jsonData = json.decode(response.body);
     print("response is ${response.body}");
     transporterIDImei = jsonData['transporterId'];
+    print(transporterApiUrl);
     print("Transporter ID Imei is $transporterIDImei");
     return transporterIDImei;
   }

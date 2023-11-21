@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 postBookingApi(loadId, currentBid, unit, truckId, postLoadId, rate) async {
   TransporterIdController tIdController = Get.find<TransporterIdController>();
@@ -20,7 +20,7 @@ postBookingApi(loadId, currentBid, unit, truckId, postLoadId, rate) async {
       "unitValue": rate == "NA" ? null : unit
     };
     String body = json.encode(data);
-    final String bookingApiUrl = FlutterConfig.get('bookingApiUrl').toString();
+    final String bookingApiUrl = dotenv.get('bookingApiUrl').toString();
     final response = await http.post(Uri.parse("$bookingApiUrl"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

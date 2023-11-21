@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/BookingModel.dart';
 
 class BookingApiCalls {
@@ -12,7 +12,7 @@ class BookingApiCalls {
       Get.find<TransporterIdController>();
 
   //BookingApiUrl
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
 
   //to hold list of dataModels retrieved from Api
   List<BookingModel> modelList = [];
@@ -81,7 +81,8 @@ class BookingApiCalls {
         bookingModel.completed = json['completed'];
         bookingModel.completedDate =
             json['completedDate'] != null ? json['completedDate'] : "NA";
-        bookingModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA';
+        bookingModel.rate =
+            json['rate'] != null ? json['rate'].toString() : 'NA';
         bookingModel.unitValue = json['unitValue'];
       }
     }

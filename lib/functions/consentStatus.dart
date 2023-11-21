@@ -1,12 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 
 // To know the status of the apis this function is used.
 class StatusAPI {
   Future<String> getStatus(String driverPhoneNum) async {
-    final String consentStatus =
-        FlutterConfig.get('consentStatusUrl').toString();
+    final String consentStatus = dotenv.get('consentStatusUrl').toString();
 
     final response = await http.get(Uri.parse('$consentStatus$driverPhoneNum'));
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:date_format/date_format.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/analysisDataController.dart';
@@ -14,10 +15,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/truckAnalysisDoughnut.dart';
 
-String routeDataApi = FlutterConfig.get("routeDataApiUrl");
+String routeDataApi = dotenv.get("routeDataApiUrl");
 
 class truckAnalysisScreen extends StatefulWidget {
   var recentStops;

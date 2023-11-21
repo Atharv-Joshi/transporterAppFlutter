@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
@@ -52,7 +52,7 @@ class _simpleMapState extends State<simpleMap> with WidgetsBindingObserver {
 
   Completer<GoogleMapController> _controller = Completer();
 
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
 
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();

@@ -1,39 +1,35 @@
-import 'dart:async';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 
-  getDocumentWithTransportId(String transporterId) async{
-    final String documentApiUrl =
-    FlutterConfig.get('documentApiUrl').toString();
-    var imageLink = [];
-    var response = await http.get(
-        // Uri.parse('http://document.dev.truckseasy.com:9090/document/transporter:d1b8af38-136d-4a5d-b350-9069d1b0268e'));
-    Uri.parse('$documentApiUrl/$transporterId'));
-      // return jsonDecode(result.body)['documents'];
-    // var request = http.Request('GET', Uri.parse('http://document.dev.truckseasy.com:9090/document/transporter:29b04591-0158-4ddf-a42a-13b29815a415'));
-    //
-    //
-    // http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-      for(var jsondata in jsonData['documents']){
-        if(jsondata['documentType'][0] == "P"){
-          print("dddddde");
-          print(jsondata['documentLink']);
-          imageLink.add(jsondata['documentLink']);
-        }
+getDocumentWithTransportId(String transporterId) async {
+  final String documentApiUrl = dotenv.get('documentApiUrl').toString();
+  var imageLink = [];
+  var response = await http.get(
+      // Uri.parse('http://document.dev.truckseasy.com:9090/document/transporter:d1b8af38-136d-4a5d-b350-9069d1b0268e'));
+      Uri.parse('$documentApiUrl/$transporterId'));
+  // return jsonDecode(result.body)['documents'];
+  // var request = http.Request('GET', Uri.parse('http://document.dev.truckseasy.com:9090/document/transporter:29b04591-0158-4ddf-a42a-13b29815a415'));
+  //
+  //
+  // http.StreamedResponse response = await request.send();
+  if (response.statusCode == 200) {
+    var jsonData = json.decode(response.body);
+    for (var jsondata in jsonData['documents']) {
+      if (jsondata['documentType'][0] == "P") {
+        print("dddddde");
+        print(jsondata['documentLink']);
+        imageLink.add(jsondata['documentLink']);
       }
-      return imageLink[0];
     }
-    else {
-      imageLink.add("no profile");
-      print(response.reasonPhrase);
-      return imageLink[0];
-    }
-
+    return imageLink[0];
+  } else {
+    imageLink.add("no profile");
+    print(response.reasonPhrase);
+    return imageLink[0];
   }
-
+}
 
 class DocumentModel {
   String? entityId;
@@ -70,10 +66,10 @@ class Documents {
 
   Documents(
       {this.documentId,
-        this.documentType,
-        this.documentLink,
-        this.verified,
-        this.id});
+      this.documentType,
+      this.documentLink,
+      this.verified,
+      this.id});
 
   Documents.fromJson(Map<String, dynamic> json) {
     documentId = json['documentId'];

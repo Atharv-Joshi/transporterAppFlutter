@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +11,7 @@ Future<String> getDriverNameFromDriverApi(
   var providerData = Provider.of<ProviderData>(context, listen: false);
   var jsonData;
   String? tempDropDownValue2;
-  final String driverApiUrl = FlutterConfig.get('driverApiUrl').toString();
+  final String driverApiUrl = dotenv.get('driverApiUrl').toString();
   try {
     http.Response response =
         await http.get(Uri.parse(driverApiUrl + '/$driverId'));
@@ -23,6 +23,6 @@ Future<String> getDriverNameFromDriverApi(
   } catch (e) {
     print(e);
   }
-  providerData.updateSelectedDriver( tempDropDownValue2.toString());
+  providerData.updateSelectedDriver(tempDropDownValue2.toString());
   return tempDropDownValue2.toString();
 }

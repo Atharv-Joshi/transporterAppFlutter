@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import 'package:flutter_config/flutter_config.dart';
 import '../../constants/fontSize.dart';
 import '../../constants/fontWeights.dart';
 import '../../constants/radius.dart';
@@ -54,10 +54,10 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
     print("HI");
     driverMobileNumbers.clear();
     driverNames.clear();
-    String driverApiUrl = FlutterConfig.get("driverApiUrl").toString();
+    String driverApiUrl = dotenv.get("driverApiUrl").toString();
     var jsonData;
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = FlutterConfig.get("traccarPass");
+    String traccarPass = dotenv.get("traccarPass");
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
     http.Response response = await http.get(

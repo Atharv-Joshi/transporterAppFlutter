@@ -1,23 +1,23 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:package_info/package_info.dart';
-import 'package:share/share.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
 
 class WhatsappShare extends StatefulWidget {
   int deviceId;
- // String? truckId;
+  // String? truckId;
   String? truckNo;
   WhatsappShare({
     required this.deviceId,
-   // required this.truckId,
+    // required this.truckId,
     required this.truckNo,
   });
   @override
@@ -49,20 +49,21 @@ class _WhatsappShareState extends State<WhatsappShare> {
       _isCreateLink = true;
     });
     String packageName = packageInfo.packageName;
-    String shareUrl = FlutterConfig.get('shareUrl').toString();
+    String shareUrl = dotenv.get('shareUrl').toString();
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: shareUrl,
-        link: Uri.parse(
-            '$shareUrl/track?deviceId=${widget.deviceId}&truckno=${widget.truckNo}&duration=${expiryTime}'),
-        androidParameters: AndroidParameters(
-          packageName: packageName,
-          minimumVersion: 0,
-        ),
-        );
+      uriPrefix: shareUrl,
+      link: Uri.parse(
+          '$shareUrl/track?deviceId=${widget.deviceId}&truckno=${widget.truckNo}&duration=${expiryTime}'),
+      androidParameters: AndroidParameters(
+        packageName: packageName,
+        minimumVersion: 0,
+      ),
+    );
 
     Uri url;
     if (short) {
-      final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
+      final ShortDynamicLink shortLink =
+          await dynamicLinks.buildShortLink(parameters);
       url = shortLink.shortUrl;
       print("Dynamic URL is $url");
     } else {

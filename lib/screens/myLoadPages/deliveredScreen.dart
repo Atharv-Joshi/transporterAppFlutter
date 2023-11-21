@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -27,7 +27,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
 
   List<DeliveredCardModel> modelList = [];
 

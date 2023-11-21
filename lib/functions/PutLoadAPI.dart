@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:liveasy/controller/postLoadErrorController.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<String?> putLoadAPI(
     loadId,
@@ -54,7 +54,7 @@ Future<String?> putLoadAPI(
     String body = json.encode(data);
     var jsonData;
 
-    final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+    final String loadApiUrl = dotenv.get('loadApiUrl').toString();
     final response = await http.put(Uri.parse("$loadApiUrl/$loadId"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

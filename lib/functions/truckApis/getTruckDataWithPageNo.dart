@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
@@ -5,7 +6,6 @@ import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 
 getTruckDataWithPageNo(int i) async {
   //TransporterId controller
@@ -13,7 +13,7 @@ getTruckDataWithPageNo(int i) async {
       Get.find<TransporterIdController>();
 
   // retrieving TRUCKAPIURL  from env file
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
+  final String truckApiUrl = dotenv.get('truckApiUrl');
 
   http.Response response = await http.get(Uri.parse(
       '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));
@@ -53,7 +53,7 @@ getGPSTruckDataWithPageNo(int i) async {
       Get.find<TransporterIdController>();
 
   // retrieving TRUCKAPIURL  from env file
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
+  final String truckApiUrl = dotenv.get('truckApiUrl');
 
   http.Response response = await http.get(Uri.parse(
       '$truckApiUrl?transporterId=${transporterIdController.transporterId.value}&pageNo=$i'));

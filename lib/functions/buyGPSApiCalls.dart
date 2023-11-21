@@ -1,18 +1,22 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class BuyGPSApiCalls {
-  final String buyGPSApiUrl = FlutterConfig.get('buyGPSApiUrl');
+  final String buyGPSApiUrl = dotenv.get('buyGPSApiUrl');
   // transporterId controller
-  TransporterIdController transporterIdController = Get.find<TransporterIdController>();
+  TransporterIdController transporterIdController =
+      Get.find<TransporterIdController>();
 
   String? _gpsId;
 
-  Future<String?> postByGPSData({required String? truckId, required String? address, required String? rate, required String? duration}) async {
-
+  Future<String?> postByGPSData(
+      {required String? truckId,
+      required String? address,
+      required String? rate,
+      required String? duration}) async {
     // json map
     Map<String, dynamic> data = {
       "transporterId": transporterIdController.transporterId.value,
@@ -38,5 +42,4 @@ class BuyGPSApiCalls {
 
     return _gpsId;
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:liveasy/constants/color.dart';
@@ -19,7 +20,6 @@ import 'package:liveasy/screens/TransporterOrders/onGoingOrdersApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersCardNew.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 class OngoingScreenOrders extends StatefulWidget {
   @override
@@ -56,7 +56,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
 
   List<OngoingCardModel> modelList = [];
   // Future<dynamic>? modelList = [];

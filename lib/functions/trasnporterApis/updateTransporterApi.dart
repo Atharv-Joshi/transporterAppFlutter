@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 
 //TODO:all details not fetched
@@ -12,7 +12,7 @@ Future<String> updateTransporterApi(
   TransporterIdController transporterIdController =
       Get.put(TransporterIdController());
   final String transporterApiUrl =
-      FlutterConfig.get("transporterApiUrl").toString();
+      dotenv.get("transporterApiUrl").toString();
   Map data = verificationType=='Immediate'?{"transporterApproved": transporterApproved} :{"accountVerificationInProgress": accountVerificationInProgress};
   String body = json.encode(data);
   final response =

@@ -1,16 +1,16 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/biddingModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<List<BiddingModel>> getBidsFromBidApi() async {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   var jsonData;
   List<BiddingModel> biddingModelList = [];
-  final String bidApiUrl = FlutterConfig.get("biddingApiUrl").toString();
+  final String bidApiUrl = dotenv.get("biddingApiUrl").toString();
   http.Response response = await http.get(Uri.parse(
       "$bidApiUrl?transporterId=${transporterIdController.transporterId.value}"));
 

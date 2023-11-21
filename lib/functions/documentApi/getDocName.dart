@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 getDocName(String bookingId, String docType) async {
   var lrdocs = ["LrPhoto1", "LrPhoto2", "LrPhoto3", "LrPhoto4"];
@@ -22,8 +22,7 @@ getDocName(String bookingId, String docType) async {
   var docNames = [];
   var available = [];
   try {
-    final String documentApiUrl =
-        FlutterConfig.get('documentApiUrl').toString();
+    final String documentApiUrl = dotenv.get('documentApiUrl').toString();
     final response = await http.get(Uri.parse("$documentApiUrl/$bookingId"));
 
     print(response.body);

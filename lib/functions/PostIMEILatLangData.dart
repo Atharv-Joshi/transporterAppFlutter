@@ -1,8 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'dart:convert';
 
-final String gpsApiUrl = FlutterConfig.get('gpsApiUrl');
+final String gpsApiUrl = dotenv.get('gpsApiUrl');
 
 Future<String?> postIMEILatLngData({
   required String? trasnporterID,

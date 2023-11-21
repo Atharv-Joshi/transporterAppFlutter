@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
@@ -26,7 +26,6 @@ import 'package:liveasy/widgets/truckInfoWindow.dart';
 import 'package:logger/logger.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 
 class TrackScreen extends StatefulWidget {
@@ -88,9 +87,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var istDate2;
   List<LatLng> polylineCoordinates = [];
   List<LatLng> polylineCoordinates2 = [];
-  PolylinePoints polylinePoints = PolylinePoints();
-  late PointLatLng start;
-  late PointLatLng end;
+  late LatLng start;
+  late LatLng end;
   String? truckAddress;
   String? truckDate;
   var gpsDataHistory;
@@ -102,9 +100,8 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   var duration = [];
   var stopAddress = [];
   String? Speed;
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   bool popUp = false;
-  List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController =

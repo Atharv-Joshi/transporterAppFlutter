@@ -1,14 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 
 getOngoingDataWithPageNo(int i) async {
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   List<OngoingCardModel> modelList = [];
@@ -33,8 +33,11 @@ getOngoingDataWithPageNo(int i) async {
     bookingModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA';
     bookingModel.unitValue =
         json['unitValue'] != null ? json['unitValue'] : 'PER_TON';
-    bookingModel.deviceId =
-        json['deviceId'] != null ? json['deviceId'] == 'NA' ? 80 : int.parse(json["deviceId"]) : 80;
+    bookingModel.deviceId = json['deviceId'] != null
+        ? json['deviceId'] == 'NA'
+            ? 80
+            : int.parse(json["deviceId"])
+        : 80;
     bookingModel.unloadingPointCity =
         json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
     bookingModel.loadingPointCity =

@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 
 Future<String?> createUserTraccar(String? token, String? mobileNum) async {
-  String traccarUser = FlutterConfig.get("traccarUser");
-  String traccarPass = FlutterConfig.get("traccarPass");
-  String traccarApi = FlutterConfig.get("traccarApi");
+  String traccarUser = dotenv.get("traccarUser");
+  String traccarPass = dotenv.get("traccarPass");
+  String traccarApi = dotenv.get("traccarApi");
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 

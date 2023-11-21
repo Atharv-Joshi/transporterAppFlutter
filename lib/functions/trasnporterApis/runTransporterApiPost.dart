@@ -1,8 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -10,10 +7,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/traccarCalls/createTraccarUserAndNotifications.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:liveasy/main.dart';
-
-import '../../constants/urlGetter.dart';
 
 GetStorage tidstorage = GetStorage('TransporterIDStorage');
 
@@ -36,7 +29,7 @@ Future<String?> runTransporterApiPost(
     Get.put(TransporterIdController(), permanent: true);
     print(transporterIdController.transporterId + "----------------------------");
 
-    final String transporterApiUrl = FlutterConfig.get('transporterApiUrl');
+    final String transporterApiUrl = dotenv.get('transporterApiUrl');
 
     Map data = userLocation != null
         ? {"phoneNo": mobileNum, "transporterLocation": userLocation}

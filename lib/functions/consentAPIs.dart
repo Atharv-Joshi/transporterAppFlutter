@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 // To send the consent to the user to allow sim based tracking this function are used
 Future<Map<String, dynamic>> consentApiCall(
     {String? mobileNumber, String? operator}) async {
-  final String consentApiUrl = FlutterConfig.get('consentApiUrl').toString();
+  final String consentApiUrl = dotenv.get('consentApiUrl').toString();
 
   final Map<String, dynamic> requestBody = {
     'mobileNumber': mobileNumber,

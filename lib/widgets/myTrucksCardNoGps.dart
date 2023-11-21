@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -17,7 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../controller/transporterIdController.dart';
 import '../functions/deviceApiCalls.dart';
-import 'package:flutter_config/flutter_config.dart';
 class myTrucksCardNoGps extends StatefulWidget {
   var truckno;
   DeviceModel device;
@@ -37,9 +37,9 @@ class _myTrucksCardNoGpsState extends State<myTrucksCardNoGps> {
   Get.find<TransporterIdController>();
   bool expired = true;
   Razorpay razorpay = new Razorpay();
-  String key = FlutterConfig.get("paymentkey");
-  String keysecret = FlutterConfig.get("paymentkeysecret");
-  String orderapi = FlutterConfig.get("razorpayorder");
+  String key = dotenv.get("paymentkey");
+  String keysecret = dotenv.get("paymentkeysecret");
+  String orderapi = dotenv.get("razorpayorder");
   int amount = 100;
   @override
   void initState() {

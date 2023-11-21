@@ -1,14 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 postNotification(
     String loadingPointCityPostLoad, String unloadingPointCityPostLoad) async {
   print("post Notification triggered");
-  String oneSignalAppId = FlutterConfig.get("oneSignalAppId").toString();
-  String oneSignalApiKey = FlutterConfig.get("oneSignalApiKey").toString();
+  String oneSignalAppId = dotenv.get("oneSignalAppId").toString();
+  String oneSignalApiKey = dotenv.get("oneSignalApiKey").toString();
   Map data = {
     "included_segments": ["Subscribed Users"],
     "app_id": oneSignalAppId,
@@ -52,8 +52,8 @@ postNotification(
 postBidNotification(
     String loadingPointCityPostLoad, String unloadingPointCityPostLoad, String rate, String unit, String postLoadId) async {
   print("post Bid Notification triggered");
-  String oneSignalAppId = FlutterConfig.get("oneSignalAppId").toString();
-  String oneSignalApiKey = FlutterConfig.get("oneSignalApiKey").toString();
+  String oneSignalAppId = dotenv.get("oneSignalAppId").toString();
+  String oneSignalApiKey = dotenv.get("oneSignalApiKey").toString();
   Map data = {
     "included_segments": [""],
     "include_external_user_ids" : [postLoadId],

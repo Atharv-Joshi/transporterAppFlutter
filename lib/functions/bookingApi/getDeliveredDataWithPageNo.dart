@@ -1,14 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadDeliveredData.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/deliveredCardModel.dart';
 
 getDeliveredDataWithPageNo(int i) async {
-  final String bookingApiUrl = FlutterConfig.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get('bookingApiUrl');
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   List<DeliveredCardModel> modelList = [];

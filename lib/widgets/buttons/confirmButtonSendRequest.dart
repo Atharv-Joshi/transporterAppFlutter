@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -23,7 +24,6 @@ import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/elevatedButtonWidgetThree.dart';
 import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -60,7 +60,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
     try {
       Map datanew = {"status": "ON_GOING"};
       String body = json.encode(datanew);
-      final String loadApiUrl = FlutterConfig.get('loadApiUrl').toString();
+      final String loadApiUrl = dotenv.get('loadApiUrl').toString();
       final response = await http.put(
           Uri.parse("$loadApiUrl/" +
               widget.loadDetailsScreenModel!.loadId.toString()),
