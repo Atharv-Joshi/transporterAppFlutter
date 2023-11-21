@@ -5,24 +5,24 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/nearbySearchFunctions.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/placesNearbyDataModel.dart';
+import 'package:liveasy/screens/nearbyPlacesScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/nearbyPlaceInfoCard.dart';
 import 'package:logger/logger.dart';
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 
@@ -43,7 +43,8 @@ class NearbyPlacesScreenOngoing extends StatefulWidget {
       this.truckId});
 
   @override
-  _NearbyPlacesScreenOngoingState createState() => _NearbyPlacesScreenOngoingState();
+  _NearbyPlacesScreenOngoingState createState() =>
+      _NearbyPlacesScreenOngoingState();
 }
 
 class _NearbyPlacesScreenOngoingState extends State<NearbyPlacesScreenOngoing>
@@ -61,7 +62,7 @@ class _NearbyPlacesScreenOngoingState extends State<NearbyPlacesScreenOngoing>
   Completer<GoogleMapController> _controller = Completer();
   late List newGPSData = widget.gpsData;
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   late Uint8List markerIcon;
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -313,19 +314,18 @@ class _NearbyPlacesScreenOngoingState extends State<NearbyPlacesScreenOngoing>
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(startLocationForDistance.latitude,
+      LatLng(startLocationForDistance.latitude,
           startLocationForDistance.longitude),
-      PointLatLng(
-          endLocationForDistance.latitude, endLocationForDistance.longitude),
+      LatLng(endLocationForDistance.latitude, endLocationForDistance.longitude),
       travelMode: TravelMode.driving,
     );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+    if (result.polylinePoints.isNotEmpty) {
+      result.polylinePoints.forEach((LatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
-      print(result.errorMessage);
+      print(result);
     }
 
     //polulineCoordinates is the List of longitute and latidtude.
@@ -366,19 +366,19 @@ class _NearbyPlacesScreenOngoingState extends State<NearbyPlacesScreenOngoing>
         _placesNearbyData.results![index].geometry!.location!.lng!.toDouble());
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(startLocationForDistance.latitude,
+      LatLng(startLocationForDistance.latitude,
           startLocationForDistance.longitude),
-      PointLatLng(endLocationForDistanceForTarget.latitude,
+      LatLng(endLocationForDistanceForTarget.latitude,
           endLocationForDistanceForTarget.longitude),
       travelMode: TravelMode.driving,
     );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+    if (result.polylinePoints.isNotEmpty) {
+      result.polylinePoints.forEach((LatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
-      print(result.errorMessage);
+      print(result);
     }
 
     PolylineId id = PolylineId("polytarget");
@@ -621,140 +621,146 @@ class _NearbyPlacesScreenOngoingState extends State<NearbyPlacesScreenOngoing>
               spreadRadius: 2.0,
             ),
           ]),
-      child: ListView(physics: const NeverScrollableScrollPhysics(), children: <
-          Widget>[
-        Column(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Divider(
-                color: const Color(0xFFCBCBCB),
-                // height: size_3,
-                thickness: 3,
-                indent: 150,
-                endIndent: 150,
-              ),
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(space_1, space_1, space_1, space_1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: 8,
-                    ),
-                    //Row for nearby location name and petrol prices
-                    Row(
+      child: ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Divider(
+                    color: const Color(0xFFCBCBCB),
+                    // height: size_3,
+                    thickness: 3,
+                    indent: 150,
+                    endIndent: 150,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    margin:
+                        EdgeInsets.fromLTRB(space_1, space_1, space_1, space_1),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        //Row for nearby location name and petrol prices
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Image.asset(
-                              'assets/icons/' +
-                                  widget.placeOnTheMapTag +
-                                  '.png',
-                              height: size_14,
-                              width: size_14,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              widget.placeOnTheMapName,
-                              style: TextStyle(
-                                  fontSize: size_10,
-                                  fontWeight: boldWeight,
-                                  color: darkBlueColor),
-                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/' +
+                                      widget.placeOnTheMapTag +
+                                      '.png',
+                                  height: size_14,
+                                  width: size_14,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  widget.placeOnTheMapName,
+                                  style: TextStyle(
+                                      fontSize: size_10,
+                                      fontWeight: boldWeight,
+                                      color: darkBlueColor),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    //Listview of Petrol Pumps nearby with their location
-                    Container(
-                      height: height / 4 + 24,
-                      margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics()),
-                          scrollDirection: Axis.vertical,
-                          itemCount: (_placesNearbyData.results != null)
-                              ? _placesNearbyData.results?.length
-                              : 0,
-                          itemBuilder: (context, index) {
-                            Results here = _placesNearbyData.results![index];
-                            print("DISTANCE ABCD " + here.distance.toString());
-                            return Card(
-                              child: InkWell(
-                                onTap: () {
-                                  this._googleMapController.animateCamera(
-                                          CameraUpdate.newCameraPosition(
-                                        CameraPosition(
-                                          bearing: 0,
-                                          target: LatLng(
-                                              here.geometry!.location!.lat!,
-                                              here.geometry!.location!.lng!),
-                                          zoom: this.zoom,
-                                        ),
-                                      ));
-                                },
-                                child: ListTile(
-                                  title: Text(
-                                    here.name.toString(),
-                                    style: TextStyle(
-                                        fontSize: size_7,
-                                        fontWeight: mediumBoldWeight,
-                                        color: darkBlueColor),
-                                  ),
-                                  subtitle: Text(
-                                    here.vicinity.toString(),
-                                    style: TextStyle(
-                                      fontSize: size_6,
-                                      fontWeight: mediumBoldWeight,
-                                    ),
-                                  ),
-                                  trailing: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          openMap(here.geometry!.location!.lat
-                                                  .toString() +
-                                              ',' +
-                                              here.geometry!.location!.lng
-                                                  .toString());
-                                        },
-                                        child: Image.asset(
-                                          'assets/icons/navigateIcon.png',
-                                          height: size_14,
-                                          width: size_14,
-                                        ),
-                                      ),
-                                      Text(
-                                        here.distance!.toStringAsFixed(1) +
-                                            " km",
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        //Listview of Petrol Pumps nearby with their location
+                        Container(
+                          height: height / 4 + 24,
+                          margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
+                              scrollDirection: Axis.vertical,
+                              itemCount: (_placesNearbyData.results != null)
+                                  ? _placesNearbyData.results?.length
+                                  : 0,
+                              itemBuilder: (context, index) {
+                                Results here =
+                                    _placesNearbyData.results![index];
+                                print("DISTANCE ABCD " +
+                                    here.distance.toString());
+                                return Card(
+                                  child: InkWell(
+                                    onTap: () {
+                                      this._googleMapController.animateCamera(
+                                              CameraUpdate.newCameraPosition(
+                                            CameraPosition(
+                                              bearing: 0,
+                                              target: LatLng(
+                                                  here.geometry!.location!.lat!,
+                                                  here.geometry!.location!
+                                                      .lng!),
+                                              zoom: this.zoom,
+                                            ),
+                                          ));
+                                    },
+                                    child: ListTile(
+                                      title: Text(
+                                        here.name.toString(),
                                         style: TextStyle(
-                                            fontSize: size_5,
+                                            fontSize: size_7,
                                             fontWeight: mediumBoldWeight,
                                             color: darkBlueColor),
                                       ),
-                                    ],
+                                      subtitle: Text(
+                                        here.vicinity.toString(),
+                                        style: TextStyle(
+                                          fontSize: size_6,
+                                          fontWeight: mediumBoldWeight,
+                                        ),
+                                      ),
+                                      trailing: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              openMap(here
+                                                      .geometry!.location!.lat
+                                                      .toString() +
+                                                  ',' +
+                                                  here.geometry!.location!.lng
+                                                      .toString());
+                                            },
+                                            child: Image.asset(
+                                              'assets/icons/navigateIcon.png',
+                                              height: size_14,
+                                              width: size_14,
+                                            ),
+                                          ),
+                                          Text(
+                                            here.distance!.toStringAsFixed(1) +
+                                                " km",
+                                            style: TextStyle(
+                                                fontSize: size_5,
+                                                fontWeight: mediumBoldWeight,
+                                                color: darkBlueColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
-                          }),
+                                );
+                              }),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ]),
-      ]),
+                  ),
+                ]),
+          ]),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
@@ -60,7 +60,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   late BitmapDescriptor pinLocationIcon;
   late BitmapDescriptor pinLocationIconTruck;
   late CameraPosition camPosition =
-  CameraPosition(target: lastlatLngMarker, zoom: 8);
+      CameraPosition(target: lastlatLngMarker, zoom: 8);
   var logger = Logger();
   late Marker markernew;
   List<Marker> customMarkers = [];
@@ -74,9 +74,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
 
   List<LatLng> polylineCoordinates1 = [];
   List<LatLng> polylineCoordinates2 = [];
-  PolylinePoints polylinePoints1 = PolylinePoints();
-  late PointLatLng start;
-  late PointLatLng end;
+  late LatLng start;
+  late LatLng end;
   String? truckAddress;
   double averagelat = 0;
   double averagelon = 0;
@@ -99,13 +98,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   var duration = [];
   var stopAddress = [];
   String? Speed;
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   bool popUp = false;
-  List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController =
-  CustomInfoWindowController();
+      CustomInfoWindowController();
   bool isAnimation = false;
   double mapHeight = 600;
   DateTimeRange selectedDate = DateTimeRange(
@@ -122,7 +120,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
   var col1 = Color(0xff878787);
   var col2 = Color(0xffFF5C00);
   DateTime yesterday =
-  DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
+      DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
   late String from;
   late String to;
   DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
@@ -497,20 +495,20 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     Get.back();
     EasyLoading.dismiss();
     Get.to(() => TruckHistoryScreen(
-      truckNo: widget.truckNo,
-      //   gpsTruckRoute: newRouteHistory,
-      dateRange: selectedDate.toString(),
-      deviceId: widget.deviceId,
-      istDate1: istDate1,
-      istDate2: istDate2,
-      //   gpsDataHistory: gpsHistory,
-      selectedLocation: _selectedLocation,
-      totalDistance: totalDistance,
-      gpsDataHistory: gpsDataHistory,
-      gpsStoppageHistory: gpsStoppageHistory,
-      //    latitude: widget.latitude,
-      //    longitude: widget.longitude
-    ));
+          truckNo: widget.truckNo,
+          //   gpsTruckRoute: newRouteHistory,
+          dateRange: selectedDate.toString(),
+          deviceId: widget.deviceId,
+          istDate1: istDate1,
+          istDate2: istDate2,
+          //   gpsDataHistory: gpsHistory,
+          selectedLocation: _selectedLocation,
+          totalDistance: totalDistance,
+          gpsDataHistory: gpsDataHistory,
+          gpsStoppageHistory: gpsStoppageHistory,
+          //    latitude: widget.latitude,
+          //    longitude: widget.longitude
+        ));
   }
 
   distancecalculation(String from, String to) async {
@@ -567,7 +565,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                     },
                     gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                       new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
+                        () => new EagerGestureRecognizer(),
                       ),
                     ].toSet(),
                   ),
@@ -600,7 +598,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                                   boxShadow: [
                                     BoxShadow(
                                       color:
-                                      const Color.fromRGBO(0, 0, 0, 0.25),
+                                          const Color.fromRGBO(0, 0, 0, 0.25),
                                       offset: const Offset(
                                         0,
                                         4,
@@ -647,7 +645,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                             )
                           ],
                         )
-                      /*        FloatingActionButton(
+                        /*        FloatingActionButton(
                             heroTag: "btn1",
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black,
@@ -662,7 +660,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                             },
                           ),
                    */
-                    ),
+                        ),
                   ),
                   Positioned(
                     right: 10,
@@ -682,12 +680,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                           this
                               ._googleMapController
                               .animateCamera(CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              bearing: 0,
-                              target: lastlatLngMarker,
-                              zoom: this.zoom,
-                            ),
-                          ));
+                                CameraPosition(
+                                  bearing: 0,
+                                  target: lastlatLngMarker,
+                                  zoom: this.zoom,
+                                ),
+                              ));
                         },
                       ),
                     ),
@@ -710,12 +708,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                           this
                               ._googleMapController
                               .animateCamera(CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              bearing: 0,
-                              target: lastlatLngMarker,
-                              zoom: this.zoom,
-                            ),
-                          ));
+                                CameraPosition(
+                                  bearing: 0,
+                                  target: lastlatLngMarker,
+                                  zoom: this.zoom,
+                                ),
+                              ));
                         },
                       ),
                     ),
@@ -731,13 +729,13 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                         foregroundColor: Colors.black,
                         child: Container(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                'assets/icons/layers.png',
-                                width: 20,
-                                height: 20,
-                              ),
-                            )),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/icons/layers.png',
+                            width: 20,
+                            height: 20,
+                          ),
+                        )),
                         onPressed: () {
                           if (zoombutton) {
                             setState(() {
@@ -747,12 +745,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                             this
                                 ._googleMapController
                                 .animateCamera(CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                bearing: 0,
-                                target: lastlatLngMarker,
-                                zoom: this.zoom,
-                              ),
-                            ));
+                                  CameraPosition(
+                                    bearing: 0,
+                                    target: lastlatLngMarker,
+                                    zoom: this.zoom,
+                                  ),
+                                ));
                           } else {
                             setState(() {
                               this.zoom = 12;
@@ -761,12 +759,12 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                             this
                                 ._googleMapController
                                 .animateCamera(CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                bearing: 0,
-                                target: LatLng(averagelat, averagelon),
-                                zoom: this.zoom,
-                              ),
-                            ));
+                                  CameraPosition(
+                                    bearing: 0,
+                                    target: LatLng(averagelat, averagelon),
+                                    zoom: this.zoom,
+                                  ),
+                                ));
                           }
                         },
                       ),
@@ -840,7 +838,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
                         items: _locations.map((location) {
                           return DropdownMenuItem(
                             child: Container(
-                              //  width: 74,
+                                //  width: 74,
                                 child: new Text(location)),
                             value: location,
                           );

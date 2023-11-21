@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getDataHistoryByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarStoppagesByDeviceId.dart';
@@ -41,11 +41,12 @@ class HistoryScreenMapWidgetOngoing extends StatefulWidget {
   });
 
   @override
-  _HistoryScreenMapWidgetOngoingState createState() => _HistoryScreenMapWidgetOngoingState();
+  _HistoryScreenMapWidgetOngoingState createState() =>
+      _HistoryScreenMapWidgetOngoingState();
 }
 
-class _HistoryScreenMapWidgetOngoingState extends State<HistoryScreenMapWidgetOngoing>
-    with WidgetsBindingObserver {
+class _HistoryScreenMapWidgetOngoingState
+    extends State<HistoryScreenMapWidgetOngoing> with WidgetsBindingObserver {
   final Set<Polyline> _polyline1 = new Set<Polyline>();
   Map<PolylineId, Polyline> polylines1 = new Map<PolylineId, Polyline>();
   late GoogleMapController _googleMapController;
@@ -67,9 +68,8 @@ class _HistoryScreenMapWidgetOngoingState extends State<HistoryScreenMapWidgetOn
 
   List<LatLng> polylineCoordinates1 = [];
   List<LatLng> polylineCoordinates2 = [];
-  PolylinePoints polylinePoints1 = PolylinePoints();
-  late PointLatLng start;
-  late PointLatLng end;
+  late LatLng start;
+  late LatLng end;
   String? truckAddress;
   double averagelat = 0;
   double averagelon = 0;
@@ -92,9 +92,8 @@ class _HistoryScreenMapWidgetOngoingState extends State<HistoryScreenMapWidgetOn
   var duration = [];
   var stopAddress = [];
   String? Speed;
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   bool popUp = false;
-  List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController =
@@ -363,10 +362,10 @@ class _HistoryScreenMapWidgetOngoingState extends State<HistoryScreenMapWidgetOn
   }
 
   distancecalculation(String from, String to) async {
-    var gpsRoute1 =
-        await getTraccarSummaryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
+    var gpsRoute1 = await getTraccarSummaryByDeviceId(
+        deviceId: widget.deviceId, from: from, to: to);
     setState(() {
-      totalDistance = (gpsRoute1[0].distance !/ 1000).toStringAsFixed(2);
+      totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
     });
   }
 

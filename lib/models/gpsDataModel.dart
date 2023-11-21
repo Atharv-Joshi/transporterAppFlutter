@@ -1,5 +1,3 @@
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-
 class GpsDataModel {
   double? speed;
   double? latitude;

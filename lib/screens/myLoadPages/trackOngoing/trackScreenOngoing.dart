@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarStoppagesByDeviceId.dart';
@@ -88,9 +88,8 @@ class _TrackScreenOngoingState extends State<TrackScreenOngoing>
   var istDate2;
   List<LatLng> polylineCoordinates = [];
   List<LatLng> polylineCoordinates2 = [];
-  PolylinePoints polylinePoints = PolylinePoints();
-  late PointLatLng start;
-  late PointLatLng end;
+  late LatLng start;
+  late LatLng end;
   String? truckAddress;
   String? truckDate;
   var gpsDataHistory;
@@ -102,9 +101,8 @@ class _TrackScreenOngoingState extends State<TrackScreenOngoing>
   var duration = [];
   var stopAddress = [];
   String? Speed;
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   bool popUp = false;
-  List<PolylineWayPoint> waypoints = [];
   late Uint8List markerIcon;
   var markerslist;
   CustomInfoWindowController _customInfoWindowController =
@@ -359,8 +357,10 @@ class _TrackScreenOngoingState extends State<TrackScreenOngoing>
     );
     logger.i("It is in init function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getTraccarHistoryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
-    var s = getTraccarStoppagesByDeviceId(deviceId: widget.deviceId, from: from, to: to);
+    var f = getTraccarHistoryByDeviceId(
+        deviceId: widget.deviceId, from: from, to: to);
+    var s = getTraccarStoppagesByDeviceId(
+        deviceId: widget.deviceId, from: from, to: to);
     //  var t = getRouteStatusList(widget.deviceId, from, to);
     //   var gpsRoute = await t;
     var newGpsDataHistory = await f;
@@ -401,8 +401,10 @@ class _TrackScreenOngoingState extends State<TrackScreenOngoing>
   void initfunctionAfterChange() async {
     logger.i("It is in init function after change function");
     // var f1 = mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    var f = getTraccarHistoryByDeviceId(deviceId: widget.deviceId, from: from, to: to);
-    var s = getTraccarStoppagesByDeviceId(deviceId: widget.deviceId, from: from, to: to);
+    var f = getTraccarHistoryByDeviceId(
+        deviceId: widget.deviceId, from: from, to: to);
+    var s = getTraccarStoppagesByDeviceId(
+        deviceId: widget.deviceId, from: from, to: to);
     // var t = getRouteStatusList(newGPSData.last.deviceId, from, to);
     //  distancecalculation(from,to);
     // var gpsData = await f1;
