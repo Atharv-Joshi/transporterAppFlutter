@@ -52,7 +52,6 @@ class _DisplayHistoryState extends State<DisplayHistory> {
 //   PolylinePoints polylinePoints = PolylinePoints();
 //   late LatLng start;
 //   late LatLng end;
-//   String googleAPiKey = "AIzaSyDHrt1nw0RAwa8iLE12Q2lenOglvXhHmKg";
 //   @override
 //   void initState() {
 //     super.initState();
