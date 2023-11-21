@@ -98,7 +98,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
             data: ThemeData.light().copyWith(
               primaryColor: darkBlueColor,
               scaffoldBackgroundColor: white,
-              accentColor: darkBlueColor,
               unselectedWidgetColor: grey,
               colorScheme: ColorScheme.fromSwatch().copyWith(
                   primary: darkBlueColor,
