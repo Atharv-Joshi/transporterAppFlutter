@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 updateDriverIdInTruckApi(selectedTruckId, selectedDriverId) async {
-  final String truckApiUrl = FlutterConfig.get("truckApiUrl").toString();
+  final String truckApiUrl = dotenv.get("truckApiUrl").toString();
   Map data = {"driverId": selectedDriverId};
   String body = json.encode(data);
   final response = await http.put(Uri.parse("$truckApiUrl/$selectedTruckId"),

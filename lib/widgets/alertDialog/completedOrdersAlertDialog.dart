@@ -25,7 +25,7 @@ class _CompletedOrdersAlertDialogState
   @override
   void initState() {
     Get.put(CompletedDateController());
-    Jiffy initialDay = Jiffy(DateTime.now());
+    Jiffy initialDay = Jiffy.parseFromDateTime(DateTime.now());
     String idate = initialDay.date < 10
         ? "0${initialDay.date.toString()}"
         : initialDay.date.toString();

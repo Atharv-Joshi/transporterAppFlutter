@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -20,7 +21,6 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 class MapAllTrucks extends StatefulWidget {
   List gpsDataList;
@@ -66,7 +66,7 @@ class _MapAllTrucksState extends State<MapAllTrucks>
   late List oldGPSData;
   MapUtil mapUtil = MapUtil();
   List<LatLng> latlng = [];
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   bool popUp = false;
   late Uint8List markerIcon;
   var markerslist;

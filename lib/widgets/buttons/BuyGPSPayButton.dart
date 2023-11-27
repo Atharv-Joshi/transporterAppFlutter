@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -10,7 +11,6 @@ import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/buyGPSboolController.dart';
 import 'package:liveasy/functions/buyGPSApiCalls.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/screens/buyGpsScreen.dart';
 import 'package:liveasy/screens/home.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
@@ -19,7 +19,7 @@ import 'package:liveasy/widgets/alertDialog/sameTruckAlertDialogBox.dart';
 class BuyGPSPayButton extends StatelessWidget {
   bool isDisable = false;
   BuyGPSHudController updateButtonController = Get.put(BuyGPSHudController());
-  final String buyGPSApiUrl = FlutterConfig.get('buyGPSApiUrl');
+  final String buyGPSApiUrl = dotenv.get('buyGPSApiUrl');
   BuyGPSApiCalls buyGPSApiCalls = BuyGPSApiCalls();
   String? groupValue;
   String? gpsId;

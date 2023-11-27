@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 
@@ -26,7 +26,7 @@ Future<List<LoadDetailsScreenModel>> runFindLoadApiGet(
   var jsonData;
   List<LoadDetailsScreenModel> modelList = [];
 
-  final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+  final String loadApiUrl = dotenv.get("loadApiUrl").toString();
   http.Response response =
       await http.get(Uri.parse("$loadApiUrl$additionalQuery"));
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 getDocumentApiCall(String bookingId, String docType) async {
   // TransporterIdController tIdController = Get.find<TransporterIdController>();
@@ -20,8 +20,7 @@ getDocumentApiCall(String bookingId, String docType) async {
     // };
     // print(datanew2);
     // String body = json.encode(datanew2);
-    final String documentApiUrl =
-        FlutterConfig.get('documentApiUrl').toString();
+    final String documentApiUrl = dotenv.get('documentApiUrl').toString();
     final response = await http.get(Uri.parse("$documentApiUrl/$bookingId"));
     // headers: <String, String>{
     //   'Content-Type': 'application/json; charset=UTF-8',

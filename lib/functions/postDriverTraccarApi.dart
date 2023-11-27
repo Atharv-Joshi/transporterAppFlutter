@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +20,7 @@ postDriverTraccarApi(DriverName, DriverPhoneNo, TransporterId) async {
       "uniqueId": DriverPhoneNo
     };
     String body = json.encode(data);
-    final String DriverTraccarApiUrl = FlutterConfig.get('traccarApi').toString();
+    final String DriverTraccarApiUrl = dotenv.get('traccarApi').toString();
     final response =
     await http.post(Uri.parse("$DriverTraccarApiUrl" + "/drivers"),
         headers: <String, String>{

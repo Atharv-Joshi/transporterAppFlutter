@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/models/gpsDataModel.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 getTraccarTripsByDeviceId({
@@ -9,11 +9,11 @@ getTraccarTripsByDeviceId({
   String? from,
   String? to,
 }) async {
-  String traccarUser = FlutterConfig.get("traccarUser");
-  String traccarPass = FlutterConfig.get("traccarPass");
+  String traccarUser = dotenv.get("traccarUser");
+  String traccarPass = dotenv.get("traccarPass");
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
-  String traccarApi = FlutterConfig.get("traccarApi");
+  String traccarApi = dotenv.get("traccarApi");
   try {
     http.Response response = await http.get(
         Uri.parse(

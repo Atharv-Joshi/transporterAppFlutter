@@ -152,7 +152,6 @@ class _TruckHistoryScreenOngoingState extends State<TruckHistoryScreenOngoing> {
             data: ThemeData.light().copyWith(
               primaryColor: darkBlueColor,
               scaffoldBackgroundColor: white,
-              accentColor: darkBlueColor,
               unselectedWidgetColor: grey,
               colorScheme: ColorScheme.fromSwatch().copyWith(
                   //Selected dates background color

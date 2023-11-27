@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
@@ -63,7 +64,7 @@ Future<String?> runTransporterApiPostIsolated(
         Get.put(TransporterIdController(), permanent: true);
 
     final String transporterApiUrl =
-        FlutterConfig.get("transporterApiUrl").toString();
+        dotenv.get("transporterApiUrl").toString();
     Map data = userLocation != null
         ? {"phoneNo": mobileNum, "transporterLocation": userLocation}
         : {"phoneNo": mobileNum};

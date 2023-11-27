@@ -5,12 +5,12 @@ import 'dart:typed_data';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liveasy/functions/nearbySearchFunctions.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
@@ -22,8 +22,8 @@ import 'package:liveasy/widgets/buttons/helpButton.dart';
 import 'package:liveasy/widgets/nearbyPlaceInfoCard.dart';
 import 'package:logger/logger.dart';
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:flutter_config/flutter_config.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -65,7 +65,7 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
   late List newGPSData = widget.gpsData;
   MapUtil mapUtil = MapUtil();
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = FlutterConfig.get("mapKey");
+  String googleAPiKey = dotenv.get("mapKey");
   late Uint8List markerIcon;
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -317,19 +317,18 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(startLocationForDistance.latitude,
+      LatLng(startLocationForDistance.latitude,
           startLocationForDistance.longitude),
-      PointLatLng(
-          endLocationForDistance.latitude, endLocationForDistance.longitude),
+      LatLng(endLocationForDistance.latitude, endLocationForDistance.longitude),
       travelMode: TravelMode.driving,
     );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+    if (result.polylinePoints.isNotEmpty) {
+      result.polylinePoints.forEach((LatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
-      print(result.errorMessage);
+      print(result);
     }
 
     //polulineCoordinates is the List of longitute and latidtude.
@@ -370,19 +369,19 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
         _placesNearbyData.results![index].geometry!.location!.lng!.toDouble());
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleAPiKey,
-      PointLatLng(startLocationForDistance.latitude,
+      LatLng(startLocationForDistance.latitude,
           startLocationForDistance.longitude),
-      PointLatLng(endLocationForDistanceForTarget.latitude,
+      LatLng(endLocationForDistanceForTarget.latitude,
           endLocationForDistanceForTarget.longitude),
       travelMode: TravelMode.driving,
     );
 
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+    if (result.polylinePoints.isNotEmpty) {
+      result.polylinePoints.forEach((LatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
-      print(result.errorMessage);
+      print(result);
     }
 
     PolylineId id = PolylineId("polytarget");
@@ -625,142 +624,262 @@ class _NearbyPlacesScreenState extends State<NearbyPlacesScreen>
                 spreadRadius: 2.0,
               ),
             ]),
-        child:
-            ListView(physics: const NeverScrollableScrollPhysics(), children: <
-                Widget>[
-          Column(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Divider(
-                  color: const Color(0xFFCBCBCB),
-                  // height: size_3,
-                  thickness: 3,
-                  indent: 150,
-                  endIndent: 150,
-                ),
-                Container(
-                    alignment: Alignment.center,
-                    margin:
-                        EdgeInsets.fromLTRB(space_1, space_1, space_1, space_1),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(
-                          width: 8,
-                        ),
-                        //Row for nearby location name and petrol prices
-                        Row(
+        child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              Column(
+                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(
+                      color: const Color(0xFFCBCBCB),
+                      // height: size_3,
+                      thickness: 3,
+                      indent: 150,
+                      endIndent: 150,
+                    ),
+                    Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(
+                            space_1, space_1, space_1, space_1),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            SizedBox(
+                              width: 8,
+                            ),
+                            //Row for nearby location name and petrol prices
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Image.asset(
-                                  'assets/icons/' +
-                                      widget.placeOnTheMapTag +
-                                      '.png',
-                                  height: size_14,
-                                  width: size_14,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  widget.placeOnTheMapName,
-                                  style: TextStyle(
-                                      fontSize: size_10,
-                                      fontWeight: boldWeight,
-                                      color: darkBlueColor),
-                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/' +
+                                          widget.placeOnTheMapTag +
+                                          '.png',
+                                      height: size_14,
+                                      width: size_14,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      widget.placeOnTheMapName,
+                                      style: TextStyle(
+                                          fontSize: size_10,
+                                          fontWeight: boldWeight,
+                                          color: darkBlueColor),
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        //Listview of Petrol Pumps nearby with their location
-                        Container(
-                            height: height / 4 + 24,
-                            margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                physics: BouncingScrollPhysics(
-                                    parent: AlwaysScrollableScrollPhysics()),
-                                scrollDirection: Axis.vertical,
-                                itemCount: (_placesNearbyData.results != null)
-                                    ? _placesNearbyData.results?.length
-                                    : 0,
-                                itemBuilder: (context, index) {
-                                  Results here =
-                                      _placesNearbyData.results![index];
-                                  print("DISTANCE ABCD " +
-                                      here.distance.toString());
-                                  return Card(
-                                      child: InkWell(
-                                    onTap: () {
-                                      this._googleMapController.animateCamera(
-                                              CameraUpdate.newCameraPosition(
-                                            CameraPosition(
-                                              bearing: 0,
-                                              target: LatLng(
-                                                  here.geometry!.location!.lat!,
-                                                  here.geometry!.location!
-                                                      .lng!),
-                                              zoom: this.zoom,
-                                            ),
-                                          ));
-                                    },
-                                    child: ListTile(
-                                        title: Text(
-                                          here.name.toString(),
-                                          style: TextStyle(
-                                              fontSize: size_7,
-                                              fontWeight: mediumBoldWeight,
-                                              color: darkBlueColor),
-                                        ),
-                                        subtitle: Text(
-                                          here.vicinity.toString(),
-                                          style: TextStyle(
-                                            fontSize: size_6,
-                                            fontWeight: mediumBoldWeight,
-                                          ),
-                                        ),
-                                        trailing: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                openMap(here
-                                                        .geometry!.location!.lat
-                                                        .toString() +
-                                                    ',' +
-                                                    here.geometry!.location!.lng
-                                                        .toString());
-                                              },
-                                              child: Image.asset(
-                                                'assets/icons/navigateIcon.png',
-                                                height: size_14,
-                                                width: size_14,
-                                              ),
-                                            ),
-                                            Text(
-                                              here.distance!
-                                                      .toStringAsFixed(1) +
-                                                  " km",
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            //Listview of Petrol Pumps nearby with their location
+                            Container(
+                                height: height / 4 + 24,
+                                margin: EdgeInsets.fromLTRB(0, space_1, 0, 0),
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(
+                                        parent:
+                                            AlwaysScrollableScrollPhysics()),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount:
+                                        (_placesNearbyData.results != null)
+                                            ? _placesNearbyData.results?.length
+                                            : 0,
+                                    itemBuilder: (context, index) {
+                                      Results here =
+                                          _placesNearbyData.results![index];
+                                      print("DISTANCE ABCD " +
+                                          here.distance.toString());
+                                      return Card(
+                                          child: InkWell(
+                                        onTap: () {
+                                          this
+                                              ._googleMapController
+                                              .animateCamera(CameraUpdate
+                                                  .newCameraPosition(
+                                                CameraPosition(
+                                                  bearing: 0,
+                                                  target: LatLng(
+                                                      here.geometry!.location!
+                                                          .lat!,
+                                                      here.geometry!.location!
+                                                          .lng!),
+                                                  zoom: this.zoom,
+                                                ),
+                                              ));
+                                        },
+                                        child: ListTile(
+                                            title: Text(
+                                              here.name.toString(),
                                               style: TextStyle(
-                                                  fontSize: size_5,
+                                                  fontSize: size_7,
                                                   fontWeight: mediumBoldWeight,
                                                   color: darkBlueColor),
                                             ),
-                                          ],
-                                        )),
-                                  ));
-                                })),
-                      ],
-                    )),
-              ]),
-        ]));
+                                            subtitle: Text(
+                                              here.vicinity.toString(),
+                                              style: TextStyle(
+                                                fontSize: size_6,
+                                                fontWeight: mediumBoldWeight,
+                                              ),
+                                            ),
+                                            trailing: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    openMap(here.geometry!
+                                                            .location!.lat
+                                                            .toString() +
+                                                        ',' +
+                                                        here.geometry!.location!
+                                                            .lng
+                                                            .toString());
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/icons/navigateIcon.png',
+                                                    height: size_14,
+                                                    width: size_14,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  here.distance!
+                                                          .toStringAsFixed(1) +
+                                                      " km",
+                                                  style: TextStyle(
+                                                      fontSize: size_5,
+                                                      fontWeight:
+                                                          mediumBoldWeight,
+                                                      color: darkBlueColor),
+                                                ),
+                                              ],
+                                            )),
+                                      ));
+                                    })),
+                          ],
+                        )),
+                  ]),
+            ]));
   }
+}
+
+class PolylinePoints {
+  List<LatLng> _decodePolylinePoints(String encodedPolyline) {
+    List<LatLng> polylinePoints = [];
+    int index = 0;
+    int len = encodedPolyline.length;
+    int lat = 0;
+    int lng = 0;
+
+    while (index < len) {
+      int shift = 0;
+      int result = 0;
+      int byte;
+
+      do {
+        byte = encodedPolyline.codeUnitAt(index++) - 63;
+        result |= (byte & 0x1F) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      int deltaLat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lat += deltaLat;
+
+      shift = 0;
+      result = 0;
+
+      do {
+        byte = encodedPolyline.codeUnitAt(index++) - 63;
+        result |= (byte & 0x1F) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      int deltaLng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+      lng += deltaLng;
+
+      double latitude = lat / 1e5;
+      double longitude = lng / 1e5;
+
+      LatLng point = LatLng(latitude, longitude);
+      polylinePoints.add(point);
+    }
+
+    return polylinePoints;
+  }
+
+  Future<PolylineResult> getRouteBetweenCoordinates(
+    String apiKey,
+    LatLng origin,
+    LatLng destination, {
+    TravelMode travelMode = TravelMode.driving,
+  }) async {
+    String url =
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&mode=${_getTravelModeString(travelMode)}&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final decodedResponse = jsonDecode(response.body);
+      List<LatLng> polylinePoints = _decodePolylinePoints(
+          decodedResponse['routes'][0]['overview_polyline']['points']);
+      Duration duration = _getDuration(
+          decodedResponse['routes'][0]['legs'][0]['duration']['value']);
+      String distance =
+          decodedResponse['routes'][0]['legs'][0]['distance']['text'];
+
+      return PolylineResult(
+        polylinePoints: polylinePoints,
+        duration: duration,
+        distance: distance,
+      );
+    } else {
+      throw Exception('Failed to fetch route');
+    }
+  }
+
+  Duration _getDuration(int value) {
+    return Duration(seconds: value);
+  }
+
+  String _getTravelModeString(TravelMode travelMode) {
+    switch (travelMode) {
+      case TravelMode.driving:
+        return 'driving';
+      case TravelMode.walking:
+        return 'walking';
+      case TravelMode.bicycling:
+        return 'bicycling';
+      case TravelMode.transit:
+        return 'transit';
+      default:
+        return 'driving';
+    }
+  }
+}
+
+class PolylineResult {
+  final List<LatLng> polylinePoints;
+  final Duration duration;
+  final String distance;
+
+  PolylineResult({
+    required this.polylinePoints,
+    required this.duration,
+    required this.distance,
+  });
+}
+
+enum TravelMode {
+  driving,
+  walking,
+  bicycling,
+  transit,
 }

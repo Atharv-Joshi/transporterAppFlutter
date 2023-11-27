@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/models/loadApiModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<List<LoadApiModel>> runSuggestedLoadApi() async {
-  String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+  String loadApiUrl = dotenv.get("loadApiUrl").toString();
   var jsonData;
   Uri url = Uri.parse("$loadApiUrl");
   http.Response response = await http.get(url);

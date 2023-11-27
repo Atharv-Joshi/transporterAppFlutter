@@ -11,7 +11,6 @@ import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/screens/TransporterOrders/documentUploadScreen.dart';
 import 'package:liveasy/widgets/buttons/trackButton.dart';
-import 'package:liveasy/screens/myLoadPages/onGoingLoadDetails.dart';
 import 'package:liveasy/widgets/LoadEndPointTemplate.dart';
 import 'package:liveasy/widgets/buttons/callButton.dart';
 import 'package:liveasy/widgets/newRowTemplate.dart';
@@ -78,6 +77,7 @@ class _OngoingCardState extends State<OngoingCard> {
         //       trackIndicator: false,
         //     ));
         Get.to(documentUploadScreen(
+          loadAllDataModel: widget.loadAllDataModel,
           bookingId: widget.loadAllDataModel.bookingId.toString(),
           truckNo: widget.loadAllDataModel.truckNo,
           loadingPoint: widget.loadAllDataModel.loadingPointCity,
@@ -87,6 +87,7 @@ class _OngoingCardState extends State<OngoingCard> {
           driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
           driverName: widget.loadAllDataModel.driverName,
           bookingDate: widget.loadAllDataModel.bookingDate,
+          refreshParent: (bool x,) {},
           // trackApproved: true,
           gpsDataList: gpsDataList,
           // widget.gpsDataList,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:connectivity/connectivity.dart';
 import 'firebase_options.dart';
 import 'language/localization_service.dart';
 
@@ -35,17 +35,11 @@ void main() async {
 
   firebase = kIsWeb
       ? await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  )
+          options: DefaultFirebaseOptions.currentPlatform,
+        )
       : Firebase.initializeApp();
 
-  if( kIsWeb ) {
-    await dotenv.load(fileName: ".env"); // For loading env files for WEB
-  }
-  else {
-    await FlutterConfig.loadEnvVariables(); // For loading env files for ANDROID & IOS
-  }
-
+  await dotenv.load();
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -83,30 +77,30 @@ class _MyAppState extends State<MyApp> {
     connectivity = new Connectivity();
     subscription =
         connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-          _connectionStatus = result.toString();
-          print(_connectionStatus);
-          if (result == ConnectivityResult.mobile ||
-              result == ConnectivityResult.wifi) {
-            if (isDisconnected) {
-              isDisconnected = false;
-              connectivityChecker();
-              Get.back();
-            }
-          } else {
-            if (!isDisconnected) {
-              isDisconnected = true;
-              Get.defaultDialog(
-                  barrierDismissible: false,
-                  content: NoInternetConnection.noInternetDialogue(),
-                  onWillPop: () async => false,
-                  title: "\nNo Internet",
-                  titleStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ));
-            } else
-              connectivityChecker();
-          }
-        });
+      _connectionStatus = result.toString();
+      print(_connectionStatus);
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        if (isDisconnected) {
+          isDisconnected = false;
+          connectivityChecker();
+          Get.back();
+        }
+      } else {
+        if (!isDisconnected) {
+          isDisconnected = true;
+          Get.defaultDialog(
+              barrierDismissible: false,
+              content: NoInternetConnection.noInternetDialogue(),
+              onWillPop: () async => false,
+              title: "\nNo Internet",
+              titleStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ));
+        } else
+          connectivityChecker();
+      }
+    });
   }
 
   Future<void> connectivityChecker() async {
@@ -138,7 +132,7 @@ class _MyAppState extends State<MyApp> {
     //Remove this method to stop OneSignal Debugging
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    String oneSignalAppId = FlutterConfig.get('oneSignalAppId').toString();
+    String oneSignalAppId = dotenv.get('oneSignalAppId').toString();
     OneSignal.shared.setAppId(oneSignalAppId);
 
     // Get the Onesignal external userId and update that into the firebase.
@@ -149,11 +143,12 @@ class _MyAppState extends State<MyApp> {
       bool areNotificationsEnabled = deviceState!.hasNotificationPermission;
       if (!areNotificationsEnabled) {
         // Ask permission from user for push notification (>= Android 13)
-        OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+        OneSignal.shared
+            .promptUserForPushNotificationPermission()
+            .then((accepted) {
           print("Accepted permission: $accepted");
         });
       }
-
     });
   }
 
@@ -169,108 +164,108 @@ class _MyAppState extends State<MyApp> {
         builder: (context, child) {
           return kIsWeb
               ? GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            builder: EasyLoading.init(),
-            theme: ThemeData(fontFamily: "Montserrat"),
-            translations: LocalizationService(),
-            locale: LocalizationService().getCurrentLocale(),
-            fallbackLocale: const Locale('en', 'US'),
-            //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
-            //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
-            // home: prefs.containsKey('uid')?const HomeScreenWeb(): LoginScreen(),
-            home: LoginScreen(),
-          )
+                  debugShowCheckedModeBanner: false,
+                  builder: EasyLoading.init(),
+                  theme: ThemeData(fontFamily: "Montserrat"),
+                  translations: LocalizationService(),
+                  locale: LocalizationService().getCurrentLocale(),
+                  fallbackLocale: const Locale('en', 'US'),
+                  //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
+                  //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
+                  // home: prefs.containsKey('uid')?const HomeScreenWeb(): LoginScreen(),
+                  home: LoginScreen(),
+                )
               : FutureBuilder(
-              future: firebase,
-              builder: (context, snapshot) {
-                final provider = Provider.of<ProviderData>(context);
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (FirebaseAuth.instance.currentUser == null) {
-                    // If no user logged in then delete the previous external id of this device from one signal --
-                    OneSignal.shared.removeExternalUserId();
+                  future: firebase,
+                  builder: (context, snapshot) {
+                    final provider = Provider.of<ProviderData>(context);
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (FirebaseAuth.instance.currentUser == null) {
+                        // If no user logged in then delete the previous external id of this device from one signal --
+                        OneSignal.shared.removeExternalUserId();
 
-                    return GetMaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      builder: EasyLoading.init(),
-                      theme: ThemeData(fontFamily: "montserrat"),
-                      translations: LocalizationService(),
-                      locale: LocalizationService().getCurrentLocale(),
-                      fallbackLocale: Locale('en', 'US'),
-                      // locale: provider.locale,
-                      // supportedLocales: L10n.all,
-                      // localizationsDelegates: [
-                      //   AppLocalizations.delegate,
-                      //   GlobalMaterialLocalizations.delegate,
-                      //   GlobalCupertinoLocalizations.delegate,
-                      //   GlobalWidgetsLocalizations.delegate,
-                      // ],
-                      home: SplashScreen(),
-                    );
-                  } else {
-                    // print("in not null else block");
+                        return GetMaterialApp(
+                          debugShowCheckedModeBanner: false,
+                          builder: EasyLoading.init(),
+                          theme: ThemeData(fontFamily: "montserrat"),
+                          translations: LocalizationService(),
+                          locale: LocalizationService().getCurrentLocale(),
+                          fallbackLocale: Locale('en', 'US'),
+                          // locale: provider.locale,
+                          // supportedLocales: L10n.all,
+                          // localizationsDelegates: [
+                          //   AppLocalizations.delegate,
+                          //   GlobalMaterialLocalizations.delegate,
+                          //   GlobalCupertinoLocalizations.delegate,
+                          //   GlobalWidgetsLocalizations.delegate,
+                          // ],
+                          home: SplashScreen(),
+                        );
+                      } else {
+                        // print("in not null else block");
 
-                    // debugPrint("User Signed In-------------------------");
+                        // debugPrint("User Signed In-------------------------");
 
-                    if (transporterId != null) {
-                      // print("not null user");
+                        if (transporterId != null) {
+                          // print("not null user");
 
-                      // debugPrint("User Signed In (Transport Id Available)-------------------------");
+                          // debugPrint("User Signed In (Transport Id Available)-------------------------");
 
-                      return GetMaterialApp(
-                        debugShowCheckedModeBanner: false,
-                        builder: EasyLoading.init(),
-                        theme: ThemeData(
-                            fontFamily: "montserrat",
-                            appBarTheme: AppBarTheme(
-                                color: statusBarColor,
-                                iconTheme: IconThemeData(color: grey))),
-                        translations: LocalizationService(),
-                        locale: LocalizationService().getCurrentLocale(),
-                        fallbackLocale: Locale('en', 'US'),
-                        // locale: provider.locale,
-                        // supportedLocales: L10n.all,
-                        // localizationsDelegates: [
-                        //   AppLocalizations.delegate,
-                        //   GlobalMaterialLocalizations.delegate,
-                        //   GlobalCupertinoLocalizations.delegate,
-                        //   GlobalWidgetsLocalizations.delegate,
-                        // ],
-                        home:
-                        // documentUploadScreen()
-                        SplashScreenToGetTransporterData(
-                          mobileNum: FirebaseAuth
-                              .instance.currentUser!.phoneNumber
-                              .toString()
-                              .substring(3, 13),
-                        ),
-                      );
-                    } else {
-                      // print("null user");
+                          return GetMaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            builder: EasyLoading.init(),
+                            theme: ThemeData(
+                                fontFamily: "montserrat",
+                                appBarTheme: AppBarTheme(
+                                    color: statusBarColor,
+                                    iconTheme: IconThemeData(color: grey))),
+                            translations: LocalizationService(),
+                            locale: LocalizationService().getCurrentLocale(),
+                            fallbackLocale: Locale('en', 'US'),
+                            // locale: provider.locale,
+                            // supportedLocales: L10n.all,
+                            // localizationsDelegates: [
+                            //   AppLocalizations.delegate,
+                            //   GlobalMaterialLocalizations.delegate,
+                            //   GlobalCupertinoLocalizations.delegate,
+                            //   GlobalWidgetsLocalizations.delegate,
+                            // ],
+                            home:
+                                // documentUploadScreen()
+                                SplashScreenToGetTransporterData(
+                              mobileNum: FirebaseAuth
+                                  .instance.currentUser!.phoneNumber
+                                  .toString()
+                                  .substring(3, 13),
+                            ),
+                          );
+                        } else {
+                          // print("null user");
 
-                      // debugPrint("User Signed In (NULL Transport ID)-------------------------");
+                          // debugPrint("User Signed In (NULL Transport ID)-------------------------");
 
-                      return GetMaterialApp(
-                        debugShowCheckedModeBanner: false,
-                        builder: EasyLoading.init(),
-                        theme: ThemeData(fontFamily: "montserrat"),
-                        translations: LocalizationService(),
-                        locale: LocalizationService().getCurrentLocale(),
-                        fallbackLocale: Locale('en', 'US'),
-                        // locale: provider.locale,
-                        // supportedLocales: L10n.all,
-                        // localizationsDelegates: [
-                        //   AppLocalizations.delegate,
-                        //   GlobalMaterialLocalizations.delegate,
-                        //   GlobalCupertinoLocalizations.delegate,
-                        //   GlobalWidgetsLocalizations.delegate,
-                        // ],
-                        home: SplashScreen(),
-                      );
-                    }
-                  }
-                } else
-                  return ErrorScreen();
-              });
+                          return GetMaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            builder: EasyLoading.init(),
+                            theme: ThemeData(fontFamily: "montserrat"),
+                            translations: LocalizationService(),
+                            locale: LocalizationService().getCurrentLocale(),
+                            fallbackLocale: Locale('en', 'US'),
+                            // locale: provider.locale,
+                            // supportedLocales: L10n.all,
+                            // localizationsDelegates: [
+                            //   AppLocalizations.delegate,
+                            //   GlobalMaterialLocalizations.delegate,
+                            //   GlobalCupertinoLocalizations.delegate,
+                            //   GlobalWidgetsLocalizations.delegate,
+                            // ],
+                            home: SplashScreen(),
+                          );
+                        }
+                      }
+                    } else
+                      return ErrorScreen();
+                  });
         },
       ),
     );

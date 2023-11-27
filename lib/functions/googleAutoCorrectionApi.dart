@@ -1,28 +1,25 @@
 import 'dart:convert';
-
-import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 import 'package:http/http.dart' as http;
 
 class GoogleService {
-
   Future<List<googleAutoCorrectionModel>> get(String cityName) async {
-    var request = http.Request('GET', Uri.parse(
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
             'input=$cityName&types=establishment&language=en&components=country:in&key=AIzaSyDWmbuZSOOunGtPPOPW7_hfwXTQZi3kbjc'));
-
 
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       // print(await response.stream.bytesToString());
-      var res=await response.stream.bytesToString();
+      var res = await response.stream.bytesToString();
       final List city = json.decode(res);
       print(city);
-      return city.map((json) => googleAutoCorrectionModel.fromJson(json))
+      return city
+          .map((json) => googleAutoCorrectionModel.fromJson(json))
           .toList();
-    }
-    else {
-      throw Exception(
-          "error");
+    } else {
+      throw Exception("error");
     }
   }
 }
@@ -64,12 +61,12 @@ class Predictions {
 
   Predictions(
       {this.description,
-        this.matchedSubstrings,
-        this.placeId,
-        this.reference,
-        // this.structuredFormatting,
-        this.terms,
-        this.types});
+      this.matchedSubstrings,
+      this.placeId,
+      this.reference,
+      // this.structuredFormatting,
+      this.terms,
+      this.types});
 
   Predictions.fromJson(Map<String, dynamic> json) {
     description = json['description'];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
@@ -9,7 +10,6 @@ import 'package:liveasy/widgets/biddingsCardShipperSide.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/transporterModel.dart';
@@ -29,7 +29,7 @@ class BiddingScreens extends StatefulWidget {
 }
 
 class _BiddingScreensState extends State<BiddingScreens> {
-  final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
+  final String biddingApiUrl = dotenv.get('biddingApiUrl');
 
   int i = 0;
 

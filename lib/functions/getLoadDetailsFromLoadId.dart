@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 
 getLoadDetailsFromLoadId(loadId) async {
   //canm be deleted later
   var jsonData;
-  final String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+  final String loadApiUrl = dotenv.get("loadApiUrl").toString();
   http.Response response = await http.get(Uri.parse("$loadApiUrl/$loadId"));
   try {
     jsonData = json.decode(response.body);

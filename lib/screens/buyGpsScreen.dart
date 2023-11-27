@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
@@ -15,7 +16,6 @@ import 'package:liveasy/screens/MapPage.dart';
 import 'package:liveasy/screens/OpenCellId.dart';
 import 'package:liveasy/screens/historyScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/widgets/alertDialog/buyGPSAddTruckDialog.dart';
 import 'package:liveasy/widgets/alertDialog/nextUpdateAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/buyGPSRadioButtons.dart';
@@ -43,8 +43,8 @@ class _BuyGpsScreenState extends State<BuyGpsScreen> {
   bool loading = false;
   late List jsonData;
   int i = 0;
-  final String truckApiUrl = FlutterConfig.get('truckApiUrl');
-  final String buyGPSApiUrl = FlutterConfig.get('buyGPSApiUrl');
+  final String truckApiUrl = dotenv.get('truckApiUrl');
+  final String buyGPSApiUrl = dotenv.get('buyGPSApiUrl');
   BuyGPSApiCalls buyGPSApiCalls = BuyGPSApiCalls();
   Position? _currentPosition;
   String? _currentAddress;

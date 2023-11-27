@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:liveasy/widgets/cancelIconWidget.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 // ignore: must_be_immutable
 class AddressInputMMIWidget extends StatefulWidget {
@@ -37,7 +36,8 @@ class _AddressInputMMIWidgetState extends State<AddressInputMMIWidget> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location services are disabled. Please enable the services')));
+          content: Text(
+              'Location services are disabled. Please enable the services')));
       return false;
     }
     permission = await Geolocator.checkPermission();
@@ -51,11 +51,13 @@ class _AddressInputMMIWidgetState extends State<AddressInputMMIWidget> {
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
     return true;
   }
+
   @override
   Widget build(BuildContext context) {
     late String value;
@@ -112,20 +114,23 @@ class _AddressInputMMIWidgetState extends State<AddressInputMMIWidget> {
         readOnly: true,
         onTap: () async {
           final hasPermission = await _handleLocationPermission();
-          if (hasPermission){
-          providerData.updateResetActive(true);
-          FocusScope.of(context).requestFocus(FocusNode());
-          value = await Get.to(
-              () => CityNameInputScreen(widget.page, widget.hintText)); // for MapMyIndia api
-        }},
+          if (hasPermission) {
+            providerData.updateResetActive(true);
+            FocusScope.of(context).requestFocus(FocusNode());
+            value = await Get.to(() => CityNameInputScreen(
+                widget.page, widget.hintText)); // for MapMyIndia api
+          }
+        },
         controller: widget.controller,
         decoration: InputDecoration(
           hintText: widget.hintText,
           icon: widget.icon,
-          suffixIcon: GestureDetector(onTap: widget.onTap,
-              child: widget.hintText == "Loading point 2"|| widget.hintText == "Unloading point 2"?
-              Icon(Icons.delete_outline):
-              CancelIconWidget()),
+          suffixIcon: GestureDetector(
+              onTap: widget.onTap,
+              child: widget.hintText == "Loading point 2" ||
+                      widget.hintText == "Unloading point 2"
+                  ? Icon(Icons.delete_outline)
+                  : CancelIconWidget()),
         ),
       ),
     );

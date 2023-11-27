@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:liveasy/constants/color.dart';
@@ -11,10 +12,9 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/models/WidgetLoadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/shareImageWidget.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:wc_flutter_share/wc_flutter_share.dart';
-import 'package:package_info/package_info.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
 class ShareButton extends StatefulWidget {
@@ -47,19 +47,20 @@ class _ShareButtonState extends State<ShareButton> {
       _isCreateLink = true;
     });
     String packageName = packageInfo.packageName;
-    String shareUrl = FlutterConfig.get('shareUrl').toString();
+    String shareUrl = dotenv.get('shareUrl').toString();
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: shareUrl,
-        link: Uri.parse('$shareUrl/${widget.loadDetails.loadId}'),
-        androidParameters: AndroidParameters(
-          packageName: packageName,
-          minimumVersion: 0,
-        ),
-        );
+      uriPrefix: shareUrl,
+      link: Uri.parse('$shareUrl/${widget.loadDetails.loadId}'),
+      androidParameters: AndroidParameters(
+        packageName: packageName,
+        minimumVersion: 0,
+      ),
+    );
 
     Uri url;
     if (short) {
-      final ShortDynamicLink shortLink = await dynamicLinks.buildShortLink(parameters);
+      final ShortDynamicLink shortLink =
+          await dynamicLinks.buildShortLink(parameters);
       url = shortLink.shortUrl;
       print("Dynamic URL is $url");
     } else {
@@ -93,14 +94,13 @@ class _ShareButtonState extends State<ShareButton> {
                 context, Material(child: shareImageWidget(widget.loadDetails))))
             .then((capturedImage) async {
           var pngBytes = capturedImage.buffer.asUint8List();
-          await WcFlutterShare.share(
-                  sharePopupTitle: 'share',
-                  subject: 'This is subject',
-                  text:
-                      "loadAvailable".tr +"\n$_stringUrl\n\n" +"callonthisnum".tr +" ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n"+ "moreLoad".tr,
-                  fileName: 'share.png',
-                  mimeType: 'image/png',
-                  bytesOfFile: pngBytes)
+          await Share.share(
+                  "loadAvailable".tr +
+                      "\n$_stringUrl\n\n" +
+                      "callonthisnum".tr +
+                      " ${widget.widgetLoadDetailsScreenModel.phoneNo} \n\n" +
+                      "moreLoad".tr,
+                  subject: "This is subject")
               .then((value) => EasyLoading.dismiss());
         });
       },

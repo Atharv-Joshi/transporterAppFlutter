@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/functions/getLoadPosterDetailsFromApi.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
 import 'package:liveasy/screens/loadDetailsScreen.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
 
 List<LoadDetailsScreenModel> data = [];
@@ -12,7 +12,7 @@ List<LoadDetailsScreenModel> data = [];
 LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
 
 Future findLoadByLoadID(String loadId) async {
-  String loadApiUrl = FlutterConfig.get("loadApiUrl").toString();
+  String loadApiUrl = dotenv.get("loadApiUrl").toString();
   var jsonData;
   Uri url = Uri.parse("$loadApiUrl$loadId");
   http.Response response = await http.get(url);

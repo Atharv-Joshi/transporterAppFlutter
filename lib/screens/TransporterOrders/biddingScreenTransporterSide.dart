@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -18,8 +18,8 @@ class BiddingScreenTransporterSide extends StatefulWidget {
 
 class _BiddingScreenTransporterSideState
     extends State<BiddingScreenTransporterSide> {
-  final String biddingApiUrl = FlutterConfig.get('biddingApiUrl');
-  final String loadApiUrl = FlutterConfig.get('loadApiUrl');
+  final String biddingApiUrl = dotenv.get('biddingApiUrl');
+  final String loadApiUrl = dotenv.get('loadApiUrl');
 
   int i = 0;
 

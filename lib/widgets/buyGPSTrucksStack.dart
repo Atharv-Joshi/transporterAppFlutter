@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -8,7 +9,6 @@ import 'package:liveasy/widgets/buttons/BuyGPSPayButton.dart';
 import 'package:liveasy/widgets/loadingWidgets/truckLoadingLongWidgets.dart';
 import 'package:liveasy/widgets/trucksLongCard.dart';
 import 'package:liveasy/functions/buyGPSApiCalls.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 class BuyGPSTrucksStack extends StatefulWidget {
   bool? loading;
@@ -37,7 +37,7 @@ class BuyGPSTrucksStack extends StatefulWidget {
 }
 
 class _BuyGPSTrucksStackState extends State<BuyGPSTrucksStack> {
-  final String buyGPSApiUrl = FlutterConfig.get('buyGPSApiUrl');
+  final String buyGPSApiUrl = dotenv.get('buyGPSApiUrl');
   BuyGPSHudController updateButtonController = Get.put(BuyGPSHudController());
   // bool isDisable = false;
   BuyGPSApiCalls buyGPSApiCalls = BuyGPSApiCalls();

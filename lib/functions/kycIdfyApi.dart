@@ -1,18 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 import '../screens/isolatedTransporterGetData.dart';
 import 'dart:math';
 
-final String idfyAccountId = FlutterConfig.get('idfyAccountId');
-final String idfyApiKey = FlutterConfig.get('idfyApiKey');
-final String idfyKeyId = FlutterConfig.get('idfyKey_id');
-final String idfyOuId = FlutterConfig.get('idfyOu_id');
-final String idfySecretKey = FlutterConfig.get('idfySecret_Key');
-final String webHookUrl = FlutterConfig.get('webHookUrl');
+final String idfyAccountId = dotenv.get('idfyAccountId');
+final String idfyApiKey = dotenv.get('idfyApiKey');
+final String idfyKeyId = dotenv.get('idfyKey_id');
+final String idfyOuId = dotenv.get('idfyOu_id');
+final String idfySecretKey = dotenv.get('idfySecret_Key');
+final String webHookUrl = dotenv.get('webHookUrl');
 
 var headers = {
   'Content-Type': 'application/json',

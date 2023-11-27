@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 class APIService {
-  String RapidApiKey = FlutterConfig.get('rapidKey').toString();
+  String RapidApiKey = dotenv.get('rapidKey').toString();
   // List<CityModel> city = [];
   static const _authority = "spott.p.rapidapi.com";
   static const _path = "/places/autocomplete";

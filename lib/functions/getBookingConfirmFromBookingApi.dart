@@ -1,16 +1,16 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/BookingModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<List<BookingModel>> getBookingConfirmFromBookingApi() async {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   var jsonData;
   List<BookingModel> bookingCard = [];
-  final String bidApiUrl = FlutterConfig.get("biddingApiUrl").toString();
+  final String bidApiUrl = dotenv.get("biddingApiUrl").toString();
   http.Response response = await http.get(Uri.parse(
       "$bidApiUrl?transporterId=${transporterIdController.transporterId}"));
   try {

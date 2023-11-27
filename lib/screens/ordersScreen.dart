@@ -18,6 +18,7 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     ProviderData providerData = Provider.of<ProviderData>(context);
     PageController pageController =
         PageController(initialPage: providerData.upperNavigatorIndex);
@@ -65,7 +66,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               Stack(
                 children: [
                   Container(
-                    height: 600,
+                    height: height - space_38,
                     child: PageView(
                       controller: pageController,
                       onPageChanged: (value) {

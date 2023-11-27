@@ -5,19 +5,24 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/consentStatus.dart';
+import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 //import 'package:liveasy/screens/TransporterOrders/callBtn.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
 import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
+import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
+import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 //import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
 //import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/buttons/fastagButton.dart';
-import '../../widgets/buttons/vahanButton.dart';
-import '../HelpScreen.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/widgets/buttons/fastagButton.dart';
+import 'package:liveasy/widgets/buttons/vahanButton.dart';
+import 'package:liveasy/screens/HelpScreen.dart';
 import 'docInputLr.dart';
 //import 'getDocName.dart';
 //import 'getDocumentApiCall.dart';
@@ -41,6 +46,8 @@ class documentUploadScreen extends StatefulWidget {
   var gpsDataList;
   String? totalDistance;
   var device;
+  OngoingCardModel loadAllDataModel;
+  final Function(bool) refreshParent;
 
   documentUploadScreen({
     Key? key,
@@ -57,6 +64,8 @@ class documentUploadScreen extends StatefulWidget {
     this.gpsDataList,
     this.totalDistance,
     this.device,
+    required this.loadAllDataModel,
+    required this.refreshParent,
   }) : super(key: key);
 
   @override
@@ -67,13 +76,36 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
   bool progressBar = false;
   // bool? pod1 = false;
   // bool podother = false;
-
+  String status = 'Pending'; // Default status
+  String? selectedOperator;
+  List<String> operatorOptions = [
+    'Airtel',
+    'Vodafone',
+    'Jio',
+  ];
+  final StatusAPI statusAPI = StatusAPI();
   @override
   void initState() {
     super.initState();
     // pod1 = false;
-    print(widget.loadId);
+    fetchConsent();
+    loadOperatorInfo(widget.driverPhoneNum, updateSelectedOperator);
     Permission.camera.request();
+  }
+
+  //This function is used to fetch the operator info select it by default from the dropdown
+  void updateSelectedOperator(String newOperator) {
+    setState(() {
+      selectedOperator = newOperator;
+    });
+  }
+
+  Future<void> fetchConsent() async {
+    final responseStatus = await statusAPI.getStatus(widget.driverPhoneNum!);
+
+    setState(() {
+      status = responseStatus;
+    });
   }
 
   @override
@@ -1340,7 +1372,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                         space_4, 0, space_4, 0),
                                     child: Container(
                                       height: 70,
-                                      color: darkBlueColor,
+                                      // color: grey,
                                       width: MediaQuery.of(context).size.width,
                                       child: Row(
                                         mainAxisAlignment:
@@ -1349,20 +1381,22 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 15),
-                                            child: Image(
-                                                image: AssetImage(
-                                                    "assets/icons/deliveryTruck.png")),
-                                          ),
-                                          Padding(
                                             padding: EdgeInsets.only(left: 16),
                                             child: Text(
                                               widget.truckNo.toString(),
                                               // "TN 09 JP 1234",
                                               style: TextStyle(
-                                                  color: white,
+                                                  color: black,
                                                   fontSize: size_8,
                                                   fontWeight: mediumBoldWeight),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(left: space_30),
+                                            child: UpdateDriverTruckButton(
+                                              loadAllDataModel:
+                                                  widget.loadAllDataModel,
                                             ),
                                           ),
                                         ],
@@ -1376,7 +1410,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                     padding: EdgeInsets.fromLTRB(
                                         space_4, 0, space_4, 0),
                                     child: Container(
-                                      color: darkBlueColor,
+                                      // color: greyishAccent,
                                       width: MediaQuery.of(context).size.width,
                                       child: Row(
                                         mainAxisAlignment:
@@ -1384,13 +1418,6 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 11, left: 15),
-                                            child: Image(
-                                                image: AssetImage(
-                                                    "assets/icons/MaleUser.png")),
-                                          ),
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 left: 11, top: 5, bottom: 5),
@@ -1405,7 +1432,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                         .toString(),
                                                     // "Rajpal Sharma",
                                                     style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: size_8,
                                                         fontWeight:
                                                             mediumBoldWeight),
@@ -1418,7 +1445,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                         .toString(),
                                                     // "7894561230",
                                                     style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: size_8),
                                                   ),
                                                 ),
@@ -1450,18 +1477,123 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       ),
                                     ),
                                   ),
+                                  //Consent Status is shown here
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: space_7, top: space_3),
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Consent Status :',
+                                            style: TextStyle(
+                                              color: black,
+                                              fontFamily: 'Montserrat',
+                                              fontSize: size_9,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' $status',
+                                            style: TextStyle(
+                                              color: getStatusColor(status),
+                                              fontFamily: 'Montserrat',
+                                              fontSize: size_9,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: space_7, top: space_3),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(space_1),
+                                            border:
+                                                Border.all(color: Colors.black),
+                                          ),
+                                          child: DropdownButton<String>(
+                                            value: selectedOperator,
+                                            icon: Icon(Icons
+                                                .keyboard_arrow_down_sharp),
+                                            style:
+                                                const TextStyle(color: black),
+                                            underline: Container(
+                                              height: 2,
+                                              color: white,
+                                            ),
+                                            onChanged: (String? newValue) {
+                                              setState(() {
+                                                selectedOperator = newValue;
+                                              });
+                                            },
+                                            items: operatorOptions
+                                                .map((String operator) {
+                                              return DropdownMenuItem<String>(
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.all(space_2),
+                                                  child: Container(
+                                                    width: 100,
+                                                    height: 28,
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/icons/simIcon.png',
+                                                          width: 17,
+                                                          height: 17,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left:
+                                                                      space_2),
+                                                          child: Text(
+                                                            operator,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontSize:
+                                                                    size_7),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                value: operator,
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: space_7),
+                                          //Button to send the consent to the user
+                                          child: SendConsentButton(
+                                            mobileno: widget.driverPhoneNum,
+                                            selectedOperator: selectedOperator,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   Row(
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(
-                                            space_4, space_2, space_0, space_0),
+                                            space_4, space_4, space_0, space_0),
                                         child: VahanButton(
                                           truckNo: widget.truckNo,
                                         ),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(
-                                            space_7, space_2, space_0, space_0),
+                                            space_7, space_4, space_0, space_0),
                                         child: FastagButton(
                                           bookingDate: widget.bookingDate,
                                           truckNo: widget.truckNo,
@@ -1575,5 +1707,19 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
         ),
       ),
     );
+  }
+}
+
+//Color for each status
+Color getStatusColor(String status) {
+  switch (status) {
+    case 'APPROVED':
+      return liveasyGreen;
+    case 'PENDING':
+      return orangeColor;
+    case 'REJECTED':
+      return red;
+    default:
+      return black;
   }
 }

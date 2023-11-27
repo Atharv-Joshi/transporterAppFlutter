@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -160,10 +159,10 @@ getPoylineCoordinates(var gpsDataHistory, List<LatLng> polylineCoordinates) {
   print("End lat ${gpsDataHistory[gpsDataHistory.length - 1].latitude}");
   for (int i = 0; i < gpsDataHistory.length; i++) {
     c = b + 3;
-    PointLatLng point1 =
-        PointLatLng(gpsDataHistory[a].latitude, gpsDataHistory[a].longitude);
-    PointLatLng point2 =
-        PointLatLng(gpsDataHistory[b].latitude, gpsDataHistory[b].longitude);
+    LatLng point1 =
+        LatLng(gpsDataHistory[a].latitude, gpsDataHistory[a].longitude);
+    LatLng point2 =
+        LatLng(gpsDataHistory[b].latitude, gpsDataHistory[b].longitude);
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates.add(LatLng(point2.latitude, point2.longitude));
     a = b;
@@ -175,11 +174,9 @@ getPoylineCoordinates(var gpsDataHistory, List<LatLng> polylineCoordinates) {
 
   if (gpsDataHistory.length % 2 == 0) {
     print("In even ");
-    PointLatLng point1 = PointLatLng(
-        gpsDataHistory[gpsDataHistory.length - 2].latitude,
+    LatLng point1 = LatLng(gpsDataHistory[gpsDataHistory.length - 2].latitude,
         gpsDataHistory[gpsDataHistory.length - 2].longitude);
-    PointLatLng point2 = PointLatLng(
-        gpsDataHistory[gpsDataHistory.length - 1].latitude,
+    LatLng point2 = LatLng(gpsDataHistory[gpsDataHistory.length - 1].latitude,
         gpsDataHistory[gpsDataHistory.length - 1].longitude);
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates.add(LatLng(point2.latitude, point2.longitude));
@@ -199,10 +196,10 @@ getPoylineCoordinates2(var gpsDataHistory2) {
   print("End lat ${gpsDataHistory2[gpsDataHistory2.length - 1].latitude}");
   for (int i = 0; i < gpsDataHistory2.length; i++) {
     c = b + 1;
-    PointLatLng point1 =
-        PointLatLng(gpsDataHistory2[a].latitude, gpsDataHistory2[a].longitude);
-    PointLatLng point2 =
-        PointLatLng(gpsDataHistory2[b].latitude, gpsDataHistory2[b].longitude);
+    LatLng point1 =
+        LatLng(gpsDataHistory2[a].latitude, gpsDataHistory2[a].longitude);
+    LatLng point2 =
+        LatLng(gpsDataHistory2[b].latitude, gpsDataHistory2[b].longitude);
     polylineCoordinates2.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates2.add(LatLng(point2.latitude, point2.longitude));
     a = b;
@@ -214,11 +211,9 @@ getPoylineCoordinates2(var gpsDataHistory2) {
 
   if (gpsDataHistory2.length % 2 == 0) {
     print("In even ");
-    PointLatLng point1 = PointLatLng(
-        gpsDataHistory2[gpsDataHistory2.length - 2].latitude,
+    LatLng point1 = LatLng(gpsDataHistory2[gpsDataHistory2.length - 2].latitude,
         gpsDataHistory2[gpsDataHistory2.length - 2].longitude);
-    PointLatLng point2 = PointLatLng(
-        gpsDataHistory2[gpsDataHistory2.length - 1].latitude,
+    LatLng point2 = LatLng(gpsDataHistory2[gpsDataHistory2.length - 1].latitude,
         gpsDataHistory2[gpsDataHistory2.length - 1].longitude);
     polylineCoordinates2.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates2.add(LatLng(point2.latitude, point2.longitude));

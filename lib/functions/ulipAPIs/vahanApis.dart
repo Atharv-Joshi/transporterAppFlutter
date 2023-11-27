@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:xml/xml.dart';
 import 'package:http/http.dart' as http;
 import '../../models/vahanApisModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 
 Future<VehicleDetails> fetchVehicleDetails(String vehicleNumber) async {
-  final String vahanApiUrl = FlutterConfig.get('vahanApiUrl').toString();
+  final String vahanApiUrl = dotenv.get('vahanApiUrl').toString();
 
   // Create the request body
   final requestBody = jsonEncode({

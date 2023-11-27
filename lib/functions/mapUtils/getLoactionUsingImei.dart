@@ -1,25 +1,24 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/BackgroundAndLocation.dart';
 import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
 import 'package:geocoding/geocoding.dart';
 
-String traccarPass = FlutterConfig.get("traccarPass");
+String traccarPass = dotenv.get("traccarPass");
 String? current_lang;
 TransporterIdController transporterIdController =
     Get.find<TransporterIdController>();
 String traccarUser = transporterIdController.mobileNum.value;
 
 class MapUtil {
-  String gpsApiUrl = FlutterConfig.get("gpsApiUrl");
-  String routeHistoryApiUrl = FlutterConfig.get("routeHistoryApiUrl");
-  String traccarApi = FlutterConfig.get("traccarApi");
+  String gpsApiUrl = dotenv.get("gpsApiUrl");
+  String routeHistoryApiUrl = dotenv.get("routeHistoryApiUrl");
+  String traccarApi = dotenv.get("traccarApi");
 
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));

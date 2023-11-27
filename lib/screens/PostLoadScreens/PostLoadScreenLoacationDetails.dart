@@ -27,10 +27,11 @@ class PostLoadScreenOne extends StatefulWidget {
 
 TextEditingController controller1 = TextEditingController();
 TextEditingController controller2 = TextEditingController();
-Jiffy initialDay = Jiffy(DateTime.now());
-Jiffy secondDay = Jiffy(DateTime.now()).add(days: 1);
-Jiffy thirdDay = Jiffy(DateTime.now()).add(days: 2);
-Jiffy fourthDay = Jiffy(DateTime.now()).add(days: 3);
+Jiffy initialDay = Jiffy.parseFromDateTime(
+    DateTime.now()); // previously .parseFromDateTime was not there
+Jiffy secondDay = Jiffy.parseFromDateTime(DateTime.now()).add(days: 1);
+Jiffy thirdDay = Jiffy.parseFromDateTime(DateTime.now()).add(days: 2);
+Jiffy fourthDay = Jiffy.parseFromDateTime(DateTime.now()).add(days: 3);
 
 class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
   DateTime selectedDate = DateTime(
@@ -50,7 +51,12 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
         ),
         lastDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day + 10, 0, 0));
-    Jiffy nextDay = Jiffy(picked);
+    Jiffy nextDay;
+    if (picked != null) {
+      nextDay = Jiffy.parseFromDateTime(picked);
+    } else {
+      nextDay = Jiffy.parseFromDateTime(selectedDate);
+    }
 
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -126,10 +132,10 @@ class _PostLoadScreenOneState extends State<PostLoadScreenOne> {
                 child: Column(
                   children: [
                     //AddPostLoadHeader(
-                      //reset: true,
-                      //resetFunction: () {
-                        //providerData.resetPostLoadScreenOne();
-                      //},
+                    //reset: true,
+                    //resetFunction: () {
+                    //providerData.resetPostLoadScreenOne();
+                    //},
                     //),
                     Container(
                       child: Column(

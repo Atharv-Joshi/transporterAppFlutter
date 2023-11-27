@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/SelectedDriverController.dart';
@@ -6,7 +7,6 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'dart:convert';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:liveasy/models/driverModel.dart';
 
 //This class should contain all the api calls related to driver api
@@ -17,11 +17,11 @@ class DriverApiCalls {
   late List jsonData;
 
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
   SelectedDriverController selectedDriverController =
-  Get.put(SelectedDriverController());
+      Get.put(SelectedDriverController());
 
-  final String driverApiUrl = FlutterConfig.get('driverApiUrl');
+  final String driverApiUrl = dotenv.get('driverApiUrl');
 
   //GET DRIVERS BY TRANSPORTER ID-----------------------------------------------
 
@@ -39,13 +39,13 @@ class DriverApiCalls {
       for (var json in jsonData) {
         DriverModel driverModel = DriverModel();
         driverModel.driverId =
-        json["driverId"] != null ? json["driverId"] : 'NA';
+            json["driverId"] != null ? json["driverId"] : 'NA';
         driverModel.transporterId =
-        json["transporterId"] != null ? json["transporterId"] : 'NA';
+            json["transporterId"] != null ? json["transporterId"] : 'NA';
         driverModel.phoneNum =
-        json["phoneNum"] != null ? json["phoneNum"] : 'NA';
+            json["phoneNum"] != null ? json["phoneNum"] : 'NA';
         driverModel.driverName =
-        json["driverName"] != null ? json["driverName"] : 'NA';
+            json["driverName"] != null ? json["driverName"] : 'NA';
         driverModel.truckId = json["truckId"] != null ? json["truckId"] : 'NA';
         driverList.add(driverModel);
       }
@@ -56,7 +56,7 @@ class DriverApiCalls {
   Future<List<DriverModel>> getDriverData() async {
     driverList = [];
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = FlutterConfig.get("traccarPass");
+    String traccarPass = dotenv.get("traccarPass");
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
     http.Response response = await http.get(
@@ -88,19 +88,18 @@ class DriverApiCalls {
     String? id = driverId;
     if (id != 'NA') {
       http.Response response =
-      await http.get(Uri.parse('$driverApiUrl/api/drivers/$id'));
+          await http.get(Uri.parse('$driverApiUrl/api/drivers/$id'));
       print(response.body);
       if (response.statusCode == 200) {
         Map jsonData = json.decode(response.body);
         DriverModel driverModel = DriverModel();
-        driverModel.driverId =
-        jsonData["id"] != null ? jsonData["id"] : 'NA';
+        driverModel.driverId = jsonData["id"] != null ? jsonData["id"] : 'NA';
         driverModel.phoneNum =
-        jsonData["att"] != null ? jsonData["phoneNum"] : 'NA';
+            jsonData["att"] != null ? jsonData["phoneNum"] : 'NA';
         driverModel.driverName =
-        jsonData["name"] != null ? jsonData["name"] : 'NA';
+            jsonData["name"] != null ? jsonData["name"] : 'NA';
         driverModel.truckId =
-        jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+            jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
         return driverModel;
       } else {
         //case when server returns status code like 404, driver not found
@@ -175,26 +174,25 @@ class DriverApiCalls {
     }
   }
 
-  Future<dynamic> editDriver({DriverModel? driverData, String? driverId, String? driverName}) async {
-
+  Future<dynamic> editDriver(
+      {DriverModel? driverData, String? driverId, String? driverName}) async {
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = FlutterConfig.get("traccarPass");
+    String traccarPass = dotenv.get("traccarPass");
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 
     Map data = {
       "id": driverData?.id,
-      "attributes": {
-        "phone": driverData?.phoneNum
-      },
+      "attributes": {"phone": driverData?.phoneNum},
       "name": driverName,
       "uniqueId": driverData?.phoneNum
     };
     String body = json.encode(data);
 
-    final String driverApiUrl = FlutterConfig.get("driverApiUrl").toString();
+    final String driverApiUrl = dotenv.get("driverApiUrl").toString();
 
-    final response = await http.put(Uri.parse("$driverApiUrl" + "/api/drivers/" + "$driverId"),
+    final response = await http.put(
+        Uri.parse("$driverApiUrl" + "/api/drivers/" + "$driverId"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'authorization': basicAuth,
@@ -218,24 +216,24 @@ class DriverApiCalls {
 //IT takes two parameters from which only one needs to be provided during function call.
 Future<DriverModel> getDriverByDriverId(
     {String? driverId, TruckModel? truckModel}) async {
-  final String driverApiUrl = FlutterConfig.get('driverApiUrl');
+  final String driverApiUrl = dotenv.get('driverApiUrl');
   if (driverId != 'NA') {
     http.Response response =
-    await http.get(Uri.parse('$driverApiUrl/$driverId'));
+        await http.get(Uri.parse('$driverApiUrl/$driverId'));
     print(response.body);
     if (response.statusCode == 200) {
       Map jsonData = json.decode(response.body);
       DriverModel driverModel = DriverModel();
       driverModel.driverId =
-      jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
+          jsonData["driverId"] != null ? jsonData["driverId"] : 'NA';
       driverModel.transporterId =
-      jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
+          jsonData["transporterId"] != null ? jsonData["transporterId"] : 'NA';
       driverModel.phoneNum =
-      jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
+          jsonData["phoneNum"] != null ? jsonData["phoneNum"] : 'NA';
       driverModel.driverName =
-      jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
+          jsonData["driverName"] != null ? jsonData["driverName"] : 'NA';
       driverModel.truckId =
-      jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
+          jsonData["truckId"] != null ? jsonData["truckId"] : 'NA';
       return driverModel;
     } else {
       //case when server returns status code like 404, driver not found
@@ -260,11 +258,11 @@ Future<DriverModel> getDriverByDriverId(
 
 Future<void> disableActionOnDriver({String? driverId}) async {
   TransporterIdController transporterIdController =
-  Get.find<TransporterIdController>();
-  final String driverApiUrl = FlutterConfig.get("driverApiUrl");
+      Get.find<TransporterIdController>();
+  final String driverApiUrl = dotenv.get("driverApiUrl");
 
   String? traccarUser = transporterIdController.mobileNum.value;
-  String traccarPass = FlutterConfig.get("traccarPass");
+  String traccarPass = dotenv.get("traccarPass");
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 

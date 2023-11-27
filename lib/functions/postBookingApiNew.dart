@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 import 'package:intl/intl.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
@@ -34,7 +34,7 @@ postBookingApiNew(LoadDetailsScreenModel? loadDetailsScreenModel, truckId,
       "timestamp": now
     };
     String body = json.encode(datanew);
-    final String bookingApiUrl = FlutterConfig.get('bookingApiUrl').toString();
+    final String bookingApiUrl = dotenv.get('bookingApiUrl').toString();
     final response = await http.post(Uri.parse("$bookingApiUrl"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

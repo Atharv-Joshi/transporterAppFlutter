@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_config/flutter_config.dart';
 
 class PostLoadIdApiCalls {
-  final String transporterApiUrl = FlutterConfig.get("transporterApiUrl");
-  final String shipperApiUrl = FlutterConfig.get("shipperApiUrl");
+  final String transporterApiUrl = dotenv.get("transporterApiUrl");
+  final String shipperApiUrl = dotenv.get("shipperApiUrl");
 
   Future<Map> getDataByTransporterId(String transporterId) async {
     http.Response response =

@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
+import 'package:image_downloader_web/image_downloader_web.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -22,15 +27,19 @@ class _imageDisplayUsingApiState extends State<imageDisplayUsingApi> {
   bool downloading = false;
 
   void _saveNetworkImage(String path) async {
-    // String path =
-    //     'https://image.shutterstock.com/image-photo/montreal-canada-july-11-2019-600w-1450023539.jpg';
-    GallerySaver.saveImage(path, albumName: "Liveasy").then((bool? success) {
-      setState(() {
-        print('Image is saved');
-        progressBar = false;
-        downloaded = true;
-        downloading = false;
-      });
+    if (kIsWeb) {
+      await WebImageDownloader.downloadImageFromWeb(path, imageQuality: 0.5);
+    } else {
+      var response = await Dio()
+          .get(path, options: Options(responseType: ResponseType.bytes));
+      final result = await ImageGallerySaver.saveImage(
+          Uint8List.fromList(response.data),
+          quality: 60,
+          name: "Liveasy");
+    }
+    setState(() {
+      downloading = false;
+      downloaded = true;
     });
   }
 

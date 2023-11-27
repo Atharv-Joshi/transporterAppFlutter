@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,7 +19,6 @@ import 'package:liveasy/variables/truckFilterVariables.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:flutter_config/flutter_config.dart';
 import '../functions/deviceApiCalls.dart';
 
 // ignore: must_be_immutable
@@ -62,9 +63,9 @@ class _MyTruckCardState extends State<MyTruckCard> {
   late String from = yesterday.toIso8601String();
   late String to = now.toIso8601String();
   Razorpay razorpay = new Razorpay();
-  String key = FlutterConfig.get("paymentkey");
-  String keysecret = FlutterConfig.get("paymentkeysecret");
-  String orderapi = FlutterConfig.get("razorpayorder");
+  String key = dotenv.get("paymentkey");
+  String keysecret = dotenv.get("paymentkeysecret");
+  String orderapi = dotenv.get("razorpayorder");
   int amount = 100;
   @override
   void initState() {

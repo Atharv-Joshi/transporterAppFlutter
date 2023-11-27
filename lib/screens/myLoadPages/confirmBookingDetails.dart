@@ -7,14 +7,17 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
 import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
+import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../functions/numverifyAPIs.dart';
 import 'selectTruckScreen.dart';
 
 class ConfirmBookingDetails extends StatefulWidget {
@@ -52,6 +55,24 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
   String? mobileno;
   TransporterIdController transporterIdController = TransporterIdController();
   GetStorage tidstorage = GetStorage('TransporterIDStorage');
+  String? selectedOperator;
+  List<String> operatorOptions = [
+    'Airtel',
+    'Vodafone',
+    'Jio',
+  ];
+  @override
+  void initState() {
+    super.initState();
+    loadOperatorInfo(widget.mobileNo, updateSelectedOperator);
+  }
+
+  //This function is used to fetch the operator info select it by default from the dropdown
+  void updateSelectedOperator(String newOperator) {
+    setState(() {
+      selectedOperator = newOperator;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,6 +274,72 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+                //DropDown to select the operators for sim based tracking
+                Padding(
+                  padding: EdgeInsets.only(left: space_4, top: space_4),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(space_1),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: DropdownButton<String>(
+                          key: UniqueKey(),
+                          value: selectedOperator,
+                          icon: Icon(Icons.keyboard_arrow_down_sharp),
+                          style: const TextStyle(color: black),
+                          underline: Container(
+                            height: 2,
+                            color: white,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedOperator = newValue!;
+                            });
+                          },
+                          items: operatorOptions.map((String operator) {
+                            return DropdownMenuItem<String>(
+                              child: Padding(
+                                padding: EdgeInsets.all(space_2),
+                                child: Container(
+                                  width: 100,
+                                  height: 28,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/simIcon.png',
+                                        width: 17,
+                                        height: 17,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: space_2),
+                                        child: Text(
+                                          operator,
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: size_7),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              value: operator,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: space_7),
+                        child: SendConsentButton(
+                          mobileno: widget.mobileNo,
+                          selectedOperator: selectedOperator,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
