@@ -69,7 +69,10 @@ dynamic greyishWhiteColorM =
 Color darkCharcoal = Color(0xff333333);
 const Color red = Colors.red;
 const Color navy = Color(0xff000066);
+Color continueButton = Color(0xff007CFF);
+Color tryAgainButton = Color(0xffCC503E);
 
+const Color formBackground = Color.fromARGB(255, 245, 246, 250);
 const Color fadeGrey = Color(0xFFF1F1F1);
 const Color lightGrey = Color(0xffDADADA);
 const Color greyshade = Color.fromARGB(1, 245, 246, 250);
