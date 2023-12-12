@@ -18,6 +18,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_aware_state/visibility_aware_state.dart';
 
+import '../../responsive.dart';
 import '../../widgets/buttons/ConfirmButton.dart';
 import '../../widgets/webLoginLeftPart.dart';
 import '../navigationScreen.dart';
@@ -49,6 +50,7 @@ class _NewOTPVerificationScreenState
   var temp; // to store confirmationResult of WEB SIGN IN METHOD
   late int _forceResendingToken = 0;
   bool isError = false;
+  bool size = true;
 
   //controllers
 
@@ -72,7 +74,7 @@ class _NewOTPVerificationScreenState
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
-      body: kIsWeb
+      body: (kIsWeb && (Responsive.isDesktop(context)))
           ? SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Center(
@@ -105,8 +107,9 @@ class _NewOTPVerificationScreenState
                                           CrossAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.all(
-                                              screenHeight * 0.1),
+                                          padding: EdgeInsets.only(
+                                            top: screenHeight * 0.1,
+                                          ),
                                           child: Text(
                                             'Verification Code'.tr,
                                             style: TextStyle(
@@ -117,6 +120,9 @@ class _NewOTPVerificationScreenState
                                               color: blueTitleColor,
                                             ),
                                           ),
+                                        ),
+                                        SizedBox(
+                                          height: screenHeight * 0.05,
                                         ),
                                         Text(
                                           'Please type the verification code sent to'
@@ -155,14 +161,13 @@ class _NewOTPVerificationScreenState
                                           ),
                                         ),
                                         SizedBox(
-                                          height: screenHeight * 0.1,
+                                          height: screenHeight * 0.05,
                                         ),
                                         // TODO Otp Input Field
-                                        // OTPInputField(_verificationCode, temp),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: screenWidth * 0.07,
-                                              right: screenWidth * 0.07),
+                                              left: screenWidth * 0.1,
+                                              right: screenWidth * 0.1),
                                           child: PinCodeTextField(
                                             cursorColor: Colors.black,
                                             appContext: context,
@@ -227,7 +232,8 @@ class _NewOTPVerificationScreenState
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  top: space_3, left: space_22),
+                                                  top: space_3,
+                                                  left: screenWidth * 0.1),
                                               child: Obx(
                                                 () => Container(
                                                   child: timerController
@@ -274,7 +280,7 @@ class _NewOTPVerificationScreenState
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                top: screenHeight * 0.15),
+                                                top: screenHeight * 0.1),
                                             child: ConfirmButton(
                                               text: 'Verify',
                                               onPressed: () {
