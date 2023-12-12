@@ -48,7 +48,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
         ),
         Padding(
             padding: EdgeInsets.only(
-                left: screenWidth * 0.25, top: screenHeight * 0.04),
+                left: screenWidth * 0.25, top: screenHeight * 0.02),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
