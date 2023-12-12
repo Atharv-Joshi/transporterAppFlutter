@@ -15,6 +15,7 @@ import 'package:liveasy/widgets/phoneNumberTextField.dart';
 // import 'package:location_permissions/location_permissions.dart';
 import 'package:provider/provider.dart';
 
+import '../../responsive.dart';
 import '../../widgets/webHeader.dart';
 import '../../widgets/webLoginLeftPart.dart';
 
@@ -29,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _controller = TextEditingController();
   bool isChecked = false;
   bool isError = false;
+  bool size = true;
 
   void initState() {
     super.initState();
@@ -62,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: kIsWeb
+      body: (kIsWeb && Responsive.isDesktop(context))
           ? SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Center(
@@ -132,7 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               top: screenHeight * 0.05,
                                               right: screenWidth * 0.05),
                                           child: Container(
-                                            width: screenWidth * 0.3,
+                                            width: size
+                                                ? screenWidth * 0.3
+                                                : screenWidth * 0.03,
                                             child: TextFormField(
                                               onChanged: (_controller) {
                                                 if (_controller.length == 10) {
@@ -191,13 +195,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         //TODO : Sign In button
                                         Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.60,
-                                          height: space_10,
-                                          margin: EdgeInsets.fromLTRB(space_35,
-                                              space_11, space_50, space_0),
+                                          width: size
+                                              ? screenWidth * 0.2
+                                              : screenWidth * 0.05,
+                                          height: size ? space_10 : space_4,
+                                          margin: EdgeInsets.only(
+                                              top: screenHeight * 0.09,
+                                              right: screenWidth * 0.05),
                                           child: ElevatedButton(
                                               style: ButtonStyle(
                                                 backgroundColor:
@@ -208,6 +212,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 // 'Send OTP',
                                                 style: TextStyle(
                                                   color: white,
+                                                  fontSize:
+                                                      size ? size_9 : size_2,
                                                 ),
                                               ),
                                               onPressed: providerData
