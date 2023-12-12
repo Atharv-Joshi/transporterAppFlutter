@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/color.dart';
+import '../../constants/fontSize.dart';
 
 class ConfirmButton extends StatelessWidget {
   var onPressed;
@@ -11,6 +12,7 @@ class ConfirmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool size = true;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
@@ -25,7 +27,7 @@ class ConfirmButton extends StatelessWidget {
         text,
         style: GoogleFonts.montserrat(
           color: Colors.white,
-          fontSize: 25,
+          fontSize: size ? size_12 : size_4,
           fontWeight: FontWeight.w500,
         ),
       ),
