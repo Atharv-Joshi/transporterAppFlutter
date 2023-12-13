@@ -1,32 +1,36 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/providerClass/providerData.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_config/flutter_config.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get_storage/get_storage.dart';
+
+import 'controller/transporterIdController.dart';
 import 'firebase_options.dart';
 import 'language/localization_service.dart';
 
 var firebase;
-
+bool checkState = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -42,8 +46,14 @@ void main() async {
   await dotenv.load();
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('uid') == true) {
+    print(prefs.getString('uid'));
+    runTransporterApiPost(mobileNum: prefs.getString('uid') ?? '');
+    checkState = true;
+  } else {
+    checkState = false;
+  }
   runApp(MyApp());
 }
 
@@ -63,7 +73,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    setState(() {});
     transporterId = tidstorage.read("transporterId");
     //TODO: Internet connection check and onesignal initialization is only done for android application.
     if (!kIsWeb) {
@@ -72,6 +81,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  TransporterIdController transporterIdController =
+      Get.put(TransporterIdController(), permanent: true);
   void checkConnection() {
     configOneSignel(context);
     connectivity = new Connectivity();
@@ -163,18 +174,28 @@ class _MyAppState extends State<MyApp> {
         create: (context) => ProviderData(),
         builder: (context, child) {
           return kIsWeb
-              ? GetMaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  builder: EasyLoading.init(),
-                  theme: ThemeData(fontFamily: "Montserrat"),
-                  translations: LocalizationService(),
-                  locale: LocalizationService().getCurrentLocale(),
-                  fallbackLocale: const Locale('en', 'US'),
-                  //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
-                  //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
-                  // home: prefs.containsKey('uid')?const HomeScreenWeb(): LoginScreen(),
-                  home: LoginScreen(),
-                )
+              ? Builder(builder: (context) {
+                  return GetMaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    builder: EasyLoading.init(),
+                    theme: ThemeData(fontFamily: "Montserrat"),
+                    translations: LocalizationService(),
+                    locale: LocalizationService().getCurrentLocale(),
+                    fallbackLocale: const Locale('en', 'US'),
+                    //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
+                    //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
+                    // home: checkState ? NavigationScreen() : LoginScreen(),
+                    initialRoute:
+                        checkState ? "/NavigationScreen" : "/LoginScreen",
+                    getPages: [
+                      GetPage(
+                          name: '/NavigationScreen',
+                          page: () => NavigationScreen()),
+                      GetPage(name: '/LoginScreen', page: () => LoginScreen()),
+                      // Add other routes as needed
+                    ],
+                  );
+                })
               : FutureBuilder(
                   future: firebase,
                   builder: (context, snapshot) {

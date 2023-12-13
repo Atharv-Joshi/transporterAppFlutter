@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/Web/home_web.dart';
 import 'package:liveasy/controller/hudController.dart';
 import 'package:liveasy/controller/isOtpInvalidController.dart';
 import 'package:liveasy/controller/timerController.dart';
@@ -10,15 +9,17 @@ import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Web/successScreen.dart';
+import '../Web/unSuccessScreen.dart';
 import '../screens/isolatedTransporterGetData.dart';
-
 
 class AuthService {
   HudController hudController = Get.put(HudController());
   TimerController timerController = Get.put(TimerController());
   IsOtpInvalidController isOtpInvalidController =
-  Get.put(IsOtpInvalidController());
+      Get.put(IsOtpInvalidController());
 
   Future signOut() async {
     try {
@@ -35,7 +36,7 @@ class AuthService {
     try {
       await FirebaseAuth.instance
           .signInWithCredential(PhoneAuthProvider.credential(
-          verificationId: verificationId!, smsCode: smsCode!))
+              verificationId: verificationId!, smsCode: smsCode!))
           .then((value) async {
         if (value.user != null) {
           print("${value.user!.phoneNumber} ----- ${value.user}");
@@ -51,7 +52,8 @@ class AuthService {
           // Once the user logs in ---- Set or Update the external one signal user id for user -- where external id is the transporter id or shipper id correspondingly; ------
           print("SETTING EXTERNAL ONESIGNAL USER ID -------");
 
-          String externalUserId = transporterIdController.transporterId.toString(); // You will supply the external user id to the OneSignal SDK
+          String externalUserId = transporterIdController.transporterId
+              .toString(); // You will supply the external user id to the OneSignal SDK
           print("external user id ----- $externalUserId");
 
           OneSignal.shared.setExternalUserId(externalUserId).then((results) {
@@ -91,6 +93,7 @@ class AuthService {
   }
 
   void manualVerification_web({var temp, String? smsCode}) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
     print("WEB MANUAL OTP VERIFICATION STARTED -------------");
     print('verificationId in manual func: $smsCode');
     try {
@@ -99,18 +102,21 @@ class AuthService {
         hudController.updateHud(true);
         timerController.cancelTimer();
         await runTransporterApiPost(
-            mobileNum: userCredential.user!.phoneNumber!.toString().substring(3, 13));
+            mobileNum:
+                userCredential.user!.phoneNumber!.toString().substring(3, 13));
         print("COVER");
-        Get.to(() => HomeScreenWeb());
+        preferences.setString(
+            'uid', transporterIdController.mobileNum.toString());
+        print(transporterIdController.mobileNum.toString());
+        Get.to(() => SuccessScreen());
         print("Transferred to next screen");
-
       }
       userCredential.additionalUserInfo!.isNewUser
           ? print("Authentication Successful")
           : print("User already exists");
-    }on FirebaseAuthException catch(e){
-      print("ERROR");
+    } on FirebaseAuthException catch (e) {
+      Get.to(UnSuccessScreen());
+      print('ERROR');
     }
-
   }
 }

@@ -13,9 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.7.12'
-
       - name: Create .env file
         run: |
           echo "shipperApiUrl=${{ vars.SHIPPER_API_URL }}" > .env
