@@ -102,7 +102,6 @@ dependencies:
   xml: ^6.2.2
   dio: ^5.2.1+1
   image_downloader_web: ^2.0.4
-  google_fonts: ^6.1.0
   cloud_firestore: ^4.13.3
   toastification: ^1.1.0
 
