@@ -80,7 +80,8 @@ runSuggestedLoadApiWithPageNo(int i) async {
         json["unitValue"] != null ? json['unitValue'] : 'NA';
 
     if (json["postLoadId"].contains('transporter') ||
-        json["postLoadId"].contains('shipper')) {
+        json["postLoadId"].contains('shipper') ||
+        json["postLoadId"].contains('Company')) {
       loadPosterModel = await getLoadPosterDetailsFromApi(
           loadPosterId: json["postLoadId"].toString());
     } else {
@@ -197,7 +198,8 @@ getLoadDetailsByPostLoadID({required String loadPosterId}) async {
   WidgetLoadDetailsScreenModel widgetLoadDetailsScreenModel =
       WidgetLoadDetailsScreenModel();
   if (loadPosterId.contains('transporter') ||
-      loadPosterId.contains('shipper')) {
+      loadPosterId.contains('shipper') ||
+      loadPosterId.contains('Company')) {
     loadPosterModel = await getLoadPosterDetailsFromApi(
         loadPosterId: loadPosterId.toString());
   } else {

@@ -43,6 +43,16 @@ void main() async {
         )
       : Firebase.initializeApp();
 
+  await Firebase.initializeApp(
+    name: 'second_instance',
+    options: FirebaseOptions(
+      appId: '1:692017725889:android:97de2700f739792859ef40',
+      apiKey: 'AIzaSyDwGra6d7Gm2fIIp_KUjKKmbVXADbA9iNo',
+      messagingSenderId: '692017725889',
+      projectId: 'shipperwebapp',
+    ),
+  );
+
   await dotenv.load();
   await GetStorage.init();
   await GetStorage.init('TransporterIDStorage');
