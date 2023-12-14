@@ -14,12 +14,10 @@ import 'package:liveasy/functions/authFunctions.dart';
 import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/otpInputField.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:visibility_aware_state/visibility_aware_state.dart';
 
 import '../../responsive.dart';
-import '../../widgets/buttons/ConfirmButton.dart';
 import '../../widgets/webLoginLeftPart.dart';
 import '../navigationScreen.dart';
 
@@ -56,7 +54,7 @@ class _NewOTPVerificationScreenState
 
   TimerController timerController = Get.put(TimerController());
   HudController hudController = Get.put(HudController());
-  TextEditingController textEditingController = TextEditingController();
+  // TextEditingController textEditingController = TextEditingController();
   IsOtpInvalidController isOtpInvalidController =
       Get.put(IsOtpInvalidController());
 
@@ -108,7 +106,7 @@ class _NewOTPVerificationScreenState
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
-                                            top: screenHeight * 0.1,
+                                            top: screenHeight * 0.2,
                                           ),
                                           child: Text(
                                             'Verification Code'.tr,
@@ -166,54 +164,65 @@ class _NewOTPVerificationScreenState
                                         // TODO Otp Input Field
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: screenWidth * 0.1,
-                                              right: screenWidth * 0.1),
-                                          child: PinCodeTextField(
-                                            cursorColor: Colors.black,
-                                            appContext: context,
-                                            controller: textEditingController,
-                                            pastedTextStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat'),
-                                            pinTheme: PinTheme(
-                                              shape: PinCodeFieldShape.box,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              activeFillColor: Colors.white,
-                                              activeColor: Colors.grey,
-                                              inactiveColor: Colors.grey,
-                                              selectedFillColor: Colors.white,
-                                              selectedColor: Colors.black,
-                                              inactiveFillColor: Colors.white,
-                                              fieldHeight: 48,
-                                              fieldWidth: 48,
+                                              left: screenWidth * 0.08,
+                                              right: screenWidth * 0.08),
+                                          child: OTPInputField(
+                                              _verificationCode, temp),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: space_3,
+                                              right: screenWidth * 0.24),
+                                          child: Obx(
+                                            () => Container(
+                                              child: timerController
+                                                          .timeOnTimer.value ==
+                                                      0
+                                                  ? Obx(() => TextButton(
+                                                      onPressed: () {
+                                                        timerController
+                                                            .startTimer();
+                                                        // hudController.updateHud(true);
+
+                                                        kIsWeb
+                                                            ? _verifyPhoneNum_web()
+                                                            : _verifyPhoneNumber();
+                                                      },
+                                                      child: Text(
+                                                        'Resendotp'.tr,
+                                                        // 'Resend OTP',
+                                                        style: TextStyle(
+                                                          letterSpacing: 0.5,
+                                                          fontSize: size_12,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: timerController
+                                                                  .resendButton
+                                                                  .value
+                                                              ? navygreen
+                                                              : unselectedGrey,
+                                                          // decoration:
+                                                          //     TextDecoration
+                                                          //         .underline,
+                                                        ),
+                                                      )))
+                                                  : Obx(
+                                                      () => Text(
+                                                        'Resendotp'.tr +
+                                                            '${timerController.timeOnTimer}',
+                                                        // 'Resend OTP in ${timerController.timeOnTimer}',
+                                                        style: TextStyle(
+                                                          letterSpacing: 0.5,
+                                                          color: veryDarkGrey,
+                                                        ),
+                                                      ),
+                                                    ),
                                             ),
-                                            length: 6,
-                                            enableActiveFill: true,
-                                            keyboardType: TextInputType.phone,
-                                            onCompleted: (pin) {
-                                              hudController.updateHud(true);
-                                              providerData.updateSmsCode(pin);
-                                              print(
-                                                  "${providerData.smsCode}-----------------SMS Code");
-                                              if (kIsWeb) {
-                                                print(
-                                                    "$temp-------------------temp"); // For WEB Authentication
-                                              }
-                                              providerData
-                                                  .updateInputControllerLengthCheck(
-                                                      true);
-                                              providerData.clearAll();
-                                            },
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
                                           ),
                                         ),
                                         Padding(
                                             padding:
-                                                EdgeInsets.only(top: space_3),
+                                                EdgeInsets.only(top: space_4),
                                             child: Obx(
                                               () => Container(
                                                 child: isOtpInvalidController
@@ -228,74 +237,177 @@ class _NewOTPVerificationScreenState
                                                     : Text(""),
                                               ),
                                             )),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: space_3,
-                                                  left: screenWidth * 0.1),
-                                              child: Obx(
-                                                () => Container(
-                                                  child: timerController
-                                                              .timeOnTimer
-                                                              .value ==
-                                                          0
-                                                      ? Obx(() => TextButton(
-                                                          onPressed: () {
-                                                            timerController
-                                                                .startTimer();
-                                                            _verifyPhoneNum_web();
-                                                          },
-                                                          child: Text(
-                                                            'Resendotp'.tr,
-                                                            style: TextStyle(
-                                                              letterSpacing:
-                                                                  0.5,
-                                                              color: timerController
-                                                                      .resendButton
-                                                                      .value
-                                                                  ? navy
-                                                                  : unselectedGrey,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                            ),
-                                                          )))
-                                                      : Obx(
-                                                          () => Text(
-                                                            'Resendotp'.tr +
-                                                                '${timerController.timeOnTimer}',
-                                                            style: TextStyle(
-                                                              letterSpacing:
-                                                                  0.5,
-                                                              color:
-                                                                  veryDarkGrey,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                top: screenHeight * 0.1),
-                                            child: ConfirmButton(
-                                              text: 'Verify',
-                                              onPressed: () {
-                                                if (textEditingController
-                                                        .text.length ==
-                                                    6) {
-                                                  authService
-                                                      .manualVerification_web(
-                                                          smsCode:
-                                                              textEditingController
-                                                                  .text,
-                                                          temp: temp);
-                                                } else {}
-                                              },
+                                              top: space_8,
+                                            ),
+                                            child: Obx(
+                                              () => Container(
+                                                child: hudController
+                                                        .showHud.value
+                                                    ? Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text("Verifying OTP"),
+                                                          SizedBox(
+                                                            width: space_1,
+                                                          ),
+                                                          Container(
+                                                              width: space_3,
+                                                              height: space_3,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                strokeWidth: 1,
+                                                              ))
+                                                        ],
+                                                      )
+                                                    : Text(""),
+                                              ),
                                             )),
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(
+                                        //       left: screenWidth * 0.1,
+                                        //       right: screenWidth * 0.1),
+                                        //   child: PinCodeTextField(
+                                        //     cursorColor: Colors.black,
+                                        //     appContext: context,
+                                        //     controller: textEditingController,
+                                        //     pastedTextStyle: const TextStyle(
+                                        //         color: Colors.white,
+                                        //         fontWeight: FontWeight.bold,
+                                        //         fontFamily: 'Montserrat'),
+                                        //     pinTheme: PinTheme(
+                                        //       shape: PinCodeFieldShape.box,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(10),
+                                        //       activeFillColor: Colors.white,
+                                        //       activeColor: Colors.grey,
+                                        //       inactiveColor: Colors.grey,
+                                        //       selectedFillColor: Colors.white,
+                                        //       selectedColor: Colors.black,
+                                        //       inactiveFillColor: Colors.white,
+                                        //       fieldHeight: 48,
+                                        //       fieldWidth: 48,
+                                        //     ),
+                                        //     length: 6,
+                                        //     enableActiveFill: true,
+                                        //     keyboardType: TextInputType.phone,
+                                        //     onCompleted: (pin) {
+                                        //       hudController.updateHud(true);
+                                        //       providerData.updateSmsCode(pin);
+                                        //       print(
+                                        //           "${providerData.smsCode}-----------------SMS Code");
+                                        //       if (kIsWeb) {
+                                        //         print(
+                                        //             "$temp-------------------temp"); // For WEB Authentication
+                                        //       }
+                                        //       providerData
+                                        //           .updateInputControllerLengthCheck(
+                                        //               true);
+                                        //       providerData.clearAll();
+                                        //     },
+                                        //     onChanged: (value) {
+                                        //       setState(() {});
+                                        //     },
+                                        //   ),
+                                        // ),
+                                        // Padding(
+                                        //     padding:
+                                        //         EdgeInsets.only(top: space_3),
+                                        //     child: Obx(
+                                        //       () => Container(
+                                        //         child: isOtpInvalidController
+                                        //                 .isOtpInvalid.value
+                                        //             ? Text(
+                                        //                 'Wrong OTP. Try Again!',
+                                        //                 style: TextStyle(
+                                        //                   letterSpacing: 0.5,
+                                        //                   color: red,
+                                        //                 ),
+                                        //               )
+                                        //             : Text(""),
+                                        //       ),
+                                        //     )),
+                                        // Row(
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding: EdgeInsets.only(
+                                        //           top: space_3,
+                                        //           left: screenWidth * 0.1),
+                                        //       child: Obx(
+                                        //         () => Container(
+                                        //           child: timerController
+                                        //                       .timeOnTimer
+                                        //                       .value ==
+                                        //                   0
+                                        //               ? Obx(() => TextButton(
+                                        //                   onPressed: () {
+                                        //                     timerController
+                                        //                         .startTimer();
+                                        //                     _verifyPhoneNum_web();
+                                        //                   },
+                                        //                   child: Text(
+                                        //                     'Resendotp'.tr,
+                                        //                     style: TextStyle(
+                                        //                       letterSpacing:
+                                        //                           0.5,
+                                        //                       color: timerController
+                                        //                               .resendButton
+                                        //                               .value
+                                        //                           ? navy
+                                        //                           : unselectedGrey,
+                                        //                       decoration:
+                                        //                           TextDecoration
+                                        //                               .underline,
+                                        //                     ),
+                                        //                   )))
+                                        //               : Obx(
+                                        //                   () => Text(
+                                        //                     'Resendotp'.tr +
+                                        //                         '${timerController.timeOnTimer}',
+                                        //                     style: TextStyle(
+                                        //                       letterSpacing:
+                                        //                           0.5,
+                                        //                       color:
+                                        //                           veryDarkGrey,
+                                        //                     ),
+                                        //                   ),
+                                        //                 ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        // ElevatedButton(
+                                        //     onPressed: () {
+                                        //       print(
+                                        //           hudController.showHud.value);
+                                        //     },
+                                        //     child: Container(
+                                        //       width: 100,
+                                        //       height: 100,
+                                        //     ))
+                                        // Padding(
+                                        //     padding: EdgeInsets.only(
+                                        //         top: screenHeight * 0.1),
+                                        //     child: ConfirmButton(
+                                        //       text: 'Verify',
+                                        //       onPressed: () {
+                                        //         if (textEditingController
+                                        //                 .text.length ==
+                                        //             6) {
+                                        //           authService
+                                        //               .manualVerification_web(
+                                        //                   smsCode:
+                                        //                       textEditingController
+                                        //                           .text,
+                                        //                   temp: temp
+                                        //           );
+                                        //         } else {}
+                                        //       },
+                                        //     )),
                                       ],
                                     ),
                                   );
