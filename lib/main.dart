@@ -16,7 +16,6 @@ import 'package:liveasy/functions/trasnporterApis/runTransporterApiPost.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
-import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
@@ -25,6 +24,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Web/dashboard.dart';
 import 'controller/transporterIdController.dart';
 import 'firebase_options.dart';
 import 'language/localization_service.dart';
@@ -194,16 +194,16 @@ class _MyAppState extends State<MyApp> {
                     fallbackLocale: const Locale('en', 'US'),
                     //TODO: for home screen in web app we are looking whether used is checked for "Keep me logged in" while logging in.
                     //TODO: so according if user enabled that we are navigating directly to HomeScreen of web, else user is asked for login
-                    // home: checkState ? NavigationScreen() : LoginScreen(),
-                    initialRoute:
-                        checkState ? "/NavigationScreen" : "/LoginScreen",
-                    getPages: [
-                      GetPage(
-                          name: '/NavigationScreen',
-                          page: () => NavigationScreen()),
-                      GetPage(name: '/LoginScreen', page: () => LoginScreen()),
-                      // Add other routes as needed
-                    ],
+                    home: checkState ? DashboardScreen() : LoginScreen(),
+                    // initialRoute:
+                    //     checkState ? "/DashboardScreen" : "/LoginScreen",
+                    // getPages: [
+                    //   GetPage(
+                    //       name: '/DashboardScreen',
+                    //       page: () => DashboardScreen()),
+                    //   GetPage(name: '/LoginScreen', page: () => LoginScreen()),
+                    // Add other routes as needed
+                    // ],
                   );
                 })
               : FutureBuilder(
