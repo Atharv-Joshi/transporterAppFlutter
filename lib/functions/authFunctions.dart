@@ -11,6 +11,7 @@ import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Web/dashboard.dart';
 import '../screens/isolatedTransporterGetData.dart';
 
 class AuthService {
@@ -106,7 +107,7 @@ class AuthService {
         preferences.setString(
             'uid', transporterIdController.mobileNum.toString());
         print(transporterIdController.mobileNum.toString());
-        Get.to(() => NavigationScreen());
+        Get.offAll(() => DashboardScreen());
         print("Transferred to next screen");
       }
       userCredential.additionalUserInfo!.isNewUser
