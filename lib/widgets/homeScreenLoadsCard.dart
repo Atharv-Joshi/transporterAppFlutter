@@ -64,7 +64,7 @@ class HomeScreenLoadsCard extends StatelessWidget {
                 Text(
                   'postedon'.tr +
                       ' : ' +
-                      '${loadDetailsScreenModel.loadDate}'.tr,
+                      '${loadDetailsScreenModel.postLoadDate}'.tr,
                   style: TextStyle(
                       fontSize: size_6,
                       color: veryDarkGrey,

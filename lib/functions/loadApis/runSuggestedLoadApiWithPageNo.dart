@@ -78,6 +78,14 @@ runSuggestedLoadApiWithPageNo(int i) async {
         json["rate"] != null ? json['rate'].toString() : 'NA';
     loadDetailsScreenModel.unitValue =
         json["unitValue"] != null ? json['unitValue'] : 'NA';
+    loadDetailsScreenModel.postLoadDate =
+        json["postLoadDate"] != null ? json['postLoadDate'] : 'NA';
+    loadDetailsScreenModel.loadingPointGeoId =
+        json["loadingPointGeoId"] != null ? json['loadingPointGeoId'] : 'NA';
+    loadDetailsScreenModel.unloadingPointGeoId =
+        json["unloadingPointGeoId"] != null
+            ? json['unloadingPointGeoId']
+            : 'NA';
 
     if (json["postLoadId"].contains('transporter') ||
         json["postLoadId"].contains('shipper') ||
@@ -187,6 +195,14 @@ runWidgetSuggestedLoadApiWithPageNo(int i) async {
         json["rate"] != null ? json['rate'].toString() : 'NA';
     loadDetailsScreenModel.unitValue =
         json["unitValue"] != null ? json['unitValue'] : 'NA';
+    loadDetailsScreenModel.postLoadDate =
+        json["postLoadDate"] != null ? json['postLoadDate'] : 'NA';
+    loadDetailsScreenModel.loadingPointGeoId =
+        json["loadingPointGeoId"] != null ? json['loadingPointGeoId'] : 'NA';
+    loadDetailsScreenModel.unloadingPointGeoId =
+        json["unloadingPointGeoId"] != null
+            ? json['unloadingPointGeoId']
+            : 'NA';
     loadData.add(loadDetailsScreenModel);
   }
   return loadData;

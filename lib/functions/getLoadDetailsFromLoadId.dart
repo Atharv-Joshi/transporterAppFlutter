@@ -34,6 +34,10 @@ getLoadDetailsFromLoadId(loadId) async {
     loadDetailsScreenModel.loadDate = jsonData["loadDate"].toString();
     loadDetailsScreenModel.rate = jsonData["rate"];
     loadDetailsScreenModel.unitValue = jsonData["unitValue"].toString();
+    loadDetailsScreenModel.postLoadDate = jsonData["postLoadDate"].toString();
+    loadDetailsScreenModel.loadingPointGeoId = jsonData["loadingPointGeoId"];
+    loadDetailsScreenModel.unloadingPointGeoId =
+        jsonData["unloadingPointGeoId"];
     return loadDetailsScreenModel;
   } catch (e) {
     print(e);
