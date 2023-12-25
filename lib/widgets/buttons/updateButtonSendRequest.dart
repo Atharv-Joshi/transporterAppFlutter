@@ -6,6 +6,7 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/deviceApiCalls.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import '../../functions/putBookingApis.dart';
 import '../../models/onGoingCardModel.dart';
@@ -34,6 +35,12 @@ class UpdateButtonSendRequest extends StatefulWidget {
 
 class _UpdateButtonSendRequestState extends State<UpdateButtonSendRequest> {
   Future<void> updateAndShowDialog() async {
+    //For sim based tracking updating the unique ID with driver's phone number
+    await DeviceApiCalls().UpdateUniqueId(
+      truckId: widget.selectedDeviceId.toString(),
+      uniqueId: widget.selectedDriverPhoneno!,
+      truckName: widget.truckId!,
+    );
     final apiResponse = await updateBooking(
       loadAllDataModel: widget.loadAllDataModel,
       truckId: widget.truckId,
