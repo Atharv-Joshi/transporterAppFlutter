@@ -85,13 +85,16 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
 // searchresult. clear() ;
     if (searchText != null) {
       searchedDriverList.clear();
+      searchedDriverListNumber.clear();
       for (int i = 0; i < driverList.length; i++) {
-        String data = driverNames[i];
-        if (data.toLowerCase().contains(searchText.toLowerCase())) {
+        String driverName = driverNames[i];
+        String driverNumber = driverMobileNumbers[i];
+        if (driverName.toLowerCase().contains(searchText.toLowerCase()) ||
+            driverNumber.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
             print(searchText);
-            searchedDriverList.add(data);
-            searchedDriverListNumber.add(driverMobileNumbers[i]);
+            searchedDriverList.add(driverName);
+            searchedDriverListNumber.add(driverNumber);
           });
         }
         // else {
