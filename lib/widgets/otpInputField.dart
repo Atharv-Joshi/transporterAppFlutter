@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/controller/hudController.dart';
@@ -67,13 +68,24 @@ class _OTPInputFieldState extends State<OTPInputField> {
           hudController.updateHud(true);
           providerData.updateSmsCode(pin);
           print("${providerData.smsCode}-------------------SMS Code");
-          print(
+          if (kIsWeb) {
+            print("${widget}-------------------temp"); // For WEB Authentication
+          } else {
+            print(
                 "${widget._verificationCode}-------------------Verification Code"); // For Android Authentication
+          }
           // isOtpInvalidController.updateIsOtpInvalid(false);
+          if (kIsWeb) {
+            print("INITIALIZING MANUAL VERIFICATION ON WEB");
+            authService.manualVerification_web(
+                smsCode: providerData.smsCode, temp: widget.temp);
+          } else {
             print("INITIALIZING MANUAL VERIFICATION ON ANDROID");
             authService.manualVerification(
                 smsCode: providerData.smsCode,
                 verificationId: widget._verificationCode);
+          }
+
           providerData.updateInputControllerLengthCheck(true);
           providerData.clearAll();
         },

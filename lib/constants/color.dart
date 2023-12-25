@@ -50,6 +50,7 @@ Color darkYellow = Color(0xFFE5A744);
 Color veryDarkGrey = Color(0xFF555454);
 Color shareButtonColor = Color(0xFF09B778);
 Color orangeColor = Color(0xffFA8700);
+const Color transparent = Colors.transparent;
 
 //dont make this const
 dynamic activeButtonColor = MaterialStateProperty.all<Color>(Color(0xff152968));
@@ -73,10 +74,15 @@ Color continueButton = Color(0xff007CFF);
 Color tryAgainButton = Color(0xffCC503E);
 
 const Color formBackground = Color.fromARGB(255, 245, 246, 250);
+const Color headerLightBlueColor = Color.fromRGBO(245, 246, 250, 1);
+const Color darkBlueTextColor = Color.fromARGB(255, 21, 41, 104);
 const Color fadeGrey = Color(0xFFF1F1F1);
 const Color lightGrey = Color(0xffDADADA);
 const Color greyshade = Color.fromARGB(1, 245, 246, 250);
+const Color greyDivider = Color.fromARGB(255, 197, 195, 195);
+const Color sideBarTextColor = Color.fromARGB(255, 135, 135, 135);
 const Color greyishshade = Color.fromRGBO(197, 195, 195, 0.24);
+const Color offWhite = Color.fromRGBO(244, 244, 244, 1);
 Color? greyishAccent = Colors.grey[700];
 
 //box shadow

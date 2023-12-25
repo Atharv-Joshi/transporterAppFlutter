@@ -134,6 +134,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                               top: screenHeight * 0.05,
                                               right: screenWidth * 0.05),
                                           child: Container(
+                                            decoration:
+                                                BoxDecoration(boxShadow: [
+                                              BoxShadow(
+                                                color: greyBorderColor,
+                                                offset: Offset(0, 10),
+                                                blurStyle: BlurStyle.normal,
+                                                blurRadius: 10,
+                                              ),
+                                            ], color: offWhite),
                                             width: size
                                                 ? screenWidth * 0.3
                                                 : screenWidth * 0.03,
@@ -202,32 +211,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                           margin: EdgeInsets.only(
                                               top: screenHeight * 0.09,
                                               right: screenWidth * 0.05),
-                                          child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    providerData.buttonColor,
-                                              ),
-                                              child: Text(
-                                                'sendOtp'.tr,
-                                                // 'Send OTP',
-                                                style: TextStyle(
-                                                  color: white,
-                                                  fontSize:
-                                                      size ? size_9 : size_2,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(space_1),
+                                            child: ElevatedButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      providerData.buttonColor,
                                                 ),
-                                              ),
-                                              onPressed: providerData
-                                                      .inputControllerLengthCheck
-                                                  ? () {
-                                                      print(
-                                                          "${providerData.phoneController}----------------------------");
-                                                      Get.to(() =>
-                                                          NewOTPVerificationScreen(
-                                                              providerData
-                                                                  .phoneController));
-                                                      providerData.clearAll();
-                                                    }
-                                                  : () {}),
+                                                child: Text(
+                                                  'sendOtp'.tr,
+                                                  // 'Send OTP',
+                                                  style: TextStyle(
+                                                    color: white,
+                                                    fontSize:
+                                                        size ? size_9 : size_2,
+                                                  ),
+                                                ),
+                                                onPressed: providerData
+                                                        .inputControllerLengthCheck
+                                                    ? () {
+                                                        print(
+                                                            "${providerData.phoneController}----------------------------");
+                                                        Get.to(() =>
+                                                            NewOTPVerificationScreen(
+                                                                providerData
+                                                                    .phoneController));
+                                                        providerData.clearAll();
+                                                      }
+                                                    : () {}),
+                                          ),
                                         )
                                       ],
                                     ),
