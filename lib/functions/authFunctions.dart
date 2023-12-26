@@ -11,8 +11,7 @@ import 'package:liveasy/screens/navigationScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Web/successScreen.dart';
-import '../Web/unSuccessScreen.dart';
+import '../Web/dashboard.dart';
 import '../screens/isolatedTransporterGetData.dart';
 
 class AuthService {
@@ -108,15 +107,27 @@ class AuthService {
         preferences.setString(
             'uid', transporterIdController.mobileNum.toString());
         print(transporterIdController.mobileNum.toString());
-        Get.to(() => SuccessScreen());
+        Get.offAll(() => DashboardScreen());
         print("Transferred to next screen");
       }
       userCredential.additionalUserInfo!.isNewUser
           ? print("Authentication Successful")
           : print("User already exists");
     } on FirebaseAuthException catch (e) {
-      Get.to(UnSuccessScreen());
-      print('ERROR');
+      print("---------------------->${e.code}");
+      if (e.code == "session-expired") {
+        hudController.updateHud(true);
+        isOtpInvalidController.updateIsOtpInvalid(false);
+        timerController.cancelTimer();
+        print("---------------------------------->hi");
+      } else {
+        print('hud false due to catch in manual verification');
+
+        hudController.updateHud(false);
+        isOtpInvalidController.updateIsOtpInvalid(true);
+      }
+      // Get.snackbar('Invalid Otp', 'Please Enter the correct OTP',
+      //     colorText: Colors.white, backgroundColor: Colors.black);
     }
   }
 }
