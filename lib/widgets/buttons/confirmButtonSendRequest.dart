@@ -10,6 +10,8 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
+import 'package:liveasy/functions/deviceApiCalls.dart';
+// import 'package:liveasy/functions/geofenceNotificationApi.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
 import 'package:liveasy/functions/postBookingApiNew.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
@@ -53,6 +55,7 @@ class ConfirmButtonSendRequest extends StatefulWidget {
       _ConfirmButtonSendRequestState();
 }
 
+// GeoNotificationApi geoNotificationApi = GeoNotificationApi();
 TruckApiCalls truckApiCalls = TruckApiCalls();
 
 class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
@@ -92,8 +95,17 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
       }
       if (widget.directBooking == true) {
-        //truckApiCalls.updateDriverIdForTruck(
-        //  driverID: widget.selectedDriver, truckID: widget.truckId);
+        // await geoNotificationApi.sendNotifications(
+        //   deviceId: widget.selectedDeviceId!,
+        //   loadingGeoIds: widget.loadDetailsScreenModel!.loadingPointGeoId,
+        //   unloadingGeoIds: widget.loadDetailsScreenModel!.unloadingPointGeoId,
+        // );
+        //For sim based tracking updating the unique ID with driver's phone number
+        await DeviceApiCalls().UpdateUniqueId(
+          truckId: widget.selectedDeviceId.toString(),
+          uniqueId: widget.selectedDriverPhoneno!,
+          truckName: widget.truckId!,
+        );
         bookResponse = await postBookingApiNew(
           widget.loadDetailsScreenModel,
           widget.truckId,
@@ -103,8 +115,12 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
         );
         print("directBooking");
       } else {
-        //truckApiCalls.updateDriverIdForTruck(
-        //  driverID: widget.selectedDriver, truckID: widget.truckId);
+        //For sim based tracking updating the unique ID with driver's phone number
+        await DeviceApiCalls().UpdateUniqueId(
+          truckId: widget.selectedDeviceId.toString(),
+          uniqueId: widget.selectedDriverPhoneno!,
+          truckName: widget.truckId!,
+        );
         bookResponse = await postBookingApi(
           widget.biddingModel!.loadId,
           widget.biddingModel!.currentBid,

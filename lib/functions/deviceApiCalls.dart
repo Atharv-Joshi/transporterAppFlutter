@@ -49,6 +49,37 @@ class DeviceApiCalls {
   }
 
   //PUT---------------------------------------------------------------------------
+  // Updating unique Id for sim-based tracking
+  Future<dynamic> UpdateUniqueId(
+      {required String truckId,
+      required String uniqueId,
+      required String truckName}) async {
+    var headers = {
+      'accept': 'application/json',
+      'Authorization': basicAuth,
+      'Content-Type': 'application/json',
+      'Cookie': 'JSESSIONID=node016u831n3bqeajjbhtb9ohpmcg26.node0'
+    };
+    var request =
+        http.Request('PUT', Uri.parse('$traccarApi/devices/$truckId'));
+    request.body =
+        json.encode({"id": truckId, "name": truckName, "uniqueId": uniqueId});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    // var res= await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      // final decodeData = json.decode(res);
+      // _truckId = decodeData["id"].toString();
+      print(await response.stream.bytesToString());
+      // return _truckId;
+      return truckId;
+    } else {
+      print(response.reasonPhrase);
+      // return null;
+    }
+  }
+
   Future<dynamic> UpdateDevice(
       {required String truckId,
       required String truckType,

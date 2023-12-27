@@ -39,7 +39,7 @@ class LoadCardHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'postedon'.tr +': ${loadDetails.loadDate}',
+                'postedon'.tr + ': ${loadDetails.postLoadDate}',
                 style: TextStyle(fontSize: size_6, color: veryDarkGrey),
               ),
               Icon(Icons.arrow_forward_ios_sharp)
@@ -75,7 +75,8 @@ class LoadCardHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '${loadDetails.truckType} | ${loadDetails.noOfTyres} ' +'tyres'.tr,
+                '${loadDetails.truckType} | ${loadDetails.noOfTyres} ' +
+                    'tyres'.tr,
                 style:
                     TextStyle(fontSize: size_6, fontWeight: mediumBoldWeight),
               ),
@@ -95,7 +96,9 @@ class LoadCardHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                '${loadDetails.productType}'.tr +' | ${loadDetails.weight} ' +'tonne'.tr,
+                '${loadDetails.productType}'.tr +
+                    ' | ${loadDetails.weight} ' +
+                    'tonne'.tr,
                 style:
                     TextStyle(fontSize: size_6, fontWeight: mediumBoldWeight),
               ),

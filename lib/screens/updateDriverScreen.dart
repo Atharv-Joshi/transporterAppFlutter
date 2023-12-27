@@ -69,15 +69,22 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
     }
   }
 
+  //searchOperation on the basis of trucknumbers
   void searchoperation(String searchText) {
     if (searchText != null) {
       searchedDriverList.clear();
+      searchedDriverListNumber.clear();
+
       for (int i = 0; i < driverList.length; i++) {
-        String data = driverNames[i];
-        if (data.toLowerCase().contains(searchText.toLowerCase())) {
+        String driverName = driverNames[i];
+        String driverNumber = driverMobileNumbers[i];
+
+        if (driverName.toLowerCase().contains(searchText.toLowerCase()) ||
+            driverNumber.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
-            searchedDriverList.add(data);
-            searchedDriverListNumber.add(driverMobileNumbers[i]);
+            print(searchText);
+            searchedDriverList.add(driverName);
+            searchedDriverListNumber.add(driverNumber);
           });
         }
       }
