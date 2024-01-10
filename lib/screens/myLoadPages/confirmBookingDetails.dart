@@ -81,6 +81,14 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
       appBar: AppBar(
         title: HeadingTextWidgetBlue('confirmBookingDetails'.tr),
         centerTitle: true,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: black,
+            ),
+            onPressed: () => {
+                  Navigator.of(context).popUntil((route) => route.isFirst),
+                }),
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,

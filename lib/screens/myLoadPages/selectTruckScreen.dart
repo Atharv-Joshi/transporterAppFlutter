@@ -87,11 +87,8 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
         String data = truckList[i];
         if (data.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
-            print(searchText);
             searchedTruckList.add(data);
             searchedDeviceIdList.add(deviceIdList[i]);
-            print(searchedTruckList);
-            print(searchedDeviceIdList);
           });
         }
         // else {

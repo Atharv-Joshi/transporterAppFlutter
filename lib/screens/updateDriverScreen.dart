@@ -74,15 +74,12 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
     if (searchText != null) {
       searchedDriverList.clear();
       searchedDriverListNumber.clear();
-
       for (int i = 0; i < driverList.length; i++) {
         String driverName = driverNames[i];
         String driverNumber = driverMobileNumbers[i];
-
         if (driverName.toLowerCase().contains(searchText.toLowerCase()) ||
             driverNumber.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
-            print(searchText);
             searchedDriverList.add(driverName);
             searchedDriverListNumber.add(driverNumber);
           });
@@ -238,8 +235,17 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
                                       setState(() {
                                         isSelected = true;
                                         selectedIndex = index;
-                                        selectedDriver =
-                                            searchedDriverList[index];
+
+                                        if (searchedDriver.length != 0) {
+                                          selectedDriver =
+                                              searchedDriverList[index];
+                                          selectedDriverPhoneNumber =
+                                              searchedDriverListNumber[index];
+                                        } else {
+                                          selectedDriver = driverNames[index];
+                                          selectedDriverPhoneNumber =
+                                              driverMobileNumbers[index];
+                                        }
                                       });
                                     },
                                     child: Column(
