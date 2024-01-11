@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const Color kLiveasyColor = Color(0xFF000066);
 const Color statusBarColor = Color(0xFFFFFFFF);
 const Color darkBlueColor = Color(0xFF152968);
 const Color lineGreyColor = Color(0xFFA6A6A6);
@@ -84,6 +85,13 @@ const Color sideBarTextColor = Color.fromARGB(255, 135, 135, 135);
 const Color greyishshade = Color.fromRGBO(197, 195, 195, 0.24);
 const Color offWhite = Color.fromRGBO(244, 244, 244, 1);
 Color? greyishAccent = Colors.grey[700];
+Color lightBlueTable = const Color.fromRGBO(237, 241, 255, 1);
 
 //box shadow
 const Color darkShadow = Color(0x26000000);
+const Color blackColor = Color.fromARGB(1, 24, 24, 24);
+const Color textcolor = Color(0xffEDF1FF);
+// const okButtonColor = Color.fromARGB(255, 9, 183, 120);
+// const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
+const Color trackButtonColor = Color.fromARGB(255, 0, 0, 102);
+const Color docScreenColor = Color(0xffF5F6FA);
