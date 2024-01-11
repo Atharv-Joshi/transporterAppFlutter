@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -66,9 +65,6 @@ class _UpdateBookingDetailsState extends State<UpdateBookingDetails> {
       appBar: AppBar(
         title: HeadingTextWidgetBlue('confirmBookingDetails'.tr),
         centerTitle: true,
-        leading: CupertinoNavigationBarBackButton(
-          color: black,
-        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
