@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
+
 import '../../constants/spaces.dart';
 import '../../functions/consentAPIs.dart';
+import '../../responsive.dart';
 
 //This button is used to send the consent to the user
 class SendConsentButton extends StatefulWidget {
@@ -23,38 +27,69 @@ class _SendConsentButtonState extends State<SendConsentButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: darkBlueColor,
-          elevation: elevation_0,
-        ),
-        onPressed: () async {
-          final response = await consentApiCall(
-            mobileNumber: widget.mobileno,
-            operator: widget.selectedOperator,
-          );
-          // Check the response status
-          responseStatus = response['status'];
+    return (kIsWeb && (Responsive.isDesktop(context)))
+        ? Container(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: truckGreen,
+              ),
+              onPressed: () async {
+                final response = await consentApiCall(
+                  mobileNumber: widget.mobileno,
+                  operator: widget.selectedOperator,
+                );
+                // Check the response status
+                responseStatus = response['status'];
 
-          // Show dialog based on the response status
-          _showDialogBasedOnStatus(responseStatus);
-        },
-        child: Row(
-          children: [
-            Image.asset(
-              'assets/icons/rightArrow.png',
-              width: 13,
-              height: 13,
+                // Show dialog based on the response status
+                _showDialogBasedOnStatus(responseStatus);
+              },
+              child: Container(
+                  width: 120,
+                  height: 50,
+                  child: Center(
+                      child: Text(
+                    'Send Consent',
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: white,
+                    ),
+                  ))),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: space_2),
-              child: Text('Send Consent'),
+          )
+        : Container(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: darkBlueColor,
+                elevation: elevation_0,
+              ),
+              onPressed: () async {
+                final response = await consentApiCall(
+                  mobileNumber: widget.mobileno,
+                  operator: widget.selectedOperator,
+                );
+                // Check the response status
+                responseStatus = response['status'];
+
+                // Show dialog based on the response status
+                _showDialogBasedOnStatus(responseStatus);
+              },
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/icons/rightArrow.png',
+                    width: 13,
+                    height: 13,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: space_2),
+                    child: Text('Send Consent'),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   void _showDialogBasedOnStatus(String? status) {
