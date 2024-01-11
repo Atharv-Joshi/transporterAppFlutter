@@ -16,19 +16,13 @@ onGoingOrdersApiCall(int i) async {
       Get.find<TransporterIdController>();
   // List<BookingModel> modelList = [];
   List<OngoingCardModel?> modelList = [];
-  print("transported id");
-  print(transporterIdController.transporterId.value);
   // http.Response response = await http.get(Uri.parse(
   //     '$bookingApiUrl?postLoadId=${transporterIdController.transporterId.value}&completed=false&cancel=false&pageNo=$i'));
   http.Response response = await http.get(Uri.parse(
       '$bookingApiUrl?transporterId=${transporterIdController.transporterId.value}&completed=false&cancel=false&pageNo=$i'));
 
   var jsonData = json.decode(response.body);
-
-  print(jsonData);
   for (var json in jsonData) {
-    print("\n\n");
-    print(json);
     BookingModel bookingModel = new BookingModel();
     bookingModel.bookingDate =
         json['bookingDate'] != null ? json['bookingDate'] : 'NA';
@@ -45,8 +39,7 @@ onGoingOrdersApiCall(int i) async {
         json['postLoadId'] != null ? json['postLoadId'] : 'NA';
     bookingModel.bookingId =
         json['bookingId'] != null ? json['bookingId'] : 'NA';
-    bookingModel.rateString =
-        json['rate'] != null ? json['rate'].toString() : 'NA';
+    bookingModel.rate = json['rate'] != null ? json['rate'].toString() : 'NA';
     bookingModel.unitValue =
         json['unitValue'] != null ? json['unitValue'] : 'NA';
 
@@ -75,10 +68,6 @@ onGoingOrdersApiCall(int i) async {
     var loadAllDataModel = await loadAllOnGoingOrdersData(bookingModel);
     modelList.add(loadAllDataModel);
   }
-  print(modelList);
-  print(modelList);
-  print(modelList);
-  print(modelList);
 
   return modelList;
 }

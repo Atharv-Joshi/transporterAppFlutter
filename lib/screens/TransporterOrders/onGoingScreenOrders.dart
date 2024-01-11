@@ -1,6 +1,7 @@
+import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -12,12 +13,13 @@ import 'package:liveasy/functions/bookingApiCallsOrders.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getDeviceData.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getPositionByDeviceId.dart';
 import 'package:liveasy/functions/ongoingTrackUtils/getTraccarSummaryByDeviceId.dart';
-import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersCardNew.dart';
+import 'package:liveasy/widgets/LoadsTableHeader.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
@@ -50,7 +52,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   int i = 0;
 
-  bool loading = false;
+  bool loading = true;
   bool OngoingProgress = false;
 
   TransporterIdController transporterIdController =
@@ -61,6 +63,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   List<OngoingCardModel> modelList = [];
   // Future<dynamic>? modelList = [];
   ScrollController scrollController = ScrollController();
+  TextEditingController searchTextController = TextEditingController();
+  List<OngoingCardModel> searchedLoadList = [];
   bool moreitems = true;
 
   getOnGoingOrders(int i) async {
@@ -77,7 +81,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     }
     if (moreitems) {
       for (var bookingData in bookingDataListWithPagei) {
-        print(bookingData);
         modelList.add(bookingData);
       }
     }
@@ -88,16 +91,10 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         OngoingProgress = false;
       });
     }
-
-    print("model list length:- ");
-    print(modelList.length);
-
-    print("gps data :- ");
     await initializeGps();
   }
 
   initializeGps() async {
-    print("in func");
     for (int i = 0; i < modelList.length; i++) {
       await getMyTruckPosition(i);
       // await initFunction(i);
@@ -110,9 +107,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     super.initState();
     // nullData();
 
-    print("current selected language :- ");
-    print(LocalizationService().getCurrentLocale());
-
     loading = true;
     getOnGoingOrders(i);
 
@@ -123,7 +117,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         getOnGoingOrders(i);
       }
     });
-    print(modelList);
   }
 
   String searchedTruck = "";
@@ -157,12 +150,9 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
             (driverName.toLowerCase().contains(searchText.toLowerCase())) ||
             (bookingDate.toLowerCase().contains(searchText.toLowerCase()))) {
           setState(() {
-            print(searchText);
             searchedModelList.add(modelList[i]);
             searchedDeviceList.add(devicelist[i]);
             searchedGpsList.add(gpsDataList[i]);
-            print(searchedModelList);
-            print(searchedDeviceList);
           });
         }
 
@@ -170,19 +160,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         //   searchedModelList.add("");
         // }
       }
-    }
-  }
-
-  refresh(bool allowToRefresh) {
-    if (allowToRefresh) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          modelList.clear();
-          for (int j = 0; j <= i; j++) {
-            getOnGoingOrders(i);
-          }
-        });
-      });
     }
   }
 
@@ -194,189 +171,310 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   @override
   Widget build(BuildContext context) {
-    print("$i HELLOOO");
-    return Container(
-        height: MediaQuery.of(context).size.height + size_10,
-        child: loading
-            ? OnGoingLoadingWidgets()
-            : modelList.length == 0
-                ? Container(
-                    margin: EdgeInsets.only(top: 153),
-                    child: Column(
-                      children: [
-                        Image(
-                          image: AssetImage('assets/images/EmptyLoad.png'),
-                          height: 127,
-                          width: 127,
-                        ),
-                        Text(
-                          'noOnGoingLoad'.tr,
-                          // 'Looks like you have not added any Loads!',
-                          style: TextStyle(fontSize: size_8, color: grey),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  )
-                : RefreshIndicator(
-                    color: lightNavyBlue,
-                    onRefresh: () {
-                      setState(() {
-                        modelList.clear();
-                        moreitems = true;
-                        i = 0;
-                        gpsDataList.clear();
-                        loading = true;
-                      });
-                      return getOnGoingOrders(0);
-                    },
-                    // child: FutureBuilder<dynamic>(
-                    //   future:
-                    //       initializeGps(), // Here you run the check for all queryRows items and assign the fromContact property of each item
-                    //   builder: (context, snapshot) {
-                    //     return ListView.builder(
-                    //       itemCount: modelList.length,
-                    //       itemBuilder: (context, index) {
-                    //         if (snapshot.hasData) {
-                    //           // Check if the record is in Contacts
-                    //           // True: Return your UI element with Name and Avatar here
-                    //           return onGoingOrdersCardNew(
-                    //             loadAllDataModel: modelList[index],
-                    //             gpsDataList: gpsDataList[index],
-                    //             totalDistance: totalDistance,
-                    //           );
-                    //         } else {
-                    //           // False: Return UI element without Name and Avatar
-                    //           return Container();
-                    //         }
-                    //       },
-                    //     );
-                    //   },
-                    // ),
-
-                    // ListView.builder(
-                    //     physics: BouncingScrollPhysics(),
-                    //     padding: EdgeInsets.only(bottom: space_10),
-                    //     itemCount: modelList.length,
-                    //     itemBuilder: (context, index) {
-                    //       return FutureBuilder(
-                    //           future: getMyTruckPosition(index),
-                    //           builder: (context, snap) {
-                    //             if (snap.hasData) {
-                    //               // if(snap.hasData = true){
-                    //               return onGoingOrdersCardNew(
-                    //                 loadAllDataModel: modelList[index],
-                    //                 gpsDataList: gpsDataList,
-                    //                 totalDistance: totalDistance,
-                    //               );
-                    //             } else {
-                    //               return Container();
-                    //             }
-                    //             // }
-                    //             // return Loading();
-                    //           });
-                    //     }
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: space_3, horizontal: space_3),
-                            child: Container(
-                              height: space_11,
-                              decoration: BoxDecoration(
-                                color: widgetBackGroundColor,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                    width: 0.8, color: widgetBackGroundColor),
-                              ),
-                              child: TextField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    searchedTruck = value;
-                                  });
-                                  print(value);
-                                  searchoperation(searchedTruck);
-                                },
-                                textAlignVertical: TextAlignVertical.center,
-                                textAlign: TextAlign.start,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'search'.tr,
-                                  icon: Padding(
-                                    padding: EdgeInsets.only(left: space_2),
-                                    child: Icon(
-                                      Icons.search,
-                                      color: grey,
-                                    ),
-                                  ),
-                                  hintStyle: TextStyle(
-                                    fontSize: size_8,
-                                    color: grey,
-                                  ),
-                                ),
-                              ),
-                            ),
+    return SizedBox(
+        height: MediaQuery.of(context).size.height -
+            kBottomNavigationBarHeight -
+            space_8,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: space_2,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    flex: (Responsive.isMobile(context)) ? 8 : 5,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: space_2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(space_6),
+                        color: white,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: lightGrey,
+                            blurRadius: 5,
                           ),
-                          searchedTruck == ""
-                              ?
-                              // child:
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.only(bottom: space_10),
-                                  itemCount: modelList.length,
-                                  itemBuilder: (context, index) {
-                                    // getMyTruckPosition(index);
-                                    initFunction(index);
-                                    return (index == modelList.length - 1)
-                                        ? Visibility(
-                                            visible: OngoingProgress,
-                                            child:
-                                                bottomProgressBarIndicatorWidget())
-                                        : (index < gpsDataList.length)
-                                            ? onGoingOrdersCardNew(
-                                                loadAllDataModel:
-                                                    modelList[index],
-                                                gpsDataList: gpsDataList[index],
-                                                totalDistance: totalDistance,
-                                                device: devicelist[index],
-                                                refreshParent: refresh,
-                                              )
-                                            : Container();
-                                  })
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.only(bottom: space_10),
-                                  itemCount: searchedModelList.length,
-                                  itemBuilder: (context, index) {
-                                    // getMyTruckPosition(index);
-                                    initFunction(index);
-                                    return (index == searchedModelList.length)
-                                        ? Visibility(
-                                            visible: OngoingProgress,
-                                            child:
-                                                bottomProgressBarIndicatorWidget())
-                                        : (index < searchedGpsList.length)
-                                            ? onGoingOrdersCardNew(
-                                                loadAllDataModel:
-                                                    searchedModelList[index],
-                                                gpsDataList:
-                                                    searchedGpsList[index],
-                                                totalDistance: totalDistance,
-                                                device:
-                                                    searchedDeviceList[index],
-                                                refreshParent: refresh,
-                                              )
-                                            : Container();
-                                  }),
                         ],
+                      ),//Search bar
+                      child: TextField(
+                        controller: searchTextController,
+                        onChanged: (value) {
+                          setState(() {
+                            searchedTruck = value;
+                          });
+                          searchoperation(searchedTruck);
+                        },
+                        style: TextStyle(
+                            color: black,
+                            fontFamily: 'Montserrat',
+                            fontSize: size_8),
+                        cursorColor: kLiveasyColor,
+                        cursorWidth: 1,
+                        mouseCursor: SystemMouseCursors.click,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.only(
+                              bottom: 0, left: 5, right: 5, top: 15),
+                          prefixIcon:
+                              const Icon(Icons.search, color: grey, size: 25),
+                          hintText: "Search",
+                          hintStyle: TextStyle(
+                              fontSize: size_8,
+                              fontFamily: "Montserrat",
+                              color: grey,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
-                      // ]
-                    ),
-                  ));
+                    ))
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            loading
+                ? Expanded(child: const OnGoingLoadingWidgets())
+                : modelList.length == 0
+                    ? Container(
+                        margin: EdgeInsets.only(top: 153),
+                        child: Column(
+                          children: [
+                            Image(
+                              image: AssetImage('assets/images/EmptyLoad.png'),
+                              height: 127,
+                              width: 127,
+                            ),
+                            Text(
+                              'noOnGoingLoad'.tr,
+                              // 'Looks like you have not added any Loads!',
+                              style: TextStyle(fontSize: size_8, color: grey),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      )
+                    : Expanded(
+                        child: RefreshIndicator(
+                          color: lightNavyBlue,
+                          onRefresh: () {
+                            setState(() {
+                              modelList.clear();
+                              moreitems = true;
+                              i = 0;
+                              gpsDataList.clear();
+                              loading = true;
+                            });
+                            return getOnGoingOrders(0);
+                          },//For web this code will be executed
+                          child: (kIsWeb && Responsive.isDesktop(context))
+                              ? Card(
+                                  surfaceTintColor: Colors.transparent,
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  shadowColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                  elevation: 10,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      LoadsTableHeader(
+                                        loadingStatus: 'On-Going',
+                                        screenWidth:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                      searchedTruck == "" //The below list view is used to show the ongoing details on web
+                                          ? Expanded(
+                                              flex: 4,
+                                              child: SingleChildScrollView(
+                                                controller: scrollController,
+                                                child: ListView.separated(
+                                                    shrinkWrap: true,
+                                                    primary: false,
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemCount: modelList.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      initFunction(index);
+                                                      return (index ==
+                                                              (modelList
+                                                                  .length))
+                                                          ? Visibility(
+                                                              visible:
+                                                                  OngoingProgress,
+                                                              child:
+                                                                  bottomProgressBarIndicatorWidget(),
+                                                            )
+                                                          : (index <
+                                                                  gpsDataList
+                                                                      .length)
+                                                              ? Row(
+                                                                  children: [
+                                                                    onGoingOrdersCardNew(
+                                                                      loadAllDataModel:
+                                                                          modelList[
+                                                                              index],
+                                                                      gpsDataList:
+                                                                          gpsDataList[
+                                                                              index],
+                                                                      totalDistance:
+                                                                          totalDistance,
+                                                                      device: devicelist[
+                                                                          index],
+                                                                      // refreshParent: refresh,
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : Container();
+                                                    },
+                                                    separatorBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            const Divider(
+                                                              thickness: 1,
+                                                              height: 0,
+                                                              color:
+                                                                  Colors.grey,
+                                                            )),
+                                              ),
+                                            )//this code is executed when we add some text to search in ongoing Screens
+                                          : Expanded(
+                                              flex: 4,
+                                              child: SingleChildScrollView(
+                                                controller: scrollController,
+                                                child: ListView.separated(
+                                                    shrinkWrap: true,
+                                                    primary: false,
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemCount: searchedModelList
+                                                        .length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      initFunction(index);
+                                                      return (index ==
+                                                              (searchedModelList
+                                                                  .length))
+                                                          ? Visibility(
+                                                              visible:
+                                                                  OngoingProgress,
+                                                              child:
+                                                                  bottomProgressBarIndicatorWidget(),
+                                                            )
+                                                          : (index <
+                                                                  searchedGpsList
+                                                                      .length)
+                                                              ? Row(
+                                                                  children: [
+                                                                    onGoingOrdersCardNew(
+                                                                      loadAllDataModel:
+                                                                          searchedModelList[
+                                                                              index],
+                                                                      gpsDataList:
+                                                                          searchedGpsList[
+                                                                              index],
+                                                                      totalDistance:
+                                                                          totalDistance,
+                                                                      device: searchedDeviceList[
+                                                                          index],
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : Container();
+                                                    },
+                                                    separatorBuilder:
+                                                        (BuildContext context,
+                                                                int index) =>
+                                                            const Divider(
+                                                              thickness: 1,
+                                                              height: 0,
+                                                              color:
+                                                                  Colors.grey,
+                                                            )),
+                                              ))
+                                    ],
+                                  ),
+                                )//Below code is for mobile
+                              : SingleChildScrollView(
+                                  controller: scrollController,
+                                  child: searchedTruck == ""
+                                      ?
+                                      // child:
+                                      ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          padding:
+                                              EdgeInsets.only(bottom: space_10),
+                                          itemCount: modelList.length,
+                                          itemBuilder: (context, index) {
+                                            // getMyTruckPosition(index);
+                                            initFunction(index);
+                                            return (index == modelList.length)
+                                                ? Visibility(
+                                                    visible: OngoingProgress,
+                                                    child:
+                                                        bottomProgressBarIndicatorWidget())
+                                                : (index < gpsDataList.length)
+                                                    ? onGoingOrdersCardNew(
+                                                        loadAllDataModel:
+                                                            modelList[index],
+                                                        gpsDataList:
+                                                            gpsDataList[index],
+                                                        totalDistance:
+                                                            totalDistance,
+                                                        device:
+                                                            devicelist[index],
+                                                        // refreshParent: refresh,
+                                                      )
+                                                    : Container();
+                                          })
+                                      : ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          padding:
+                                              EdgeInsets.only(bottom: space_10),
+                                          itemCount: searchedModelList.length,
+                                          itemBuilder: (context, index) {
+                                            // getMyTruckPosition(index);
+                                            initFunction(index);
+                                            return (index ==
+                                                    searchedModelList.length)
+                                                ? Visibility(
+                                                    visible: OngoingProgress,
+                                                    child:
+                                                        bottomProgressBarIndicatorWidget())
+                                                : (index <
+                                                        searchedGpsList.length)
+                                                    ? onGoingOrdersCardNew(
+                                                        loadAllDataModel:
+                                                            searchedModelList[
+                                                                index],
+                                                        gpsDataList:
+                                                            searchedGpsList[
+                                                                index],
+                                                        totalDistance:
+                                                            totalDistance,
+                                                        device:
+                                                            searchedDeviceList[
+                                                                index],
+                                                        // refreshParent: refresh,
+                                                      )
+                                                    : Container();
+                                          }),
+                                  // ]
+                                ),
+                        ),
+                      )
+          ],
+        ));
     // ),
     // );
   }
@@ -386,7 +484,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   getMyTruckPosition(int index) async {
     List<DeviceModel> devices =
         await getDeviceByDeviceId(modelList[index].deviceId.toString());
-    print("in func 3");
     List<GpsDataModel> gpsDataAll =
         await getPositionByDeviceId(modelList[index].deviceId.toString());
 
@@ -403,13 +500,10 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
     for (int i = 0; i < gpsDataAll.length; i++) {
       getGPSData(gpsDataAll[i], i);
     }
-    print("GPSDATALIST....");
     // gpsDataList.add(gpsList);
     setState(() {
       // gpsDataList[i] = gpsList;
       gpsDataList.add(gpsList);
-      // print("GPSDATALIST....");
-      print(gpsDataList);
       getMyTruckPostionBoolValue = true;
     });
     // return true;
@@ -428,87 +522,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
     totalDistance = (gpsRoute1[0].distance! / 1000).toStringAsFixed(2);
     initfunctionBoolValue = true;
-
-    print('in init');
     // return initfunctionBoolValue;
   }
 }
-
-// } //class end
-
-//     return Container(
-//         height: MediaQuery.of(context).size.height * 0.67,
-//         child: FutureBuilder(
-//           //getTruckData returns list of truck Model
-//           future: bookingApiCallsOrders.getDataByTransporterIdOnGoing(),
-//           builder: (BuildContext context, AsyncSnapshot snapshot) {
-//             if (snapshot.data == null) {
-//               return OnGoingLoadingWidgets();
-//             }
-//             //number of cards
-
-//             if (snapshot.data.length == 0) {
-//               return Container(
-//                 margin: EdgeInsets.only(top: 153),
-//                 child: Column(
-//                   children: [
-//                     Image(
-//                       image: AssetImage('assets/images/EmptyLoad.png'),
-//                       height: 127,
-//                       width: 127,
-//                     ),
-//                     Text(
-//                       'Looks like you have no on-going bookings!',
-//                       style: TextStyle(fontSize: size_8, color: grey),
-//                       textAlign: TextAlign.center,
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             } else {
-//               return ListView.builder(
-//                   physics: BouncingScrollPhysics(),
-//                   itemCount: snapshot.data.length,
-//                   itemBuilder: (context, index) {
-//                     return FutureBuilder(
-//                         future: loadAllOnGoingOrdersData(snapshot.data[index]),
-//                         //loadAllDataOrdersNew(snapshot.data[index]),
-//                         // future: modelList,
-//                         builder:
-//                             (BuildContext context, AsyncSnapshot snapshot) {
-//                           if (snapshot.data == null) {
-//                             return OnGoingLoadingWidgets();
-//                           }
-//                           return OngoingCardOrders(
-//                             // loadAllDataModel: modelList[index]
-//                             unitValue: snapshot.data['unitValue'],
-//                             productType: snapshot.data['productType'],
-//                             noOfTrucks: snapshot.data['noOfTrucks'],
-//                             truckType: snapshot.data['truckType'],
-//                             posterLocation: snapshot.data['posterLocation'],
-//                             posterName: snapshot.data['posterName'],
-//                             companyApproved: snapshot.data['companyApproved'],
-//                             rate: snapshot.data['rate'],
-//                             loadingPoint: snapshot.data['loadingPoint'],
-//                             unloadingPoint: snapshot.data['unloadingPoint'],
-//                             companyName: snapshot.data['companyName'],
-//                             vehicleNo: snapshot.data['truckNo'],
-//                             driverName: snapshot.data['driverName'],
-//                             startedOn: snapshot.data['startedOn'],
-//                             bookingId: snapshot.data['bookingId'],
-//                             endedOn: snapshot.data['endedOn'],
-//                             imei: snapshot.data['imei'],
-//                             driverPhoneNum: snapshot.data['driverPhoneNum'],
-//                             transporterPhoneNumber:
-//                                 snapshot.data['posterPhoneNum'],
-//                             // transporterName : snapshot.data['transporterName'],
-//                           );
-//                         });
-//                   } //builder
-
-//                   );
-//             } //else
-//           },
-//         ));
-//   }
-// } //class end

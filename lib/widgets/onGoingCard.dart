@@ -87,7 +87,9 @@ class _OngoingCardState extends State<OngoingCard> {
           driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
           driverName: widget.loadAllDataModel.driverName,
           bookingDate: widget.loadAllDataModel.bookingDate,
-          refreshParent: (bool x,) {},
+          // refreshParent: (
+          //   bool x,
+          // ) {},
           // trackApproved: true,
           gpsDataList: gpsDataList,
           // widget.gpsDataList,

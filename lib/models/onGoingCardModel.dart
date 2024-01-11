@@ -1,5 +1,6 @@
-class OngoingCardModel{
+class OngoingCardModel {
   String? bookingId;
+  String? loadId;
   String? loadingPointCity;
   String? unloadingPointCity;
   String? companyName;
@@ -23,25 +24,25 @@ class OngoingCardModel{
 
   OngoingCardModel(
       {this.bookingId,
-        this.imei,
-        this.unitValue,
-        this.bookingDate,
-        this.companyApproved,
-        this.companyName,
-        this.completedDate,
-        this.driverName,
-        this.driverPhoneNum,
-        this.loadingPointCity,
-        this.noOfTrucks,
-        this.productType,
-        this.rate,
-        this.transporterApproved,
-        this.transporterLocation,
-        this.transporterName,
-        this.transporterPhoneNum,
-        this.truckNo,
-        this.truckType,
-        this.unloadingPointCity,
-        this.deviceId
-      });
+      this.loadId,
+      this.imei,
+      this.unitValue,
+      this.bookingDate,
+      this.companyApproved,
+      this.companyName,
+      this.completedDate,
+      this.driverName,
+      this.driverPhoneNum,
+      this.loadingPointCity,
+      this.noOfTrucks,
+      this.productType,
+      this.rate,
+      this.transporterApproved,
+      this.transporterLocation,
+      this.transporterName,
+      this.transporterPhoneNum,
+      this.truckNo,
+      this.truckType,
+      this.unloadingPointCity,
+      this.deviceId});
 }
