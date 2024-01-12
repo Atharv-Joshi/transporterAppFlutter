@@ -11,12 +11,12 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/urlGetter.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/widgets/LoadPointTemplateForBidScreen.dart';
 import 'package:liveasy/widgets/auctionDetails.dart';
+import 'package:liveasy/widgets/buttons/auctionScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/placeBidButton.dart';
 
-import '../models/loadDetailsScreenModel.dart';
-import '../widgets/LoadPointTemplateForBidScreen.dart';
-import '../widgets/buttons/auctionScreenNavigationBarButton.dart';
 import 'auctionDetailsScreen.dart';
 import 'indentScreen.dart';
 
@@ -45,6 +45,7 @@ class _AuctionScreenState extends State<AuctionScreen> {
   int switchIndex = 0;
 
   String formatDate(String postLoadDate) {
+    //To convert the date format as required.
     if (postLoadDate != 'NA') {
       DateTime date = DateFormat('EEE, MMM d yyyy').parse(postLoadDate);
       return DateFormat('dd/MM/yyyy').format(date);
@@ -81,6 +82,7 @@ class _AuctionScreenState extends State<AuctionScreen> {
         backgroundColor: teamBar,
         body: showDetails
             ? loadDetails(context)
+            //loadDetails are contents of place bid screen.
             : Column(
                 children: [
                   Container(
@@ -93,6 +95,7 @@ class _AuctionScreenState extends State<AuctionScreen> {
                         child: Row(
                           children: [
                             Text(
+                              //If index 0 displays auction screen else indent screen.
                               switchIndex == 0 ? 'Auction' : 'Indent',
                               style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w600,
@@ -137,21 +140,6 @@ class _AuctionScreenState extends State<AuctionScreen> {
                                   prefixIcon: const Icon(Icons.search),
                                 ),
                                 controller: textEditingController,
-                                // onChanged: (value) {
-                                //   if (value.length > 0) {
-                                //     myLoadList = myLoadList
-                                //         .where((element) =>
-                                //             element.truckType
-                                //                 ?.toLowerCase()
-                                //                 .contains(
-                                //                     value.toLowerCase()) ==
-                                //             true)
-                                //         .toList();
-                                //   } else {
-                                //     getDataByPostLoadId();
-                                //   }
-                                //   setState(() {});
-                                // },
                               ),
                             )),
                       ),
@@ -265,7 +253,6 @@ class _AuctionScreenState extends State<AuctionScreen> {
                       text: data["unloadingCityPoint"],
                       endPointType: 'unloading'),
                 ],
-                // [Text(data['loadId'])],
               ),
             ),
           ),

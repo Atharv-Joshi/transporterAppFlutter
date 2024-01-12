@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 
-import '../../Web/dashboard.dart';
-import '../../constants/radius.dart';
-import '../../constants/screens.dart';
-import '../../responsive.dart';
 import 'selectTruckScreen.dart';
 
 class ConfirmBookingDetails extends StatefulWidget {
@@ -63,6 +63,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
     'Vodafone',
     'Jio',
   ];
+
   @override
   void initState() {
     super.initState();
@@ -180,6 +181,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                       padding: EdgeInsets.only(left: space_2),
                                       child: widget.selectedTruck.toString() ==
                                               "null"
+                                          //If the container is null returns null else the truck number is displayed.
                                           ? Text(
                                               "",
                                               style: GoogleFonts.montserrat(
@@ -266,24 +268,25 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(left: space_2),
-                                      child:
-                                          widget.driverName.toString() == "null"
-                                              ? Text(
-                                                  "",
-                                                  style: GoogleFonts.montserrat(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 15,
-                                                    color: textLightColor,
-                                                  ),
-                                                )
-                                              : Text(
-                                                  "${widget.driverName}-${widget.mobileNo}",
-                                                  style: GoogleFonts.montserrat(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20,
-                                                    color: black,
-                                                  ),
-                                                ),
+                                      child: widget.driverName.toString() ==
+                                              "null"
+                                          //If the container is null returns null else driverName and driverPhoneNo is displayed.
+                                          ? Text(
+                                              "",
+                                              style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 15,
+                                                color: textLightColor,
+                                              ),
+                                            )
+                                          : Text(
+                                              "${widget.driverName}-${widget.mobileNo}",
+                                              style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20,
+                                                color: black,
+                                              ),
+                                            ),
                                     ),
                                     Container(
                                         padding: EdgeInsets.only(
@@ -345,6 +348,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                         items: operatorOptions
                                             .map((String operator) {
                                           return DropdownMenuItem<String>(
+                                            //Menu to select the operator name.
                                             child: Padding(
                                               padding: EdgeInsets.all(space_2),
                                               child: Container(
@@ -416,6 +420,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                 ),
               ),
             ))
+        //TODO: App side code.
         : Scaffold(
             appBar: AppBar(
               title: HeadingTextWidgetBlue('confirmBookingDetails'.tr),
