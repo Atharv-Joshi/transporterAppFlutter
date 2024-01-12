@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
-import 'package:screenshot/screenshot.dart';
+
 //this table header will be used for showing the ongoing details on web
+// ignore: non_constant_identifier_names
 Container LoadsTableHeader(
     {required String loadingStatus, required double screenWidth}) {
   bool small = true;
@@ -41,11 +42,11 @@ Container LoadsTableHeader(
                           ? "Scheduled\nDate & Time"
                           : "Booking\nOn",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: textFontSize,
-                          fontFamily: 'Montserrat'),
+                      style: GoogleFonts.montserrat(
+                        color: black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: textFontSize,
+                      ),
                     )))),
         VerticalDivider(color: Colors.grey, thickness: 1),
         Expanded(
@@ -67,11 +68,11 @@ Container LoadsTableHeader(
                       child: Text(
                     "Loading\nPoint",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: textFontSize,
-                        fontFamily: 'Montserrat'),
+                    style: GoogleFonts.montserrat(
+                      color: black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: textFontSize,
+                    ),
                   ))
                 ]))),
         VerticalDivider(
@@ -97,11 +98,11 @@ Container LoadsTableHeader(
                       child: Text(
                     "Unloading\nPoint",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: textFontSize,
-                        fontFamily: 'Montserrat'),
+                    style: GoogleFonts.montserrat(
+                      color: black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: textFontSize,
+                    ),
                   ))
                 ]))),
         VerticalDivider(
@@ -116,11 +117,11 @@ Container LoadsTableHeader(
                   ? "Truck Type /\nNo. of Tyres"
                   : "Truck\nNumber",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: textFontSize,
-                  fontFamily: 'Montserrat'),
+              style: GoogleFonts.montserrat(
+                color: black,
+                fontWeight: FontWeight.w600,
+                fontSize: textFontSize,
+              ),
             ))),
         VerticalDivider(
           color: Colors.grey,
@@ -134,11 +135,11 @@ Container LoadsTableHeader(
                   ? "Product Type /\nWeight"
                   : "Driver's\nName",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: textFontSize,
-                  fontFamily: 'Montserrat'),
+              style: GoogleFonts.montserrat(
+                color: black,
+                fontWeight: FontWeight.w600,
+                fontSize: textFontSize,
+              ),
             ))),
         VerticalDivider(
           color: Colors.grey,
@@ -150,11 +151,11 @@ Container LoadsTableHeader(
                 child: Text(
               (loadingStatus == 'MyLoads') ? "Publishing\nMethod" : "Freight",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: textFontSize,
-                  fontFamily: 'Montserrat'),
+              style: GoogleFonts.montserrat(
+                color: black,
+                fontWeight: FontWeight.w600,
+                fontSize: textFontSize,
+              ),
             ))),
         VerticalDivider(
           color: Colors.grey,
@@ -165,11 +166,11 @@ Container LoadsTableHeader(
             child: Center(
                 child: Text(
               (loadingStatus == 'MyLoads') ? "Status" : 'Transporter',
-              style: TextStyle(
-                  color: black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: textFontSize,
-                  fontFamily: 'Montserrat'),
+              style: GoogleFonts.montserrat(
+                color: black,
+                fontWeight: FontWeight.w600,
+                fontSize: textFontSize,
+              ),
             ))),
         VerticalDivider(
           color: Colors.grey,

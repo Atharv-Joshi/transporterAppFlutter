@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/models/BookingModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/models/onGoingCardModel.dart';
@@ -57,8 +55,11 @@ onGoingOrdersApiCall(int i) async {
         json['unloadingPointCity'] != null ? json['unloadingPointCity'] : 'NA';
     bookingModel.truckNo = json['truckNo'] != null ? json['truckNo'] : 'NA';
     // bookingModel.deviceId = json['deviceId'] != null ? json['deviceId'] : 'NA';
-    bookingModel.deviceId =
-        json['deviceId'] != null ? json['deviceId'] == 'NA' ? 80 : int.parse(json["deviceId"]) : 80;
+    bookingModel.deviceId = json['deviceId'] != null
+        ? json['deviceId'] == 'NA'
+            ? 80
+            : int.parse(json["deviceId"])
+        : 80;
 //     print(bookingModel);
 
 // // var loadAllDataModel = BookingModel(bookingModel);

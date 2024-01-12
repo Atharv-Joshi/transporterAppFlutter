@@ -32,6 +32,7 @@ const Color black_87 = Colors.black87;
 const Color loadingWidgetColor = Colors.lightBlueAccent;
 const Color inactiveBidding = Color(0xffC4C9D9);
 const Color cancelledBiddingBackground = Color(0xffD0D4E1);
+const Color greyColor = Color(0xff9E9E9E);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
@@ -73,7 +74,7 @@ const Color red = Colors.red;
 const Color navy = Color(0xff000066);
 Color continueButton = Color(0xff007CFF);
 Color tryAgainButton = Color(0xffCC503E);
-
+const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
 const Color formBackground = Color.fromARGB(255, 245, 246, 250);
 const Color headerLightBlueColor = Color.fromRGBO(245, 246, 250, 1);
 const Color darkBlueTextColor = Color.fromARGB(255, 21, 41, 104);
@@ -86,7 +87,12 @@ const Color greyishshade = Color.fromRGBO(197, 195, 195, 0.24);
 const Color offWhite = Color.fromRGBO(244, 244, 244, 1);
 Color? greyishAccent = Colors.grey[700];
 Color lightBlueTable = const Color.fromRGBO(237, 241, 255, 1);
-
+const okButtonColor = Color.fromARGB(255, 9, 183, 120);
+const Color fastagAppBarColor = Color.fromARGB(255, 210, 210, 210);
+const Color skyBlue = Color.fromARGB(255, 5, 122, 247);
+const Color timelinesColor = Color.fromARGB(255, 47, 46, 65);
+const Color vehicleDetailsText = Color.fromARGB(255, 9, 183, 120);
+const Color vahangrey = Color(0xffD3D3D3);
 //box shadow
 const Color darkShadow = Color(0x26000000);
 const Color blackColor = Color.fromARGB(1, 24, 24, 24);

@@ -29,6 +29,8 @@ class LoadApiCalls {
       'productType':
           jsonData['productType'] != null ? jsonData['productType'] : 'NA',
       'postLoadId': jsonData['postLoadId'],
+
+      //Some variable is added for documentUploadScreenWeb
       'loadingPoint':
           jsonData['loadingPoint'] != null ? jsonData['loadingPoint'] : 'NA',
       'loadingPointState': jsonData['loadingPointState'] != null

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
@@ -41,30 +43,9 @@ class onGoingOrdersCardNew extends StatefulWidget {
 }
 
 class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
-  // GpsDataModel? gpsData;
-  // var devicelist = [];
-  // var gpsDataList = [];
-  // var gpsList = [];
-
-  // bool getMyTruckPostionBoolValue = false;
-  // bool initfunctionBoolValue = false;
-
-  // DateTime yesterday =
-  //     DateTime.now().subtract(Duration(days: 1, hours: 5, minutes: 30));
-  // String? from;
-  // String? to;
-  // DateTime now = DateTime.now().subtract(Duration(hours: 5, minutes: 30));
-  // String? totalDistance;
   @override
   void initState() {
     super.initState();
-    // print(widget.loadAllDataModel.transporterId.toString());
-    // getMyTruckPosition();
-    // initFunction();
-    // print("gpsDataList");
-    // print(gpsDataList);
-    // print(getMyTruckPostionBoolValue.toString() +
-    //     initfunctionBoolValue.toString());
   }
 
   @override
@@ -82,11 +63,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
     } else {
       textFontSize = 16;
     }
-
+    //The booking date is converted into MMM dd yyyy from the below code
+    String formattedDate = DateFormat('MMM dd yyyy').format(
+      DateFormat('dd-MM-yyyy')
+          .parse(widget.loadAllDataModel.bookingDate ?? 'Null'),
+    );
+    //Below code is used to manage the string length within the code
     widget.loadAllDataModel.truckType;
     widget.loadAllDataModel.productType;
     widget.loadAllDataModel.unitValue;
-    //widget.loadAllDataModel.noOfTrucks;
     widget.loadAllDataModel.driverName ??= "NA";
     widget.loadAllDataModel.driverName =
         widget.loadAllDataModel.driverName!.length >= 20
@@ -97,19 +82,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
         widget.loadAllDataModel.companyName!.length >= 35
             ? '${widget.loadAllDataModel.companyName!.substring(0, 33)}..'
             : widget.loadAllDataModel.companyName;
-
+    // Is we get "PER_TON" from the apis the value for unitvalue will be "tonne"
+    // else "truck" will be assigned
     widget.loadAllDataModel.unitValue =
         widget.loadAllDataModel.unitValue == "PER_TON"
             ? "tonne".tr
             : "truck".tr;
+    //the below code will be executed for the web
     return (kIsWeb && Responsive.isDesktop(context))
-        ?
-        // gpsDataList.isEmpty
-        // !initfunctionBoolValue
-        //     ? Container()
-        //     :
-        // return
-        Expanded(
+        ? Expanded(
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -139,29 +120,8 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                     ),
                   ),
                 );
-                //     ShipperDetails(
-                //   bookingId: widget.loadAllDataModel.bookingId.toString(),
-                //   noOfTrucks: widget.loadAllDataModel.noOfTrucks,
-                //   productType: widget.loadAllDataModel.productType,
-                //   loadingPoint: widget.loadAllDataModel.loadingPointCity,
-                //   unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
-                //   rate: widget.loadAllDataModel.rate,
-                //   vehicleNo: widget.loadAllDataModel.truckNo,
-                //   shipperPosterCompanyApproved:
-                //       widget.loadAllDataModel.companyApproved,
-                //   shipperPosterCompanyName: widget.loadAllDataModel.companyName,
-                //   shipperPosterLocation:
-                //       widget.loadAllDataModel.transporterLocation,
-                //   shipperPosterName: widget.loadAllDataModel.transporterName,
-                //   transporterPhoneNum: widget.loadAllDataModel.transporterPhoneNum,
-                //   driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
-                //   driverName: widget.loadAllDataModel.driverName,
-                //   transporterName: widget.loadAllDataModel.companyName,
-                //   trackApproved: true,
-                //   gpsDataList: widget.gpsDataList,
-                //   totalDistance: widget.totalDistance,
-                // ));
-              },//OngoingCard for web
+              }, //OngoingCard for web
+              //the below code basically creates a table like UI for showing ongoing Details
               child: IntrinsicHeight(
                 child: Row(
                   children: [
@@ -171,16 +131,16 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                           child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
-                                widget.loadAllDataModel.bookingDate ?? 'Null',
+                                formattedDate,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: textFontSize,
-                                    fontFamily: 'Montserrat'),
+                                style: GoogleFonts.montserrat(
+                                  color: black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: textFontSize,
+                                ),
                               ))),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 5,
                       child: Center(
@@ -189,15 +149,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         child: Text(
                           widget.loadAllDataModel.loadingPointCity ?? 'Null',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: textFontSize,
-                              fontFamily: 'Montserrat'),
+                          style: GoogleFonts.montserrat(
+                            color: black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: textFontSize,
+                          ),
                         ),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 5,
                       child: Center(
@@ -206,15 +166,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         child: Text(
                           widget.loadAllDataModel.unloadingPointCity ?? 'Null',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: textFontSize,
-                              fontFamily: 'Montserrat'),
+                          style: GoogleFonts.montserrat(
+                            color: black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: textFontSize,
+                          ),
                         ),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 3,
                       child: Center(
@@ -223,15 +183,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         child: Text(
                           '${widget.loadAllDataModel.truckNo}' ?? 'Null',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: kLiveasyColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: textFontSize,
-                              fontFamily: 'Montserrat'),
+                          style: GoogleFonts.montserrat(
+                            color: kLiveasyColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: textFontSize,
+                          ),
                         ),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 4,
                       child: Center(
@@ -240,15 +200,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         child: Text(
                           '${widget.loadAllDataModel.driverName}' ?? 'Null',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: textFontSize,
-                              fontFamily: 'Montserrat'),
+                          style: GoogleFonts.montserrat(
+                            color: black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: textFontSize,
+                          ),
                         ),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 3,
                       child: Center(
@@ -257,15 +217,15 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         child: Text(
                           '${widget.loadAllDataModel.rate}' ?? 'Null',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: kLiveasyColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: textFontSize,
-                              fontFamily: 'Montserrat'),
+                          style: GoogleFonts.montserrat(
+                            color: kLiveasyColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: textFontSize,
+                          ),
                         ),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 3,
                       child: Center(
@@ -280,16 +240,16 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                                 '${widget.loadAllDataModel.companyName}' ??
                                     'Null',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: textFontSize,
-                                    fontFamily: 'Montserrat'),
+                                style: GoogleFonts.montserrat(
+                                  color: black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: textFontSize,
+                                ),
                               ))
                             ]),
                       )),
                     ),
-                    const VerticalDivider(color: Colors.grey, thickness: 1),
+                    const VerticalDivider(color: greyColor, thickness: 1),
                     Expanded(
                       flex: 4,
                       child: Row(
@@ -301,6 +261,7 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Column(
                                 children: [
+                                  //Track button for tracking the vehicle
                                   TrackButton(
                                     gpsData: widget.gpsDataList[0],
                                     truckApproved: true,
@@ -311,15 +272,20 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                                   const SizedBox(
                                     height: 10,
                                   ),
+                                  //Fastag button for tracking the vehicle from fastag
                                   FastagButton(
-                                    truckNo:
-                                        widget.loadAllDataModel.driverPhoneNum,
+                                    truckNo: widget.loadAllDataModel.truckNo,
+                                    loadingPoint: widget
+                                        .loadAllDataModel.loadingPointCity,
+                                    unloadingPoint: widget
+                                        .loadAllDataModel.unloadingPointCity,
                                   ),
                                   Container()
                                 ],
                               ),
                             ),
                           ),
+                          //While clicking on the card documentUploadScreenWeb screen opens
                           SizedBox(
                             width: 20,
                             height: 20,
@@ -385,7 +351,7 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                 ),
               ),
             ),
-          )//Below code is used for mobile
+          ) //Below code is used for mobile
         : GestureDetector(
             onTap: () {
               print(widget.loadDetailsScreenModel?.noOfTyres);
@@ -477,29 +443,6 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                // Container(
-                                //   margin: EdgeInsets.only(right: space_1),
-                                //   child: Image(
-                                //       height: 16,
-                                //       width: 23,
-                                //       color: black,
-                                //       image: AssetImage(
-                                //           'assets/icons/buildingIcon.png')),
-                                // ),
-                                // Text(
-                                //   textOverflowEllipsis(
-                                //       "widget.loadAllDataModel.companyName"
-                                //           .toString(),
-                                //       20),
-                                //   style: TextStyle(
-                                //     color: liveasyBlackColor,
-                                //     fontWeight: mediumBoldWeight,
-                                //   ),
-                                // )
-                              ],
-                            ),
                             SizedBox(
                               height: space_2,
                             ),
@@ -545,216 +488,3 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
             ));
   }
 }
-
-  //   if (widget.loadAllDataModel.driverName == null) {
-  //     widget.loadAllDataModel.driverName = "NA";
-  //   }
-  //   widget.loadAllDataModel.driverName =
-  //       widget.loadAllDataModel.driverName!.length >= 20
-  //           ? widget.loadAllDataModel.driverName!.substring(0, 18) + '..'
-  //           : widget.loadAllDataModel.driverName;
-  //   // if (widget.loadAllDataModel.companyName == null) {}
-  //   // widget.loadAllDataModel.companyName =
-  //   //     widget.loadAllDataModel.companyName!.length >= 35
-  //   //         ? widget.loadAllDataModel.companyName!.substring(0, 33) + '..'
-  //   //         : widget.loadAllDataModel.companyName;
-
-  //   widget.loadAllDataModel.unitValue =
-  //       widget.loadAllDataModel.unitValue == "PER_TON"
-  //           ? "tonne".tr
-  //           : "truck".tr;
-
-  //   return GestureDetector(
-  //     onTap: () {
-  //       Get.to(ShipperDetails(
-  //         bookingId: widget.loadAllDataModel.bookingId.toString(),
-  //         // truckType: truckType,
-  //         // noOfTrucks: noOfTrucks,
-  //         // productType: productType,
-  //         loadingPoint: widget.loadAllDataModel.loadingPointCity,
-  //         unloadingPoint: widget.loadAllDataModel.unloadingPointCity,
-  //         rate: widget.loadAllDataModel.rate,
-  //         vehicleNo: widget.loadAllDataModel.truckNo,
-  //         // shipperPosterCompanyApproved: companyApproved,
-  //         // shipperPosterCompanyName: companyName,
-  //         // shipperPosterLocation: posterLocation,
-  //         // shipperPosterName: posterName,
-  //         // transporterPhoneNum: transporterPhoneNumber,
-  //         driverPhoneNum: widget.loadAllDataModel.driverPhoneNum,
-  //         driverName: widget.loadAllDataModel.driverName,
-  //         // transporterName: companyName,
-  //         trackApproved: true,
-  //       ));
-  //       // Get.to(() => OnGoingLoadDetails(
-  //       //       loadALlDataModel: widget.loadAllDataModel,
-  //       //       trackIndicator: false,
-  //       //     ));
-  //     },
-  //     child: Container(
-  //       margin: EdgeInsets.only(bottom: space_3),
-  //       child: Card(
-  //         elevation: 5,
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //               margin: EdgeInsets.all(space_4),
-  //               child: Column(
-  //                 children: [
-  //                   Row(
-  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                     children: [
-  //                       Text(
-  //                         '${"bookingDate".tr} : ${widget.loadAllDataModel.bookingDate}',
-  //                         style: TextStyle(
-  //                           fontSize: size_6,
-  //                           color: veryDarkGrey,
-  //                         ),
-  //                       ),
-  //                       Icon(Icons.arrow_forward_ios_sharp),
-  //                     ],
-  //                   ),
-  //                   Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       LoadEndPointTemplate(
-  //                           text: widget.loadAllDataModel.loadingPointCity,
-  //                           endPointType: 'loading'),
-  //                       Container(
-  //                           padding: EdgeInsets.only(left: 2),
-  //                           height: space_3,
-  //                           width: space_12,
-  //                           child: CustomPaint(
-  //                             foregroundPainter: LinePainter(height: space_3),
-  //                           )),
-  //                       LoadEndPointTemplate(
-  //                           text: widget.loadAllDataModel.unloadingPointCity,
-  //                           endPointType: 'unloading'),
-  //                     ],
-  //                   ),
-  //                   Container(
-  //                     margin: EdgeInsets.only(top: space_4),
-  //                     child: Column(
-  //                       children: [
-  //                         NewRowTemplate(
-  //                           label: "truckNumber".tr,
-  //                           value: widget.loadAllDataModel.truckNo,
-  //                           width: 78,
-  //                         ),
-  //                         NewRowTemplate(
-  //                             label: "driverName".tr,
-  //                             value: widget.loadAllDataModel.driverName),
-  //                         NewRowTemplate(
-  //                           label: "price".tr,
-  //                           // value: widget.loadAllDataModel.rate,
-  //                           value:
-  //                               '${widget.loadAllDataModel.rate}/${widget.loadAllDataModel.unitValue}',
-  //                           width: 78,
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                   // Container(
-  //                   //   margin: EdgeInsets.only(top: space_4),
-  //                   //   child: Row(
-  //                   //     children: [
-  //                   //       Container(
-  //                   //         margin: EdgeInsets.only(right: space_1),
-  //                   //         child: Image(
-  //                   //             height: 16,
-  //                   //             width: 23,
-  //                   //             color: black,
-  //                   //             image:
-  //                   //                 AssetImage('assets/icons/TruckIcon.png')),
-  //                   //       ),
-  //                   //       Text(
-  //                   //         "widget.loadAllDataModel.companyName!",
-  //                   //         style: TextStyle(
-  //                   //           color: liveasyBlackColor,
-  //                   //           fontWeight: mediumBoldWeight,
-  //                   //         ),
-  //                   //       )
-  //                   //     ],
-  //                   //   ),
-  //                   // ),
-  //                 ],
-  //               ),
-  //             ),
-  //             Container(
-  //               color: contactPlaneBackground,
-  //               padding: EdgeInsets.symmetric(
-  //                 vertical: space_2,
-  //               ),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                 children: [
-  //                   // print(gpsDataList[0]),
-  //                   TrackButton(
-  //                     gpsData: gpsDataList[0],
-  //                     truckApproved: true,
-  //                     TruckNo: "widget.loadAllDataModel.truckNo",
-  //                     totalDistance: "totalDistance",
-  //                   ),
-  //                   CallButton(
-  //                     directCall: false,
-  //                     transporterPhoneNum:
-  //                         "widget.loadAllDataModel.transporterPhoneNum",
-  //                     driverPhoneNum: "widget.loadAllDataModel.driverPhoneNum",
-  //                     driverName: "widget.loadAllDataModel.driverName",
-  //                     transporterName: "widget.loadAllDataModel.companyName",
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-//   void getMyTruckPosition() async {
-//     var devices =
-//         await getDeviceByDeviceId(widget.loadAllDataModel.deviceId.toString());
-//     var gpsDataAll = await getPositionByDeviceId(
-//         widget.loadAllDataModel.deviceId.toString());
-
-//     devicelist.clear();
-
-//     for (var device in devices) {
-//       setState(() {
-//         devicelist.add(device);
-//       });
-//     }
-
-//     gpsList = List.filled(devices.length, null, growable: true);
-
-//     for (int i = 0; i < gpsDataAll.length; i++) {
-//       getGPSData(gpsDataAll[i], i);
-//     }
-
-//     setState(() {
-//       gpsDataList = gpsList;
-//       print("GPSDATALIST....");
-//       print(gpsDataList);
-//       getMyTruckPostionBoolValue = true;
-//     });
-//     // return getMyTruckPostionBoolValue;
-//   }
-
-//   void getGPSData(var gpsData, int i) async {
-//     gpsList.removeAt(i);
-
-//     gpsList.insert(i, gpsData);
-//   }
-
-//   void initFunction() async {
-//     var gpsRoute1 = await getTraccarSummaryByDeviceId(
-//         deviceId: widget.loadAllDataModel.deviceId, from: from, to: to);
-//     setState(() {
-//       totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
-//       initfunctionBoolValue = true;
-//     });
-//     print('in init');
-//     // return initfunctionBoolValue;
-//   }
-// }

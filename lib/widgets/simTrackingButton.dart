@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
-import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenOngoing.dart';
 import 'package:liveasy/screens/trackScreen.dart';
+
 //This screen will be shown or used for sim-based tracking on web
 // ignore: must_be_immutable
 class simTrackingButton extends StatefulWidget {
@@ -102,7 +101,7 @@ class _simTrackingButtonState extends State<simTrackingButton> {
               ),
               Text(
                 'SIM',
-                style: TextStyle(
+                style: GoogleFonts.montserrat(
                   letterSpacing: 1,
                   fontWeight: FontWeight.w600,
                   color: white,

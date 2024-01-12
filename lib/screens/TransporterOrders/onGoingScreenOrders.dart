@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
@@ -58,7 +59,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
 
-  final String bookingApiUrl = dotenv.get('bookingApiUrl');
+  final String bookingApiUrl = dotenv.get(
+      'bookingApiUrl'); //for getting the bookingApiUrl form the .env folder
 
   List<OngoingCardModel> modelList = [];
   // Future<dynamic>? modelList = [];
@@ -67,6 +69,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
   List<OngoingCardModel> searchedLoadList = [];
   bool moreitems = true;
 
+  //for getting the Ongoing Orders Data
   getOnGoingOrders(int i) async {
     if (this.mounted) {
       setState(() {
@@ -143,7 +146,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
         String driverName = modelList[i].driverName.toString();
         String bookingDate = modelList[i].bookingDate.toString();
 
-        //truckList[i];
         if ((truckNo.toLowerCase().contains(searchText.toLowerCase())) ||
             (loadingPoint.toLowerCase().contains(searchText.toLowerCase())) ||
             (unLoadingPoint.toLowerCase().contains(searchText.toLowerCase())) ||
@@ -155,10 +157,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
             searchedGpsList.add(gpsDataList[i]);
           });
         }
-
-        // else {
-        //   searchedModelList.add("");
-        // }
       }
     }
   }
@@ -196,7 +194,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                             blurRadius: 5,
                           ),
                         ],
-                      ),//Search bar
+                      ),
+                      //Search bar
                       child: TextField(
                         controller: searchTextController,
                         onChanged: (value) {
@@ -205,10 +204,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                           });
                           searchoperation(searchedTruck);
                         },
-                        style: TextStyle(
-                            color: black,
-                            fontFamily: 'Montserrat',
-                            fontSize: size_8),
+                        style: GoogleFonts.montserrat(
+                            color: black, fontSize: size_8),
                         cursorColor: kLiveasyColor,
                         cursorWidth: 1,
                         mouseCursor: SystemMouseCursors.click,
@@ -219,11 +216,10 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                           prefixIcon:
                               const Icon(Icons.search, color: grey, size: 25),
                           hintText: "Search",
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.montserrat(
                               fontSize: size_8,
-                              fontFamily: "Montserrat",
                               color: grey,
-                              fontWeight: FontWeight.w700),
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                     ))
@@ -247,7 +243,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                             Text(
                               'noOnGoingLoad'.tr,
                               // 'Looks like you have not added any Loads!',
-                              style: TextStyle(fontSize: size_8, color: grey),
+                              style: GoogleFonts.montserrat(
+                                  fontSize: size_8, color: grey),
                               textAlign: TextAlign.center,
                             ),
                           ],
@@ -265,7 +262,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                               loading = true;
                             });
                             return getOnGoingOrders(0);
-                          },//For web this code will be executed
+                          },
+                          //For web this code will be executed
                           child: (kIsWeb && Responsive.isDesktop(context))
                               ? Card(
                                   surfaceTintColor: Colors.transparent,
@@ -284,7 +282,8 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                         screenWidth:
                                             MediaQuery.of(context).size.width,
                                       ),
-                                      searchedTruck == "" //The below list view is used to show the ongoing details on web
+                                      searchedTruck ==
+                                              "" //The below list view is used to show the ongoing details on web
                                           ? Expanded(
                                               flex: 4,
                                               child: SingleChildScrollView(
@@ -325,7 +324,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                                           totalDistance,
                                                                       device: devicelist[
                                                                           index],
-                                                                      // refreshParent: refresh,
                                                                     ),
                                                                   ],
                                                                 )
@@ -341,7 +339,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                                   Colors.grey,
                                                             )),
                                               ),
-                                            )//this code is executed when we add some text to search in ongoing Screens
+                                            ) //this code is executed when we add some text to search in ongoing Screens
                                           : Expanded(
                                               flex: 4,
                                               child: SingleChildScrollView(
@@ -400,7 +398,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                               ))
                                     ],
                                   ),
-                                )//Below code is for mobile
+                                ) //Below code is for mobile
                               : SingleChildScrollView(
                                   controller: scrollController,
                                   child: searchedTruck == ""
@@ -431,7 +429,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                             totalDistance,
                                                         device:
                                                             devicelist[index],
-                                                        // refreshParent: refresh,
                                                       )
                                                     : Container();
                                           })
@@ -465,7 +462,6 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
                                                         device:
                                                             searchedDeviceList[
                                                                 index],
-                                                        // refreshParent: refresh,
                                                       )
                                                     : Container();
                                           }),
@@ -481,6 +477,7 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
 
   // List<GpsDataModel> gpsDataList;
   // Future<bool>
+  //This funtion is used to get the truck position from device ID
   getMyTruckPosition(int index) async {
     List<DeviceModel> devices =
         await getDeviceByDeviceId(modelList[index].deviceId.toString());

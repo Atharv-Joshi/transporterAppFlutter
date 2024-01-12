@@ -7,7 +7,7 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenOngoing.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/trackScreen.dart';
 
 // ignore: must_be_immutable
@@ -67,16 +67,18 @@ class _TrackButtonState extends State<TrackButton> {
     });
   }
 
+//This button is used to navigate to track screens
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 31,
-      width: 90,
+      height: Responsive.isMobile(context) ? 31 : space_6,
+      width: Responsive.isMobile(context) ? 90 : space_18 - 5,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(
+                Responsive.isMobile(context) ? space_10 : space_1),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
@@ -89,7 +91,7 @@ class _TrackButtonState extends State<TrackButton> {
               totalDistance: widget.totalDistance,
               imei: widget.imei,
               // online: widget.device.status == "online" ? true : false,
-              online:true,
+              online: true,
               active: true,
             ),
           );

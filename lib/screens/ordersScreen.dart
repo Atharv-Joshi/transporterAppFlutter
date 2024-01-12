@@ -5,6 +5,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/responsive.dart';
+import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/OrderScreenNavigationBarButton.dart';
 import 'package:liveasy/screens/TransporterOrders/biddingScreenTransporterSide.dart';
 import 'package:provider/provider.dart';
@@ -26,76 +27,147 @@ class _OrdersScreenState extends State<OrdersScreen> {
     PageController pageController =
         PageController(initialPage: providerData.upperNavigatorIndex);
 
-    return Scaffold(
-      backgroundColor: headerLightBlueColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(
-                (Responsive.isDesktop(context) || Responsive.isTablet(context))
-                    ? space_0
-                    : space_4,
-                space_4,
-                space_4,
-                space_2),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(bottom: space_2),
-                  color: Color.fromRGBO(245, 246, 250, 1),
-                  child: Row(
+//Below code will be used for Mobile
+    return Responsive.isMobile(context)
+        ? Scaffold(
+            backgroundColor: backgroundColor,
+            body: SingleChildScrollView(
+              child: Container(
+                padding:
+                    EdgeInsets.fromLTRB(space_4, space_4, space_4, space_2),
+                child: Column(
+                  children: [
+                    Header(
+                      reset: false,
+                      text: 'order'.tr,
+                      // AppLocalizations.of(context)!.order,
+                      backButton: false,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //Order Screen Navigation Bar is used to navigate through the orders screen
+                        OrderScreenNavigationBarButton(
+                          text: 'bids'.tr,
+                          // AppLocalizations.of(context)!.bids,
+                          value: 0,
+                          pageController: pageController,
+                        ),
+                        OrderScreenNavigationBarButton(
+                          text: 'on_going'.tr,
+                          // AppLocalizations.of(context)!.on_going,
+                          value: 1,
+                          pageController: pageController,
+                        ),
+                        OrderScreenNavigationBarButton(
+                          text: 'completed'.tr,
+                          // AppLocalizations.of(context)!.completed,
+                          value: 2,
+                          pageController: pageController,
+                        )
+                      ],
+                    ),
+                    Divider(
+                      color: textLightColor,
+                      thickness: 1,
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          height: height - space_38,
+                          child: PageView(
+                            controller: pageController,
+                            onPageChanged: (value) {
+                              setState(() {
+                                providerData.updateUpperNavigatorIndex(value);
+                              });
+                            },
+                            children: [
+                              BiddingScreenTransporterSide(),
+                              OngoingScreenOrders(),
+                              DeliveredScreenOrders(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        //This code will be used for web or tablet
+        : Scaffold(
+            backgroundColor: headerLightBlueColor,
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                      (Responsive.isDesktop(context) ||
+                              Responsive.isTablet(context))
+                          ? space_0
+                          : space_4,
+                      space_4,
+                      space_4,
+                      space_2),
+                  child: Column(
                     children: [
-                      Text(
-                        'Orders'.tr,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: (Responsive.isMobile(context))
-                                ? size_10
-                                : size_15),
+                      Container(
+                        padding: EdgeInsets.only(bottom: space_2),
+                        color: Color.fromRGBO(245, 246, 250, 1),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Orders'.tr,
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: (Responsive.isMobile(context))
+                                      ? size_10
+                                      : size_15),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            //Order Screen Navigation Bar is used to navigate through the orders screen
+                            OrderScreenNavigationBarButton(
+                                text: 'bids'.tr,
+                                // AppLocalizations.of(context)!.bids,
+                                value: 0,
+                                pageController: pageController),
+                            OrderScreenNavigationBarButton(
+                                text: 'on_going'.tr,
+                                // AppLocalizations.of(context)!.on_going,
+                                value: 1,
+                                pageController: pageController),
+                            OrderScreenNavigationBarButton(
+                                text: 'completed'.tr,
+                                // AppLocalizations.of(context)!.completed,
+                                value: 2,
+                                pageController: pageController)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.75,
+                        child: PageView(
+                          controller: pageController,
+                          children: [
+                            BiddingScreenTransporterSide(), //Bids screen
+                            OngoingScreenOrders(), //ongoing Screens
+                            DeliveredScreenOrders(), //Completed screens
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  child: Row(
-                    children: [
-                      //Order Screen Navigation Bar is used to navigate through the orders screen
-                      OrderScreenNavigationBarButton(
-                          text: 'bids'.tr,
-                          // AppLocalizations.of(context)!.bids,
-                          value: 0,
-                          pageController: pageController),
-                      OrderScreenNavigationBarButton(
-                          text: 'on_going'.tr,
-                          // AppLocalizations.of(context)!.on_going,
-                          value: 1,
-                          pageController: pageController),
-                      OrderScreenNavigationBarButton(
-                          text: 'completed'.tr,
-                          // AppLocalizations.of(context)!.completed,
-                          value: 2,
-                          pageController: pageController)
-                    ],
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: PageView(
-                    controller: pageController,
-                    children: [
-                      BiddingScreenTransporterSide(),
-                      OngoingScreenOrders(),
-                      DeliveredScreenOrders(),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

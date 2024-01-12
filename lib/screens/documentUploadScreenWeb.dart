@@ -1,7 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animarker/helpers/extensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
@@ -10,40 +9,31 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/consentStatus.dart';
-import 'package:liveasy/functions/getLoadDetailsFromLoadId.dart';
 import 'package:liveasy/functions/loadOnGoingData.dart';
 import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/responsive.dart';
-//import 'package:liveasy/screens/TransporterOrders/callBtn.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputLr.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
-import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
-import 'package:liveasy/widgets/buttons/trackButton.dart';
 import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 import 'package:liveasy/widgets/gpsbutton.dart';
 import 'package:liveasy/widgets/simTrackingButton.dart';
-//import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
-//import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/widgets/buttons/fastagButton.dart';
 import 'package:liveasy/widgets/buttons/vahanButton.dart';
-import 'package:liveasy/screens/HelpScreen.dart';
-
-//import 'getDocName.dart';
-//import 'getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/getDocName.dart';
 import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/putDocumentApiCall.dart';
-import 'package:liveasy/widgets/buttons/callBtn.dart';
+
 //This screen code is executed for Document upload screen for web
+// ignore: must_be_immutable
 class documentUploadScreenWeb extends StatefulWidget {
   String? bookingId;
   String? loadId;
@@ -60,7 +50,6 @@ class documentUploadScreenWeb extends StatefulWidget {
   var device;
   OngoingCardModel loadAllDataModel;
   LoadDetailsScreenModel? loadDetailsScreenModel;
-  // final Function(bool) refreshParent;
 
   documentUploadScreenWeb(
       {Key? key,
@@ -78,9 +67,7 @@ class documentUploadScreenWeb extends StatefulWidget {
       this.totalDistance,
       this.device,
       required this.loadAllDataModel,
-      this.loadDetailsScreenModel
-      // required this.refreshParent,
-      })
+      this.loadDetailsScreenModel})
       : super(key: key);
 
   @override
@@ -111,6 +98,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
     Permission.camera.request();
   }
 
+  //This function is used to fetch the load Details
   fetchDataFromLoadApi() async {
     Map ongoingloadData =
         await loadApiCalls.getDataByLoadId(widget.loadAllDataModel.loadId!);
@@ -126,6 +114,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
     });
   }
 
+  //This function is used to fetch the consent status
   Future<void> fetchConsent() async {
     final responseStatus = await statusAPI.getStatus(widget.driverPhoneNum!);
 
@@ -185,19 +174,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
     var docLinks = [];
     var availDocs = [];
 
-    // verifiedCheckPod() async {
-    //   jsonresponse =
-    //       await getDocApiCallVerify(widget.bookingId.toString(), "P");
-    //   print(jsonresponse);
-    //   // if (jsonresponse == true) {
-    //   //   setState(() {
-    //   //     verified = true;
-    //   //   });
-    //   // } else {
-    //   //   verified = false;
-    //   // }
-    // }
-
     mapAvaildataPod(int i, String docname) async {
       if (i == 0 || i == 1 || i == 2 || i == 3) {
         var doc1 = {"documentType": docname, "data": providerData.PodPhoto64};
@@ -220,6 +196,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
+    //for uploading the POD
     uploadFirstPod() async {
       datanew = {
         "entityId": widget.bookingId.toString(),
@@ -259,20 +236,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
-    // Lr :-
-    // verifiedCheckLr() async {
-    //   jsonresponse =
-    //       await getDocApiCallVerify(widget.bookingId.toString(), "L");
-    //   print(jsonresponse);
-    //   // if (jsonresponse == true) {
-    //   //   setState(() {
-    //   //     verified = true;
-    //   //   });
-    //   // } else {
-    //   //   verified = false;
-    //   // }
-    // }
-
+    //this function is used to map the available Lr data
     mapAvaildataLr(int i, String docname) async {
       if (i == 0 || i == 1 || i == 2 || i == 3) {
         var doc1 = {"documentType": docname, "data": providerData.LrPhoto64};
@@ -294,6 +258,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
+    //This is used to upload the Lr
     uploadFirstLr() async {
       datanew = {
         "entityId": widget.bookingId.toString(),
@@ -305,6 +270,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       await uploadDocumentApiCall();
     }
 
+    //This is used to get the Lr data
     uploadedCheckLr() async {
       docLinks = [];
       docLinks = await getDocumentApiCall(widget.bookingId.toString(), "L");
@@ -337,20 +303,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
-    // EwayBill :-
-    // verifiedCheckEwayBill() async {
-    //   jsonresponse =
-    //       await getDocApiCallVerify(widget.bookingId.toString(), "E");
-    //   print(jsonresponse);
-    //   // if (jsonresponse == true) {
-    //   //   setState(() {
-    //   //     verified = true;
-    //   //   });
-    //   // } else {
-    //   //   verified = false;
-    //   // }
-    // }
-
+    //for mapping the Eway Bill data
     mapAvaildataEwayBill(int i, String docname) async {
       if (i == 0 || i == 1 || i == 2 || i == 3) {
         var doc1 = {
@@ -363,6 +316,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       await uploadDocumentApiCall();
     }
 
+    //Assigning names to the Eway-Bills
     assignDocNameEwayBill(int i) async {
       if (i == 0) {
         await mapAvaildataEwayBill(i, "EwayBillPhoto1");
@@ -375,6 +329,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
+    //Uploading the Eway Bill
     uploadFirstEwayBill() async {
       datanew = {
         "entityId": widget.bookingId.toString(),
@@ -388,6 +343,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       await uploadDocumentApiCall();
     }
 
+    //Get the E-way Bills
     uploadedCheckEwayBill() async {
       docLinks = [];
       docLinks = await getDocumentApiCall(widget.bookingId.toString(), "E");
@@ -416,20 +372,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
-    // WeightReceipt :-
-    // verifiedCheckWeightReceipt() async {
-    //   jsonresponse =
-    //       await getDocApiCallVerify(widget.bookingId.toString(), "W");
-    //   print(jsonresponse);
-    //   // if (jsonresponse == true) {
-    //   //   setState(() {
-    //   //     verified = true;
-    //   //   });
-    //   // } else {
-    //   //   verified = false;
-    //   // }
-    // }
-
+    //Mapping the available weight receipt
     mapAvaildataWeightReceipt(int i, String docname) async {
       if (i == 0 || i == 1 || i == 2 || i == 3) {
         var doc1 = {
@@ -442,6 +385,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       await uploadDocumentApiCall();
     }
 
+    //Assigning name to the documents
     assignDocNameWeightReceipt(int i) async {
       if (i == 0) {
         await mapAvaildataWeightReceipt(i, "WeightReceiptPhoto1");
@@ -454,6 +398,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
+    //Uploading the Weight Receipt
     uploadFirstWeightReceipt() async {
       datanew = {
         "entityId": widget.bookingId.toString(),
@@ -467,6 +412,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       await uploadDocumentApiCall();
     }
 
+    //The below code is used for managing the string length
     String wrapWords(String input, int maxChars) {
       List<String> words = input.split(' ');
       List<String> lines = [];
@@ -504,6 +450,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       }
     }
 
+    //Uploading the Weight Receipt
     uploadedCheckWeightReceipt() async {
       docLinks = [];
       docLinks = await getDocumentApiCall(widget.bookingId.toString(), "W");
@@ -532,20 +479,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
         await uploadFirstWeightReceipt();
       }
     }
-
-    // Future<File?>
-    // _cropImage({required File? imageFile}) async {
-    //   CroppedFile? croppedFile =
-    //       await ImageCropper().cropImage(sourcePath: imageFile!.path);
-
-    //   if (croppedFile == null) {
-    //     return null;
-    //   }
-    //   // providerData.updateLrPhoto(croppedFile.path as File);
-    //   // final bytes = await Io.File(croppedFile.path).readAsBytes();
-    //   // String img64 = base64Encode(bytes); // croppedFile.path;
-    //   // providerData.updateLrPhotoStr(img64);
-    // }
 
     return WillPopScope(
       onWillPop: () async {
@@ -649,14 +582,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                               )
                             : Container(),
                         Row(children: [
-                          // Flexible(
-                          //     child: ElevatedButton(
-                          //   child: Text("Edit"),
-                          //   onPressed: () async {
-                          //     await _cropImage(
-                          //         imageFile: providerData.LrPhotoFile);
-                          //   },
-                          // )),
                           Flexible(
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -1247,17 +1172,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                     SizedBox(
                                       child: Container(
                                         color: white,
-                                        // child: const Padding(
-                                        //   padding: EdgeInsets.all(32.0),
-                                        //   child: Text(
-                                        //     "Loads",
-                                        //     style: TextStyle(
-                                        //         color: Color.fromRGBO(
-                                        //             21, 41, 104, 1),
-                                        //         fontSize: 24,
-                                        //         fontWeight: FontWeight.w600),
-                                        //   ),
-                                        // ),
                                       ),
                                     ),
                                     Row(
@@ -1305,8 +1219,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                   EdgeInsets.only(top: space_8),
                                               child: Text(
                                                 "Loads Details",
-                                                // widget.truckNo.toString(),
-                                                // "TN 09 JP 1234",
                                                 style: TextStyle(
                                                     fontSize: size_10 - 1,
                                                     fontWeight: boldWeight,
@@ -1324,18 +1236,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                         ),
                                       ],
                                     ),
-                                    // navigateToTrackScreen(
-                                    //   truckApproved: true,
-                                    //   bookingDate: widget.bookingDate,
-                                    //   bookingId: widget.bookingId,
-                                    //   loadingPoint: widget.loadingPoint,
-                                    //   unloadingPoint: widget.unloadingPoint,
-                                    //   gpsData: widget.gpsDataList[0],
-                                    //   TruckNo: widget.truckNo,
-                                    //   totalDistance: widget.totalDistance,
-                                    //   // device: widget.device,
-                                    // ),
-                                    //from to widget
                                     Padding(
                                         padding: EdgeInsets.all(space_2),
                                         child: Material(
@@ -1647,6 +1547,10 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                     ),
                                                     FastagButton(
                                                       truckNo: widget.truckNo,
+                                                      loadingPoint:
+                                                          widget.loadingPoint,
+                                                      unloadingPoint:
+                                                          widget.unloadingPoint,
                                                     ),
                                                   ],
                                                 ),
@@ -2562,7 +2466,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                               )
                                             ],
                                           ),
-
                                     const SizedBox(height: 50),
                                   ],
                                 ),
