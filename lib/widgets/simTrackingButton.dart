@@ -6,6 +6,7 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
+import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/screens/trackScreen.dart';
 
 //This screen will be shown or used for sim-based tracking on web
