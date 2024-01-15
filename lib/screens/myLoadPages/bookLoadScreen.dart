@@ -2,23 +2,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
-import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/responsive.dart';
-import 'package:liveasy/screens/HelpScreen.dart';
 import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
 import 'package:liveasy/screens/myLoadPages/selectTruckScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
+
+import '../../Web/dashboard.dart';
+import '../../constants/screens.dart';
+import '../../responsive.dart';
+import '../HelpScreen.dart';
+// import 'addDriverAlertDialog.dart';
 
 // ignore: must_be_immutable
 class BookLoadScreen extends StatefulWidget {
@@ -427,6 +429,9 @@ class _BookLoadScreenState extends State<BookLoadScreen> {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: ((context) {
+                          // return AddNewDriver(
+                          //   loadDetailsScreenModel: widget.loadDetailsScreenModel,
+                          // );
                           return SelectDriverScreen(
                             loadDetailsScreenModel:
                                 widget.loadDetailsScreenModel!,

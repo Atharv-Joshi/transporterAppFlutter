@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/controller/postLoadVariablesController.dart';
 import 'package:provider/provider.dart';
 
 import '/constants/fontWeights.dart';
 import '/providerClass/providerData.dart';
+import '../../constants/color.dart';
+import '../../constants/fontSize.dart';
+import '../../controller/postLoadVariablesController.dart';
 
 class AuctionScreenNavigationBarButton extends StatelessWidget {
   final String text;

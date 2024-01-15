@@ -5,25 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/deviceApiCalls.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckDescriptionScreen.dart';
-import 'package:liveasy/screens/myLoadPages/selectTruckScreen.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/addTruckSubtitleText.dart';
 import 'package:liveasy/widgets/alertDialog/sameTruckAlertDialogBox.dart';
 import 'package:liveasy/widgets/buttons/mediumSizedButton.dart';
 import 'package:liveasy/widgets/loadingWidget.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Web/dashboard.dart';
+import '../../../constants/screens.dart';
+import '../../../responsive.dart';
+import '../../myLoadPages/selectTruckScreen.dart';
 
 //TODO: loading widget while post executes
 class AddNewTruck extends StatefulWidget {
@@ -111,6 +112,7 @@ class _AddNewTruckState extends State<AddNewTruck> {
                           ],
                           textCapitalization: TextCapitalization.characters,
                           controller: _controller,
+                          // textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.only(left: space_2),
                             filled: true,
@@ -146,12 +148,14 @@ class _AddNewTruckState extends State<AddNewTruck> {
                         alignment: Alignment.bottomCenter,
                         child: MediumSizedButton(
                             text: 'next'.tr,
+                            // AppLocalizations.of(context)!.next,
                             optional: false,
                             onPressedFunction: providerData.resetActive
                                 ? () async {
                                     setState(() {
                                       loading = true;
                                     });
+
                                     final int random =
                                         new Random().nextInt(10000000 - 1) + 1;
                                     print(random);
@@ -220,7 +224,6 @@ class _AddNewTruckState extends State<AddNewTruck> {
               ),
             ),
           )
-        //TODO:App side code.
         : Scaffold(
             body: Container(
               padding: EdgeInsets.fromLTRB(space_4, space_4, space_4, space_10),

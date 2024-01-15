@@ -6,20 +6,20 @@ import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/radius.dart';
-import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/models/biddingModel.dart';
-import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-import 'package:liveasy/models/truckModel.dart';
-import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/TruckScreens/AddNewTruck/truckNumberRegistration.dart';
 import 'package:liveasy/screens/myLoadPages/confirmBookingDetails.dart';
-import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
-import 'package:liveasy/widgets/headingTextWidget.dart';
 
+import '../../constants/radius.dart';
+import '../../constants/screens.dart';
+import '../../models/driverModel.dart';
+import '../../models/truckModel.dart';
+import '../../responsive.dart';
+import '../../widgets/buttons/backButtonWidget.dart';
+import '../../widgets/headingTextWidget.dart';
 import 'bookLoadScreen.dart';
 
 class SelectTruckScreen extends StatefulWidget {
@@ -30,7 +30,6 @@ class SelectTruckScreen extends StatefulWidget {
   bool? directBooking;
   String? postLoadId;
   String? driverName, driverPhoneNo;
-
   SelectTruckScreen(
       {this.postLoadId,
       required this.loadDetailsScreenModel,
@@ -57,7 +56,6 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
   List<TruckModel> truckDetailsList = [];
   List<DriverModel> driverDetailsList = [];
   MapUtil mapUtil = MapUtil();
-
   getTruckList() async {
     // FutureGroup futureGroup = FutureGroup();
 
@@ -92,6 +90,7 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
   }
 
   void searchoperation(String searchText) {
+// searchresult. clear() ;
     if (searchText != null) {
       searchedTruckList.clear();
       searchedDeviceIdList.clear();
@@ -106,6 +105,9 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
             print(searchedDeviceIdList);
           });
         }
+        // else {
+        //   searchedTruckList.add("");
+        // }
       }
     }
   }
@@ -191,6 +193,8 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                                 selectedDeviceId = -1;
                                 selectedIndex = -1;
                               },
+                              //textAlignVertical: TextAlignVertical.center,
+                              //textAlign: TextAlign.start,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'searchByNumber'.tr,
@@ -214,7 +218,6 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                             child: TextButton.icon(
                               onPressed: () {
                                 (kIsWeb && (Responsive.isDesktop(context)))
-                                    //If it is web shows a dialog box to add new truck, else pushes to new screen.
                                     ? showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -260,7 +263,6 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Scrollbar(
                           controller: _firstController,
-                          //searched.Truck is used to search by truck number on search bar.
                           child: searchedTruck.length != 0
                               ? ListView.builder(
                                   itemCount: searchedTruckList.length,
@@ -419,7 +421,6 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
               )
             ],
           ))
-        //TODO:App side code.
         : Scaffold(
             backgroundColor: statusBarColor,
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -758,9 +759,9 @@ class _SelectTruckScreenState extends State<SelectTruckScreen> {
             ),
           );
   }
-// changes() {
-//   setState(() {
-//     selectedIndex = false;
-//   });
-// }
+  // changes() {
+  //   setState(() {
+  //     selectedIndex = false;
+  //   });
+  // }
 }

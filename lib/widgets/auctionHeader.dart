@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
+
+import '../constants/color.dart';
+import '../constants/fontSize.dart';
+import '../constants/fontWeights.dart';
 
 // ignore: non_constant_identifier_names
 Container AuctionHeader(context) {
@@ -24,7 +25,6 @@ Container AuctionHeader(context) {
     textFontSize = 16;
     containerWidth = 100;
   }
-  //Header which has fixed attributes.
   return Container(
     height: 70,
     decoration: const BoxDecoration(
