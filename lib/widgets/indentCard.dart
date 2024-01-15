@@ -8,10 +8,9 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
-
-import '../../constants/fontWeights.dart';
-import '../LoadEndPointTemplateWeb.dart';
-import 'bookNowButton.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'LoadEndPointTemplateWeb.dart';
+import 'buttons/bookNowButton.dart';
 
 // ignore: must_be_immutable
 class IndentCard extends StatelessWidget {

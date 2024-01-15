@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/Web/dashboard.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/deviceApiCalls.dart';
 // import 'package:liveasy/functions/geofenceNotificationApi.dart';
@@ -22,9 +24,6 @@ import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/elevatedButtonWidgetThree.dart';
 import 'package:provider/provider.dart';
-
-import '../../Web/dashboard.dart';
-import '../../constants/screens.dart';
 
 // ignore: must_be_immutable
 class ConfirmButtonSendRequest extends StatefulWidget {

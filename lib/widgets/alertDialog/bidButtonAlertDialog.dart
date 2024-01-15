@@ -6,11 +6,10 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/buttons/CancelButttonBidDialogBox.dart';
 import 'package:liveasy/widgets/buttons/bidButtonSendRequest.dart';
 import 'package:provider/provider.dart';
-
-import '../../responsive.dart';
 
 enum RadioButtonOptions { PER_TON, PER_TRUCK }
 

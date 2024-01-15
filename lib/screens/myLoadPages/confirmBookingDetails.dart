@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/biddingModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/selectDriverScreen.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/confirmButtonSendRequest.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 
-import '../../Web/dashboard.dart';
-import '../../constants/radius.dart';
-import '../../constants/screens.dart';
-import '../../responsive.dart';
 import 'selectTruckScreen.dart';
 
 class ConfirmBookingDetails extends StatefulWidget {
@@ -63,6 +63,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
     'Vodafone',
     'Jio',
   ];
+
   @override
   void initState() {
     super.initState();
@@ -144,6 +145,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                //Option to select truck number , on press navigates to selectedTruckScreen.
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -229,6 +231,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                //Option to select driver name and number, navigates to selectedDriverScreen to select.
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -338,6 +341,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                           color: white,
                                         ),
                                         onChanged: (String? newValue) {
+                                          //A dropDown menu to select operator name.
                                           setState(() {
                                             selectedOperator = newValue!;
                                           });
@@ -381,6 +385,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                   Padding(
                                     padding: EdgeInsets.only(left: space_7),
                                     child: SendConsentButton(
+                                      //consent request is sent to the particular number selected.
                                       mobileno: widget.mobileNo,
                                       selectedOperator: selectedOperator,
                                     ),
@@ -396,6 +401,7 @@ class _ConfirmBookingDetailsState extends State<ConfirmBookingDetails> {
                                 ),
                                 child: Align(
                                   alignment: FractionalOffset.bottomCenter,
+                                  //confirms the booking when on pressed.
                                   child: ConfirmButtonSendRequest(
                                     selectedDriverName: widget.driverName,
                                     selectedDriverPhoneno: widget.mobileNo,

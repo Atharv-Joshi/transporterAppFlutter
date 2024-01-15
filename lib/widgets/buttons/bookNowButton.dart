@@ -14,10 +14,9 @@ import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/bookLoadScreen.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
-
-import '../../responsive.dart';
 
 // ignore: must_be_immutable
 class BookNowButton extends StatefulWidget {

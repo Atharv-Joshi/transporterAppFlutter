@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../constants/spaces.dart';
+import 'package:liveasy/constants/spaces.dart';
 
 class AuctionDetails extends StatelessWidget {
   final String? truckType;
@@ -10,6 +9,7 @@ class AuctionDetails extends StatelessWidget {
   final String? productType;
   final String? loadPosterCompanyName;
   final String? rate;
+
   const AuctionDetails({
     super.key,
     required this.truckType,
@@ -154,7 +154,6 @@ class AuctionDetails extends StatelessWidget {
                 ),
               ),
             ],
-            // [Text(data['loadId'])],
           ),
         ),
       ),

@@ -8,25 +8,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/urlGetter.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/widgets/LoadEndPointTemplateWeb.dart';
+import 'package:liveasy/widgets/LoadPointTemplateForBidScreen.dart';
 import 'package:liveasy/widgets/auctionDetails.dart';
 import 'package:liveasy/widgets/auctionHeader.dart';
+import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
+import 'package:liveasy/widgets/placeBidButton.dart';
 
-import '../constants/fontSize.dart';
-import '../constants/fontWeights.dart';
-import '../constants/radius.dart';
-import '../models/loadDetailsScreenModel.dart';
-import '../widgets/LoadEndPointTemplateWeb.dart';
-import '../widgets/LoadPointTemplateForBidScreen.dart';
-import '../widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
-import '../widgets/placeBidButton.dart';
 import 'auctionScreen.dart';
 
 class AuctionDetailScreen extends StatefulWidget {
   AuctionDetailScreen({super.key, required this.changeScreen});
+
   Function changeScreen;
+
   @override
   State<AuctionDetailScreen> createState() => _AuctionDetailScreenState();
 }
@@ -62,6 +64,7 @@ class _AuctionDetailScreenState extends State<AuctionDetailScreen> {
     super.initState();
     loading = true;
     getDataByPostLoadId();
+    //Search bar logic if textEditingController.text.length > 0 then the entered value is checked from myLoadList and searched by truckType.
     textEditingController.addListener(() {
       if (textEditingController.text.length > 0) {
         myLoadList = myLoadList
@@ -100,7 +103,6 @@ class _AuctionDetailScreenState extends State<AuctionDetailScreen> {
           child: ListView.separated(
             padding: const EdgeInsets.only(left: 5, right: 5),
             physics: BouncingScrollPhysics(),
-            // padding: EdgeInsets.only(bottom: space_15),
             controller: scrollController,
             itemCount: myLoadList.length,
             itemBuilder: (context, index) =>
@@ -327,6 +329,7 @@ class _AuctionDetailScreenState extends State<AuctionDetailScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      //On tap all the required data are added in next screen which is place bid screen.
                       data.addAll({
                         "loadId": loadId,
                         "postLoadDate": postLoadDate,

@@ -11,17 +11,17 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/postDriverTraccarApi.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/confirmBookingDetails.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 
-import '../../responsive.dart';
-
 class AddNewDriver extends StatefulWidget {
   String? selectedTruck;
   int? selectedDeviceId;
   LoadDetailsScreenModel loadDetailsScreenModel;
+
   AddNewDriver(
       {this.selectedTruck,
       this.selectedDeviceId,
@@ -99,16 +99,14 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                   color: whiteBackgroundColor,
                                 ),
                                 child: TextFormField(
+                                    //Driver name is entered.
                                     validator: (input) {
                                       if (input!.isEmpty) {
                                         return "";
-                                        //'Enter name : ';
                                       }
                                     },
                                     onChanged: (input) {
-                                      // if (input.isNotEmpty) {
                                       validatebtn();
-                                      // }
                                     },
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(4),
@@ -158,16 +156,14 @@ class _AddNewDriverState extends State<AddNewDriver> {
                                     color: whiteBackgroundColor,
                                   ),
                                   child: TextFormField(
+                                    //Driver phone no is entered.
                                     validator: (input) {
                                       if (input!.length < 10) {
                                         return "";
-                                        // 'Enter Number : ';
                                       }
                                     },
                                     onChanged: (input) {
-                                      // if (input.isNotEmpty) {
                                       validatebtn();
-                                      // }
                                     },
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
@@ -188,6 +184,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
                             child: ElevatedButtonWidgetTwo(
                                 condition: btnActive,
                                 text: "Add".tr,
+                                //On pressed both driver name and phone no is updated.
                                 onPressedConditionTrue: () {
                                   tidstorage.read("transporterId");
                                   _sendToPreviousScreen();
@@ -448,8 +445,8 @@ class _AddNewDriverState extends State<AddNewDriver> {
             builder: (context) => ConfirmBookingDetails(
               selectedTruck: widget.selectedTruck,
               selectedDeviceId: widget.selectedDeviceId,
-              driverName:
-                  name, // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
+              driverName: name,
+              // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
               mobileNo: phoneno,
               directBooking: true,
               loadDetailsScreenModel: widget.loadDetailsScreenModel,
@@ -482,8 +479,8 @@ class _AddNewDriverState extends State<AddNewDriver> {
             builder: (context) => ConfirmBookingDetails(
               selectedTruck: widget.selectedTruck,
               selectedDeviceId: widget.selectedDeviceId,
-              driverName:
-                  name, // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
+              driverName: name,
+              // 1st one will be available on the next screen and the 2nd one is the string that we are passing.
               mobileNo: phoneno,
               directBooking: true,
               loadDetailsScreenModel: widget.loadDetailsScreenModel,

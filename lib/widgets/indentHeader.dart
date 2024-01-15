@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../constants/color.dart';
-import '../constants/fontSize.dart';
-import '../constants/fontWeights.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 
 // ignore: non_constant_identifier_names
 Container IndentHeader(context) {

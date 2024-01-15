@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../constants/color.dart';
-import '../constants/fontSize.dart';
-import '../constants/fontWeights.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
 
 // ignore: non_constant_identifier_names
 Container AuctionHeader(context) {
@@ -206,100 +205,4 @@ Container AuctionHeader(context) {
       ),
     ),
   );
-
-  // return Container(
-  //   height: 70,
-  //   decoration: const BoxDecoration(
-  //       color: Color(0xfff2f5ff),
-  //       borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-  //   child: Row(
-  //     mainAxisAlignment: MainAxisAlignment.start,
-  //     children: [
-  //       Expanded(
-  //           flex: 23,
-  //           child: Center(
-  //               child: Text(
-  //             'Date',
-  //             textAlign: TextAlign.center,
-  //             style: GoogleFonts.montserrat(
-  //               color: Colors.black,
-  //               fontSize: size_8,
-  //               fontWeight: mediumBoldWeight,
-  //             ),
-  //           ))),
-  //       const VerticalDivider(color: greyDivider, thickness: 1),
-  //       Expanded(
-  //           flex: 29,
-  //           child: Center(
-  //               child: Text(
-  //             'Truck Type',
-  //             textAlign: TextAlign.center,
-  //             style: GoogleFonts.montserrat(
-  //                 color: Colors.black,
-  //                 fontSize: size_8,
-  //                 fontWeight: mediumBoldWeight),
-  //           ))),
-  //       const VerticalDivider(color: greyDivider, thickness: 1),
-  //       Expanded(
-  //           flex: 23,
-  //           child: Center(
-  //               child: Text(
-  //             'Product Type/Weight',
-  //             textAlign: TextAlign.center,
-  //             selectionColor: sideBarTextColor,
-  //             style: GoogleFonts.montserrat(
-  //               color: Colors.black,
-  //               fontSize: size_8,
-  //               fontWeight: mediumBoldWeight,
-  //             ),
-  //           ))),
-  //       const VerticalDivider(
-  //         color: greyDivider,
-  //         thickness: 1,
-  //       ),
-  //       Expanded(
-  //           flex: 27,
-  //           child: Center(
-  //               child: Text(
-  //             'Route',
-  //             textAlign: TextAlign.center,
-  //             style: GoogleFonts.montserrat(
-  //               fontSize: size_8,
-  //               color: Colors.black,
-  //               fontWeight: mediumBoldWeight,
-  //             ),
-  //           ))),
-  //       const VerticalDivider(
-  //         color: greyDivider,
-  //         thickness: 1,
-  //       ),
-  //       Expanded(
-  //           flex: 22,
-  //           child: Center(
-  //               child: Text(
-  //             'Bid Price',
-  //             textAlign: TextAlign.center,
-  //             style: GoogleFonts.montserrat(
-  //               fontSize: size_8,
-  //               color: Colors.black,
-  //               fontWeight: mediumBoldWeight,
-  //             ),
-  //           ))),
-  //       const VerticalDivider(color: greyDivider, thickness: 1),
-  //       Expanded(
-  //           flex: 15,
-  //           child: Center(
-  //               child: Text(
-  //             'Bid',
-  //             textAlign: TextAlign.center,
-  //             style: GoogleFonts.montserrat(
-  //               fontSize: size_8,
-  //               color: Colors.black,
-  //               fontWeight: mediumBoldWeight,
-  //             ),
-  //           ))),
-  //     ],
-  //   ),
-  // );
 }
