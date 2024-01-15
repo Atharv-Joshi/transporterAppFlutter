@@ -7,12 +7,14 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/consentStatus.dart';
 import 'package:liveasy/functions/loadOperatorInfo.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 //import 'package:liveasy/screens/TransporterOrders/callBtn.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
 import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
+import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 //import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
@@ -47,7 +49,7 @@ class documentUploadScreen extends StatefulWidget {
   String? totalDistance;
   var device;
   OngoingCardModel loadAllDataModel;
-  final Function(bool) refreshParent;
+  LoadDetailsScreenModel? loadDetailsScreenModel;
 
   documentUploadScreen({
     Key? key,
@@ -65,7 +67,7 @@ class documentUploadScreen extends StatefulWidget {
     this.totalDistance,
     this.device,
     required this.loadAllDataModel,
-    required this.refreshParent,
+    this.loadDetailsScreenModel,
   }) : super(key: key);
 
   @override

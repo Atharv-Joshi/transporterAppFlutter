@@ -29,6 +29,22 @@ class LoadApiCalls {
       'productType':
           jsonData['productType'] != null ? jsonData['productType'] : 'NA',
       'postLoadId': jsonData['postLoadId'],
+
+      //Some variable is added for documentUploadScreenWeb
+      'loadingPoint':
+          jsonData['loadingPoint'] != null ? jsonData['loadingPoint'] : 'NA',
+      'loadingPointState': jsonData['loadingPointState'] != null
+          ? jsonData['loadingPointState']
+          : 'NA',
+      'unloadingPoint': jsonData['unloadingPoint'] != null
+          ? jsonData['unloadingPoint']
+          : 'NA',
+      'unloadingPointState': jsonData['unloadingPointState'] != null
+          ? jsonData['unloadingPointState']
+          : 'NA',
+      'truckType': jsonData['truckType'] != null ? jsonData['truckType'] : 'NA',
+      'weight': jsonData['weight'] != null ? jsonData['weight'] : 'NA',
+      'noOfTyres': jsonData['noOfTyres'] != null ? jsonData['noOfTyres'] : 'NA',
     };
 
     return data;

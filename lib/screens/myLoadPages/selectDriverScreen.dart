@@ -92,6 +92,7 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
         if (driverName.toLowerCase().contains(searchText.toLowerCase()) ||
             driverNumber.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
+            print(searchText);
             searchedDriverList.add(driverName);
             searchedDriverListNumber.add(driverNumber);
           });
@@ -254,17 +255,8 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
                                       setState(() {
                                         isSelected = true;
                                         selectedIndex = index;
-
-                                        if (searchedDriver.length != 0) {
-                                          selectedDriver =
-                                              searchedDriverList[index];
-                                          selectedDriverPhoneNumber =
-                                              searchedDriverListNumber[index];
-                                        } else {
-                                          selectedDriver = driverNames[index];
-                                          selectedDriverPhoneNumber =
-                                              driverMobileNumbers[index];
-                                        }
+                                        selectedDriver =
+                                            searchedDriverList[index];
                                       });
                                     },
                                     child: Column(

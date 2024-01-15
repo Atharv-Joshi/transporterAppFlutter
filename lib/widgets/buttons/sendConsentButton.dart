@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import '../../constants/spaces.dart';
 import '../../functions/consentAPIs.dart';
@@ -24,9 +26,12 @@ class _SendConsentButtonState extends State<SendConsentButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: space_8,
+      width: space_32,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: darkBlueColor,
+          backgroundColor:
+              Responsive.isMobile(context) ? darkBlueColor : liveasyGreen,
           elevation: elevation_0,
         ),
         onPressed: () async {
@@ -42,14 +47,20 @@ class _SendConsentButtonState extends State<SendConsentButton> {
         },
         child: Row(
           children: [
-            Image.asset(
-              'assets/icons/rightArrow.png',
-              width: 13,
-              height: 13,
-            ),
+            Responsive.isMobile(context)
+                ? Image.asset(
+                    'assets/icons/rightArrow.png',
+                    width: 13,
+                    height: 13,
+                  )
+                : Container(),
             Padding(
               padding: EdgeInsets.only(left: space_2),
-              child: Text('Send Consent'),
+              child: Text(
+                'Send Consent',
+                style: GoogleFonts.montserrat(
+                    color: white, fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:liveasy/functions/driverApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/alertDialog/verifyAccountNotifyAlertDialog.dart';
 import 'package:get/get.dart';
 
@@ -63,8 +64,8 @@ class _UpdateDriverTruckButtonState extends State<UpdateDriverTruckButton> {
         },
         child: Image.asset(
           'assets/icons/updateDriver.png',
-          width: space_3 + 2,
-          height: space_3 + 3,
+          width: Responsive.isMobile(context) ? space_3 + 2 : space_5,
+          height: Responsive.isMobile(context) ? space_3 + 2 : space_5,
         ));
   }
 }

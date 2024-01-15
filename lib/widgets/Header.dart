@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
@@ -16,7 +17,11 @@ class Header extends StatefulWidget {
   bool backButton = true;
   final text;
 
-  Header({this.resetFunction, required this.reset, required this.text , required this.backButton});
+  Header(
+      {this.resetFunction,
+      required this.reset,
+      required this.text,
+      required this.backButton});
 
   @override
   _HeaderState createState() => _HeaderState();
@@ -36,7 +41,8 @@ class _HeaderState extends State<Header> {
                 margin: EdgeInsets.only(right: space_2),
                 child: widget.backButton ? BackButtonWidget() : SizedBox()),
             Text('${widget.text}',
-                style: TextStyle(
+                //Instead of textStyle GoogleFonts.montserrat is used
+                style: GoogleFonts.montserrat(
                   fontSize: size_10,
                   fontWeight: mediumBoldWeight,
                 )),
@@ -47,7 +53,8 @@ class _HeaderState extends State<Header> {
                 onPressed:
                     providerData.resetActive ? widget.resetFunction : null,
                 child: Text('reset'.tr,
-                    style: TextStyle(
+                    //Instead of textStyle GoogleFonts.montserrat is used
+                    style: GoogleFonts.montserrat(
                       color: providerData.resetActive
                           ? liveasyGreen
                           : lightGrayishBlue,
