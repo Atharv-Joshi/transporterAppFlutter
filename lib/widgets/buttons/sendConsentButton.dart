@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/elevation.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/consentAPIs.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
-
-import '../../constants/spaces.dart';
-import '../../functions/consentAPIs.dart';
-import '../../responsive.dart';
 
 //This button is used to send the consent to the user
 class SendConsentButton extends StatefulWidget {
   String? mobileno;
   String? selectedOperator;
   String? responseStatus;
+
   SendConsentButton({
     required this.mobileno,
     required this.selectedOperator,
   });
+
   @override
   State<SendConsentButton> createState() => _SendConsentButtonState();
 }
@@ -40,7 +41,6 @@ class _SendConsentButtonState extends State<SendConsentButton> {
                 );
                 // Check the response status
                 responseStatus = response['status'];
-
                 // Show dialog based on the response status
                 _showDialogBasedOnStatus(responseStatus);
               },
@@ -59,9 +59,12 @@ class _SendConsentButtonState extends State<SendConsentButton> {
             ),
           )
         : Container(
+            height: space_8,
+            width: space_32,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: darkBlueColor,
+                backgroundColor:
+                    Responsive.isMobile(context) ? darkBlueColor : liveasyGreen,
                 elevation: elevation_0,
               ),
               onPressed: () async {
@@ -77,14 +80,20 @@ class _SendConsentButtonState extends State<SendConsentButton> {
               },
               child: Row(
                 children: [
-                  Image.asset(
-                    'assets/icons/rightArrow.png',
-                    width: 13,
-                    height: 13,
-                  ),
+                  Responsive.isMobile(context)
+                      ? Image.asset(
+                          'assets/icons/rightArrow.png',
+                          width: 13,
+                          height: 13,
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.only(left: space_2),
-                    child: Text('Send Consent'),
+                    child: Text(
+                      'Send Consent',
+                      style: GoogleFonts.montserrat(
+                          color: white, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               ),
