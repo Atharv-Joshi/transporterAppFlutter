@@ -7,11 +7,11 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/responsive.dart';
+import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenOngoing.dart';
 import 'package:liveasy/screens/trackScreen.dart';
-
+//this button is shown in documentUploadScreen when opened on web
 // ignore: must_be_immutable
-class TrackButton extends StatefulWidget {
+class gpsButton extends StatefulWidget {
   bool truckApproved = false;
   String? phoneNo;
   String? TruckNo;
@@ -21,7 +21,7 @@ class TrackButton extends StatefulWidget {
   var totalDistance;
   var device;
 
-  TrackButton({
+  gpsButton({
     required this.truckApproved,
     this.gpsData,
     this.phoneNo,
@@ -33,10 +33,10 @@ class TrackButton extends StatefulWidget {
   });
 
   @override
-  _TrackButtonState createState() => _TrackButtonState();
+  _gpsButtonState createState() => _gpsButtonState();
 }
 
-class _TrackButtonState extends State<TrackButton> {
+class _gpsButtonState extends State<gpsButton> {
   String? transporterIDImei;
   final TransporterApiCalls transporterApiCalls = TransporterApiCalls();
   final TruckApiCalls truckApiCalls = TruckApiCalls();
@@ -67,18 +67,16 @@ class _TrackButtonState extends State<TrackButton> {
     });
   }
 
-//This button is used to navigate to track screens
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Responsive.isMobile(context) ? 31 : space_6,
-      width: Responsive.isMobile(context) ? 90 : space_18 - 5,
+      height: space_8,
+      width: space_20,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-                Responsive.isMobile(context) ? space_10 : space_1),
+            borderRadius: BorderRadius.circular(space_2),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
@@ -97,23 +95,16 @@ class _TrackButtonState extends State<TrackButton> {
           );
         },
         child: Container(
-          margin: EdgeInsets.only(left: space_2),
           child: Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: space_1),
-                child: widget.truckApproved
-                    ? Container()
-                    : Image(
-                        height: 16,
-                        width: 11,
-                        image: AssetImage('assets/icons/lockIcon.png')),
+                child: Image(image: AssetImage('assets/icons/gps_doc.png')),
               ),
               Text(
-                'Track'.tr,
+                'GPS',
                 style: TextStyle(
-                  letterSpacing: 0.7,
-                  fontWeight: normalWeight,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600,
                   color: white,
                   fontSize: size_7,
                 ),

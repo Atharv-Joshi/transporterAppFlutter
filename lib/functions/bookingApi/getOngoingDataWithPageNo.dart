@@ -23,7 +23,7 @@ getOngoingDataWithPageNo(int i) async {
         json['bookingDate'] != null ? json['bookingDate'] : "NA";
     bookingModel.bookingId = json['bookingId'];
     bookingModel.postLoadId = json['postLoadId'];
-    bookingModel.loadId = json['loadId'];
+    bookingModel.loadId = json['loadId'] != null ? json['loadId'] : "NA";
     bookingModel.transporterId = json['transporterId'];
     bookingModel.truckId = json['truckId'];
     bookingModel.cancel = json['cancel'];

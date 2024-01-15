@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
-import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/trackScreen.dart';
 
+//This screen will be shown or used for sim-based tracking on web
 // ignore: must_be_immutable
-class TrackButton extends StatefulWidget {
+class simTrackingButton extends StatefulWidget {
   bool truckApproved = false;
   String? phoneNo;
   String? TruckNo;
@@ -21,7 +21,7 @@ class TrackButton extends StatefulWidget {
   var totalDistance;
   var device;
 
-  TrackButton({
+  simTrackingButton({
     required this.truckApproved,
     this.gpsData,
     this.phoneNo,
@@ -33,10 +33,10 @@ class TrackButton extends StatefulWidget {
   });
 
   @override
-  _TrackButtonState createState() => _TrackButtonState();
+  _simTrackingButtonState createState() => _simTrackingButtonState();
 }
 
-class _TrackButtonState extends State<TrackButton> {
+class _simTrackingButtonState extends State<simTrackingButton> {
   String? transporterIDImei;
   final TransporterApiCalls transporterApiCalls = TransporterApiCalls();
   final TruckApiCalls truckApiCalls = TruckApiCalls();
@@ -67,18 +67,16 @@ class _TrackButtonState extends State<TrackButton> {
     });
   }
 
-//This button is used to navigate to track screens
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Responsive.isMobile(context) ? 31 : space_6,
-      width: Responsive.isMobile(context) ? 90 : space_18 - 5,
+      height: space_8,
+      width: space_20,
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-                Responsive.isMobile(context) ? space_10 : space_1),
+            borderRadius: BorderRadius.circular(space_2),
           )),
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
@@ -97,23 +95,16 @@ class _TrackButtonState extends State<TrackButton> {
           );
         },
         child: Container(
-          margin: EdgeInsets.only(left: space_2),
           child: Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: space_1),
-                child: widget.truckApproved
-                    ? Container()
-                    : Image(
-                        height: 16,
-                        width: 11,
-                        image: AssetImage('assets/icons/lockIcon.png')),
+                child: Image(image: AssetImage('assets/icons/sim.png')),
               ),
               Text(
-                'Track'.tr,
-                style: TextStyle(
-                  letterSpacing: 0.7,
-                  fontWeight: normalWeight,
+                'SIM',
+                style: GoogleFonts.montserrat(
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600,
                   color: white,
                   fontSize: size_7,
                 ),
