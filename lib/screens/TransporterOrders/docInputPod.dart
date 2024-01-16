@@ -264,7 +264,7 @@ class _docInputPodState extends State<docInputPod> {
                                       : null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
+                                        MaterialStateProperty.all(white),
                                     side: MaterialStateProperty.all(
                                         const BorderSide(
                                             color: Color(0xff000066),

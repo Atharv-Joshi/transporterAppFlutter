@@ -262,7 +262,7 @@ class _docInputWgtReceiptState extends State<docInputWgtReceipt> {
                                       : null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
+                                        MaterialStateProperty.all(white),
                                     side: MaterialStateProperty.all(
                                         const BorderSide(
                                             color: kLiveasyColor, width: 2.0)),

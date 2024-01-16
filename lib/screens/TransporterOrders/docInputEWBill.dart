@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/previewUploadedImage.dart';
 import 'package:liveasy/functions/uploadingDoc.dart';
 import 'package:liveasy/language/localization_service.dart';
@@ -124,8 +125,8 @@ class _docInputEWBillState extends State<docInputEWBill> {
                     width: MediaQuery.of(context).size.width,
                     color: darkBlueColor,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 30, top: 6, bottom: 6),
+                      padding: EdgeInsets.only(
+                          left: space_6, top: size_3, bottom: size_3),
                       child: Text(
                         "Upload EWAY Bill".tr,
                         style: TextStyle(
@@ -139,7 +140,7 @@ class _docInputEWBillState extends State<docInputEWBill> {
             //The below code will be executed for Mobile
             Responsive.isMobile(context)
                 ? SizedBox(
-                    height: 130,
+                    height: space_26,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,10 +157,10 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                 child: Stack(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                          right: 3, top: 4),
-                                      height: 130,
-                                      width: 170,
+                                      margin: EdgeInsets.only(
+                                          right: size_2 - 1, top: size_2),
+                                      height: space_26,
+                                      width: space_34,
                                       child: verified
                                           ? const Image(
                                               image: AssetImage(
@@ -199,8 +200,8 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                         null)
                                     ? Flexible(
                                         child: Container(
-                                          height: 116,
-                                          width: 170,
+                                          height: space_23,
+                                          width: space_34,
                                           child: docUploadbtn2(
                                             assetImage: addMoreDocImageEng,
                                             onPressed: () async {
@@ -265,10 +266,9 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                       : null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
-                                    side: MaterialStateProperty.all(
-                                        const BorderSide(
-                                            color: kLiveasyColor, width: 2.0)),
+                                        MaterialStateProperty.all(white),
+                                    side: MaterialStateProperty.all(BorderSide(
+                                        color: kLiveasyColor, width: size_1)),
                                   ),
                                   child: const Text(
                                     "View EWAY BIll",
@@ -276,18 +276,18 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                   ))
                             ],
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: space_4,
                           ),
                           Row(
                             children: [
                               docLinks.isNotEmpty
                                   ? Container(
                                       color: whiteBackgroundColor,
-                                      margin: const EdgeInsets.only(
-                                          right: 3, top: 4),
-                                      height: 30,
-                                      width: 55,
+                                      margin: EdgeInsets.only(
+                                          right: size_2 - 1, top: size_2),
+                                      height: space_6,
+                                      width: space_11,
                                       child: Image(
                                         image: NetworkImage(
                                           "$proxyServer${docLinks[0].toString()}",
@@ -295,22 +295,22 @@ class _docInputEWBillState extends State<docInputEWBill> {
                                       ),
                                     )
                                   : Container(),
-                              const SizedBox(
-                                width: 20,
+                              SizedBox(
+                                width: space_4,
                               ),
                               docLinks.length == 1
-                                  ? const Text(" 1 Images",
+                                  ? Text(" 1 Images",
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: space_3,
                                       ))
                                   : docLinks.isNotEmpty
-                                      ? const Text("1+ Images ",
+                                      ? Text("1+ Images ",
                                           style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: space_3,
                                           ))
                                       : const Text(" No Image"),
-                              const SizedBox(
-                                width: 70,
+                              SizedBox(
+                                width: space_14,
                               ),
                               GestureDetector(
                                   child: const Image(
@@ -375,13 +375,13 @@ class _docInputEWBillState extends State<docInputEWBill> {
             child: Wrap(
               children: <Widget>[
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20)),
+                        topRight: Radius.circular(space_4),
+                        topLeft: Radius.circular(space_4)),
                     color: white,
                   ),
-                  width: 240,
+                  width: space_48,
                   child: ListTile(
                       textColor: black,
                       iconColor: black,
@@ -394,13 +394,13 @@ class _docInputEWBillState extends State<docInputEWBill> {
                       }),
                 ),
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
+                        bottomRight: Radius.circular(space_4),
+                        bottomLeft: Radius.circular(space_4)),
                     color: white,
                   ),
-                  width: 240,
+                  width: space_48,
                   child: ListTile(
                     textColor: black,
                     iconColor: black,

@@ -10,8 +10,6 @@ import 'package:liveasy/controller/previewUploadedImage.dart';
 import 'package:liveasy/functions/uploadingDoc.dart';
 import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/responsive.dart';
-//import 'package:liveasy/screens/TransporterOrders/getDocApiCallVerify.dart';
-//import 'package:liveasy/screens/TransporterOrders/getDocumentApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/uploadedDocs.dart';
 import '../../widgets/accountVerification/image_display.dart';
 import 'docUploadBtn2.dart';
@@ -20,8 +18,6 @@ import 'dart:io';
 import 'package:liveasy/widgets/alertDialog/permissionDialog.dart';
 import 'dart:io' as Io;
 import 'package:permission_handler/permission_handler.dart';
-//import 'getDocName.dart';
-
 import 'package:liveasy/functions/documentApi/getDocApiCallVerify.dart';
 import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
 
@@ -264,7 +260,7 @@ class _docInputLrState extends State<docInputLr> {
                                       : null,
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
+                                        MaterialStateProperty.all(white),
                                     side: MaterialStateProperty.all(BorderSide(
                                         color: kLiveasyColor, width: size_1)),
                                   ),
