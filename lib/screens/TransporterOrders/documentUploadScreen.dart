@@ -595,7 +595,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  color: Color(0xFFE75347),
+                                  color: darkOrangeColor,
                                   child: Container(
                                     height: space_10,
                                     child: Center(
@@ -624,7 +624,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   child: InkWell(
                                       child: Container(
-                                        color: Color(0xFF09B778),
+                                        color: liveasyGreen,
                                         height: space_10,
                                         child: Center(
                                           child: progressBar
@@ -748,7 +748,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      color: Color(0xFFE75347),
+                                      color: darkOrangeColor,
                                       child: Container(
                                         height: space_10,
                                         child: Center(
@@ -780,7 +780,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       child: InkWell(
                                           child: Container(
-                                            color: Color(0xFF09B778),
+                                            color: liveasyGreen,
                                             height: space_10,
                                             child: Center(
                                               child: progressBar
@@ -909,7 +909,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                           ),
-                                          color: Color(0xFFE75347),
+                                          color: darkOrangeColor,
                                           child: Container(
                                             height: space_10,
                                             child: Center(
@@ -946,7 +946,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                               BorderRadius.circular(12),
                                           child: InkWell(
                                               child: Container(
-                                                color: Color(0xFF09B778),
+                                                color: liveasyGreen,
                                                 height: space_10,
                                                 child: Center(
                                                   child: progressBar
@@ -1082,7 +1082,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
-                                              color: Color(0xFFE75347),
+                                              color: darkOrangeColor,
                                               child: Container(
                                                 height: space_10,
                                                 child: Center(
@@ -1118,7 +1118,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                   BorderRadius.circular(12),
                                               child: InkWell(
                                                   child: Container(
-                                                    color: Color(0xFF09B778),
+                                                    color: liveasyGreen,
                                                     height: space_10,
                                                     // width: space_30,
                                                     child: Center(
@@ -1509,8 +1509,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(space_1),
-                                            border:
-                                                Border.all(color: Colors.black),
+                                            border: Border.all(color: black),
                                           ),
                                           child: DropdownButton<String>(
                                             value: selectedOperator,

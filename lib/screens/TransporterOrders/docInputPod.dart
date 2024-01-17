@@ -230,8 +230,7 @@ class _docInputPodState extends State<docInputPod> {
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(0, 0, 255, 0.27), width: 2.0),
+                      side: const BorderSide(color: borderblue, width: 2.0),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -267,12 +266,11 @@ class _docInputPodState extends State<docInputPod> {
                                         MaterialStateProperty.all(white),
                                     side: MaterialStateProperty.all(
                                         const BorderSide(
-                                            color: Color(0xff000066),
-                                            width: 2.0)),
+                                            color: borderblue, width: 2.0)),
                                   ),
                                   child: const Text(
                                     "View POD",
-                                    style: TextStyle(color: Color(0xff000066)),
+                                    style: TextStyle(color: kLiveasyColor),
                                   ))
                             ],
                           ),
@@ -467,7 +465,7 @@ class _docInputPodState extends State<docInputPod> {
                       ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  const Color(0xff0077B6))),
+                                  lightBlueColor)),
                           onPressed: () {},
                           child: Padding(
                             padding: const EdgeInsets.only(

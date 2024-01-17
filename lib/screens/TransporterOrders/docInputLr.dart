@@ -226,8 +226,7 @@ class _docInputLrState extends State<docInputLr> {
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(space_2),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(0, 0, 255, 0.27), width: 2.0),
+                      side: const BorderSide(color: borderblue, width: 2.0),
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(space_4),

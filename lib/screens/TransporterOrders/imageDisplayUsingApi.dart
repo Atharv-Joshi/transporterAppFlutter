@@ -133,7 +133,7 @@ class _imageDisplayUsingApiState extends State<imageDisplayUsingApi> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      color: Color(0xFFE75347),
+                      color: darkOrangeColor,
                       child: Container(
                         height: space_10,
                         child: Center(
@@ -159,7 +159,7 @@ class _imageDisplayUsingApiState extends State<imageDisplayUsingApi> {
                       borderRadius: BorderRadius.circular(12),
                       child: InkWell(
                         child: Container(
-                          color: Color(0xFF09B778),
+                          color: liveasyGreen,
                           height: space_10,
                           child: Center(
                             child: downloading
