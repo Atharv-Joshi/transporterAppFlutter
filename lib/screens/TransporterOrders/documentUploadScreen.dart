@@ -9,16 +9,12 @@ import 'package:liveasy/functions/consentStatus.dart';
 import 'package:liveasy/functions/loadOperatorInfo.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-//import 'package:liveasy/screens/TransporterOrders/callBtn.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
 import 'package:liveasy/screens/TransporterOrders/navigateToTrackScreen.dart';
-import 'package:liveasy/screens/loadDetailsScreen.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
-//import 'package:liveasy/screens/TransporterOrders/postDocumentApiCall.dart';
-//import 'package:liveasy/screens/TransporterOrders/putDocumentApiCall.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
@@ -26,8 +22,6 @@ import 'package:liveasy/widgets/buttons/fastagButton.dart';
 import 'package:liveasy/widgets/buttons/vahanButton.dart';
 import 'package:liveasy/screens/HelpScreen.dart';
 import 'docInputLr.dart';
-//import 'getDocName.dart';
-//import 'getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/getDocName.dart';
 import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
@@ -601,7 +595,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  color: Color(0xFFE75347),
+                                  color: darkOrangeColor,
                                   child: Container(
                                     height: space_10,
                                     child: Center(
@@ -630,7 +624,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   child: InkWell(
                                       child: Container(
-                                        color: Color(0xFF09B778),
+                                        color: liveasyGreen,
                                         height: space_10,
                                         child: Center(
                                           child: progressBar
@@ -754,7 +748,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      color: Color(0xFFE75347),
+                                      color: darkOrangeColor,
                                       child: Container(
                                         height: space_10,
                                         child: Center(
@@ -786,7 +780,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                       child: InkWell(
                                           child: Container(
-                                            color: Color(0xFF09B778),
+                                            color: liveasyGreen,
                                             height: space_10,
                                             child: Center(
                                               child: progressBar
@@ -915,7 +909,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                           ),
-                                          color: Color(0xFFE75347),
+                                          color: darkOrangeColor,
                                           child: Container(
                                             height: space_10,
                                             child: Center(
@@ -952,7 +946,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                               BorderRadius.circular(12),
                                           child: InkWell(
                                               child: Container(
-                                                color: Color(0xFF09B778),
+                                                color: liveasyGreen,
                                                 height: space_10,
                                                 child: Center(
                                                   child: progressBar
@@ -1088,7 +1082,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                               ),
-                                              color: Color(0xFFE75347),
+                                              color: darkOrangeColor,
                                               child: Container(
                                                 height: space_10,
                                                 child: Center(
@@ -1124,7 +1118,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                                   BorderRadius.circular(12),
                                               child: InkWell(
                                                   child: Container(
-                                                    color: Color(0xFF09B778),
+                                                    color: liveasyGreen,
                                                     height: space_10,
                                                     // width: space_30,
                                                     child: Center(
@@ -1515,8 +1509,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(space_1),
-                                            border:
-                                                Border.all(color: Colors.black),
+                                            border: Border.all(color: black),
                                           ),
                                           child: DropdownButton<String>(
                                             value: selectedOperator,
@@ -1646,21 +1639,21 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
 
                                   Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          space_4, space_4, space_4, 0),
+                                          space_4, space_4, space_4, space_0),
                                       child: docInputLr(
                                           providerData: providerData,
                                           bookingId: widget.bookingId)),
 
                                   Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          space_4, space_4, space_4, 0),
+                                          space_4, space_4, space_4, space_0),
                                       child: docInputEWBill(
                                           providerData: providerData,
                                           bookingId: widget.bookingId)),
 
                                   Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          space_4, space_4, space_4, 0),
+                                          space_4, space_4, space_4, space_0),
                                       child: docInputWgtReceipt(
                                         providerData: providerData,
                                         bookingId: widget.bookingId,
@@ -1693,7 +1686,7 @@ class _documentUploadScreenState extends State<documentUploadScreen> {
 
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(
-                                        space_4, space_4, space_4, space_4),
+                                        space_4, space_4, space_4, space_0),
                                     child: docInputPod(
                                       providerData: providerData,
                                       bookingId: widget.bookingId,

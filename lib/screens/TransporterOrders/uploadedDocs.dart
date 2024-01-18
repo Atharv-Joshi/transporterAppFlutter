@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/controller/previewUploadedImage.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/TransporterOrders/imageDisplayUsingApi.dart';
 
+//This widget is ued to display the uploaded documents
 class uploadedDocs extends StatefulWidget {
   bool verified;
+
   List docLinks = [];
 
   uploadedDocs({required this.docLinks, required this.verified});
@@ -18,6 +23,9 @@ class _uploadedDocsState extends State<uploadedDocs> {
   bool i2 = false;
   bool i3 = false;
   bool i4 = false;
+  bool downloaded = false;
+  bool downloading = false;
+  PreviewUploadedImage previewUploadedImage = Get.put(PreviewUploadedImage());
   @override
   void initState() {
     super.initState();
@@ -65,26 +73,26 @@ class _uploadedDocsState extends State<uploadedDocs> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        widget.verified
-            ? Flexible(
-                child: Container(
-                  margin: EdgeInsets.only(right: 3, top: 4),
-                  height: 120,
-                  width: 180,
-                  child: Image(
-                    image: AssetImage("assets/images/verifiedDoc.png"),
-                  ),
-                ),
-              )
-            : Container(),
-        widget.docLinks.length > 0
-            ? Flexible(
-                child: Stack(
-                  children: [
-                    i1
-                        ? GestureDetector(
+    String proxyServer = dotenv.get('placeAutoCompleteProxy');
+    return Responsive.isMobile(context)
+        ? Row(
+            children: [
+              widget.verified
+                  ? Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 3, top: 4),
+                        height: 110,
+                        width: 170,
+                        child: const Image(
+                          image: AssetImage("assets/images/verifiedDoc.png"),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              widget.docLinks.isNotEmpty
+                  ? i1
+                      ? Flexible(
+                          child: GestureDetector(
                             onTap: () {
                               Get.to(imageDisplayUsingApi(
                                 docLink: widget.docLinks[0].toString(),
@@ -95,11 +103,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 Center(
                                   child: Container(
                                     color: whiteBackgroundColor,
-                                    margin: EdgeInsets.only(right: 3, top: 4),
-                                    height: 120,
+                                    margin:
+                                        const EdgeInsets.only(right: 3, top: 4),
+                                    height: 130,
                                     width: 180,
-                                    child: Image.network(
-                                      widget.docLinks[0].toString(),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        "$proxyServer${widget.docLinks[0].toString()}",
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -112,18 +123,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 ),
                               ],
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            : Container(),
-        widget.docLinks.length > 1
-            ? Flexible(
-                child: Stack(
-                  children: [
-                    i2
-                        ? GestureDetector(
+                          ),
+                        )
+                      : Container()
+                  : Container(),
+              widget.docLinks.length > 1
+                  ? i2
+                      ? Flexible(
+                          child: GestureDetector(
                             onTap: () {
                               Get.to(imageDisplayUsingApi(
                                 docLink: widget.docLinks[1].toString(),
@@ -134,11 +141,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 Center(
                                   child: Container(
                                     color: whiteBackgroundColor,
-                                    margin: EdgeInsets.only(right: 3, top: 4),
-                                    height: 120,
+                                    margin:
+                                        const EdgeInsets.only(right: 3, top: 4),
+                                    height: 130,
                                     width: 180,
-                                    child: Image.network(
-                                      widget.docLinks[1].toString(),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        "$proxyServer${widget.docLinks[1].toString()}",
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -151,18 +161,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 ),
                               ],
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            : Container(),
-        widget.docLinks.length > 2
-            ? Flexible(
-                child: Stack(
-                  children: [
-                    i3
-                        ? GestureDetector(
+                          ),
+                        )
+                      : Container()
+                  : Container(),
+              widget.docLinks.length > 2
+                  ? i3
+                      ? Flexible(
+                          child: GestureDetector(
                             onTap: () {
                               Get.to(imageDisplayUsingApi(
                                 docLink: widget.docLinks[2].toString(),
@@ -173,11 +179,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 Center(
                                   child: Container(
                                     color: whiteBackgroundColor,
-                                    margin: EdgeInsets.only(right: 3, top: 4),
-                                    height: 120,
+                                    margin:
+                                        const EdgeInsets.only(right: 3, top: 4),
+                                    height: 130,
                                     width: 180,
-                                    child: Image.network(
-                                      widget.docLinks[2].toString(),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        "$proxyServer${widget.docLinks[2].toString()}",
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -190,18 +199,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 ),
                               ],
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            : Container(),
-        widget.docLinks.length > 3
-            ? Flexible(
-                child: Stack(
-                  children: [
-                    i4
-                        ? GestureDetector(
+                          ),
+                        )
+                      : Container()
+                  : Container(),
+              widget.docLinks.length > 3
+                  ? i4
+                      ? Flexible(
+                          child: GestureDetector(
                             onTap: () {
                               Get.to(imageDisplayUsingApi(
                                 docLink: widget.docLinks[3].toString(),
@@ -212,11 +217,14 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 Center(
                                   child: Container(
                                     color: whiteBackgroundColor,
-                                    margin: EdgeInsets.only(right: 3, top: 4),
-                                    height: 120,
+                                    margin:
+                                        const EdgeInsets.only(right: 3, top: 4),
+                                    height: 130,
                                     width: 180,
-                                    child: Image.network(
-                                      widget.docLinks[3].toString(),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        "$proxyServer${widget.docLinks[3].toString()}",
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -229,13 +237,12 @@ class _uploadedDocsState extends State<uploadedDocs> {
                                 ),
                               ],
                             ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            : Container(),
-      ],
-    );
+                          ),
+                        )
+                      : Container()
+                  : Container(),
+            ],
+          )
+        : Container();
   }
 }

@@ -105,6 +105,7 @@ dependencies:
   cloud_firestore: ^4.13.3
   toastification: ^1.1.0
   dotted_border: ^2.1.0
+  permission_handler_web: ^0.0.2
 
 dev_dependencies:
   flutter_config: ^2.0.2
