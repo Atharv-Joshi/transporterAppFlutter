@@ -28,11 +28,16 @@ const Color shadowGrey2 = Color(0xffd7d7d7);
 const Color flagOrange = Color(0xffFF9933);
 const Color flagGreen = Color(0xff39B82D);
 const Color backgroundGrey = Color(0xffECEEF1);
+const Color docScreenwhite = Color(0xFFB6B6C1);
+const Color docScreenBlack = Color(0xFF000000);
 const Color black_87 = Colors.black87;
 const Color loadingWidgetColor = Colors.lightBlueAccent;
 const Color inactiveBidding = Color(0xffC4C9D9);
 const Color cancelledBiddingBackground = Color(0xffD0D4E1);
 const Color greyColor = Color(0xff9E9E9E);
+const Color borderblue = Color.fromRGBO(0, 0, 255, 0.27);
+const Color lightBlueColor = Color(0xff0077B6);
+const Color darkOrangeColor = Color(0xFFE75347);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 

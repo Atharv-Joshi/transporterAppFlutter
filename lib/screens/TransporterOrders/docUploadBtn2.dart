@@ -20,8 +20,8 @@ class docUploadbtn2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 130,
+      height: space_10,
+      width: space_26,
       alignment: Alignment.center,
 
       child: GestureDetector(
