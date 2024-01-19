@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:date_format/date_format.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:liveasy/constants/color.dart';
-import 'package:liveasy/constants/fontSize.dart';
-import 'package:liveasy/constants/fontWeights.dart';
-import 'package:liveasy/constants/radius.dart';
-import 'package:liveasy/constants/spaces.dart';
+import 'package:http/http.dart' as http;
+import 'package:liveasy/Web/dashboard.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/controller/navigationIndexController.dart';
 import 'package:liveasy/functions/deviceApiCalls.dart';
 // import 'package:liveasy/functions/geofenceNotificationApi.dart';
@@ -24,10 +23,7 @@ import 'package:liveasy/widgets/alertDialog/conflictDialog.dart';
 import 'package:liveasy/widgets/alertDialog/loadingAlertDialog.dart';
 import 'package:liveasy/widgets/alertDialog/orderFailedAlertDialog.dart';
 import 'package:liveasy/widgets/buttons/elevatedButtonWidgetThree.dart';
-import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 // ignore: must_be_immutable
 class ConfirmButtonSendRequest extends StatefulWidget {
@@ -155,8 +151,22 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
             Duration(seconds: 3),
             () => {
                   providerData.updateUpperNavigatorIndex(1),
-                  Get.offAll(NavigationScreen()),
-                  navigationIndexController.updateIndex(3),
+                  if (kIsWeb)
+                    {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DashboardScreen(
+                                    selectedIndex:
+                                        screens.indexOf(ordersScreen),
+                                    index: screens.indexOf(ordersScreen),
+                                  ))),
+                    }
+                  else
+                    {
+                      Get.offAll(NavigationScreen()),
+                      navigationIndexController.updateIndex(3),
+                    }
                 });
       } else if (bookResponse == "conflict") {
         // change this according to the booking response
