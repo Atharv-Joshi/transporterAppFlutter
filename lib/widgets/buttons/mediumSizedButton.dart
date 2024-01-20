@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
+
+import '../../responsive.dart';
 
 // ignore: must_be_immutable
 class MediumSizedButton extends StatelessWidget {
@@ -19,32 +22,60 @@ class MediumSizedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderData providerData = Provider.of<ProviderData>(context);
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.053,
-      width: MediaQuery.of(context).size.width * 0.3,
-      child: TextButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          )),
-          backgroundColor: MaterialStateProperty.all<Color>(optional
-              ? darkBlueColor
-              : providerData.resetActive
-                  ? darkBlueColor
-                  : lightGrayishBlue),
-        ),
-        onPressed: onPressedFunction,
-        child: Text(
-          '$text',
-          style: TextStyle(
-            letterSpacing: 0.7,
-            fontWeight: FontWeight.w400,
-            color: white,
-            fontSize: size_8,
-          ),
-        ),
-      ),
-    );
+    return (kIsWeb && (Responsive.isDesktop(context)))
+        ? Container(
+            height: MediaQuery.of(context).size.height * 0.053,
+            width: MediaQuery.of(context).size.width * 0.2,
+            child: TextButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                )),
+                backgroundColor: MaterialStateProperty.all<Color>(optional
+                    ? truckGreen
+                    : providerData.resetActive
+                        ? truckGreen
+                        : lightGrayishBlue),
+              ),
+              onPressed: onPressedFunction,
+              child: Text(
+                '$text',
+                style: TextStyle(
+                  letterSpacing: 0.7,
+                  fontWeight: FontWeight.w400,
+                  color: white,
+                  fontSize: size_8,
+                ),
+              ),
+            ),
+          )
+        : Container(
+            height: MediaQuery.of(context).size.height * 0.053,
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: TextButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                )),
+                backgroundColor: MaterialStateProperty.all<Color>(optional
+                    ? darkBlueColor
+                    : providerData.resetActive
+                        ? darkBlueColor
+                        : lightGrayishBlue),
+              ),
+              onPressed: onPressedFunction,
+              child: Text(
+                '$text',
+                style: TextStyle(
+                  letterSpacing: 0.7,
+                  fontWeight: FontWeight.w400,
+                  color: white,
+                  fontSize: size_8,
+                ),
+              ),
+            ),
+          );
   }
 }

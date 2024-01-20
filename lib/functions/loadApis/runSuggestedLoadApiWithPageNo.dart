@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:liveasy/functions/getLoadPosterDetailsFromApi.dart';
 import 'package:liveasy/models/WidgetLoadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/loadPosterModel.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 runSuggestedLoadApiWithPageNo(int i) async {
   // WEB CODE -----
@@ -144,6 +145,8 @@ runWidgetSuggestedLoadApiWithPageNo(int i) async {
     LoadDetailsScreenModel loadDetailsScreenModel = LoadDetailsScreenModel();
     loadDetailsScreenModel.loadId =
         json["loadId"] != null ? json['loadId'] : 'NA';
+    loadDetailsScreenModel.postLoadDate =
+        json["postLoadDate"] != null ? json['postLoadDate'] : 'NA';
     loadDetailsScreenModel.loadingPoint =
         json["loadingPoint"] != null ? json['loadingPoint'] : 'NA';
     loadDetailsScreenModel.loadingPointCity =
