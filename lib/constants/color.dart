@@ -38,7 +38,6 @@ const Color greyColor = Color(0xff9E9E9E);
 const Color borderblue = Color.fromRGBO(0, 0, 255, 0.27);
 const Color lightBlueColor = Color(0xff0077B6);
 const Color darkOrangeColor = Color(0xFFE75347);
-const Color searchBar = Color.fromARGB(255, 143, 143, 143);
 const Color greyShade = Color.fromARGB(255, 197, 195, 195);
 Color tableHeaderColor = Color(0xFFEAEEFF);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
