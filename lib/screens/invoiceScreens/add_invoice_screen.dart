@@ -11,6 +11,7 @@ import 'package:shimmer/shimmer.dart';
 
 class AddInvoiceDialog {
   static List<Map<String, dynamic>> selectedBookings = [];
+  static List<String> uploadedFiles = [];
 
   // Function to fetch booking data using the transporter ID
   static Future<List<Map<String, dynamic>>> fetchBookingData() async {
@@ -443,7 +444,7 @@ class AddInvoiceDialog {
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -455,8 +456,6 @@ class AddInvoiceDialog {
 
   // upload bill dialog box UI
   static Widget _buildUploadBillDialogContent(BuildContext context) {
-    List<String> uploadedFiles = [];
-
     return Container(
       width: MediaQuery.of(context).size.width * 0.6,
       height: MediaQuery.of(context).size.height * 0.6,
@@ -477,66 +476,66 @@ class AddInvoiceDialog {
             ),
           ),
           SizedBox(height: 16),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              child: DottedBorder(
-                dashPattern: [6, 3],
-                borderType: BorderType.RRect,
-                radius: Radius.circular(12),
-                color: Colors.grey,
-                strokeWidth: 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.cloud_upload,
-                            size: 40,
-                            color: Colors.blue,
+          Container(
+            decoration: BoxDecoration(color: Color.fromRGBO(242, 243, 254, 1)),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.28,
+            child: DottedBorder(
+              dashPattern: [6, 5],
+              borderType: BorderType.RRect,
+              radius: Radius.circular(10),
+              color: bidBackground,
+              strokeWidth: 0.5,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/uploadIcon_invoice.png',
+                          color: bidBackground,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Drag or Drop File or',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: black,
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Drag or Drop File',
+                        ),
+
+                        // implemented the feature to get the file from the device
+                        TextButton(
+                          onPressed: () async {
+                            XFile? pickedFile = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+
+                            if (pickedFile != null) {
+                              String fileName = pickedFile.name;
+
+                              uploadedFiles.add(fileName);
+
+                              debugPrint('Selected file name: $fileName');
+
+                              debugPrint(
+                                  'Picked file path: ${pickedFile.path}');
+                              Navigator.of(context).pop();
+                              _showUploadBillDialog(context);
+                            }
+
+                            // Implement file browsing logic here
+                          },
+                          child: Text(
+                            'Browse File',
                             style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
+                                decoration: TextDecoration.underline,
+                                color: bidBackground),
                           ),
-                          Text(
-                            'or',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          // implemented the feature to get the file from the device
-                          ElevatedButton(
-                            onPressed: () async {
-                              XFile? pickedFile = await ImagePicker()
-                                  .pickImage(source: ImageSource.gallery);
-
-                              if (pickedFile != null) {
-                                String fileName = pickedFile.name;
-
-                                uploadedFiles.add(fileName);
-
-                                debugPrint('Selected file name: $fileName');
-                                // Handle the picked file, you can update the UI or store the file path.
-                                debugPrint(
-                                    'Picked file path: ${pickedFile.path}');
-                              }
-
-                              // Implement file browsing logic here
-                            },
-                            child: Text('Browse File'),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -556,19 +555,106 @@ class AddInvoiceDialog {
                   ),
                 ),
                 SizedBox(height: 8),
-                for (String fileName in uploadedFiles)
-                  Text(fileName, style: TextStyle(fontSize: 14)),
+                Container(
+                  height: 40,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color.fromRGBO(9, 183, 120, 1))),
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          for (String fileName in uploadedFiles)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(fileName,
+                                      style: TextStyle(fontSize: 14)),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Handle delete logic
+                                      uploadedFiles.remove(fileName);
+                                      (context as Element).markNeedsBuild();
+                                    },
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
           SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              debugPrint('Dialog closed. Uploaded files: $uploadedFiles');
-              Navigator.of(context).pop(); // Close the dialog
-            },
-            child: Text('Close'),
-          ),
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 45,
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Color(0xFF000066),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 8.0,
+                      ),
+                    ),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                SizedBox(
+                  height: 45,
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF000066),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 8.0,
+                      ),
+                    ),
+                    child: Text(
+                      'Upload',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
