@@ -456,6 +456,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               color: isHeader ? Colors.black : Colors.black,
               fontWeight: isHeader ? FontWeight.w600 : FontWeight.w500,
             ),
+            textAlign: TextAlign.center,
           ),
           tileColor: backgroundColor,
           contentPadding: EdgeInsets.all(10),
