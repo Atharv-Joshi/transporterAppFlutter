@@ -23,11 +23,11 @@ class InvoiceApiService {
 // post invoice data
   static void postInvoiceData(
     String transporterId,
-    String partyName,
-    String invoiceNumber,
-    String invoiceDate,
-    String invoiceAmount,
-    List<dynamic> selectedBookingIds,
+    String? partyName,
+    String? invoiceNumber,
+    String? invoiceDate,
+    String? invoiceAmount,
+    List<String>? selectedBookingIds,
   ) async {
     final Map<String, dynamic> data = {
       'transporterId': transporterId,
@@ -35,7 +35,7 @@ class InvoiceApiService {
       'invoiceNo': invoiceNumber,
       'invoiceDate': invoiceDate,
       'invoiceAmount': invoiceAmount,
-      'BookingId': selectedBookingIds,
+      'bookingId': selectedBookingIds,
     };
     final String invoiceApi = dotenv.get('invoiceApiUrl');
     final response = await http.post(
