@@ -25,6 +25,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   List<Map<String, dynamic>> invoices = [];
   String transporterId = '';
+  List<Map<String, dynamic>> filteredList = [];
 
   // Function to fetch invoice data
   Future<void> _fetchInvoiceData() async {
@@ -86,7 +87,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               children: [
                 // Search bar
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, top: 30),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
                     height: 50,
@@ -113,7 +114,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             prefixIcon: const Icon(Icons.search),
                           ),
                           onChanged: (value) {
-                            // Handle search functionality
+                            filterInvoices(value);
                           },
                         ),
                       ),
@@ -123,6 +124,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 const Spacer(),
                 // Date filter and Add Invoice button
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
@@ -130,13 +132,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       height: 40,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          right: 8.0,
-                          top: 8.0,
-                          left: 20,
-                        ),
+                            // right: 8.0,
+                            // top: 8.0,
+                            // left: 20,
+                            ),
                         child: Text(
                           "Date",
                           style: TextStyle(
+                            fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -196,27 +199,30 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 ),
                 const Spacer(),
                 // Add Invoice button
-                SizedBox(
-                  height: 45,
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      AddInvoiceDialog.show(context, transporterId);
-                    },
-                    icon: Icon(Icons.add),
-                    label: Text('Add Invoice'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF000066),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 8.0,
+                Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: SizedBox(
+                    height: 40,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        AddInvoiceDialog.show(context, transporterId);
+                      },
+                      icon: Icon(Icons.add),
+                      label: Text('Add Invoice'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF000066),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 8.0,
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -287,9 +293,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               physics: BouncingScrollPhysics(),
-                              itemCount: invoices.length,
+                              itemCount: filteredList.isNotEmpty
+                                  ? filteredList.length
+                                  : invoices.length,
                               itemBuilder: (context, index) {
-                                final invoice = invoices[index];
+                                final invoice = filteredList.isNotEmpty
+                                    ? filteredList[index]
+                                    : invoices[index];
 
                                 return Column(
                                   children: [
@@ -355,7 +365,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: invoices.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (context, index) {
                         final invoice = invoices[index];
 
@@ -404,6 +414,23 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         ],
       ),
     );
+  }
+
+  // This functions filters the displayed invoice list based on the entered search text
+  void filterInvoices(String searchText) {
+    setState(() {
+      filteredList = invoices
+          .where((invoice) =>
+              (invoice['invoiceNo']
+                      ?.toLowerCase()
+                      .contains(searchText.toLowerCase()) ??
+                  false) ||
+              (invoice['partyName']
+                      ?.toLowerCase()
+                      .contains(searchText.toLowerCase()) ??
+                  false))
+          .toList();
+    });
   }
 
   void handleDateRangeSelection(String value) {

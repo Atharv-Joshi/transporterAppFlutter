@@ -426,7 +426,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
         },
         child: Container(
-            height: 60,
+            height: 55,
             padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
