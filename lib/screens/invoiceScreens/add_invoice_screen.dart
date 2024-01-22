@@ -10,8 +10,18 @@ import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AddInvoiceDialog {
-  static List<Map<String, dynamic>> selectedBookings = [];
+  static List<String> selectedBookings = [];
   static List<String> uploadedFiles = [];
+  static List<int> selectedBookingRate = [];
+  static TextEditingController invoiceNumberController =
+      TextEditingController();
+  static TextEditingController invoiceDateController = TextEditingController();
+  static TextEditingController invoicePartyNameController =
+      TextEditingController();
+  static TextEditingController invoiceBalanceController =
+      TextEditingController();
+  static String transporterId = '';
+  static String transporterName = '';
 
   // Function to fetch booking data using the transporter ID
   static Future<List<Map<String, dynamic>>> fetchBookingData() async {
@@ -19,7 +29,9 @@ class AddInvoiceDialog {
       // Get the transporter ID from the controller
       TransporterIdController transporterIdController =
           Get.find<TransporterIdController>();
-      String transporterId = transporterIdController.transporterId.value;
+      transporterId = transporterIdController.transporterId.value;
+      transporterName = transporterIdController.name.value;
+
 
 // Fetch booking data using the transporter ID
       List<dynamic> data = await ApiService.fetchBookingData(transporterId);
@@ -33,11 +45,6 @@ class AddInvoiceDialog {
 
 //Dialog box for addinvoice
   static void show(BuildContext context, String transporterId) {
-    TextEditingController invoiceNumberController = TextEditingController();
-    TextEditingController invoiceDateController = TextEditingController();
-    TextEditingController invoicePartyName = TextEditingController();
-    TextEditingController invoiceBalance = TextEditingController();
-
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -81,8 +88,8 @@ class AddInvoiceDialog {
                     _buildInvoiceDetailsForm(
                         invoiceNumberController,
                         invoiceDateController,
-                        invoicePartyName,
-                        invoiceBalance,
+                        invoicePartyNameController,
+                        invoiceBalanceController,
                         context),
                     SizedBox(height: 14),
                     Text(
@@ -116,8 +123,12 @@ class AddInvoiceDialog {
                             } else {
                               List<Map<String, dynamic>> invoices =
                                   snapshot.data!;
-                              return _buildTripDetailsTable(context, invoices,
-                                  selectedBookings, invoiceBalance);
+                              return _buildTripDetailsTable(
+                                  context,
+                                  invoices,
+                                  selectedBookings,
+                                  invoiceBalanceController,
+                                  selectedBookingRate);
                             }
                           },
                         ),
@@ -129,7 +140,7 @@ class AddInvoiceDialog {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // Handle onTap action
+
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -164,15 +175,12 @@ class AddInvoiceDialog {
                           child: ElevatedButton(
                             onPressed: () {
                               InvoiceApiService.postInvoiceData(
-                                transporterId,
-                                invoicePartyName.text,
-                                invoiceNumberController.text,
-                                invoiceDateController.text,
-                                invoiceBalance.text,
-                                selectedBookings
-                                    .map((invoice) => invoice['bookingId'])
-                                    .toList(),
-                              );
+                                  transporterId,
+                                  invoicePartyNameController.text,
+                                  invoiceNumberController.text,
+                                  invoiceDateController.text,
+                                  invoiceBalanceController.text,
+                                  selectedBookings);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF000066),
@@ -214,11 +222,11 @@ class AddInvoiceDialog {
 
   //invoice no,invoice date,upload doc form
   static Widget _buildInvoiceDetailsForm(
-    TextEditingController invoiceNumberController,
-    TextEditingController invoiceDateController,
-    TextEditingController invoicePartyNameController,
-    TextEditingController invoiceBalanceController,
-    BuildContext context,
+    invoiceNumberController,
+    invoiceDateController,
+    invoicePartyNameController,
+    invoiceBalanceController,
+    context,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,7 +285,7 @@ class AddInvoiceDialog {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(invoiceBalanceController.text),
+                    Text(invoiceBalanceController.text ?? '0'),
                   ],
                 ),
               ),
@@ -287,7 +295,8 @@ class AddInvoiceDialog {
         SizedBox(height: 16),
         Row(
           children: [
-            Flexible(
+            Expanded(
+              flex: 1,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -301,7 +310,7 @@ class AddInvoiceDialog {
                     height: 10,
                   ),
                   Container(
-                    width: double.infinity, // Take full available width
+                    width: 150,
                     height: 30,
                     child: TextField(
                       controller: invoiceNumberController,
@@ -320,7 +329,7 @@ class AddInvoiceDialog {
               ),
             ),
             SizedBox(
-              width: 20,
+              width: 0,
             ),
             Flexible(
               child: Column(
@@ -340,7 +349,6 @@ class AddInvoiceDialog {
                     onTap: () async {
                       final config =
                           CalendarDatePicker2WithActionButtonsConfig();
-
                       final List<DateTime?>? pickedDates =
                           await showCalendarDatePicker2Dialog(
                         context: context,
@@ -356,7 +364,7 @@ class AddInvoiceDialog {
                       }
                     },
                     child: Container(
-                      width: double.infinity,
+                      width: 150,
                       height: 30,
                       child: TextField(
                         controller: invoiceDateController,
@@ -661,12 +669,8 @@ class AddInvoiceDialog {
   }
 
   // handle the table view and table content from api
-  static Widget _buildTripDetailsTable(
-    BuildContext context,
-    List<Map<String, dynamic>> invoices,
-    List<Map<String, dynamic>> selectedInvoices,
-    TextEditingController invoiceBalance,
-  ) {
+  static Widget _buildTripDetailsTable(context, invoices, selectedInvoices,
+      invoiceBalance, selectedBookingRate) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1.0),
@@ -703,8 +707,7 @@ class AddInvoiceDialog {
                   ],
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+              Expanded(
                 child: invoices.isEmpty
                     ? _buildShimmerEffect()
                     : ListView.builder(
@@ -712,54 +715,73 @@ class AddInvoiceDialog {
                         itemBuilder: (context, index) {
                           final invoice = invoices[index];
 
-                          return Column(
-                            children: [
-                              Container(
-                                color: white,
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      value: selectedInvoices.contains(invoice),
-                                      onChanged: (value) {
-                                        if (value!) {
-                                          selectedInvoices.add(invoice);
-                                        } else {
-                                          selectedInvoices.remove(invoice);
-                                        }
-                                        _updateInvoiceBalance(invoiceBalance);
-                                        (context as Element).markNeedsBuild();
-                                      },
-                                    ),
-                                    _buildTableCell(
-                                      invoice['bookingDate'] ?? '',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['lr'] ?? '',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      '${invoice['loadingPointCity'] ?? ''} to ${invoice['unloadingPointCity'] ?? ''}',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['truckNo'] ?? '',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['rate'] ?? '',
-                                      isHeader: false,
-                                    ),
-                                  ],
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Column(
+                              children: [
+                                Container(
+                                  color: white,
+                                  child: Row(
+                                    children: [
+                                      Checkbox(
+                                        value: selectedInvoices
+                                            .contains(invoice['bookingId']),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value!) {
+                                              selectedBookings
+                                                  .add(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .add(invoice['rate']!);
+                                              }
+                                            } else {
+                                              selectedBookings
+                                                  .remove(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .remove(invoice['rate']!);
+                                              }
+                                            }
+
+                                            _updateInvoiceBalance(
+                                                invoiceBalance);
+
+                                          });
+                                          (context as Element).markNeedsBuild();
+                                        },
+                                      ),
+                                      _buildTableCell(
+                                        invoice['bookingDate'] ?? '',
+                                        isHeader: false,
+                                      ),
+                                      _buildTableCell(
+                                        invoice['lr'] ?? '',
+                                        isHeader: false,
+                                      ),
+                                      _buildTableCell(
+                                        '${invoice['loadingPointCity'] ?? ''} to ${invoice['unloadingPointCity'] ?? ''}',
+                                        isHeader: false,
+                                      ),
+                                      _buildTableCell(
+                                        invoice['truckNo'] ?? '',
+                                        isHeader: false,
+                                      ),
+                                      _buildTableCell(
+                                        invoice['rate']?.toString() ?? '',
+                                        isHeader: false,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                thickness: 1,
-                                height: 0,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          );
+                                Divider(
+                                  thickness: 1,
+                                  height: 0,
+                                  color: Colors.grey,
+                                ),
+                              ],
+                            );
+                          });
                         },
                       ),
               ),
@@ -772,13 +794,13 @@ class AddInvoiceDialog {
 
   //invoice balance the sum of selected bookings
 
-  static void _updateInvoiceBalance(
-      TextEditingController invoiceBalanceController) {
-    double totalAmount = AddInvoiceDialog.selectedBookings
-        .map((invoice) => double.parse(invoice['rate'] ?? '0'))
-        .reduce((sum, rate) => sum + rate);
+  static void _updateInvoiceBalance(invoiceBalanceController) {
+    int totalRate = 0;
 
-    invoiceBalanceController.text = totalAmount.toString();
+    for (int rate in selectedBookingRate) {
+      totalRate += rate;
+    }
+    invoiceBalanceController.text = totalRate.toString();
   }
 
   static Widget _buildTableCell(String text, {bool isHeader = false}) {
