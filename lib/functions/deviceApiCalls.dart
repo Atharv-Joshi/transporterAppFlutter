@@ -1,10 +1,13 @@
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 
-String traccarPass = dotenv.get("traccarPass");
+import 'encryptDecrypt.dart';
+
+String traccarPass = decrypt(dotenv.get('traccarPass'));
 String? current_lang;
 //String traccarUser = FlutterConfig.get("traccarUser");
 //to change authorization from admin to user

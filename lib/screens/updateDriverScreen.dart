@@ -1,17 +1,20 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
+import 'package:liveasy/functions/encryptDecrypt.dart';
+import 'package:liveasy/models/onGoingCardModel.dart';
 import 'package:liveasy/screens/updateBookingDetails.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
-import '../../constants/fontSize.dart';
-import '../../constants/fontWeights.dart';
-import '../../constants/radius.dart';
-import '../../constants/spaces.dart';
-import '../../functions/BackgroundAndLocation.dart';
-import '../models/onGoingCardModel.dart';
+
 import 'addDriver.dart';
 
 //This screen displayes number of Driver from which user can select only one
@@ -49,7 +52,7 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
     String driverApiUrl = dotenv.get("driverApiUrl").toString();
     var jsonData;
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = dotenv.get("traccarPass");
+    String traccarPass = decrypt(dotenv.get('traccarPass'));
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
     http.Response response = await http.get(
