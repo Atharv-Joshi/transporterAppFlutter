@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:liveasy/models/gpsDataModel.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'package:liveasy/functions/encryptDecrypt.dart';
+import 'package:liveasy/models/gpsDataModel.dart';
 
 getTraccarTripsByDeviceId({
   int? deviceId,
@@ -10,7 +11,7 @@ getTraccarTripsByDeviceId({
   String? to,
 }) async {
   String traccarUser = dotenv.get("traccarUser");
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
   String traccarApi = dotenv.get("traccarApi");
@@ -31,25 +32,20 @@ getTraccarTripsByDeviceId({
       for (var json in jsonData) {
         GpsDataModel gpsDataModel = new GpsDataModel();
         // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
-        gpsDataModel.deviceId =
-        json["deviceId"] != null ? json["deviceId"] : 0;
-        gpsDataModel.latitude =
-        json["startLat"] != null ? json["startLat"] : 0;
+        gpsDataModel.deviceId = json["deviceId"] != null ? json["deviceId"] : 0;
+        gpsDataModel.latitude = json["startLat"] != null ? json["startLat"] : 0;
         gpsDataModel.longitude =
-        json["startLon"] != null ? json["startLon"] : 0;
+            json["startLon"] != null ? json["startLon"] : 0;
         gpsDataModel.endLat = json["endLat"] != null ? json["endLat"] : 0;
         gpsDataModel.endLon = json["endLon"] != null ? json["endLon"] : 0;
         gpsDataModel.speed =
-        json["averageSpeed"] != null ? json["averageSpeed"] : 0;
-        gpsDataModel.distance =
-        json["distance"] != null ? json["distance"] : 0;
+            json["averageSpeed"] != null ? json["averageSpeed"] : 0;
+        gpsDataModel.distance = json["distance"] != null ? json["distance"] : 0;
 
         gpsDataModel.startTime =
-        json["startTime"] != null ? json["startTime"] : 'NA';
-        gpsDataModel.endTime =
-        json["endTime"] != null ? json["endTime"] : 'NA';
-        gpsDataModel.duration =
-        json["duration"] != null ? json["duration"] : 0;
+            json["startTime"] != null ? json["startTime"] : 'NA';
+        gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
+        gpsDataModel.duration = json["duration"] != null ? json["duration"] : 0;
 
         // print("Device time : ${gpsDataModel.deviceTime}");
 

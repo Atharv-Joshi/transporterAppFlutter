@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/functions/encryptDecrypt.dart';
 
 void linkNotificationAndUserTraccar(String? userId, List<String?>? id) async {
   String traccarUser = dotenv.get("traccarUser");
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String traccarApi = dotenv.get("traccarApi");
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));

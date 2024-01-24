@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/functions/encryptDecrypt.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 
 getTraccarHistoryByDeviceId({
@@ -9,7 +11,7 @@ getTraccarHistoryByDeviceId({
   String? to,
 }) async {
   String traccarUser = dotenv.get("traccarUser");
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
   String traccarApi = dotenv.get("traccarApi");
