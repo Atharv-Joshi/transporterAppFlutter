@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liveasy/screens/invoiceScreens/InvoiceScreen.dart';
 
 import '../screens/PostLoadScreens/postLoadScreen.dart';
 import '../screens/TruckScreens/myTrucksScreen.dart';
@@ -15,6 +16,7 @@ final myTrucks = MyTrucks();
 final postLoadScreen = PostLoadScreen();
 final ordersScreen = OrdersScreen();
 final logoutDialogue = LogoutDialogue();
+final invoiceScreen = InvoiceScreen();
 // var postLoadNav = PostLoadNav(
 //   setChild: Container(),
 //   index: 0,
@@ -32,6 +34,7 @@ final search = FindLoadScreen();
 List<Widget> screens = [
   auctionScreen,
   ordersScreen,
+  invoiceScreen,
   logoutDialogue,
 
   //

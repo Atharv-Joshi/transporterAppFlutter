@@ -29,6 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   int _index = 0;
   late Color auctionSelectedTabGradientColor,
+      invoiceSelectedTabGradientColor,
       myOrderSelectedTabGradientColor,
       signoutSelectedTabGradientColor,
       liveasySelectedTabGradientColor;
@@ -72,6 +73,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       myOrderSelectedTabGradientColor = white;
     }
     if (_selectedIndex == 2) {
+      invoiceSelectedTabGradientColor = bidBackground;
+    } else {
+      invoiceSelectedTabGradientColor = white;
+    }
+    if (_selectedIndex == 3) {
       signoutSelectedTabGradientColor = bidBackground;
     } else {
       signoutSelectedTabGradientColor = white;
@@ -251,6 +257,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       iconSize: 20,
                                       icon: ShipperNav.box_load,
                                       position: 1),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SideExpandedItem(
+                                      title: "Invoice",
+                                      iconSize: 20,
+                                      icon: ShipperNav.invoice,
+                                      position: 2),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.33,
@@ -259,7 +273,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       title: "Signout",
                                       iconSize: 20,
                                       icon: Icons.logout_outlined,
-                                      position: 2),
+                                      position: 3),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -365,6 +379,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       myOrderSelectedTabGradientColor = white;
     }
     if (_selectedIndex == 2) {
+      invoiceSelectedTabGradientColor = bidBackground;
+    } else {
+      invoiceSelectedTabGradientColor = white;
+    }
+    if (_selectedIndex == 3) {
       signoutSelectedTabGradientColor = bidBackground;
     } else {
       signoutSelectedTabGradientColor = white;
@@ -378,26 +397,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
             if (title == "Auctions") {
               auctionSelectedTabGradientColor = bidBackground;
               myOrderSelectedTabGradientColor = white;
+              invoiceSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
               _selectedIndex = 0;
               _index = 0;
             } else if (title == "My Orders") {
               auctionSelectedTabGradientColor = white;
               myOrderSelectedTabGradientColor = bidBackground;
+              invoiceSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
               _selectedIndex = 1;
               _index = 1;
+            } else if (title == "Invoice") {
+              auctionSelectedTabGradientColor = white;
+              myOrderSelectedTabGradientColor = white;
+              invoiceSelectedTabGradientColor = bidBackground;
+              signoutSelectedTabGradientColor = white;
+              _selectedIndex = 2;
+              _index = 2;
             } else if (title == "Signout") {
               auctionSelectedTabGradientColor = white;
               myOrderSelectedTabGradientColor = white;
+              invoiceSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = bidBackground;
-              _selectedIndex = 2;
-              _index = 2;
+              _selectedIndex = 3;
+              _index = 3;
             }
           });
         },
         child: Container(
-            height: 60,
+            height: 55,
             padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -407,11 +436,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ? auctionSelectedTabGradientColor
                         : (title == "My Orders")
                             ? myOrderSelectedTabGradientColor
-                            // : (title == 'My loads')
-                            //     ? liveasySelectedTabGradientColor
-                            : (title == 'Signout')
-                                ? signoutSelectedTabGradientColor
-                                : liveasySelectedTabGradientColor),
+                            : (title == "Invoice")
+                                ? invoiceSelectedTabGradientColor
+                                // : (title == 'My loads')
+                                //     ? liveasySelectedTabGradientColor
+                                : (title == 'Signout')
+                                    ? signoutSelectedTabGradientColor
+                                    : liveasySelectedTabGradientColor),
             child: Row(
               children: [
                 Icon(icon,

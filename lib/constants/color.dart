@@ -38,6 +38,8 @@ const Color greyColor = Color(0xff9E9E9E);
 const Color borderblue = Color.fromRGBO(0, 0, 255, 0.27);
 const Color lightBlueColor = Color(0xff0077B6);
 const Color darkOrangeColor = Color(0xFFE75347);
+const Color greyShade = Color.fromARGB(255, 197, 195, 195);
+Color tableHeaderColor = Color(0xFFEAEEFF);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
@@ -79,7 +81,7 @@ const Color red = Colors.red;
 const Color navy = Color(0xff000066);
 Color continueButton = Color(0xff007CFF);
 Color tryAgainButton = Color(0xffCC503E);
-const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
+
 const Color formBackground = Color.fromARGB(255, 245, 246, 250);
 const Color headerLightBlueColor = Color.fromRGBO(245, 246, 250, 1);
 const Color darkBlueTextColor = Color.fromARGB(255, 21, 41, 104);
