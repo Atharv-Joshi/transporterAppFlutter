@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/bookingApi/getBookingDataWithTransporterId.dart';
+import 'package:liveasy/functions/bookingApi/putBookingData_completed=true.dart';
+import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -22,6 +26,7 @@ class AddInvoiceDialog {
       TextEditingController();
   static String transporterId = '';
   static String transporterName = '';
+  static Map<String, dynamic>? storedDocumentInfo;
 
   // Function to fetch booking data using the transporter ID
   static Future<List<Map<String, dynamic>>> fetchBookingData() async {
@@ -31,7 +36,6 @@ class AddInvoiceDialog {
           Get.find<TransporterIdController>();
       transporterId = transporterIdController.transporterId.value;
       transporterName = transporterIdController.name.value;
-
 
 // Fetch booking data using the transporter ID
       List<dynamic> data = await ApiService.fetchBookingData(transporterId);
@@ -115,20 +119,26 @@ class AddInvoiceDialog {
                         child: FutureBuilder<List<Map<String, dynamic>>>(
                           future: fetchBookingData(),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return _buildShimmerEffect();
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              List<Map<String, dynamic>> invoices =
-                                  snapshot.data!;
-                              return _buildTripDetailsTable(
-                                  context,
-                                  invoices,
-                                  selectedBookings,
-                                  invoiceBalanceController,
-                                  selectedBookingRate);
+                            try {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return _buildShimmerEffect();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                List<Map<String, dynamic>> invoices =
+                                    snapshot.data!;
+                                return _buildTripDetailsTable(
+                                    context,
+                                    invoices,
+                                    selectedBookings,
+                                    invoiceBalanceController,
+                                    selectedBookingRate);
+                              }
+                            } catch (e) {
+                              print('Error in _buildTripDetailsTable: $e');
+                              // Handle the error, e.g., show an error message to the user
+                              return Text('An error occurred');
                             }
                           },
                         ),
@@ -140,7 +150,6 @@ class AddInvoiceDialog {
                       children: [
                         GestureDetector(
                           onTap: () {
-
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -173,14 +182,55 @@ class AddInvoiceDialog {
                           height: 45,
                           width: 150,
                           child: ElevatedButton(
-                            onPressed: () {
-                              InvoiceApiService.postInvoiceData(
+                            onPressed: () async {
+                              try {
+                                String? invoiceId =
+                                    await InvoiceApiService.postInvoiceData(
                                   transporterId,
                                   invoicePartyNameController.text,
                                   invoiceNumberController.text,
                                   invoiceDateController.text,
                                   invoiceBalanceController.text,
-                                  selectedBookings);
+                                  selectedBookings,
+                                );
+                                // once invocie is created  for that particular bookings then we have to update the bookings list and make completed satus = true
+                                for (var bookingIds in selectedBookings) {
+                                  updateBookingId(bookingId: bookingIds);
+                                }
+                                // once the invocie  is created then we are asigning the ivocieid to entity id
+                                if (storedDocumentInfo != null) {
+                                  storedDocumentInfo!["entityId"] = invoiceId;
+                                  await postDocumentApiCall(
+                                      storedDocumentInfo!);
+                                }
+                                // Reset data when the invoice is created
+                                invoicePartyNameController.clear();
+                                invoiceNumberController.clear();
+                                invoiceDateController.clear();
+                                invoiceBalanceController.clear();
+                                // Add other reset logic as needed
+                                // Close the current screen (AddInvoiceScreen)
+                                Navigator.of(context).pop();
+
+                                // Push the InvoiceScreen again to refresh it
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DashboardScreen(
+                                            selectedIndex: 2,
+                                            index: 2,
+                                          )),
+                                );
+                              } catch (e) {
+                                print('Error in onPressed: $e');
+
+                                // display a snackbar or dialog to inform the user about the error.
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text('Error creating invoice: $e'),
+                                  duration: Duration(seconds: 3),
+                                ));
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF000066),
@@ -518,23 +568,18 @@ class AddInvoiceDialog {
                         // implemented the feature to get the file from the device
                         TextButton(
                           onPressed: () async {
-                            XFile? pickedFile = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
-
-                            if (pickedFile != null) {
-                              String fileName = pickedFile.name;
-
-                              uploadedFiles.add(fileName);
-
-                              debugPrint('Selected file name: $fileName');
-
-                              debugPrint(
-                                  'Picked file path: ${pickedFile.path}');
-                              Navigator.of(context).pop();
-                              _showUploadBillDialog(context);
+                            try {
+                              //call the _storeDocumentInfo function to open the device browse file
+                              await _storeDocumentInfo(context);
+                            } catch (e) {
+                              print('Error in onPressed: $e');
+                              //  display a snackbar or dialog to inform the user about the error.
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Error creating invoice: $e'),
+                                duration: Duration(seconds: 3),
+                              ));
                             }
-
-                            // Implement file browsing logic here
                           },
                           child: Text(
                             'Browse File',
@@ -608,17 +653,22 @@ class AddInvoiceDialog {
           Container(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
                   height: 45,
-                  width: 150,
+                  width: 300,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Color(0xFF000066),
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
+                        side: BorderSide(
+                            color: Color(0xFF000066)), // Set border color
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
@@ -629,6 +679,7 @@ class AddInvoiceDialog {
                       'Cancel',
                       style: TextStyle(
                         fontSize: 16,
+                        color: Color(0xFF000066), // Set text color
                       ),
                     ),
                   ),
@@ -638,9 +689,11 @@ class AddInvoiceDialog {
                 ),
                 SizedBox(
                   height: 45,
-                  width: 150,
+                  width: 300,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF000066),
                       foregroundColor: Colors.white,
@@ -666,6 +719,43 @@ class AddInvoiceDialog {
         ],
       ),
     );
+  }
+
+// this function handle the operation of file selecting from the device
+  static Future<void> _storeDocumentInfo(context) async {
+    try {
+      XFile? pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        String fileName = pickedFile.name;
+        uploadedFiles.add(fileName);
+
+        debugPrint('Selected file name: $fileName');
+        debugPrint('Picked file path: ${pickedFile.path}');
+
+        List<int> fileBytes = await pickedFile.readAsBytes();
+        String photo64code =
+            base64Encode(fileBytes); //converting img o byte code
+
+        storedDocumentInfo ??= {
+          "entityId": null,
+          //at first we are keeping entityId null bends we want invocable as entity id which will created in future so we are storing the files locally in code and once we crate invoice and we are giving entity id as invoiceid $you can check in create invoice button onpressed function
+          "documents": [],
+        };
+
+        storedDocumentInfo!["documents"].add({
+          "documentType": 'invoiceBill',
+          "data": photo64code,
+        });
+        //here we are poping and again opening the upload dialog box to update the screen
+        Navigator.of(context).pop();
+        _showUploadBillDialog(context);
+      }
+    } catch (e) {
+      print('Error in _storeDocumentInfo: $e');
+      // Handle the error, e.g., show an error message to the user
+    }
   }
 
   // handle the table view and table content from api
@@ -746,7 +836,6 @@ class AddInvoiceDialog {
 
                                             _updateInvoiceBalance(
                                                 invoiceBalance);
-
                                           });
                                           (context as Element).markNeedsBuild();
                                         },

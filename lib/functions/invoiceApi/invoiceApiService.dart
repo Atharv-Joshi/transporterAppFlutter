@@ -21,7 +21,7 @@ class InvoiceApiService {
   }
 
 // post invoice data
-  static void postInvoiceData(
+  static Future<String?> postInvoiceData(
     String transporterId,
     String? partyName,
     String? invoiceNumber,
@@ -37,6 +37,7 @@ class InvoiceApiService {
       'invoiceAmount': invoiceAmount,
       'bookingId': selectedBookingIds,
     };
+
     final String invoiceApi = dotenv.get('invoiceApiUrl');
     final response = await http.post(
       Uri.parse('$invoiceApi'),
@@ -46,12 +47,23 @@ class InvoiceApiService {
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       // Successfully created invoice
-      print('Invoice created successfully!'); // Close the dialog
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      if (responseData.containsKey('invoiceId')) {
+        String invoiceId = responseData['invoiceId'].toString();
+        print('Invoice created successfully! Invoice ID: $invoiceId');
+        return invoiceId;
+      } else {
+        print(
+            'Invoice created, but unable to retrieve invoiceId from the response.');
+        return null;
+      }
     } else {
       // Handle API error
       print('Failed to create invoice. Status code: ${response.statusCode}');
+      return null;
     }
   }
 }
