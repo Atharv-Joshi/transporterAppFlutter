@@ -3,13 +3,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/encryptDecrypt.dart';
 import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/deviceModel.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
 import 'package:liveasy/models/gpsDataModelForHistory.dart';
 import 'package:geocoding/geocoding.dart';
 
-String traccarPass = dotenv.get("traccarPass");
+String traccarPass = decrypt(dotenv.get('traccarPass'));
 String? current_lang;
 TransporterIdController transporterIdController =
     Get.find<TransporterIdController>();
@@ -42,7 +43,7 @@ class MapUtil {
       var devicesList = [];
       if (response.statusCode == 200) {
         for (var json in jsonData) {
-          Map <String,dynamic> att;
+          Map<String, dynamic> att;
           DeviceModel devicemodel = new DeviceModel();
           // gpsDataModel.id = json["id"] != null ? json["id"] : 'NA';
           devicemodel.deviceId = json["id"] != null ? json["id"] : 0;
@@ -51,7 +52,7 @@ class MapUtil {
           devicemodel.status = json["status"] != null ? json["status"] : 'NA';
           devicemodel.lastUpdate =
               json["lastUpdate"] != null ? json["lastUpdate"] : 'NA';
-          att = json["attributes"] !=null?json['attributes']:null;
+          att = json["attributes"] != null ? json['attributes'] : null;
           devicemodel.expire = att['expirationTime'];
           print(att);
           print(devicemodel.expire);
@@ -166,7 +167,7 @@ class MapUtil {
     }
   }
 
-    getTraccarPositionforAllCustomized() async {
+  getTraccarPositionforAllCustomized() async {
     try {
       print(traccarUser);
       http.Response response = await http
@@ -191,7 +192,7 @@ class MapUtil {
       return null;
     }
   }
-    
+
   getTraccarPosition({int? deviceId}) async {
     try {
       http.Response response = await http.get(

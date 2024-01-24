@@ -1,14 +1,16 @@
 import 'dart:convert';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/functions/encryptDecrypt.dart';
 import 'package:liveasy/language/localization_service.dart';
 import 'package:liveasy/models/gpsDataModel.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<List<GpsDataModel>> getPositionByDeviceId(String deviceId) async {
   String? current_lang;
   String traccarUser = dotenv.get("traccarUser");
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
   String traccarApi = dotenv.get("traccarApi");
