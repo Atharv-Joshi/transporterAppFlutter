@@ -108,6 +108,7 @@ dependencies:
   permission_handler_web: ^0.0.2
 
   calendar_date_picker2: ^0.5.3
+  pdf: ^3.10.7
 
 dev_dependencies:
   flutter_config: ^2.0.2

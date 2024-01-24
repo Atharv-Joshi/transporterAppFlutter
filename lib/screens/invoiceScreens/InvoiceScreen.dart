@@ -8,6 +8,7 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
+import 'package:liveasy/widgets/check_invocie_dialogBox.dart';
 
 class InvoiceScreen extends StatefulWidget {
   InvoiceScreen({Key? key}) : super(key: key);
@@ -306,7 +307,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                     Row(
                                       children: [
                                         buildTableCell(
-                                            invoice['invoiceDate'] ?? '',
+                                            invoice['invoiceDate'] ?? 'NA',
                                             Colors.white,
                                             isHeader: false),
                                         Divider(
@@ -314,7 +315,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             height: 0,
                                             color: Colors.grey),
                                         buildTableCell(
-                                            invoice['invoiceNo'] ?? '',
+                                            invoice['invoiceNo'] ?? 'NA',
                                             Colors.white,
                                             isHeader: false),
                                         Divider(
@@ -322,7 +323,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             height: 0,
                                             color: Colors.grey),
                                         buildTableCell(
-                                            '\$${invoice['invoiceAmount'] ?? ''}',
+                                            '\$${invoice['invoiceAmount'] ?? 'NA'}',
                                             Colors.white,
                                             isHeader: false),
                                         Divider(
@@ -330,14 +331,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             height: 0,
                                             color: Colors.grey),
                                         buildTableCell(
-                                            invoice['partyName'] ?? '',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(invoice['dueDate'] ?? '',
+                                            invoice['partyName'] ?? 'NA',
                                             Colors.white,
                                             isHeader: false),
                                         Divider(
@@ -345,9 +339,19 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             height: 0,
                                             color: Colors.grey),
                                         buildTableCell(
-                                            invoice['invoiceDetails'] ?? '',
+                                            invoice['dueDate'] ?? 'NA',
                                             Colors.white,
                                             isHeader: false),
+                                        Divider(
+                                            thickness: 1,
+                                            height: 0,
+                                            color: Colors.grey),
+                                        buildTableCell(
+                                            invoice['invoiceDetails'] ??
+                                                'check invoice',
+                                            Colors.white,
+                                            isHeader: false,
+                                            invoiceId: invoice['invoiceId']),
                                       ],
                                     ),
                                     Divider(
@@ -468,25 +472,39 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   // Widget to build table cell
   Widget buildTableCell(String text, Color backgroundColor,
-      {bool isHeader = false}) {
+      {bool isHeader = false, String? invoiceId}) {
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          border:
-              Border.symmetric(vertical: BorderSide(width: 0.5, color: grey)),
-        ),
-        child: ListTile(
-          title: Text(
-            text,
-            style: GoogleFonts.montserrat(
-              fontSize: 18,
-              color: isHeader ? Colors.black : Colors.black,
-              fontWeight: isHeader ? FontWeight.w600 : FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
+      child: GestureDetector(
+        onTap: () {
+          if (text == 'check invoice') {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return InvoiceDetailsDialog(invoiceId: invoiceId!);
+                });
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border:
+                Border.symmetric(vertical: BorderSide(width: 0.5, color: grey)),
           ),
-          tileColor: backgroundColor,
-          contentPadding: EdgeInsets.all(10),
+          child: ListTile(
+            title: Text(
+              text,
+              style: GoogleFonts.montserrat(
+                fontSize: 18,
+                color: (text == 'check invoice') ? kLiveasyColor : Colors.black,
+                fontWeight: isHeader ? FontWeight.w600 : FontWeight.w500,
+                decoration: text == 'check invoice'
+                    ? TextDecoration.underline
+                    : TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            tileColor: backgroundColor,
+            contentPadding: EdgeInsets.all(10),
+          ),
         ),
       ),
     );
