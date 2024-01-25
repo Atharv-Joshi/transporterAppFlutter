@@ -206,7 +206,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     height: 40,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        AddInvoiceDialog.show(context, transporterId);
+                       showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddInvoiceDialog();
+                          },
+                        );
                       },
                       icon: Icon(Icons.add),
                       label: Text('Add Invoice'),
