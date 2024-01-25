@@ -84,8 +84,6 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    String miniatureImageUrl =
-        'https://liveasydocsdev.s3.ap-south-1.amazonaws.com/invoice%3A686a9c16-2b21-4818-826b-e7c0e7cdd73finvoiceBill.jpg';
     return AlertDialog(
       title: Row(
         children: [
