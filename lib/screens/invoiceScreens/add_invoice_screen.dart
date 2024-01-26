@@ -13,271 +13,242 @@ import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:shimmer/shimmer.dart';
 
-class AddInvoiceDialog {
+class AddInvoiceDialog extends StatefulWidget {
+  @override
+  _AddInvoiceDialogState createState() => _AddInvoiceDialogState();
+}
+
+class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
   static List<String> selectedBookings = [];
   static List<String> uploadedFiles = [];
   static List<int> selectedBookingRate = [];
   static TextEditingController invoiceNumberController =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController invoiceDateController = TextEditingController();
   static TextEditingController invoicePartyNameController =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController invoiceBalanceController =
-      TextEditingController();
+  TextEditingController();
   static String transporterId = '';
   static String transporterName = '';
   static Map<String, dynamic>? storedDocumentInfo;
+  List<Map<String, dynamic>> invoices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBookingData();
+  }
 
   // Function to fetch booking data using the transporter ID
-  static Future<List<Map<String, dynamic>>> fetchBookingData() async {
+  Future<void> fetchBookingData() async {
     try {
       // Get the transporter ID from the controller
       TransporterIdController transporterIdController =
-          Get.find<TransporterIdController>();
+      Get.find<TransporterIdController>();
       transporterId = transporterIdController.transporterId.value;
       transporterName = transporterIdController.name.value;
 
-// Fetch booking data using the transporter ID
+      // Fetch booking data using the transporter ID
       List<dynamic> data = await ApiService.fetchBookingData(transporterId);
 
-      return List<Map<String, dynamic>>.from(data);
+      setState(() {
+        invoices = List<Map<String, dynamic>>.from(data);
+      });
     } catch (e) {
       print('Error fetching Booking data: $e');
-      return [];
     }
   }
 
-//Dialog box for addinvoice
-  static void show(BuildContext context, String transporterId) {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      barrierColor: Colors.black.withOpacity(0.5),
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  color: Colors.transparent,
-                ),
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                color: Colors.transparent,
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                height: MediaQuery.of(context).size.height,
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Add Invoice',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.5,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomLeft: Radius.circular(16)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Add Invoice',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: 14),
-                    _buildInvoiceDetailsForm(
-                        invoiceNumberController,
-                        invoiceDateController,
-                        invoicePartyNameController,
-                        invoiceBalanceController,
-                        context),
-                    SizedBox(height: 14),
-                    Text(
-                      'Select Trip',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  SizedBox(height: 14),
+                  _buildInvoiceDetailsForm(
+                    invoiceNumberController,
+                    invoiceDateController,
+                    invoicePartyNameController,
+                    invoiceBalanceController,
+                    context,
+                  ),
+                  SizedBox(height: 14),
+                  Text(
+                    'Select Trip223',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(height: 10),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 0.4,
-                              blurRadius: 7,
-                            ),
-                          ],
+                  ),
+                  SizedBox(height: 10),
+
+                  _buildTripDetailsTable(
+                    context,
+                    invoices,
+                    selectedBookings,
+                    invoiceBalanceController,
+                    selectedBookingRate,
+                  ),
+
+
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 150,
+                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: bidBackground),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Back',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: bidBackground,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: FutureBuilder<List<Map<String, dynamic>>>(
-                          future: fetchBookingData(),
-                          builder: (context, snapshot) {
+                      ),
+                      SizedBox(width: 20),
+                      // Create Invoice Button
+                      SizedBox(
+                        height: 45,
+                        width: 150,
+                        child: ElevatedButton(
+                          onPressed: () async {
                             try {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return _buildShimmerEffect();
-                              } else if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else {
-                                List<Map<String, dynamic>> invoices =
-                                    snapshot.data!;
-                                return _buildTripDetailsTable(
-                                    context,
-                                    invoices,
-                                    selectedBookings,
-                                    invoiceBalanceController,
-                                    selectedBookingRate);
+                              String? invoiceId =
+                              await InvoiceApiService.postInvoiceData(
+                                transporterId,
+                                invoicePartyNameController.text,
+                                invoiceNumberController.text,
+                                invoiceDateController.text,
+                                invoiceBalanceController.text,
+                                selectedBookings,
+                              );
+                              // once invoice is created for that particular bookings then we have to update the bookings list and make completed status = true
+                              for (var bookingIds in selectedBookings) {
+                                updateBookingId(bookingId: bookingIds);
                               }
-                            } catch (e) {
-                              print('Error in _buildTripDetailsTable: $e');
-                              // Handle the error, e.g., show an error message to the user
-                              return Text('An error occurred');
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 150,
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(width: 1, color: bidBackground),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Back',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: bidBackground,
+                              // once the invoice is created then we are assigning the invoiceId to entityId
+                              if (storedDocumentInfo != null) {
+                                storedDocumentInfo!["entityId"] = invoiceId;
+                                await postDocumentApiCall(storedDocumentInfo!);
+                              }
+                              // Reset data when the invoice is created
+                              invoicePartyNameController.clear();
+                              invoiceNumberController.clear();
+                              invoiceDateController.clear();
+                              invoiceBalanceController.clear();
+                              // Add other reset logic as needed
+                              // Close the current screen (AddInvoiceScreen)
+                              Navigator.of(context).pop();
+
+                              // Push the InvoiceScreen again to refresh it
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DashboardScreen(
+                                    selectedIndex: 2,
+                                    index: 2,
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        //Create Invoice Button
-                        SizedBox(
-                          height: 45,
-                          width: 150,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              try {
-                                String? invoiceId =
-                                    await InvoiceApiService.postInvoiceData(
-                                  transporterId,
-                                  invoicePartyNameController.text,
-                                  invoiceNumberController.text,
-                                  invoiceDateController.text,
-                                  invoiceBalanceController.text,
-                                  selectedBookings,
-                                );
-                                // once invocie is created  for that particular bookings then we have to update the bookings list and make completed satus = true
-                                for (var bookingIds in selectedBookings) {
-                                  updateBookingId(bookingId: bookingIds);
-                                }
-                                // once the invocie  is created then we are asigning the ivocieid to entity id
-                                if (storedDocumentInfo != null) {
-                                  storedDocumentInfo!["entityId"] = invoiceId;
-                                  await postDocumentApiCall(
-                                      storedDocumentInfo!);
-                                }
-                                // Reset data when the invoice is created
-                                invoicePartyNameController.clear();
-                                invoiceNumberController.clear();
-                                invoiceDateController.clear();
-                                invoiceBalanceController.clear();
-                                // Add other reset logic as needed
-                                // Close the current screen (AddInvoiceScreen)
-                                Navigator.of(context).pop();
+                              );
+                            } catch (e) {
+                              print('Error in onPressed: $e');
 
-                                // Push the InvoiceScreen again to refresh it
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DashboardScreen(
-                                            selectedIndex: 2,
-                                            index: 2,
-                                          )),
-                                );
-                              } catch (e) {
-                                print('Error in onPressed: $e');
-
-                                // display a snackbar or dialog to inform the user about the error.
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                              // display a snackbar or dialog to inform the user about the error.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
                                   content: Text('Error creating invoice: $e'),
                                   duration: Duration(seconds: 3),
-                                ));
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF000066),
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 8.0,
-                              ),
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF000066),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text(
-                              'Create Invoice',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 8.0,
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    bottomLeft: Radius.circular(16),
+                          child: Text(
+                            'Create Invoice',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        );
-      },
+          )
+        ],
+      ),
     );
   }
 
   //invoice no,invoice date,upload doc form
-  static Widget _buildInvoiceDetailsForm(
-    invoiceNumberController,
-    invoiceDateController,
-    invoicePartyNameController,
-    invoiceBalanceController,
-    context,
-  ) {
+  Widget _buildInvoiceDetailsForm(
+      invoiceNumberController,
+      invoiceDateController,
+      invoicePartyNameController,
+      invoiceBalanceController,
+      context,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -398,9 +369,9 @@ class AddInvoiceDialog {
                   GestureDetector(
                     onTap: () async {
                       final config =
-                          CalendarDatePicker2WithActionButtonsConfig();
+                      CalendarDatePicker2WithActionButtonsConfig();
                       final List<DateTime?>? pickedDates =
-                          await showCalendarDatePicker2Dialog(
+                      await showCalendarDatePicker2Dialog(
                         context: context,
                         config: config,
                         dialogSize: const Size(325, 400),
@@ -484,19 +455,8 @@ class AddInvoiceDialog {
     );
   }
 
-  //get current date
-  static String _getCurrentDate() {
-    DateTime now = DateTime.now();
-    return "${now.day}-${now.month}-${now.year}";
-  }
-
-  // format date
-  static String formatDateTime(DateTime dateTime) {
-    return "${dateTime.day}-${dateTime.month}-${dateTime.year}";
-  }
-
   // upload bill dialog box which appear middle of screen
-  static void _showUploadBillDialog(BuildContext context) {
+  void _showUploadBillDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -513,7 +473,7 @@ class AddInvoiceDialog {
   }
 
   // upload bill dialog box UI
-  static Widget _buildUploadBillDialogContent(BuildContext context) {
+  Widget _buildUploadBillDialogContent(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.6,
       height: MediaQuery.of(context).size.height * 0.6,
@@ -623,7 +583,7 @@ class AddInvoiceDialog {
                               padding: EdgeInsets.symmetric(vertical: 4),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(fileName,
                                       style: TextStyle(fontSize: 14)),
@@ -660,6 +620,8 @@ class AddInvoiceDialog {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      storedDocumentInfo = null;
+                      uploadedFiles.clear();
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
@@ -722,21 +684,18 @@ class AddInvoiceDialog {
   }
 
 // this function handle the operation of file selecting from the device
-  static Future<void> _storeDocumentInfo(context) async {
+
+  Future<void> _storeDocumentInfo(context) async {
     try {
       XFile? pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         String fileName = pickedFile.name;
         uploadedFiles.add(fileName);
-
-        debugPrint('Selected file name: $fileName');
-        debugPrint('Picked file path: ${pickedFile.path}');
-
         List<int> fileBytes = await pickedFile.readAsBytes();
         String photo64code =
-            base64Encode(fileBytes); //converting img o byte code
+        base64Encode(fileBytes); //converting img o byte code
 
         storedDocumentInfo ??= {
           "entityId": null,
@@ -748,6 +707,7 @@ class AddInvoiceDialog {
           "documentType": 'invoiceBill',
           "data": photo64code,
         });
+
         //here we are poping and again opening the upload dialog box to update the screen
         Navigator.of(context).pop();
         _showUploadBillDialog(context);
@@ -758,138 +718,167 @@ class AddInvoiceDialog {
     }
   }
 
-  // handle the table view and table content from api
-  static Widget _buildTripDetailsTable(context, invoices, selectedInvoices,
-      invoiceBalance, selectedBookingRate) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0),
-        child: Card(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: tableHeaderColor,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildTableCell(
-                      'Booking Date',
-                      isHeader: true,
-                    ),
-                    _buildTableCell(
-                      'LR No',
-                      isHeader: true,
-                    ),
-                    _buildTableCell(
-                      'Route',
-                      isHeader: true,
-                    ),
-                    _buildTableCell(
-                      'Truck No',
-                      isHeader: true,
-                    ),
-                    _buildTableCell(
-                      'Freight',
-                      isHeader: true,
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: invoices.isEmpty
-                    ? _buildShimmerEffect()
-                    : ListView.builder(
-                        itemCount: invoices.length,
-                        itemBuilder: (context, index) {
-                          final invoice = invoices[index];
 
-                          return StatefulBuilder(builder:
-                              (BuildContext context, StateSetter setState) {
-                            return Column(
-                              children: [
-                                Container(
-                                  color: white,
-                                  child: Row(
-                                    children: [
-                                      Checkbox(
-                                        value: selectedInvoices
-                                            .contains(invoice['bookingId']),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value!) {
-                                              selectedBookings
-                                                  .add(invoice['bookingId']);
-                                              if (invoice['rate'] != null) {
-                                                selectedBookingRate
-                                                    .add(invoice['rate']!);
-                                              }
-                                            } else {
-                                              selectedBookings
-                                                  .remove(invoice['bookingId']);
-                                              if (invoice['rate'] != null) {
-                                                selectedBookingRate
-                                                    .remove(invoice['rate']!);
-                                              }
-                                            }
 
-                                            _updateInvoiceBalance(
-                                                invoiceBalance);
-                                          });
-                                          (context as Element).markNeedsBuild();
-                                        },
-                                      ),
-                                      _buildTableCell(
-                                        invoice['bookingDate'] ?? '',
-                                        isHeader: false,
-                                      ),
-                                      _buildTableCell(
-                                        invoice['lr'] ?? '',
-                                        isHeader: false,
-                                      ),
-                                      _buildTableCell(
-                                        '${invoice['loadingPointCity'] ?? ''} to ${invoice['unloadingPointCity'] ?? ''}',
-                                        isHeader: false,
-                                      ),
-                                      _buildTableCell(
-                                        invoice['truckNo'] ?? '',
-                                        isHeader: false,
-                                      ),
-                                      _buildTableCell(
-                                        invoice['rate']?.toString() ?? '',
-                                        isHeader: false,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                  height: 0,
-                                  color: Colors.grey,
-                                ),
-                              ],
-                            );
-                          });
-                        },
-                      ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+
+
+  //get current date
+  static String _getCurrentDate() {
+    DateTime now = DateTime.now();
+    return "${now.day}-${now.month}-${now.year}";
   }
 
-  //invoice balance the sum of selected bookings
+  // format date
+  String formatDateTime(DateTime dateTime) {
+    return "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+  }
 
-  static void _updateInvoiceBalance(invoiceBalanceController) {
+  Widget _buildTripDetailsTable(context, invoices, selectedInvoices,
+      invoiceBalance, selectedBookingRate) {
+    try {
+      return Expanded(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1.0),
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: tableHeaderColor,
+                  ),
+                  child: Row(
+                    children: [
+                      _buildTableCell(
+                        'Booking Date',
+                        isHeader: true,
+                      ),
+                      _buildTableCell(
+                        'LR No',
+                        isHeader: true,
+                      ),
+                      _buildTableCell(
+                        'Route',
+                        isHeader: true,
+                      ),
+                      _buildTableCell(
+                        'Truck No',
+                        isHeader: true,
+                      ),
+                      _buildTableCell(
+                        'Freight',
+                        isHeader: true,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: invoices.length,
+                    itemBuilder: (context, index) {
+                      final invoice = invoices[index];
+                      return StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
+                        return Column(
+                          children: [
+                            Column(children: [
+                              Container(
+                                color: white,
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                      value: selectedInvoices
+                                          .contains(invoice['bookingId']),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value!) {
+                                            selectedBookings
+                                                .add(invoice['bookingId']);
+                                            if (invoice['rate'] != null) {
+                                              selectedBookingRate
+                                                  .add(invoice['rate']!);
+                                            }
+                                          } else {
+                                            selectedBookings
+                                                .remove(invoice['bookingId']);
+                                            if (invoice['rate'] != null) {
+                                              selectedBookingRate
+                                                  .remove(invoice['rate']!);
+                                            }
+                                          }
+
+                                          _updateInvoiceBalance(
+                                              invoiceBalance, setState);
+                                        });
+                                        (context as Element).markNeedsBuild();
+                                      },
+                                    ),
+                                    _buildTableCell(
+                                      invoice['bookingDate'] ?? 'NA',
+                                      isHeader: false,
+                                    ),
+                                    _buildTableCell(
+                                      invoice['lr'] ?? 'NA',
+                                      isHeader: false,
+                                    ),
+                                    _buildTableCell(
+                                      '${invoice['loadingPointCity'] ?? 'NA'} to ${invoice['unloadingPointCity'] ?? ''}',
+                                      isHeader: false,
+                                    ),
+                                    _buildTableCell(
+                                      invoice['truckNo'] ?? 'NA',
+                                      isHeader: false,
+                                    ),
+                                    _buildTableCell(
+                                      invoice['rate']?.toString() ?? 'NA',
+                                      isHeader: false,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(
+                                thickness: 1,
+                                height: 0,
+                                color: Colors.grey,
+                              ),
+                            ])
+                          ],
+                        );
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } catch (e, stackTrace) {
+      print('Error in _buildTripDetailsTable: $e');
+      print('Stack trace: $stackTrace');
+      return Text('An error occurred');
+    }
+  }
+
+  void _updateInvoiceBalance(invoiceBalanceController, setState) {
     int totalRate = 0;
 
     for (int rate in selectedBookingRate) {
       totalRate += rate;
     }
     invoiceBalanceController.text = totalRate.toString();
+
+    setState(() {});
+    Navigator.of(context).pop();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AddInvoiceDialog();
+      },
+    );
   }
 
   static Widget _buildTableCell(String text, {bool isHeader = false}) {
@@ -912,7 +901,6 @@ class AddInvoiceDialog {
     );
   }
 
-  //this is shimmer the grey background while fetching the data from the server
   static Widget _buildShimmerEffect() {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,

@@ -8,7 +8,7 @@ Future<List<String>> getInvoiceDocApiCall(
     String invoiceId, String docType) async {
   try {
     final String documentApiUrl = dotenv.get('documentApiUrl');
-    final response = await http.get(Uri.parse("$documentApiUrl$invoiceId"));
+    final response = await http.get(Uri.parse("$documentApiUrl/$invoiceId"));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonData = json.decode(response.body);

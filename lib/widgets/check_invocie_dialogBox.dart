@@ -25,6 +25,7 @@ class InvoiceDetailsDialog extends StatefulWidget {
 class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
   List<String> docLinks = [];
   bool loading = true;
+  int currentIndex = 0;
   final String proxy = dotenv.get('placeAutoCompleteProxy');
 
   @override
@@ -34,7 +35,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
     _fetchDocumentLinks();
   }
 
-  // This function  creates PDF and download it
+  // This function creates PDF and download it
   Future<void> createPdfAndDownload(List<String> imageUrls) async {
     final pdf = pw.Document();
 
@@ -57,7 +58,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
     html.Url.revokeObjectUrl(url);
   }
 
-  // This function  converts network image to byte
+  // This function converts network image to byte
   Future<Uint8List> networkImageToByte(String imageUrl) async {
     final response = await http.get(Uri.parse('$proxy$imageUrl'));
     final bytes = response.bodyBytes;
@@ -71,7 +72,6 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
       List<String> links =
           await getInvoiceDocApiCall(widget.invoiceId, "InvoiceBill");
       // Decode the URLs before setting them to docLinks
-
       docLinks = links.map((link) => Uri.decodeFull(link)).toList();
     } catch (e) {
       print("Error fetching document links: $e");
@@ -113,119 +113,206 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
           ? const Center(child: CircularProgressIndicator())
           : Container(
               color: white,
-              width: docLinks.isNotEmpty
-                  ? MediaQuery.of(context).size.width * 0.6
-                  : MediaQuery.of(context).size.width * 0.2,
-              height: docLinks.isEmpty
-                  ? MediaQuery.of(context).size.height * 0.15
-                  : MediaQuery.of(context).size.height * 0.6,
-              child: SingleChildScrollView(
-                child: docLinks.isNotEmpty
-                    ? Column(
-                        children: docLinks.map<Widget>((link) {
-                          return Column(
-                            children: [
-                              Image.network('$proxy$link',
-                                  errorBuilder: (context, error, stackTrace) {
-                                // when there is error in fetching image
-                                return const Text('Error in fetching Invoice',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromRGBO(158, 158, 158, 1)));
-                              }),
-                              const Divider(
-                                height: 10,
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                      )
-                    // when there is no invoice uploaded
-                    : SizedBox(
-                        height: 100,
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Invoice not found",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: normalWeight),
-                            )),
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                children: [
+                  // Miniature view with right and left arrows
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_left),
+                        onPressed: () {
+                          setState(() {
+                            currentIndex = (currentIndex - 1) % docLinks.length;
+                          });
+                        },
                       ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: 70,
+                        child: PageView.builder(
+                          itemCount: docLinks.length,
+                          controller: PageController(viewportFraction: 0.2),
+                          onPageChanged: (index) {
+                            // Set the currentIndex directly when miniature image is changed
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            // Construct the URL for the miniature image
+                            String miniatureImageUrl =
+                                '$proxy${docLinks[index]}';
+
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 2),
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Set the currentIndex when miniature image is tapped
+                                  setState(() {
+                                    currentIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: currentIndex == index
+                                      ? Colors.blue
+                                      : Colors.grey,
+                                  child: Image.network(miniatureImageUrl),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_right),
+                        onPressed: () {
+                          setState(() {
+                            currentIndex = (currentIndex + 1) % docLinks.length;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+// Larger image display
+
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: docLinks.isNotEmpty
+                            ? [
+                                Column(
+                                  children: [
+                                    Image.network(
+                                        '$proxy${docLinks[currentIndex]}',
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                      // when there is an error in fetching the image
+                                      return const Text(
+                                        'Error in fetching Invoice',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(158, 158, 158, 1),
+                                        ),
+                                      );
+                                    }),
+                                    const Divider(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              ]
+                            // when there is no invoice uploaded
+                            : [
+                                SizedBox(
+                                  height: 100,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Invoice not found",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: normalWeight),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
       actions: <Widget>[
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(
-              height: 45,
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (docLinks.isNotEmpty) {
-                    setState(() {
-                      downloading = true;
-                    });
-                    await createPdfAndDownload(docLinks.cast<String>());
-                    setState(() {
-                      downloading = false;
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xFF000066),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    side: BorderSide(
-                        color: Color(0xFF000066)), // Set border color
+            docLinks.isEmpty
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: InkWell(
+                          child: Container(
+                            color: kLiveasyColor,
+                            height: space_10,
+                            child: Center(
+                              child: Text(
+                                "close",
+                                style: TextStyle(
+                                  color: white,
+                                  fontSize: size_8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(),
+            docLinks.isEmpty
+                ? Container()
+                : SizedBox(
+                    width: 200,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: InkWell(
+                        child: Container(
+                          color: kLiveasyColor,
+                          height: space_10,
+                          child: Center(
+                            child: downloading
+                                ? const CircularProgressIndicator(
+                                    color: white,
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.download, color: white),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Text(
+                                          "Download",
+                                          style: TextStyle(
+                                            color: white,
+                                            fontSize: size_8,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                        ),
+                        onTap: () async {
+                          if (docLinks.isNotEmpty) {
+                            setState(() {
+                              downloading = true;
+                            });
+                            await createPdfAndDownload(docLinks.cast<String>());
+                            setState(() {
+                              downloading = false;
+                            });
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 8.0,
-                  ),
-                ),
-                child: Text(
-                  'Download',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF000066), // Set text color
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            SizedBox(
-              height: 45,
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF000066),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 8.0,
-                  ),
-                ),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            )
           ],
-        ),
+        )
       ],
       surfaceTintColor: Colors.transparent,
     );
