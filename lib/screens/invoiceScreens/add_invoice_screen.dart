@@ -621,8 +621,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   child: ElevatedButton(
                     onPressed: () {
                       storedDocumentInfo = null;
-                      print(storedDocumentInfo);
-                      print('removed all file');
                       uploadedFiles.clear();
                       Navigator.of(context).pop();
                     },
@@ -695,10 +693,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
       if (pickedFile != null) {
         String fileName = pickedFile.name;
         uploadedFiles.add(fileName);
-
-        debugPrint('Selected file name: $fileName');
-        debugPrint('Picked file path: ${pickedFile.path}');
-
         List<int> fileBytes = await pickedFile.readAsBytes();
         String photo64code =
         base64Encode(fileBytes); //converting img o byte code
@@ -717,7 +711,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
         //here we are poping and again opening the upload dialog box to update the screen
         Navigator.of(context).pop();
         _showUploadBillDialog(context);
-        print(storedDocumentInfo);
       }
     } catch (e) {
       print('Error in _storeDocumentInfo: $e');
@@ -801,9 +794,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                                           .contains(invoice['bookingId']),
                                       onChanged: (value) {
                                         setState(() {
-                                          print(
-                                              'Checkbox value changed: $value');
-
                                           if (value!) {
                                             selectedBookings
                                                 .add(invoice['bookingId']);
