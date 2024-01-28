@@ -93,7 +93,7 @@ dependencies:
   #flutter_mapbox_autocomplete: ^2.0.0
   timeline_tile: ^2.0.0
   sliding_up_panel: ^2.0.0+1
-  speech_to_text: ^6.2.0
+  speech_to_text: ^6.6.0-dev
   image_gallery_saver: ^2.0.2 # alternative of gallery_saver
   pin_code_fields: ^8.0.1
   webview_flutter: ^4.2.2
