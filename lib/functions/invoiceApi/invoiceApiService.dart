@@ -23,6 +23,7 @@ class InvoiceApiService {
 // post invoice data
   static Future<String?> postInvoiceData(
     String transporterId,
+    String? transportername,
     String? partyName,
     String? invoiceNumber,
     String? invoiceDate,
@@ -31,6 +32,7 @@ class InvoiceApiService {
   ) async {
     final Map<String, dynamic> data = {
       'transporterId': transporterId,
+      'transporterName': transportername,
       'partyName': partyName,
       'invoiceNo': invoiceNumber,
       'invoiceDate': invoiceDate,
