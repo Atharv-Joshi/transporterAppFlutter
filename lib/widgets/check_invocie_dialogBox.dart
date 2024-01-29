@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:liveasy/constants/color.dart';
@@ -86,20 +84,24 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.2,
+            width: MediaQuery.of(context).size.width * 0.1,
           ),
-          const Text(
-            'Invoice.png',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-              fontSize: 18,
+          Expanded(
+            child: Text(
+              'Invoice.png',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.2,
+            width: MediaQuery.of(context).size.width * 0.1,
           ),
           IconButton(
             icon: const Icon(Icons.close),
@@ -113,72 +115,101 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
           ? const Center(child: CircularProgressIndicator())
           : Container(
               color: white,
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.8,
+              width: docLinks.isNotEmpty
+                  ? MediaQuery.of(context).size.width * 0.5
+                  : MediaQuery.of(context).size.width * 0.2,
+              height: docLinks.isEmpty
+                  ? MediaQuery.of(context).size.height * 0.15
+                  : MediaQuery.of(context).size.height * 0.5,
               child: Column(
                 children: [
                   // Miniature view with right and left arrows
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_left),
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = (currentIndex - 1) % docLinks.length;
-                          });
-                        },
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: 70,
-                        child: PageView.builder(
-                          itemCount: docLinks.length,
-                          controller: PageController(viewportFraction: 0.2),
-                          onPageChanged: (index) {
-                            // Set the currentIndex directly when miniature image is changed
-                            setState(() {
-                              currentIndex = index;
-                            });
-                          },
-                          itemBuilder: (context, index) {
-                            // Construct the URL for the miniature image
-                            String miniatureImageUrl =
-                                '$proxy${docLinks[index]}';
-
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 2),
-                              child: GestureDetector(
-                                onTap: () {
-                                  // Set the currentIndex when miniature image is tapped
-                                  setState(() {
-                                    currentIndex = index;
-                                  });
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  color: currentIndex == index
-                                      ? Colors.blue
-                                      : Colors.grey,
-                                  child: Image.network(miniatureImageUrl),
+                    children: docLinks.isNotEmpty
+                        ? [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: Image.asset(
+                                      'assets/icons/left_arrow.png'),
+                                  onPressed: () {
+                                    setState(() {
+                                      currentIndex =
+                                          (currentIndex - 1) % docLinks.length;
+                                    });
+                                  },
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_right),
-                        onPressed: () {
-                          setState(() {
-                            currentIndex = (currentIndex + 1) % docLinks.length;
-                          });
-                        },
-                      ),
-                    ],
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height: 70,
+                                  child: PageView.builder(
+                                    itemCount: docLinks.length,
+                                    controller:
+                                        PageController(viewportFraction: 0.2),
+                                    onPageChanged: (index) {
+                                      // Set the currentIndex directly when miniature image is changed
+                                      setState(() {
+                                        currentIndex = index;
+                                      });
+                                    },
+                                    itemBuilder: (context, index) {
+                                      // Construct the URL for the miniature image
+                                      String miniatureImageUrl =
+                                          '$proxy${docLinks[index]}';
+
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0, vertical: 2),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // Set the currentIndex when miniature image is tapped
+                                            setState(() {
+                                              currentIndex = index;
+                                            });
+                                          },
+                                          child: Stack(
+                                            children: [
+                                              // Image
+                                              Positioned.fill(
+                                                child: Image.network(
+                                                  miniatureImageUrl,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              // Overlay color
+                                              Positioned.fill(
+                                                child: Container(
+                                                  color: currentIndex == index
+                                                      ? Colors.blue
+                                                          .withOpacity(0.5)
+                                                      : Colors.transparent,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Image.asset(
+                                      'assets/icons/right_arrow.png'),
+                                  onPressed: () {
+                                    setState(() {
+                                      currentIndex =
+                                          (currentIndex + 1) % docLinks.length;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ]
+                        : [],
                   ),
+
 // Larger image display
 
                   Expanded(
