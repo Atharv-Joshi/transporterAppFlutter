@@ -1,33 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/traccarCalls/createTraccarUserAndNotifications.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 
 TransporterIdController transporterIdController =
     Get.put(TransporterIdController(), permanent: true);
 bool exe = true;
 
 int count = 0;
-
 late Timer timer;
 
 isolatedTransporterGetData() {
   exe = true;
   timer = Timer.periodic(
-      Duration(seconds: 15), (Timer t) => exe ? apirun2() : timer.cancel());
+      Duration(seconds: 0), (Timer t) => exe ? apirun2() : timer.cancel());
 }
-
 
 Future<dynamic> apirun2() async {
   var response = await runTransporterApiPostIsolated(
@@ -63,8 +58,7 @@ Future<String?> runTransporterApiPostIsolated(
     TransporterIdController transporterIdController =
         Get.put(TransporterIdController(), permanent: true);
 
-    final String transporterApiUrl =
-        dotenv.get("transporterApiUrl").toString();
+    final String transporterApiUrl = dotenv.get("transporterApiUrl").toString();
     Map data = userLocation != null
         ? {"phoneNo": mobileNum, "transporterLocation": userLocation}
         : {"phoneNo": mobileNum};
@@ -107,6 +101,9 @@ Future<String?> runTransporterApiPostIsolated(
         String name = decodedResponse["transporterName"] == null
             ? " "
             : decodedResponse["transporterName"];
+        String gstNumber = decodedResponse["gstNumber"] == null
+            ? " "
+            : decodedResponse["gstNumber"];
         String companyName = decodedResponse["companyName"] == null
             ? " "
             : decodedResponse["companyName"];
@@ -118,6 +115,10 @@ Future<String?> runTransporterApiPostIsolated(
         tidstorage
             .write("transporterApproved", transporterApproved)
             .then((value) => print("Written transporterApproved"));
+        transporterIdController.updateGstNumber(gstNumber);
+        tidstorage
+            .write("gstNumber", gstNumber)
+            .then((value) => print("Written gstNumber"));
         transporterIdController.updateCompanyApproved(companyApproved);
         tidstorage
             .write("companyApproved", companyApproved)

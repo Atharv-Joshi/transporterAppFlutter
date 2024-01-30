@@ -40,6 +40,7 @@ const Color lightBlueColor = Color(0xff0077B6);
 const Color darkOrangeColor = Color(0xFFE75347);
 const Color greyShade = Color.fromARGB(255, 197, 195, 195);
 Color tableHeaderColor = Color(0xFFEAEEFF);
+const Color dividerColor = Color.fromARGB(255, 232, 232, 232);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
@@ -102,6 +103,7 @@ const Color skyBlue = Color.fromARGB(255, 5, 122, 247);
 const Color timelinesColor = Color.fromARGB(255, 47, 46, 65);
 const Color vehicleDetailsText = Color.fromARGB(255, 9, 183, 120);
 const Color vahangrey = Color(0xffD3D3D3);
+const Color shimmerGrey = Color.fromARGB(255, 231, 227, 227);
 //box shadow
 const Color darkShadow = Color(0x26000000);
 const Color blackColor = Color.fromARGB(1, 24, 24, 24);

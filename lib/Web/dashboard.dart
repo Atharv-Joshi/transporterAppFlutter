@@ -1,15 +1,15 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/screens.dart';
+import 'package:liveasy/constants/transporter_nav_icons.dart';
+import 'package:liveasy/controller/navigationIndexController.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/responsive.dart';
+import 'package:liveasy/screens/isolatedTransporterGetData.dart';
+import 'package:liveasy/screens/navigationScreen.dart';
 
-import '../../constants/screens.dart';
-import '../constants/color.dart';
-import '../constants/transporter_nav_icons.dart';
-import '../controller/navigationIndexController.dart';
-import '../controller/transporterIdController.dart';
-import '../responsive.dart';
-import '../screens/isolatedTransporterGetData.dart';
-import '../screens/navigationScreen.dart';
 import 'logo.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -31,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late Color auctionSelectedTabGradientColor,
       invoiceSelectedTabGradientColor,
       myOrderSelectedTabGradientColor,
+      ewayBillSelectedTabGradientColor,
       signoutSelectedTabGradientColor,
       liveasySelectedTabGradientColor;
 
@@ -40,8 +41,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   NavigationIndexController navigationIndex =
       Get.put(NavigationIndexController(), permanent: true);
-  // AddLocationDrawerToggleController addLocationDrawerToggleController =
-  //     Get.put(AddLocationDrawerToggleController());
   TransporterIdController transporterIdController =
       Get.find<TransporterIdController>();
   @override
@@ -78,6 +77,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       invoiceSelectedTabGradientColor = white;
     }
     if (_selectedIndex == 3) {
+      ewayBillSelectedTabGradientColor = bidBackground;
+    } else {
+      ewayBillSelectedTabGradientColor = white;
+    }
+    if (_selectedIndex == 4) {
       signoutSelectedTabGradientColor = bidBackground;
     } else {
       signoutSelectedTabGradientColor = white;
@@ -265,15 +269,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       iconSize: 20,
                                       icon: ShipperNav.invoice,
                                       position: 2),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SideExpandedItem(
+                                      title: "EwayBill",
+                                      iconSize: 20,
+                                      icon: ShipperNav.eway_bill,
+                                      position: 3),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.33,
+                                        0.20,
                                   ),
                                   SideExpandedItem(
                                       title: "Signout",
                                       iconSize: 20,
                                       icon: Icons.logout_outlined,
-                                      position: 3),
+                                      position: 4),
                                   const SizedBox(
                                     height: 8,
                                   ),
@@ -282,7 +294,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           alignment: Alignment.bottomLeft,
                                           child: Padding(
                                               padding:
-                                                  EdgeInsets.only(bottom: 30),
+                                                  EdgeInsets.only(bottom: 37),
                                               child: SideExpandedItem(
                                                   title: "Liveasy",
                                                   iconSize: 23,
@@ -384,6 +396,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       invoiceSelectedTabGradientColor = white;
     }
     if (_selectedIndex == 3) {
+      ewayBillSelectedTabGradientColor = bidBackground;
+    } else {
+      ewayBillSelectedTabGradientColor = white;
+    }
+    if (_selectedIndex == 4) {
       signoutSelectedTabGradientColor = bidBackground;
     } else {
       signoutSelectedTabGradientColor = white;
@@ -398,6 +415,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               auctionSelectedTabGradientColor = bidBackground;
               myOrderSelectedTabGradientColor = white;
               invoiceSelectedTabGradientColor = white;
+              ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
               _selectedIndex = 0;
               _index = 0;
@@ -405,6 +423,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               auctionSelectedTabGradientColor = white;
               myOrderSelectedTabGradientColor = bidBackground;
               invoiceSelectedTabGradientColor = white;
+              ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
               _selectedIndex = 1;
               _index = 1;
@@ -412,16 +431,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               auctionSelectedTabGradientColor = white;
               myOrderSelectedTabGradientColor = white;
               invoiceSelectedTabGradientColor = bidBackground;
+              ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
               _selectedIndex = 2;
               _index = 2;
+            } else if (title == "EwayBill") {
+              auctionSelectedTabGradientColor = white;
+              myOrderSelectedTabGradientColor = white;
+              invoiceSelectedTabGradientColor = white;
+              ewayBillSelectedTabGradientColor = bidBackground;
+              signoutSelectedTabGradientColor = white;
+              _selectedIndex = 3;
+              _index = 3;
             } else if (title == "Signout") {
               auctionSelectedTabGradientColor = white;
               myOrderSelectedTabGradientColor = white;
               invoiceSelectedTabGradientColor = white;
+              ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = bidBackground;
-              _selectedIndex = 3;
-              _index = 3;
+              _selectedIndex = 4;
+              _index = 4;
             }
           });
         },
@@ -438,11 +467,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ? myOrderSelectedTabGradientColor
                             : (title == "Invoice")
                                 ? invoiceSelectedTabGradientColor
-                                // : (title == 'My loads')
-                                //     ? liveasySelectedTabGradientColor
-                                : (title == 'Signout')
-                                    ? signoutSelectedTabGradientColor
-                                    : liveasySelectedTabGradientColor),
+                                : (title == 'EwayBill')
+                                    ? ewayBillSelectedTabGradientColor
+                                    : (title == 'Signout')
+                                        ? signoutSelectedTabGradientColor
+                                        : liveasySelectedTabGradientColor),
             child: Row(
               children: [
                 Icon(icon,
