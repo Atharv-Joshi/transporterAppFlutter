@@ -15,7 +15,7 @@ postDocumentApiCall(Map datanew2) async {
     //     {"documentType": documentType, "data": photo64code}
     //   ],
     // };
-    print(datanew2);
+    // print(datanew2);
     String body = json.encode(datanew2);
     final String documentApiUrl = dotenv.get('documentApiUrl').toString();
     final response = await http.post(Uri.parse("$documentApiUrl"),
@@ -23,7 +23,7 @@ postDocumentApiCall(Map datanew2) async {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
-    print(response.body);
+    // print(response.body);
     jsonData = json.decode(response.body);
 
     // if (jsonData["bookingId"] != null) {

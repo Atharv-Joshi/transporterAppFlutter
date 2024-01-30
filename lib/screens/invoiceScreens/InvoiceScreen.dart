@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
 import 'package:liveasy/widgets/check_invocie_dialogBox.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 
 class InvoiceScreen extends StatefulWidget {
   InvoiceScreen({Key? key}) : super(key: key);
@@ -248,7 +250,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       icon: Icon(Icons.add),
                       label: Text('Add Invoice'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF000066),
+                        backgroundColor: kLiveasyColor,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -303,32 +305,26 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         children: [
                           buildTableCell(
                             'Invoice Date',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                           buildTableCell(
                             'Invoice No',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                           buildTableCell(
                             'Invoice Amount',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                           buildTableCell(
                             'Party Name',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                           buildTableCell(
                             'Due Date',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                           buildTableCell(
                             'Invoice Details',
-                            tableHeaderColor,
                             isHeader: true,
                           ),
                         ],
@@ -400,30 +396,23 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                           Row(
                                             children: [
                                               buildTableCell(
-                                                  invoice['invoiceDate'] ??
-                                                      '',
-                                                  Colors.white,
+                                                  invoice['invoiceDate'] ?? '',
                                                   isHeader: false),
                                               buildTableCell(
                                                   invoice['invoiceNo'] ?? '',
-                                                  Colors.white,
                                                   isHeader: false),
                                               buildTableCell(
                                                   '\$${invoice['invoiceAmount'] ?? ''}',
-                                                  Colors.white,
                                                   isHeader: false),
                                               buildTableCell(
                                                   invoice['partyName'] ?? '',
-                                                  Colors.white,
                                                   isHeader: false),
                                               buildTableCell(
                                                   invoice['dueDate'] ?? '',
-                                                  Colors.white,
                                                   isHeader: false),
                                               buildTableCell(
                                                   invoice['invoiceDetails'] ??
                                                       'check invoice',
-                                                  Colors.white,
                                                   isHeader: false,
                                                   invoiceId:
                                                       invoice['invoiceId']),
@@ -458,32 +447,26 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           children: [
                             buildTableCell(
                               invoice['invoiceDate'] ?? '',
-                              Colors.white,
                               isHeader: false,
                             ),
                             buildTableCell(
                               invoice['invoiceNo'] ?? '',
-                              Colors.white,
                               isHeader: false,
                             ),
                             buildTableCell(
                               '\$${invoice['invoiceAmount'] ?? ''}',
-                              Colors.white,
                               isHeader: false,
                             ),
                             buildTableCell(
                               invoice['partyName'] ?? '',
-                              Colors.white,
                               isHeader: false,
                             ),
                             buildTableCell(
                               invoice['dueDate'] ?? '',
-                              Colors.white,
                               isHeader: false,
                             ),
                             buildTableCell(
                               invoice['invoiceDetails'] ?? '',
-                              Colors.white,
                               isHeader: false,
                             ),
                           ],
@@ -515,29 +498,42 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   void handleDateRangeSelection(String value) {
     switch (value) {
       case 'Today':
-        fromTimestamp = DateTime(now.year, now.month, now.day);
-        toTimestamp = DateTime(now.year, now.month, now.day, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month, now.day);
+          toTimestamp = DateTime(now.year, now.month, now.day, 23, 59, 59);
+        });
+
         break;
       case 'This Week':
         int dayOfWeek = now.weekday;
-        fromTimestamp = now.subtract(Duration(days: dayOfWeek - 1));
-        toTimestamp = now.add(
-            Duration(days: 7 - dayOfWeek, hours: 23, minutes: 59, seconds: 59));
+        setState(() {
+          fromTimestamp = now.subtract(Duration(days: dayOfWeek - 1));
+          toTimestamp = now.add(Duration(
+              days: 7 - dayOfWeek, hours: 23, minutes: 59, seconds: 59));
+        });
         break;
       case 'This Month':
-        fromTimestamp = DateTime(now.year, now.month, 1);
-        toTimestamp = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month, 1);
+          toTimestamp = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+        });
+
         break;
       case 'Last Month':
-        fromTimestamp = DateTime(now.year, now.month - 1, 1);
-        toTimestamp = DateTime(now.year, now.month, 0, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month - 1, 1);
+          toTimestamp = DateTime(now.year, now.month, 0, 23, 59, 59);
+        });
+
         break;
       case 'This Year':
-        fromTimestamp = DateTime(now.year, 1, 1);
-        toTimestamp = DateTime(now.year, 12, 31, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, 1, 1);
+          toTimestamp = DateTime(now.year, 12, 31, 23, 59, 59);
+        });
+
         break;
       case 'Custom':
-        // Handle custom date range if needed
         break;
       default:
         // Default case
@@ -546,7 +542,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   }
 
   // Widget to build table cell
-  Widget buildTableCell(String text, Color backgroundColor,
+  Widget buildTableCell(String text,
       {bool isHeader = false, String? invoiceId}) {
     return Expanded(
       child: GestureDetector(
@@ -577,7 +573,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            tileColor: backgroundColor,
+            tileColor: isHeader ? tableHeaderColor : white,
             contentPadding: EdgeInsets.all(10),
           ),
         ),
