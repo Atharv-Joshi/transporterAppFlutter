@@ -15,7 +15,7 @@ class InvoiceApiService {
       return data;
     } else {
       debugPrint('Error Status Code: ${response.statusCode}');
-      debugPrint('Error Response Body: ${response.body}');
+      // debugPrint('Error Response Body: ${response.body}');
       throw Exception('Failed to load invoice');
     }
   }
@@ -55,7 +55,7 @@ class InvoiceApiService {
 
       if (responseData.containsKey('invoiceId')) {
         String invoiceId = responseData['invoiceId'].toString();
-        print('Invoice created successfully! Invoice ID: $invoiceId');
+        // print('Invoice created successfully! Invoice ID: $invoiceId');
         return invoiceId;
       } else {
         print(

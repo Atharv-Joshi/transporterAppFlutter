@@ -15,7 +15,7 @@ Future<List<String>> getInvoiceDocApiCall(
       var invoiceDocLinks = <String>[];
 
       for (var jsondata in jsonData["documents"]) {
-        if (jsondata["documentType"] == 'invoiceBill') {
+        if (jsondata["documentType"].toLowerCase().contains('invoicebill')) {
           // URL decode the documentLink before adding to the list
           String decodedLink = Uri.decodeFull(jsondata["documentLink"]);
           invoiceDocLinks.add(decodedLink);
