@@ -5,6 +5,7 @@ class TransporterModel {
   String? transporterLocation;
   String? transporterName;
   String? companyName;
+  String? gstNumber;
   String? kyc;
   bool? transporterApproved;
   bool? companyApproved;
@@ -15,6 +16,7 @@ class TransporterModel {
       this.companyName,
       this.transporterId,
       this.transporterName,
+      this.gstNumber,
       this.accountVerificationInProgress,
       this.companyApproved,
       this.kyc,
