@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
 import 'package:liveasy/widgets/check_invocie_dialogBox.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:intl/intl.dart';
 
 class InvoiceScreen extends StatefulWidget {
   InvoiceScreen({Key? key}) : super(key: key);
@@ -31,6 +29,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       _refreshController; //refresh controller to control state
 
   DateTime now = DateTime.now().subtract(const Duration(hours: 5, minutes: 30));
+
   List<Map<String, dynamic>> invoices = [];
   String transporterId = '';
   List<Map<String, dynamic>> filteredList = [];
@@ -331,7 +330,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       ),
                     ),
                     // Invoice List
-                    /* 
+                    /*
                       This is the list of invoices, and here we use pull-to-refresh to fetch data from the API.
                       For mobile, we use the pull-to-refresh plugin directly.
                      For web, we add ScrollConfiguration to specify the allowed drag devices (touch, mouse, trackpad, stylus) for pull-down.
@@ -534,6 +533,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
         break;
       case 'Custom':
+        // Handle custom date range if needed
         break;
       default:
         // Default case
