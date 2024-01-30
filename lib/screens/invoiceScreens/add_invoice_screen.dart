@@ -39,6 +39,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
   final List<Uint8List> imageBytesList = [];
   List<Map<String, String>> documents = [];
   var documentApiPayload;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -69,6 +70,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
   // Function to fetch booking data using the transporter ID
   Future<void> fetchBookingData() async {
     try {
+      isLoading = true;
       // Get the transporter ID from the controller
       TransporterIdController transporterIdController =
           Get.find<TransporterIdController>();
@@ -80,6 +82,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
 
       setState(() {
         invoices = List<Map<String, dynamic>>.from(data);
+        isLoading = false;
       });
     } catch (e) {
       print('Error fetching Booking data: $e');
@@ -184,22 +187,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                         width: 150,
                         child: ElevatedButton(
                           onPressed: () async {
-                            // Check if any of the required fields are empty
-                            if (invoicePartyNameController.text.isEmpty ||
-                                invoiceNumberController.text.isEmpty ||
-                                invoiceDateController.text.isEmpty ||
-                                invoiceBalanceController.text.isEmpty ||
-                                selectedBookings.isEmpty) {
-                              // Display a snackbar if any field is empty
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Please fill in all required fields.'),
-                                  duration: Duration(seconds: 3),
-                                ),
-                              );
-                              return; // Do not proceed further if any field is empty
-                            }
                             try {
                               //getting the invocie id from creating the invocie
                               String? invoiceId =
@@ -254,7 +241,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF000066),
+                            backgroundColor: kLiveasyColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -411,7 +398,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   SizedBox(
                     height: 10,
                   ),
-                  //implemented the calender for date picker
+                  //implemented the calendar for date picker
                   GestureDetector(
                     onTap: () async {
                       final config =
@@ -622,8 +609,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Color.fromRGBO(9, 183, 120, 1)),
+                        border: Border.all(color: liveasyGreen),
                       ),
                       width: double.infinity,
                       child: Column(
@@ -677,12 +663,12 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Color(0xFF000066),
+                      foregroundColor: kLiveasyColor,
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         side: BorderSide(
-                            color: Color(0xFF000066)), // Set border color
+                            color: kLiveasyColor), // Set border color
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
@@ -693,7 +679,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                       'Cancel',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xFF000066), // Set text color
+                        color: kLiveasyColor, // Set text color
                       ),
                     ),
                   ),
@@ -706,17 +692,19 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      int index = 0;
                       //we are waiting till the upload button is click
                       //when we are converting imageByteList into Uint8List so to further convert into base64code
                       imageBytesList.forEach((Uint8List byteData) {
                         String base64String = base64Encode(byteData);
                         String documentType =
-                            "invoiceBill"; // Replace with your document type
+                            "invoiceBill_page-$index"; // Replace with your document type
                         Map<String, String> document = {
                           "documentType": documentType,
                           "data": base64String,
                         };
                         documents.add(document);
+                        index++;
                       });
                       documentApiPayload = {
                         "entityId": "entity:UUID",
@@ -726,7 +714,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF000066),
+                      backgroundColor: kLiveasyColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -795,6 +783,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
   String formatDateTime(DateTime dateTime) {
     return "${dateTime.day}-${dateTime.month}-${dateTime.year}";
   }
+
 // here we have handle the table view and alingment of table
   Widget _buildTripDetailsTable(context, invoices, selectedInvoices,
       invoiceBalance, selectedBookingRate) {
@@ -838,77 +827,81 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: invoices.length,
-                    itemBuilder: (context, index) {
-                      final invoice = invoices[index];
+                  child: isLoading
+                      ? ShimmerEffect()
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: invoices.length,
+                          itemBuilder: (context, index) {
+                            final invoice = invoices[index];
 
-                      return Column(
-                        children: [
-                          Column(children: [
-                            Container(
-                              color: white,
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    value: selectedInvoices
-                                        .contains(invoice['bookingId']),
-                                    onChanged: (value) {
-                                      if (value!) {
-                                        selectedBookings
-                                            .add(invoice['bookingId']);
-                                        if (invoice['rate'] != null) {
-                                          selectedBookingRate
-                                              .add(invoice['rate']!);
-                                        }
-                                      } else {
-                                        selectedBookings
-                                            .remove(invoice['bookingId']);
-                                        if (invoice['rate'] != null) {
-                                          selectedBookingRate
-                                              .remove(invoice['rate']!);
-                                        }
-                                      }
+                            return Column(
+                              children: [
+                                Column(children: [
+                                  Container(
+                                    color: white,
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          value: selectedInvoices
+                                              .contains(invoice['bookingId']),
+                                          onChanged: (value) {
+                                            if (value!) {
+                                              selectedBookings
+                                                  .add(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .add(invoice['rate']!);
+                                              }
+                                            } else {
+                                              selectedBookings
+                                                  .remove(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .remove(invoice['rate']!);
+                                              }
+                                            }
 
-                                      _updateInvoiceBalance(invoiceBalance);
+                                            _updateInvoiceBalance(
+                                                invoiceBalance);
 
-                                      (context as Element).markNeedsBuild();
-                                    },
+                                            (context as Element)
+                                                .markNeedsBuild();
+                                          },
+                                        ),
+                                        _buildTableCell(
+                                          invoice['bookingDate'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['lr'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          '${invoice['loadingPointCity'] ?? 'NA'} to ${invoice['unloadingPointCity'] ?? ''}',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['truckNo'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['rate']?.toString() ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  _buildTableCell(
-                                    invoice['bookingDate'] ?? 'NA',
-                                    isHeader: false,
+                                  Divider(
+                                    thickness: 1,
+                                    height: 0,
+                                    color: Colors.grey,
                                   ),
-                                  _buildTableCell(
-                                    invoice['lr'] ?? 'NA',
-                                    isHeader: false,
-                                  ),
-                                  _buildTableCell(
-                                    '${invoice['loadingPointCity'] ?? 'NA'} to ${invoice['unloadingPointCity'] ?? ''}',
-                                    isHeader: false,
-                                  ),
-                                  _buildTableCell(
-                                    invoice['truckNo'] ?? 'NA',
-                                    isHeader: false,
-                                  ),
-                                  _buildTableCell(
-                                    invoice['rate']?.toString() ?? 'NA',
-                                    isHeader: false,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              thickness: 1,
-                              height: 0,
-                              color: Colors.grey,
-                            ),
-                          ])
-                        ],
-                      );
-                    },
-                  ),
+                                ])
+                              ],
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
@@ -933,6 +926,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     });
     // invoiceBalanceController.text = totalRate.toString();
   }
+
 //handle the property and appearance of single tile of table
   static Widget _buildTableCell(String text, {bool isHeader = false}) {
     return Expanded(
@@ -954,55 +948,25 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     );
   }
 
-  static Widget _buildShimmerEffect() {
+  Widget ShimmerEffect() {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (_, __) => Column(
-          children: [
-            Container(
-              color: white,
-              child: Row(
-                children: [
-                  SizedBox(width: 24),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          width: double.infinity,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      child: Container(
+        height: 500, // Adjust the height as needed
+        margin: EdgeInsets.all(16.0),
+        child: Column(
+          children: List.generate(
+            6, // Number of shimmer items you want
+            (index) => Container(
+              margin: EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
               ),
+              height: 50.0,
             ),
-            Divider(
-              thickness: 1,
-              height: 0,
-              color: Colors.grey,
-            ),
-          ],
+          ),
         ),
       ),
     );
