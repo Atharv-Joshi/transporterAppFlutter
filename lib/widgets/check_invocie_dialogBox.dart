@@ -24,6 +24,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
   List<String> docLinks = [];
   bool loading = true;
   int currentIndex = 0;
+  bool downloading = false;
   final String proxy = dotenv.get('placeAutoCompleteProxy');
 
   @override
@@ -87,7 +88,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.4,
           ),
           Expanded(
             child: Text(
@@ -101,7 +102,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
             ),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.4,
           ),
           IconButton(
             icon: const Icon(Icons.close),
@@ -116,19 +117,22 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
           : Container(
               color: white,
               width: docLinks.isNotEmpty
-                  ? MediaQuery.of(context).size.width * 0.5
+                  ? MediaQuery.of(context).size.width * 0.8
                   : MediaQuery.of(context).size.width * 0.2,
               height: docLinks.isEmpty
                   ? MediaQuery.of(context).size.height * 0.15
-                  : MediaQuery.of(context).size.height * 0.5,
+                  : MediaQuery.of(context).size.height * 0.6,
               child: Column(
                 children: [
                   // Miniature view with right and left arrows
                   Row(
                     children: docLinks.isNotEmpty
                         ? [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
                                   icon: Image.asset(
@@ -210,51 +214,43 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
                         : [],
                   ),
 
-// Larger image display
-
+                  // Larger image display
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: docLinks.isNotEmpty
-                            ? [
-                                Column(
-                                  children: [
-                                    Image.network(
-                                        '$proxy${docLinks[currentIndex]}',
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                      // when there is an error in fetching the image
-                                      return const Text(
-                                        'Error in fetching Invoice',
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(158, 158, 158, 1),
-                                        ),
-                                      );
-                                    }),
-                                    const Divider(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                              ]
-                            // when there is no invoice uploaded
-                            : [
-                                SizedBox(
-                                  height: 100,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Invoice not found",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: normalWeight),
-                                    ),
+                    child: docLinks.isNotEmpty
+                        ? SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            physics: ClampingScrollPhysics(),
+                            child: Container(
+                              width: double.infinity,
+                              color: black,
+                              child: Image.network(
+                                  '$proxy${docLinks[currentIndex]}',
+                                  fit: BoxFit.fitWidth,
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width, // Set the width to the screen width
+
+                                  errorBuilder: (context, error, stackTrace) {
+                                // when there is an error in fetching the image
+                                return const Text(
+                                  'Error in fetching Invoice',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(158, 158, 158, 1),
                                   ),
-                                ),
-                              ],
-                      ),
-                    ),
+                                );
+                              }),
+                            ))
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Invoice not found",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: normalWeight),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

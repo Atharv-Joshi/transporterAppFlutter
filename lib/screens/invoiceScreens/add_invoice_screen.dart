@@ -120,12 +120,30 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Add Invoice',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Add invoice',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.37,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
                   ),
                   SizedBox(height: 14),
                   _buildInvoiceDetailsForm(
@@ -364,10 +382,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                     height: 30,
                     child: TextField(
                       controller: invoiceNumberController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'^\d+')),
-                      ],
                       decoration: InputDecoration(
                         hintText: 'ABX-002',
                         contentPadding: EdgeInsets.symmetric(

@@ -148,6 +148,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             prefixIcon: const Icon(Icons.search),
                           ),
                           onChanged: (value) {
+                            fromTimestamp = DateTime(2000);
+                            toTimestamp = DateTime.now();
                             filterInvoices(value);
                           },
                         ),
