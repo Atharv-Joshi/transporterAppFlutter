@@ -61,6 +61,7 @@ jobs:
           echo "accessKey=${{ vars.ACCESS_KEY }}" >> .env
           echo "invoiceApiUrl=${{ vars.INVOICE_API_URL }}" >> .env
           echo "encryptKey=${{ vars.ENCRYPT_KEY }}" >> .env
+          echo "ewayBill=${{ vars.EWAY_BILL }}" >> .env
 
       - name: Merge to branch
         run: |
