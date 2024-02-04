@@ -15,6 +15,7 @@ import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
+import '../../widgets/invoice_screen/shimmer_invoice.dart';
 
 class AddInvoiceDialog extends StatefulWidget {
   @override
@@ -938,7 +939,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     setState(() {
       invoiceBalanceController.text = totalRate.toString();
     });
-    // invoiceBalanceController.text = totalRate.toString();
+
   }
 
 //handle the property and appearance of single tile of table
@@ -962,27 +963,5 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     );
   }
 
-  Widget ShimmerEffect() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        height: 500, // Adjust the height as needed
-        margin: EdgeInsets.all(16.0),
-        child: Column(
-          children: List.generate(
-            6, // Number of shimmer items you want
-            (index) => Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              height: 50.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

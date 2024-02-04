@@ -10,9 +10,11 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
-import 'package:liveasy/widgets/check_invocie_dialogBox.dart';
+import 'package:liveasy/widgets/invoice_screen/check_invocie_dialogBox.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../widgets/invoice_screen/shimmer_invoice.dart';
 
 class InvoiceScreen extends StatefulWidget {
   InvoiceScreen({Key? key}) : super(key: key);
@@ -221,7 +223,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             handleDateRangeSelection(value!);
                             _fetchInvoiceData();
                             // You can perform actions based on the selected value
-                            // print("Selected Month: $selectedMonth");
                           });
                         },
                         hint: Text(
@@ -272,13 +273,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           ),
           // Invoice list section
           // here we are invoking the buildtable for invoice info table
-          buildDesktopTable(invoices, filteredList)
+          buildInvoiceTable(invoices, filteredList)
         ],
       ),
     );
   }
 //table for invoice data from the api
-  Widget buildDesktopTable(List<Map<String, dynamic>> invoices,
+  Widget buildInvoiceTable(List<Map<String, dynamic>> invoices,
       List<Map<String, dynamic>> filteredList) {
     return Expanded(
       child: Padding(
@@ -583,28 +584,5 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     );
   }
 
-  // Shimmer effect widget
-  Widget ShimmerEffect() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        height: 500, // Adjust the height as needed
-        margin: EdgeInsets.all(16.0),
-        child: Column(
-          children: List.generate(
-            6, // Number of shimmer items you want
-            (index) => Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              height: 50.0,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

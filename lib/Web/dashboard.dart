@@ -104,9 +104,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void refresh1() {
-    loadInvoiceScreen();
-  }
 
   //TODO: This is the list for Navigation Rail List Destinations,This contains icons and it's labels
   //TODO : This is the list for Bottom Navigation Bar
@@ -126,7 +123,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ];
 
   refresh() {
-    setState(() {});
+    setState(() {
+      loadInvoiceScreen();
+    });
   }
 
   @override
@@ -455,7 +454,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               invoiceSelectedTabGradientColor = bidBackground;
               ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
-              refresh1(); // when click on invoice again screen will get refresh
+              refresh(); // when click on invoice again screen will get refresh
               _selectedIndex = 2;
               _index = 2;
             } else if (title == "EwayBill") {
