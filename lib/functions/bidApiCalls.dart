@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 Future<String?> postBidAPi(loadId, rate, transporterIdController, unit) async {
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
   var jsondata;
+  late int status;
 
   if (unit == "RadioButtonOptions.PER_TON") {
     unit = "PER_TON";
@@ -17,7 +18,7 @@ Future<String?> postBidAPi(loadId, rate, transporterIdController, unit) async {
     Map data = {
       "transporterId": transporterIdController.toString(),
       "loadId": loadId.toString(),
-      "currentBid": rate.toString(),
+      "transporterBid": rate,
       "unitValue": unit.toString(),
       "biddingDate": now.toString(),
       "transporterApproval": true,
@@ -32,16 +33,20 @@ Future<String?> postBidAPi(loadId, rate, transporterIdController, unit) async {
         },
         body: body);
     jsondata = json.decode(response.body);
+    status = response.statusCode;
     if (response.statusCode == 201) {
       return "success";
     } else if (response.statusCode == 409) {
-      print(jsondata);
       print(
           "print error in bid conflict===>${jsondata["apierror"]["message"]}");
       return "conflict";
     }
     return "unsuccessful";
   } catch (e) {
+    if (status == 409) {
+      return "conflict";
+    }
+    print('Exception in postBidAPi: $e');
     return e.toString();
   }
 }
@@ -65,6 +70,7 @@ putBidForAccept(String? bidId) async {
 
 Future<String?> putBidForNegotiate(
     String? bidId, String? rate, String? unitValue) async {
+  late int status;
   //TODO: This can be done in a better way later on
   if (unitValue == "RadioButtonOptions.PER_TON") {
     unitValue = "PER_TON";
@@ -88,6 +94,7 @@ Future<String?> putBidForNegotiate(
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: body);
+    status = response.statusCode;
     if (response.statusCode == 200) {
       return "success";
     } else if (response.statusCode == 409) {
@@ -95,6 +102,10 @@ Future<String?> putBidForNegotiate(
     }
     return "unsuccessful";
   } catch (e) {
+    if (status == 409) {
+      print('inside catch 409');
+      return "conflict";
+    }
     print(e.toString());
     return e.toString();
   }

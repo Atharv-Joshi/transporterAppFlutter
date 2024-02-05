@@ -12,10 +12,12 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/constants/urlGetter.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/LoadPointTemplateForBidScreen.dart';
 import 'package:liveasy/widgets/auctionDetails.dart';
 import 'package:liveasy/widgets/buttons/auctionScreenNavigationBarButton.dart';
 import 'package:liveasy/widgets/placeBidButton.dart';
+import 'package:provider/provider.dart';
 
 import 'auctionDetailsScreen.dart';
 import 'indentScreen.dart';
@@ -61,6 +63,8 @@ class _AuctionScreenState extends State<AuctionScreen> {
     pageController = PageController(initialPage: 0);
     loading = true;
     getDataByPostLoadId();
+    Provider.of<ProviderData>(context, listen: false)
+        .updateUpperNavigatorIndex(0);
   }
 
   @override
