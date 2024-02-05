@@ -37,6 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   late bool expandMode;
   late double widthOfSideBar;
+  bool isLoadingInvoice = false; //handle the loading feature for the screen
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   NavigationIndexController navigationIndex =
@@ -87,7 +88,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
       signoutSelectedTabGradientColor = white;
     }
     liveasySelectedTabGradientColor = white;
+    loadInvoiceScreen();
   }
+
+  // Load the InvoiceScreen and handle loading state
+  Future<void> loadInvoiceScreen() async {
+    setState(() {
+      isLoadingInvoice = true;
+    });
+
+    await Future.delayed(Duration(seconds: 2)); // Simulating loading data
+
+    setState(() {
+      isLoadingInvoice = false;
+    });
+  }
+
 
   //TODO: This is the list for Navigation Rail List Destinations,This contains icons and it's labels
   //TODO : This is the list for Bottom Navigation Bar
@@ -107,7 +123,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ];
 
   refresh() {
-    setState(() {});
+    setState(() {
+      loadInvoiceScreen();
+    });
   }
 
   @override
@@ -363,8 +381,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Expanded(
               child: Container(
                 child: Center(
-                  child:
-                      (_index == 1000) ? widget.visibleWidget : screens[_index],
+                  child: isLoadingInvoice
+                      ? CircularProgressIndicator()
+                      : (_index == 1000)
+                          ? widget.visibleWidget
+                          : screens[_index],
                 ),
               ),
             ),
@@ -433,6 +454,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               invoiceSelectedTabGradientColor = bidBackground;
               ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
+              refresh(); // when click on invoice again screen will get refresh
               _selectedIndex = 2;
               _index = 2;
             } else if (title == "EwayBill") {

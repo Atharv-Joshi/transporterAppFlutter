@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
@@ -11,7 +11,11 @@ import 'package:liveasy/functions/bookingApi/getBookingDataWithTransporterId.dar
 import 'package:liveasy/functions/bookingApi/putBookingData_completed=true.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
+import 'package:native_pdf_renderer/native_pdf_renderer.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
+import '../../widgets/invoice_screen/shimmer_invoice.dart';
 
 class AddInvoiceDialog extends StatefulWidget {
   @override
@@ -23,16 +27,20 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
   static List<String> uploadedFiles = [];
   static List<int> selectedBookingRate = [];
   static TextEditingController invoiceNumberController =
-  TextEditingController();
+      TextEditingController();
   static TextEditingController invoiceDateController = TextEditingController();
   static TextEditingController invoicePartyNameController =
-  TextEditingController();
+      TextEditingController();
   static TextEditingController invoiceBalanceController =
-  TextEditingController();
+      TextEditingController();
   static String transporterId = '';
   static String transporterName = '';
-  static Map<String, dynamic>? storedDocumentInfo;
   List<Map<String, dynamic>> invoices = [];
+  Uint8List? fileBytes;
+  final List<Uint8List> imageBytesList = [];
+  List<Map<String, String>> documents = [];
+  var documentApiPayload;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -40,12 +48,33 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     fetchBookingData();
   }
 
+  @override
+  void dispose() {
+    // Clear or reset values when the widget is disposed
+    invoiceNumberController.clear();
+    invoiceDateController.clear();
+    invoicePartyNameController.clear();
+    invoiceBalanceController.clear();
+    selectedBookings.clear();
+    uploadedFiles.clear();
+    selectedBookingRate.clear();
+    transporterId = '';
+    transporterName = '';
+    fileBytes = null;
+    imageBytesList.clear();
+    documents.clear();
+    documentApiPayload = null;
+
+    super.dispose();
+  }
+
   // Function to fetch booking data using the transporter ID
   Future<void> fetchBookingData() async {
     try {
+      isLoading = true;
       // Get the transporter ID from the controller
       TransporterIdController transporterIdController =
-      Get.find<TransporterIdController>();
+          Get.find<TransporterIdController>();
       transporterId = transporterIdController.transporterId.value;
       transporterName = transporterIdController.name.value;
 
@@ -54,6 +83,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
 
       setState(() {
         invoices = List<Map<String, dynamic>>.from(data);
+        isLoading = false;
       });
     } catch (e) {
       print('Error fetching Booking data: $e');
@@ -91,12 +121,30 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Add Invoice',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Add invoice',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.37,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
                   ),
                   SizedBox(height: 14),
                   _buildInvoiceDetailsForm(
@@ -108,14 +156,13 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   ),
                   SizedBox(height: 14),
                   Text(
-                    'Select Trip223',
+                    'Select Trip',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 10),
-
                   _buildTripDetailsTable(
                     context,
                     invoices,
@@ -123,8 +170,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                     invoiceBalanceController,
                     selectedBookingRate,
                   ),
-
-
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -162,9 +207,11 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                         child: ElevatedButton(
                           onPressed: () async {
                             try {
+                              //getting the invocie id from creating the invocie
                               String? invoiceId =
-                              await InvoiceApiService.postInvoiceData(
+                                  await InvoiceApiService.postInvoiceData(
                                 transporterId,
+                                transporterName,
                                 invoicePartyNameController.text,
                                 invoiceNumberController.text,
                                 invoiceDateController.text,
@@ -176,10 +223,11 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                                 updateBookingId(bookingId: bookingIds);
                               }
                               // once the invoice is created then we are assigning the invoiceId to entityId
-                              if (storedDocumentInfo != null) {
-                                storedDocumentInfo!["entityId"] = invoiceId;
-                                await postDocumentApiCall(storedDocumentInfo!);
+                              if (documentApiPayload != null) {
+                                documentApiPayload!["entityId"] = invoiceId;
+                                await postDocumentApiCall(documentApiPayload!);
                               }
+
                               // Reset data when the invoice is created
                               invoicePartyNameController.clear();
                               invoiceNumberController.clear();
@@ -212,7 +260,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF000066),
+                            backgroundColor: kLiveasyColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -243,12 +291,12 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
 
   //invoice no,invoice date,upload doc form
   Widget _buildInvoiceDetailsForm(
-      invoiceNumberController,
-      invoiceDateController,
-      invoicePartyNameController,
-      invoiceBalanceController,
-      context,
-      ) {
+    invoiceNumberController,
+    invoiceDateController,
+    invoicePartyNameController,
+    invoiceBalanceController,
+    context,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -281,11 +329,11 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                         hintText: 'partyname',
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 5.0,
-                          horizontal: 10.0,
+                          horizontal: 0.0,
                         ),
                         border: InputBorder.none,
                       ),
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ],
@@ -365,13 +413,13 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   SizedBox(
                     height: 10,
                   ),
-                  //implemented the calender for date picker
+                  //implemented the calendar for date picker
                   GestureDetector(
                     onTap: () async {
                       final config =
-                      CalendarDatePicker2WithActionButtonsConfig();
+                          CalendarDatePicker2WithActionButtonsConfig();
                       final List<DateTime?>? pickedDates =
-                      await showCalendarDatePicker2Dialog(
+                          await showCalendarDatePicker2Dialog(
                         context: context,
                         config: config,
                         dialogSize: const Size(325, 400),
@@ -417,7 +465,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   //upload bill button
                   GestureDetector(
                     onTap: () {
-                      // Handle onTap action
                       _showUploadBillDialog(
                           context); // upload bill dialog box function
                     },
@@ -530,7 +577,10 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                           onPressed: () async {
                             try {
                               //call the _storeDocumentInfo function to open the device browse file
-                              await _storeDocumentInfo(context);
+
+                              await openSystemFileExplorer(context);
+                              Navigator.of(context).pop();
+                              _showUploadBillDialog(context);
                             } catch (e) {
                               print('Error in onPressed: $e');
                               //  display a snackbar or dialog to inform the user about the error.
@@ -572,9 +622,10 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   height: 40,
                   child: SingleChildScrollView(
                     child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromRGBO(9, 183, 120, 1))),
+                        border: Border.all(color: liveasyGreen),
+                      ),
                       width: double.infinity,
                       child: Column(
                         children: [
@@ -583,15 +634,16 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                               padding: EdgeInsets.symmetric(vertical: 4),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(fileName,
                                       style: TextStyle(fontSize: 14)),
                                   GestureDetector(
                                     onTap: () {
                                       // Handle delete logic
-                                      uploadedFiles.remove(fileName);
-                                      (context as Element).markNeedsBuild();
+                                      setState(() {
+                                        uploadedFiles.remove(fileName);
+                                      });
                                     },
                                     child: Icon(
                                       Icons.delete,
@@ -620,17 +672,18 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
-                      storedDocumentInfo = null;
+                      //when we click on cancel we are deleteing all the saved value for prevent waste of memeory
+                      documentApiPayload = null;
                       uploadedFiles.clear();
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Color(0xFF000066),
+                      foregroundColor: kLiveasyColor,
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         side: BorderSide(
-                            color: Color(0xFF000066)), // Set border color
+                            color: kLiveasyColor), // Set border color
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 8.0,
@@ -641,7 +694,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                       'Cancel',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xFF000066), // Set text color
+                        color: kLiveasyColor, // Set text color
                       ),
                     ),
                   ),
@@ -654,10 +707,29 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      int index = 0;
+                      //we are waiting till the upload button is click
+                      //when we are converting imageByteList into Uint8List so to further convert into base64code
+                      imageBytesList.forEach((Uint8List byteData) {
+                        String base64String = base64Encode(byteData);
+                        String documentType =
+                            "invoiceBill_page-$index"; // Replace with your document type
+                        Map<String, String> document = {
+                          "documentType": documentType,
+                          "data": base64String,
+                        };
+                        documents.add(document);
+                        index++;
+                      });
+                      documentApiPayload = {
+                        "entityId": "entity:UUID",
+                        "documents": documents,
+                      };
+
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF000066),
+                      backgroundColor: kLiveasyColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -685,44 +757,38 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
 
 // this function handle the operation of file selecting from the device
 
-  Future<void> _storeDocumentInfo(context) async {
+  Future<void> openSystemFileExplorer(context) async {
     try {
-      XFile? pickedFile =
-      await ImagePicker().pickImage(source: ImageSource.gallery);
+      // This open the file explorer to select the file from the device
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-      if (pickedFile != null) {
-        String fileName = pickedFile.name;
-        uploadedFiles.add(fileName);
-        List<int> fileBytes = await pickedFile.readAsBytes();
-        String photo64code =
-        base64Encode(fileBytes); //converting img o byte code
-
-        storedDocumentInfo ??= {
-          "entityId": null,
-          //at first we are keeping entityId null bends we want invocable as entity id which will created in future so we are storing the files locally in code and once we crate invoice and we are giving entity id as invoiceid $you can check in create invoice button onpressed function
-          "documents": [],
-        };
-
-        storedDocumentInfo!["documents"].add({
-          "documentType": 'invoiceBill',
-          "data": photo64code,
+      if (result != null) {
+        //here we are converting the pdf file obtained from the device to Uint8List
+        fileBytes = result.files.first.bytes;
+        //here we store the file in pdfdocument class with the help of Uint8List file
+        final document = await PdfDocument.openData(fileBytes!);
+        final pageCount = document.pagesCount;
+        PlatformFile file = result.files.first;
+        setState(() {
+          uploadedFiles.add(file.name);
         });
 
-        //here we are poping and again opening the upload dialog box to update the screen
-        Navigator.of(context).pop();
-        _showUploadBillDialog(context);
+        for (int i = 1; i <= pageCount; i++) {
+          final page = await document.getPage(i);
+          final pageImage =
+              await page.render(width: page.width, height: page.height);
+          imageBytesList.add(pageImage!.bytes);
+
+          await page.close();
+        }
+        await document.close();
       }
     } catch (e) {
-      print('Error in _storeDocumentInfo: $e');
+      print('Error in openSystemFileExplorer: $e');
       // Handle the error, e.g., show an error message to the user
     }
   }
 
-
-
-
-
-  //get current date
   static String _getCurrentDate() {
     DateTime now = DateTime.now();
     return "${now.day}-${now.month}-${now.year}";
@@ -733,6 +799,7 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     return "${dateTime.day}-${dateTime.month}-${dateTime.year}";
   }
 
+// here we have handle the table view and alingment of table
   Widget _buildTripDetailsTable(context, invoices, selectedInvoices,
       invoiceBalance, selectedBookingRate) {
     try {
@@ -775,81 +842,81 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: invoices.length,
-                    itemBuilder: (context, index) {
-                      final invoice = invoices[index];
-                      return StatefulBuilder(builder:
-                          (BuildContext context, StateSetter setState) {
-                        return Column(
-                          children: [
-                            Column(children: [
-                              Container(
-                                color: white,
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      value: selectedInvoices
-                                          .contains(invoice['bookingId']),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value!) {
-                                            selectedBookings
-                                                .add(invoice['bookingId']);
-                                            if (invoice['rate'] != null) {
-                                              selectedBookingRate
-                                                  .add(invoice['rate']!);
-                                            }
-                                          } else {
-                                            selectedBookings
-                                                .remove(invoice['bookingId']);
-                                            if (invoice['rate'] != null) {
-                                              selectedBookingRate
-                                                  .remove(invoice['rate']!);
-                                            }
-                                          }
+                  child: isLoading
+                      ? ShimmerEffect()
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: invoices.length,
+                          itemBuilder: (context, index) {
+                            final invoice = invoices[index];
 
-                                          _updateInvoiceBalance(
-                                              invoiceBalance, setState);
-                                        });
-                                        (context as Element).markNeedsBuild();
-                                      },
+                            return Column(
+                              children: [
+                                Column(children: [
+                                  Container(
+                                    color: white,
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          value: selectedInvoices
+                                              .contains(invoice['bookingId']),
+                                          onChanged: (value) {
+                                            if (value!) {
+                                              selectedBookings
+                                                  .add(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .add(invoice['rate']!);
+                                              }
+                                            } else {
+                                              selectedBookings
+                                                  .remove(invoice['bookingId']);
+                                              if (invoice['rate'] != null) {
+                                                selectedBookingRate
+                                                    .remove(invoice['rate']!);
+                                              }
+                                            }
+
+                                            _updateInvoiceBalance(
+                                                invoiceBalance);
+
+                                            (context as Element)
+                                                .markNeedsBuild();
+                                          },
+                                        ),
+                                        _buildTableCell(
+                                          invoice['bookingDate'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['lr'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          '${invoice['loadingPointCity'] ?? 'NA'} to ${invoice['unloadingPointCity'] ?? ''}',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['truckNo'] ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                        _buildTableCell(
+                                          invoice['rate']?.toString() ?? 'NA',
+                                          isHeader: false,
+                                        ),
+                                      ],
                                     ),
-                                    _buildTableCell(
-                                      invoice['bookingDate'] ?? 'NA',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['lr'] ?? 'NA',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      '${invoice['loadingPointCity'] ?? 'NA'} to ${invoice['unloadingPointCity'] ?? ''}',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['truckNo'] ?? 'NA',
-                                      isHeader: false,
-                                    ),
-                                    _buildTableCell(
-                                      invoice['rate']?.toString() ?? 'NA',
-                                      isHeader: false,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                thickness: 1,
-                                height: 0,
-                                color: Colors.grey,
-                              ),
-                            ])
-                          ],
-                        );
-                      });
-                    },
-                  ),
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                    height: 0,
+                                    color: Colors.grey,
+                                  ),
+                                ])
+                              ],
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
@@ -863,24 +930,19 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     }
   }
 
-  void _updateInvoiceBalance(invoiceBalanceController, setState) {
+  void _updateInvoiceBalance(invoiceBalanceController) {
     int totalRate = 0;
 
     for (int rate in selectedBookingRate) {
       totalRate += rate;
     }
-    invoiceBalanceController.text = totalRate.toString();
+    setState(() {
+      invoiceBalanceController.text = totalRate.toString();
+    });
 
-    setState(() {});
-    Navigator.of(context).pop();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AddInvoiceDialog();
-      },
-    );
   }
 
+//handle the property and appearance of single tile of table
   static Widget _buildTableCell(String text, {bool isHeader = false}) {
     return Expanded(
       child: Container(
@@ -901,57 +963,5 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     );
   }
 
-  static Widget _buildShimmerEffect() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (_, __) => Column(
-          children: [
-            Container(
-              color: white,
-              child: Row(
-                children: [
-                  SizedBox(width: 24),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          width: double.infinity,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 1,
-              height: 0,
-              color: Colors.grey,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 }

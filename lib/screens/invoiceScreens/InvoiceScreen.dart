@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +10,11 @@ import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
 import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
-import 'package:liveasy/widgets/check_invocie_dialogBox.dart';
+import 'package:liveasy/widgets/invoice_screen/check_invocie_dialogBox.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../widgets/invoice_screen/shimmer_invoice.dart';
 
 class InvoiceScreen extends StatefulWidget {
   InvoiceScreen({Key? key}) : super(key: key);
@@ -21,15 +27,42 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   String? selectedMonth;
   DateTime fromTimestamp = DateTime(2000);
   DateTime toTimestamp = DateTime.now();
+  late RefreshController
+      _refreshController; //refresh controller to control state
 
   DateTime now = DateTime.now().subtract(const Duration(hours: 5, minutes: 30));
 
   List<Map<String, dynamic>> invoices = [];
   String transporterId = '';
   List<Map<String, dynamic>> filteredList = [];
+  //this is the refresh function which handle the operation on refresh of screen
+  void _onRefresh() async {
+    _fetchInvoiceData();
+
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+
+    // if failed, use refreshFailed()
+    _refreshController.refreshCompleted();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  bool isLoading = true; // Flag to track whether data is being loaded
+
+  @override
+  void dispose() {
+//dispose the refresh controller once it been used
+    _refreshController.dispose();
+    super.dispose();
+  }
 
   // Function to fetch invoice data
   Future<void> _fetchInvoiceData() async {
+    setState(() {
+      isLoading = true;
+    });
     TransporterIdController transporterIdController =
         Get.find<TransporterIdController>();
 
@@ -45,6 +78,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       if (mounted) {
         setState(() {
           invoices = List<Map<String, dynamic>>.from(data);
+          isLoading = false; // Set isLoading to false after data is fetched
         });
       }
     } catch (e) {
@@ -56,6 +90,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   void initState() {
     super.initState();
     _fetchInvoiceData();
+    _refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
@@ -115,6 +150,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             prefixIcon: const Icon(Icons.search),
                           ),
                           onChanged: (value) {
+                            fromTimestamp = DateTime(2000);
+                            toTimestamp = DateTime.now();
                             filterInvoices(value);
                           },
                         ),
@@ -123,7 +160,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   ),
                 ),
                 const Spacer(),
-                // Date filter and Add Invoice button
+                // Date filter
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,7 +223,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             handleDateRangeSelection(value!);
                             _fetchInvoiceData();
                             // You can perform actions based on the selected value
-                            // print("Selected Month: $selectedMonth");
                           });
                         },
                         hint: Text(
@@ -206,7 +242,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     height: 40,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                       showDialog(
+                        showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AddInvoiceDialog();
@@ -216,7 +252,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       icon: Icon(Icons.add),
                       label: Text('Add Invoice'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF000066),
+                        backgroundColor: kLiveasyColor,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -236,191 +272,210 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             height: 40,
           ),
           // Invoice list section
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: (kIsWeb && Responsive.isDesktop(context))
-                  ? Card(
-                      surfaceTintColor: Colors.transparent,
-                      margin: EdgeInsets.only(bottom: 5),
-                      shadowColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
-                      ),
-                      elevation: 10,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+          // here we are invoking the buildtable for invoice info table
+          buildInvoiceTable(invoices, filteredList)
+        ],
+      ),
+    );
+  }
+//table for invoice data from the api
+  Widget buildInvoiceTable(List<Map<String, dynamic>> invoices,
+      List<Map<String, dynamic>> filteredList) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: (kIsWeb && Responsive.isDesktop(context))
+            ? Card(
+                surfaceTintColor: Colors.transparent,
+                margin: EdgeInsets.only(bottom: 5),
+                shadowColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                ),
+                elevation: 10,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Table Header
+                    Container(
+                      height: 69,
+                      color: Color.fromRGBO(234, 238, 255, 1),
+                      child: Row(
                         children: [
-                          // Table Header
-                          Container(
-                            height: 69,
-                            color: Color.fromRGBO(234, 238, 255, 1),
-                            child: Row(
-                              children: [
-                                buildTableCell(
-                                  'Invoice Date',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                                buildTableCell(
-                                  'Invoice No',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                                buildTableCell(
-                                  'Invoice Amount',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                                buildTableCell(
-                                  'Party Name',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                                buildTableCell(
-                                  'Due Date',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                                buildTableCell(
-                                  'Invoice Details',
-                                  tableHeaderColor,
-                                  isHeader: true,
-                                ),
-                              ],
-                            ),
+                          buildTableCell(
+                            'Invoice Date',
+                            isHeader: true,
                           ),
-                          // Invoice List
-                          Expanded(
-                            flex: 4,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              itemCount: filteredList.isNotEmpty
-                                  ? filteredList.length
-                                  : invoices.length,
-                              itemBuilder: (context, index) {
-                                final invoice = filteredList.isNotEmpty
-                                    ? filteredList[index]
-                                    : invoices[index];
-
-                                return Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        buildTableCell(
-                                            invoice['invoiceDate'] ?? 'NA',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(
-                                            invoice['invoiceNo'] ?? 'NA',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(
-                                            '\$${invoice['invoiceAmount'] ?? 'NA'}',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(
-                                            invoice['partyName'] ?? 'NA',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(
-                                            invoice['dueDate'] ?? 'NA',
-                                            Colors.white,
-                                            isHeader: false),
-                                        Divider(
-                                            thickness: 1,
-                                            height: 0,
-                                            color: Colors.grey),
-                                        buildTableCell(
-                                            invoice['invoiceDetails'] ??
-                                                'check invoice',
-                                            Colors.white,
-                                            isHeader: false,
-                                            invoiceId: invoice['invoiceId']),
-                                      ],
-                                    ),
-                                    Divider(
-                                        thickness: 1,
-                                        height: 0,
-                                        color: Colors.grey),
-                                  ],
-                                );
-                              },
-                            ),
+                          buildTableCell(
+                            'Invoice No',
+                            isHeader: true,
+                          ),
+                          buildTableCell(
+                            'Invoice Amount',
+                            isHeader: true,
+                          ),
+                          buildTableCell(
+                            'Party Name',
+                            isHeader: true,
+                          ),
+                          buildTableCell(
+                            'Due Date',
+                            isHeader: true,
+                          ),
+                          buildTableCell(
+                            'Invoice Details',
+                            isHeader: true,
                           ),
                         ],
                       ),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        final invoice = invoices[index];
-
-                        return Container(
-                          height: 90,
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              buildTableCell(
-                                invoice['invoiceDate'] ?? '',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                              buildTableCell(
-                                invoice['invoiceNo'] ?? '',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                              buildTableCell(
-                                '\$${invoice['invoiceAmount'] ?? ''}',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                              buildTableCell(
-                                invoice['partyName'] ?? '',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                              buildTableCell(
-                                invoice['dueDate'] ?? '',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                              buildTableCell(
-                                invoice['invoiceDetails'] ?? '',
-                                Colors.white,
-                                isHeader: false,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
                     ),
-            ),
-          ),
-        ],
+                    // Invoice List
+                    /*
+                      This is the list of invoices, and here we use pull-to-refresh to fetch data from the API.
+                      For mobile, we use the pull-to-refresh plugin directly.
+                     For web, we add ScrollConfiguration to specify the allowed drag devices (touch, mouse, trackpad, stylus) for pull-down.
+                   */
+
+                    Expanded(
+                        flex: 4,
+                        child: isLoading
+                            ? ShimmerEffect()
+                            : ScrollConfiguration(
+                                behavior:
+                                    //scroll configuration is added because normal pull to refresh plugin don't work for the web so to handle the drag of touch or mouse we are using it
+                                    ScrollConfiguration.of(context).copyWith(
+                                  dragDevices: {
+                                    PointerDeviceKind.touch,
+                                    PointerDeviceKind.mouse,
+                                    PointerDeviceKind.trackpad,
+                                    PointerDeviceKind.stylus,
+                                  },
+                                ),
+                                child: SmartRefresher(
+                                  enablePullDown: true,
+                                  header: ClassicHeader(),
+                                  footer: CustomFooter(
+                                    builder: (BuildContext context,
+                                        LoadStatus? mode) {
+                                      Widget body;
+                                      if (mode == LoadStatus.idle) {
+                                        body = Text("pull up load");
+                                      } else if (mode == LoadStatus.loading) {
+                                        body = CupertinoActivityIndicator();
+                                      } else if (mode == LoadStatus.failed) {
+                                        body = Text("Load Failed!Click retry!");
+                                      } else if (mode ==
+                                          LoadStatus.canLoading) {
+                                        body = Text("release to load more");
+                                      } else {
+                                        body = Text("No more Data");
+                                      }
+                                      return Container(
+                                        height: 55.0,
+                                        child: Center(child: body),
+                                      );
+                                    },
+                                  ),
+                                  controller: _refreshController,
+                                  onRefresh: _onRefresh,
+                                  // Building the list of invoices
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    itemCount: filteredList.isNotEmpty
+                                        ? filteredList.length
+                                        : invoices.length,
+                                    itemBuilder: (context, index) {
+                                      final invoice = filteredList.isNotEmpty
+                                          ? filteredList[index]
+                                          : invoices[index];
+
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              buildTableCell(
+                                                  invoice['invoiceDate'] ?? '',
+                                                  isHeader: false),
+                                              buildTableCell(
+                                                  invoice['invoiceNo'] ?? '',
+                                                  isHeader: false),
+                                              buildTableCell(
+                                                  '\$${invoice['invoiceAmount'] ?? ''}',
+                                                  isHeader: false),
+                                              buildTableCell(
+                                                  invoice['partyName'] ?? '',
+                                                  isHeader: false),
+                                              buildTableCell(
+                                                  invoice['dueDate'] ?? '',
+                                                  isHeader: false),
+                                              buildTableCell(
+                                                  invoice['invoiceDetails'] ??
+                                                      'check invoice',
+                                                  isHeader: false,
+                                                  invoiceId:
+                                                      invoice['invoiceId']),
+                                            ],
+                                          ),
+                                          Divider(
+                                              thickness: 1,
+                                              height: 0,
+                                              color: Colors.grey),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              )),
+                  ],
+                ),
+              )
+            : isLoading
+                ? ShimmerEffect()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      final invoice = invoices[index];
+
+                      return Container(
+                        height: 90,
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            buildTableCell(
+                              invoice['invoiceDate'] ?? '',
+                              isHeader: false,
+                            ),
+                            buildTableCell(
+                              invoice['invoiceNo'] ?? '',
+                              isHeader: false,
+                            ),
+                            buildTableCell(
+                              '\$${invoice['invoiceAmount'] ?? ''}',
+                              isHeader: false,
+                            ),
+                            buildTableCell(
+                              invoice['partyName'] ?? '',
+                              isHeader: false,
+                            ),
+                            buildTableCell(
+                              invoice['dueDate'] ?? '',
+                              isHeader: false,
+                            ),
+                            buildTableCell(
+                              invoice['invoiceDetails'] ?? '',
+                              isHeader: false,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
       ),
     );
   }
@@ -445,26 +500,40 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   void handleDateRangeSelection(String value) {
     switch (value) {
       case 'Today':
-        fromTimestamp = DateTime(now.year, now.month, now.day);
-        toTimestamp = DateTime(now.year, now.month, now.day, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month, now.day);
+          toTimestamp = DateTime(now.year, now.month, now.day, 23, 59, 59);
+        });
+
         break;
       case 'This Week':
         int dayOfWeek = now.weekday;
-        fromTimestamp = now.subtract(Duration(days: dayOfWeek - 1));
-        toTimestamp = now.add(
-            Duration(days: 7 - dayOfWeek, hours: 23, minutes: 59, seconds: 59));
+        setState(() {
+          fromTimestamp = now.subtract(Duration(days: dayOfWeek - 1));
+          toTimestamp = now.add(Duration(
+              days: 7 - dayOfWeek, hours: 23, minutes: 59, seconds: 59));
+        });
         break;
       case 'This Month':
-        fromTimestamp = DateTime(now.year, now.month, 1);
-        toTimestamp = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month, 1);
+          toTimestamp = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+        });
+
         break;
       case 'Last Month':
-        fromTimestamp = DateTime(now.year, now.month - 1, 1);
-        toTimestamp = DateTime(now.year, now.month, 0, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, now.month - 1, 1);
+          toTimestamp = DateTime(now.year, now.month, 0, 23, 59, 59);
+        });
+
         break;
       case 'This Year':
-        fromTimestamp = DateTime(now.year, 1, 1);
-        toTimestamp = DateTime(now.year, 12, 31, 23, 59, 59);
+        setState(() {
+          fromTimestamp = DateTime(now.year, 1, 1);
+          toTimestamp = DateTime(now.year, 12, 31, 23, 59, 59);
+        });
+
         break;
       case 'Custom':
         // Handle custom date range if needed
@@ -476,7 +545,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   }
 
   // Widget to build table cell
-  Widget buildTableCell(String text, Color backgroundColor,
+  Widget buildTableCell(String text,
       {bool isHeader = false, String? invoiceId}) {
     return Expanded(
       child: GestureDetector(
@@ -507,11 +576,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            tileColor: backgroundColor,
+            tileColor: isHeader ? tableHeaderColor : white,
             contentPadding: EdgeInsets.all(10),
           ),
         ),
       ),
     );
   }
+
+
 }

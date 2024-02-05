@@ -14,8 +14,7 @@ class InvoiceApiService {
       List<dynamic> data = json.decode(response.body);
       return data;
     } else {
-      debugPrint('Error Status Code: ${response.statusCode}');
-      debugPrint('Error Response Body: ${response.body}');
+      print('Error Status Code: ${response.statusCode}');
       throw Exception('Failed to load invoice');
     }
   }
@@ -23,6 +22,7 @@ class InvoiceApiService {
 // post invoice data
   static Future<String?> postInvoiceData(
     String transporterId,
+    String? transportername,
     String? partyName,
     String? invoiceNumber,
     String? invoiceDate,
@@ -31,6 +31,7 @@ class InvoiceApiService {
   ) async {
     final Map<String, dynamic> data = {
       'transporterId': transporterId,
+      'transporterName': transportername,
       'partyName': partyName,
       'invoiceNo': invoiceNumber,
       'invoiceDate': invoiceDate,
@@ -53,7 +54,6 @@ class InvoiceApiService {
 
       if (responseData.containsKey('invoiceId')) {
         String invoiceId = responseData['invoiceId'].toString();
-        print('Invoice created successfully! Invoice ID: $invoiceId');
         return invoiceId;
       } else {
         print(
