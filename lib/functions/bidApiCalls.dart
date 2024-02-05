@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 Future<String?> postBidAPi(loadId, rate, transporterIdController, unit) async {
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
   var jsondata;
-  late int status;
+  int status = 0;
 
   if (unit == "RadioButtonOptions.PER_TON") {
     unit = "PER_TON";
@@ -70,7 +70,7 @@ putBidForAccept(String? bidId) async {
 
 Future<String?> putBidForNegotiate(
     String? bidId, String? rate, String? unitValue) async {
-  late int status;
+  int status = 0;
   //TODO: This can be done in a better way later on
   if (unitValue == "RadioButtonOptions.PER_TON") {
     unitValue = "PER_TON";
@@ -103,7 +103,6 @@ Future<String?> putBidForNegotiate(
     return "unsuccessful";
   } catch (e) {
     if (status == 409) {
-      print('inside catch 409');
       return "conflict";
     }
     print(e.toString());
