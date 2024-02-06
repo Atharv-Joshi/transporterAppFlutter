@@ -95,7 +95,6 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
         if (driverName.toLowerCase().contains(searchText.toLowerCase()) ||
             driverNumber.toLowerCase().contains(searchText.toLowerCase())) {
           setState(() {
-            print(searchText);
             searchedDriverList.add(driverName);
             searchedDriverListNumber.add(driverNumber);
           });
@@ -185,7 +184,6 @@ class _UpdateDriverScreenState extends State<UpdateDriverScreen> {
                                 setState(() {
                                   searchedDriver = value;
                                 });
-                                print(value);
                                 searchoperation(searchedDriver);
                                 selectedDriver = "";
                                 selectedIndex = -1;

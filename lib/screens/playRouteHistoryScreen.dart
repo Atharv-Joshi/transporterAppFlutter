@@ -121,7 +121,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
       getDateRange();
       getInfoWindow();
       check();
-      print("PLAY ROUTE HISTORY DONE ------");
     } catch (e) {
       logger.e("Error is $e");
     }
@@ -166,18 +165,14 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.inactive:
-        print('appLifeCycleState inactive');
         break;
       case AppLifecycleState.resumed:
         final GoogleMapController controller = await _controller.future;
         onMapCreated(controller);
-        print('appLifeCycleState resumed');
         break;
       case AppLifecycleState.paused:
-        print('appLifeCycleState paused');
         break;
       case AppLifecycleState.detached:
-        print('appLifeCycleState detached');
         break;
     }
   }
@@ -201,8 +196,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
         break;
       }
     }
-    print("Route Time ${routeTime}");
-    print("Route speed ${routeSpeed}");
   }
 
   addstops(var gpsStoppage) async {
@@ -215,7 +208,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     }
     futureGroup.close();
     await futureGroup.future;
-    print("STOPS DONE __");
   }
 
   getStops(var gpsStoppage, int i) async {
@@ -225,7 +217,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     for (var stop in gpsStoppageHistory) {
       stops.add(LatLng(stop.latitude, stop.longitude));
     }
-    print("Stop Locations $stops");
     for (int i = 0; i < stops.length; i++) {
       markerIcon = await getBytesFromCanvas(i + 1, 100, 100);
       setState(() {
@@ -240,10 +231,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     }
   }
 
-  void check() {
-    print("Stop Locations $stops");
-    print("Route time  $routeTime");
-  }
+  void check() {}
 
   //Function to get EVERY 10th LAT LONG
   getLatLngList() {
@@ -263,6 +251,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
       }
     }
   }
+
 //start date and end date
   getDateRange() {
     var logger = Logger();
@@ -272,7 +261,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     var end1 = getFormattedDateForDisplay2(splitted[1]).split(", ");
     start = start1[0];
     end = end1[0];
-    print("Start is ${start} and ENd is ${end}");
   }
 
   //New location when truck moves
@@ -285,10 +273,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
         .then((value) => {
               if (mounted)
                 {
-                  print(
-                      "--------------------------------------> in newLocationUpdate:${latlng}"),
                   setState(() {
-                    print("value ${value.toString()}");
                     pinLocationIconTruck = value;
                     markers[kMarkerId] = Marker(
                         markerId: kMarkerId,
@@ -296,9 +281,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                         icon: value,
                         anchor: const Offset(0.5, 0.5),
                         rotation: 90,
-                        onTap: () {
-                          print("Tapped");
-                        });
+                        onTap: () {});
                     customMarkers.add(Marker(
                       markerId: kMarkerId2,
                       position: latLng,
@@ -311,7 +294,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                 }
             });
 
-    print("markers $markers");
     i = i + 1;
   }
 
@@ -321,6 +303,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     polylineCoordinates2 = getPoylineCoordinates2(gpsTruckHistory);
     _getPolyline(polylineCoordinates2);
   }
+
   //polylines for map
   _getPolyline(List<LatLng> polylineCoordinates2) {
     var logger = Logger();
@@ -334,7 +317,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     setState(() {
       polylines[id] = polyline;
     });
-    print("polylines $polylines");
 
     _addPolyLine();
   }
@@ -365,7 +347,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
     double threshold = 100;
 
     return Responsive.isMobile(context)
-    //Ui for mobile
+        //Ui for mobile
         ? SafeArea(
             child: Scaffold(
                 backgroundColor: white,
@@ -581,10 +563,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                               Color.fromRGBO(21, 41, 104, 1),
                                           mini: true,
                                           onPressed: () {
-                                            print(
-                                                "-------------------->Pause button");
-                                            print(
-                                                "Paused----------------->$isPaused");
                                             setState(() {
                                               if (isPaused) {
                                                 subscription.resume();
@@ -634,10 +612,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                                 onChanged: (value) {
                                                   setState(() {
                                                     this.value = value;
-                                                    print(Locations[
-                                                        value.toInt()]);
                                                   });
-                                                  print(value);
                                                 },
                                               ),
                                             ],
@@ -951,10 +926,6 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                             21, 41, 104, 1),
                                         mini: true,
                                         onPressed: () {
-                                          print(
-                                              "-------------------->Pause button");
-                                          print(
-                                              "Paused----------------->$isPaused");
                                           setState(() {
                                             if (isPaused) {
                                               subscription.resume();
@@ -1003,10 +974,7 @@ class _PlayRouteHistoryState extends State<PlayRouteHistory>
                                               onChanged: (value) {
                                                 setState(() {
                                                   this.value = value;
-                                                  print(
-                                                      Locations[value.toInt()]);
                                                 });
-                                                print(value);
                                               },
                                             ),
                                           ],

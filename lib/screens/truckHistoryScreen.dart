@@ -87,7 +87,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       status: "Loading...",
     );
     setState(() {
-      print("istdate1 here ${widget.istDate1}");
       dateRange = widget.dateRange;
       loading = true;
       istDate1 = widget.istDate1;
@@ -104,7 +103,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   }
 
   getDateRange() {
-    print("Date Range $dateRange");
     var now = dateFormat.format(DateTime.now()).split(" ");
     var timestamp = now[1].replaceAll(":", "");
     var hour = int.parse(timestamp.substring(0, 2));
@@ -185,7 +183,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       var istDate2;
       setState(() {
         selectedDate = picked;
-        print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
         istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[0])
@@ -201,8 +198,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
               Duration(
                   hours: DateTime.now().hour, minutes: DateTime.now().minute),
             );
-        print(
-            "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
       EasyLoading.instance
         ..indicatorType = EasyLoadingIndicatorType.ring
@@ -247,7 +242,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         EasyLoading.dismiss();
         showDialog(
             context: context, builder: (context) => InvalidDateCondition());
-        print("gps route null");
       }
     }
   }
@@ -276,7 +270,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Responsive.isMobile(context)
-    //Ui for Mobile
+        //Ui for Mobile
         ? SafeArea(
             child: Scaffold(
                 backgroundColor: backgroundColor,

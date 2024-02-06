@@ -10,6 +10,7 @@ import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'alertDialog/invalidDateConditionDialog.dart';
+
 //displaying the route details
 class PlayRouteDetailsWidget extends StatefulWidget {
   String? dateRange;
@@ -73,7 +74,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     var end2 = end1[0].split(" ");
     start = start1[0];
     end = end1[0];
-    print("Start is ${start} and ENd is ${end}");
   }
 
   //Displays CALENDAR to PICK DATE RANGE -------------------
@@ -127,7 +127,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       setState(() {
         // bookingDateList[3] = (nextDay.MMMEd);
         selectedDate = picked;
-        print("SEL Date $selectedDate");
         selectedDateString = selectedDate.toString().split(" - ");
         istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[0])
@@ -135,8 +134,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[1])
             .subtract(const Duration(hours: 5, minutes: 30));
-        print(
-            "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
       EasyLoading.instance
         ..indicatorType = EasyLoadingIndicatorType.ring
@@ -159,10 +156,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       var newGpsTruckHistory = await f;
       var newGpsStoppageHistory = await s;
       var newRouteHistory = await t;
-
-      print("AFter $newGpsTruckHistory");
-      print("AFter $newGpsStoppageHistory");
-      print("AFter $newRouteHistory");
       if (newRouteHistory != null) {
         setState(() {
           gpsTruckHistory = newGpsTruckHistory;
@@ -196,7 +189,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
           }
           i = i + 2;
         }
-        print("With Stops $routeHistory");
 
         Get.back();
         EasyLoading.dismiss();
@@ -204,7 +196,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         EasyLoading.dismiss();
         showDialog(
             context: context, builder: (context) => InvalidDateCondition());
-        print("gps route null");
       }
     }
   }
@@ -216,39 +207,31 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     String endTime = DateTime.now().toString();
     switch (choice) {
       case '48 hours':
-        print("48");
         setState(() {
           endTime = DateTime.now().toString();
           startTime =
               DateTime.now().subtract(const Duration(days: 2)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '7 days':
-        print("7");
         setState(() {
           endTime = DateTime.now().toString();
           startTime =
               DateTime.now().subtract(const Duration(days: 7)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '14 days':
-        print("14");
         setState(() {
           endTime = DateTime.now().toString();
           startTime =
               DateTime.now().subtract(const Duration(days: 14)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '30 days':
-        print("30");
         setState(() {
           endTime = DateTime.now().toString();
           startTime =
               DateTime.now().subtract(const Duration(days: 30)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
     }
@@ -262,8 +245,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(endTime)
           .subtract(const Duration(hours: 5, minutes: 30));
-      print(
-          "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
     });
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
@@ -287,9 +268,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
     var newTotalRunningTime =
         getTotalRunningTime(newGpsStoppageHistory, istDate1, istDate2);
     var newTotalStoppedTime = getTotalStoppageTime(newGpsStoppageHistory);
-    print("AFter $newGpsTruckHistory");
-    print("AFter $newGpsStoppageHistory");
-    print("AFter $newRouteHistory");
 
     int i = 0;
     var start;
@@ -312,7 +290,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       }
       i = i + 2;
     }
-    print("With Stops $newRouteHistory");
     if (newRouteHistory != null) {
       setState(() {
         gpsTruckHistory = newGpsTruckHistory;
@@ -330,7 +307,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       EasyLoading.dismiss();
       showDialog(
           context: context, builder: (context) => InvalidDateCondition());
-      print("gps route null");
     }
   }
 

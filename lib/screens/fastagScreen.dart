@@ -22,6 +22,7 @@ import '../functions/ulipAPIs/fastagAPIs.dart';
 import '../models/fastagModel.dart';
 import '../widgets/buttons/helpButton.dart';
 import '../widgets/fastagTimeline.dart';
+
 //This screen will display fastag Details
 class MapScreen extends StatefulWidget {
   String? loadingPoint;
@@ -72,10 +73,8 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     loadVehicleLocations(widget.truckNumber!);
-    // print("truckNumber Point is ${widget.truckNumber}");
-    // print("loading Point is ${widget.loadingPoint}");
-    // print("unloading Point is ${widget.unloadingPoint}");
   }
+
 //for generating the location of the vehicle
   Future<void> loadVehicleLocations(String vehicle) async {
     // bool isMobile = Responsive.isMobile(context);

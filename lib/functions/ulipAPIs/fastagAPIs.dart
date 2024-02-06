@@ -43,7 +43,6 @@ class checkFastTag {
             double.parse(reversedList[i]['tollPlazaGeocode'].split(',')[1]),
           );
           reversedList[i]['address'] = address;
-          print(reversedList[i]['address']);
         }
         return reversedList.cast<Map<String, dynamic>>();
       } else {

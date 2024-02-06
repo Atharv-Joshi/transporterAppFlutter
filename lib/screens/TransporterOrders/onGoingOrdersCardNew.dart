@@ -368,7 +368,6 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
           ) //Below code is used for mobile
         : GestureDetector(
             onTap: () {
-              print(widget.loadDetailsScreenModel?.noOfTyres);
               Get.to(documentUploadScreen(
                 loadAllDataModel: widget.loadAllDataModel,
                 bookingId: widget.loadAllDataModel.bookingId.toString(),

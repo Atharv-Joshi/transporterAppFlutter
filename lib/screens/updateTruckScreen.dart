@@ -83,7 +83,7 @@ class _UpdateTruckScreenState extends State<UpdateTruckScreen> {
   @override
   Widget build(BuildContext context) {
     return (kIsWeb && (Responsive.isDesktop(context)))
-    //Ui for web
+        //Ui for web
         ? Scaffold(
             body: Column(
             children: [
@@ -152,7 +152,6 @@ class _UpdateTruckScreenState extends State<UpdateTruckScreen> {
                                 setState(() {
                                   searchedTruck = value;
                                 });
-                                print(value);
                                 searchoperation(searchedTruck);
                                 selectedTruck = "";
                                 selectedDeviceId = -1;
@@ -242,7 +241,6 @@ class _UpdateTruckScreenState extends State<UpdateTruckScreen> {
                                               searchedTruckList[index];
                                           selectedDeviceId =
                                               searchedDeviceIdList[index];
-                                          print(selectedDeviceId);
                                         });
                                       },
                                       child: Column(
@@ -281,7 +279,7 @@ class _UpdateTruckScreenState extends State<UpdateTruckScreen> {
                                       ),
                                     );
                                   })
-                          //Ui for mobile
+                              //Ui for mobile
                               : ListView.builder(
                                   itemCount: truckList.length,
                                   controller: _firstController,
@@ -295,7 +293,6 @@ class _UpdateTruckScreenState extends State<UpdateTruckScreen> {
                                           selectedTruck = truckList[index];
                                           selectedDeviceId =
                                               deviceIdList[index];
-                                          print(selectedDeviceId);
                                         });
                                       },
                                       child: Column(

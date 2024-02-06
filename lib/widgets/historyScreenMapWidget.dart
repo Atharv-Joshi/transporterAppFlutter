@@ -141,11 +141,8 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     });
     try {
       initfunction();
-      print("1st");
       initfunction2();
-      print("2nd");
       getTruckHistory();
-      print("3rd");
       //   iconthenmarker();
 
       logger.i("in init state function");
@@ -158,6 +155,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       logger.e("Error is $e");
     }
   }
+
 //for getting truck history
   void onMapCreated(GoogleMapController controller) {
     controller.setMapStyle("[]");
@@ -169,8 +167,6 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     setState(() {
       gpsDataHistory = widget.gpsDataHistory;
     });
-
-    print("Gps data history length ${gpsDataHistory.length}");
 
     polylineCoordinates1 =
         getPoylineCoordinates(gpsDataHistory, polylineCoordinates1);
@@ -192,30 +188,25 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     FutureGroup futureGroup = FutureGroup();
     averagelat = 0;
     averagelon = 0;
-    print("here only error");
-    print("length of stoppages is ${gpsStoppagehistory.length}");
     for (int i = 0; i < gpsStoppagehistory.length; i++) {
-      print(i);
       var future = getStoppage(gpsStoppagehistory[i], i);
       averagelat += gpsStoppagehistory[i].latitude as double;
       averagelon += gpsStoppagehistory[i].longitude as double;
       futureGroup.add(future);
     }
-    print("length of stoppages after  is ${gpsStoppagehistory.length}");
     averagelat = averagelat / gpsStoppagehistory.length;
     averagelon = averagelon / gpsStoppagehistory.length;
 
     futureGroup.close();
     await futureGroup.future;
-    print("STOPS DONE __");
   }
+
 //for getting address and time-duration from the gpsStoppage list
   getStoppage(var gpsStoppage, int i) async {
     var stopAddress;
     var stoppageTime;
     var stoplatlong;
     var duration;
-    print("Stop length $gpsStoppage");
     LatLng? latlong;
     latlong = LatLng(gpsStoppage.latitude, gpsStoppage.longitude);
     stoplatlong = latlong;
@@ -238,7 +229,6 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       ));
     });
     // }
-    print("working?");
   }
 
   _addPolyLine() {
@@ -255,6 +245,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       _polyline1.add(polyline1);
     });
   }
+
 //for creating polylines
   _getPolyline(List<LatLng> polylineCoordinates1) async {
     var logger = Logger();
@@ -278,10 +269,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       newGPSRoute = widget.routeHistory;
       gpsDataHistory = widget.gpsDataHistory;
       gpsStoppageHistory = widget.gpsStoppageHistory;
-
-      // print("kya $to");
     });
-    print(gpsStoppageHistory);
     addstops(gpsStoppageHistory);
   }
 
@@ -299,41 +287,34 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
     getTruckHistoryAfter();
     //  iconthenmarker();
   }
+
 //dropdown for choosing the duration for viewing history
   customSelection(String? choice) async {
     String startTime = DateTime.now().subtract(Duration(days: 1)).toString();
     String endTime = DateTime.now().toString();
     switch (choice) {
       case '48 hours':
-        print("48");
         setState(() {
           endTime = DateTime.now().toString();
           startTime = DateTime.now().subtract(Duration(days: 2)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '7 days':
-        print("7");
         setState(() {
           endTime = DateTime.now().toString();
           startTime = DateTime.now().subtract(Duration(days: 7)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '14 days':
-        print("14");
         setState(() {
           endTime = DateTime.now().toString();
           startTime = DateTime.now().subtract(Duration(days: 14)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
       case '30 days':
-        print("30");
         setState(() {
           endTime = DateTime.now().toString();
           startTime = DateTime.now().subtract(Duration(days: 30)).toString();
-          print("NEW start $startTime and $endTime");
         });
         break;
     }
@@ -348,8 +329,6 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
       istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(endTime)
           .subtract(Duration(hours: 5, minutes: 30));
-      print(
-          "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
     });
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring
@@ -388,6 +367,7 @@ class _HistoryScreenMapWidgetState extends State<HistoryScreenMapWidget>
           gpsStoppageHistory: gpsStoppageHistory,
         ));
   }
+
 //for calculating the distance from loadingpoint to unloadingpoint
   distancecalculation(String from, String to) async {
     var gpsRoute1 = await mapUtil.getTraccarSummary(

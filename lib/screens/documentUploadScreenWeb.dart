@@ -216,8 +216,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -226,14 +224,12 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNamePod(availDocs[0]);
           providerData.PodPhotoFile = null;
           providerData.PodPhoto64 = null;
         }
         // verifiedCheckPod();
       } else {
-        print("Pod");
         await uploadFirstPod();
       }
     }
@@ -279,8 +275,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
           // setState(() {
@@ -292,7 +286,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameLr(availDocs[0]);
           // await uploadDocumentApiCall();
           providerData.LrPhotoFile = null;
@@ -300,7 +293,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
         }
         // verifiedCheckLr();
       } else {
-        print("Lr");
         await uploadFirstLr();
       }
     }
@@ -352,8 +344,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -362,14 +352,12 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameEwayBill(availDocs[0]);
           providerData.EwayBillPhotoFile = null;
           providerData.EwayBillPhoto64 = null;
         }
         // verifiedCheckEwayBill();
       } else {
-        print("EwayBill");
         await uploadFirstEwayBill();
       }
     }
@@ -459,8 +447,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -469,7 +455,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameWeightReceipt(availDocs[0]);
           // await uploadDocumentApiCall();
           providerData.WeightReceiptPhotoFile = null;
@@ -477,7 +462,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
         }
         // verifiedCheckWeightReceipt();
       } else {
-        print("WeightReceipt");
         await uploadFirstWeightReceipt();
       }
     }
@@ -486,7 +470,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       onWillPop: () async {
         // to null the provider data of the documents variables after clicking the back button of the android device.
 
-        print("After clicking the Android Back Button");
         // var providerData = Provider.of<ProviderData>(context);
         providerData.LrPhotoFile = null;
         providerData.LrPhoto64 = null;

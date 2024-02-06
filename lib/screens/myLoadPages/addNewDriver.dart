@@ -437,9 +437,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
       String responseStatus;
       responseStatus = await postDriverTraccarApi(name, phoneno, transporterId);
       // send to next screen.
-      print(responseStatus);
       if (responseStatus == 'successful') {
-        print(responseStatus);
         Navigator.pushReplacement(
           context,
           new MaterialPageRoute(
@@ -471,9 +469,7 @@ class _AddNewDriverState extends State<AddNewDriver> {
       String responseStatus;
       responseStatus = await postDriverTraccarApi(name, phoneno, transporterId);
       // send to next screen.
-      print(responseStatus);
       if (responseStatus == 'successful') {
-        print(responseStatus);
         Navigator.pushReplacement(
           context,
           new MaterialPageRoute(

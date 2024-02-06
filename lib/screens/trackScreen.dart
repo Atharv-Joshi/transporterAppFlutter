@@ -157,7 +157,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     newGPSData.add(widget.gpsData);
 
     logger.i("newGPSData");
-    print("${newGPSData}");
     try {
       initfunction();
 
@@ -176,6 +175,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       logger.e("Error is $e");
     }
   }
+
 //onMapCreated for initializing controller
   void onMapCreated(GoogleMapController controller) {
     controller.setMapStyle("[]");
@@ -333,11 +333,9 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
   getTotalDistance(var ab, var from, var to) async {
     var gpsRoute1 =
         await mapUtil.getTraccarSummary(deviceId: ab, from: from, to: to);
-    print("------------$mapUtil---------------");
     setState(() {
       widget.totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
       finalDistance = widget.totalDistance;
-      print('---------- total distance $finalDistance ---------------');
     });
   }
 
@@ -357,8 +355,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
     var s = getStoppageHistory(widget.deviceId, from, to);
     var newGpsDataHistory = await f;
     var newGpsStoppageHistory = await s;
-    print("newGpsDataHistory $newGpsDataHistory");
-    print("newGpsStoppageHistory $newGpsStoppageHistory");
+
     setState(() {
       newGPSData.add(widget.gpsData);
       gpsDataHistory = newGpsDataHistory;
@@ -442,9 +439,7 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
 
   //function used to change the speed of truck after 10 seconds and to make the truck look running
   void onActivityExecuted2() async {
-    print("erroe1");
     var gpsData = await mapUtil.getTraccarPosition(deviceId: widget.deviceId);
-    print("erroe2");
     setState(() {
       newGPSData = gpsData;
     });
@@ -543,8 +538,6 @@ class _TrackScreenState extends State<TrackScreen> with WidgetsBindingObserver {
       istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(endTime)
           .subtract(const Duration(hours: 5, minutes: 30));
-      // print(
-      //     "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
     });
     EasyLoading.instance
       ..indicatorType = EasyLoadingIndicatorType.ring

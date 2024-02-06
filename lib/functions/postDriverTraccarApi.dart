@@ -28,11 +28,11 @@ postDriverTraccarApi(DriverName, DriverPhoneNo, TransporterId) async {
               'authorization': basicAuth,
             },
             body: body);
-    print(response.body);
+    // print(response.body);
     //when driver already exists the below code will return conflict
     //which will be used for showing an alert dialogbox
     if (response.statusCode == 400) {
-      print("Mobile number already exists");
+      // print("Mobile number already exists");
       return "Mobile number already exists";
     }
     jsonData = json.decode(response.body);
@@ -45,7 +45,7 @@ postDriverTraccarApi(DriverName, DriverPhoneNo, TransporterId) async {
     if (response.statusCode == 201 || response.statusCode == 200) {
       return "successful";
     } else if (response.statusCode == 409) {
-      print("conflict");
+      // print("conflict");
       return "conflict";
     } else {
       return "unsuccessful";
