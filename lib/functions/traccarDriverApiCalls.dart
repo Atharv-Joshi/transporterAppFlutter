@@ -1,14 +1,17 @@
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/transporterIdController.dart';
 
+import 'encryptDecrypt.dart';
+
 TransporterIdController transporterIdController =
     Get.find<TransporterIdController>();
 final String driverApiUrl = dotenv.get('driverApiUrl');
 String? traccarUser = transporterIdController.mobileNum.value;
-String traccarPass = dotenv.get("traccarPass");
+String traccarPass = decrypt(dotenv.get('traccarPass'));
 String basicAuth =
     'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 late List jsonData;

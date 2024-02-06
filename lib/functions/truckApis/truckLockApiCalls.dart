@@ -1,18 +1,19 @@
 import 'dart:async';
-import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/lockUnlockController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/encryptDecrypt.dart';
 
 TransporterIdController transporterIdController =
     Get.find<TransporterIdController>();
 final lockStorage = GetStorage();
 String? traccarUser = dotenv.get("traccarUser");
-String traccarPass = dotenv.get("traccarPass");
+String traccarPass = decrypt(dotenv.get('traccarPass'));
 String traccarApi = dotenv.get("traccarApi");
 String basicAuth =
     'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));

@@ -52,6 +52,16 @@ jobs:
           echo "paymentkey=${{ vars.PAYMENT_KEY }}" >> .env
           echo "paymentkeysecret=${{ vars.PAYMENT_KEY_SECRET }}" >> .env
           echo "razorpayorder=${{ vars.RAZOR_PAY_ORDER }}" >> .env
+          echo "consentApiUrl=${{ vars.CONSENT_API_URL }}" >> .env
+          echo "consentStatusUrl=${{ vars.CONSENT_STATUS_URL }}" >> .env
+          echo "numVerifyApiUrl=${{ vars.NUM_VERIFY_API_URL }}" >> .env
+          echo "fastTag=${{ vars.FAST_TAG }}" >> .env
+          echo "vahanTag=${{ vars.VAHAN_TAG }}" >> .env
+          echo "vahanUrl=${{ vars.VAHAN_URL }}" >> .env
+          echo "accessKey=${{ vars.ACCESS_KEY }}" >> .env
+          echo "invoiceApiUrl=${{ vars.INVOICE_API_URL }}" >> .env
+          echo "encryptKey=${{ vars.ENCRYPT_KEY }}" >> .env
+          echo "ewayBill=${{ vars.EWAY_BILL }}" >> .env
 
       - name: Merge to branch
         run: |

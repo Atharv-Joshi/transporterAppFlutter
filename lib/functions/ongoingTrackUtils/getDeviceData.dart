@@ -1,18 +1,13 @@
 import 'dart:convert';
-import 'package:get/get.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:liveasy/controller/transporterIdController.dart';
-import 'package:liveasy/functions/BackgroundAndLocation.dart';
-import 'package:liveasy/language/localization_service.dart';
+import 'package:liveasy/functions/encryptDecrypt.dart';
 import 'package:liveasy/models/deviceModel.dart';
-import 'package:liveasy/models/gpsDataModel.dart';
-import 'package:liveasy/models/gpsDataModelForHistory.dart';
-import 'package:geocoding/geocoding.dart';
 
 Future<List<DeviceModel>> getDeviceByDeviceId(String deviceId) async {
   String traccarUser = dotenv.get("traccarUser");
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
   String traccarApi = dotenv.get("traccarApi");

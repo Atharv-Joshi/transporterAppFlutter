@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:liveasy/controller/SelectedDriverController.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/models/driverModel.dart';
 import 'package:liveasy/models/responseModel.dart';
 import 'package:liveasy/models/truckModel.dart';
-import 'dart:convert';
-import 'package:liveasy/models/driverModel.dart';
+
+import 'encryptDecrypt.dart';
 
 //This class should contain all the api calls related to driver api
 //This is important so that it's easier to search up the required files
@@ -56,7 +59,7 @@ class DriverApiCalls {
   Future<List<DriverModel>> getDriverData() async {
     driverList = [];
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = dotenv.get("traccarPass");
+    String traccarPass = decrypt(dotenv.get('traccarPass'));
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
     http.Response response = await http.get(
@@ -177,7 +180,7 @@ class DriverApiCalls {
   Future<dynamic> editDriver(
       {DriverModel? driverData, String? driverId, String? driverName}) async {
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = dotenv.get("traccarPass");
+    String traccarPass = decrypt(dotenv.get('traccarPass'));
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 
@@ -262,7 +265,7 @@ Future<void> disableActionOnDriver({String? driverId}) async {
   final String driverApiUrl = dotenv.get("driverApiUrl");
 
   String? traccarUser = transporterIdController.mobileNum.value;
-  String traccarPass = dotenv.get("traccarPass");
+  String traccarPass = decrypt(dotenv.get('traccarPass'));
   String basicAuth =
       'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
 

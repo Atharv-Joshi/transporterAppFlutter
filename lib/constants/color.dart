@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 const Color kLiveasyColor = Color(0xFF000066);
 const Color statusBarColor = Color(0xFFFFFFFF);
 const Color darkBlueColor = Color(0xFF152968);
@@ -38,6 +37,9 @@ const Color greyColor = Color(0xff9E9E9E);
 const Color borderblue = Color.fromRGBO(0, 0, 255, 0.27);
 const Color lightBlueColor = Color(0xff0077B6);
 const Color darkOrangeColor = Color(0xFFE75347);
+const Color greyShade = Color.fromARGB(255, 197, 195, 195);
+Color tableHeaderColor = Color(0xFFEAEEFF);
+const Color dividerColor = Color.fromARGB(255, 232, 232, 232);
 //TODO: Remove duplicate color entries , choose a general name for solidLineColor ,priceBackground , unactivereset and replace it in theor usecase too
 // keep deactiveButton color though othervise code will break
 
@@ -79,7 +81,7 @@ const Color red = Colors.red;
 const Color navy = Color(0xff000066);
 Color continueButton = Color(0xff007CFF);
 Color tryAgainButton = Color(0xffCC503E);
-const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
+
 const Color formBackground = Color.fromARGB(255, 245, 246, 250);
 const Color headerLightBlueColor = Color.fromRGBO(245, 246, 250, 1);
 const Color darkBlueTextColor = Color.fromARGB(255, 21, 41, 104);
@@ -100,6 +102,7 @@ const Color skyBlue = Color.fromARGB(255, 5, 122, 247);
 const Color timelinesColor = Color.fromARGB(255, 47, 46, 65);
 const Color vehicleDetailsText = Color.fromARGB(255, 9, 183, 120);
 const Color vahangrey = Color(0xffD3D3D3);
+const Color shimmerGrey = Color.fromARGB(255, 231, 227, 227);
 //box shadow
 const Color darkShadow = Color(0x26000000);
 const Color blackColor = Color.fromARGB(1, 24, 24, 24);
@@ -108,3 +111,4 @@ const Color textcolor = Color(0xffEDF1FF);
 // const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
 const Color trackButtonColor = Color.fromARGB(255, 0, 0, 102);
 const Color docScreenColor = Color(0xffF5F6FA);
+const Color uplaodBillDottedbg = Color(0xFFF2F3FE);

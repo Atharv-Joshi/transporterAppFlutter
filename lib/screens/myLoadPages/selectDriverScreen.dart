@@ -6,23 +6,24 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/constants/screens.dart';
+import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/functions/BackgroundAndLocation.dart';
+import 'package:liveasy/functions/encryptDecrypt.dart';
+import 'package:liveasy/models/biddingModel.dart';
+import 'package:liveasy/models/driverModel.dart';
+import 'package:liveasy/models/loadDetailsScreenModel.dart';
+import 'package:liveasy/models/truckModel.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/addNewDriver.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/headingTextWidget.dart';
 
-import '../../Web/dashboard.dart';
-import '../../constants/fontSize.dart';
-import '../../constants/fontWeights.dart';
-import '../../constants/radius.dart';
-import '../../constants/screens.dart';
-import '../../constants/spaces.dart';
-import '../../functions/BackgroundAndLocation.dart';
-import '../../models/biddingModel.dart';
-import '../../models/driverModel.dart';
-import '../../models/loadDetailsScreenModel.dart';
-import '../../models/truckModel.dart';
-import '../../responsive.dart';
 import 'bookLoadScreen.dart';
 import 'confirmBookingDetails.dart';
 
@@ -71,7 +72,7 @@ class _SelectDriverScreenState extends State<SelectDriverScreen> {
     String driverApiUrl = dotenv.get("driverApiUrl").toString();
     var jsonData;
     String? traccarUser = transporterIdController.mobileNum.value;
-    String traccarPass = dotenv.get("traccarPass");
+    String traccarPass = decrypt(dotenv.get('traccarPass'));
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$traccarUser:$traccarPass'));
     http.Response response = await http.get(

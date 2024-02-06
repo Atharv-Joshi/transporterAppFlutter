@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/responsive.dart';
+
 //TryAgain screens for showing error and retyring
 class TryAgain extends StatelessWidget {
   final VoidCallback retryCallback;
@@ -55,9 +56,9 @@ class TryAgain extends StatelessWidget {
               const SizedBox(height: 10),
               Center(
                 child: InkWell(
-                  hoverColor: skyBlue,
+                  hoverColor: continueButton,
                   focusColor: darkBlueTextColor,
-                  highlightColor: okButtonColor,
+                  highlightColor: liveasyGreen,
                   onTap: retryCallback,
                   child: Container(
                       height: screenHeight * 0.04,
@@ -66,7 +67,7 @@ class TryAgain extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: white,
                           border: Border.all(
-                            color: skyBlue,
+                            color: continueButton,
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(5)),
@@ -74,7 +75,7 @@ class TryAgain extends StatelessWidget {
                         'Try again',
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w600,
-                            color: skyBlue,
+                            color: continueButton,
                             fontSize: isMobile
                                 ? screenWidth * 0.04
                                 : screenHeight * 0.02),
