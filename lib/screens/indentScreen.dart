@@ -8,6 +8,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/widgets/indentCard.dart';
 import 'package:liveasy/widgets/indentHeader.dart';
+import 'package:liveasy/widgets/invoice_screen/shimmer_invoice.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'auctionScreen.dart';
 import 'myLoadPages/bookLoadScreen.dart';
@@ -102,9 +103,7 @@ class _IndentScreenState extends State<IndentScreen> {
           )
         //Data from myLoadList is empty then its in loading state else indent card is displayed.
         : myLoadList.isEmpty
-            ? Center(
-                child: CircularProgressIndicator(color: darkBlueColor),
-              )
+            ? ShimmerEffect()
             : RefreshIndicator(
                 color: lightNavyBlue,
                 onRefresh: () async {

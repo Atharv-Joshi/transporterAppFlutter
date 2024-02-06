@@ -16,6 +16,7 @@ import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/LoadPointTemplateForBidScreen.dart';
 import 'package:liveasy/widgets/auctionDetails.dart';
 import 'package:liveasy/widgets/buttons/auctionScreenNavigationBarButton.dart';
+import 'package:liveasy/widgets/invoice_screen/shimmer_invoice.dart';
 import 'package:liveasy/widgets/placeBidButton.dart';
 import 'package:provider/provider.dart';
 
@@ -73,10 +74,19 @@ class _AuctionScreenState extends State<AuctionScreen> {
     super.dispose();
   }
 
-  refresh() {
+  Future<void> refresh() async {
     setState(() {
-      getDataByPostLoadId();
+      loading = true;
     });
+
+    // Fetch data
+    await getDataByPostLoadId();
+
+    if (this.mounted) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
@@ -156,13 +166,17 @@ class _AuctionScreenState extends State<AuctionScreen> {
                       children: [
                         //Navigator bar used to switch from bid screen and indent screen.
                         AuctionScreenNavigationBarButton(
-                            text: 'Bids',
-                            value: 0,
-                            pageController: pageController),
+                          text: 'Bids',
+                          value: 0,
+                          pageController: pageController,
+                          onRefresh: refresh, // Pass the refresh function here
+                        ),
                         AuctionScreenNavigationBarButton(
-                            text: 'Indent',
-                            value: 1,
-                            pageController: pageController),
+                          text: 'Indent',
+                          value: 1,
+                          pageController: pageController,
+                          onRefresh: refresh,
+                        ),
                       ],
                     ),
                   ),
@@ -177,13 +191,15 @@ class _AuctionScreenState extends State<AuctionScreen> {
                         print(index);
                       },
                       children: [
-                        AuctionDetailScreen(
-                          changeScreen: () {
-                            showDetails = !showDetails;
-                            setState(() {});
-                          },
-                        ),
-                        IndentScreen()
+                        loading
+                            ? ShimmerEffect()
+                            : AuctionDetailScreen(
+                                changeScreen: () {
+                                  showDetails = !showDetails;
+                                  setState(() {});
+                                },
+                              ),
+                        loading ? ShimmerEffect() : IndentScreen()
                       ],
                     ),
                   ),
@@ -230,6 +246,7 @@ class _AuctionScreenState extends State<AuctionScreen> {
         Container(
           margin: EdgeInsets.only(bottom: space_2, top: space_2),
           child: Card(
+            surfaceTintColor: white,
             color: Colors.white,
             elevation: 3,
             child: Container(

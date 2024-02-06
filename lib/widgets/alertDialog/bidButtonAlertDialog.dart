@@ -52,18 +52,21 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
             padding: EdgeInsets.only(
                 left: screenWidth * 0.4, right: screenHeight * 0.4),
             child: AlertDialog(
+              surfaceTintColor: white,
               insetPadding: EdgeInsets.symmetric(horizontal: space_4),
               title: Text(
-                "Please enter your rate",
+                "Enter Your Rate",
                 style: TextStyle(
                     fontSize: size_9,
-                    fontWeight: normalWeight,
+                    fontWeight: FontWeight.w800,
                     color: liveasyBlackColor),
               ),
-              titlePadding: EdgeInsets.only(top: space_3, left: space_3),
-              contentPadding: EdgeInsets.symmetric(horizontal: space_3),
+              titlePadding:
+                  EdgeInsets.only(top: space_3, left: space_8, bottom: space_3),
+              contentPadding: EdgeInsets.symmetric(horizontal: space_8),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     padding: EdgeInsets.only(right: space_3),
@@ -135,12 +138,12 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
                     ),
                   ),
                   SizedBox(
-                    height: space_2,
+                    height: space_3,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius_4 + 2),
+                        borderRadius: BorderRadius.circular(radius_2),
                         border: Border.all(color: darkGreyColor)),
                     child: Container(
                       height: space_7 + 2,
@@ -173,9 +176,9 @@ class _BidButtonAlertDialogState extends State<BidButtonAlertDialog> {
               ),
               actions: [
                 Container(
-                  margin: EdgeInsets.only(right: space_2),
+                  margin: EdgeInsets.only(right: space_2, top: space_2),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BidButtonSendRequest(
                         isNegotiating: widget.isNegotiating,

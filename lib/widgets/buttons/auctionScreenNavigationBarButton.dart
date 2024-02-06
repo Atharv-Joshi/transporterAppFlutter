@@ -13,12 +13,17 @@ class AuctionScreenNavigationBarButton extends StatelessWidget {
   final String text;
   final int value;
   final PageController pageController;
+  final VoidCallback? onRefresh; // Callback function for refresh
 
   PostLoadVariablesController postLoadVariables =
       Get.put(PostLoadVariablesController());
 
-  AuctionScreenNavigationBarButton(
-      {required this.text, required this.value, required this.pageController});
+  AuctionScreenNavigationBarButton({
+    required this.text,
+    required this.value,
+    required this.pageController,
+    this.onRefresh, // Pass the callback as an optional parameter
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,9 @@ class AuctionScreenNavigationBarButton extends StatelessWidget {
         onPressed: () {
           providerData.updateUpperNavigatorIndex(value);
           pageController.jumpToPage(value);
+
+          // Invoke the refresh callback if it's provided
+          onRefresh?.call();
         },
         child: Text(
           '$text',
