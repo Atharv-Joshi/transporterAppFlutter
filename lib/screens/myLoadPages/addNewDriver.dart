@@ -14,6 +14,7 @@ import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/myLoadPages/confirmBookingDetails.dart';
 import 'package:liveasy/widgets/HeadingTextWidgetBlue.dart';
+import 'package:liveasy/widgets/alertDialog/trackingNotAvailableAlert.dart';
 import 'package:liveasy/widgets/buttons/backButtonWidget.dart';
 import 'package:liveasy/widgets/elevatedButtonforAddNewDriver.dart';
 
@@ -487,8 +488,17 @@ class _AddNewDriverState extends State<AddNewDriver> {
             ),
           ),
         );
-      } else {
-        print("error , please try again");
+      }
+      //if mobile number already exists this dialogbox will be shown
+      if (responseStatus == "Mobile number already exists") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialogBox(
+              dialog: 'Driver is Already added',
+            );
+          },
+        );
       }
     } else {
       setState(() {
