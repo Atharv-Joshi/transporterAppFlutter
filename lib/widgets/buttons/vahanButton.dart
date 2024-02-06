@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/responsive.dart';
 import '../../screens/vahanScreen.dart';
 
 class VahanButton extends StatelessWidget {
@@ -17,14 +21,30 @@ class VahanButton extends StatelessWidget {
       height: space_8,
       width: space_38,
       decoration: BoxDecoration(
-          color: darkBlueColor, borderRadius: BorderRadius.circular(space_2)),
+          color: Responsive.isMobile(context) ? darkBlueColor : white,
+          border: Border.all(color: darkBlueColor),
+          borderRadius: BorderRadius.circular(space_2)),
       child: TextButton(
         onPressed: () {
-          Get.to(() => VahanScreen(truckNo: truckNo));
+          Responsive.isMobile(context)
+              ? Get.to(() => VahanScreen(truckNo: truckNo))
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DashboardScreen(
+                            visibleWidget: VahanScreen(truckNo: truckNo),
+                            index: 1000,
+                            selectedIndex: screens.indexOf(ordersScreen),
+                          )),
+                );
         },
         child: Text(
-          "Verify Vehicle Details",
-          style: TextStyle(color: white),
+          Responsive.isMobile(context)
+              ? "Verify Vehicle Details"
+              : "View Detail",
+          style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Responsive.isMobile(context) ? white : darkBlueColor),
         ),
       ),
     );

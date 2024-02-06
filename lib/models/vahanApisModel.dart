@@ -43,7 +43,7 @@ class VehicleDetails {
     vehicleModel = _getTextOrNA(element, 'rc_maker_model');
     vehicleMaker = _getTextOrNA(element, 'rc_maker_desc');
     vehicleFinancer = _getTextOrNA(element, 'rc_financer');
-    vehicleClass = _getTextOrNA(element, 'rc_vh_class_desc');
+    vehicleClass = _getTextOrNA(element, 'rc_vch_catg');
     bodyType = _getTextOrNA(element, 'rc_body_type_desc');
     rcStatus = _getTextOrNA(element, 'rc_status');
     ownership = _getTextOrNA(element, 'rc_owner_cd');
@@ -69,8 +69,44 @@ class VehicleDetails {
     taxValidUpto = _getTextOrNA(element, 'rc_tax_upto');
   }
 
+  Map<String, String> getData() {
+    return {
+      "Owner_Name": ownerName!,
+      "Vehicle Model": vehicleModel!,
+      'Vehicle Maker': vehicleMaker!,
+      'Vehicle Financer': vehicleFinancer!,
+      'Vehicle Class and Type': vehicleClass!,
+      'RC Status': rcStatus!,
+      'Ownership': ownership!,
+      'RC Valid Upto': rcValidUpto!,
+      'RC IssueDate': rcIssueDate!,
+      'Pollution Cert Valid Upto': pollutionCertValidUpto!,
+      "Pollution Cert No": pollutionCertNo!,
+      'Insurance Valid Upto': insuranceValidUpto!,
+      'Insurance Policy No': insurancePolicyNo!,
+      'Permit Type': permitType!,
+      'Permit Number': permitNumber!,
+      'Permit Valid Upto': permitValidUpto!,
+      'Permit Issue Date': permitIssueDate!,
+      'Seat Capacity': seatCapacity!,
+      'Engine Capacity': engineCapacity!,
+      'Fuel Type': fuelType!,
+      'Fuel Norms': fuelNorms!,
+      'Vehicle Color': vehicleColor!,
+      'Unloaded Weight': unloadedWeight!,
+      'Engine Number': engineNumber!,
+      'Chassis Number': chassisNumber!,
+      'Registered Authority': registeredAuthority!,
+      'Tax Valid Upto': taxValidUpto!,
+    };
+  }
+
   String? _getTextOrNA(XmlElement element, String tagName) {
-    final foundElement = element.findElements(tagName).first;
-    return foundElement.text.isNotEmpty ? foundElement.text : 'NA';
+    final elements = element.findElements(tagName);
+    if (elements.isNotEmpty) {
+      return elements.last.innerText.toString();
+    } else {
+      return 'N/A';
+    }
   }
 }
