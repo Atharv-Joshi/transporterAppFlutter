@@ -8,6 +8,7 @@ import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
 import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/Header.dart';
 import 'package:liveasy/widgets/alertDialog/invalidDateConditionDialog.dart';
 import 'package:liveasy/widgets/historyScreenMapWidget.dart';
@@ -24,23 +25,16 @@ class TruckHistoryScreen extends StatefulWidget {
   var gpsDataHistory;
   String? selectedLocation;
   var totalDistance;
-
-//  double latitude;
-  // double longitude;
   TruckHistoryScreen({
-    // required this.gpsTruckRoute,
     required this.truckNo,
     required this.dateRange,
     required this.deviceId,
-    //    required this.gpsDataHistory,
     required this.selectedLocation,
     required this.istDate1,
     required this.istDate2,
     required this.totalDistance,
     required this.gpsDataHistory,
     required this.gpsStoppageHistory,
-    //     required this.latitude,
-    //    required this.longitude,
   });
 
   @override
@@ -73,7 +67,8 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   ];
   String? _selectedLocation;
   DateTimeRange selectedDate = DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
+      start: DateTime.now().subtract(const Duration(days: 1)),
+      end: DateTime.now());
   var totalDistance;
   var gpsPosition;
 
@@ -91,16 +86,12 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     EasyLoading.show(
       status: "Loading...",
     );
-
-    // getgpsRoute();
     setState(() {
       print("istdate1 here ${widget.istDate1}");
-      // gpsRoute = widget.gpsTruckRoute;
       dateRange = widget.dateRange;
       loading = true;
       istDate1 = widget.istDate1;
       istDate2 = widget.istDate2;
-      //  gpsHistory = widget.gpsDataHistory;
       _selectedLocation = widget.selectedLocation;
       totalDistance = widget.totalDistance;
       gpsDataHistory = widget.gpsDataHistory;
@@ -110,8 +101,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     initfunction();
     getDateRange();
     EasyLoading.dismiss();
-    // getgpsDataHistory();
-    // getStopList();
   }
 
   getDateRange() {
@@ -132,8 +121,6 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
     setState(() {
       startTime = "${start1[0]}";
       endTime = "${end1[0]}";
-      //   startTime = "${start1[0]}, ${start1[1]}";
-      //   endTime = "${end1[0]}, ${end1[1]}";
     });
   }
 
@@ -175,12 +162,10 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
                   //Selected dates background color
                   primary: darkBlueColor,
                   onSecondary: darkBlueColor,
-                  //Month title and week days color
                   onSurface: Colors.black,
-                  //Header elements and selected dates text color
-                  // onPrimary: Colors.black,
                   onBackground: const Color.fromRGBO(58, 57, 57, 0.16)),
-              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              buttonTheme:
+                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -204,14 +189,14 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         selectedDateString = selectedDate.toString().split(" - ");
         istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[0])
-            .subtract(Duration(hours: 5, minutes: 30))
+            .subtract(const Duration(hours: 5, minutes: 30))
             .add(
               Duration(
                   hours: DateTime.now().hour, minutes: DateTime.now().minute),
             );
         istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[1])
-            .subtract(Duration(hours: 5, minutes: 30))
+            .subtract(const Duration(hours: 5, minutes: 30))
             .add(
               Duration(
                   hours: DateTime.now().hour, minutes: DateTime.now().minute),
@@ -235,11 +220,10 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
           istDate2.toIso8601String());
       var b = getDataHistory(widget.deviceId, istDate1.toIso8601String(),
           istDate2.toIso8601String());
-
       var gpsDataHistory1 = await b;
       var gpsStoppageHistory1 = await a;
-      distancecalculation(istDate1.toIso8601String(),
-          istDate2.toIso8601String());
+      distancecalculation(
+          istDate1.toIso8601String(), istDate2.toIso8601String());
       if (gpsStoppageHistory != null) {
         setState(() {
           gpsStoppageHistory = gpsStoppageHistory1;
@@ -248,21 +232,16 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
         });
         Get.back();
         EasyLoading.dismiss();
-        // getDateRange();
         Get.to(() => TruckHistoryScreen(
               truckNo: widget.truckNo,
-              //  gpsTruckRoute: gpsRoute,
               dateRange: dateRange,
               deviceId: widget.deviceId,
               istDate1: istDate1,
               istDate2: istDate2,
-              //   gpsDataHistory: gpsHistory,
               selectedLocation: widget.selectedLocation,
               totalDistance: totalDistance,
               gpsDataHistory: gpsDataHistory,
               gpsStoppageHistory: gpsStoppageHistory,
-              //    latitude: widget.latitude,
-              //    longitude: widget.longitude
             ));
       } else {
         EasyLoading.dismiss();
@@ -284,6 +263,7 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
   void dispose() {
     super.dispose();
   }
+
   distancecalculation(String from, String to) async {
     var gpsRoute1 = await mapUtil.getTraccarSummary(
         deviceId: widget.deviceId, from: from, to: to);
@@ -291,407 +271,517 @@ class _TruckHistoryScreenState extends State<TruckHistoryScreen> {
       totalDistance = (gpsRoute1[0].distance / 1000).toStringAsFixed(2);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: backgroundColor,
-          body: GestureDetector(
-              onTap: () {
-                setState(() {
-                  showBottomMenu = !showBottomMenu;
-                });
-              },
-              onPanEnd: (details) {
-                if (details.velocity.pixelsPerSecond.dy > threshold) {
-                  this.setState(() {
-                    showBottomMenu = false;
-                  });
-                } else if (details.velocity.pixelsPerSecond.dy < -threshold) {
-                  this.setState(() {
-                    showBottomMenu = true;
-                  });
-                }
-              },
-              child: Container(
-                //  padding: EdgeInsets.fromLTRB(0, space_10, 0, 0),
-                height: MediaQuery.of(context).size.height,
-                //  color: backgroundColor,
-                child: Stack(children: <Widget>[
-                  (loading)
-                      ? Container()
-                      : HistoryScreenMapWidget(
-                          //    driverName: widget.driverName,
-                          // truckDate: truckDate,
-                          routeHistory: gpsRoute,
-                          //  gpsHistory: gpsHistory,
-                          truckNo: widget.truckNo,
-                          deviceId: widget.deviceId,
-                          selectedlocation: widget.selectedLocation,
-                          gpsDataHistory: widget.gpsDataHistory,
-                          gpsStoppageHistory: widget.gpsStoppageHistory,
-                          //     driverNum: widget.driverNum,
-                          //   gpsData: newGPSData,
-                          // dateRange: selectedDate.toString(),
-                          //       TruckNo: widget.TruckNo,
-                          //     gpsTruckRoute: newGPSRoute,
-                          //   gpsDataHistory: gpsDataHistory,
-                          //   gpsStoppageHistory: gpsStoppageHistory,
-                          //  stops: stoplatlong,
-                          // totalRunningTime: totalRunningTime,
-                          // totalStoppedTime: totalStoppedTime,
-                          // truckId: widget.truckId,
-                          // deviceId: widget.deviceId,
-                          // totalDistance: totalDistance,
-                        ),
-                  Positioned(
-                    top: 0,
-                    height: space_13,
+    return Responsive.isMobile(context)
+    //Ui for Mobile
+        ? SafeArea(
+            child: Scaffold(
+                backgroundColor: backgroundColor,
+                body: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showBottomMenu = !showBottomMenu;
+                      });
+                    },
+                    onPanEnd: (details) {
+                      if (details.velocity.pixelsPerSecond.dy > threshold) {
+                        this.setState(() {
+                          showBottomMenu = false;
+                        });
+                      } else if (details.velocity.pixelsPerSecond.dy <
+                          -threshold) {
+                        this.setState(() {
+                          showBottomMenu = true;
+                        });
+                      }
+                    },
                     child: Container(
-                      color: backgroundColor,
-                      width: MediaQuery.of(context).size.width,
-                      height: space_13,
-                      child: Column(children: [
-                        Container(
-                          margin:
-                              EdgeInsets.fromLTRB(space_3, space_4, 0, space_1),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // SizedBox(
-                              //   width: space_3,
-                              // ),
-                              Header(
-                                  reset: false,
-                                  text: "${widget.truckNo}",
-                                  backButton: true),
-                            ],
-                          ),
-                        ),
-                        /*    Divider(
-                                                color: black,
-                                                indent: 20,
-                                                endIndent: 20,
-                                              ),*/
-                        /* Divider(
-                                                 color: black,
-                                                 indent: 20,
-                                                 endIndent: 20,
-                                               ),*/
-                      ]),
-                    ),
-                  ),
-
-                  /*   Container(
-                      height: 20,
-                    ),
-                      */
-                  AnimatedPositioned(
-                    curve: Curves.easeInOut,
-                    duration: Duration(milliseconds: 200),
-                    left: 0,
-                    bottom: (showBottomMenu) ? 0 : -(height) * 2 / 3 + 125,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: height - 105,
-                      decoration: BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: darkShadow,
-                              offset: const Offset(
-                                0,
-                                -5.0,
+                      height: MediaQuery.of(context).size.height,
+                      child: Stack(children: <Widget>[
+                        (loading)
+                            ? Container()
+                            : HistoryScreenMapWidget(
+                                routeHistory: gpsRoute,
+                                truckNo: widget.truckNo,
+                                deviceId: widget.deviceId,
+                                selectedlocation: widget.selectedLocation,
+                                gpsDataHistory: widget.gpsDataHistory,
+                                gpsStoppageHistory: widget.gpsStoppageHistory,
                               ),
-                              blurRadius: 15.0,
-                              spreadRadius: 10.0,
-                            ),
-                            BoxShadow(
-                              color: white,
-                              offset: const Offset(0, 1.0),
-                              blurRadius: 0.0,
-                              spreadRadius: 2.0,
-                            ),
-                          ]),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Divider(
-                              color: const Color(0xFFCBCBCB),
-                              // height: size_3,
-                              thickness: 3,
-                              indent: 150,
-                              endIndent: 150,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(
-                                  space_7, space_4, 0, space_1),
-                              child: Text(
-                                'selectDates'.tr,
-                                style: TextStyle(
-                                  fontSize: size_7,
-                                  color: black,
+                        Positioned(
+                          top: 0,
+                          height: space_13,
+                          child: Container(
+                            color: backgroundColor,
+                            width: MediaQuery.of(context).size.width,
+                            height: space_13,
+                            child: Column(children: [
+                              Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    space_3, space_4, 0, space_1),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Header(
+                                        reset: false,
+                                        text: "${widget.truckNo}",
+                                        backButton: true),
+                                  ],
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  space_7, space_1, 0, space_2),
-                              child: Row(
+                            ]),
+                          ),
+                        ),
+                        AnimatedPositioned(
+                          curve: Curves.easeInOut,
+                          duration: Duration(milliseconds: 200),
+                          left: 0,
+                          bottom:
+                              (showBottomMenu) ? 0 : -(height) * 2 / 3 + 125,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: height - 105,
+                            decoration: const BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: darkShadow,
+                                    offset: Offset(
+                                      0,
+                                      -5.0,
+                                    ),
+                                    blurRadius: 15.0,
+                                    spreadRadius: 10.0,
+                                  ),
+                                  BoxShadow(
+                                    color: white,
+                                    offset: Offset(0, 1.0),
+                                    blurRadius: 0.0,
+                                    spreadRadius: 2.0,
+                                  ),
+                                ]),
+                            child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      _selectDate(context);
-                                    },
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                              4 +
-                                          40,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xffDFE3EF),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)),
+                                  const Divider(
+                                    color: Color(0xFFCBCBCB),
+                                    thickness: 3,
+                                    indent: 150,
+                                    endIndent: 150,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        space_7, space_4, 0, space_1),
+                                    child: Text(
+                                      'selectDates'.tr,
+                                      style: TextStyle(
+                                        fontSize: size_7,
+                                        color: black,
                                       ),
-                                      child: Row(children: [
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        9, 5, 0, 0),
-                                                width: MediaQuery.of(context)
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        space_7, space_1, 0, space_2),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _selectDate(context);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    4,
-                                                child: Text(
-                                                  "from".tr + ":  ",
-                                                  style: TextStyle(
-                                                      color: const Color(
-                                                          0xff545454),
-                                                      fontSize: size_5,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          mediumBoldWeight),
-                                                ),
-                                              ),
-                                              Row(children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4,
-
-                                                  /*   decoration: BoxDecoration(
-                                                         //     color: white,
-                                                              border:  Border.all(
-                                                                color: const Color(0xFF404040),
-                                                                width: 0.5,
-                                                              ),
-                                  
-                                                              ),*/
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(9, 2, 0, 5),
-                                                    child: Text(
-                                                      "$startTime",
-                                                      style: TextStyle(
-                                                          color: const Color(
-                                                              0xff152968),
-                                                          fontSize: size_7,
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontWeight:
-                                                              FontWeight.w600),
+                                                    4 +
+                                                40,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffDFE3EF),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(6)),
+                                            ),
+                                            child: Row(children: [
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(9, 5, 0, 0),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4,
+                                                      child: Text(
+                                                        "from".tr + ":  ",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff545454),
+                                                            fontSize: size_5,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                mediumBoldWeight),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                /*   SizedBox(
-                                                          width:9,
-                                                        ),*/
-                                                /*  GestureDetector(
-                                                          onTap: (){
-                                                           _selectDate(context);
-                                                          },
-                                                          child: Icon(Icons.calendar_today_outlined,
-                                                          size: 16,
+                                                    Row(children: [
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  9, 2, 0, 5),
+                                                          child: Text(
+                                                            "$startTime",
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff152968),
+                                                                fontSize:
+                                                                    size_7,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
-                                                        )*/
-                                              ]),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ]),
+                                              const Spacer(),
+                                              const Icon(
+                                                Icons.calendar_today_outlined,
+                                                size: 16,
+                                              ),
+                                              const Spacer(),
                                             ]),
-                                        Spacer(),
-                                        Icon(
-                                          Icons.calendar_today_outlined,
-                                          size: 16,
+                                          ),
                                         ),
-                                        Spacer(),
-                                      ]),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _selectDate(context);
-                                    },
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                              4 +
-                                          40,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xffDFE3EF),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)),
-                                      ),
-                                      child: Row(children: [
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        9.0, 5, 0, 0),
-                                                width: MediaQuery.of(context)
+                                        const Spacer(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _selectDate(context);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    4,
-                                                child: Text(
-                                                  "to".tr + ": ",
-                                                  style: TextStyle(
-                                                      color: const Color(
-                                                          0xff545454),
-                                                      fontSize: size_5,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontWeight:
-                                                          mediumBoldWeight),
-                                                ),
-                                              ),
-                                              Row(children: [
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4,
-
-                                                  /*   decoration: BoxDecoration(
-                                                         //     color: white,
-                                                              border:  Border.all(
-                                                                color: const Color(0xFF404040),
-                                                                width: 0.5,
-                                                              ),
-                                  
-                                                              ),*/
-
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(9, 2, 0, 5),
-                                                    child: Text(
-                                                      "$endTime",
-                                                      style: TextStyle(
-                                                          color: const Color(
-                                                              0xff152968),
-                                                          fontSize: size_7,
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontWeight:
-                                                              FontWeight.w600),
+                                                    4 +
+                                                40,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xffDFE3EF),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(6)),
+                                            ),
+                                            child: Row(children: [
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(
+                                                          9.0, 5, 0, 0),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4,
+                                                      child: Text(
+                                                        "to".tr + ": ",
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff545454),
+                                                            fontSize: size_5,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontWeight:
+                                                                mediumBoldWeight),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ]),
+                                                    Row(children: [
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  9, 2, 0, 5),
+                                                          child: Text(
+                                                            "$endTime",
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff152968),
+                                                                fontSize:
+                                                                    size_7,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                  ]),
+                                              const Spacer(),
+                                              const Icon(
+                                                Icons.calendar_today_outlined,
+                                                size: 16,
+                                              ),
+                                              const Spacer(),
                                             ]),
-                                        Spacer(),
-                                        Icon(
-                                          Icons.calendar_today_outlined,
-                                          size: 16,
+                                          ),
                                         ),
-                                        Spacer(),
-                                      ]),
+                                        const Spacer(),
+                                      ],
                                     ),
                                   ),
-                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        space_7, space_1, 0, space_1),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'distanceCovered'.tr,
+                                          style: TextStyle(
+                                            fontSize: size_6,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xff656565),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: space_1,
+                                        ),
+                                        Text(
+                                          '$totalDistance' + ' km'.tr,
+                                          style: TextStyle(
+                                            fontSize: size_6,
+                                            fontWeight: FontWeight.w700,
+                                            color: const Color(0xff656565),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          space_7, space_2, 0, space_2),
+                                      child: Text(
+                                        "history".tr,
+                                        style: TextStyle(
+                                          fontSize: size_7,
+                                          color: black,
+                                        ),
+                                      )),
+                                  Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: height - 300,
+                                      alignment: Alignment.bottomCenter,
+                                      child: ListView.builder(
+                                          itemCount: gpsRoute.length,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          controller: scrollController,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (context, index) {
+                                            return status(index);
+                                          })),
+                                ]),
+                          ),
+                        )
+                      ]),
+                    ))),
+          )
+        : SafeArea(
+            child: Scaffold(
+                backgroundColor: white,
+                body: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showBottomMenu = !showBottomMenu;
+                      });
+                    },
+                    onPanEnd: (details) {
+                      if (details.velocity.pixelsPerSecond.dy > threshold) {
+                        this.setState(() {
+                          showBottomMenu = false;
+                        });
+                      } else if (details.velocity.pixelsPerSecond.dy <
+                          -threshold) {
+                        this.setState(() {
+                          showBottomMenu = true;
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Stack(children: <Widget>[
+                        Positioned(
+                            right: 0,
+                            top: space_13,
+                            child: Container(
+                              child: Stack(
+                                children: <Widget>[
+                                  (loading)
+                                      ? Container()
+                                      : HistoryScreenMapWidget(
+                                          routeHistory: gpsRoute,
+                                          truckNo: widget.truckNo,
+                                          deviceId: widget.deviceId,
+                                          selectedlocation:
+                                              widget.selectedLocation,
+                                          gpsDataHistory: widget.gpsDataHistory,
+                                          gpsStoppageHistory:
+                                              widget.gpsStoppageHistory,
+                                        ),
                                 ],
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(
-                                  space_7, space_1, 0, space_1),
-                              child: Row(
+                            )),
+                        //header
+                        Positioned(
+                          top: 0,
+                          height: space_13,
+                          child: Container(
+                            color: white,
+                            width: MediaQuery.of(context).size.width,
+                            height: space_13,
+                            child: Column(children: [
+                              Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    space_3, space_4, 0, space_1),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Header(
+                                        reset: false,
+                                        text: "${widget.truckNo}",
+                                        backButton: true),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                        // data
+                        AnimatedPositioned(
+                          curve: Curves.easeInOut,
+                          duration: const Duration(milliseconds: 200),
+                          left: 0,
+                          top: space_13,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            height: height,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'distanceCovered'.tr,
-                                    style: TextStyle(
-                                      fontSize: size_6,
-                                      fontWeight: FontWeight.w400,
-                                      color: const Color(0xff656565),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 20,
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      height: 46,
+                                      width: 181,
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromRGBO(9, 183, 120, 0.2),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          "In Transit",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromRGBO(
+                                                  9, 183, 120, 1)),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: space_1,
+                                    height:
+                                        MediaQuery.of(context).size.height / 30,
                                   ),
-                                  Text(
-                                    '$totalDistance' + ' km'.tr,
-                                    style: TextStyle(
-                                      fontSize: size_6,
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color(0xff656565),
+                                  const Divider(
+                                    color: Color.fromRGBO(9, 183, 20, 1),
+                                    // height: size_3,
+                                    thickness: 5,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  Center(
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              15,
+                                      child: const Text(
+                                        "Route History",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color:
+                                                Color.fromRGBO(21, 41, 104, 1),
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    space_7, space_2, 0, space_2),
-                                child: Text(
-                                  "history".tr,
-                                  style: TextStyle(
-                                    fontSize: size_7,
-                                    color: black,
+                                  Center(
+                                    child: SingleChildScrollView(
+                                      child: Container(
+                                          color: backgroundColor,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              4,
+                                          height: height / 2 - 100,
+                                          alignment: Alignment.bottomCenter,
+                                          child: ListView.builder(
+                                              itemCount: gpsRoute.length,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              controller: scrollController,
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (context, index) {
+                                                return status(index);
+                                              })
+                                          // ]
+                                          ),
+                                    ),
                                   ),
-                                )),
-                            Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: height - 300,
-                                //    color: backgroundColor,
-                                alignment: Alignment.bottomCenter,
-                                child:
-                                    // loading
-                                    //   ? TruckLoadingWidgets()
-                                    ListView.builder(
-                                        //    padding: EdgeInsets.only(bottom: space_15),
-                                        itemCount: gpsRoute.length,
-                                        physics: BouncingScrollPhysics(),
-                                        controller: scrollController,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, index) {
-                                          return status(index);
-                                        })
-                                // ]
-                                ),
-                          ]),
-                    ),
-                  )
-                ]),
-              ))),
-    );
+                                ]),
+                          ),
+                        )
+                      ]),
+                    ))),
+          );
   }
 
   void initfunction() async {
     var b = getRouteStatusList(widget.deviceId, istDate1.toIso8601String(),
         istDate2.toIso8601String());
     var gpsRoute2 = await b;
-  //  totalDistance = getTotalDistance(gpsRoute2);
-    gpsRoute2 = getStopList(gpsRoute2,gpsStoppageHistory, istDate1, istDate2);
+
+    gpsRoute2 = getStopList(gpsRoute2, gpsStoppageHistory, istDate1, istDate2);
 
     setState(() {
       setState(() {

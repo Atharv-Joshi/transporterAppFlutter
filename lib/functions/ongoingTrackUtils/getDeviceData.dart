@@ -23,8 +23,6 @@ Future<List<DeviceModel>> getDeviceByDeviceId(String deviceId) async {
           'Authorization': basicAuth,
           'Accept': 'application/json'
         });
-    print(response.statusCode);
-    print("traccar device api response: " + response.body);
     var json = await jsonDecode(response.body);
     List<DeviceModel> devicesList = [];
     if (response.statusCode == 200) {

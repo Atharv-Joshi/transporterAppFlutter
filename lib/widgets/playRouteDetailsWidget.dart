@@ -7,9 +7,10 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/trackScreenFunctions.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/playRouteHistoryScreen.dart';
 import 'alertDialog/invalidDateConditionDialog.dart';
-
+//displaying the route details
 class PlayRouteDetailsWidget extends StatefulWidget {
   String? dateRange;
   String? truckNo;
@@ -36,7 +37,8 @@ class PlayRouteDetailsWidget extends StatefulWidget {
 
 class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
   DateTimeRange selectedDate = DateTimeRange(
-      start: DateTime.now().subtract(Duration(days: 1)), end: DateTime.now());
+      start: DateTime.now().subtract(const Duration(days: 1)),
+      end: DateTime.now());
   var selectedDateString = [];
   var gpsStoppageHistory = [];
   var gpsTruckHistory = [];
@@ -104,7 +106,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
                   onSecondary: darkBlueColor,
                   onSurface: Colors.black,
                   onBackground: white),
-              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              buttonTheme:
+                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -128,10 +131,10 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         selectedDateString = selectedDate.toString().split(" - ");
         istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[0])
-            .subtract(Duration(hours: 5, minutes: 30));
+            .subtract(const Duration(hours: 5, minutes: 30));
         istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
             .parse(selectedDateString[1])
-            .subtract(Duration(hours: 5, minutes: 30));
+            .subtract(const Duration(hours: 5, minutes: 30));
         print(
             "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
       });
@@ -197,17 +200,6 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
         Get.back();
         EasyLoading.dismiss();
-        /*      Get.to(PlayRouteHistory(
-          gpsTruckHistory: gpsTruckHistory,
-          truckNo: widget.truckNo,
-          gpsData: widget.gpsData,
-          dateRange: selectedDate.toString(),
-          gpsStoppageHistory: gpsStoppageHistory,
-          totalStoppedTime: totalStoppedTime,
-          totalRunningTime: totalRunningTime,
-          // locations: Locations,
-        ));
-    */
       } else {
         EasyLoading.dismiss();
         showDialog(
@@ -219,14 +211,16 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
 //CUSTOM SELECTION allows user to select date range like 2 days, 4 days...
   customSelection(String? choice) async {
-    String startTime = DateTime.now().subtract(Duration(days: 1)).toString();
+    String startTime =
+        DateTime.now().subtract(const Duration(days: 1)).toString();
     String endTime = DateTime.now().toString();
     switch (choice) {
       case '48 hours':
         print("48");
         setState(() {
           endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 2)).toString();
+          startTime =
+              DateTime.now().subtract(const Duration(days: 2)).toString();
           print("NEW start $startTime and $endTime");
         });
         break;
@@ -234,7 +228,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         print("7");
         setState(() {
           endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 7)).toString();
+          startTime =
+              DateTime.now().subtract(const Duration(days: 7)).toString();
           print("NEW start $startTime and $endTime");
         });
         break;
@@ -242,7 +237,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         print("14");
         setState(() {
           endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 14)).toString();
+          startTime =
+              DateTime.now().subtract(const Duration(days: 14)).toString();
           print("NEW start $startTime and $endTime");
         });
         break;
@@ -250,7 +246,8 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         print("30");
         setState(() {
           endTime = DateTime.now().toString();
-          startTime = DateTime.now().subtract(Duration(days: 30)).toString();
+          startTime =
+              DateTime.now().subtract(const Duration(days: 30)).toString();
           print("NEW start $startTime and $endTime");
         });
         break;
@@ -261,10 +258,10 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
       // bookingDateList[3] = (nextDay.MMMEd);
       istDate1 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(startTime)
-          .subtract(Duration(hours: 5, minutes: 30));
+          .subtract(const Duration(hours: 5, minutes: 30));
       istDate2 = new DateFormat("yyyy-MM-dd hh:mm:ss")
           .parse(endTime)
-          .subtract(Duration(hours: 5, minutes: 30));
+          .subtract(const Duration(hours: 5, minutes: 30));
       print(
           "selected date 1 ${istDate1.toIso8601String()} and ${istDate2.toIso8601String()}");
     });
@@ -325,23 +322,10 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
         dateRange = "$startTime - $endTime";
         totalRunningTime = newTotalRunningTime;
         totalStoppedTime = newTotalStoppedTime;
-        // fromDate = yesterday.toString();
-        // toDate = today.toString();
       });
       // getLatLngList();
       Get.back();
       EasyLoading.dismiss();
-      /*    Get.to(PlayRouteHistory(
-        gpsTruckHistory: gpsTruckHistory,
-        truckNo: widget.truckNo,
-        gpsData: widget.gpsData,
-        dateRange: dateRange,
-        gpsStoppageHistory: gpsStoppageHistory,
-        totalStoppedTime: totalStoppedTime,
-        totalRunningTime: totalRunningTime,
-        // locations: Locations,
-      ));
- */
     } else {
       EasyLoading.dismiss();
       showDialog(
@@ -357,342 +341,55 @@ class _PlayRouteDetailsWidgetState extends State<PlayRouteDetailsWidget> {
 
     //add Ui
     return Container(
-        // color: white,
-        width: width,
-        height: height * .5,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: darkShadow,
-                offset: const Offset(
-                  0,
-                  -5.0,
-                ),
-                blurRadius: 15.0,
-                spreadRadius: 10.0,
-              ),
-              BoxShadow(
-                color: white,
-                offset: const Offset(0, 1.0),
-                blurRadius: 0.0,
-                spreadRadius: 2.0,
-              ),
-            ]),
+        color: white,
+        width: Responsive.isMobile(context) ? width : width / 3,
+        height: Responsive.isMobile(context) ? height / 1.5 : height,
         child: Column(children: [
-          Container(
-            // color: grey,
-            width: space_10,
-            height: space_1,
-            margin: EdgeInsets.only(top: space_3),
-            decoration: BoxDecoration(
-              color: grey,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              0,
+              20,
+              20,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${widget.truckNo}",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Icon(Icons.fire_truck_outlined)
-                  ],
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
                 ),
-                Divider(color: Colors.grey, endIndent: 120, thickness: 2),
-                SizedBox(height: 5),
-                Row(
-                  children: [
-                    Icon(Icons.location_on_sharp, color: Colors.grey),
-                    SizedBox(width: 10),
-                    Container(
-                      width: MediaQuery.of(context).size.width * .6,
-                      child: Text(
-                        "${widget.address}",
-                        maxLines: 2,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, left: 40, right: 120),
+                Center(
                   child: Container(
-                    // width: MediaQuery.of(context).size.width * .5,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    height: 51,
+                    width: 186,
+                    decoration: const BoxDecoration(
+                      color: Color.fromRGBO(9, 183, 120, 0.2),
                     ),
-                    padding: EdgeInsets.only(
-                        top: 15, bottom: 15, left: 15, right: 25),
-                    child: Row(children: [
-                      Image.asset(
-                        'assets/icons/circle-outline-with-a-central-dot.png',
-                        color: Colors.blue,
-                        width: 18,
-                        height: 18,
+                    child: const Center(
+                      child: Text(
+                        "In Transit",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromRGBO(9, 183, 120, 1)),
                       ),
-                      SizedBox(width: 10),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text('ignition'.tr,
-                            softWrap: true,
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 15,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: regularWeight)),
-                      ),
-                      (widget.gpsData.last.ignition)
-                          ? Container(
-                              alignment: Alignment.centerLeft,
-                              //    width: 217,
-
-                              child: Text('on'.tr,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.bold)),
-                            )
-                          : Container(
-                              alignment: Alignment.centerLeft,
-                              //    width: 217,
-
-                              child: Text("off".tr,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 15,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                    ]),
+                    ),
                   ),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Image(
-                          image: AssetImage('assets/icons/distanceCovered.png'),
-                          height: 23,
-                        ),
-                        SizedBox(width: 10),
-                        Text("Kms Travelled:".tr + " ",
-                            softWrap: true,
-                            style: TextStyle(
-                                color: black,
-                                fontSize: size_7,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: regularWeight)),
-                        Text("${widget.finalDistance} km",
-                            softWrap: true,
-                            style: TextStyle(
-                                color: liveasyGreen,
-                                fontSize: size_7,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: regularWeight)),
-                      ],
-                    ),
-                  ],
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 30,
                 ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
-                    Icon(Icons.pause, size: size_11),
-                    SizedBox(width: 10),
-                    Row(
-                      children: [
-                        Text("Stops:".tr,
-                            softWrap: true,
-                            style: TextStyle(
-                                color: black,
-                                fontSize: size_8,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: regularWeight)),
-                        Text(" ${widget.totalStop} stops ",
-                            softWrap: true,
-                            style: TextStyle(
-                                color: red,
-                                fontSize: size_8,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: regularWeight)),
-                      ],
-                    ),
-                  ],
-                )
+                const Divider(
+                  color: Color.fromRGBO(9, 183, 20, 1),
+                  thickness: 5,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 10,
+                ),
               ],
             ),
           ),
-          // Container(
-          //     child: Row(
-          //   children: [
-          //     Column(
-          //       children: [
-          //         Container(
-          //           margin: EdgeInsets.fromLTRB(0, space_5, 0, 0),
-          //           width: 117,
-          //           alignment: Alignment.centerLeft,
-          //           child: Text("from".tr,
-          //               textAlign: TextAlign.start,
-          //               style: TextStyle(
-          //                   color: black,
-          //                   fontSize: size_7,
-          //                   fontStyle: FontStyle.normal,
-          //                   fontWeight: regularWeight)),
-          //         ),
-          //         GestureDetector(
-          //           onTap: () {
-          //             _selectDate(context);
-          //           },
-          //           child: Row(
-          //             children: [
-          //               Container(
-          //                 width: 117,
-          //                 padding: EdgeInsets.fromLTRB(
-          //                     space_2, space_1, space_2, space_1),
-          //                 margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
-          //                 decoration: BoxDecoration(
-          //                   border: Border.all(color: black),
-          //                   borderRadius: BorderRadius.all(
-          //                     Radius.circular(3),
-          //                   ),
-          //                 ),
-          //                 child: Text("${start}",
-          //                     style: TextStyle(
-          //                         color: grey,
-          //                         fontSize: size_6,
-          //                         fontStyle: FontStyle.normal,
-          //                         fontWeight: regularWeight)),
-          //               ),
-          //               Container(
-          //                 margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
-          //                 alignment: Alignment.topCenter,
-          //                 child: Icon(Icons.calendar_today_outlined,
-          //                     color: black, size: 20),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         Container(
-          //           margin: EdgeInsets.fromLTRB(0, space_2, 0, 0),
-          //           width: 117,
-          //           alignment: Alignment.centerLeft,
-          //           child: Text("to".tr,
-          //               textAlign: TextAlign.start,
-          //               style: TextStyle(
-          //                   color: black,
-          //                   fontSize: size_7,
-          //                   fontStyle: FontStyle.normal,
-          //                   fontWeight: regularWeight)),
-          //         ),
-          //         GestureDetector(
-          //           onTap: () {
-          //             _selectDate(context);
-          //           },
-          //           child: Row(
-          //             children: [
-          //               Container(
-          //                 width: 117,
-          //                 padding: EdgeInsets.fromLTRB(
-          //                     space_2, space_1, space_2, space_1),
-          //                 margin: EdgeInsets.fromLTRB(space_5, 0, 0, space_2),
-          //                 decoration: BoxDecoration(
-          //                   border: Border.all(color: black),
-          //                   borderRadius: BorderRadius.all(
-          //                     Radius.circular(3),
-          //                   ),
-          //                 ),
-          //                 child: Text("${end}",
-          //                     style: TextStyle(
-          //                         color: grey,
-          //                         fontSize: size_6,
-          //                         fontStyle: FontStyle.normal,
-          //                         fontWeight: regularWeight)),
-          //               ),
-          //               Container(
-          //                 margin: EdgeInsets.fromLTRB(space_2, 0, 0, space_2),
-          //                 alignment: Alignment.topCenter,
-          //                 child: Icon(Icons.calendar_today_outlined,
-          //                     color: black, size: 20),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //     Container(
-          //       height: 110,
-          //       alignment: Alignment.topLeft,
-          //       margin: EdgeInsets.fromLTRB(space_10, space_5, 0, 0),
-          //       child: DropdownButton(
-          //         hint: Text('custom'.tr),
-          //         style: TextStyle(
-          //             color: grey,
-          //             fontSize: size_7,
-          //             fontStyle: FontStyle.normal,
-          //             fontWeight: regularWeight),
-          //         // Not necessary for Option 1
-          //         value: _selectedLocation,
-          //         onChanged: (newValue) {
-          //           setState(() {
-          //             _selectedLocation = newValue.toString();
-          //           });
-          //           customSelection(_selectedLocation);
-          //         },
-          //         items: _locations.map((location) {
-          //           return DropdownMenuItem(
-          //             child: new Text(location),
-          //             value: location,
-          //           );
-          //         }).toList(),
-          //       ),
-          //     ),
-          //   ],
-          //   // ),
-          //   // GestureDetector(
-          //   //   onTap:(){
-          //   //     _selectDate(context);
-          //   //   },
-          //   //   child: Row(
-          //   //     children: [
-          //   //       Container(
-          //   //
-          //   //         width: 117,
-          //   //         padding: EdgeInsets.fromLTRB(space_2, space_1, space_2, space_1),
-          //   //         margin:  EdgeInsets.fromLTRB(space_6, 0, 0, 0),
-          //   //         decoration: BoxDecoration(
-          //   //           border: Border.all(color: black),
-          //   //           borderRadius: BorderRadius.all(
-          //   //             Radius.circular(3),
-          //   //           ),
-          //   //         ),
-          //   //         child: Text("${end}",
-          //   //             style: TextStyle(
-          //   //                 color: grey,
-          //   //                 fontSize: size_6,
-          //   //                 fontStyle: FontStyle.normal,
-          //   //                 fontWeight: regularWeight)
-          //   //         ),
-          //   //       ),
-          //   //
-          //   //     ],
-          //   //   ),
-          //   // ),
-          // ))
         ]));
   }
 }

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,8 +13,7 @@ import 'package:liveasy/language/localization_service.dart';
 import 'package:logger/logger.dart';
 import 'dart:ui' as ui;
 import 'mapUtils/getLoactionUsingImei.dart';
-import 'dart:math';
-import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 MapUtil mapUtil = MapUtil();
 var startTimeParam;
@@ -150,13 +152,13 @@ getStoppageHistory(int? deviceId, String from, String to) async {
 
 getPoylineCoordinates(var gpsDataHistory, List<LatLng> polylineCoordinates) {
   var logger = Logger();
-  logger.i("in polyline after function");
+  // logger.i("in polyline after function");
   polylineCoordinates.clear();
   int a = 0;
   int b = a + 3;
   int c = 0;
-  print("length ${gpsDataHistory.length}");
-  print("End lat ${gpsDataHistory[gpsDataHistory.length - 1].latitude}");
+  // print("length ${gpsDataHistory.length}");
+  // print("End lat ${gpsDataHistory[gpsDataHistory.length - 1].latitude}");
   for (int i = 0; i < gpsDataHistory.length; i++) {
     c = b + 3;
     LatLng point1 =
@@ -173,7 +175,7 @@ getPoylineCoordinates(var gpsDataHistory, List<LatLng> polylineCoordinates) {
   } // get polyline between every two lat long obtained from response body
 
   if (gpsDataHistory.length % 2 == 0) {
-    print("In even ");
+    // print("In even ");
     LatLng point1 = LatLng(gpsDataHistory[gpsDataHistory.length - 2].latitude,
         gpsDataHistory[gpsDataHistory.length - 2].longitude);
     LatLng point2 = LatLng(gpsDataHistory[gpsDataHistory.length - 1].latitude,
@@ -181,23 +183,23 @@ getPoylineCoordinates(var gpsDataHistory, List<LatLng> polylineCoordinates) {
     polylineCoordinates.add(LatLng(point1.latitude, point1.longitude));
     polylineCoordinates.add(LatLng(point2.latitude, point2.longitude));
   }
-  print("POLY $polylineCoordinates");
+  // print("POLY $polylineCoordinates");
   return polylineCoordinates;
 }
 
 getPoylineCoordinates2(var gpsDataHistory2) {
   var logger = Logger();
-  logger.i("in polyline 2 function");
+  // logger.i("in polyline 2 function");
   polylineCoordinates2.clear();
   int a = 0;
   int b = a + 1;
   int c = 0;
-  print("length ${gpsDataHistory2.length}");
-  print("End lat ${gpsDataHistory2[gpsDataHistory2.length - 1].latitude}");
+  // print("length ${gpsDataHistory2.length}");
+  // print("End lat ${gpsDataHistory2[gpsDataHistory2.length - 1].latitude}");
   for (int i = 0; i < gpsDataHistory2.length; i++) {
     c = b + 1;
-    LatLng point1 =
-        LatLng(gpsDataHistory2[a].latitude, gpsDataHistory2[a].longitude);
+    LatLng point1 = LatLng(gpsDataHistory2[a].latitude,
+        gpsDataHistory2[a].longitude); // in place of LatLng it was PointLatLng
     LatLng point2 =
         LatLng(gpsDataHistory2[b].latitude, gpsDataHistory2[b].longitude);
     polylineCoordinates2.add(LatLng(point1.latitude, point1.longitude));
@@ -210,7 +212,7 @@ getPoylineCoordinates2(var gpsDataHistory2) {
   } // get polyline between every two lat long obtained from response body
 
   if (gpsDataHistory2.length % 2 == 0) {
-    print("In even ");
+    // print("In even ");
     LatLng point1 = LatLng(gpsDataHistory2[gpsDataHistory2.length - 2].latitude,
         gpsDataHistory2[gpsDataHistory2.length - 2].longitude);
     LatLng point2 = LatLng(gpsDataHistory2[gpsDataHistory2.length - 1].latitude,
@@ -255,19 +257,18 @@ getStoppageTime(var gpsStoppageHistory) {
   var monthname = DateFormat('MMM').format(DateTime(0, month));
   var ampm = DateFormat.jm().format(DateTime(0, 0, 0, hour, minute));
   truckStart = "$day $monthname,$ampm";
-  print("ISO $truckStart");
+  // print("ISO $truckStart");
 
   var istDate2 = new DateFormat("yyyy-MM-ddTHH:mm:ss")
       .parse(gpsStoppageHistory.endTime)
       .add(Duration(hours: 5, minutes: 30));
-  print("IST $istDate2");
+  // print("IST $istDate2");
   var timestamp2 = istDate2
       .toString()
       .replaceAll("-", "")
       .replaceAll(":", "")
       .replaceAll(" ", "")
       .replaceAll(".", "");
-  print("timestamp is $timestamp2");
   var month2 = int.parse(timestamp2.substring(4, 6));
   var day2 = timestamp2.substring(6, 8);
   var hour2 = int.parse(timestamp2.substring(8, 10));
@@ -281,17 +282,19 @@ getStoppageTime(var gpsStoppageHistory) {
 
   stoppageTime = "$truckStart - $truckEnd";
   // }
-  print("Stop time $stoppageTime");
   return stoppageTime;
 }
 
 getStoppageDuration(var gpsStoppageHistory) {
   var duration;
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
-  if (gpsStoppageHistory.duration == 0)
+
+  if (gpsStoppageHistory.duration == 0) {
+    // print("in if");
     duration = "Ongoing";
-  else {
-    var time = new Duration(
+  } else {
+    // print("in else");
+    var time = Duration(
             hours: 0,
             minutes: 0,
             seconds: 0,
@@ -308,6 +311,7 @@ getStoppageDuration(var gpsStoppageHistory) {
     var hour = int.parse(timestamp.substring(8, 10));
     var minute = int.parse(timestamp.substring(10, 12));
     var second = int.parse(timestamp.substring(12, 14));
+
     if (hour == 0 && second == 0)
       duration = "$minute min";
     else if (minute == 0)
@@ -323,51 +327,84 @@ getStoppageDuration(var gpsStoppageHistory) {
   return duration;
 }
 
+//for getting the address of stoppages on the basis of gpsStoppgaeHistory
 getStoppageAddress(var gpsStoppageHistory) async {
   var stopAddress = "";
-  // for(int i=0; i<gpsStoppageHistory.length; i++) {
-  List<Placemark> placemarks = await placemarkFromCoordinates(
-      gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
-  var first = placemarks.first;
-  print(
-      "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+  if (kIsWeb) {
+    final apiKey = dotenv.get('mapKey');
 
-  if (first.subLocality == "")
-    stopAddress =
-        "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-  else
-    stopAddress =
-        "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+    var latn = gpsStoppageHistory.latitude;
+    var lngn = gpsStoppageHistory.longitude;
 
+    http.Response addressResponse = await http.get(Uri.parse(
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latn,$lngn&key=$apiKey"));
+    var addressJSONData = await jsonDecode(addressResponse.body);
+    if (addressResponse.statusCode == 200) {
+      if (addressJSONData['results'].isNotEmpty) {
+        String address = addressJSONData['results'][0]['formatted_address'];
+        stopAddress = address;
+      }
+    }
+  } else {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        gpsStoppageHistory.latitude, gpsStoppageHistory.longitude);
+    var first = placemarks.first;
+    // print(
+    //     "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+
+    if (first.subLocality == "")
+      stopAddress =
+          "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+    else
+      stopAddress =
+          "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+  }
   // }
   return stopAddress;
 }
 
+//for getting address of stoppages from lat long
 getStoppageAddressLatLong(var lat, var long) async {
-  var stopAddress = "";
+  var stopAddress = "NA";
   // for(int i=0; i<gpsStoppageHistory.length; i++) {
-  current_lang = LocalizationService().getCurrentLang();
-  print(" current language is $current_lang");
-  List<Placemark> placemarks;
-  if (current_lang == 'Hindi') {
-    placemarks =
-        await placemarkFromCoordinates(lat, long, localeIdentifier: "hi_IN");
+  if (kIsWeb) {
+    final apiKey = dotenv.get('mapKey');
+
+    var latn = lat;
+    var lngn = long;
+    http.Response addressResponse = await http.get(Uri.parse(
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latn,$lngn&key=$apiKey"));
+    var addressJSONData = await jsonDecode(addressResponse.body);
+    if (addressResponse.statusCode == 200) {
+      if (addressJSONData['results'].isNotEmpty) {
+        String address = addressJSONData['results'][0]['formatted_address'];
+        stopAddress = address;
+      }
+    }
   } else {
-    placemarks =
-        await placemarkFromCoordinates(lat, long, localeIdentifier: "en_US");
+    current_lang = LocalizationService().getCurrentLang();
+    // print(" current language is $current_lang");
+    List<Placemark> placemarks;
+    if (current_lang == 'Hindi') {
+      placemarks =
+          await placemarkFromCoordinates(lat, long, localeIdentifier: "hi_IN");
+    } else {
+      placemarks =
+          await placemarkFromCoordinates(lat, long, localeIdentifier: "en_US");
+    }
+    var first = placemarks.first;
+    print(
+        "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
+
+    if (first.subLocality == "")
+      stopAddress =
+          "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+    else
+      stopAddress =
+          "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
+
+    // }
   }
-  var first = placemarks.first;
-  print(
-      "${first.subLocality},${first.locality},${first.administrativeArea}\n${first.postalCode},${first.country}");
-
-  if (first.subLocality == "")
-    stopAddress =
-        "${first.street}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-  else
-    stopAddress =
-        "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-
-  // }
   return stopAddress;
 }
 
