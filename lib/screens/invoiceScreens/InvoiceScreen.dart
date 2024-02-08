@@ -12,8 +12,6 @@ import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/invoiceScreens/add_invoice_screen.dart';
 import 'package:liveasy/widgets/invoice_screen/check_invocie_dialogBox.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../../widgets/invoice_screen/shimmer_invoice.dart';
 
 class InvoiceScreen extends StatefulWidget {
@@ -278,6 +276,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       ),
     );
   }
+
 //table for invoice data from the api
   Widget buildInvoiceTable(List<Map<String, dynamic>> invoices,
       List<Map<String, dynamic>> filteredList) {
@@ -583,6 +582,4 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       ),
     );
   }
-
-
 }

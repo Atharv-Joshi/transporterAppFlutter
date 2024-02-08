@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 Widget ShimmerEffect() {
   return Shimmer.fromColors(
-    baseColor: Colors.grey[300]!,
+    baseColor: Colors.grey[350]!,
     highlightColor: Colors.grey[100]!,
     child: Container(
       height: 500, // Adjust the height as needed
@@ -13,7 +12,7 @@ Widget ShimmerEffect() {
       child: Column(
         children: List.generate(
           6, // Number of shimmer items you want
-              (index) => Container(
+          (index) => Container(
             margin: EdgeInsets.symmetric(vertical: 8.0),
             decoration: BoxDecoration(
               color: Colors.white,
