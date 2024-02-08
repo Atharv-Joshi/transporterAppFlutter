@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 
 class AuctionDetails extends StatelessWidget {
@@ -29,6 +30,7 @@ class AuctionDetails extends StatelessWidget {
       height: screenHeight * 0.45,
       margin: EdgeInsets.only(bottom: space_2, top: space_2),
       child: Card(
+        surfaceTintColor: white,
         color: Colors.white,
         elevation: 3,
         child: Container(

@@ -97,13 +97,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       isLoadingInvoice = true;
     });
 
-    await Future.delayed(Duration(seconds: 2)); // Simulating loading data
+    await Future.delayed(Duration(seconds: 0)); // Simulating loading data
 
     setState(() {
       isLoadingInvoice = false;
     });
   }
-
 
   //TODO: This is the list for Navigation Rail List Destinations,This contains icons and it's labels
   //TODO : This is the list for Bottom Navigation Bar
@@ -382,7 +381,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Container(
                 child: Center(
                   child: isLoadingInvoice
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(
+                          color: transparent,
+                        )
                       : (_index == 1000)
                           ? widget.visibleWidget
                           : screens[_index],
@@ -438,6 +439,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               invoiceSelectedTabGradientColor = white;
               ewayBillSelectedTabGradientColor = white;
               signoutSelectedTabGradientColor = white;
+              refresh();
               _selectedIndex = 0;
               _index = 0;
             } else if (title == "My Orders") {

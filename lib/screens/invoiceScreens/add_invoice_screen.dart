@@ -11,8 +11,7 @@ import 'package:liveasy/functions/bookingApi/getBookingDataWithTransporterId.dar
 import 'package:liveasy/functions/bookingApi/putBookingData_completed=true.dart';
 import 'package:liveasy/functions/documentApi/postDocumentApiCall.dart';
 import 'package:liveasy/functions/invoiceApi/invoiceApiService.dart';
-import 'package:native_pdf_renderer/native_pdf_renderer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
 import '../../widgets/invoice_screen/shimmer_invoice.dart';
@@ -939,7 +938,6 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
     setState(() {
       invoiceBalanceController.text = totalRate.toString();
     });
-
   }
 
 //handle the property and appearance of single tile of table
@@ -962,6 +960,4 @@ class _AddInvoiceDialogState extends State<AddInvoiceDialog> {
       ),
     );
   }
-
-
 }
