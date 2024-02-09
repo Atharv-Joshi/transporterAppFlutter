@@ -40,19 +40,17 @@ class _OngoingScreenState extends State<OngoingScreen> {
         OngoingProgress = true;
       });
     }
-    if(moreitems) {
+    if (moreitems) {
       List<OngoingCardModel> bookingdata = await getOngoingDataWithPageNo(i);
-      if(bookingdata.isEmpty)
-        {
-          setState(() {
-            moreitems = false;
-            loading = false;
-          });
-        }
-      if(moreitems)
-        {
-          modelList.addAll(bookingdata);
-        }
+      if (bookingdata.isEmpty) {
+        setState(() {
+          moreitems = false;
+          loading = false;
+        });
+      }
+      if (moreitems) {
+        modelList.addAll(bookingdata);
+      }
     }
     if (modelList.isNotEmpty) {
       if (this.mounted) {
@@ -63,7 +61,6 @@ class _OngoingScreenState extends State<OngoingScreen> {
         });
       }
     }
-    print("${modelList.length}---------------------");
   }
 
   @override
@@ -79,10 +76,9 @@ class _OngoingScreenState extends State<OngoingScreen> {
           scrollController.position.maxScrollExtent) {
         setState(() {
           i = i + 1;
-          if(moreitems)
-            {
-              getDataByPostLoadIdOnGoing(i);
-            }
+          if (moreitems) {
+            getDataByPostLoadIdOnGoing(i);
+          }
         });
       }
     });
@@ -96,61 +92,57 @@ class _OngoingScreenState extends State<OngoingScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height -
-          kBottomNavigationBarHeight -
-          space_8,
-      child: loading
-          ? OnGoingLoadingWidgets()
-          : modelList.length == 0
-              ? Container(
-                  margin: EdgeInsets.only(top: 153),
-                  child: Column(
-                    children: [
-                      Image(
-                        image: AssetImage('assets/images/EmptyLoad.png'),
-                        height: 127,
-                        width: 127,
-                      ),
-                      Text(
-                        'noOnGoingLoad'.tr,
-                        // 'Looks like you have not added any Loads!',
-                        style: TextStyle(fontSize: size_8, color: grey),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                      color: lightNavyBlue,
-                      onRefresh: () {
-                        setState(() {
-                          print(modelList);
-                          modelList.clear();
-                          moreitems = true;
-                          i = 0;
-                          loading = true;
-                          print(modelList);
-                        });
-                        return getDataByPostLoadIdOnGoing(i);
-                      },
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(bottom: space_15),
-                            itemCount: modelList.length + 1,
-                            itemBuilder: (context, index) =>
+        height: MediaQuery.of(context).size.height -
+            kBottomNavigationBarHeight -
+            space_8,
+        child: loading
+            ? OnGoingLoadingWidgets()
+            : modelList.length == 0
+                ? Container(
+                    margin: EdgeInsets.only(top: 153),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/images/EmptyLoad.png'),
+                          height: 127,
+                          width: 127,
+                        ),
+                        Text(
+                          'noOnGoingLoad'.tr,
+                          // 'Looks like you have not added any Loads!',
+                          style: TextStyle(fontSize: size_8, color: grey),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : RefreshIndicator(
+                    color: lightNavyBlue,
+                    onRefresh: () {
+                      setState(() {
+                        modelList.clear();
+                        moreitems = true;
+                        i = 0;
+                        loading = true;
+                      });
+                      return getDataByPostLoadIdOnGoing(i);
+                    },
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(bottom: space_15),
+                          itemCount: modelList.length + 1,
+                          itemBuilder: (context, index) =>
                               (index == modelList.length)
                                   ? Visibility(
                                       visible: OngoingProgress,
                                       child: bottomProgressBarIndicatorWidget())
                                   : OngoingCard(
-                                          loadAllDataModel: modelList[index],
-                                        )
-                            ),
-                      ),
-                    )
-    );
+                                      loadAllDataModel: modelList[index],
+                                    )),
+                    ),
+                  ));
   }
 } //class end

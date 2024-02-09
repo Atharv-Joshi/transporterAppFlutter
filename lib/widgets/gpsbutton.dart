@@ -9,6 +9,8 @@ import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/screens/myLoadPages/trackOngoing/trackScreenOngoing.dart';
 import 'package:liveasy/screens/trackScreen.dart';
+import 'package:liveasy/widgets/alertDialog/trackingNotAvailableAlert.dart';
+
 //this button is shown in documentUploadScreen when opened on web
 // ignore: must_be_immutable
 class gpsButton extends StatefulWidget {
@@ -81,18 +83,30 @@ class _gpsButtonState extends State<gpsButton> {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async {
-          Get.to(
-            TrackScreen(
-              deviceId: widget.gpsData.deviceId,
-              gpsData: widget.gpsData,
-              truckNo: widget.TruckNo,
-              totalDistance: widget.totalDistance,
-              imei: widget.imei,
-              // online: widget.device.status == "online" ? true : false,
-              online: true,
-              active: true,
-            ),
-          );
+          //for showing the alert dialog box when tracking is not enabled on a device
+          if (widget.gpsData == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialogBox(
+                  dialog: 'Tracking is not available on this device',
+                );
+              },
+            );
+          } else {
+            Get.to(
+              TrackScreen(
+                deviceId: widget.gpsData.deviceId,
+                gpsData: widget.gpsData,
+                truckNo: widget.TruckNo,
+                totalDistance: widget.totalDistance,
+                imei: widget.imei,
+                // online: widget.device.status == "online" ? true : false,
+                online: true,
+                active: true,
+              ),
+            );
+          }
         },
         child: Container(
           child: Row(

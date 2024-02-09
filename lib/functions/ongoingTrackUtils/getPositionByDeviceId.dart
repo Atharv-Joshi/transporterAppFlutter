@@ -22,10 +22,7 @@ Future<List<GpsDataModel>> getPositionByDeviceId(String deviceId) async {
           'Authorization': basicAuth,
           'Accept': 'application/json'
         });
-    print(response.statusCode);
-    print(response.body);
     var jsonData = await jsonDecode(response.body);
-    print("Positions BODY IS${response.body}");
     List<GpsDataModel> LatLongList = [];
     if (response.statusCode == 200) {
       for (var json in jsonData) {
@@ -42,15 +39,12 @@ Future<List<GpsDataModel>> getPositionByDeviceId(String deviceId) async {
         gpsDataModel.latitude = json["latitude"] != null ? json["latitude"] : 0;
         gpsDataModel.longitude =
             json["longitude"] != null ? json["longitude"] : 0;
-        print(
-            "LAT : ${gpsDataModel.latitude}, LONG : ${gpsDataModel.longitude} ");
         gpsDataModel.distance = json["attributes"]["totalDistance"] != null
             ? json["attributes"]["totalDistance"]
             : 0;
         gpsDataModel.motion = json["attributes"]["motion"] != null
             ? json["attributes"]["motion"]
             : false;
-        print("Motion : ${gpsDataModel.motion}");
         gpsDataModel.ignition = json["attributes"]["ignition"] != null
             ? json["attributes"]["ignition"]
             : false;
@@ -92,7 +86,6 @@ Future<List<GpsDataModel>> getPositionByDeviceId(String deviceId) async {
           else
             addressstring =
                 "${first.street}, ${first.subLocality}, ${first.locality}, ${first.administrativeArea}, ${first.postalCode}, ${first.country}";
-          print("ADD $addressstring");
         } catch (e) {
           print(e);
 

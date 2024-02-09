@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 const Color kLiveasyColor = Color(0xFF000066);
 const Color statusBarColor = Color(0xFFFFFFFF);
 const Color darkBlueColor = Color(0xFF152968);
@@ -108,7 +109,7 @@ const Color darkShadow = Color(0x26000000);
 const Color blackColor = Color.fromARGB(1, 24, 24, 24);
 const Color textcolor = Color(0xffEDF1FF);
 // const okButtonColor = Color.fromARGB(255, 9, 183, 120);
-// const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
+const diffDeleteButtonColor = Color.fromARGB(255, 237, 74, 74);
 const Color trackButtonColor = Color.fromARGB(255, 0, 0, 102);
 const Color docScreenColor = Color(0xffF5F6FA);
 const Color uplaodBillDottedbg = Color(0xFFF2F3FE);

@@ -1,4 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:liveasy/Web/dashboard.dart';
+import 'package:liveasy/constants/color.dart';
+import 'package:liveasy/constants/fontSize.dart';
+import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/radius.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/driverApiCalls.dart';
@@ -47,25 +54,55 @@ class _UpdateDriverTruckButtonState extends State<UpdateDriverTruckButton> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () async {
-          await showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) =>
-                transporterIdController.transporterApproved.value
-                    ? UpdateBookingDetailsScreen(
-                        truckModelList: truckDetailsList,
-                        driverModelList: driverDetailsList,
-                        loadAllDataModel: widget.loadAllDataModel,
-                      )
-                    : VerifyAccountNotifyAlertDialog(),
-          );
-        },
-        child: Image.asset(
-          'assets/icons/updateDriver.png',
-          width: Responsive.isMobile(context) ? space_3 + 2 : space_5,
-          height: Responsive.isMobile(context) ? space_3 + 2 : space_5,
-        ));
+    return (kIsWeb && Responsive.isDesktop(context))
+    //Ui for Web
+        ? GestureDetector(
+            onTap: () {
+              if (transporterIdController.transporterApproved.value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DashboardScreen(
+                            selectedIndex: screens.indexOf(ordersScreen),
+                            index: 1000,
+                            visibleWidget: UpdateBookingDetailsScreen(
+                              truckModelList: truckDetailsList,
+                              driverModelList: driverDetailsList,
+                              loadAllDataModel: widget.loadAllDataModel,
+                            ))));
+              } else {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => VerifyAccountNotifyAlertDialog(),
+                );
+              }
+            },
+            child: Image.asset(
+              'assets/icons/updateDriver.png',
+              width: space_5,
+              height: space_5,
+            ))
+    //Ui for mobile
+        : GestureDetector(
+            onTap: () async {
+              await showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) =>
+                    transporterIdController.transporterApproved.value
+                        ? UpdateBookingDetailsScreen(
+                            truckModelList: truckDetailsList,
+                            driverModelList: driverDetailsList,
+                            loadAllDataModel: widget.loadAllDataModel,
+                          )
+                        : VerifyAccountNotifyAlertDialog(),
+              );
+            },
+            child: Image.asset(
+              'assets/icons/updateDriver.png',
+              width: space_3 + 2,
+              height: space_3 + 2,
+            ));
   }
 }

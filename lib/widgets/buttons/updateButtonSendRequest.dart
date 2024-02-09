@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/deviceApiCalls.dart';
+import 'package:liveasy/responsive.dart';
 import 'package:liveasy/widgets/alertDialog/CompletedDialog.dart';
 import '../../functions/putBookingApis.dart';
 import '../../models/onGoingCardModel.dart';
@@ -50,7 +54,17 @@ class _UpdateButtonSendRequestState extends State<UpdateButtonSendRequest> {
       bookingId: widget.loadAllDataModel.bookingId,
     );
     //After running put apis navigate to ongoingOrdersScreen
-    Get.offAll(() => NavigationScreen());
+    if (kIsWeb) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DashboardScreen(
+                    selectedIndex: screens.indexOf(ordersScreen),
+                    index: screens.indexOf(ordersScreen),
+                  )));
+    } else {
+      Get.offAll(NavigationScreen());
+    }
     // Extract the "status" field from the API response
     String status =
         "Unknown"; // Default value in case the "status" field is not present

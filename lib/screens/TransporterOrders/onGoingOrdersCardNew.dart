@@ -91,8 +91,8 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
     //the below code will be executed for the web
     return (kIsWeb && Responsive.isDesktop(context))
         ? Expanded(
-            child: GestureDetector(
-              onTap: () {
+            child: ElevatedButton(
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -121,6 +121,20 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
                   ),
                 );
               }, //OngoingCard for web
+              style: ElevatedButton.styleFrom(
+                  splashFactory: NoSplash.splashFactory,
+                  elevation: 0,
+                  padding: const EdgeInsets.all(0),
+                  backgroundColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.zero),
+                      side: BorderSide(
+                        color: Colors.transparent,
+                        width: 0,
+                      ))),
               //the below code basically creates a table like UI for showing ongoing Details
               child: IntrinsicHeight(
                 child: Row(
@@ -354,7 +368,6 @@ class _OngoingOrdersCardNewState extends State<onGoingOrdersCardNew> {
           ) //Below code is used for mobile
         : GestureDetector(
             onTap: () {
-              print(widget.loadDetailsScreenModel?.noOfTyres);
               Get.to(documentUploadScreen(
                 loadAllDataModel: widget.loadAllDataModel,
                 bookingId: widget.loadAllDataModel.bookingId.toString(),

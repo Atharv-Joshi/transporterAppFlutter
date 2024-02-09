@@ -21,6 +21,7 @@ import 'package:liveasy/responsive.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersApiCall.dart';
 import 'package:liveasy/screens/TransporterOrders/onGoingOrdersCardNew.dart';
 import 'package:liveasy/widgets/LoadsTableHeader.dart';
+import 'package:liveasy/widgets/invoice_screen/shimmer_invoice.dart';
 import 'package:liveasy/widgets/loadingWidgets/bottomProgressBarIndicatorWidget.dart';
 import 'package:liveasy/widgets/loadingWidgets/onGoingLoadingWidgets.dart';
 
@@ -229,7 +230,10 @@ class _OngoingScreenOrdersState extends State<OngoingScreenOrders> {
               height: 20,
             ),
             loading
-                ? Expanded(child: const OnGoingLoadingWidgets())
+                ? Expanded(
+                    child: kIsWeb && Responsive.isDesktop(context)
+                        ? ShimmerEffect()
+                        : const OnGoingLoadingWidgets())
                 : modelList.length == 0
                     ? Container(
                         margin: EdgeInsets.only(top: 153),

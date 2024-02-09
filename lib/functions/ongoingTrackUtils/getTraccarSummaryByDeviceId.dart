@@ -16,16 +16,11 @@ Future<List<GpsDataModel>> getTraccarSummaryByDeviceId({
   String traccarApi = dotenv.get("traccarApi");
 
   try {
-    print(Uri.parse(
-        "$traccarApi/reports/summary?deviceId=$deviceId&from=${from}Z&to=${to}Z"));
     http.Response response = await http.get(
         Uri.parse(
             "$traccarApi/reports/summary?deviceId=$deviceId&from=${from}Z&to=${to}Z"),
         headers: <String, String>{'authorization': basicAuth});
-    print(response.statusCode);
-    print(response.body);
     var jsonData = await jsonDecode(response.body);
-    print(response.body);
     List<GpsDataModel> latLongList = [];
     if (response.statusCode == 200) {
       for (var json in jsonData) {
@@ -40,11 +35,8 @@ Future<List<GpsDataModel>> getTraccarSummaryByDeviceId({
             json["startTime"] != null ? json["startTime"] : 'NA';
         gpsDataModel.endTime = json["endTime"] != null ? json["endTime"] : 'NA';
 
-        // print("Device time : ${gpsDataModel.deviceTime}");
-
         latLongList.add(gpsDataModel);
       }
-      print("TDSummary $latLongList");
       return latLongList;
     } else {
       return [];

@@ -8,6 +8,7 @@ import 'package:liveasy/functions/mapUtils/getLoactionUsingImei.dart';
 import 'package:liveasy/functions/trasnporterApis/transporterApiCalls.dart';
 import 'package:liveasy/functions/truckApis/truckApiCalls.dart';
 import 'package:liveasy/screens/trackScreen.dart';
+import 'package:liveasy/widgets/alertDialog/trackingNotAvailableAlert.dart';
 
 //This screen will be shown or used for sim-based tracking on web
 // ignore: must_be_immutable
@@ -81,18 +82,30 @@ class _simTrackingButtonState extends State<simTrackingButton> {
           backgroundColor: MaterialStateProperty.all<Color>(darkBlueColor),
         ),
         onPressed: () async {
-          Get.to(
-            TrackScreen(
-              deviceId: widget.gpsData.deviceId,
-              gpsData: widget.gpsData,
-              truckNo: widget.TruckNo,
-              totalDistance: widget.totalDistance,
-              imei: widget.imei,
-              // online: widget.device.status == "online" ? true : false,
-              online: true,
-              active: true,
-            ),
-          );
+          //when tracking is not available this dialog will be shown
+          if (widget.gpsData == null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialogBox(
+                  dialog: 'Tracking is not available on this device',
+                );
+              },
+            );
+          } else {
+            Get.to(
+              TrackScreen(
+                deviceId: widget.gpsData.deviceId,
+                gpsData: widget.gpsData,
+                truckNo: widget.TruckNo,
+                totalDistance: widget.totalDistance,
+                imei: widget.imei,
+                // online: widget.device.status == "online" ? true : false,
+                online: true,
+                active: true,
+              ),
+            );
+          }
         },
         child: Container(
           child: Row(

@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liveasy/Web/dashboard.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
+import 'package:liveasy/constants/screens.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/controller/transporterIdController.dart';
 import 'package:liveasy/functions/consentStatus.dart';
@@ -18,6 +20,7 @@ import 'package:liveasy/screens/TransporterOrders/docInputEWBill.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputLr.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputPod.dart';
 import 'package:liveasy/screens/TransporterOrders/docInputWgtReceipt.dart';
+import 'package:liveasy/screens/fastagScreen.dart';
 import 'package:liveasy/widgets/buttons/sendConsentButton.dart';
 import 'package:liveasy/widgets/buttons/updateDriver&TruckButton.dart';
 import 'package:liveasy/widgets/gpsbutton.dart';
@@ -25,7 +28,6 @@ import 'package:liveasy/widgets/simTrackingButton.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:liveasy/models/onGoingCardModel.dart';
-import 'package:liveasy/widgets/buttons/fastagButton.dart';
 import 'package:liveasy/widgets/buttons/vahanButton.dart';
 import 'package:liveasy/functions/documentApi/getDocName.dart';
 import 'package:liveasy/functions/documentApi/getDocumentApiCall.dart';
@@ -214,8 +216,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -224,14 +224,12 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNamePod(availDocs[0]);
           providerData.PodPhotoFile = null;
           providerData.PodPhoto64 = null;
         }
         // verifiedCheckPod();
       } else {
-        print("Pod");
         await uploadFirstPod();
       }
     }
@@ -277,8 +275,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
           // setState(() {
@@ -290,7 +286,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameLr(availDocs[0]);
           // await uploadDocumentApiCall();
           providerData.LrPhotoFile = null;
@@ -298,7 +293,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
         }
         // verifiedCheckLr();
       } else {
-        print("Lr");
         await uploadFirstLr();
       }
     }
@@ -350,8 +344,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -360,14 +352,12 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameEwayBill(availDocs[0]);
           providerData.EwayBillPhotoFile = null;
           providerData.EwayBillPhoto64 = null;
         }
         // verifiedCheckEwayBill();
       } else {
-        print("EwayBill");
         await uploadFirstEwayBill();
       }
     }
@@ -457,8 +447,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       setState(() {
         docLinks = docLinks;
       });
-      print("docLinks :-");
-      print(docLinks);
       if (docLinks.isNotEmpty) {
         if (docLinks.length == 4) {
         } else {
@@ -467,7 +455,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
           setState(() {
             availDocs = availDocs;
           });
-          print(availDocs);
           await assignDocNameWeightReceipt(availDocs[0]);
           // await uploadDocumentApiCall();
           providerData.WeightReceiptPhotoFile = null;
@@ -475,7 +462,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
         }
         // verifiedCheckWeightReceipt();
       } else {
-        print("WeightReceipt");
         await uploadFirstWeightReceipt();
       }
     }
@@ -484,7 +470,6 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
       onWillPop: () async {
         // to null the provider data of the documents variables after clicking the back button of the android device.
 
-        print("After clicking the Android Back Button");
         // var providerData = Provider.of<ProviderData>(context);
         providerData.LrPhotoFile = null;
         providerData.LrPhoto64 = null;
@@ -1237,89 +1222,82 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                       ],
                                     ),
                                     Padding(
-                                        padding: EdgeInsets.all(space_2),
-                                        child: Material(
-                                          elevation: 5,
+                                      padding: EdgeInsets.all(space_2),
+                                      child: Material(
+                                        elevation: 5,
+                                        child: Flexible(
                                           child: SizedBox(
-                                            height: isMobile
-                                                ? screenHeight / 7
-                                                : screenHeight / 4.3,
-                                            width: screenWidth * 0.9,
                                             child: Container(
                                               color: white,
                                               child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: space_4,
-                                                      horizontal: isMobile
-                                                          ? screenHeight * 0.001
-                                                          : screenWidth * 0.01),
-                                                  child: (loadData != null)
-                                                      ? Column(
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Image(
-                                                                  image: AssetImage(
-                                                                      'assets/icons/greenFilledCircleIcon.png'),
-                                                                  height:
-                                                                      space_2,
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: space_4,
+                                                  horizontal: isMobile
+                                                      ? screenHeight * 0.001
+                                                      : screenWidth * 0.01,
+                                                ),
+                                                child: (loadData != null)
+                                                    ? Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    'assets/icons/greenFilledCircleIcon.png'),
+                                                                height: space_2,
+                                                                width: space_2,
+                                                              ),
+                                                              SizedBox(
                                                                   width:
-                                                                      space_2,
-                                                                ),
-                                                                SizedBox(
-                                                                  width:
-                                                                      space_4,
-                                                                ),
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      "${widget.loadingPoint}",
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        color:
-                                                                            black,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        fontSize:
-                                                                            size_11,
-                                                                      ),
+                                                                      space_4),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "${widget.loadingPoint}",
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      color:
+                                                                          black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          size_11,
                                                                     ),
-                                                                    Text(
-                                                                      wrapWords(
-                                                                        ' ${formatText(loadData?['loadingPoint'])}, ${loadData?['loadingPointCity']} , ${loadData?['loadingPointState']}',
-                                                                        50,
-                                                                      ),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            size_8,
-                                                                        color:
-                                                                            darkBlueColor,
-                                                                      ),
-                                                                      maxLines:
-                                                                          5,
-                                                                      softWrap:
-                                                                          true,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .visible,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
+                                                                  ),
+                                                                  Text(
+                                                                    wrapWords(
+                                                                      ' ${formatText(loadData?['loadingPoint'])}, ${loadData?['loadingPointCity']} , ${loadData?['loadingPointState']}',
+                                                                      50,
+                                                                    ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          size_8,
+                                                                      color:
+                                                                          darkBlueColor,
+                                                                    ),
+                                                                    maxLines: 5,
+                                                                    softWrap:
+                                                                        true,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .visible,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              SizedBox(
                                                                   width:
-                                                                      space_4,
-                                                                ),
-                                                                Container(
-                                                                  width:
-                                                                      screenWidth /
-                                                                          5,
+                                                                      space_4),
+                                                              Flexible(
+                                                                child:
+                                                                    Container(
                                                                   child:
                                                                       DottedLine(
                                                                     lineThickness:
@@ -1328,10 +1306,10 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                                         liveasyGreen,
                                                                   ),
                                                                 ),
-                                                                Container(
-                                                                  width:
-                                                                      screenWidth /
-                                                                          5,
+                                                              ),
+                                                              Flexible(
+                                                                child:
+                                                                    Container(
                                                                   child:
                                                                       DottedLine(
                                                                     lineThickness:
@@ -1340,148 +1318,147 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                                         red,
                                                                   ),
                                                                 ),
-                                                                SizedBox(
+                                                              ),
+                                                              SizedBox(
                                                                   width:
-                                                                      space_4,
-                                                                ),
-                                                                Image(
-                                                                  image: AssetImage(
-                                                                      'assets/icons/hollowRedCircle.png'),
-                                                                  height:
-                                                                      space_2,
+                                                                      space_4),
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    'assets/icons/hollowRedCircle.png'),
+                                                                height: space_2,
+                                                                width: space_2,
+                                                              ),
+                                                              SizedBox(
                                                                   width:
-                                                                      space_2,
-                                                                ),
-                                                                SizedBox(
-                                                                  width:
-                                                                      space_4,
-                                                                ),
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      "${widget.unloadingPoint}",
-                                                                      style: GoogleFonts
-                                                                          .montserrat(
-                                                                        color:
-                                                                            black,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        fontSize:
-                                                                            size_11,
-                                                                      ),
+                                                                      space_4),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    "${widget.unloadingPoint}",
+                                                                    style: GoogleFonts
+                                                                        .montserrat(
+                                                                      color:
+                                                                          black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          size_11,
                                                                     ),
-                                                                    Text(
-                                                                      wrapWords(
-                                                                        ' ${formatText(loadData?['unloadingPoint'])}, ${loadData?['unloadingPointCity']} , ${loadData?['unloadingPointState']}',
-                                                                        50,
-                                                                      ),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            size_8,
-                                                                        color:
-                                                                            darkBlueColor,
-                                                                      ),
-                                                                      maxLines:
-                                                                          5,
-                                                                      softWrap:
-                                                                          true,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .visible,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                                  ),
+                                                                  Text(
+                                                                    wrapWords(
+                                                                      ' ${formatText(loadData?['unloadingPoint'])}, ${loadData?['unloadingPointCity']} , ${loadData?['unloadingPointState']}',
+                                                                      50,
+                                                                    ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          size_8,
+                                                                      color:
+                                                                          darkBlueColor,
+                                                                    ),
+                                                                    maxLines: 5,
+                                                                    softWrap:
+                                                                        true,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .visible,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                              height: space_3),
+                                                          const Divider(
+                                                              thickness: 2),
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                              vertical:
+                                                                  screenHeight /
+                                                                      90,
                                                             ),
-                                                            SizedBox(
-                                                              height: space_3,
-                                                            ),
-                                                            const Divider(
-                                                              thickness: 2,
-                                                            ),
-                                                            Padding(
+                                                            child: Container(
+                                                              child: Padding(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
-                                                                        vertical:
-                                                                            screenHeight /
-                                                                                90),
-                                                                child: Container(
-                                                                    child: Padding(
-                                                                  padding: EdgeInsets.symmetric(
-                                                                      vertical:
-                                                                          20.0,
-                                                                      horizontal: isMobile
-                                                                          ? screenHeight *
-                                                                              0.001
-                                                                          : screenWidth *
-                                                                              0.01),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      const SizedBox(
+                                                                  vertical:
+                                                                      20.0,
+                                                                  horizontal: isMobile
+                                                                      ? screenHeight *
+                                                                          0.001
+                                                                      : screenWidth *
+                                                                          0.01,
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    SizedBox(
                                                                         width:
-                                                                            50,
-                                                                      ),
-                                                                      const Image(
+                                                                            50),
+                                                                    Image(
                                                                         image: AssetImage(
-                                                                            'assets/icons/box.png'),
-                                                                      ),
-                                                                      SizedBox(
+                                                                            'assets/icons/box.png')),
+                                                                    SizedBox(
                                                                         width:
-                                                                            space_2,
+                                                                            space_2),
+                                                                    Text(
+                                                                      "DOC",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color:
+                                                                            veryDarkGrey,
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            mediumBoldWeight,
                                                                       ),
-                                                                      Text(
-                                                                        "DOC",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                veryDarkGrey,
-                                                                            fontSize:
-                                                                                20,
-                                                                            fontWeight:
-                                                                                mediumBoldWeight),
-                                                                      ),
-                                                                      const SizedBox(
+                                                                    ),
+                                                                    SizedBox(
                                                                         width:
-                                                                            100,
-                                                                      ),
-                                                                      const Image(
+                                                                            100),
+                                                                    Image(
                                                                         image: AssetImage(
-                                                                            'assets/icons/truckDoc.png'),
-                                                                      ),
-                                                                      SizedBox(
+                                                                            'assets/icons/truckDoc.png')),
+                                                                    SizedBox(
                                                                         width:
-                                                                            space_2,
+                                                                            space_2),
+                                                                    Text(
+                                                                      "${loadData?['weight']} tons | ${loadData?['truckType']} | ${loadData?['noOfTyres']} Tyres  ",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color:
+                                                                            veryDarkGrey,
+                                                                        fontSize:
+                                                                            20,
+                                                                        fontWeight:
+                                                                            mediumBoldWeight,
                                                                       ),
-                                                                      Text(
-                                                                        "${loadData?['weight']} tons | ${loadData?['truckType']} | ${loadData?['noOfTyres']} Tyres  ",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                veryDarkGrey,
-                                                                            fontSize:
-                                                                                20,
-                                                                            fontWeight:
-                                                                                mediumBoldWeight),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )))
-                                                          ],
-                                                        )
-                                                      : Container()),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : Container(),
+                                              ),
                                             ),
                                           ),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.all(space_2),
                                       child: Material(
                                         elevation: 5,
                                         child: SizedBox(
-                                          height: isMobile
-                                              ? screenHeight / 12
-                                              : screenHeight / 12,
+                                          height: space_18 - 3,
                                           width: screenWidth * 0.9,
                                           child: Container(
                                             color: white,
@@ -1496,21 +1473,24 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: space_4),
-                                                      child: Text(
-                                                        'Track Vehicle',
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                          color: black,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: isMobile
-                                                              ? screenWidth *
-                                                                  0.040
-                                                              : screenHeight *
-                                                                  0.02,
+                                                    Flexible(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: space_4),
+                                                        child: Text(
+                                                          'Track Vehicle',
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                            color: black,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: isMobile
+                                                                ? screenWidth *
+                                                                    0.040
+                                                                : screenHeight *
+                                                                    0.02,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -1545,12 +1525,51 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                                     SizedBox(
                                                       width: space_15,
                                                     ),
-                                                    FastagButton(
-                                                      truckNo: widget.truckNo,
-                                                      loadingPoint:
-                                                          widget.loadingPoint,
-                                                      unloadingPoint:
-                                                          widget.unloadingPoint,
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DashboardScreen(
+                                                                    visibleWidget:
+                                                                        MapScreen(
+                                                                      loadingPoint:
+                                                                          widget
+                                                                              .loadingPoint,
+                                                                      unloadingPoint:
+                                                                          widget
+                                                                              .unloadingPoint,
+                                                                      truckNumber:
+                                                                          widget
+                                                                              .truckNo,
+                                                                    ),
+                                                                    index: 1000,
+                                                                    selectedIndex:
+                                                                        screens.indexOf(
+                                                                            ordersScreen),
+                                                                  )),
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      screenWidth *
+                                                                          0.005),
+                                                          height: space_8,
+                                                          width: space_20,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        space_2)),
+                                                            color:
+                                                                darkBlueColor,
+                                                          ),
+                                                          child: Image.asset(
+                                                              'assets/icons/fastagButton.png')),
                                                     ),
                                                   ],
                                                 ),
@@ -1565,9 +1584,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                       child: Material(
                                         elevation: 5,
                                         child: SizedBox(
-                                          height: isMobile
-                                              ? screenHeight / 12
-                                              : screenHeight / 12,
+                                          height: space_18,
                                           width: screenWidth * 0.9,
                                           child: Container(
                                             color: white,
@@ -1623,9 +1640,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                       child: Material(
                                         elevation: 5,
                                         child: SizedBox(
-                                          height: isMobile
-                                              ? screenHeight / 6
-                                              : screenHeight / 7,
+                                          height: space_32,
                                           width: screenWidth * 0.9,
                                           child: Container(
                                             color: white,
@@ -1736,7 +1751,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                       child: Material(
                                         elevation: 5,
                                         child: Container(
-                                            color: Colors.white,
+                                            color: white,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /
@@ -2132,9 +2147,7 @@ class _documentUploadScreenWebState extends State<documentUploadScreenWeb> {
                                       child: Material(
                                         elevation: 5,
                                         child: SizedBox(
-                                          height: isMobile
-                                              ? screenHeight / 6
-                                              : screenHeight / 7,
+                                          height: space_18,
                                           width: screenWidth * 0.9,
                                           child: Container(
                                             color: white,

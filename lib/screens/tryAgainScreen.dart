@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/responsive.dart';
 
+//TryAgain screens for showing error and retyring
 class TryAgain extends StatelessWidget {
   final VoidCallback retryCallback;
-
   const TryAgain({super.key, required this.retryCallback});
 
   @override
@@ -30,7 +30,7 @@ class TryAgain extends StatelessWidget {
                       left: isMobile ? screenWidth * 0.04 : 0),
                   child: const Icon(
                     Icons.arrow_back_ios,
-                    color: Color.fromARGB(255, 5, 122, 247),
+                    color: skyBlue,
                   ),
                 ),
               ),
@@ -48,7 +48,7 @@ class TryAgain extends StatelessWidget {
                 child: Text('Something went wrong!!!',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
-                        color: continueButton,
+                        color: skyBlue,
                         fontSize: isMobile
                             ? screenHeight * 0.035
                             : screenWidth * 0.02)),
