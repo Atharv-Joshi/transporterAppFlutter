@@ -21,7 +21,7 @@ class VehicleDetails {
   String? insurancePolicyNo;
   String? permitType;
   String? permitNumber;
-  String? permitValidUpto;
+  String? rcPermitValidUpto;
   String? permitIssueDate;
   String? seatCapacity;
   String? engineCapacity;
@@ -33,6 +33,11 @@ class VehicleDetails {
   String? chassisNumber;
   String? registeredAuthority;
   String? taxValidUpto;
+  String? rcPermanentNo;
+  String? rcMobileNo;
+  String? rcNpIssuedBy;
+  String? rcPermitValidFrom;
+  String? rcInsuranceCompany;
 
   VehicleDetails.fromXml(XmlElement element) {
     statusMessage = _getTextOrNA(element, 'stautsMessage');
@@ -55,7 +60,7 @@ class VehicleDetails {
     insurancePolicyNo = _getTextOrNA(element, 'rc_insurance_policy_no');
     permitType = _getTextOrNA(element, 'rc_permit_type');
     permitNumber = _getTextOrNA(element, 'rc_permit_no');
-    permitValidUpto = _getTextOrNA(element, 'rc_permit_valid_upto');
+    rcPermitValidUpto = _getTextOrNA(element, 'rc_permit_valid_upto');
     permitIssueDate = _getTextOrNA(element, 'rc_permit_issue_dt');
     seatCapacity = _getTextOrNA(element, 'rc_seat_cap');
     engineCapacity = _getTextOrNA(element, 'rc_cubic_cap');
@@ -67,6 +72,11 @@ class VehicleDetails {
     chassisNumber = _getTextOrNA(element, 'rc_chasi_no');
     registeredAuthority = _getTextOrNA(element, 'rc_registered_at');
     taxValidUpto = _getTextOrNA(element, 'rc_tax_upto');
+    rcPermanentNo = _getTextOrNA(element, 'rc_permanent_address');
+    rcMobileNo = _getTextOrNA(element, 'rc_mobile_no');
+    rcNpIssuedBy = _getTextOrNA(element, 'rc_np_issued_by');
+    rcPermitValidFrom = _getTextOrNA(element, 'rc_permit_valid_from');
+    rcInsuranceCompany = _getTextOrNA(element, 'rc_insurance_comp');
   }
 
   Map<String, String> getData() {
@@ -86,7 +96,7 @@ class VehicleDetails {
       'Insurance Policy No': insurancePolicyNo!,
       'Permit Type': permitType!,
       'Permit Number': permitNumber!,
-      'Permit Valid Upto': permitValidUpto!,
+      'Permit Valid Upto': rcPermitValidUpto!,
       'Permit Issue Date': permitIssueDate!,
       'Seat Capacity': seatCapacity!,
       'Engine Capacity': engineCapacity!,
@@ -98,6 +108,11 @@ class VehicleDetails {
       'Chassis Number': chassisNumber!,
       'Registered Authority': registeredAuthority!,
       'Tax Valid Upto': taxValidUpto!,
+      'rc_permanent_address': rcPermanentNo!,
+      'rc_mobile_no': rcMobileNo!,
+      'rc_np_issued_by': rcNpIssuedBy!,
+      'rc_permit_valid_from': rcPermitValidFrom!,
+      'rc_insurance_comp': rcInsuranceCompany!,
     };
   }
 

@@ -51,5 +51,9 @@
 	<string>Liveasy needs your microphone permission</string>
 	<key>NSContactsUsageDescription</key>
     <string>Liveasy requires contacts access to function properly.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

@@ -431,8 +431,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     liveasySelectedTabGradientColor = white;
 
     return InkWell(
-        onTap: () {
-          setState(() {
+      onTap: () {
+        setState(
+          () {
             if (title == "Auctions") {
               auctionSelectedTabGradientColor = bidBackground;
               myOrderSelectedTabGradientColor = white;
@@ -476,57 +477,61 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _selectedIndex = 4;
               _index = 4;
             }
-          });
-        },
-        child: Container(
-            height: 55,
-            padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: (title == "Liveasy")
-                    ? liveasySelectedTabGradientColor
-                    : (title == "Auctions")
-                        ? auctionSelectedTabGradientColor
-                        : (title == "My Orders")
-                            ? myOrderSelectedTabGradientColor
-                            : (title == "Invoice")
-                                ? invoiceSelectedTabGradientColor
-                                : (title == 'EwayBill')
-                                    ? ewayBillSelectedTabGradientColor
-                                    : (title == 'Signout')
-                                        ? signoutSelectedTabGradientColor
-                                        : liveasySelectedTabGradientColor),
-            child: Row(
-              children: [
-                Icon(icon,
-                    size: iconSize,
-                    color: position == _selectedIndex ? white : darkBlueColor),
-                const SizedBox(
-                  width: 10,
-                ),
-                Visibility(
-                    visible: expandMode,
-                    child: (title == "Liveasy")
-                        ? Text(
-                            title,
-                            style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Montserrat Bold",
-                                color: position == _selectedIndex
-                                    ? white
-                                    : darkBlueColor),
-                          )
-                        : Text(
-                            title,
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: "Montserrat",
-                                color: (position == _selectedIndex)
-                                    ? white
-                                    : darkBlueColor),
-                          ))
-              ],
-            )));
+          },
+        );
+      },
+      child: Container(
+        height: 55,
+        padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: (title == "Liveasy")
+                ? liveasySelectedTabGradientColor
+                : (title == "Auctions")
+                    ? auctionSelectedTabGradientColor
+                    : (title == "My Orders")
+                        ? myOrderSelectedTabGradientColor
+                        : (title == "Invoice")
+                            ? invoiceSelectedTabGradientColor
+                            : (title == 'EwayBill')
+                                ? ewayBillSelectedTabGradientColor
+                                : (title == 'Signout')
+                                    ? signoutSelectedTabGradientColor
+                                    : liveasySelectedTabGradientColor),
+        child: Row(
+          children: [
+            Icon(icon,
+                size: iconSize,
+                color: position == _selectedIndex ? white : darkBlueColor),
+            const SizedBox(
+              width: 10,
+            ),
+            Visibility(
+              visible: expandMode,
+              child: (title == "Liveasy")
+                  ? Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Montserrat Bold",
+                          color: position == _selectedIndex
+                              ? white
+                              : darkBlueColor),
+                    )
+                  : Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: "Montserrat",
+                          color: (position == _selectedIndex)
+                              ? white
+                              : darkBlueColor),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

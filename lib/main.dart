@@ -18,6 +18,7 @@ import 'package:liveasy/screens/LoginScreens/loginScreen.dart';
 import 'package:liveasy/screens/errorScreen.dart';
 import 'package:liveasy/screens/noInternetScreen.dart';
 import 'package:liveasy/screens/spashScreenToGetTransporterData.dart';
+import 'package:liveasy/screens/vahanScreen.dart';
 import 'package:liveasy/widgets/splashScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -84,7 +85,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     transporterId = tidstorage.read("transporterId");
-    //TODO: Internet connection check and onesignal initialization is only done for android application.
     if (!kIsWeb) {
       checkConnection();
       connectivityChecker();

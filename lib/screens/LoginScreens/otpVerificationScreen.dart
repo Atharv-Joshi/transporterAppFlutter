@@ -514,21 +514,22 @@ class _NewOTPVerificationScreenState
                                 ),
                                 OTPInputField(_verificationCode, temp),
                                 Padding(
-                                    padding: EdgeInsets.only(top: space_3),
-                                    child: Obx(
-                                      () => Container(
-                                        child: isOtpInvalidController
-                                                .isOtpInvalid.value
-                                            ? Text(
-                                                'Wrong OTP. Try Again!',
-                                                style: TextStyle(
-                                                  letterSpacing: 0.5,
-                                                  color: red,
-                                                ),
-                                              )
-                                            : Text(""),
-                                      ),
-                                    )),
+                                  padding: EdgeInsets.only(top: space_3),
+                                  child: Obx(
+                                    () => Container(
+                                      child: isOtpInvalidController
+                                              .isOtpInvalid.value
+                                          ? Text(
+                                              'Wrong OTP. Try Again!',
+                                              style: TextStyle(
+                                                letterSpacing: 0.5,
+                                                color: red,
+                                              ),
+                                            )
+                                          : Text(""),
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(top: space_3),
                                   child: Obx(

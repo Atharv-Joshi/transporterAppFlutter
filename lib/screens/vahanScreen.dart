@@ -47,7 +47,7 @@ class _VahanScreenState extends State<VahanScreen> {
     bool isTablet = Responsive.isTablet(context);
 
     return isMobile
-    //Ui for mobile
+        //Ui for mobile
         ? Scaffold(
             appBar: AppBar(
               backgroundColor: white,
@@ -92,7 +92,7 @@ class _VahanScreenState extends State<VahanScreen> {
                         children: [
                           Text('Owner Name'),
                           Text(
-                            '${_vehicleDetails?.ownerName}',
+                            'Owner Name ${_vehicleDetails?.ownerName}',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Padding(
@@ -152,7 +152,7 @@ class _VahanScreenState extends State<VahanScreen> {
                           ),
                           VahanDetailsWidget(
                             title1: 'Permit Valid Upto',
-                            text1: '${_vehicleDetails?.permitValidUpto}',
+                            text1: '${_vehicleDetails?.rcPermitValidUpto}',
                             title2: 'Permit Issue Date',
                             text2: '${_vehicleDetails?.permitIssueDate}',
                           ),
@@ -195,659 +195,749 @@ class _VahanScreenState extends State<VahanScreen> {
               ),
             ),
           )
-    //Ui for web
+        //Ui for web
         : Scaffold(
             backgroundColor: docScreenColor,
             body: Padding(
-              padding: EdgeInsets.all(isMobile ? 10 : 20),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(space_3),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              padding: EdgeInsets.all(space_3),
+              child: Column(
+                children: [
+                  Column(
                     children: [
-                      if (_vehicleDetails ==
-                          null) // Show circular progress indicator while loading
-                        Center(
-                          child: CircularProgressIndicator(
-                            color: darkBlueColor,
-                          ),
-                        )
-                      else
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: space_6, top: space_2),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.back();
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: darkBlueColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: space_1,
-                                    ),
-                                    Text(
-                                      "Load",
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: size_10 - 1,
-                                          fontWeight: boldWeight,
-                                          color: darkBlueColor,
-                                          letterSpacing: -0.408),
-                                    ),
-                                  ],
-                                ),
+                      Padding(
+                        padding: EdgeInsets.only(left: space_6, top: space_2),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: darkBlueColor,
+                                size: size_11,
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(space_5),
-                                child: Material(
-                                  elevation: 5,
-                                  child: SizedBox(
-                                    height: height / 9,
-                                    width: width * 0.9,
-                                    child: Container(
-                                      color: white,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: space_4,
-                                            horizontal: width * 0.01),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: space_4),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: isMobile
-                                                        ? space_2
-                                                        : space_4),
-                                                child: Text(
-                                                  "Vehicle Details",
-                                                  style: GoogleFonts.montserrat(
-                                                      fontSize: size_10,
-                                                      color: black,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              Image.asset(
-                                                'assets/icons/updateDriver.png',
-                                                width: space_4 + 2,
-                                                height: space_4 + 3,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                            ),
+                            SizedBox(
+                              width: space_1,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Load",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: size_8,
+                                      fontWeight: mediumBoldWeight,
+                                      color: darkBlueColor,
+                                      letterSpacing: -0.408),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(space_5),
-                                child: Material(
-                                  elevation: 5,
-                                  child: SizedBox(
-                                    height: height / 3.5,
-                                    width: width * 0.9,
-                                    child: Container(
-                                      color: white,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: space_4,
-                                            horizontal: width * 0.01),
-                                        child: Padding(
-                                            padding:
-                                                EdgeInsets.only(left: space_4),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Image(
-                                                  image: AssetImage(
-                                                      'assets/images/vahan.png'),
-                                                  height: height / 4,
-                                                  width: width / 4,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height: 53,
-                                                      width: 248,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: black,
-                                                            width: 1,
-                                                          ),
-                                                          color: Color(
-                                                              0xffF5F5F5)),
-                                                      child: Center(
-                                                        child: Text(
-                                                          "${widget.truckNo}",
-                                                          style: GoogleFonts.montserrat(
-                                                              fontSize: isTablet
-                                                                  ? size_8
-                                                                  : size_10,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_7,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "Owner Name",
-                                                          style: GoogleFonts.montserrat(
-                                                              fontSize: isTablet
-                                                                  ? size_8
-                                                                  : size_10,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        SizedBox(
-                                                            width: space_3),
-                                                        Text(
-                                                          '${_vehicleDetails?.ownerName}',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize: isMobile
-                                                                      ? size_8
-                                                                      : size_10,
-                                                                  color: black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_7,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "Vehicel Model",
-                                                          style: GoogleFonts.montserrat(
-                                                              fontSize: isTablet
-                                                                  ? size_8
-                                                                  : size_10,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        SizedBox(
-                                                            width: space_3),
-                                                        Text(
-                                                          '${_vehicleDetails?.vehicleModel}',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize: isTablet
-                                                                      ? size_8
-                                                                      : size_10,
-                                                                  color: black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_7,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "Vehicle Maker",
-                                                          style: GoogleFonts.montserrat(
-                                                              fontSize: isTablet
-                                                                  ? size_8
-                                                                  : size_10,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        SizedBox(
-                                                            width: space_3),
-                                                        Text(
-                                                          '${_vehicleDetails?.vehicleMaker}',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize: isTablet
-                                                                      ? size_8
-                                                                      : size_10,
-                                                                  color: black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                                    ),
-                                  ),
+                                Text(
+                                  "On-Going Details",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: size_6,
+                                      fontWeight: regularWeight,
+                                      color: greyColor,
+                                      letterSpacing: -0.408),
                                 ),
-                              ),
-                              Padding(
-                                padding: isTablet
-                                    ? EdgeInsets.all(space_3)
-                                    : EdgeInsets.all(space_1),
-                                child: SizedBox(
-                                  height: height / 1.6 - space_2,
-                                  width: width * 0.9,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: space_1,
-                                        horizontal: width * 0.01),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Material(
-                                          elevation: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      space_2),
-                                              color: white,
-                                            ),
-                                            width: isTablet
-                                                ? width / 3.8
-                                                : width / 3.2,
-                                            height: height,
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  space_8,
-                                                  space_6,
-                                                  space_6,
-                                                  space_6),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: space_3,
-                                                    ),
-                                                    Text(
-                                                      "Vehicle Class and Type",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "Ownership",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "RC Status",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "RC Validity",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "RC Issue Date",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "Pollution Cert. Validity",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "Pollution Cert. Number",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "Insurance Validity",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8,
-                                                    ),
-                                                    Text(
-                                                      "Insurance Number",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color: black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    Container(
-                                                      width: width * 0.35,
-                                                      height: 1,
-                                                      color: vahangrey,
-                                                    ),
-                                                  ]),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: space_2,
-                                        ),
-                                        Material(
-                                          elevation: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      space_2),
-                                              color: white,
-                                            ),
-                                            width: isTablet
-                                                ? width / 2.95
-                                                : width / 2.05,
-                                            height: height,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(space_6),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: space_3,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.vehicleClass}, ${_vehicleDetails?.bodyType}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.ownership}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        '${_vehicleDetails?.rcStatus}' ==
-                                                                "ACTIVE"
-                                                            ? Image(
-                                                                image: AssetImage(
-                                                                    "assets/icons/running.png"),
-                                                                height: size_7,
-                                                                width: size_7,
-                                                              )
-                                                            : Image(
-                                                                image: AssetImage(
-                                                                    "assets/icons/red_circle.png"),
-                                                                height: size_7,
-                                                                width: size_7,
-                                                              ),
-                                                        SizedBox(
-                                                            width: space_1),
-                                                        Text(
-                                                          '${_vehicleDetails?.rcStatus}',
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize:
-                                                                      size_8,
-                                                                  color:
-                                                                      darkBlueColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.rcValidUpto}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.rcIssueDate}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.pollutionCertValidUpto}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.pollutionCertNo}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.insuranceValidUpto}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                    SizedBox(
-                                                      height: space_8 + 1,
-                                                    ),
-                                                    Text(
-                                                      '${_vehicleDetails?.insurancePolicyNo}',
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: size_8,
-                                                              color:
-                                                                  darkBlueColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                  ]),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 21,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: darkBlueColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Vehicle Details",
+                            style: GoogleFonts.montserrat(
+                              fontWeight: mediumBoldWeight,
+                              color: white,
+                              fontSize: size_10,
+                            ),
                           ),
                         ),
+                      ),
                     ],
                   ),
-                ),
+                  SizedBox(
+                    height: 21,
+                  ),
+                  _vehicleDetails == null
+                      ? Expanded(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: darkBlueColor,
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: Card(
+                            elevation: 5,
+                            child: SingleChildScrollView(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      color: Color.fromARGB(255, 245, 245, 245),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Vehicle Number",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Owner Name",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Vehicle Model",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Vehicle Maker",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Vehicle Class and Type",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Ownership",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Registration Date",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC No. Date Upto",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Status Code",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Status",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Permenant No",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Mobile No",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Fuel Desc",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC NP Issued by.",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Permit Valid From",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "RC Permit Valid Upto",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Vehicle Maker Model",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Insurance Company",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Insurance Policy",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Insurance Validity",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Insurance Number",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Pollution Cert. Validity",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "Pollution Cert. Number",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: darkBlueColor,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      color: white,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.registrationNumber}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.ownerName}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.vehicleModel}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.vehicleMaker}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.vehicleClass}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.ownership}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.registrationDate}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.registrationValidUpto}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.statusMessage}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcStatus}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcPermanentNo}',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              "...",
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcMobileNo}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.fuelType}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcNpIssuedBy}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcPermitValidFrom}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcPermitValidUpto}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.vehicleModel}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.rcInsuranceCompany}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.insurancePolicyNo}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.insuranceValidUpto}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.insurancePolicyNo}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.pollutionCertValidUpto}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 60, top: 12, bottom: 12),
+                                            child: Text(
+                                              '${_vehicleDetails?.pollutionCertNo}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: size_8,
+                                                  fontWeight: fontWeight500,
+                                                  color: black,
+                                                  letterSpacing: -0.408),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                ],
               ),
             ),
           );
